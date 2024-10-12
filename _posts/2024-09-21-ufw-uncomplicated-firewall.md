@@ -1,6 +1,6 @@
 ---
 layout: post
-title: UFW Overview [Uncomplicated Firewall]
+title: Uncomplicated Firewall Overview [UFW]
 date: 2024-09-21 12:45
 author: theguler
 comments: true
