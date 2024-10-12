@@ -7,3 +7,28 @@
  </div>
  </div>
  </div>
+
+
+/* mause effect */
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <style>
+        :root { --x: 10px; --y: 10px; }
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at var(--x) var(--y), white 10%, black 30%);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        document.onmousemove = e => {
+            document.documentElement.style.setProperty('--x', `${e.clientX}px`);
+            document.documentElement.style.setProperty('--y', `${e.clientY}px`);
+        };
+    </script>
+</body>
+</html>
+
