@@ -1,10 +1,10 @@
 ---
 layout: post
-title: UFW Overview [Uncomplicated Firewall]
+title: Uncomplicated Firewall Overview [UFW]
 date: 2024-09-21 12:45
 author: theguler
 comments: true
-categories: [Network]
+categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":14520,"width":"448px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2021/05/linux-ufw.jpg?w=1024" alt="" class="wp-image-14520" style="width:448px;height:auto" /></figure>
