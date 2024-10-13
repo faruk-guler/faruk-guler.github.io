@@ -33,8 +33,6 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 - LinkedIn: linkedin.com/in/farukgulerfdn
 - E-Mail: fguler962 @gmail .com
 - X:
-- Telegram:
-- WhatsApp:
 - Exploit-DB:
 - Zone-H:
 
