@@ -13,7 +13,7 @@ işte o paha biçilmez.
 ## Blog Hakkında
 
 Bloğumda şu ana kadar **400’den fazla özgün makale** yayınladım. Bu makaleler ağırlıklı olarak aşağıdaki konuları kapsamaktadır:
-- Linux / Windows
+- Linux / Windows OS
 - Storage
 - DBMS
 - Networking
