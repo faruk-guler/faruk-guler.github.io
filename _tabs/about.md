@@ -14,6 +14,7 @@ işte o paha biçilmez.
 
 Bloğumda şu ana kadar **400’den fazla özgün makale** yayınladım. Bu makaleler ağırlıklı olarak aşağıdaki konuları kapsamaktadır:
 - Linux / Windows OS
+- Security
 - Storage
 - DBMS
 - Networking
