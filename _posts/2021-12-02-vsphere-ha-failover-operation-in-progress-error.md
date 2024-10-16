@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"id":4406,"width":570,"height":486,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/2022-02-11-08_23_21-vsphere-vsphere-drs-1.jpg?w=887" alt="" class="wp-image-4406" width="570" height="486" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/2022-02-11-08_23_21-vsphere-vsphere-drs-1.jpg?w=887" alt="" class="wp-image-4406" width="570" height="486" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":237,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/uac-user-account-control.jpg?w=310" alt="" class="wp-image-237" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/uac-user-account-control.jpg?w=310" alt="" class="wp-image-237" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -37,7 +37,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":9282,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/11/uac_select_now.png?w=984" alt="" class="wp-image-9282" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/uac_select_now.png?w=984" alt="" class="wp-image-9282" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -8,7 +8,7 @@ categories: [Reverse Engineering]
 ---
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":11231,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_img/baklava/ghidra.png?w=1024" alt="" class="wp-image-11231" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ghidra.png?w=1024" alt="" class="wp-image-11231" /></figure>
 <!-- /wp:image --></figure>
 <!-- /wp:gallery -->
 
