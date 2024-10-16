@@ -15,7 +15,7 @@ categories: [PowerShell]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":808,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/2222.png?w=584" alt="" class="wp-image-808" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/2222.png?w=584" alt="" class="wp-image-808" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [PowerShell]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":810,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/111.png?w=599" alt="" class="wp-image-810" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/111.png?w=599" alt="" class="wp-image-810" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,7 +39,7 @@ categories: [PowerShell]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":819,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/333-1.png?w=1024" alt="" class="wp-image-819" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/333-1.png?w=1024" alt="" class="wp-image-819" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

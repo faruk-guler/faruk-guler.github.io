@@ -11,7 +11,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":724,"width":624,"height":379,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/dd.png?w=1024" alt="" class="wp-image-724" width="624" height="379" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dd.png?w=1024" alt="" class="wp-image-724" width="624" height="379" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":727,"width":896,"height":450,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/cdgf.png?w=1024" alt="" class="wp-image-727" width="896" height="450" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/cdgf.png?w=1024" alt="" class="wp-image-727" width="896" height="450" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
