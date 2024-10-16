@@ -19,7 +19,7 @@ categories: [Antivirus]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2243,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/03/dislama.jpg?w=1024" alt="" class="wp-image-2243" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dislama.jpg?w=1024" alt="" class="wp-image-2243" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Antivirus]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2245,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/03/dis.jpg?w=1024" alt="" class="wp-image-2245" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dis.jpg?w=1024" alt="" class="wp-image-2245" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

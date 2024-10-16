@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":2502,"width":523,"height":269,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/04/astr-coin-nedir.jpg?w=777" alt="" class="wp-image-2502" width="523" height="269" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/astr-coin-nedir.jpg?w=777" alt="" class="wp-image-2502" width="523" height="269" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

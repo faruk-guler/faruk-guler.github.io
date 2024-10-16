@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":2319,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/03/efishell.jpg?w=523" alt="" class="wp-image-2319" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/efishell.jpg?w=523" alt="" class="wp-image-2319" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Public]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Indir/Downlod:</strong> <a href="https://github.com/theguler0x/EFi_Shell_bootx64">https://github.com/theguler0x/EFi_Shell_bootx64</a></p>
+<p><strong>Indir/Downlod:</strong> <a href="https://github.com/faruk-guler/EFi_Shell_bootx64">https://github.com/faruk-guler/EFi_Shell_bootx64</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->

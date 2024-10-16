@@ -7,7 +7,7 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":2305,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/03/veri.jpg?w=1024" alt="" class="wp-image-2305" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/veri.jpg?w=1024" alt="" class="wp-image-2305" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

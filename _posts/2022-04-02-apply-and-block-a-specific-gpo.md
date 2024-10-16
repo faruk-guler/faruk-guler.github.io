@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":1155,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/gpo_logo.jpg?w=439" alt="" class="wp-image-1155" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/gpo_logo.jpg?w=439" alt="" class="wp-image-1155" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,11 +23,11 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":8162,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/08/add_gr.png?w=1024" alt="" class="wp-image-8162" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/add_gr.png?w=1024" alt="" class="wp-image-8162" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":8163,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/08/add_gr2.png?w=723" alt="" class="wp-image-8163" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/add_gr2.png?w=723" alt="" class="wp-image-8163" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -77,7 +77,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":8179,"width":"612px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/08/bg_adv.png?w=718" alt="" class="wp-image-8179" style="width:612px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/bg_adv.png?w=718" alt="" class="wp-image-8179" style="width:612px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
