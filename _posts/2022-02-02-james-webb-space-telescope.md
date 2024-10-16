@@ -11,7 +11,7 @@ categories: [Public]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1293,"width":687,"height":514,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/right.jpeg?w=1024" alt="" class="wp-image-1293" width="687" height="514" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/right.jpeg?w=1024" alt="" class="wp-image-1293" width="687" height="514" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -68,8 +68,8 @@ categories: [Public]
 <p>Bu özelliklerin bir arada olması, James Webb Uzay Teleskopu'nu önceki uzay teleskoplarından farklı kılan en önemli faktördür. Bu özellikler sayesinde, teleskop daha ayrıntılı ve kapsamlı gözlemler yapabilecek ve insanlığın evren hakkındaki bilgisini büyük ölçüde artırabilecektir.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:cover {"url":"https://theguler.wordpress.com/wp-content/uploads/2023/04/yaradilis.jpg?w=591","id":6909,"dimRatio":50,"style":{"color":[]}} -->
-<div class="wp-block-cover"><span aria-hidden="true" class="wp-block-cover__background has-background-dim"></span><img class="wp-block-cover__image-background wp-image-6909" alt="" src="https://theguler.wordpress.com/wp-content/uploads/2023/04/yaradilis.jpg?w=591" data-object-fit="cover" /><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","fontSize":"large"} -->
+<!-- wp:cover {"url":"https://faruk-guler.github.io/assets/post_images/yaradilis.jpg?w=591","id":6909,"dimRatio":50,"style":{"color":[]}} -->
+<div class="wp-block-cover"><span aria-hidden="true" class="wp-block-cover__background has-background-dim"></span><img class="wp-block-cover__image-background wp-image-6909" alt="" src="https://faruk-guler.github.io/assets/post_images/yaradilis.jpg?w=591" data-object-fit="cover" /><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","fontSize":"large"} -->
 <p class="has-text-align-center has-large-font-size">Yaratılış Sütunları</p>
 <!-- /wp:paragraph --></div></div>
 <!-- /wp:cover -->

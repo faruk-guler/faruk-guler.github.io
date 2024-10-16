@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":1197,"width":"459px","height":"auto","sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/fantom3.jpeg?w=1024" alt="" class="wp-image-1197" style="width:459px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/fantom3.jpeg?w=1024" alt="" class="wp-image-1197" style="width:459px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

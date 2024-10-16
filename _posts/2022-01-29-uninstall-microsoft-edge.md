@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":1143,"width":626,"height":329,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/commandp.jpeg?w=998" alt="" class="wp-image-1143" width="626" height="329" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/commandp.jpeg?w=998" alt="" class="wp-image-1143" width="626" height="329" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
