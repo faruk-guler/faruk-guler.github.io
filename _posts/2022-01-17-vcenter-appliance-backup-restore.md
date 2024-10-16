@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"id":1050,"width":726,"height":428,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x1-2.png?w=1024" alt="" class="wp-image-1050" width="726" height="428" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x1-2.png?w=1024" alt="" class="wp-image-1050" width="726" height="428" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1110,"width":758,"height":566,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x2-1-1.png?w=1024" alt="" class="wp-image-1110" width="758" height="566" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x2-1-1.png?w=1024" alt="" class="wp-image-1110" width="758" height="566" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -99,7 +99,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1112,"width":784,"height":361,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x4-1-1.png?w=1024" alt="" class="wp-image-1112" width="784" height="361" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x4-1-1.png?w=1024" alt="" class="wp-image-1112" width="784" height="361" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

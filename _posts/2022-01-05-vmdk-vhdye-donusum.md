@@ -7,7 +7,7 @@ comments: true
 categories: [3th Party / Tools]
 ---
 <!-- wp:image {"id":896,"width":526,"height":293,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x1.png?w=603" alt="" class="wp-image-896" width="526" height="293" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x1.png?w=603" alt="" class="wp-image-896" width="526" height="293" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -43,11 +43,11 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":912,"width":471,"height":385,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x3.png?w=565" alt="" class="wp-image-912" width="471" height="385" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x3.png?w=565" alt="" class="wp-image-912" width="471" height="385" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":914,"width":482,"height":394,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x4.png?w=565" alt="" class="wp-image-914" width="482" height="394" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x4.png?w=565" alt="" class="wp-image-914" width="482" height="394" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -55,7 +55,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":916,"width":481,"height":393,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x5.png?w=565" alt="" class="wp-image-916" width="481" height="393" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x5.png?w=565" alt="" class="wp-image-916" width="481" height="393" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -83,7 +83,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":917,"width":512,"height":457,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x6.png?w=565" alt="" class="wp-image-917" width="512" height="457" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x6.png?w=565" alt="" class="wp-image-917" width="512" height="457" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -91,7 +91,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":921,"width":497,"height":406,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x9-1.png?w=565" alt="" class="wp-image-921" width="497" height="406" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x9-1.png?w=565" alt="" class="wp-image-921" width="497" height="406" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -99,7 +99,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":922,"width":506,"height":344,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/x10.png?w=620" alt="" class="wp-image-922" width="506" height="344" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/x10.png?w=620" alt="" class="wp-image-922" width="506" height="344" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

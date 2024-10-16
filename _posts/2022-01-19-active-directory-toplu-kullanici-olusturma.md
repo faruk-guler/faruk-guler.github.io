@@ -7,7 +7,7 @@ comments: true
 categories: [PowerShell]
 ---
 <!-- wp:image {"id":1087,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/add-1.webp?w=719" alt="" class="wp-image-1087" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/add-1.webp?w=719" alt="" class="wp-image-1087" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -35,7 +35,7 @@ categories: [PowerShell]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":1103,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/sss-1.png?w=1024" alt="" class="wp-image-1103" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/sss-1.png?w=1024" alt="" class="wp-image-1103" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

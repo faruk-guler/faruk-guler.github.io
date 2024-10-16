@@ -7,7 +7,7 @@ comments: true
 categories: [Backup &amp; Recovery]
 ---
 <!-- wp:image {"id":1072,"width":617,"height":346,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/01/hero_veeam.jpg?w=1024" alt="" class="wp-image-1072" width="617" height="346" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/hero_veeam.jpg?w=1024" alt="" class="wp-image-1072" width="617" height="346" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

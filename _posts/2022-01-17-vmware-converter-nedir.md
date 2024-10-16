@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"align":"left","id":6788,"width":376,"height":376,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image alignleft size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/vcenter-converter.jpg?w=300" alt="" class="wp-image-6788" width="376" height="376" /></figure>
+<figure class="wp-block-image alignleft size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/vcenter-converter.jpg?w=300" alt="" class="wp-image-6788" width="376" height="376" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading {"level":3,"anchor":"vmware-converter-nedir"} -->
