@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":1835,"width":"710px","height":"202px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/fsmo.png?w=952" alt="" class="wp-image-1835" style="width:710px;height:202px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/fsmo.png?w=952" alt="" class="wp-image-1835" style="width:710px;height:202px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -177,7 +177,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1844,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/gc-1.png?w=1024" alt="" class="wp-image-1844" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/gc-1.png?w=1024" alt="" class="wp-image-1844" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

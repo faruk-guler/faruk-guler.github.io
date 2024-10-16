@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"align":"left","id":1559,"width":718,"height":218,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image alignleft size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/0-1.png?w=1024" alt="" class="wp-image-1559" width="718" height="218" /></figure>
+<figure class="wp-block-image alignleft size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/0-1.png?w=1024" alt="" class="wp-image-1559" width="718" height="218" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -41,11 +41,11 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1561,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/s1.png?w=1024" alt="" class="wp-image-1561" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/s1.png?w=1024" alt="" class="wp-image-1561" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1562,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/s0.png?w=1024" alt="" class="wp-image-1562" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/s0.png?w=1024" alt="" class="wp-image-1562" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -65,11 +65,11 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1564,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/s2.png?w=1024" alt="" class="wp-image-1564" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/s2.png?w=1024" alt="" class="wp-image-1564" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1566,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/s3.png?w=1024" alt="" class="wp-image-1566" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/s3.png?w=1024" alt="" class="wp-image-1566" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

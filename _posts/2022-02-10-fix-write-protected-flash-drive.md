@@ -7,7 +7,7 @@ comments: true
 categories: [3th Party / Tools]
 ---
 <!-- wp:image {"id":1608,"width":615,"height":346,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/maxresd.jpg?w=1024" alt="" class="wp-image-1608" width="615" height="346" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/maxresd.jpg?w=1024" alt="" class="wp-image-1608" width="615" height="346" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>https://github.com/theguler0x/Programlar-Programs/blob/main/GetInfo_v3.12.0.2.rar</p>
+<p>https://github.com/faruk-guler/Programlar-Programs/blob/main/GetInfo_v3.12.0.2.rar</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -39,7 +39,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1618,"width":498,"height":228,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/fhjh.png?w=480" alt="" class="wp-image-1618" width="498" height="228" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/fhjh.png?w=480" alt="" class="wp-image-1618" width="498" height="228" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

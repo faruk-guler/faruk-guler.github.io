@@ -27,7 +27,7 @@ categories: [Common]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":2223,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/03/bckp.png?w=1024" alt="" class="wp-image-2223" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/bckp.png?w=1024" alt="" class="wp-image-2223" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

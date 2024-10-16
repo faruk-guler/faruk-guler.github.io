@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":1541,"width":"637px","height":"208px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/acc.png?w=1024" alt="" class="wp-image-1541" style="width:637px;height:208px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/acc.png?w=1024" alt="" class="wp-image-1541" style="width:637px;height:208px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

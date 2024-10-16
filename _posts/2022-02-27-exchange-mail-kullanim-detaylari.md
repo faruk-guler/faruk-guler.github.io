@@ -7,7 +7,7 @@ comments: true
 categories: [PowerShell]
 ---
 <!-- wp:image {"id":2148,"width":568,"height":319,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/powershell-as-admin.webp?w=1024" alt="" class="wp-image-2148" width="568" height="319" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/powershell-as-admin.webp?w=1024" alt="" class="wp-image-2148" width="568" height="319" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

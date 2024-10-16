@@ -11,7 +11,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5887,"width":"405px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/rwp-images.jpg?w=703" alt="" class="wp-image-5887" style="width:405px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/rwp-images.jpg?w=703" alt="" class="wp-image-5887" style="width:405px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -109,7 +109,7 @@ Rar Şifre:<strong>www.warezturkey.net</strong></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5887,"width":"422px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/rwp-images.jpg?w=703" alt="" class="wp-image-5887" style="width:422px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/rwp-images.jpg?w=703" alt="" class="wp-image-5887" style="width:422px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

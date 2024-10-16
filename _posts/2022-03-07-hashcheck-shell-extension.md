@@ -7,7 +7,7 @@ comments: true
 categories: [3th Party / Tools]
 ---
 <!-- wp:image {"id":2230,"width":417,"height":323,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/03/hci.png?w=799" alt="" class="wp-image-2230" width="417" height="323" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/hci.png?w=799" alt="" class="wp-image-2230" width="417" height="323" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
