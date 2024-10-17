@@ -7,7 +7,7 @@ comments: true
 categories: [SIEM]
 ---
 <!-- wp:image {"id":12328,"width":"775px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/06/install_sysmon64.jpg?w=731" alt="" class="wp-image-12328" style="width:775px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/install_sysmon64.jpg?w=731" alt="" class="wp-image-12328" style="width:775px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator -->

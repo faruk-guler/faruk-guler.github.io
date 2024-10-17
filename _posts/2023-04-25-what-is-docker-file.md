@@ -7,7 +7,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":6686,"width":"571px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/docker_mimari.png?w=1024" alt="" class="wp-image-6686" style="width:571px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/docker_mimari.png?w=1024" alt="" class="wp-image-6686" style="width:571px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

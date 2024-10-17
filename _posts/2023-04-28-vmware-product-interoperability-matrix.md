@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"id":6915,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/vmware_vcenter_server.jpg?w=1024" alt="" class="wp-image-6915" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/vmware_vcenter_server.jpg?w=1024" alt="" class="wp-image-6915" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6917,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/vmware_vsphere_hypervisor_esxi.jpg?w=1024" alt="" class="wp-image-6917" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/vmware_vsphere_hypervisor_esxi.jpg?w=1024" alt="" class="wp-image-6917" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

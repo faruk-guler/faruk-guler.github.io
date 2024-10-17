@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":6981,"width":524,"height":388,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/05/server_manager-1.jpg?w=1024" alt="" class="wp-image-6981" width="524" height="388" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/server_manager-1.jpg?w=1024" alt="" class="wp-image-6981" width="524" height="388" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
