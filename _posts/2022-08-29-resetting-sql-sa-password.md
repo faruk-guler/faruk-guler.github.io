@@ -7,7 +7,7 @@ comments: true
 categories: [Databases]
 ---
 <!-- wp:image {"id":4204,"width":590,"height":311,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/08/reset-sql-sa.png?w=854" alt="" class="wp-image-4204" width="590" height="311" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/reset-sql-sa.png?w=854" alt="" class="wp-image-4204" width="590" height="311" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

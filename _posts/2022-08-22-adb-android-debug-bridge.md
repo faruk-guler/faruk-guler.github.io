@@ -8,11 +8,11 @@ categories: [Common]
 ---
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":4149,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/08/adb-1.jpg?w=1024" alt="" class="wp-image-4149" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/adb-1.jpg?w=1024" alt="" class="wp-image-4149" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":4150,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/08/fastboot-1.jpg?w=780" alt="" class="wp-image-4150" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/fastboot-1.jpg?w=780" alt="" class="wp-image-4150" /></figure>
 <!-- /wp:image --></figure>
 <!-- /wp:gallery -->
 
@@ -33,7 +33,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4106,"width":600,"height":313,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/08/adb-android.jpg?w=1024" alt="" class="wp-image-4106" width="600" height="313" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/adb-android.jpg?w=1024" alt="" class="wp-image-4106" width="600" height="313" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -225,7 +225,7 @@ Press “volume up” and “Power” at the same time. On some Xiaomi phone mod
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4121,"width":549,"height":309,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/08/hhh.webp?w=770" alt="" class="wp-image-4121" width="549" height="309" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/hhh.webp?w=770" alt="" class="wp-image-4121" width="549" height="309" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -265,7 +265,7 @@ Press “volume up” and “Power” at the same time. On some Xiaomi phone mod
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4135,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/08/minimal-adb-fastboot.png?w=659" alt="" class="wp-image-4135" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/minimal-adb-fastboot.png?w=659" alt="" class="wp-image-4135" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
