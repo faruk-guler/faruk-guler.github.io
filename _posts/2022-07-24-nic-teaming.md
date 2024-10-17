@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":3708,"width":541,"height":387,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/nic-teaming.png?w=652" alt="" class="wp-image-3708" width="541" height="387" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/nic-teaming.png?w=652" alt="" class="wp-image-3708" width="541" height="387" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

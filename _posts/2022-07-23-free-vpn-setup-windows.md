@@ -7,7 +7,7 @@ comments: true
 categories: [Secrets of the internet]
 ---
 <!-- wp:image {"id":3672,"width":487,"height":243,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/vpn-explained.webp?w=1024" alt="" class="wp-image-3672" width="487" height="243" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/vpn-explained.webp?w=1024" alt="" class="wp-image-3672" width="487" height="243" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,7 +23,7 @@ categories: [Secrets of the internet]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3662,"width":546,"height":282,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/win-vpn-kurulumu.png?w=927" alt="" class="wp-image-3662" width="546" height="282" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/win-vpn-kurulumu.png?w=927" alt="" class="wp-image-3662" width="546" height="282" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,15 +31,15 @@ categories: [Secrets of the internet]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3677,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/vpn_book.png?w=1024" alt="" class="wp-image-3677" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/vpn_book.png?w=1024" alt="" class="wp-image-3677" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":3674,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/vpn-edittor.png?w=1024" alt="" class="wp-image-3674" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/vpn-edittor.png?w=1024" alt="" class="wp-image-3674" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":3666,"width":604,"height":507,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/vpnbook.png?w=970" alt="" class="wp-image-3666" width="604" height="507" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/vpnbook.png?w=970" alt="" class="wp-image-3666" width="604" height="507" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -47,7 +47,7 @@ categories: [Secrets of the internet]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3670,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/vpnson.png?w=1024" alt="" class="wp-image-3670" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/vpnson.png?w=1024" alt="" class="wp-image-3670" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

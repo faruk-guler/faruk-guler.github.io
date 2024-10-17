@@ -7,7 +7,7 @@ comments: true
 categories: [Microsoft Exchange Server]
 ---
 <!-- wp:image {"id":3728,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/exchange-2013-smtp-relay-1.png?w=397" alt="" class="wp-image-3728" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/exchange-2013-smtp-relay-1.png?w=397" alt="" class="wp-image-3728" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -44,7 +44,7 @@ categories: [Microsoft Exchange Server]
 
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":3729,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/relay-ecp.png?w=1024" alt="" class="wp-image-3729" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/relay-ecp.png?w=1024" alt="" class="wp-image-3729" /></figure>
 <!-- /wp:image --></figure>
 <!-- /wp:gallery -->
 

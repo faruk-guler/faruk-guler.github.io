@@ -7,7 +7,7 @@ comments: true
 categories: [Monitoring]
 ---
 <!-- wp:image {"id":3767,"width":581,"height":330,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/how-to-install-zabbix.jpg?w=900" alt="" class="wp-image-3767" width="581" height="330" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/how-to-install-zabbix.jpg?w=900" alt="" class="wp-image-3767" width="581" height="330" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Monitoring]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3792,"width":778,"height":410,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/apliance.png?w=1024" alt="" class="wp-image-3792" width="778" height="410" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/apliance.png?w=1024" alt="" class="wp-image-3792" width="778" height="410" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -169,7 +169,7 @@ DNS2=</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":3810,"width":855,"height":367,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/z2.png?w=1024" alt="" class="wp-image-3810" width="855" height="367" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/z2.png?w=1024" alt="" class="wp-image-3810" width="855" height="367" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

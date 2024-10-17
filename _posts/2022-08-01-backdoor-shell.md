@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":3912,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/08/fox-1.png?w=849" alt="" class="wp-image-3912" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/fox-1.png?w=849" alt="" class="wp-image-3912" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,5 +39,5 @@ categories: [Hacking - Security]
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><a href="https://github.com/theguler0x/Shell">https://github.com/theguler0x/Shell</a></pre>
+<pre class="wp-block-preformatted"><a href="https://github.com/faruk-guler/Shell">https://github.com/faruk-guler/Shell</a></pre>
 <!-- /wp:preformatted -->

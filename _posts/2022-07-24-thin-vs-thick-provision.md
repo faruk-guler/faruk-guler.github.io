@@ -7,7 +7,7 @@ comments: true
 categories: [Storage]
 ---
 <!-- wp:image {"id":3684,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/disks.png?w=624" alt="" class="wp-image-3684" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/disks.png?w=624" alt="" class="wp-image-3684" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
