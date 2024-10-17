@@ -7,7 +7,7 @@ comments: true
 categories: [Pentest]
 ---
 <!-- wp:image {"id":13050,"width":"565px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2023/11/acl_reporter.png?w=1024" alt="" class="wp-image-13050" style="width:565px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/acl_reporter.png?w=1024" alt="" class="wp-image-13050" style="width:565px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -41,7 +41,7 @@ categories: [Pentest]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":9220,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/11/ace-acl.jpg?w=807" alt="" class="wp-image-9220" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ace-acl.jpg?w=807" alt="" class="wp-image-9220" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -88,7 +88,7 @@ Bu ACL, ağ cihazınıza gelen trafiği kontrol eder. 192.168.1.10 IP'sinden gel
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":333,"width":"423px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" style="width:423px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" style="width:423px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -170,7 +170,7 @@ Get-FolderAcl -FolderPath "C:\Users\Administrator\Desktop\My_folder"</strong></p
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Link: <a href="https://github.com/theguler0x/Microsoft-Active-Directory-Tools/blob/main/Mass-ACL-Reporter.ps1"><strong>https://github.com/theguler0x/Microsoft-Active-Directory-Tools/blob/main/Mass-ACL-Reporter.ps1</strong></a></p>
+<p>Link: <a href="https://github.com/faruk-guler/Microsoft-Active-Directory-Tools/blob/main/Mass-ACL-Reporter.ps1"><strong>https://github.com/faruk-guler/Microsoft-Active-Directory-Tools/blob/main/Mass-ACL-Reporter.ps1</strong></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
