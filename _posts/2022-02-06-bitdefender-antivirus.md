@@ -6,11 +6,10 @@ author: theguler
 comments: true
 categories: [Antivirus]
 ---
-<!-- wp:embed {"url":"https://bitdefender.com.tr/wp-content/uploads/2019/05/anasayfa-banner.jpg","type":"rich","providerNameSlug":"gomme-tutucu"} -->
-<figure class="wp-block-embed is-type-rich is-provider-gomme-tutucu wp-block-embed-gomme-tutucu"><div class="wp-block-embed__wrapper">
-https://bitdefender.com.tr/wp-content/uploads/2019/05/anasayfa-banner.jpg
-</div></figure>
-<!-- /wp:embed -->
+
+<!-- wp:image {"id":9057,"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large"><img src="https://bitdefender.com.tr/wp-content/uploads/2019/05/anasayfa-banner.jpg?w=495" alt="" class="wp-image-9057" /></figure>
+<!-- /wp:image -->
 
 <!-- wp:heading {"anchor":"avantajlari"} -->
 <h2 class="wp-block-heading" id="avantajlari"> </h2>
