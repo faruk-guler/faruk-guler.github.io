@@ -8,7 +8,7 @@ categories: [RedHat]
 ---
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":11194,"sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="https://theguler.wordpress.com/wp-content/uploads/2024/03/kvm.png" alt="" class="wp-image-11194" /></figure>
+<figure class="wp-block-image size-full"><img src="https://faruk-guler.github.io/assets/post_images/kvm.png" alt="" class="wp-image-11194" /></figure>
 <!-- /wp:image --></figure>
 <!-- /wp:gallery -->
 
