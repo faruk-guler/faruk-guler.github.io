@@ -7,7 +7,7 @@ comments: true
 categories: [Virtualization Technology]
 ---
 <!-- wp:image {"id":12928,"width":"418px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/07/mig-vm-prox.png?w=1024" alt="" class="wp-image-12928" style="width:418px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mig-vm-prox.png?w=1024" alt="" class="wp-image-12928" style="width:418px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Virtualization Technology]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":12950,"width":"505px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/07/cr-esxi.png?w=710" alt="" class="wp-image-12950" style="width:505px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/cr-esxi.png?w=710" alt="" class="wp-image-12950" style="width:505px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -57,7 +57,7 @@ categories: [Virtualization Technology]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":12933,"width":"435px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/07/mig-1-1.png?w=1024" alt="" class="wp-image-12933" style="width:435px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mig-1-1.png?w=1024" alt="" class="wp-image-12933" style="width:435px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -73,7 +73,7 @@ categories: [Virtualization Technology]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":12935,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://farukguler.com/wp-content/uploads/2024/07/cr-1.jpg?w=1021" alt="" class="wp-image-12935" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cr-1.jpg?w=1021" alt="" class="wp-image-12935" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -81,7 +81,7 @@ categories: [Virtualization Technology]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":12937,"width":"627px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/07/cr-2.jpg?w=1024" alt="" class="wp-image-12937" style="width:627px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/cr-2.jpg?w=1024" alt="" class="wp-image-12937" style="width:627px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -119,7 +119,7 @@ categories: [Virtualization Technology]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":12941,"width":"635px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/07/cr3.jpg?w=1024" alt="" class="wp-image-12941" style="width:635px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/cr3.jpg?w=1024" alt="" class="wp-image-12941" style="width:635px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -127,7 +127,7 @@ categories: [Virtualization Technology]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":12943,"width":"637px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/07/cr4.jpg?w=1024" alt="" class="wp-image-12943" style="width:637px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/cr4.jpg?w=1024" alt="" class="wp-image-12943" style="width:637px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -139,7 +139,7 @@ categories: [Virtualization Technology]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":12948,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://farukguler.com/wp-content/uploads/2024/07/cr5.jpg?w=1024" alt="" class="wp-image-12948" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cr5.jpg?w=1024" alt="" class="wp-image-12948" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

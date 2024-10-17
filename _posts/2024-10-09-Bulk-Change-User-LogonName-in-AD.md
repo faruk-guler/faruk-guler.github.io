@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="https://raw.githubusercontent.com/faruk-guler/faruk-guler.github.io/refs/heads/main/assets/post_img/banana/powershell-4-sdn.jpg" alt="" width="565" height="350" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/powershell-4-sdn.jpg" alt="" width="565" height="350" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

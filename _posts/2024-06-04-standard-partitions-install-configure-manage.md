@@ -7,7 +7,7 @@ comments: true
 categories: [Storage]
 ---
 <!-- wp:image {"id":12010,"width":"459px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2023/07/disk-lnx.jpg?w=1024" alt="" class="wp-image-12010" style="width:459px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/disk-lnx.jpg?w=1024" alt="" class="wp-image-12010" style="width:459px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator -->
@@ -61,7 +61,7 @@ categories: [Storage]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":13973,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://farukguler.com/wp-content/uploads/2024/06/fs-compare.png?w=1024" alt="" class="wp-image-13973" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/fs-compare.png?w=1024" alt="" class="wp-image-13973" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

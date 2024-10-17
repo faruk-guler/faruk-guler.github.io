@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":1879,"width":"556px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/delegasyon.png?w=770" alt="" class="wp-image-1879" style="width:556px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/delegasyon.png?w=770" alt="" class="wp-image-1879" style="width:556px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Active Directory]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":14347,"width":"457px","height":"auto","sizeSlug":"large","linkDestination":"none","style":{"color":{"duotone":"unset"}}} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2022/02/perm_obj.png?w=1024" alt="" class="wp-image-14347" style="width:457px;height:auto" /><figcaption class="wp-element-caption">The field shown in Picture is important. Checking the checkboxes gives the authorized user/group the <strong>[right] </strong>to create and delete the selected object subgroup.</figcaption></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/perm_obj.png?w=1024" alt="" class="wp-image-14347" style="width:457px;height:auto" /><figcaption class="wp-element-caption">The field shown in Picture is important. Checking the checkboxes gives the authorized user/group the <strong>[right] </strong>to create and delete the selected object subgroup.</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
