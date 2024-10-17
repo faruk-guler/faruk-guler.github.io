@@ -7,7 +7,7 @@ comments: true
 categories: [Azure]
 ---
 <!-- wp:image {"id":5938,"width":489,"height":275,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/01/azure_bastion.jpg?w=1024" alt="" class="wp-image-5938" width="489" height="275" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/azure_bastion.jpg?w=1024" alt="" class="wp-image-5938" width="489" height="275" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,11 +27,11 @@ categories: [Azure]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5939,"width":613,"height":407,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/01/bastion.png?w=909" alt="" class="wp-image-5939" width="613" height="407" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/bastion.png?w=909" alt="" class="wp-image-5939" width="613" height="407" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":5953,"width":613,"height":327,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/01/connected-bastion.png?w=1024" alt="" class="wp-image-5953" width="613" height="327" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/connected-bastion.png?w=1024" alt="" class="wp-image-5953" width="613" height="327" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

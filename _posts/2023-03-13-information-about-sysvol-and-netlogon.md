@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":8466,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/09/sysvol-netlogon-1.png?w=1024" alt="" class="wp-image-8466" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/sysvol-netlogon-1.png?w=1024" alt="" class="wp-image-8466" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -37,7 +37,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":9048,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/10/netlogon.png?w=984" alt="" class="wp-image-9048" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/netlogon.png?w=984" alt="" class="wp-image-9048" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

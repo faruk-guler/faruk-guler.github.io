@@ -15,7 +15,7 @@ categories: [Microsoft System Center Family]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5866,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/system-center-config-mgr-client.webp?w=428" alt="" class="wp-image-5866" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/system-center-config-mgr-client.webp?w=428" alt="" class="wp-image-5866" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

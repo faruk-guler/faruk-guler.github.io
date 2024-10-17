@@ -23,7 +23,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6174,"width":376,"height":441,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/dns_cnf1.png?w=501" alt="" class="wp-image-6174" width="376" height="441" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns_cnf1.png?w=501" alt="" class="wp-image-6174" width="376" height="441" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6177,"width":616,"height":262,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/dns_conf2.png?w=1024" alt="" class="wp-image-6177" width="616" height="262" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns_conf2.png?w=1024" alt="" class="wp-image-6177" width="616" height="262" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -59,7 +59,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6178,"width":322,"height":338,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/dns_conf33.png?w=489" alt="" class="wp-image-6178" width="322" height="338" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns_conf33.png?w=489" alt="" class="wp-image-6178" width="322" height="338" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -75,7 +75,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6190,"width":353,"height":387,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/dns_conf_54.png?w=476" alt="" class="wp-image-6190" width="353" height="387" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns_conf_54.png?w=476" alt="" class="wp-image-6190" width="353" height="387" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->

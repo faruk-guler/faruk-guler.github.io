@@ -7,7 +7,7 @@ comments: true
 categories: [SIEM]
 ---
 <!-- wp:image {"id":6000,"width":571,"height":298,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/wazuh.png?w=729" alt="" class="wp-image-6000" width="571" height="298" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/wazuh.png?w=729" alt="" class="wp-image-6000" width="571" height="298" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -267,15 +267,15 @@ rootkit.",
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6007,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/wzh.png?w=1024" alt="" class="wp-image-6007" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/wzh.png?w=1024" alt="" class="wp-image-6007" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":6014,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/dashboard_screenshot.png?w=1024" alt="" class="wp-image-6014" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dashboard_screenshot.png?w=1024" alt="" class="wp-image-6014" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":6015,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/2_dashboard_screenshot.png?w=1024" alt="" class="wp-image-6015" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/2_dashboard_screenshot.png?w=1024" alt="" class="wp-image-6015" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

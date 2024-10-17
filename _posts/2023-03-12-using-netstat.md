@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":6028,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/netstat.png?w=735" alt="" class="wp-image-6028" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/netstat.png?w=735" alt="" class="wp-image-6028" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -72,5 +72,5 @@ categories: [Common]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":8915,"width":"574px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/10/pid.png?w=772" alt="" class="wp-image-8915" style="width:574px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/pid.png?w=772" alt="" class="wp-image-8915" style="width:574px;height:auto" /></figure>
 <!-- /wp:image -->
