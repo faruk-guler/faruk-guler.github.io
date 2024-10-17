@@ -1,18 +1,21 @@
 ---
 layout: post
 title: Bulk Change AD User Login Name with powershell
+description:
 date: 2024-10-09 10:57
-by: theguler
+By: theguler
 comments: true
 categories: [Public]
 tags:
-math: true
-mermaid: true
+pin:
+math:
+mermaid:
 image:
   path: https://faruk-guler.github.io/assets/post_images/powershell-4-sdn.jpg
   width: 800
   height: 500
-  alt: Responsive rendering of Chirpy theme on multiple devices.
+  lqip:
+  alt:
 ---
 
 <!-- wp:image {"sizeSlug":"large"} -->
