@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":11183,"width":"436px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2024/03/lpmn-tar.jpg?w=825" alt="" class="wp-image-11183" style="width:436px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/lpmn-tar.jpg?w=825" alt="" class="wp-image-11183" style="width:436px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -69,7 +69,7 @@ categories: [Linux / Unix]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":9699,"width":"297px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/11/4-distro.jpg?w=1024" alt="" class="wp-image-9699" style="width:297px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/4-distro.jpg?w=1024" alt="" class="wp-image-9699" style="width:297px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

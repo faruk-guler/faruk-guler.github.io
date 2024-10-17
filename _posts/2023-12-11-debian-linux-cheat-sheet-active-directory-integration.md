@@ -7,7 +7,7 @@ comments: true
 categories: [Debian]
 ---
 <!-- wp:image {"lightbox":{"enabled":true},"id":9880,"width":"421px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/11/debian_dragon-1.jpg?w=1024" alt="" class="wp-image-9880" style="width:421px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/debian_dragon-1.jpg?w=1024" alt="" class="wp-image-9880" style="width:421px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Debian]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"lightbox":{"enabled":true},"id":10143,"width":"412px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/12/join_debian.png?w=645" alt="" class="wp-image-10143" style="width:412px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/join_debian.png?w=645" alt="" class="wp-image-10143" style="width:412px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
