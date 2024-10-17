@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":5209,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/mtusizer.png?w=986" alt="" class="wp-image-5209" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/mtusizer.png?w=986" alt="" class="wp-image-5209" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
