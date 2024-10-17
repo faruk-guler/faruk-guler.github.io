@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":5685,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/managed-it-services.png?w=748" alt="" class="wp-image-5685" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/managed-it-services.png?w=748" alt="" class="wp-image-5685" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -95,7 +95,7 @@ categories: [Common]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":5700,"width":588,"height":309,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/sla-signing.jpg?w=646" alt="" class="wp-image-5700" width="588" height="309" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/sla-signing.jpg?w=646" alt="" class="wp-image-5700" width="588" height="309" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -171,7 +171,7 @@ categories: [Common]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":5694,"width":457,"height":415,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/sla_checklist.png?w=575" alt="" class="wp-image-5694" width="457" height="415" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/sla_checklist.png?w=575" alt="" class="wp-image-5694" width="457" height="415" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

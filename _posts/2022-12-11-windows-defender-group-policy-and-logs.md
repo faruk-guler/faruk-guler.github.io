@@ -7,7 +7,7 @@ comments: true
 categories: [Antivirus]
 ---
 <!-- wp:image {"id":5708,"width":481,"height":270,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/windows-defender.jpeg?w=1024" alt="" class="wp-image-5708" style="width:481px;height:270px" width="481" height="270" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/windows-defender.jpeg?w=1024" alt="" class="wp-image-5708" style="width:481px;height:270px" width="481" height="270" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -22,7 +22,7 @@ Get-MpComputerStatus
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":5711,"width":640,"height":276,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/am.png?w=999" alt="" class="wp-image-5711" style="width:640px;height:276px" width="640" height="276" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/am.png?w=999" alt="" class="wp-image-5711" style="width:640px;height:276px" width="640" height="276" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -38,7 +38,7 @@ Get-MpComputerStatus
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5728,"width":576,"height":349,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/tinywow_read-windows-defender.png?w=700" alt="" class="wp-image-5728" style="width:576px;height:349px" width="576" height="349" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/tinywow_read-windows-defender.png?w=700" alt="" class="wp-image-5728" style="width:576px;height:349px" width="576" height="349" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -80,7 +80,7 @@ Get-MpComputerStatus
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5720,"width":586,"height":319,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/tinywow_read-windows-defender-event.png?w=700" alt="" class="wp-image-5720" style="width:586px;height:319px" width="586" height="319" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/tinywow_read-windows-defender-event.png?w=700" alt="" class="wp-image-5720" style="width:586px;height:319px" width="586" height="319" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

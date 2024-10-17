@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":5735,"width":492,"height":143,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/lsts-1.png?w=1024" alt="" class="wp-image-5735" width="492" height="143" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/lsts-1.png?w=1024" alt="" class="wp-image-5735" width="492" height="143" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -99,7 +99,7 @@ categories: [Linux / Unix]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":5742,"width":613,"height":383,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/revoked.png?w=724" alt="" class="wp-image-5742" width="613" height="383" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/revoked.png?w=724" alt="" class="wp-image-5742" width="613" height="383" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
