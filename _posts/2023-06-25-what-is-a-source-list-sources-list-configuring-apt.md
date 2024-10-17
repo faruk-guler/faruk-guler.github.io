@@ -7,7 +7,7 @@ comments: true
 categories: [Debian]
 ---
 <!-- wp:image {"id":10288,"width":"326px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/12/debian-12-freeze.jpg?w=1024" alt="" class="wp-image-10288" style="width:326px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/debian-12-freeze.jpg?w=1024" alt="" class="wp-image-10288" style="width:326px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

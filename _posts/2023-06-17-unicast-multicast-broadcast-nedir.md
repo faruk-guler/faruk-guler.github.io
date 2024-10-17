@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":7516,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/06/unicast-multicast-broadcast.jpg?w=691" alt="" class="wp-image-7516" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/unicast-multicast-broadcast.jpg?w=691" alt="" class="wp-image-7516" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

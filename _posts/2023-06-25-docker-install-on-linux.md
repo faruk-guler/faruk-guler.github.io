@@ -7,7 +7,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":11406,"width":"503px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2024/04/dockerforlnx.png?w=1024" alt="" class="wp-image-11406" style="width:503px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dockerforlnx.png?w=1024" alt="" class="wp-image-11406" style="width:503px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

@@ -8,7 +8,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":7555,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/tcpdump-logo.jpg?w=450" alt="" class="wp-image-7555" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/tcpdump-logo.jpg?w=450" alt="" class="wp-image-7555" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

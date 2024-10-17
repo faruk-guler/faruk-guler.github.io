@@ -7,7 +7,7 @@ comments: true
 categories: [Secrets of the internet]
 ---
 <!-- wp:image {"id":8035,"width":478,"height":358,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/richard_matthew_stallman.jpeg?w=1024" alt="" class="wp-image-8035" style="width:478px;height:358px" width="478" height="358" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/richard_matthew_stallman.jpeg?w=1024" alt="" class="wp-image-8035" style="width:478px;height:358px" width="478" height="358" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Secrets of the internet]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":8037,"width":294,"height":395,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/gnu.jpg?w=358" alt="" class="wp-image-8037" style="width:294px;height:395px" width="294" height="395" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/gnu.jpg?w=358" alt="" class="wp-image-8037" style="width:294px;height:395px" width="294" height="395" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -59,7 +59,7 @@ categories: [Secrets of the internet]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":8042,"width":491,"height":315,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/gnu-tux.jpg?w=1024" alt="" class="wp-image-8042" style="width:491px;height:315px" width="491" height="315" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/gnu-tux.jpg?w=1024" alt="" class="wp-image-8042" style="width:491px;height:315px" width="491" height="315" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

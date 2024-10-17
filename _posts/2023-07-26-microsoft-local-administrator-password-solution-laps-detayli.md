@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":7909,"width":"458px","height":"auto","aspectRatio":"2.083682008368201","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-logo.png?w=832" alt="" class="wp-image-7909" style="aspect-ratio:2.083682008368201;width:458px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/laps-logo.png?w=832" alt="" class="wp-image-7909" style="aspect-ratio:2.083682008368201;width:458px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -79,7 +79,7 @@ categories: [Windows Server]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":7946,"width":"619px","height":"274px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-3-1.png?w=621" alt="" class="wp-image-7946" style="width:619px;height:274px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/laps-3-1.png?w=621" alt="" class="wp-image-7946" style="width:619px;height:274px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
@@ -125,15 +125,15 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7935,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-1.png?w=1024" alt="" class="wp-image-7935" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/laps-1.png?w=1024" alt="" class="wp-image-7935" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7937,"width":"502px","height":"309px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-2.png?w=833" alt="" class="wp-image-7937" style="width:502px;height:309px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/laps-2.png?w=833" alt="" class="wp-image-7937" style="width:502px;height:309px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7939,"width":"480px","height":"285px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-3.png?w=816" alt="" class="wp-image-7939" style="width:480px;height:285px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/laps-3.png?w=816" alt="" class="wp-image-7939" style="width:480px;height:285px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -141,7 +141,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7941,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-4.png?w=874" alt="" class="wp-image-7941" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/laps-4.png?w=874" alt="" class="wp-image-7941" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -177,7 +177,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":13253,"width":"422px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2023/07/ad_remove_permissions.webp?w=437" alt="" class="wp-image-13253" style="width:422px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ad_remove_permissions.webp?w=437" alt="" class="wp-image-13253" style="width:422px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -193,7 +193,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7977,"width":"526px","height":"293px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/helpdesk.png?w=918" alt="" class="wp-image-7977" style="width:526px;height:293px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/helpdesk.png?w=918" alt="" class="wp-image-7977" style="width:526px;height:293px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -209,7 +209,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7982,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/delegated.png?w=1024" alt="" class="wp-image-7982" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/delegated.png?w=1024" alt="" class="wp-image-7982" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -241,7 +241,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7955,"width":"689px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-gpo.png?w=1024" alt="" class="wp-image-7955" style="width:689px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/laps-gpo.png?w=1024" alt="" class="wp-image-7955" style="width:689px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -277,7 +277,7 @@ categories: [Windows Server]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":7959,"width":"653px","height":"282px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/gpo-details.png?w=1024" alt="" class="wp-image-7959" style="width:653px;height:282px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/gpo-details.png?w=1024" alt="" class="wp-image-7959" style="width:653px;height:282px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -285,7 +285,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7962,"width":"767px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/enabled-labs.png?w=1024" alt="" class="wp-image-7962" style="width:767px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/enabled-labs.png?w=1024" alt="" class="wp-image-7962" style="width:767px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -297,7 +297,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":8567,"width":"860px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/09/local_admin_enabled.png?w=1024" alt="" class="wp-image-8567" style="width:860px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/local_admin_enabled.png?w=1024" alt="" class="wp-image-8567" style="width:860px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -339,7 +339,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7966,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-client.png?w=757" alt="" class="wp-image-7966" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/laps-client.png?w=757" alt="" class="wp-image-7966" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -351,7 +351,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7968,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-son.png?w=761" alt="" class="wp-image-7968" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/laps-son.png?w=761" alt="" class="wp-image-7968" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -379,7 +379,7 @@ categories: [Windows Server]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":7995,"width":"639px","height":"280px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-ui.png?w=887" alt="" class="wp-image-7995" style="width:639px;height:280px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/laps-ui.png?w=887" alt="" class="wp-image-7995" style="width:639px;height:280px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true,"start":2} -->
@@ -407,7 +407,7 @@ categories: [Windows Server]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":7997,"width":"633px","height":"273px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-dsac.png?w=785" alt="" class="wp-image-7997" style="width:633px;height:273px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/laps-dsac.png?w=785" alt="" class="wp-image-7997" style="width:633px;height:273px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true,"start":3} -->
@@ -434,7 +434,7 @@ Get-AdmpwdPassword -ComputerName  * #All Computers</strong></pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":8002,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/laps-ps.png?w=987" alt="" class="wp-image-8002" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/laps-ps.png?w=987" alt="" class="wp-image-8002" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
