@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":5323,"width":"398px","height":"auto","aspectRatio":"1.9067524115755627","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/aptos.jpg?w=1024" alt="" class="wp-image-5323" style="aspect-ratio:1.9067524115755627;width:398px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/aptos.jpg?w=1024" alt="" class="wp-image-5323" style="aspect-ratio:1.9067524115755627;width:398px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

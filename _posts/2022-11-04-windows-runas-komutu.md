@@ -7,7 +7,7 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":5349,"width":484,"height":322,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/runas-1.jpg?w=900" alt="" class="wp-image-5349" width="484" height="322" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/runas-1.jpg?w=900" alt="" class="wp-image-5349" width="484" height="322" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,7 +23,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5350,"width":528,"height":359,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/mkemalataturk.png?w=817" alt="" class="wp-image-5350" width="528" height="359" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mkemalataturk.png?w=817" alt="" class="wp-image-5350" width="528" height="359" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

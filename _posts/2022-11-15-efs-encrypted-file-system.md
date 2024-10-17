@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":5504,"width":629,"height":314,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/encrypting-file-system.png?w=1024" alt="" class="wp-image-5504" width="629" height="314" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/encrypting-file-system.png?w=1024" alt="" class="wp-image-5504" width="629" height="314" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -81,7 +81,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5507,"width":460,"height":278,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/cert.png?w=460" alt="" class="wp-image-5507" width="460" height="278" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/cert.png?w=460" alt="" class="wp-image-5507" width="460" height="278" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -89,7 +89,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5509,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/cert-adobe.png?w=906" alt="" class="wp-image-5509" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cert-adobe.png?w=906" alt="" class="wp-image-5509" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -101,15 +101,15 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5514,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/gizli-efs.png?w=890" alt="" class="wp-image-5514" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/gizli-efs.png?w=890" alt="" class="wp-image-5514" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":5515,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/subs-folders.png?w=842" alt="" class="wp-image-5515" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/subs-folders.png?w=842" alt="" class="wp-image-5515" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":5516,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/kilit.png?w=665" alt="" class="wp-image-5516" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/kilit.png?w=665" alt="" class="wp-image-5516" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -121,7 +121,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5518,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/real-cert.png?w=1024" alt="" class="wp-image-5518" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/real-cert.png?w=1024" alt="" class="wp-image-5518" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -149,7 +149,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5521,"width":600,"height":269,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/ver.png?w=1024" alt="" class="wp-image-5521" width="600" height="269" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ver.png?w=1024" alt="" class="wp-image-5521" width="600" height="269" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -157,11 +157,11 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5523,"width":598,"height":379,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/al.png?w=878" alt="" class="wp-image-5523" width="598" height="379" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/al.png?w=878" alt="" class="wp-image-5523" width="598" height="379" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":5524,"width":600,"height":524,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/al-2.png?w=645" alt="" class="wp-image-5524" width="600" height="524" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/al-2.png?w=645" alt="" class="wp-image-5524" width="600" height="524" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

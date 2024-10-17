@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":5587,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/zk.jpg?w=1024" alt="" class="wp-image-5587" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/zk.jpg?w=1024" alt="" class="wp-image-5587" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
