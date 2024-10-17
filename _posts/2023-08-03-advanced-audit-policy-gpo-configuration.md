@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":8099,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/08/audit_gpo.png?w=1024" alt="" class="wp-image-8099" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/audit_gpo.png?w=1024" alt="" class="wp-image-8099" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

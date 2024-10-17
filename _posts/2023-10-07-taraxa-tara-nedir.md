@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":8732,"width":"461px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/10/taraxa_full.png?w=982" alt="" class="wp-image-8732" style="width:461px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/taraxa_full.png?w=982" alt="" class="wp-image-8732" style="width:461px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -83,7 +83,7 @@ categories: [Blockchain]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":8735,"width":"577px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/10/performance.webp?w=960" alt="" class="wp-image-8735" style="width:577px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/performance.webp?w=960" alt="" class="wp-image-8735" style="width:577px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

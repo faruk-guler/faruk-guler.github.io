@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":9274,"width":"597px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/11/nexa.webp?w=807" alt="" class="wp-image-9274" style="width:597px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/nexa.webp?w=807" alt="" class="wp-image-9274" style="width:597px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -45,7 +45,7 @@ categories: [Blockchain]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":9277,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/11/nexa-bu-team.png?w=768" alt="" class="wp-image-9277" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/nexa-bu-team.png?w=768" alt="" class="wp-image-9277" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

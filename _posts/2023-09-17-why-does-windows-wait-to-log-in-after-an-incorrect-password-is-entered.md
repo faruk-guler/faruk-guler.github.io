@@ -7,7 +7,7 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":8590,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/09/loaders.jpg?w=1024" alt="" class="wp-image-8590" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/loaders.jpg?w=1024" alt="" class="wp-image-8590" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -43,7 +43,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":8593,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/09/login-bruteforce.png?w=657" alt="" class="wp-image-8593" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/login-bruteforce.png?w=657" alt="" class="wp-image-8593" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"id":8548,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/09/cli_vmware.png?w=576" alt="" class="wp-image-8548" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cli_vmware.png?w=576" alt="" class="wp-image-8548" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
