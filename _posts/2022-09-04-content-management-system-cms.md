@@ -7,7 +7,7 @@ comments: true
 categories: [Web Servers]
 ---
 <!-- wp:image {"id":4305,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/cms_development.png?w=600" alt="" class="wp-image-4305" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cms_development.png?w=600" alt="" class="wp-image-4305" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
