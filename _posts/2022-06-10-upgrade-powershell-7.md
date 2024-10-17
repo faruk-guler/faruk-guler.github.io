@@ -7,7 +7,7 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":2148,"width":415,"height":233,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/powershell-as-admin.webp?w=1024" alt="" class="wp-image-2148" width="415" height="233" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/powershell-as-admin.webp?w=1024" alt="" class="wp-image-2148" width="415" height="233" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -68,15 +68,15 @@ $PSversionTable</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":3389,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/06/pwsh1.webp?w=495" alt="" class="wp-image-3389" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/pwsh1.webp?w=495" alt="" class="wp-image-3389" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":3390,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/06/pwsh2.webp?w=495" alt="" class="wp-image-3390" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/pwsh2.webp?w=495" alt="" class="wp-image-3390" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":3391,"width":597,"height":282,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/06/pwsh7.jpg?w=605" alt="" class="wp-image-3391" width="597" height="282" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/pwsh7.jpg?w=605" alt="" class="wp-image-3391" width="597" height="282" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

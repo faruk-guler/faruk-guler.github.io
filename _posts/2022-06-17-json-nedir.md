@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":3500,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/06/json.jpg?w=550" alt="" class="wp-image-3500" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/json.jpg?w=550" alt="" class="wp-image-3500" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

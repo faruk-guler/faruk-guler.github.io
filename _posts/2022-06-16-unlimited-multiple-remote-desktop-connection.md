@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":230,"width":493,"height":301,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/rdp-tool-windows.jpg?w=424" alt="" class="wp-image-230" width="493" height="301" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/rdp-tool-windows.jpg?w=424" alt="" class="wp-image-230" width="493" height="301" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
