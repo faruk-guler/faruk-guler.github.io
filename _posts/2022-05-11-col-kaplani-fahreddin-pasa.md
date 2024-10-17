@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":623,"width":175,"height":310,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/hhhh.jpg?w=576" alt="" class="wp-image-623" width="175" height="310" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/hhhh.jpg?w=576" alt="" class="wp-image-623" width="175" height="310" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Public]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":629,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/hhhh-1.jpg?w=738" alt="" class="wp-image-629" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/hhhh-1.jpg?w=738" alt="" class="wp-image-629" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -43,7 +43,7 @@ categories: [Public]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6900,"width":457,"height":664,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/mehmet_efendi.jpg?w=705" alt="" class="wp-image-6900" width="457" height="664" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mehmet_efendi.jpg?w=705" alt="" class="wp-image-6900" width="457" height="664" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

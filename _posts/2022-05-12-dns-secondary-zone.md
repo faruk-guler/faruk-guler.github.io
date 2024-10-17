@@ -7,11 +7,11 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":2765,"width":366,"height":205,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dns_nedir.webp?w=731" alt="" class="wp-image-2765" width="366" height="205" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns_nedir.webp?w=731" alt="" class="wp-image-2765" width="366" height="205" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":3103,"width":608,"height":195,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dns1.png?w=1010" alt="" class="wp-image-3103" width="608" height="195" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns1.png?w=1010" alt="" class="wp-image-3103" width="608" height="195" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3115,"width":774,"height":247,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dns4-1.png?w=1024" alt="" class="wp-image-3115" width="774" height="247" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns4-1.png?w=1024" alt="" class="wp-image-3115" width="774" height="247" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3107,"width":550,"height":198,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dns5.png?w=892" alt="" class="wp-image-3107" width="550" height="198" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns5.png?w=892" alt="" class="wp-image-3107" width="550" height="198" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
