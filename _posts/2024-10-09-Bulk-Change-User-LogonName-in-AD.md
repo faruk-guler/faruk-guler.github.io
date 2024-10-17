@@ -2,7 +2,7 @@
 layout: post
 title: Bulk Change AD User Login Name with powershell
 date: 2024-10-09 10:57
-author: theguler
+by: theguler
 comments: true
 categories: [Public]
 tags:
