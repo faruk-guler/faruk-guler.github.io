@@ -7,7 +7,7 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":2964,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/wef.png?w=398" alt="" class="wp-image-2964" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/wef.png?w=398" alt="" class="wp-image-2964" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -44,7 +44,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":2972,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/ax.png?w=1006" alt="" class="wp-image-2972" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ax.png?w=1006" alt="" class="wp-image-2972" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -76,7 +76,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2975,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/logs.png?w=1024" alt="" class="wp-image-2975" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/logs.png?w=1024" alt="" class="wp-image-2975" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

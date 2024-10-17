@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":2270,"width":390,"height":213,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/ad.jpg?w=704" alt="" class="wp-image-2270" width="390" height="213" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ad.jpg?w=704" alt="" class="wp-image-2270" width="390" height="213" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,15 +27,15 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2933,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/1-1.png?w=1024" alt="" class="wp-image-2933" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/1-1.png?w=1024" alt="" class="wp-image-2933" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":2935,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/22.png?w=1024" alt="" class="wp-image-2935" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/22.png?w=1024" alt="" class="wp-image-2935" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":2936,"width":626,"height":324,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/33.png?w=1024" alt="" class="wp-image-2936" width="626" height="324" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/33.png?w=1024" alt="" class="wp-image-2936" width="626" height="324" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
