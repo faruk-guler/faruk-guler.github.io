@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":3252,"width":421,"height":241,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/05/sudo.jpg?w=297" alt="" class="wp-image-3252" width="421" height="241" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/sudo.jpg?w=297" alt="" class="wp-image-3252" width="421" height="241" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

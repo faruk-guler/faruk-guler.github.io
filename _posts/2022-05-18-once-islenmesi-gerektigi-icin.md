@@ -11,7 +11,7 @@ categories: [Fix - Troubleshooting]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3183,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/redirect_backup.png?w=972" alt="" class="wp-image-3183" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/redirect_backup.png?w=972" alt="" class="wp-image-3183" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

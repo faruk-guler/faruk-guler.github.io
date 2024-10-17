@@ -7,7 +7,7 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":8323,"width":"518px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp_failover.jpg?w=1024" alt="" class="wp-image-8323" style="width:518px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dhcp_failover.jpg?w=1024" alt="" class="wp-image-8323" style="width:518px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,7 +39,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3120,"width":"459px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp.png?w=800" alt="" class="wp-image-3120" style="width:459px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dhcp.png?w=800" alt="" class="wp-image-3120" style="width:459px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -83,7 +83,7 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":3122,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp1.png?w=940" alt="" class="wp-image-3122" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dhcp1.png?w=940" alt="" class="wp-image-3122" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -91,7 +91,7 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3124,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp2.png?w=950" alt="" class="wp-image-3124" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dhcp2.png?w=950" alt="" class="wp-image-3124" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -99,11 +99,11 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3126,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp4.png?w=618" alt="" class="wp-image-3126" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dhcp4.png?w=618" alt="" class="wp-image-3126" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":3128,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp5.png?w=1024" alt="" class="wp-image-3128" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dhcp5.png?w=1024" alt="" class="wp-image-3128" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -111,7 +111,7 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3130,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp6.png?w=1024" alt="" class="wp-image-3130" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dhcp6.png?w=1024" alt="" class="wp-image-3130" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -151,7 +151,7 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3132,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp7.png?w=1024" alt="" class="wp-image-3132" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dhcp7.png?w=1024" alt="" class="wp-image-3132" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -159,7 +159,7 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3134,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp8.png?w=1024" alt="" class="wp-image-3134" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dhcp8.png?w=1024" alt="" class="wp-image-3134" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -167,7 +167,7 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3138,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/dhcp9-1.png?w=1024" alt="" class="wp-image-3138" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dhcp9-1.png?w=1024" alt="" class="wp-image-3138" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -175,7 +175,7 @@ If a DHCP server becomes unavailable without successfully synchronizing all DHCP
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":8634,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/bootp_.png?w=403" alt="" class="wp-image-8634" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/bootp_.png?w=403" alt="" class="wp-image-8634" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
