@@ -7,7 +7,7 @@ comments: true
 categories: [Secrets of the internet]
 ---
 <!-- wp:image {"id":3556,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/07/torn.jpg?w=600" alt="" class="wp-image-3556" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/torn.jpg?w=600" alt="" class="wp-image-3556" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
