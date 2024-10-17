@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":2520,"width":483,"height":326,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/04/linset.png?w=720" alt="" class="wp-image-2520" width="483" height="326" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images//linset.png?w=720" alt="" class="wp-image-2520" width="483" height="326" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Hacking - Security]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2523,"width":615,"height":345,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/04/1.png?w=1024" alt="" class="wp-image-2523" width="615" height="345" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images//1.png?w=1024" alt="" class="wp-image-2523" width="615" height="345" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -35,7 +35,7 @@ categories: [Hacking - Security]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2524,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/04/2.png?w=1024" alt="" class="wp-image-2524" /></figure>
+<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images//2.png?w=1024" alt="" class="wp-image-2524" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -43,7 +43,7 @@ categories: [Hacking - Security]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2527,"width":328,"height":360,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/04/4.jpeg?w=719" alt="" class="wp-image-2527" width="328" height="360" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images//4.jpeg?w=719" alt="" class="wp-image-2527" width="328" height="360" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

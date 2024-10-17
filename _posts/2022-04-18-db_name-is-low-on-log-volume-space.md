@@ -7,7 +7,7 @@ comments: true
 categories: [Fix - Troubleshooting]
 ---
 <!-- wp:image {"id":284,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/exchange-2016-1.png?w=400" alt="" class="wp-image-284" /></figure>
+<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/exchange-2016-1.png?w=400" alt="" class="wp-image-284" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,5 +39,5 @@ categories: [Fix - Troubleshooting]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":3369,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/06/dword.jpg?w=482" alt="" class="wp-image-3369" /></figure>
+<figure class="wp-block-image size-large"><img src="https://https://faruk-guler.github.io/assets/post_images/dword.jpg?w=482" alt="" class="wp-image-3369" /></figure>
 <!-- /wp:image -->
