@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":11739,"width":"518px","height":"258px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2024/05/round-robin-cf.jpg?w=1024" alt="" class="wp-image-11739" style="width:518px;height:258px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/round-robin-cf.jpg?w=1024" alt="" class="wp-image-11739" style="width:518px;height:258px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,7 +23,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4969,"width":"577px","height":"384px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/robin.png?w=841" alt="" class="wp-image-4969" style="width:577px;height:384px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/robin.png?w=841" alt="" class="wp-image-4969" style="width:577px;height:384px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4972,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/zone_create.png?w=811" alt="" class="wp-image-4972" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/zone_create.png?w=811" alt="" class="wp-image-4972" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,7 +39,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4970,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/test_web.png?w=859" alt="" class="wp-image-4970" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/test_web.png?w=859" alt="" class="wp-image-4970" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -47,7 +47,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4975,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/nslookup.png?w=1024" alt="" class="wp-image-4975" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/nslookup.png?w=1024" alt="" class="wp-image-4975" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

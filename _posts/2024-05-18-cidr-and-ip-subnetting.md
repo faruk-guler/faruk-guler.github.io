@@ -7,7 +7,7 @@ comments: true
 categories: [Network]
 ---
 <!-- wp:image {"id":14695,"width":"488px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/09/fiber-optic-ip.jpeg?w=1024" alt="" class="wp-image-14695" style="width:488px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/fiber-optic-ip.jpeg?w=1024" alt="" class="wp-image-14695" style="width:488px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -15,7 +15,7 @@ categories: [Network]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":14721,"width":"438px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2022/05/nh.png?w=916" alt="" class="wp-image-14721" style="width:438px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/nh.png?w=916" alt="" class="wp-image-14721" style="width:438px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Network]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":14775,"width":"424px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/05/ipv4_address.png?w=817" alt="" class="wp-image-14775" style="width:424px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ipv4_address.png?w=817" alt="" class="wp-image-14775" style="width:424px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -35,7 +35,7 @@ categories: [Network]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":14719,"width":"433px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2022/05/ipv6.png?w=1024" alt="" class="wp-image-14719" style="width:433px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ipv6.png?w=1024" alt="" class="wp-image-14719" style="width:433px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
