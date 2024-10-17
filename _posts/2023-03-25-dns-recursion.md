@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":5331,"width":"470px","height":"264px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/dns-reg.jpg?w=1024" alt="" class="wp-image-5331" style="width:470px;height:264px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns-reg.jpg?w=1024" alt="" class="wp-image-5331" style="width:470px;height:264px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6246,"width":"407px","height":"auto","aspectRatio":"0.8977955911823647","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2023/03/recursion.png?w=500" alt="" class="wp-image-6246" style="aspect-ratio:0.8977955911823647;width:407px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/recursion.png?w=500" alt="" class="wp-image-6246" style="aspect-ratio:0.8977955911823647;width:407px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->

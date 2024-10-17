@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":6461,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/arbitrum.jpg?w=1024" alt="" class="wp-image-6461" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/arbitrum.jpg?w=1024" alt="" class="wp-image-6461" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

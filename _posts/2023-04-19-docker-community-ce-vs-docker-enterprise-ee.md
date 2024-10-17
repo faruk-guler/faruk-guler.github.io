@@ -7,7 +7,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":6629,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/vs-docker.png?w=975" alt="" class="wp-image-6629" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/vs-docker.png?w=975" alt="" class="wp-image-6629" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

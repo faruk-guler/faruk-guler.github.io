@@ -7,7 +7,7 @@ comments: true
 categories: [Firewall-UTM-Gateway]
 ---
 <!-- wp:image {"id":6372,"width":"468px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/pfsense.jpg?w=620" alt="" class="wp-image-6372" style="width:468px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/pfsense.jpg?w=620" alt="" class="wp-image-6372" style="width:468px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -85,7 +85,7 @@ categories: [Firewall-UTM-Gateway]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6375,"width":"705px","height":"auto","aspectRatio":"2.5019157088122603","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/04/comparatif-fortinet-pfsense.png?w=500" alt="" class="wp-image-6375" style="aspect-ratio:2.5019157088122603;width:705px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/comparatif-fortinet-pfsense.png?w=500" alt="" class="wp-image-6375" style="aspect-ratio:2.5019157088122603;width:705px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:table {"hasFixedLayout":false} -->

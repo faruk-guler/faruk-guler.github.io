@@ -7,7 +7,7 @@ comments: true
 categories: [PowerShell]
 ---
 <!-- wp:image {"id":6213,"width":536,"height":381,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/powershell-scripting.jpg?w=758" alt="" class="wp-image-6213" style="width:536px;height:381px" width="536" height="381" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/powershell-scripting.jpg?w=758" alt="" class="wp-image-6213" style="width:536px;height:381px" width="536" height="381" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

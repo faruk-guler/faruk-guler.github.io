@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":11264,"width":"489px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2024/04/exploit-db-kopya.jpg?w=1024" alt="" class="wp-image-11264" style="width:489px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/exploit-db-kopya.jpg?w=1024" alt="" class="wp-image-11264" style="width:489px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

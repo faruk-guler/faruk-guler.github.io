@@ -7,7 +7,7 @@ comments: true
 categories: [Network]
 ---
 <!-- wp:image {"id":5994,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/02/private_ips.jpg?w=960" alt="" class="wp-image-5994" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/private_ips.jpg?w=960" alt="" class="wp-image-5994" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -45,5 +45,5 @@ categories: [Network]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6264,"width":726,"height":267,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/03/ggg-1.png?w=823" alt="" class="wp-image-6264" width="726" height="267" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ggg-1.png?w=823" alt="" class="wp-image-6264" width="726" height="267" /></figure>
 <!-- /wp:image -->
