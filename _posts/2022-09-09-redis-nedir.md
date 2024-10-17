@@ -7,7 +7,7 @@ comments: true
 categories: [Databases]
 ---
 <!-- wp:image {"id":4364,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/redis.png?w=826" alt="" class="wp-image-4364" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/redis.png?w=826" alt="" class="wp-image-4364" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -121,7 +121,7 @@ categories: [Databases]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4377,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/redis_top.png?w=1024" alt="" class="wp-image-4377" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/redis_top.png?w=1024" alt="" class="wp-image-4377" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
