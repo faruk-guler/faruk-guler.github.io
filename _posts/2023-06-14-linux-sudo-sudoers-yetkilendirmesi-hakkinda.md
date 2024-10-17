@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":3252,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/05/sudo.jpg?w=297" alt="" class="wp-image-3252" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/sudo.jpg?w=297" alt="" class="wp-image-3252" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -152,7 +152,7 @@ sudo usermod -aG <strong>adminler</strong> murat</strong></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7427,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/06/sudo-e1571154617286.jpg?w=800" alt="" class="wp-image-7427" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/sudo-e1571154617286.jpg?w=800" alt="" class="wp-image-7427" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

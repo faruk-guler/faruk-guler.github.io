@@ -7,7 +7,7 @@ comments: true
 categories: [PowerShell]
 ---
 <!-- wp:image {"id":2148,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/02/powershell-as-admin.webp?w=1024" alt="" class="wp-image-2148" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/powershell-as-admin.webp?w=1024" alt="" class="wp-image-2148" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
