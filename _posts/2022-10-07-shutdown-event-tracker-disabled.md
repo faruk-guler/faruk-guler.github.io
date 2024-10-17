@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":4962,"width":511,"height":328,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/tracker.png?w=724" alt="" class="wp-image-4962" width="511" height="328" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/tracker.png?w=724" alt="" class="wp-image-4962" width="511" height="328" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -30,5 +30,5 @@ categories: [Windows Server]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4965,"width":842,"height":149,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/reg_delete.png?w=1024" alt="" class="wp-image-4965" width="842" height="149" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/reg_delete.png?w=1024" alt="" class="wp-image-4965" width="842" height="149" /></figure>
 <!-- /wp:image -->

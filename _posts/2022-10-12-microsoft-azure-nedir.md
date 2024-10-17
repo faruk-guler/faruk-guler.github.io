@@ -7,7 +7,7 @@ comments: true
 categories: [Azure]
 ---
 <!-- wp:image {"id":5151,"width":450,"height":253,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/azure.png?w=1024" alt="" class="wp-image-5151" width="450" height="253" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/azure.png?w=1024" alt="" class="wp-image-5151" width="450" height="253" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -61,7 +61,7 @@ categories: [Azure]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5148,"width":519,"height":292,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/azure-1.jpg?w=768" alt="" class="wp-image-5148" width="519" height="292" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/azure-1.jpg?w=768" alt="" class="wp-image-5148" width="519" height="292" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -143,7 +143,7 @@ categories: [Azure]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5145,"width":556,"height":310,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/azure_all.png?w=800" alt="" class="wp-image-5145" width="556" height="310" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/azure_all.png?w=800" alt="" class="wp-image-5145" width="556" height="310" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -193,7 +193,7 @@ categories: [Azure]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5138,"width":548,"height":250,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/10/logo-microsoft-cloud-azure.webp?w=958" alt="" class="wp-image-5138" width="548" height="250" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/logo-microsoft-cloud-azure.webp?w=958" alt="" class="wp-image-5138" width="548" height="250" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -221,7 +221,7 @@ categories: [Azure]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5654,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/12/cloudvson-premise.png?w=997" alt="" class="wp-image-5654" /></figure>
+<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cloudvson-premise.png?w=997" alt="" class="wp-image-5654" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
