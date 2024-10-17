@@ -7,7 +7,7 @@ comments: true
 categories: [Databases]
 ---
 <!-- wp:image {"id":13059,"width":"417px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/07/mongodbvs.postgresql.webp?w=700" alt="" class="wp-image-13059" style="width:417px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/mongodbvs.postgresql.webp?w=700" alt="" class="wp-image-13059" style="width:417px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -117,7 +117,7 @@ categories: [Databases]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":13075,"width":"641px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2022/05/vs-vs.png?w=924" alt="" class="wp-image-13075" style="width:641px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/vs-vs.png?w=924" alt="" class="wp-image-13075" style="width:641px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

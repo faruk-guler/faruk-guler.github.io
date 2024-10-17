@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":3038,"width":509,"height":286,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/05/hedera-hashgraph.jpg?w=1024" alt="" class="wp-image-3038" width="509" height="286" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/hedera-hashgraph.jpg?w=1024" alt="" class="wp-image-3038" width="509" height="286" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

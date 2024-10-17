@@ -11,7 +11,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3192,"width":303,"height":202,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/05/everything.jpg.webp?w=450" alt="" class="wp-image-3192" width="303" height="202" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://https://faruk-guler.github.io/assets/post_images/everything.jpg.webp?w=450" alt="" class="wp-image-3192" width="303" height="202" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,5 +23,5 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>For Windows Download:</strong>&nbsp;<a href="https://github.com/theguler0x/Programlar-Programs/blob/main/Everything%20Lister.rar">https://github.com/theguler0x/Programlar-Programs/blob/main/Everything%20Lister.rar</a></p>
+<p><strong>For Windows Download:</strong>&nbsp;<a href="https://github.com/faruk-guler/Programlar-Programs/blob/main/Everything%20Lister.rar">https://github.com/theguler0x/Programlar-Programs/blob/main/Everything%20Lister.rar</a></p>
 <!-- /wp:paragraph -->
