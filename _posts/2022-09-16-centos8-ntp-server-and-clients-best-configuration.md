@@ -7,7 +7,7 @@ comments: true
 categories: [RedHat]
 ---
 <!-- wp:image {"id":4522,"width":"474px","height":"auto","sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/sync-time-linux-servers-chrony-1.jpeg?w=1024" alt="" class="wp-image-4522" style="width:474px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/sync-time-linux-servers-chrony-1.jpeg?w=1024" alt="" class="wp-image-4522" style="width:474px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -75,7 +75,7 @@ dnf install chrony -y</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4491,"width":"858px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/active_ntp.png?w=1024" alt="" class="wp-image-4491" style="width:858px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/active_ntp.png?w=1024" alt="" class="wp-image-4491" style="width:858px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -125,7 +125,7 @@ server 3.tr.pool.ntp.org iburst</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4496,"width":"657px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/country_ntp.png?w=803" alt="" class="wp-image-4496" style="width:657px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/country_ntp.png?w=803" alt="" class="wp-image-4496" style="width:657px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -206,7 +206,7 @@ timedatectl timesync-status &amp; timedatectl status
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":8543,"width":"678px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/09/time_date_status.png?w=902" alt="" class="wp-image-8543" style="width:678px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/time_date_status.png?w=902" alt="" class="wp-image-8543" style="width:678px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -244,7 +244,7 @@ timedatectl timesync-status &amp; timedatectl status
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4503,"width":"776px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/ntp-dns.png?w=1024" alt="" class="wp-image-4503" style="width:776px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ntp-dns.png?w=1024" alt="" class="wp-image-4503" style="width:776px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -290,7 +290,7 @@ w32tm /query /peers</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4516,"width":"858px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/actived_ntp.png?w=934" alt="" class="wp-image-4516" style="width:858px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/actived_ntp.png?w=934" alt="" class="wp-image-4516" style="width:858px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -306,7 +306,7 @@ w32tm /query /peers</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4514,"width":"838px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/verify_ntp.png?w=1024" alt="" class="wp-image-4514" style="width:838px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/verify_ntp.png?w=1024" alt="" class="wp-image-4514" style="width:838px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -318,7 +318,7 @@ w32tm /query /peers</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5535,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/11/time-is.png?w=1024" alt="" class="wp-image-5535" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/time-is.png?w=1024" alt="" class="wp-image-5535" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

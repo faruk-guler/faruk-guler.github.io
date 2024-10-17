@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":4802,"width":461,"height":228,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/ssh.png?w=1024" alt="" class="wp-image-4802" width="461" height="228" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ssh.png?w=1024" alt="" class="wp-image-4802" width="461" height="228" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -53,7 +53,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4808,"width":564,"height":251,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/ssh-blog.png?w=1024" alt="" class="wp-image-4808" width="564" height="251" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ssh-blog.png?w=1024" alt="" class="wp-image-4808" width="564" height="251" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -113,7 +113,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4823,"width":479,"height":319,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/ssh-tutorial.png?w=1000" alt="" class="wp-image-4823" width="479" height="319" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ssh-tutorial.png?w=1000" alt="" class="wp-image-4823" width="479" height="319" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -141,7 +141,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4825,"width":282,"height":254,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2022/09/pem_der.png?w=500" alt="" class="wp-image-4825" width="282" height="254" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/pem_der.png?w=500" alt="" class="wp-image-4825" width="282" height="254" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
