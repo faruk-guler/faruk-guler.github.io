@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 🐧 Debian Linux Setup/Conf. Cheat Sheet I
+title: 🐧 Debian Get Started Cheat Sheet I
 date: 2023-12-17 22:43
 author: theguler
 comments: true
