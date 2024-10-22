@@ -10,7 +10,7 @@ categories: [Databases]
 <figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/veritabanlarini-tutan-bir-fil-ciz.png?w=625" alt="" class="wp-image-14423" style="width:326px;height:auto" /></figure>
 <!-- /wp:image -->
 
-#Remote connection errors are usually related to PostgreSQL permission settings.
+Remote connection errors are usually related to PostgreSQL permission settings.
 It is important to carefully review these connection permissions.
 
 After installing PostgreSQL, you should make the necessary configurations:
