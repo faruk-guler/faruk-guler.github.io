@@ -14,7 +14,7 @@ Remote connection errors are usually related to PostgreSQL permission settings.
 It is important to carefully review these connection permissions.
 
 After installing PostgreSQL, you should make the necessary configurations:
-- **Firewall Rules**: Make sure the port that PostgreSQL is listening on (usually 5432) is open.
+- **Firewall Rules**: Make sure the port that PostgreSQL is listening on (usually `5432`) is open.
 - **Network Connections**: Set which IP addresses can connect in the `pg_hba.conf` file.
 - **User Roles/Permissions**: Make sure that the users who will be connecting have sufficient permissions.
 
