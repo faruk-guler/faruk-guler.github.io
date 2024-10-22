@@ -7,6 +7,7 @@ order: 2
 <!-- wp:preformatted -->
 https://archive.org (Wayback Machine)  
 https://www.diffchecker.com (Comparing Tool)  
+https://cheatsheets.zip 🌹🌹🌹🌹🌹🌹  
 
 https://dev.to  
 https://tinywow.com/tools (Free Education Tools) - Photo - FDF .etc  
