@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fa fa-download
+icon: fa-solid fa-cloud-arrow-down
 order: 2
 ---
 
