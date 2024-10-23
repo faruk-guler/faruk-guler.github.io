@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fa-solid fa-sitemap
+icon: fa-solid fa-link
 order: 2
 ---
 
