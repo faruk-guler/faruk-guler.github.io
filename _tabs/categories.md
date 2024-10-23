@@ -1,5 +1,6 @@
 ---
 layout: categories
-icon: fas fa-stream fa-solid fa-layer-group
+icon: fas fa-stream 
+icon: fa-solid fa-layer-group
 order: 1
 ---
