@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fa fa-link
+icon: fa-solid fa-link
 order: 2
 ---
 

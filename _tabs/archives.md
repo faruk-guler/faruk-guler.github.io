@@ -1,5 +1,5 @@
 ---
 layout: archives
-icon: fas fa-road
+icon: fa-solid fa-seedling
 order: 3
 ---
