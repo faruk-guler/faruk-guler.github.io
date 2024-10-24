@@ -2,16 +2,3 @@
 layout: home
 # Index page
 ---
-
-<div class="rss-feed">
-  <h2>RSS Beslemesi</h2>
-  <ul>
-    {% for entry in site.data.rss_feed %}
-      <li>
-        <a href="{{ entry.link }}">{{ entry.title }}</a>
-        <p>{{ entry.description }}</p>
-        <small>{{ entry.pubDate }}</small>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
