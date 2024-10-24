@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":1816,"width":553,"height":311,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/wordpress.jpg?w=778" alt="" class="wp-image-1816" width="553" height="311" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/wordpress.jpg?w=778" alt="" class="wp-image-1816" width="553" height="311" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

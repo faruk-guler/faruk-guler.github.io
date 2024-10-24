@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":1424,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/sabit-diskler.jpg?w=536" alt="" class="wp-image-1424" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/sabit-diskler.jpg?w=536" alt="" class="wp-image-1424" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

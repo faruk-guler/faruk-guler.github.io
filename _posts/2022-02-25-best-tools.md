@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":2407,"width":510,"height":342,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/hacker-spider-2.jpg?w=650" alt="" class="wp-image-2407" style="width:510px;height:342px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/hacker-spider-2.jpg?w=650" alt="" class="wp-image-2407" style="width:510px;height:342px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

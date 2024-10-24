@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":396,"width":458,"height":257,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mina.jpg?w=1024" alt="" class="wp-image-396" width="458" height="257" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/mina.jpg?w=1024" alt="" class="wp-image-396" width="458" height="257" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

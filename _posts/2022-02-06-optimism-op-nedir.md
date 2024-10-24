@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":4310,"width":543,"height":274,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/op-coin.jpg?w=680" alt="" class="wp-image-4310" width="543" height="274" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/op-coin.jpg?w=680" alt="" class="wp-image-4310" width="543" height="274" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -11,7 +11,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1482,"width":328,"height":328,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/gnome-partition-editor.jpg?w=483" alt="" class="wp-image-1482" width="328" height="328" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/gnome-partition-editor.jpg?w=483" alt="" class="wp-image-1482" width="328" height="328" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -59,7 +59,7 @@ categories: [3th Party / Tools]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":1486,"width":630,"height":465,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c1.png?w=665" alt="" class="wp-image-1486" width="630" height="465" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c1.png?w=665" alt="" class="wp-image-1486" width="630" height="465" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -73,7 +73,7 @@ categories: [3th Party / Tools]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":1489,"width":539,"height":432,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c3.png?w=753" alt="" class="wp-image-1489" width="539" height="432" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c3.png?w=753" alt="" class="wp-image-1489" width="539" height="432" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -87,7 +87,7 @@ categories: [3th Party / Tools]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":1491,"width":522,"height":376,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c5.png?w=778" alt="" class="wp-image-1491" width="522" height="376" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c5.png?w=778" alt="" class="wp-image-1491" width="522" height="376" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -99,7 +99,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1493,"width":606,"height":338,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c6.png?w=809" alt="" class="wp-image-1493" width="606" height="338" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c6.png?w=809" alt="" class="wp-image-1493" width="606" height="338" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -119,7 +119,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1495,"width":593,"height":395,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c7.png?w=813" alt="" class="wp-image-1495" width="593" height="395" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c7.png?w=813" alt="" class="wp-image-1495" width="593" height="395" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -127,11 +127,11 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1497,"width":586,"height":375,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c8.png?w=794" alt="" class="wp-image-1497" width="586" height="375" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c8.png?w=794" alt="" class="wp-image-1497" width="586" height="375" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1499,"width":586,"height":452,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c9.png?w=781" alt="" class="wp-image-1499" width="586" height="452" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c9.png?w=781" alt="" class="wp-image-1499" width="586" height="452" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -139,7 +139,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1501,"width":645,"height":272,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c12.png?w=773" alt="" class="wp-image-1501" width="645" height="272" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c12.png?w=773" alt="" class="wp-image-1501" width="645" height="272" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -147,7 +147,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1503,"width":647,"height":191,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c13.png?w=813" alt="" class="wp-image-1503" width="647" height="191" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c13.png?w=813" alt="" class="wp-image-1503" width="647" height="191" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -159,7 +159,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1505,"width":561,"height":363,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/c14.png?w=631" alt="" class="wp-image-1505" width="561" height="363" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/c14.png?w=631" alt="" class="wp-image-1505" width="561" height="363" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -167,7 +167,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1509,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/c13-1.png?w=794" alt="" class="wp-image-1509" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/c13-1.png?w=794" alt="" class="wp-image-1509" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":1687,"width":"559px","height":"280px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ldap-authentication-login-php.jpg?w=600" alt="" class="wp-image-1687" style="width:559px;height:280px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ldap-authentication-login-php.jpg?w=600" alt="" class="wp-image-1687" style="width:559px;height:280px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

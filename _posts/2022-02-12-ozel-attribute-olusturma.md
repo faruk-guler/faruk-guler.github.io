@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":1737,"width":654,"height":287,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ae.png?w=1024" alt="" class="wp-image-1737" width="654" height="287" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ae.png?w=1024" alt="" class="wp-image-1737" width="654" height="287" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -75,7 +75,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1746,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/0ae.png?w=1024" alt="" class="wp-image-1746" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/0ae.png?w=1024" alt="" class="wp-image-1746" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -83,7 +83,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1747,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae1.png?w=1024" alt="" class="wp-image-1747" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae1.png?w=1024" alt="" class="wp-image-1747" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -91,7 +91,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1749,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae2.png?w=1024" alt="" class="wp-image-1749" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae2.png?w=1024" alt="" class="wp-image-1749" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -99,7 +99,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1751,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae3.png?w=1024" alt="" class="wp-image-1751" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae3.png?w=1024" alt="" class="wp-image-1751" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -107,11 +107,11 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1753,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae4.png?w=1024" alt="" class="wp-image-1753" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae4.png?w=1024" alt="" class="wp-image-1753" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1756,"width":658,"height":295,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ae6.png?w=1012" alt="" class="wp-image-1756" width="658" height="295" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ae6.png?w=1012" alt="" class="wp-image-1756" width="658" height="295" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -131,7 +131,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1757,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae5.png?w=1024" alt="" class="wp-image-1757" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae5.png?w=1024" alt="" class="wp-image-1757" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -149,7 +149,7 @@ Bir multi-valued attribute eklenecekse Multi-Valued seçilir.</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1760,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae7.png?w=1024" alt="" class="wp-image-1760" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae7.png?w=1024" alt="" class="wp-image-1760" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -157,7 +157,7 @@ Bir multi-valued attribute eklenecekse Multi-Valued seçilir.</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1762,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae8.png?w=1024" alt="" class="wp-image-1762" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae8.png?w=1024" alt="" class="wp-image-1762" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -169,11 +169,11 @@ Bir multi-valued attribute eklenecekse Multi-Valued seçilir.</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1764,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae9.png?w=1024" alt="" class="wp-image-1764" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae9.png?w=1024" alt="" class="wp-image-1764" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1766,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae10.png?w=1024" alt="" class="wp-image-1766" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae10.png?w=1024" alt="" class="wp-image-1766" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -181,7 +181,7 @@ Bir multi-valued attribute eklenecekse Multi-Valued seçilir.</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1768,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ae11.png?w=1024" alt="" class="wp-image-1768" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ae11.png?w=1024" alt="" class="wp-image-1768" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

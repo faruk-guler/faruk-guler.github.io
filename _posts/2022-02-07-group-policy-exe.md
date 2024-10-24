@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":1526,"width":154,"height":154,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/exe.png?w=512" alt="" class="wp-image-1526" width="154" height="154" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/exe.png?w=512" alt="" class="wp-image-1526" width="154" height="154" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1792,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v1.png?w=1024" alt="" class="wp-image-1792" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v1.png?w=1024" alt="" class="wp-image-1792" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,35 +39,35 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1794,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v2-1.png?w=1024" alt="" class="wp-image-1794" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v2-1.png?w=1024" alt="" class="wp-image-1794" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1795,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v3.png?w=1024" alt="" class="wp-image-1795" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v3.png?w=1024" alt="" class="wp-image-1795" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1796,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v4.png?w=1024" alt="" class="wp-image-1796" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v4.png?w=1024" alt="" class="wp-image-1796" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1798,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v5.png?w=1024" alt="" class="wp-image-1798" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v5.png?w=1024" alt="" class="wp-image-1798" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1799,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v6.png?w=1024" alt="" class="wp-image-1799" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v6.png?w=1024" alt="" class="wp-image-1799" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1800,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v7.png?w=1024" alt="" class="wp-image-1800" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v7.png?w=1024" alt="" class="wp-image-1800" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1802,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v8.png?w=1024" alt="" class="wp-image-1802" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v8.png?w=1024" alt="" class="wp-image-1802" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1804,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v10.png?w=1024" alt="" class="wp-image-1804" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v10.png?w=1024" alt="" class="wp-image-1804" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -75,15 +75,15 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1806,"width":549,"height":414,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/v11.png?w=1024" alt="" class="wp-image-1806" width="549" height="414" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/v11.png?w=1024" alt="" class="wp-image-1806" width="549" height="414" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1807,"width":617,"height":460,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/v12.png?w=1024" alt="" class="wp-image-1807" width="617" height="460" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/v12.png?w=1024" alt="" class="wp-image-1807" width="617" height="460" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1808,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v13.png?w=1024" alt="" class="wp-image-1808" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v13.png?w=1024" alt="" class="wp-image-1808" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
