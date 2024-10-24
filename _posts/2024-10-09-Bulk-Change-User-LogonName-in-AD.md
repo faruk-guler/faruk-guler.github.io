@@ -12,8 +12,8 @@ math:
 mermaid:
 image:
   path: https://farukguler.com/assets/post_images/powershell-4-sdn.jpg
-  width: 800
-  height: 500
+  width: 500
+  height: 200
   lqip:
   alt:
 ---
