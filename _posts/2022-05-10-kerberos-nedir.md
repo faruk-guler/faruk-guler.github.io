@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":3054,"width":496,"height":310,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/kerberos.png?w=574" alt="" class="wp-image-3054" width="496" height="310" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/kerberos.png?w=574" alt="" class="wp-image-3054" width="496" height="310" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -11,7 +11,7 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3192,"width":303,"height":202,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/everything.jpg.webp?w=450" alt="" class="wp-image-3192" width="303" height="202" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/everything.jpg.webp?w=450" alt="" class="wp-image-3192" width="303" height="202" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
