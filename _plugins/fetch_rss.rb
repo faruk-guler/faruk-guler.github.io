@@ -6,7 +6,7 @@ module Jekyll
     safe true
 
     def generate(site)
-      url = "https://www.tecmint.com/feed/" # RSS beslemesi URL'sini buraya değiştir
+      url = "https://www.tecmint.com/feed" # RSS beslemesi URL'sini buraya değiştir
       feed = Nokogiri::XML(open(url))
 
       site.data['rss_feed'] = feed.xpath('//item').map do |item|
