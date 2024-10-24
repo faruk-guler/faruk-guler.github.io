@@ -8,7 +8,7 @@ comments: true
 categories: [Debian]
 ---
 <!-- wp:image {"lightbox":{"enabled":true},"id":10044,"width":"470px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/debian_cheat_2.png?w=887" alt="" class="wp-image-10044" style="width:470px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/debian_cheat_2.png?w=887" alt="" class="wp-image-10044" style="width:470px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

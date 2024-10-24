@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"lightbox":{"enabled":false},"id":9391,"width":"215px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/olaf_openssl-1.jpg?w=694" alt="" class="wp-image-9391" style="width:215px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/olaf_openssl-1.jpg?w=694" alt="" class="wp-image-9391" style="width:215px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -381,7 +381,7 @@ Bu komut: <strong>"olaf.ts"</strong> adlı bir video dosyasını AES-256-CBC alg
 <!-- /wp:list -->
 
 <!-- wp:image {"id":9483,"width":"203px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/obraz-frozen.jpg?w=571" alt="" class="wp-image-9483" style="width:203px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/obraz-frozen.jpg?w=571" alt="" class="wp-image-9483" style="width:203px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -435,7 +435,7 @@ Bu komut: <strong>"olaf.ts"</strong> adlı bir video dosyasını AES-256-CBC alg
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"lightbox":{"enabled":true},"id":9704,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cert_exp.png?w=923" alt="" class="wp-image-9704" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/cert_exp.png?w=923" alt="" class="wp-image-9704" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -489,7 +489,7 @@ openssl pkcs12 -export -out certificate.pfx -inkey private_key.pem -in certifica
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":9399,"width":"320px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ct_frozen.jpeg?w=600" alt="" class="wp-image-9399" style="width:320px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ct_frozen.jpeg?w=600" alt="" class="wp-image-9399" style="width:320px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

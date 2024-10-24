@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":9171,"width":"239px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/group-managed-service-accounts.png?w=536" alt="" class="wp-image-9171" style="width:239px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/group-managed-service-accounts.png?w=536" alt="" class="wp-image-9171" style="width:239px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -75,7 +75,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":9178,"width":"284px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/gear-logo.jpg?w=580" alt="" class="wp-image-9178" style="width:284px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/gear-logo.jpg?w=580" alt="" class="wp-image-9178" style="width:284px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

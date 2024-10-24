@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":8971,"width":"473px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ps_event.jpg?w=1024" alt="" class="wp-image-8971" style="width:473px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ps_event.jpg?w=1024" alt="" class="wp-image-8971" style="width:473px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -45,7 +45,7 @@ C:\Windows\System32\winevt\Logs</pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":9007,"width":"484px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/resize_log_conf.png?w=1024" alt="" class="wp-image-9007" style="width:484px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/resize_log_conf.png?w=1024" alt="" class="wp-image-9007" style="width:484px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

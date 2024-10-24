@@ -7,7 +7,7 @@ comments: true
 categories: [Virtualization Technology]
 ---
 <!-- wp:image {"id":14382,"width":"505px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/afbeelding-1.png?w=609" alt="" class="wp-image-14382" style="width:505px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/afbeelding-1.png?w=609" alt="" class="wp-image-14382" style="width:505px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Pentest]
 ---
 <!-- wp:image {"id":13050,"width":"565px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/acl_reporter.png?w=1024" alt="" class="wp-image-13050" style="width:565px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/acl_reporter.png?w=1024" alt="" class="wp-image-13050" style="width:565px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -41,7 +41,7 @@ categories: [Pentest]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":9220,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ace-acl.jpg?w=807" alt="" class="wp-image-9220" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ace-acl.jpg?w=807" alt="" class="wp-image-9220" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -88,7 +88,7 @@ Bu ACL, ağ cihazınıza gelen trafiği kontrol eder. 192.168.1.10 IP'sinden gel
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":333,"width":"423px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" style="width:423px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" style="width:423px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

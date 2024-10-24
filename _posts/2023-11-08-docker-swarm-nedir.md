@@ -7,7 +7,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":11654,"width":"400px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/1_f0udyxfjbxnuyp87m7u7pq.png?w=800" alt="" class="wp-image-11654" style="width:400px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1_f0udyxfjbxnuyp87m7u7pq.png?w=800" alt="" class="wp-image-11654" style="width:400px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
