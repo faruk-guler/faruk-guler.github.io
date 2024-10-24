@@ -7,7 +7,7 @@ comments: true
 categories: [Fix - Troubleshooting]
 ---
 <!-- wp:image {"id":4245,"width":540,"height":310,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/wifi-error.jpg?w=1024" alt="" class="wp-image-4245" width="540" height="310" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/wifi-error.jpg?w=1024" alt="" class="wp-image-4245" width="540" height="310" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -24,15 +24,15 @@ categories: [Fix - Troubleshooting]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4247,"width":566,"height":282,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/enabled_probing.png?w=1002" alt="" class="wp-image-4247" width="566" height="282" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/enabled_probing.png?w=1002" alt="" class="wp-image-4247" width="566" height="282" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":4249,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/disabled_network.png?w=960" alt="" class="wp-image-4249" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/disabled_network.png?w=960" alt="" class="wp-image-4249" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":4256,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/enabled_conn-1.png?w=633" alt="" class="wp-image-4256" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/enabled_conn-1.png?w=633" alt="" class="wp-image-4256" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

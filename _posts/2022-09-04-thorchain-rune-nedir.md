@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":4296,"width":541,"height":299,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/thorchain.png?w=1000" alt="" class="wp-image-4296" width="541" height="299" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/thorchain.png?w=1000" alt="" class="wp-image-4296" width="541" height="299" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

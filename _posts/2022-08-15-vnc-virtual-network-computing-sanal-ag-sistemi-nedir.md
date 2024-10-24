@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":4059,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/wnc.jpg?w=640" alt="" class="wp-image-4059" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/wnc.jpg?w=640" alt="" class="wp-image-4059" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

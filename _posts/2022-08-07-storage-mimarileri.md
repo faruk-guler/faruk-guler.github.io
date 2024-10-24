@@ -7,7 +7,7 @@ comments: true
 categories: [Storage]
 ---
 <!-- wp:image {"id":3740,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/nas.jpeg?w=1024" alt="" class="wp-image-3740" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/nas.jpeg?w=1024" alt="" class="wp-image-3740" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -55,7 +55,7 @@ categories: [Storage]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3937,"width":736,"height":344,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/das-nas-san.webp?w=1024" alt="" class="wp-image-3937" width="736" height="344" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/das-nas-san.webp?w=1024" alt="" class="wp-image-3937" width="736" height="344" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

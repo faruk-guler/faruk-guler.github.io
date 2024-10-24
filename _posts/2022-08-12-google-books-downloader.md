@@ -7,7 +7,7 @@ comments: true
 categories: [3th Party / Tools]
 ---
 <!-- wp:image {"id":4026,"width":919,"height":209,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/downloander.png?w=1024" alt="" class="wp-image-4026" width="919" height="209" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/downloander.png?w=1024" alt="" class="wp-image-4026" width="919" height="209" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
