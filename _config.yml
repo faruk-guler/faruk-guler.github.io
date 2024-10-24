@@ -1,7 +1,12 @@
 # The Site Configuration
 
-collections:
-  - external_feed
+feed_url: 'https://www.tecmint.com/feed/'
+
+
+
+
+
+
 
 
 
