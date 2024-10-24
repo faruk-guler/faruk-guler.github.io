@@ -7,7 +7,7 @@ comments: true
 categories: [Monitoring]
 ---
 <!-- wp:image {"id":4397,"width":487,"height":274,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/zabbix.jpg?w=1024" alt="" class="wp-image-4397" width="487" height="274" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/zabbix.jpg?w=1024" alt="" class="wp-image-4397" width="487" height="274" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -73,7 +73,7 @@ sudo systemctl status zabbix-agent</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4402,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/zabbix_status.png?w=1024" alt="" class="wp-image-4402" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/zabbix_status.png?w=1024" alt="" class="wp-image-4402" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

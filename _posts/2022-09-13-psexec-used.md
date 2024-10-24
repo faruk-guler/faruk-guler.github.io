@@ -7,7 +7,7 @@ comments: true
 categories: [3th Party / Tools]
 ---
 <!-- wp:image {"id":4426,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/psexec-2.png?w=669" alt="" class="wp-image-4426" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/psexec-2.png?w=669" alt="" class="wp-image-4426" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -83,7 +83,7 @@ Net user wordpress Password123+ /add</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":4420,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/psexec_add_user.png?w=1024" alt="" class="wp-image-4420" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/psexec_add_user.png?w=1024" alt="" class="wp-image-4420" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

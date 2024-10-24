@@ -7,7 +7,7 @@ comments: true
 categories: [Backup &amp; Recovery]
 ---
 <!-- wp:image {"id":5166,"width":"534px","height":"300px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/google-authenticator.webp?w=1024" alt="" class="wp-image-5166" style="width:534px;height:300px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/google-authenticator.webp?w=1024" alt="" class="wp-image-5166" style="width:534px;height:300px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Backup &amp; Recovery]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5168,"width":"556px","height":"312px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/google-authenticator-2.webp?w=1024" alt="" class="wp-image-5168" style="width:556px;height:312px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/google-authenticator-2.webp?w=1024" alt="" class="wp-image-5168" style="width:556px;height:312px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

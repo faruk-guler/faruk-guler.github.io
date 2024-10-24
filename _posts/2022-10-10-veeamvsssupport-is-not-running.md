@@ -7,7 +7,7 @@ comments: true
 categories: [Fix - Troubleshooting]
 ---
 <!-- wp:image {"id":5089,"width":1027,"height":58,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/vss.jpg?w=1024" alt="" class="wp-image-5089" width="1027" height="58" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/vss.jpg?w=1024" alt="" class="wp-image-5089" width="1027" height="58" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

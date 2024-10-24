@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":4990,"width":527,"height":297,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/zimbra.png?w=1024" alt="" class="wp-image-4990" width="527" height="297" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/zimbra.png?w=1024" alt="" class="wp-image-4990" width="527" height="297" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,7 +23,7 @@ categories: [Linux / Unix]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4993,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/zimbra-archive.png?w=1024" alt="" class="wp-image-4993" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/zimbra-archive.png?w=1024" alt="" class="wp-image-4993" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -43,7 +43,7 @@ categories: [Linux / Unix]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4995,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/zimbra_web.png?w=792" alt="" class="wp-image-4995" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/zimbra_web.png?w=792" alt="" class="wp-image-4995" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -67,7 +67,7 @@ categories: [Linux / Unix]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4997,"width":583,"height":314,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/zimbra-desktop-overview.png?w=940" alt="" class="wp-image-4997" width="583" height="314" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/zimbra-desktop-overview.png?w=940" alt="" class="wp-image-4997" width="583" height="314" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -251,7 +251,7 @@ categories: [Linux / Unix]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5008,"width":585,"height":328,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/zimbra-gif.gif?w=940" alt="" class="wp-image-5008" width="585" height="328" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/zimbra-gif.gif?w=940" alt="" class="wp-image-5008" width="585" height="328" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Microsoft Exchange Server]
 ---
 <!-- wp:image {"id":4918,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/exchange-server.jpg?w=810" alt="" class="wp-image-4918" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/exchange-server.jpg?w=810" alt="" class="wp-image-4918" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
