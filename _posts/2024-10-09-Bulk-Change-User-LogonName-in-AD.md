@@ -19,7 +19,7 @@ image:
 ---
 
 <!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg" alt="" width="565" height="350" /></figure>
+<figure class="wp-block-image size-large"><img src="---------" alt="" width="565" height="350" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
