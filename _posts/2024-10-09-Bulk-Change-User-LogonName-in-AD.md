@@ -11,7 +11,7 @@ pin:
 math:
 mermaid:
 image:
-  path: https://faruk-guler.github.io/assets/post_images/powershell-4-sdn.jpg
+  path: https://farukguler.com/assets/post_images/powershell-4-sdn.jpg
   width: 800
   height: 500
   lqip:
@@ -19,7 +19,7 @@ image:
 ---
 
 <!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/powershell-4-sdn.jpg" alt="" width="565" height="350" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg" alt="" width="565" height="350" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
