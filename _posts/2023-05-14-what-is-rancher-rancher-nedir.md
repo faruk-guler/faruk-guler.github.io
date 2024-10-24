@@ -7,7 +7,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":11824,"width":"491px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/suse-rancher.jpg?w=1024" alt="" class="wp-image-11824" style="width:491px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/suse-rancher.jpg?w=1024" alt="" class="wp-image-11824" style="width:491px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,5 +19,5 @@ categories: [Containerization]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":11838,"width":"655px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/rancher_cow.jpg?w=900" alt="" class="wp-image-11838" style="width:655px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/rancher_cow.jpg?w=900" alt="" class="wp-image-11838" style="width:655px;height:auto" /></figure>
 <!-- /wp:image -->
