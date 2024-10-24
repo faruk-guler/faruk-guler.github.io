@@ -7,7 +7,7 @@ comments: true
 categories: [PowerShell]
 ---
 <!-- wp:image {"id":294,"width":"496px","height":"264px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/join-1.jpg?w=640" alt="" class="wp-image-294" style="width:496px;height:264px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/join-1.jpg?w=640" alt="" class="wp-image-294" style="width:496px;height:264px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

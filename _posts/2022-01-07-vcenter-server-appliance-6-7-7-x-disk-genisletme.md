@@ -33,7 +33,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":950,"width":571,"height":423,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/a2.png?w=681" alt="" class="wp-image-950" width="571" height="423" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/a2.png?w=681" alt="" class="wp-image-950" width="571" height="423" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -43,7 +43,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":952,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/a1.png?w=1024" alt="" class="wp-image-952" /><figcaption class="wp-element-caption">yada üstteki gibi vCenter Server Appliance üzerinden görelim. <strong><a href="https://vcenter_fqdn:5480/">https://vcenter_fqdn:5480</a></strong></figcaption></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/a1.png?w=1024" alt="" class="wp-image-952" /><figcaption class="wp-element-caption">yada üstteki gibi vCenter Server Appliance üzerinden görelim. <strong><a href="https://vcenter_fqdn:5480/">https://vcenter_fqdn:5480</a></strong></figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -55,7 +55,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":954,"width":614,"height":498,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/disk_buyutme.jpg?w=847" alt="" class="wp-image-954" width="614" height="498" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/disk_buyutme.jpg?w=847" alt="" class="wp-image-954" width="614" height="498" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -71,7 +71,7 @@ Eğer başarılı olmazsa alttaki yeni versiyon(7.x) komutunu deneyebilirsiniz.
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":959,"width":596,"height":400,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ddd.jpg?w=1024" alt="" class="wp-image-959" width="596" height="400" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ddd.jpg?w=1024" alt="" class="wp-image-959" width="596" height="400" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

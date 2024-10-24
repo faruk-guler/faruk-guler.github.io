@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":532,"width":"448px","height":"auto","aspectRatio":"1.7928994082840237","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/sccm-wsus.jpg?w=541" alt="" class="wp-image-532" style="aspect-ratio:1.7928994082840237;width:448px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/sccm-wsus.jpg?w=541" alt="" class="wp-image-532" style="aspect-ratio:1.7928994082840237;width:448px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

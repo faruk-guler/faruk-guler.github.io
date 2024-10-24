@@ -7,7 +7,7 @@ comments: true
 categories: [Backup &amp; Recovery]
 ---
 <!-- wp:image {"id":1116,"width":350,"height":376,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/easeus-data-recovery.png?w=465" alt="" class="wp-image-1116" width="350" height="376" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/easeus-data-recovery.png?w=465" alt="" class="wp-image-1116" width="350" height="376" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

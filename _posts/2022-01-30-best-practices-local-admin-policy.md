@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":1155,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/gpo_logo.jpg?w=439" alt="" class="wp-image-1155" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/gpo_logo.jpg?w=439" alt="" class="wp-image-1155" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1165,"width":829,"height":261,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/la.png?w=1024" alt="" class="wp-image-1165" width="829" height="261" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/la.png?w=1024" alt="" class="wp-image-1165" width="829" height="261" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1168,"width":675,"height":539,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/la0-2.png?w=998" alt="" class="wp-image-1168" width="675" height="539" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/la0-2.png?w=998" alt="" class="wp-image-1168" width="675" height="539" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -59,7 +59,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1171,"width":842,"height":356,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/la01.png?w=1024" alt="" class="wp-image-1171" width="842" height="356" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/la01.png?w=1024" alt="" class="wp-image-1171" width="842" height="356" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -71,11 +71,11 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1175,"width":863,"height":343,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/la1.png?w=1024" alt="" class="wp-image-1175" width="863" height="343" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/la1.png?w=1024" alt="" class="wp-image-1175" width="863" height="343" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":1185,"width":865,"height":430,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/l2-1.png?w=987" alt="" class="wp-image-1185" width="865" height="430" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/l2-1.png?w=987" alt="" class="wp-image-1185" width="865" height="430" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

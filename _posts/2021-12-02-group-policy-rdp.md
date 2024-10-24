@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":230,"width":453,"height":305,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/rdp-tool-windows.jpg?w=424" alt="" class="wp-image-230" width="453" height="305" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/rdp-tool-windows.jpg?w=424" alt="" class="wp-image-230" width="453" height="305" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

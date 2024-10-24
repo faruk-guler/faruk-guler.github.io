@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":609,"width":510,"height":374,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/gpo.png?w=939" alt="" class="wp-image-609" width="510" height="374" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/gpo.png?w=939" alt="" class="wp-image-609" width="510" height="374" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -51,7 +51,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":635,"width":968,"height":604,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/unins.png?w=1024" alt="" class="wp-image-635" width="968" height="604" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/unins.png?w=1024" alt="" class="wp-image-635" width="968" height="604" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -67,7 +67,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":637,"width":506,"height":213,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/uninstall-gpo.jpg?w=582" alt="" class="wp-image-637" width="506" height="213" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/uninstall-gpo.jpg?w=582" alt="" class="wp-image-637" width="506" height="213" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

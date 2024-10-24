@@ -19,7 +19,7 @@ categories: [PowerShell]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":648,"width":666,"height":356,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/wf.jpg?w=933" alt="" class="wp-image-648" width="666" height="356" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/wf.jpg?w=933" alt="" class="wp-image-648" width="666" height="356" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -35,7 +35,7 @@ categories: [PowerShell]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":651,"width":718,"height":406,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/inkedwi-fi.jpg?w=932" alt="" class="wp-image-651" width="718" height="406" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/inkedwi-fi.jpg?w=932" alt="" class="wp-image-651" width="718" height="406" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -55,7 +55,7 @@ categories: [PowerShell]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":655,"width":672,"height":214,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/toplu.png?w=750" alt="" class="wp-image-655" width="672" height="214" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/toplu.png?w=750" alt="" class="wp-image-655" width="672" height="214" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

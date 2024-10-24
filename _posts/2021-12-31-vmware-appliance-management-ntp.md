@@ -15,7 +15,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":845,"width":644,"height":377,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/as4.png?w=1024" alt="" class="wp-image-845" width="644" height="377" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/as4.png?w=1024" alt="" class="wp-image-845" width="644" height="377" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,7 +23,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":846,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/as2-1.png?w=1024" alt="" class="wp-image-846" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/as2-1.png?w=1024" alt="" class="wp-image-846" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":849,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/as3.png?w=650" alt="" class="wp-image-849" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/as3.png?w=650" alt="" class="wp-image-849" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -47,7 +47,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":850,"width":724,"height":422,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/as1.png?w=1024" alt="" class="wp-image-850" width="724" height="422" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/as1.png?w=1024" alt="" class="wp-image-850" width="724" height="422" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

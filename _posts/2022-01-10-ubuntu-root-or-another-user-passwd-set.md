@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":567,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/header.png?w=960" alt="" class="wp-image-567" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/header.png?w=960" alt="" class="wp-image-567" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

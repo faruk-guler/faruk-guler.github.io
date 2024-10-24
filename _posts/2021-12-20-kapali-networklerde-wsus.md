@@ -11,7 +11,7 @@ categories: [Microsoft System Center Family]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":681,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/1-1.png?w=466" alt="" class="wp-image-681" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1-1.png?w=466" alt="" class="wp-image-681" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Microsoft System Center Family]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":684,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/2.jpg?w=907" alt="" class="wp-image-684" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/2.jpg?w=907" alt="" class="wp-image-684" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Microsoft System Center Family]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":686,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/3.jpg?w=676" alt="" class="wp-image-686" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/3.jpg?w=676" alt="" class="wp-image-686" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -40,16 +40,16 @@ categories: [Microsoft System Center Family]
 
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":689,"width":486,"height":246,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/4.jpg?w=545" alt="" class="wp-image-689" style="width:486px;height:246px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/4.jpg?w=545" alt="" class="wp-image-689" style="width:486px;height:246px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":690,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/5.jpg?w=483" alt="" class="wp-image-690" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/5.jpg?w=483" alt="" class="wp-image-690" /></figure>
 <!-- /wp:image --></figure>
 <!-- /wp:gallery -->
 
 <!-- wp:image {"id":692,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/6.jpg?w=897" alt="" class="wp-image-692" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/6.jpg?w=897" alt="" class="wp-image-692" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -61,7 +61,7 @@ categories: [Microsoft System Center Family]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":694,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/7.jpg?w=672" alt="" class="wp-image-694" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/7.jpg?w=672" alt="" class="wp-image-694" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -77,7 +77,7 @@ categories: [Microsoft System Center Family]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":698,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/8-1.jpg?w=1024" alt="" class="wp-image-698" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/8-1.jpg?w=1024" alt="" class="wp-image-698" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

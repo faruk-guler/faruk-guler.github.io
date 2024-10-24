@@ -16,11 +16,11 @@ gpresult /H rapor.html</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":869,"width":615,"height":143,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ww.png?w=1024" alt="" class="wp-image-869" width="615" height="143" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ww.png?w=1024" alt="" class="wp-image-869" width="615" height="143" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":871,"width":613,"height":349,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/rtty.png?w=1024" alt="" class="wp-image-871" width="613" height="349" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/rtty.png?w=1024" alt="" class="wp-image-871" width="613" height="349" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
