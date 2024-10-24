@@ -7,7 +7,7 @@ comments: true
 categories: [Storage]
 ---
 <!-- wp:image {"id":13844,"width":"438px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/xbtrfs_logo.png?w=540" alt="" class="wp-image-13844" style="width:438px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/xbtrfs_logo.png?w=540" alt="" class="wp-image-13844" style="width:438px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

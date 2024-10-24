@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":11019,"width":"432px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/maverick.png?w=1024" alt="" class="wp-image-11019" style="width:432px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/maverick.png?w=1024" alt="" class="wp-image-11019" style="width:432px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -37,7 +37,7 @@ categories: [Blockchain]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":11021,"width":"378px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mav.png?w=828" alt="" class="wp-image-11021" style="width:378px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/mav.png?w=828" alt="" class="wp-image-11021" style="width:378px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

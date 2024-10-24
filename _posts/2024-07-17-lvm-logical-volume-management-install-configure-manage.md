@@ -7,7 +7,7 @@ comments: true
 categories: [Storage]
 ---
 <!-- wp:image {"id":12441,"width":"428px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/lvs-stat.jpg?w=800" alt="" class="wp-image-12441" style="width:428px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/lvs-stat.jpg?w=800" alt="" class="wp-image-12441" style="width:428px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator -->
@@ -23,7 +23,7 @@ categories: [Storage]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7680,"width":"543px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/lvm-best.jpg?w=933" alt="" class="wp-image-7680" style="width:543px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/lvm-best.jpg?w=933" alt="" class="wp-image-7680" style="width:543px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator -->
@@ -73,7 +73,7 @@ categories: [Storage]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":12176,"width":"475px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/lvm-arch.png?w=960" alt="" class="wp-image-12176" style="width:475px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/lvm-arch.png?w=960" alt="" class="wp-image-12176" style="width:475px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator -->

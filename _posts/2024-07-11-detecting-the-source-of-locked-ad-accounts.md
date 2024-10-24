@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":890,"width":"413px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ads.jpeg?w=1024" alt="" class="wp-image-890" style="width:413px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ads.jpeg?w=1024" alt="" class="wp-image-890" style="width:413px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":13217,"width":"547px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/icrs.png?w=822" alt="" class="wp-image-13217" style="width:547px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/icrs.png?w=822" alt="" class="wp-image-13217" style="width:547px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -53,7 +53,7 @@ categories: [Active Directory]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":13199,"width":"518px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ad-ena.png?w=820" alt="" class="wp-image-13199" style="width:518px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ad-ena.png?w=820" alt="" class="wp-image-13199" style="width:518px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -61,7 +61,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":13201,"width":"506px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dc_enas.png?w=825" alt="" class="wp-image-13201" style="width:506px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dc_enas.png?w=825" alt="" class="wp-image-13201" style="width:506px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -87,7 +87,7 @@ categories: [Active Directory]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":13194,"width":"555px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/enabling-audit-logs-on-client-computers.png?w=792" alt="" class="wp-image-13194" style="width:555px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/enabling-audit-logs-on-client-computers.png?w=792" alt="" class="wp-image-13194" style="width:555px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -111,7 +111,7 @@ categories: [Active Directory]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":13205,"width":"628px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/find_lock_ad_users.png?w=944" alt="" class="wp-image-13205" style="width:628px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/find_lock_ad_users.png?w=944" alt="" class="wp-image-13205" style="width:628px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -127,7 +127,7 @@ categories: [Active Directory]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":13208,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/rem_find.png?w=1024" alt="" class="wp-image-13208" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/rem_find.png?w=1024" alt="" class="wp-image-13208" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -147,7 +147,7 @@ categories: [Active Directory]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":13219,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/rd_nef.png?w=600" alt="" class="wp-image-13219" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/rd_nef.png?w=600" alt="" class="wp-image-13219" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

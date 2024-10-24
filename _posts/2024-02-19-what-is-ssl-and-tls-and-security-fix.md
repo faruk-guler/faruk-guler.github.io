@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":10927,"width":"423px","height":"auto","aspectRatio":"1.6388059701492537","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ss-tls.jpg?w=589" alt="" class="wp-image-10927" style="aspect-ratio:1.6388059701492537;width:423px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ss-tls.jpg?w=589" alt="" class="wp-image-10927" style="aspect-ratio:1.6388059701492537;width:423px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Hacking - Security]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":5305,"width":"345px","height":"auto","aspectRatio":"1.9183006535947713","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/tls-preview.png?w=1024" alt="" class="wp-image-5305" style="aspect-ratio:1.9183006535947713;width:345px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/tls-preview.png?w=1024" alt="" class="wp-image-5305" style="aspect-ratio:1.9183006535947713;width:345px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -53,7 +53,7 @@ categories: [Hacking - Security]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":10943,"width":"394px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ssl-works.jpg?w=624" alt="" class="wp-image-10943" style="width:394px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ssl-works.jpg?w=624" alt="" class="wp-image-10943" style="width:394px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -91,7 +91,7 @@ categories: [Hacking - Security]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":5315,"width":"378px","height":"auto","aspectRatio":"2.8545454545454545","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/tls-vs-ssl.jpg?w=1000" alt="" class="wp-image-5315" style="aspect-ratio:2.8545454545454545;width:378px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/tls-vs-ssl.jpg?w=1000" alt="" class="wp-image-5315" style="aspect-ratio:2.8545454545454545;width:378px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -199,11 +199,11 @@ categories: [Hacking - Security]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":10970,"width":"651px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/hard-ssl-tls.png?w=953" alt="" class="wp-image-10970" style="width:651px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/hard-ssl-tls.png?w=953" alt="" class="wp-image-10970" style="width:651px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":10980,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/slllabs.png?w=1024" alt="" class="wp-image-10980" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/slllabs.png?w=1024" alt="" class="wp-image-10980" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

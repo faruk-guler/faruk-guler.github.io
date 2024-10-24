@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":3342,"width":"502px","height":"auto","aspectRatio":"1.1710526315789473","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/perm.jpg?w=1024" alt="" class="wp-image-3342" style="aspect-ratio:1.1710526315789473;width:502px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/perm.jpg?w=1024" alt="" class="wp-image-3342" style="aspect-ratio:1.1710526315789473;width:502px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -51,7 +51,7 @@ categories: [Linux / Unix]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":14095,"width":"502px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/chmod.png?w=864" alt="" class="wp-image-14095" style="width:502px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/chmod.png?w=864" alt="" class="wp-image-14095" style="width:502px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -117,7 +117,7 @@ categories: [Linux / Unix]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":14084,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/perm_lnx.png?w=1024" alt="" class="wp-image-14084" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/perm_lnx.png?w=1024" alt="" class="wp-image-14084" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -139,7 +139,7 @@ categories: [Linux / Unix]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":14161,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dense.png?w=1024" alt="" class="wp-image-14161" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/dense.png?w=1024" alt="" class="wp-image-14161" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -155,7 +155,7 @@ categories: [Linux / Unix]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":14219,"width":"420px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/acls.jpg?w=900" alt="" class="wp-image-14219" style="width:420px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/acls.jpg?w=900" alt="" class="wp-image-14219" style="width:420px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
