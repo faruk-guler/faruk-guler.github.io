@@ -1,5 +1,10 @@
 # The Site Configuration
 
+collections:
+  - external_feed
+
+
+
 # Import the theme
 theme: jekyll-theme-chirpy
 
