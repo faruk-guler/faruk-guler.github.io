@@ -7,7 +7,7 @@ comments: true
 categories: [Monitoring]
 ---
 <!-- wp:image {"id":3847,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/v-one.webp?w=1024" alt="" class="wp-image-3847" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/v-one.webp?w=1024" alt="" class="wp-image-3847" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

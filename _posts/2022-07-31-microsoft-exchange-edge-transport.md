@@ -7,7 +7,7 @@ comments: true
 categories: [Microsoft Exchange Server]
 ---
 <!-- wp:image {"id":3816,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/exchange-edge-transport.png?w=695" alt="" class="wp-image-3816" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/exchange-edge-transport.png?w=695" alt="" class="wp-image-3816" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -61,7 +61,7 @@ categories: [Microsoft Exchange Server]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":3823,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/ex2019edge_16-1.png?w=769" alt="" class="wp-image-3823" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ex2019edge_16-1.png?w=769" alt="" class="wp-image-3823" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":333,"width":414,"height":233,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" style="width:414px;height:233px" width="414" height="233" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" style="width:414px;height:233px" width="414" height="233" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

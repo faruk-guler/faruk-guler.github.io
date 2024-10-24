@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"id":1222,"width":483,"height":271,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/logo-vmware.webp?w=800" alt="" class="wp-image-1222" width="483" height="271" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/logo-vmware.webp?w=800" alt="" class="wp-image-1222" width="483" height="271" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":3637,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/suspend_no.jpg?w=709" alt="" class="wp-image-3637" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/suspend_no.jpg?w=709" alt="" class="wp-image-3637" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
