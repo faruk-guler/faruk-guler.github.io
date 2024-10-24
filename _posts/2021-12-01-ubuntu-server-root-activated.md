@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":3705,"width":484,"height":302,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/root.jpg?w=800" alt="" class="wp-image-3705" width="484" height="302" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/root.jpg?w=800" alt="" class="wp-image-3705" width="484" height="302" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
