@@ -7,7 +7,7 @@ comments: true
 categories: [Secrets of the internet]
 ---
 <!-- wp:image {"id":1865,"width":531,"height":338,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/deep-web-dark-web.jpg?w=870" alt="" class="wp-image-1865" width="531" height="338" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/deep-web-dark-web.jpg?w=870" alt="" class="wp-image-1865" width="531" height="338" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

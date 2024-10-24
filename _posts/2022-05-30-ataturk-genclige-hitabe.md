@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":3320,"width":227,"height":403,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/buyukturk2.jpg?w=576" alt="" class="wp-image-3320" width="227" height="403" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/buyukturk2.jpg?w=576" alt="" class="wp-image-3320" width="227" height="403" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
