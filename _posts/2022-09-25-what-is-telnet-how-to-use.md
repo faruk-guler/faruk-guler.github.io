@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":4797,"width":481,"height":265,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/telnet_cmd.jpeg?w=607" alt="" class="wp-image-4797" width="481" height="265" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/telnet_cmd.jpeg?w=607" alt="" class="wp-image-4797" width="481" height="265" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
