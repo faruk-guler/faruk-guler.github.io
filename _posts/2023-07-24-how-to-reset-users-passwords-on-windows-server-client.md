@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":7872,"width":"602px","height":"343px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/reset-windows-10-password.jpg?w=600" alt="" class="wp-image-7872" style="width:602px;height:343px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/reset-windows-10-password.jpg?w=600" alt="" class="wp-image-7872" style="width:602px;height:343px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -37,7 +37,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7860,"width":"449px","height":"315px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/res0.png?w=895" alt="" class="wp-image-7860" style="width:449px;height:315px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/res0.png?w=895" alt="" class="wp-image-7860" style="width:449px;height:315px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -45,7 +45,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7859,"width":"552px","height":"370px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/res1.png?w=800" alt="" class="wp-image-7859" style="width:552px;height:370px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/res1.png?w=800" alt="" class="wp-image-7859" style="width:552px;height:370px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -53,7 +53,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7878,"width":"532px","height":"392px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/reset.png?w=800" alt="" class="wp-image-7878" style="width:532px;height:392px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/reset.png?w=800" alt="" class="wp-image-7878" style="width:532px;height:392px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -61,7 +61,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7858,"width":"593px","height":"339px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/res3.png?w=800" alt="" class="wp-image-7858" style="width:593px;height:339px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/res3.png?w=800" alt="" class="wp-image-7858" style="width:593px;height:339px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -69,7 +69,7 @@ categories: [Windows Server]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7861,"width":"543px","height":"379px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/res4.png?w=800" alt="" class="wp-image-7861" style="width:543px;height:379px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/res4.png?w=800" alt="" class="wp-image-7861" style="width:543px;height:379px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

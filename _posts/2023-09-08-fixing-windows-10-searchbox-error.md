@@ -7,7 +7,7 @@ comments: true
 categories: [Fix - Troubleshooting]
 ---
 <!-- wp:image {"id":8471,"width":"452px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/search-error.jpg?w=1024" alt="" class="wp-image-8471" style="width:452px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/search-error.jpg?w=1024" alt="" class="wp-image-8471" style="width:452px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
