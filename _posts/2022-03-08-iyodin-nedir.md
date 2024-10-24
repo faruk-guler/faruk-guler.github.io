@@ -7,7 +7,7 @@ comments: true
 categories: [Important***]
 ---
 <!-- wp:image {"id":2238,"width":637,"height":358,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/iyodin.jpg?w=1024" alt="" class="wp-image-2238" width="637" height="358" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/iyodin.jpg?w=1024" alt="" class="wp-image-2238" width="637" height="358" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

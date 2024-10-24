@@ -31,5 +31,5 @@ categories: [3th Party / Tools]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2759,"width":486,"height":501,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/portsc.png?w=991" alt="" class="wp-image-2759" width="486" height="501" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/portsc.png?w=991" alt="" class="wp-image-2759" width="486" height="501" /></figure>
 <!-- /wp:image -->

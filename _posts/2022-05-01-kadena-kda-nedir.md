@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":3004,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/kadena.jpeg?w=1000" alt="" class="wp-image-3004" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/kadena.jpeg?w=1000" alt="" class="wp-image-3004" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

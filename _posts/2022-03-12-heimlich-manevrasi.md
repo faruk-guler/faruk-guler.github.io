@@ -7,7 +7,7 @@ comments: true
 categories: [Important***]
 ---
 <!-- wp:image {"id":2258,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/heimlich-1.jpg?w=782" alt="" class="wp-image-2258" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/heimlich-1.jpg?w=782" alt="" class="wp-image-2258" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Web Servers]
 ---
 <!-- wp:image {"id":2597,"width":"548px","height":"308px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/lamp.webp?w=1024" alt="" class="wp-image-2597" style="width:548px;height:308px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/lamp.webp?w=1024" alt="" class="wp-image-2597" style="width:548px;height:308px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -116,7 +116,7 @@ categories: [Web Servers]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":2631,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/version.png?w=782" alt="" class="wp-image-2631" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/version.png?w=782" alt="" class="wp-image-2631" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -174,7 +174,7 @@ categories: [Web Servers]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":2661,"width":"825px","height":"380px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mysqly6u.png?w=1024" alt="" class="wp-image-2661" style="width:825px;height:380px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/mysqly6u.png?w=1024" alt="" class="wp-image-2661" style="width:825px;height:380px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -225,7 +225,7 @@ sudo ufw allow http</strong></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2635,"width":"746px","height":"340px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/site-1.png?w=1024" alt="" class="wp-image-2635" style="width:746px;height:340px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/site-1.png?w=1024" alt="" class="wp-image-2635" style="width:746px;height:340px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -237,11 +237,11 @@ sudo ufw allow http</strong></pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":2638,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/test-1.png?w=773" alt="" class="wp-image-2638" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/test-1.png?w=773" alt="" class="wp-image-2638" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":2639,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/test2.png?w=837" alt="" class="wp-image-2639" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/test2.png?w=837" alt="" class="wp-image-2639" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -269,7 +269,7 @@ sudo ufw allow http</strong></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2641,"width":"615px","height":"353px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/mayadminphp.png?w=640" alt="" class="wp-image-2641" style="width:615px;height:353px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/mayadminphp.png?w=640" alt="" class="wp-image-2641" style="width:615px;height:353px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -286,7 +286,7 @@ sudo ufw allow http</strong></pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":2640,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/myadmin.png?w=725" alt="" class="wp-image-2640" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/myadmin.png?w=725" alt="" class="wp-image-2640" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -306,11 +306,11 @@ sudo ufw allow http</strong></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2690,"width":"644px","height":"auto","aspectRatio":"2.196132596685083","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/admin.png?w=1024" alt="" class="wp-image-2690" style="aspect-ratio:2.196132596685083;width:644px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/admin.png?w=1024" alt="" class="wp-image-2690" style="aspect-ratio:2.196132596685083;width:644px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":2693,"width":"642px","height":"auto","aspectRatio":"1.8132118451025057","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/managed.png?w=1024" alt="" class="wp-image-2693" style="aspect-ratio:1.8132118451025057;width:642px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/managed.png?w=1024" alt="" class="wp-image-2693" style="aspect-ratio:1.8132118451025057;width:642px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

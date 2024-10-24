@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":2571,"width":541,"height":288,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ssh-connect.png?w=750" alt="" class="wp-image-2571" width="541" height="288" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ssh-connect.png?w=750" alt="" class="wp-image-2571" width="541" height="288" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

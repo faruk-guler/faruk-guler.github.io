@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":2270,"width":"452px","height":"248px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ad.jpg?w=704" alt="" class="wp-image-2270" style="width:452px;height:248px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ad.jpg?w=704" alt="" class="wp-image-2270" style="width:452px;height:248px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

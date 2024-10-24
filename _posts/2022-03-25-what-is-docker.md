@@ -7,7 +7,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":2426,"width":415,"height":343,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/homepage-docker-logo.png?w=960" alt="" class="wp-image-2426" width="415" height="343" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/homepage-docker-logo.png?w=960" alt="" class="wp-image-2426" width="415" height="343" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

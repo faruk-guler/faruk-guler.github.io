@@ -7,7 +7,7 @@ comments: true
 categories: [Fix - Troubleshooting]
 ---
 <!-- wp:image {"id":2330,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/exchange-err.png?w=413" alt="" class="wp-image-2330" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/exchange-err.png?w=413" alt="" class="wp-image-2330" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Fix - Troubleshooting]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":2334,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/retrival_exc.png?w=807" alt="" class="wp-image-2334" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/retrival_exc.png?w=807" alt="" class="wp-image-2334" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
