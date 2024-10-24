@@ -7,7 +7,7 @@ comments: true
 categories: [Databases]
 ---
 <!-- wp:image {"id":14425,"width":"252px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/elephants.jpg?w=474" alt="" class="wp-image-14425" style="width:252px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/elephants.jpg?w=474" alt="" class="wp-image-14425" style="width:252px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

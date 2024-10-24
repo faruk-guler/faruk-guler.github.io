@@ -7,7 +7,7 @@ comments: true
 categories: [RedHat]
 ---
 <!-- wp:image {"id":6384,"width":578,"height":384,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dfdf.jpg?w=901" alt="" class="wp-image-6384" width="578" height="384" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dfdf.jpg?w=901" alt="" class="wp-image-6384" width="578" height="384" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -25,7 +25,7 @@ lo      loopback  unmanaged  --</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":6387,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/conf_cent_eth1.png?w=745" alt="" class="wp-image-6387" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/conf_cent_eth1.png?w=745" alt="" class="wp-image-6387" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
@@ -112,7 +112,7 @@ systemctl status NetworkManager</strong>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":6393,"width":543,"height":311,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/conf_cent_eth2.png?w=694" alt="" class="wp-image-6393" width="543" height="311" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/conf_cent_eth2.png?w=694" alt="" class="wp-image-6393" width="543" height="311" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -217,7 +217,7 @@ PING farukguler.net (192.0.78.24) 56(84) bytes of data.
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":6398,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/eth_conf_ping.png?w=903" alt="" class="wp-image-6398" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/eth_conf_ping.png?w=903" alt="" class="wp-image-6398" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

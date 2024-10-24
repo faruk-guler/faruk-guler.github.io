@@ -7,7 +7,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":7144,"width":"495px","height":"auto","aspectRatio":"2.465217391304348","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/portainer.io_.png?w=1024" alt="" class="wp-image-7144" style="aspect-ratio:2.465217391304348;width:495px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/portainer.io_.png?w=1024" alt="" class="wp-image-7144" style="aspect-ratio:2.465217391304348;width:495px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Containerization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7141,"width":"533px","height":"311px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/edge-mockup.webp?w=1024" alt="" class="wp-image-7141" style="width:533px;height:311px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/edge-mockup.webp?w=1024" alt="" class="wp-image-7141" style="width:533px;height:311px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -61,7 +61,7 @@ categories: [Containerization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7156,"width":"464px","height":"auto","aspectRatio":"1.5028409090909092","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dock.jpg?w=828" alt="" class="wp-image-7156" style="aspect-ratio:1.5028409090909092;width:464px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dock.jpg?w=828" alt="" class="wp-image-7156" style="aspect-ratio:1.5028409090909092;width:464px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -115,7 +115,7 @@ categories: [Containerization]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":7205,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/port_installler.png?w=1024" alt="" class="wp-image-7205" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/port_installler.png?w=1024" alt="" class="wp-image-7205" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -189,7 +189,7 @@ categories: [Containerization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7235,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/login_page-1.png?w=1024" alt="" class="wp-image-7235" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/login_page-1.png?w=1024" alt="" class="wp-image-7235" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -211,7 +211,7 @@ categories: [Containerization]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":7211,"width":"700px","height":"342px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dashboard_port.png?w=1024" alt="" class="wp-image-7211" style="width:700px;height:342px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dashboard_port.png?w=1024" alt="" class="wp-image-7211" style="width:700px;height:342px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
@@ -249,7 +249,7 @@ categories: [Containerization]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":7228,"width":"696px","height":"290px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/execute.png?w=1024" alt="" class="wp-image-7228" style="width:696px;height:290px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/execute.png?w=1024" alt="" class="wp-image-7228" style="width:696px;height:290px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -283,7 +283,7 @@ categories: [Containerization]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":7216,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/test_page.png?w=1024" alt="" class="wp-image-7216" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/test_page.png?w=1024" alt="" class="wp-image-7216" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

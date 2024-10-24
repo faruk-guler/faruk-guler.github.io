@@ -8,7 +8,7 @@ categories: [Databases]
 tags: [DB]
 ---
 <!-- wp:image {"id":14423,"width":"326px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/veritabanlarini-tutan-bir-fil-ciz.png?w=625" alt="" class="wp-image-14423" style="width:326px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/veritabanlarini-tutan-bir-fil-ciz.png?w=625" alt="" class="wp-image-14423" style="width:326px;height:auto" /></figure>
 <!-- /wp:image -->
 
 Remote connection errors are usually related to PostgreSQL permission settings.

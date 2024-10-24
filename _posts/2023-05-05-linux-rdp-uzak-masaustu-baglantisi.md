@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":7008,"width":600,"height":337,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/kali_rdp.jpg?w=750" alt="" class="wp-image-7008" width="600" height="337" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/kali_rdp.jpg?w=750" alt="" class="wp-image-7008" width="600" height="337" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -19,7 +19,7 @@ categories: [Linux / Unix]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":7031,"width":363,"height":420,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/xrdp-1.png?w=820" alt="" class="wp-image-7031" width="363" height="420" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/xrdp-1.png?w=820" alt="" class="wp-image-7031" width="363" height="420" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -141,7 +141,7 @@ sudo netstat -antp | grep xrdp</strong></pre>
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":7016,"width":426,"height":222,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/xfce-1.png?w=728" alt="" class="wp-image-7016" width="426" height="222" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/xfce-1.png?w=728" alt="" class="wp-image-7016" width="426" height="222" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -191,7 +191,7 @@ gnome-session-quit</strong>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7071,"width":460,"height":271,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/gnome-1.jpg?w=1024" alt="" class="wp-image-7071" width="460" height="271" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/gnome-1.jpg?w=1024" alt="" class="wp-image-7071" width="460" height="271" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

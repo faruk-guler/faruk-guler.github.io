@@ -7,7 +7,7 @@ comments: true
 categories: [RedHat]
 ---
 <!-- wp:image {"id":6407,"width":"655px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/lnx_users-kopya.jpg?w=1024" alt="" class="wp-image-6407" style="width:655px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/lnx_users-kopya.jpg?w=1024" alt="" class="wp-image-6407" style="width:655px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Public]
 ---
 <!-- wp:image {"id":6334,"width":441,"height":243,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/crispr.webp?w=797" alt="" class="wp-image-6334" width="441" height="243" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/crispr.webp?w=797" alt="" class="wp-image-6334" width="441" height="243" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -43,7 +43,7 @@ categories: [Public]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6335,"width":498,"height":266,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/crispr-cas9.jpg?w=757" alt="" class="wp-image-6335" width="498" height="266" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/crispr-cas9.jpg?w=757" alt="" class="wp-image-6335" width="498" height="266" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

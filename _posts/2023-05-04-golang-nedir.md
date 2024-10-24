@@ -7,7 +7,7 @@ comments: true
 categories: [Software]
 ---
 <!-- wp:image {"id":6992,"width":440,"height":248,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/golang.png?w=737" alt="" class="wp-image-6992" width="440" height="248" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/golang.png?w=737" alt="" class="wp-image-6992" width="440" height="248" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -77,7 +77,7 @@ categories: [Software]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6995,"width":549,"height":291,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/google-go-nedir.jpg?w=1024" alt="" class="wp-image-6995" width="549" height="291" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/google-go-nedir.jpg?w=1024" alt="" class="wp-image-6995" width="549" height="291" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->

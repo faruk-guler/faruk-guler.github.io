@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":9741,"width":"383px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/debian_logo.png?w=512" alt="" class="wp-image-9741" style="width:383px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/debian_logo.png?w=512" alt="" class="wp-image-9741" style="width:383px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

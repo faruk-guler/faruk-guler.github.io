@@ -7,11 +7,11 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":7315,"width":494,"height":348,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/batch-scripting-1.webp?w=451" alt="" class="wp-image-7315" width="494" height="348" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/batch-scripting-1.webp?w=451" alt="" class="wp-image-7315" width="494" height="348" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p>Öncelike UAC' ın kapatılması gerekmektedir. Bu yazımda <a href="https://faruk-guler.github.io/assets/post_images/uac-nedir-gpo/"><strong>https://faruk-guler.github.io/assets/post_images/uac-nedir-gpo </strong></a>UAC nedir? nasıl kapatılır vb. diğer bilgiler verilmiştir. Ancak UAC' ın kapatılması güvenlik sebebiyle önerilmez.</p>
+<p>Öncelike UAC' ın kapatılması gerekmektedir. Bu yazımda <a href="https://farukguler.com/assets/post_images/uac-nedir-gpo/"><strong>https://farukguler.com/assets/post_images/uac-nedir-gpo </strong></a>UAC nedir? nasıl kapatılır vb. diğer bilgiler verilmiştir. Ancak UAC' ın kapatılması güvenlik sebebiyle önerilmez.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->

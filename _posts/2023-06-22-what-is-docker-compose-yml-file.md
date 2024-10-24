@@ -8,7 +8,7 @@ comments: true
 categories: [Containerization]
 ---
 <!-- wp:image {"id":11426,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/docker-compose-diagram.png?w=629" alt="" class="wp-image-11426" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/docker-compose-diagram.png?w=629" alt="" class="wp-image-11426" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

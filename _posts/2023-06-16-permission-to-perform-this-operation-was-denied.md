@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"id":7466,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/hata_esxi.png?w=1024" alt="" class="wp-image-7466" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/hata_esxi.png?w=1024" alt="" class="wp-image-7466" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -57,31 +57,31 @@ categories: [Vmware Virtualization]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7479,"width":"781px","height":"285px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/root_logon.png?w=1024" alt="" class="wp-image-7479" style="width:781px;height:285px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/root_logon.png?w=1024" alt="" class="wp-image-7479" style="width:781px;height:285px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7482,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/esxi_perm.png?w=1024" alt="" class="wp-image-7482" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/esxi_perm.png?w=1024" alt="" class="wp-image-7482" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7471,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/perm_esxi2.png?w=1009" alt="" class="wp-image-7471" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/perm_esxi2.png?w=1009" alt="" class="wp-image-7471" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7472,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/add_exsi.png?w=1002" alt="" class="wp-image-7472" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/add_exsi.png?w=1002" alt="" class="wp-image-7472" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7474,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/esxi_adder.png?w=1006" alt="" class="wp-image-7474" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/esxi_adder.png?w=1006" alt="" class="wp-image-7474" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7476,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/admin_login.png?w=1024" alt="" class="wp-image-7476" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/admin_login.png?w=1024" alt="" class="wp-image-7476" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"id":7477,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/admin_logon.png?w=1024" alt="" class="wp-image-7477" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/admin_logon.png?w=1024" alt="" class="wp-image-7477" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

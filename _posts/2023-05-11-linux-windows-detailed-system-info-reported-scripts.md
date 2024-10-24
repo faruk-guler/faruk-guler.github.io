@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":1924,"width":588,"height":179,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/pic_server_install-1.jpg?w=980" alt="" class="wp-image-1924" style="width:588px;height:179px" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/pic_server_install-1.jpg?w=980" alt="" class="wp-image-1924" style="width:588px;height:179px" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

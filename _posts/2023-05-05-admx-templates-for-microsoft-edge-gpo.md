@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 <!-- wp:image {"id":10001,"width":"350px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/group_p.png?w=300" alt="" class="wp-image-10001" style="width:350px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/group_p.png?w=300" alt="" class="wp-image-10001" style="width:350px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -23,7 +23,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":10006,"width":"613px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/edge_1.png?w=1024" alt="" class="wp-image-10006" style="width:613px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/edge_1.png?w=1024" alt="" class="wp-image-10006" style="width:613px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
@@ -33,7 +33,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":10020,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/edge_ext-1.png?w=826" alt="" class="wp-image-10020" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/edge_ext-1.png?w=826" alt="" class="wp-image-10020" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
@@ -57,7 +57,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":10014,"width":"636px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/edge_general.png?w=754" alt="" class="wp-image-10014" style="width:636px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/edge_general.png?w=754" alt="" class="wp-image-10014" style="width:636px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

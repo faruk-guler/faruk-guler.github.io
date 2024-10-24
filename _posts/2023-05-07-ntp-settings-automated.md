@@ -11,7 +11,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":7068,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/reg.jpg?w=256" alt="" class="wp-image-7068" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/reg.jpg?w=256" alt="" class="wp-image-7068" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->

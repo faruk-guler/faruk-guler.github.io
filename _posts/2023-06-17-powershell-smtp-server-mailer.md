@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":7499,"width":604,"height":339,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/send-email-in-powershell-script.jpg?w=1024" alt="" class="wp-image-7499" width="604" height="339" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/send-email-in-powershell-script.jpg?w=1024" alt="" class="wp-image-7499" width="604" height="339" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

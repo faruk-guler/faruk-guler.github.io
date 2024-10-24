@@ -8,7 +8,7 @@ comments: true
 categories: [RedHat]
 ---
 <!-- wp:image {"id":6458,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/cockpit-1.png?w=1024" alt="" class="wp-image-6458" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/cockpit-1.png?w=1024" alt="" class="wp-image-6458" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

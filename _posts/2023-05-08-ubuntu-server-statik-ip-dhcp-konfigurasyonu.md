@@ -7,7 +7,7 @@ comments: true
 categories: [Linux / Unix]
 ---
 <!-- wp:image {"id":7085,"width":"529px","height":"auto","sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/ip_cvb.jpg?w=828" alt="" class="wp-image-7085" style="width:529px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ip_cvb.jpg?w=828" alt="" class="wp-image-7085" style="width:529px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
