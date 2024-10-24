@@ -7,7 +7,7 @@ comments: true
 categories: [Microsoft System Center Family]
 ---
 <!-- wp:image {"id":6043,"width":361,"height":361,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/scom-icon.webp?w=256" alt="" class="wp-image-6043" width="361" height="361" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/scom-icon.webp?w=256" alt="" class="wp-image-6043" width="361" height="361" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,7 +39,7 @@ categories: [Microsoft System Center Family]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6046,"width":509,"height":485,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/scom_fixed.webp?w=647" alt="" class="wp-image-6046" width="509" height="485" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/scom_fixed.webp?w=647" alt="" class="wp-image-6046" width="509" height="485" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

@@ -7,7 +7,7 @@ comments: true
 categories: [Common]
 ---
 <!-- wp:image {"id":5224,"width":532,"height":265,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns-nedir.jpeg?w=800" alt="" class="wp-image-5224" width="532" height="265" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dns-nedir.jpeg?w=800" alt="" class="wp-image-5224" width="532" height="265" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -91,7 +91,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5233,"width":470,"height":234,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/dns-record-types.jpg?w=799" alt="" class="wp-image-5233" width="470" height="234" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dns-record-types.jpg?w=799" alt="" class="wp-image-5233" width="470" height="234" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -103,7 +103,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5244,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/tansfer-dns.jpg?w=512" alt="" class="wp-image-5244" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/tansfer-dns.jpg?w=512" alt="" class="wp-image-5244" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -143,7 +143,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5243,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/dns_resolver.jpg?w=1024" alt="" class="wp-image-5243" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/dns_resolver.jpg?w=1024" alt="" class="wp-image-5243" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

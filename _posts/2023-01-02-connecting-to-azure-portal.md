@@ -7,7 +7,7 @@ comments: true
 categories: [Azure]
 ---
 <!-- wp:image {"id":5913,"width":517,"height":248,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/azure_logo.png?w=832" alt="" class="wp-image-5913" width="517" height="248" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/azure_logo.png?w=832" alt="" class="wp-image-5913" width="517" height="248" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Azure]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5915,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/azure_connect.png?w=1024" alt="" class="wp-image-5915" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/azure_connect.png?w=1024" alt="" class="wp-image-5915" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -39,7 +39,7 @@ categories: [Azure]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5917,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/azure_popup.png?w=1024" alt="" class="wp-image-5917" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/azure_popup.png?w=1024" alt="" class="wp-image-5917" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

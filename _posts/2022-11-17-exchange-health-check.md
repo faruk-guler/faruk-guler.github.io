@@ -7,7 +7,7 @@ comments: true
 categories: [Health Check]
 ---
 <!-- wp:image {"id":5549,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/exc-status-2.png?w=970" alt="" class="wp-image-5549" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/exc-status-2.png?w=970" alt="" class="wp-image-5549" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -77,7 +77,7 @@ categories: [Health Check]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":5554,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://faruk-guler.github.io/assets/post_images/exc-ps.png?w=915" alt="" class="wp-image-5554" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/exc-ps.png?w=915" alt="" class="wp-image-5554" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

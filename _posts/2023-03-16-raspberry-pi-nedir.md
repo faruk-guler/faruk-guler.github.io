@@ -7,7 +7,7 @@ comments: true
 categories: [Raspberry Pi]
 ---
 <!-- wp:image {"id":10309,"width":"661px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/pngegg.png?w=1000" alt="" class="wp-image-10309" style="width:661px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/pngegg.png?w=1000" alt="" class="wp-image-10309" style="width:661px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -105,7 +105,7 @@ categories: [Raspberry Pi]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":10315,"width":"417px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/kisspng-raspberry-pi-3-64-bit-computing-elektor-power-over-pi-ntilde-a-colada-5b40b48b81ef19.3113875815309671795322.png?w=1024" alt="" class="wp-image-10315" style="width:417px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/kisspng-raspberry-pi-3-64-bit-computing-elektor-power-over-pi-ntilde-a-colada-5b40b48b81ef19.3113875815309671795322.png?w=1024" alt="" class="wp-image-10315" style="width:417px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->

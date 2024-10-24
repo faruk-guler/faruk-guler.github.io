@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Server]
 ---
 <!-- wp:image {"id":6234,"width":432,"height":494,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://faruk-guler.github.io/assets/post_images/protected_group.png?w=496" alt="" class="wp-image-6234" width="432" height="494" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/protected_group.png?w=496" alt="" class="wp-image-6234" width="432" height="494" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
