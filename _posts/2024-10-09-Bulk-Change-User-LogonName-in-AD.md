@@ -18,9 +18,8 @@ image:
   alt:
 ---
 
-<!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="---------" alt="" width="565" height="350" /></figure>
-<!-- /wp:image -->
+
+
 
 <!-- wp:preformatted -->
 <pre class="wp-block-preformatted"><strong># Active Directory Module Install</strong><br>#Import-Module ActiveDirectory<br><br><strong># CSV file:</strong><br>$kullanicilar = Import-Csv -Path "C:\news.csv"<br><br><strong># Domain name:</strong><br>$domain = "guler.com"<br><br><strong># Logon Name Update:</strong><br>foreach ($kullanici in $kullanicilar) {<br>    $oldUsername = $kullanici.old_username<br>    $newLogonName = $kullanici.new_username<br><br>    if ($oldUsername -and $newLogonName) {<br>        try {<br>           <strong> # User find and update:</strong><br>            $user = Get-ADUser -Identity $oldUsername -ErrorAction Stop<br>            $newUserPrincipalName = "$newLogonName@$domain"<br>            Set-ADUser -Identity $user -UserPrincipalName $newUserPrincipalName -SamAccountName $newLogonName -ErrorAction Stop<br>            Write-Host "$oldUsername için $newUserPrincipalName olarak güncellendi."<br>        } catch {<br>            Write-Host "$oldUsername için hata oluştu: $_"<br>        }<br>    } else {<br>        Write-Host "Hata: Boş veya geçersiz kullanıcı adı tespit edildi. old: '$oldUsername', new: '$newLogonName'"<br>    }<br>}</pre>
