@@ -1,15 +1,4 @@
 # The Site Configuration
-
-feed_url: 'https://www.tecmint.com/feed/'
-
-
-
-
-
-
-
-
-
 # Import the theme
 theme: jekyll-theme-chirpy
 

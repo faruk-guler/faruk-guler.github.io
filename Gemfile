@@ -13,11 +13,3 @@ end
 
 gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 
-
-
-
-
-
-gem 'nori', '~> 2.6'
-gem 'nokogiri', '~> 1.15'
-gem 'jekyll-sass-converter', '~> 2.2'
