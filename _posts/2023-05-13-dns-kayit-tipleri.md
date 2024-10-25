@@ -97,7 +97,7 @@ categories: [Common]
 <li><strong>SSHFP kaydı (SSHFP Record) </strong>SSH sunucularının doğrulanmasında kullanılan anahtarları belirlemek için kullanılır.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
-
+Wiki: (https://en.wikipedia.org/wiki/List_of_DNS_record_types)
 <!-- wp:paragraph -->
 <p><strong>Best Regards. – Saygılarımla.</strong></p>
 <!-- /wp:paragraph -->
