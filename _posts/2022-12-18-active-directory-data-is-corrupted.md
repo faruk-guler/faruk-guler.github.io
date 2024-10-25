@@ -2,6 +2,7 @@
 layout: post
 title: Active Directory Database is CORRUPTED! Fixed
 date: 2022-12-18 14:58
+tag: [Restoring]
 author: theguler
 comments: true
 categories: [Active Directory]

@@ -2,6 +2,7 @@
 layout: post
 title: Fantom Foundation (FTM) Nedir?
 date: 2022-02-06 18:23
+tag: [Tokens]
 author: theguler
 comments: true
 categories: [Blockchain]

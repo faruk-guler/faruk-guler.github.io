@@ -2,6 +2,7 @@
 layout: post
 title: SNMP Protokolü Nedir?
 date: 2024-01-04 21:14
+tag: [Monitoring]
 author: theguler
 comments: true
 categories: [Common]
