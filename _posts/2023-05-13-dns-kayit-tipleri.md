@@ -1,6 +1,6 @@
 ---
 layout: post
-title: DNS Kayıt Tipleri Hakkında Detaylı Bilgiler
+title: DNS Kayıt Tipleri Detaylı
 date: 2023-05-13 22:16
 author: theguler
 comments: true
