@@ -2,6 +2,7 @@
 layout: post
 title: VMware Tools Kurulumu ve Update Edilmesi
 date: 2023-07-11 21:54
+tag: [Vmware]
 author: theguler
 comments: true
 categories: [Vmware Virtualization]
