@@ -24,7 +24,7 @@ categories: [Common]
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li><strong>CNAME kaydı (CNAME Record)</strong> CNAME kaydı, bir alan adının başka bir alan adına yönlendirilmesini sağlar. Bu kayıt türü, bir web sitesinin veya diğer hizmetlerin farklı bir alan adı ile erişilebilir olmasını sağlar.</li>
+<li><strong>Alias(CNAME) kaydı (CNAME Record)</strong> CNAME kaydı, bir alan adının başka bir alan adına yönlendirilmesini sağlar. Bu kayıt türü, bir web sitesinin veya diğer hizmetlerin farklı bir alan adı ile erişilebilir olmasını sağlar.</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
