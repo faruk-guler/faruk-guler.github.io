@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Port Nedir? Port Operasyonları - What is a port? Port Operations
+title: Port Nedir? Port Operations
 date: 2023-07-18 22:38
 author: theguler
 comments: true
