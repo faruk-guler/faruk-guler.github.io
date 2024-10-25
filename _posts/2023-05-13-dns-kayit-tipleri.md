@@ -69,7 +69,7 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Bu şekilde kısaca anlattığımız kayıt tipleri dışında daha spesifik bazı DNS kayıt tipleri de mevcut olabilir. Örneğin, <strong>CAA kaydı, NAPTR kaydı, vb. </strong>gibi kayıt tipleri de bulunmaktadır. Ancak, bu kayıt tipleri özellikle belirli hizmetler veya özellikler içindir ve genel olarak pek yaygın kullanılmaz</p>
+<p>Bu şekilde kısaca anlattığımız kayıt tipleri dışında daha spesifik bazı DNS kayıt tipleri de mevcut olabilir. Örneğin, <strong>CAA kaydı, SIG, KEY, RT, NAPTR kaydı, vb. </strong>gibi kayıt tipleri de bulunmaktadır. Ancak, bu kayıt tipleri özellikle belirli hizmetler veya özellikler içindir ve genel olarak pek yaygın kullanılmaz</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:list -->
