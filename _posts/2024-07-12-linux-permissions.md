@@ -2,6 +2,7 @@
 layout: post
 title: Linux Permissions Management [File and Directory]
 date: 2024-07-12 21:24
+tag: [Permit]
 author: theguler
 comments: true
 categories: [Linux / Unix]
