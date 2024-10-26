@@ -10,10 +10,6 @@ categories: [Microsoft System Center Family]
 <p>Örnek topolojimizde İnternet erişimi olan Networkten, <strong>"erişim olmayan kapalı" </strong>ağa yapılan aktarım anlatılmaktadır.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:image {"id":681,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1-1.png?w=466" alt="" class="wp-image-681" /></figure>
-<!-- /wp:image -->
-
 <!-- wp:paragraph -->
 <p><strong>İnternet erişimli ağdan</strong> indirilen güncellemeler <strong>wsus.guler.com</strong> sunucusunda <strong>D:\Wsus\WsusContent</strong> dizininde kendi hiyerarşisine göre klasörler oluşturmaktadır. Oluşturulan bu klasörler Export işleminden sonra kapalı networkümüze taşımamız gerekmekte.</p>
 <!-- /wp:paragraph -->

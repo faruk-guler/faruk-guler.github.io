@@ -63,7 +63,7 @@ categories: [Hacking - Security]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Download:</strong> https://github.com/theguler0x/Programlar-Programs/blob/main/Multi_RDP_Hack_termsrv.dll.zip</p>
+<p><strong>Download:</strong> https://github.com/faruk-guler/Programlar-Programs/blob/main/Multi_RDP_Hack_termsrv.dll.zip</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
