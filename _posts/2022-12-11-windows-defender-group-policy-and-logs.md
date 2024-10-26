@@ -96,7 +96,7 @@ Get-MpComputerStatus
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":8056,"width":415,"height":191,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/defenfder-gpo.webp?w=774" alt="" class="wp-image-8056" style="width:415px;height:191px" width="415" height="191" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/defenfder-gpo.webp?w=774" alt="" class="wp-image-8056" style="width:415px;height:191px" width="415" height="191" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
@@ -106,7 +106,7 @@ Get-MpComputerStatus
 <!-- /wp:list -->
 
 <!-- wp:image {"id":8058,"width":551,"height":392,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/07/gpo-def.webp?w=1023" alt="" class="wp-image-8058" style="width:551px;height:392px" width="551" height="392" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/gpo-def.webp?w=1023" alt="" class="wp-image-8058" style="width:551px;height:392px" width="551" height="392" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list -->
