@@ -385,7 +385,7 @@ Bu komut: <strong>"olaf.ts"</strong> adlı bir video dosyasını AES-256-CBC alg
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p>SSL/TLS sertifikası oluşturmak için genellikle bir sertifika otoritesine (GoDaddy, GlobalSign, GlobalSign vb.) gibi global (CA - Certificate Authority) başvurulur. Ancak, geliştirme ve test ortamlarında, kendinden imzalı <strong>("Self-Signed Certificate")</strong> olarak adlandırılan bir sertifika kullanabilirsiniz.</p>
+<p>SSL/TLS sertifikası oluşturmak için genellikle bir sertifika otoritesine (GoDaddy, GlobalSign, GlobalSign vb.) gibi global (CA - Certificate Authority) başvurulur. Ancak, geliştirme ve test ortamlarında, kendinden imzalı <strong>("Self-Signed Certificate")</strong> olarak adlandırılan bir sertifika kullanabilirsiniz.Ancak, tarayıcılar bu sertifikalara güvenmediği için, bağlantının güvenli olmadığını belirten uyarılar alacaksınız.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
