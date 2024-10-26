@@ -30,10 +30,6 @@ categories: [Firewall-UTM-Gateway]
 <p>Giriş yaptıktan sonra, WAN ayarlarına erişmek için "Interfaces -&gt; WAN" adımlarını takip edin.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:image {"id":772,"width":792,"height":608,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/2.png?w=1024" alt="" class="wp-image-772" width="792" height="608" /></figure>
-<!-- /wp:image -->
-
 <!-- wp:paragraph -->
 <p>Eğer internet sağlayıcınız PPoE ile giriş yapmanızı sağlıyorsa ve kullanıcı ayarlarını sizinle paylaşıyorsa, internet çıkışınızı sağlamak için modeminizin bridge mode özelliğini etkinleştirerek, önce gerekli ayarları yapmanız gerekmektedir. Yukarıda belirtildiği gibi, gerekli ayarları yaptıktan sonra internet çıkışınızı sağlayabilirsiniz.</p>
 <!-- /wp:paragraph -->
@@ -71,7 +67,7 @@ categories: [Firewall-UTM-Gateway]
 <!-- /wp:image -->
 
 <!-- wp:image {"id":781,"width":513,"height":327,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/7.png?w=513" alt="" class="wp-image-781" width="513" height="327" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/77.png?w=513" alt="" class="wp-image-781" width="513" height="327" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
