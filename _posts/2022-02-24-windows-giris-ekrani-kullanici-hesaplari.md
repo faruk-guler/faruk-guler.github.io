@@ -35,7 +35,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>You can hide the last logged username on a Windows logon screen through the GPO. Open the domain (<code>gpmc.msc</code>) or local Group Policy editor (<a href="https://woshub.com/group-policy-editor-gpedit-msc-for-windows-10-home/">gpedit.msc</a>) and go to the section.</p>
+<p>You can hide the last logged username on a Windows logon screen through the GPO. Open the domain (<code>gpmc.msc</code>) or local Group Policy editor (<a href="https://woshub.com/group-policy-editor-gpedit-msc-for-windows-10-home/">gpedit.msc</a>) [Woshub] and go to the section.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
