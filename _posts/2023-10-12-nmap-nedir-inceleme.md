@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":7764,"width":"525px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/10/nmap.webp?w=650" alt="" class="wp-image-7764" style="width:525px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/nmap.webp?w=650" alt="" class="wp-image-7764" style="width:525px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -351,7 +351,7 @@ categories: [Hacking - Security]
 <!-- /wp:heading -->
 
 <!-- wp:image {"id":8803,"width":"520px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/10/use-nmap-1-1.jpg?w=1024" alt="" class="wp-image-8803" style="width:520px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/use-nmap-1-1.jpg?w=1024" alt="" class="wp-image-8803" style="width:520px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
