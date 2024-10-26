@@ -33,7 +33,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><a href="https://github.com/faruk-guler/PHP-Ldap-Authentication">https://github.com/faruk-guler/PHP-Ldap-Authentication</a></p>
+<p><a href="https://github.com/faruk-guler/PHP-Ldap-Authentication">https://github.com/faruk-guler/Basic-PHP-Ldap-Authentication</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->

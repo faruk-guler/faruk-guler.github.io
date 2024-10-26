@@ -21,7 +21,3 @@ categories: [3th Party / Tools]
 <!-- wp:paragraph -->
 <p>Ücretsiz olarak sunulan&nbsp;<strong>Everything&nbsp;</strong>arama motoru programı sayesinde aradığınız bir dosyayı bir milyon adet dosyanın bulunduğu bir sistemde bile 1 dakikadan daha sürede bulmanızı garanti eder.</p>
 <!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p><strong>For Windows Download:</strong>&nbsp;<a href="https://github.com/faruk-guler/Programlar-Programs/blob/main/Everything%20Lister.rar">https://github.com/theguler0x/Programlar-Programs/blob/main/Everything%20Lister.rar</a></p>
-<!-- /wp:paragraph -->
