@@ -45,7 +45,7 @@ categories: [PowerShell]
 <!-- /wp:list -->
 
 <!-- wp:image {"id":8141,"width":595,"height":298,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2023/08/p-remoting.jpg?w=660" alt="" class="wp-image-8141" style="width:595px;height:298px" width="595" height="298" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/p-remoting.jpg?w=660" alt="" class="wp-image-8141" style="width:595px;height:298px" width="595" height="298" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
