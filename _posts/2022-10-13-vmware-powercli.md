@@ -7,7 +7,7 @@ comments: true
 categories: [Vmware Virtualization]
 ---
 <!-- wp:image {"id":717,"width":"457px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://theguler.wordpress.com/wp-content/uploads/2021/12/vmware.jpg?w=1024" alt="" class="wp-image-717" style="width:457px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/vmware.jpg?w=1024" alt="" class="wp-image-717" style="width:457px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
