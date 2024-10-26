@@ -2,9 +2,9 @@
 layout: post
 title: PostgreSQL WAL Backup &amp; Restore
 date: 2024-10-26 23:04
-author: theguler
+By: theguler
 comments: true
-categories: [General]
+categories: [Databases]
 ---
 <!-- wp:image {"id":15338,"width":"514px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/elephants.jpg?w=1024" alt="" class="wp-image-15338" style="width:514px;height:auto" /></figure>
