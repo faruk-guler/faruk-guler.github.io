@@ -7,7 +7,7 @@ comments: true
 categories: [General]
 ---
 <!-- wp:image {"id":15338,"width":"514px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://sddfder.wordpress.com/wp-content/uploads/2024/10/alpinelakes_row0304346797_1920x1080.jpg?w=1024" alt="" class="wp-image-15338" style="width:514px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/elephants.jpg?w=1024" alt="" class="wp-image-15338" style="width:514px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
