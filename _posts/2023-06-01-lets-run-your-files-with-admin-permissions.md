@@ -11,7 +11,7 @@ categories: [Windows OS]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p>Öncelike UAC' ın kapatılması gerekmektedir. Bu yazımda <a href="https://farukguler.com/assets/post_images/uac-nedir-gpo/"><strong>https://farukguler.com/assets/post_images/uac-nedir-gpo </strong></a>UAC nedir? nasıl kapatılır vb. diğer bilgiler verilmiştir. Ancak UAC' ın kapatılması güvenlik sebebiyle önerilmez.</p>
+<p>Öncelike UAC' ın kapatılması gerekmektedir. Bu yazımda <a href="https://farukguler.com/posts/what-is-uac/"><strong>https://farukguler.com/assets/post_images/uac-nedir-gpo </strong></a>UAC nedir? nasıl kapatılır vb. diğer bilgiler verilmiştir. Ancak UAC' ın kapatılması güvenlik sebebiyle önerilmez.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->

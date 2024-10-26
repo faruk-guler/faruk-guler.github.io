@@ -7,7 +7,7 @@ comments: true
 categories: [Virtualization Technology]
 ---
 <!-- wp:image {"id":12877,"width":"509px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/wp-content/uploads/2024/06/proxmox-logo.webp?w=1024" alt="" class="wp-image-12877" style="width:509px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/proxmox-logo.webp?w=1024" alt="" class="wp-image-12877" style="width:509px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
