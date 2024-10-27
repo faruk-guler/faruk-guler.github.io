@@ -15,7 +15,7 @@ categories: [Databases]
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>WAL, veritabanı işlemlerinin güvenilirliğini sağlamak için verilerin disk üzerinde kaydedilmeden önce bir günlük dosyasında (WAL dosyası) yazılmasını sağlayan bir mekanizmadır. Bu mekanizma sayesinde, sistem arızası durumunda veritabanı bu log dosyalarını kullanarak işlemleri geri alabilir veya tamamlayabilir.</p>
+<p>WAL, veritabanı işlemlerinin güvenilirliğini sağlamak için verilerin disk üzerinde kaydedilmeden önce bir günlük dosyasında (WAL dosyası) yazılmasını sağlayan bir mekanizmadır. Bu yaklaşım, veri kaybını minimize etmek ve veri tabanının beklenmedik kapanmalar sonrası eski durumuna geri yüklenebilmesini sağlamak amacıyla kullanılır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
