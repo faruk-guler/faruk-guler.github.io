@@ -100,7 +100,8 @@ pageviews:
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://avatars.githubusercontent.com/u/95317318
+avatar: https://avatars.githubusercontent.com/u/95317318,
+show: true
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
