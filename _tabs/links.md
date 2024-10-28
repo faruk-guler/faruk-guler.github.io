@@ -14,7 +14,7 @@ https://tinywow.com/tools (Free Education Tools) - Photo - FDF .etc
 https://www.virustotal.com  
 https://www.hybrid-analysis.com (Zararlı yazılım analiz ve tehdit istihbaratı)  
 https://www.acunetix.com  
-https://www.vinchin.com  
+https://www.vinchin.com 
 https://www.veeam.com  
 https://netsparker.com  
 https://www.iana.org/assignments/service-names-port-numbers (port ara)  
@@ -32,6 +32,7 @@ https://www.catalog.update.microsoft.com (Microsoft® Update Kataloğu)
 https://cozumpark.com  
 https://4sysops.com  
 https://activedirectorypro.com/blog  
+https://github.com/cotes2020 (jekyll theme)  
 https://docs.j7k6.org (Deep troubleshooting Docs)  
 https://www.linuxteknik.com (Linux Teknik Bilgi Arşivleri)  
 https://hub.docker.com (Docker image'larınızı depolayın, paylaşın ve indirin)  
