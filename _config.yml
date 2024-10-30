@@ -120,7 +120,17 @@ comments:
     repo: # <gh-username>/<repo>
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
+  
   giscus:
+    repo: faruk-guler/faruk-guler.github.io
+    repo_id: R_kgDOM77PCQ
+    category: General
+    category_id: DIC_kwDOJ-5M8c4CZbjA
+    mapping: pathname 
+    input_position: bottom  
+    reactions_enabled: 1 
+
+giscus:
     repo: # <gh-username>/<repo>
     repo_id:
     category:
