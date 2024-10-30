@@ -1,7 +1,6 @@
 ---
 # the default layout is 'page'
 icon: fa-solid fa-barcode
-icon: fa-solid fa-paperclip
 order: 4
 ---
 
@@ -36,6 +35,10 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 - X:
 - Exploit-DB:
 - Zone-H:
+
+
+## CV 📑
+<object data="../assets/docs/bitcoin_en.pdf" type='application/pdf' width="100%" height="1000px" overflow="auto" ></object>
 
 ## Kaynak Gösterme Etiği
 
