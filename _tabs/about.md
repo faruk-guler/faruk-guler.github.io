@@ -38,7 +38,7 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 
 
 ## CV 📑
-<object data="../assets/docs/bitcoin_en.pdf" type='application/pdf' width="100%" height="1000px" overflow="auto" ></object>
+<object data="../assets/docs/bitcoin_en.pdf" type='application/pdf' width="50%" height="100px" overflow="auto" ></object>
 
 ## Kaynak Gösterme Etiği
 
