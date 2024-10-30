@@ -1,6 +1,7 @@
 ---
 # the default layout is 'page'
 icon: fa-solid fa-barcode
+icon: fa-solid fa-paperclip
 order: 4
 ---
 
