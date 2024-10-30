@@ -36,10 +36,6 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 - Exploit-DB:
 - Zone-H:
 
-
-## CV 📑
-<object data="../assets/docs/bitcoin_en.pdf" type='application/pdf' width="50%" height="600px" overflow="auto" ></object>
-
 ## Kaynak Gösterme Etiği
 
 Son olarak; **kaynak göstermenin bilim ve sanat etiğinin bir gereği olduğunu** bilmenizi istiyorum. Hangi biçimde olursa olsun bilgi ileten kişi bilginin kaynağını gösterme sorumluluğunu taşımalıdır. Bloğumda paylaşılan çoğu konunun kaynağı temel araştırmalarım ve kendi deneyimlerimden oluşmaktadır. **“Mutlak doğruluk içermez”** Bu sebeple, @links kısmında yararlandığım kaynakları açıkça belirtmeyi borç bilirim.
