@@ -25,3 +25,20 @@ categories: [PowerShell]
 <!-- wp:preformatted -->
 <pre class="wp-block-preformatted"><strong># Get computers in OU</strong><br>$computers = Get-ADComputer -SearchBase "OU=uyeler,DC=guler,DC=com" -Filter * | Select-Object -ExpandProperty Name<br><br><strong># Check every computer</strong><br>foreach ($computer in $computers) {<br>    try {<br>        $session = New-PSSession -ComputerName $computer -ErrorAction Stop<br>        Remove-PSSession $session<br>        Write-Host "${computer}: Connected to Domain"<br>    } catch {<br>        Write-Host "${computer}: Not connected to Domain" }}</pre>
 <!-- /wp:preformatted -->
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="faruk-guler/faruk-guler.github.io"
+        data-repo-id="R_kgDOM77PCQ"
+        data-category="[ENTER CATEGORY NAME HERE]"
+        data-category-id="[ENTER CATEGORY ID HERE]"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>

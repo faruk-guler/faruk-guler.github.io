@@ -154,3 +154,20 @@ recovery_target_time = '2024-10-26 22:00:00'</pre>
 <li><strong>İzinler:</strong> WAL dosyalarının saklandığı dizinlerin PostgreSQL kullanıcısının erişim iznine sahip olduğundan emin olun.</li>
 <!-- /wp:list-item --></ol>
 <!-- /wp:list -->
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="faruk-guler/faruk-guler.github.io"
+        data-repo-id="R_kgDOM77PCQ"
+        data-category="[ENTER CATEGORY NAME HERE]"
+        data-category-id="[ENTER CATEGORY ID HERE]"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
