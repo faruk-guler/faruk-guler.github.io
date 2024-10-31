@@ -94,7 +94,6 @@ categories: [Linux / Unix]
 <!-- wp:paragraph -->
 <p><strong>💾🗜️Archive Management🗜️</strong></p>
 <!-- /wp:paragraph -->
-
 <!-- wp:preformatted -->
 <br><br>#Tar<br>tar -cvf dosya.tar /yol/klasoru #Tar Arşivi Oluştur<br>tar -xvf dosya.tar #Tar Arşivini Çıkart:<br>tar -tvf dosya.tar #Tar Arşivi İçeriğini Listele<br>tar cf arsiv.tar dosya1 dosya2 #Arsivle<br>tar xf arsiv.tar #Çıkar<br><br>#Tar ve Gzip<br>tar -czvf dosya.tar.gz /yol/klasoru #Arşiv Oluştur<br>tar -xzvf dosya.tar.gz #Sıkıştırılmış Tar Arşivini Çıkart<br>tar cfz arsiv.tgz dosya1 dosya2 #Arsivle<br>tar xfzv arsiv.tgz #Çıkar<br><br>#Tar ve Bzip2<br>tar -cjvf dosya.tar.bz2 /yol/klasoru #Sıkıştırılmış Arşiv Oluştur<br>tar -xjvf dosya.tar.bz2 # Sıkıştırılmış Tar Arşivini Çıkart<br>tar cfj arsiv.tar.bz2 dosya1 dosya2 #Arsivle<br>tar xfjv arsiv.tar.bz2 #Çıkar<br><br>#Zip<br>gzip dosya.txt #Dosyayı Sıkıştır<br>gzip -d dosya.txt.gz #Dosyayı Çıkart<br>zcat dosya.txt.gz #Dosyanın İçeriğini Görüntüle<br>zip arsiv.zip dosya1 dosya2 #Zip Arşiv Oluştur<br>unzip arsiv.zip #Çıkar<br><br>#Zip ve Unzip (PKZIP)<br>zip arsiv.zip dosya1 dosya2 #Arsivle<br>unzip arsiv.zip #Çıkar<br><br>#7-Zip<br>7z a arsiv.7z dosya1 dosya2 #Arsivle<br>7z x arsiv.7z #Çıkar<br>zip -l arsiv.zip #Zip Arşivi İçeriğini Listele<br><br>#Rar ve Unrar<br>rar a arsiv.rar dosya1 dosya2 #Rar Arşivi Oluştur<br>unrar x arsiv.rar #Rar Arşivini Çıkart<br>unrar x arsiv.rar /yol/klasoru #Belirtilen Dizine Çıkart<br>rar l arsiv.rar #Rar İçeriğini Listele</pre>
 <!-- /wp:preformatted -->
