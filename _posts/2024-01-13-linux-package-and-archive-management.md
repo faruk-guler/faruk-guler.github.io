@@ -18,24 +18,10 @@ categories: [Linux / Unix]
 
 ## Master
 1. **The Repository/Repo**:  
-Debian/Ubuntu: 
-sudo apt install package_name  
-Red Hat/Fedora:   
-sudo dnf install package_name  
 
 2. **Compiling from Source Code**:  
-tar -xzvf source_code.tar.gz  
-cd source_code  
-./configure  
-make  
-sudo make install  
 
 3. **Local installation File**:  
-wget https://docs.farukguler.com/repo/package_name.rpm  
-Debian/Ubuntu:  
-sudo dpkg -i package_file.deb  
-Red Hat/Fedora:  
-sudo rpm -i package_file.rpm  
 
 <br>#Package Management System<br>+ Synaptic<br>+ Apper<br>+ Aptitude<br>+ Snapd<br>+ Homebrew<br>+ Flatpak<br>+ AppImage<br>+ PackageKit<br>.........<br><br>#Packages<br>- bin file: ./file_name.bin<br>- sh file: ./file_name.sh<br>- run file: ./file_name.run<br>- py file: python file_name.py<br>- jar file: java -jar file_name.jar<br>- pl file: perl file_name.pl<br>- ruby file: ruby file_name.rb<br>...........<br><br>#Install Windows Software on Linux<br>- Wine<br>- Crossover:<br>...........
 <!-- /wp:preformatted -->
