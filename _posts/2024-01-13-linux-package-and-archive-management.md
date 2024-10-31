@@ -18,12 +18,10 @@ categories: [Linux / Unix]
 
 ## Master
 1. **The Repository/Repo**:  
-```bash
 Debian/Ubuntu: sudo apt install package_name  
 Red Hat/Fedora: sudo dnf install package_name  
 
 2. **Compiling from Source Code**:  
-```bash
 tar -xzvf source_code.tar.gz  
 cd source_code  
 ./configure  
@@ -31,7 +29,6 @@ make
 sudo make install  
 
 3. **Local installation File**:  
-```bash
 wget https://docs.farukguler.com/repo/package_name.rpm  
 Debian/Ubuntu: sudo dpkg -i package_file.deb  
 Red Hat/Fedora: sudo rpm -i package_file.rpm  
