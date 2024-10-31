@@ -17,11 +17,11 @@ categories: [Linux / Unix]
 <!-- wp:preformatted -->
 
 # Master
-1. **The Repository/Repo**:  
+1. **The Repository/Repo**: 
 <br>Debian/Ubuntu: sudo apt install paket_adi<br> 
 <br>Red Hat/Fedora: sudo dnf install paket_adi<br> 
 
-2. **Compiling from Source Code**:  
+2. **Compiling from Source Code**: 
 <br>tar -xzvf source_code.tar.gz<br> 
 <br>cd source_code<br> 
 <br>./configure<br> 
