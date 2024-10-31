@@ -60,8 +60,7 @@ categories: [Linux / Unix]
 <pre class="wp-block-preformatted"><strong>#Debian<br>#Download:</strong><br>wget https://docs.farukguler.com/package/paket.tar.gz<br><br><strong>#Extract and install:</strong><br>sudo apt install build-essential # Install the necessary tools for compilation<br>tar -xvf source_code.tar.gz      # Extract source code<br>cd source_code_directory         # To source code directory<br>./configure                      # Check required libraries and components<br>make                             # Compilation process ....\.<br>sudo make install                # Installation-sending files to directories<br>make clean                       # Clean compiled files end of installation</pre>
 <!-- /wp:preformatted -->
 
-<!-- wp:paragraph -->
-<p><strong>Local installation File:</strong></p>
+<p><strong>Local installation File:</strong> Bir "Yerel Kurulum Dosyası" genellikle tek bir bilgisayara veya belirli bir kullanıcı hesabına özel olarak indirilen ve kurulan bağımsız bir yazılım paketidir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
