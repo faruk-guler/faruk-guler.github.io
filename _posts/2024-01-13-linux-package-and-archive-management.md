@@ -18,8 +18,7 @@ categories: [Linux / Unix]
 
 # Master
 1. **The Repository/Repo**:  
-<br>Debian/Ubuntu: sudo apt install paket_adi<br>
-<br>Red Hat/Fedora: sudo dnf install paket_adi<br>
+<br>Debian/Ubuntu: sudo apt install paket_adi<br><br>Red Hat/Fedora: sudo dnf install paket_adi<br>
 
 2. **Compiling from Source Code**:  
 <br>tar -xzvf source_code.tar.gz<br>
@@ -28,7 +27,8 @@ categories: [Linux / Unix]
 <br>make<br>
 <br>sudo make install<br>
 
-3. **Local installation File**:  
+3. **Local installation File**: 
+<br>wget https://docs.farukguler.com/repo/package_name.rpm<br> 
 <br>Debian/Ubuntu: sudo dpkg -i package_file.deb<br>
 <br>Red Hat/Fedora: sudo rpm -i package_file.rpm<br>
 
