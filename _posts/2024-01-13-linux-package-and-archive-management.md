@@ -21,12 +21,13 @@ categories: [Linux / Unix]
 <br>Debian/Ubuntu: sudo apt install paket_adi<br> 
 <br>Red Hat/Fedora: sudo dnf install paket_adi<br> 
 
-2. **Compiling from Source Code**: 
-<br>tar -xzvf source_code.tar.gz<br> 
-<br>cd source_code<br> 
-<br>./configure<br> 
-<br>make<br> 
-<br>sudo make install<br> 
+2. ## Compiling from Source Code  
+```bash
+tar -xzvf source_code.tar.gz  
+cd source_code  
+./configure  
+make  
+sudo make install  
 
 3. **Local installation File**: 
 <pre class="wp-block-preformatted"><br>wget https://docs.farukguler.com/repo/package_name.rpm<br> 
