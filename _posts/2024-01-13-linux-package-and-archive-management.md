@@ -17,20 +17,20 @@ categories: [Linux / Unix]
 <!-- wp:preformatted -->
 
 # Master
-1. *The Repository/Repo*:  
-<br>Debian/Ubuntu: sudo apt install paket_adi
-<br>Red Hat/Fedora: sudo dnf install paket_adi
+1. **The Repository/Repo**:  
+<br>Debian/Ubuntu: sudo apt install paket_adi<br>
+<br>Red Hat/Fedora: sudo dnf install paket_adi<br>
 
-2. *Compiling from Source Code*:  
-<br>tar -xzvf source_code.tar.gz
-<br>cd source_code
-<br>./configure
-<br>make
-<br>sudo make install
+2. **Compiling from Source Code**:  
+<br>tar -xzvf source_code.tar.gz<br>
+<br>cd source_code<br>
+<br>./configure<br>
+<br>make<br>
+<br>sudo make install<br>
 
-3. *Local installation File*:  
-<br>Debian/Ubuntu: sudo dpkg -i package_file.deb
-<br>Red Hat/Fedora: sudo rpm -i package_file.rpm
+3. **Local installation File**:  
+<br>Debian/Ubuntu: sudo dpkg -i package_file.deb<br>
+<br>Red Hat/Fedora: sudo rpm -i package_file.rpm<br>
 
 <br>#Package Management System<br>+ Synaptic<br>+ Apper<br>+ Aptitude<br>+ Snapd<br>+ Homebrew<br>+ Flatpak<br>+ AppImage<br>+ PackageKit<br>.........<br><br>#Packages<br>- bin file: ./file_name.bin<br>- sh file: ./file_name.sh<br>- run file: ./file_name.run<br>- py file: python file_name.py<br>- jar file: java -jar file_name.jar<br>- pl file: perl file_name.pl<br>- ruby file: ruby file_name.rb<br>...........<br><br>#Install Windows Software on Linux<br>- Wine<br>- Crossover:<br>...........</strong></pre>
 <!-- /wp:preformatted -->
