@@ -19,7 +19,7 @@ categories: [Linux / Unix]
 ## Master
 1. **The Repository/Repo**:  
 
-2. **Compiling from Source Code**:  
+2. **Building from Source Code**:  
 
 3. **Local installation File**:  
 
@@ -35,7 +35,7 @@ categories: [Linux / Unix]
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
-<p><strong>Compiling from Source Code:</strong> Programın kaynak kodunu indirip derleyerek yüklemek, özellikle belirli yapılandırmalara ihtiyaç duyulan durumlarda kullanışlı olabilir. Bu yöntem, genellikle aşağıdaki adımları içerir:</p>
+<p><strong>Building from Source Code:</strong> Programın kaynak kodunu indirip derleyerek yüklemek, özellikle belirli yapılandırmalara ihtiyaç duyulan durumlarda kullanışlı olabilir. Bu yöntem, genellikle aşağıdaki adımları içerir:</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:list -->
