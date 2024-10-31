@@ -17,18 +17,18 @@ categories: [Linux / Unix]
 <!-- wp:preformatted -->
 
 # Master
-1. **The Repository/Repo**:  
+1. *The Repository/Repo*:  
 <br>Debian/Ubuntu: sudo apt install paket_adi
 <br>Red Hat/Fedora: sudo dnf install paket_adi
 
-2. **Compiling from Source Code**:  
+2. *Compiling from Source Code*:  
 <br>tar -xzvf source_code.tar.gz
 <br>cd source_code
 <br>./configure
 <br>make
 <br>sudo make install
 
-3. **Local installation File**:  
+3. *Local installation File*:  
 <br>Debian/Ubuntu: sudo dpkg -i package_file.deb
 <br>Red Hat/Fedora: sudo rpm -i package_file.rpm
 
