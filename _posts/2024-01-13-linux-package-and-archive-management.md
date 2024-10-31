@@ -29,9 +29,9 @@ categories: [Linux / Unix]
 <br>sudo make install<br> 
 
 3. **Local installation File**: 
-<br>wget https://docs.farukguler.com/repo/package_name.rpm<br> 
-<br>Debian/Ubuntu: sudo dpkg -i package_file.deb<br> 
-<br>Red Hat/Fedora: sudo rpm -i package_file.rpm<br> 
+<pre class="wp-block-preformatted"><br>wget https://docs.farukguler.com/repo/package_name.rpm<br> 
+<pre class="wp-block-preformatted"><br>Debian/Ubuntu: sudo dpkg -i package_file.deb<br> 
+<pre class="wp-block-preformatted"><br>Red Hat/Fedora: sudo rpm -i package_file.rpm<br> 
 
 <br>#Package Management System<br>+ Synaptic<br>+ Apper<br>+ Aptitude<br>+ Snapd<br>+ Homebrew<br>+ Flatpak<br>+ AppImage<br>+ PackageKit<br>.........<br><br>#Packages<br>- bin file: ./file_name.bin<br>- sh file: ./file_name.sh<br>- run file: ./file_name.run<br>- py file: python file_name.py<br>- jar file: java -jar file_name.jar<br>- pl file: perl file_name.pl<br>- ruby file: ruby file_name.rb<br>...........<br><br>#Install Windows Software on Linux<br>- Wine<br>- Crossover:<br>...........
 <!-- /wp:preformatted -->
