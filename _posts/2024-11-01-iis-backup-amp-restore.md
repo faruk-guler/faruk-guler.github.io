@@ -23,7 +23,7 @@ categories: [Common]
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>#Storage of System files and Administrative tools required for IIS</strong><br>cd:<br>C:\Windows\System32\inetsrv</pre>
+<pre class="wp-block-preformatted"><strong>#Storage of System files and Administrative tools required for IIS</strong><br>cd %windir%\system32\inetsrv</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
