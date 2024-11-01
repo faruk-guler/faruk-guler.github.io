@@ -27,15 +27,15 @@ categories: [Common]
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>Backup current IIS Certificates:</strong><br>**Before restoring IIS, move any SSL certificates you are using to the new server<br><br><strong>#PS</strong><br>netsh http show sslcert<br>netsh http show sslcertdir cert:\localmachine\my | Where-Object { $_.hasPrivateKey } | Foreach-Object { [system.IO.file]::WriteAllBytes("C:\Windows\IIS_BCK\$($_.Subject).pfx",($_.Export('PFX', 'secret')) ) }</pre>
+<pre class="wp-block-preformatted"><strong>#Backup current IIS Certificates:</strong><br>**Before restoring IIS, move any SSL certificates you are using to the new server<br><br><strong>#PS</strong><br>netsh http show sslcert<br>netsh http show sslcertdir cert:\localmachine\my | Where-Object { $_.hasPrivateKey } | Foreach-Object { [system.IO.file]::WriteAllBytes("C:\Windows\IIS_BCK\$($_.Subject).pfx",($_.Export('PFX', 'secret')) ) }</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>Management for the IIS appcmd tool:</strong><br>cd %windir%\system32\inetsrv<br>appcmd list backup<br>appcmd list site<br>appcmd list site demo<br>appcmd list config</pre>
+<pre class="wp-block-preformatted"><strong>#Management for the IIS appcmd tool:</strong><br>cd %windir%\system32\inetsrv<br>appcmd list backup<br>appcmd list site<br>appcmd list site demo<br>appcmd list config</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>Backup:</strong><br>Appcmd add backup ANSs_yedek1<br>#Backup-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong><br><br><strong>Restore:</strong><br>appcmd list backup [list backups]<br>Appcmd restore backup ANS_yedek1<br>Appcmd restore backup /stop:true ANS_yedek1 <strong>#stop IIS Service and backup</strong><br>Restore-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong></pre>
+<pre class="wp-block-preformatted"><strong>#Backup:</strong><br>Appcmd add backup ANSs_yedek1<br>#Backup-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong><br><br><strong>#Restore:</strong><br>appcmd list backup [list backups]<br>Appcmd restore backup ANS_yedek1<br>Appcmd restore backup /stop:true ANS_yedek1 <strong>#stop IIS Service and backup</strong><br>Restore-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong></pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
