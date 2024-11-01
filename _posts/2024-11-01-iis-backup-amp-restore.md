@@ -1,6 +1,6 @@
 ---
 layout: post
-title: IIS Yedekleme ve Geri Yükleme [IIS Backup &amp; Restore]
+title: IIS Server Backup &amp; Restore
 date: 2024-11-01 23:24
 author: theguler
 comments: true
