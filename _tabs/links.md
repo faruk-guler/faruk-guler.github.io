@@ -17,6 +17,7 @@ https://www.acunetix.com
 https://www.vinchin.com 
 https://www.veeam.com  
 https://netsparker.com  
+https://www.farukerdem.com  
 https://www.iana.org/assignments/service-names-port-numbers (port ara)  
 https://www.ripe.net (Network Coordination Centre)  
 https://terenceluk.blogspot.com (***Kıdemli Azure Bulut Çözümleri Mimarı)  
