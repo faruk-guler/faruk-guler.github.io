@@ -1,6 +1,6 @@
 ---
 layout: post
-title: IIS Server Backup &amp; Restore
+title: IIS Server Backup and Restore
 date: 2024-11-01 23:24
 author: theguler
 comments: true
@@ -35,7 +35,7 @@ categories: [Common]
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>#Backup:</strong><br>Appcmd add backup ANSs_yedek1<br>#Backup-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong><br><br><strong>#Restore:</strong><br>appcmd list backup [list backups]<br>Appcmd restore backup ANS_yedek1<br>Appcmd restore backup /stop:true ANS_yedek1 <strong>#stop IIS Service and backup</strong><br>Restore-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong></pre>
+<pre class="wp-block-preformatted"><strong>#Backup:</strong><br>Appcmd add backup ANS_yedek1<br>#Backup-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong><br><br><strong>#Restore:</strong><br>appcmd list backup [list backups]<br>Appcmd restore backup ANS_yedek1<br>Appcmd restore backup /stop:true ANS_yedek1 <strong>#stop IIS Service and backup</strong><br>Restore-WebConfiguration -Name ANS_yedek1 <strong>[PS]</strong></pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
