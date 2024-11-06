@@ -4,4 +4,4 @@ icon: fa-solid fa-chess-knight
 order: 2
 ---
 
-[CV Sayfası](https://farukguler.com/cv.html)
+<a href="https://farukguler.com/cv.html" target="_blank">CV Sayfası</a>
