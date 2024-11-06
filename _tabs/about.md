@@ -3,8 +3,7 @@
 icon: fa-solid fa-barcode
 order: 4
 ---
-
-## Knowledge Base for SysAdmin and Decentralization Maximalists
+                    
 Dün akşam bir kahve alıp kısa bir yürüyüşe çıktım ve kendim hakkında ne yazabilirim diye düşündüm. Kendiniz hakkında konuşabileceğiniz pek çok şey vardır, Ancak bir arkadaşınızın veya meslektaşınızın hakkınızda iyi şeyler söylemesi...
 işte o paha biçilmez.
 
