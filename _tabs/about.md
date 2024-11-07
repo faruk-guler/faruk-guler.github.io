@@ -27,7 +27,7 @@ Bloğumda şu ana kadar **400’den fazla özgün makale** yayınladım. Bu maka
 
 En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyla ilgili daha fazla yardıma ihtiyacınız olursa, aşağıdaki adreslerden benimle iletişime geçmekten çekinmeyin.
 
-- Github: github.com/theguler0x
+- Github: github.com/faruk-guler
 - Docker-Hub: hub.docker.com/u/theguler0x
 - Blog: www.farukguler.com
 - LinkedIn: linkedin.com/in/farukgulerfdn
