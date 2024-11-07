@@ -16,6 +16,7 @@ https://www.hybrid-analysis.com (Zararlı yazılım analiz ve tehdit istihbarat�
 https://www.acunetix.com  
 https://www.vinchin.com 
 https://www.veeam.com  
+https://codepen.io  
 https://netsparker.com  
 https://www.farukerdem.com  
 https://www.iana.org/assignments/service-names-port-numbers (port ara)  
