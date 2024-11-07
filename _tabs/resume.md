@@ -1,7 +1,7 @@
 ---
 layout: page
 icon: fa-regular fa-chess-knight
-order: 2
+order: 5
 ---
 
 <!DOCTYPE html>
