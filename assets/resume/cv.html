@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume - Faruk Güler</title>
+    <title>CV - Faruk Güler</title>
     <style>
         /* General styling */
         body {
@@ -21,11 +21,23 @@
             background-color: #fff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            position: relative;
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header img {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .header h1 {
@@ -126,12 +138,15 @@
 <body>
     <div class="container">
         <header class="header">
+            <img src="https://img2.pngdownload.id/20180621/cqr/aaz0j916l.webp" alt="Faruk Güler">
             <h1>Faruk Güler</h1>
             <p class="subheading">IT Server and Virtualization Manager</p>
             <div class="contact-info">
+                <p>| System | Network | Cloud | Virtualization | Security |</p>
                 <p>Email: faruk.guler@example.com</p>
                 <p>Phone: +90 555 123 45 67</p>
                 <p>LinkedIn: <a href="https://www.linkedin.com/in/farukgulerfdn" target="_blank">linkedin.com/in/farukgulerfdn</a></p>
+               <p>Web Page: <a href="https://farukguler.com" target="_blank">farukguler.com</a></p>
             </div>
         </header>
 
@@ -169,17 +184,29 @@
         <section class="skills">
             <h2>Skills</h2>
             <ul>
-                <li>Linux & Windows Server Management</li>
+                <li>Server Management: Linux and Windows OS</li>
                 <li>Web Technologies: HTML, CSS, JavaScript, PHP</li>
-                <li>Container Technologies: Docker, OpenShift, Rancher, Kubernetes</li>
-                <li>Database Management: MySQL, PostgreSQL, MsSQL</li>
-                <li>Python and Bash Scripting</li>
-                <li>Powershell & Reverse Engineering</li>
+                <li>Container Technologies: Docker, Rancher, Kubernetes</li>
+                <li>Database Management: MySQL, PostgreSQL, Microsoft SQL</li>
+                <li>Powershell and Bash Scripting</li>
+                <li>Reverse Engineering</li>
                 <li>Git & GitHub</li>
-                <li>Vmware, Hyper-V, Proxmox</li>
+                <li>Cloud: Azure, Microsoft 365, Amazon</li>
+                <li>Virtulization: Vmware, Hyper-V, Proxmox, KVM</li>
                 <li>Network and System Security</li>
             </ul>
         </section>
+
+<section class="Certifications and Trainings">
+            <h2>Certifications and Trainings</h2>
+            <ul>
+                <li>Microsoft Endpoint Configuration Manager (MECM)</li>
+                <li>Veeam Backup&Replication (VMCE)</li>
+                <li>VMware vSphere: Install, Configure, Manage [V7]</li>   
+            </ul>
+        </section>
+
+
 
         <section class="languages">
             <h2>Languages</h2>
@@ -187,6 +214,18 @@
                 <li>Turkish: Native</li>
                 <li>English: Intermediate</li>
                 <li>Arabic: Intermediate</li>
+            </ul>
+        </section>
+
+<section class="Hobbies">
+            <h2>Hobbies</h2>
+            <ul>
+                <li>Decentralized Finance -DEFI</li>
+                <li>Artificial Intelligence -AI</li>
+                <li>Big Data</li>
+                <li>Open Source Technologies</li>
+                <li>Web Exploiting - Reverse Engineering</li>
+                
             </ul>
         </section>
 
