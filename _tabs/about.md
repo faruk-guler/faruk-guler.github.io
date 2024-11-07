@@ -7,7 +7,7 @@ order: 4
 Dün akşam bir kahve alıp kısa bir yürüyüşe çıktım ve kendim hakkında ne yazabilirim diye düşündüm. Kendiniz hakkında konuşabileceğiniz pek çok şey vardır, Ancak bir arkadaşınızın veya meslektaşınızın hakkınızda iyi şeyler söylemesi...
 işte o paha biçilmez.
 
-**Ben Faruk GÜLER**, BT. sunucu ve sanallaştırma yöneticisiyim. 5 yıllık mesleki deneyime ve akreditasyona sahip, kendini işine adamış ve hevesli bir bilgi teknolojisi ve siber güvenlik araştırmacısıyım. Kripto paralar ve Blockchain üzerine araştırma ve çalışmalar yapıp, farklı teknolojiler ve hizmetler alanında blog yazıyorum. Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum.
+**Ben Faruk GÜLER**, BT. sunucu ve sanallaştırma yöneticisiyim. 5 yıllık mesleki deneyime ve akreditasyona sahip, kendini işine adamış ve hevesli bir bilgi teknolojisi ve siber güvenlik araştırmacısıyım. IT dünyası, Kripto paralar, Yapay Zeka ve Blockchain üzerine araştırma ve çalışmalar yapıp, farklı teknolojiler ve hizmetler alanında blog yazıyorum. Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum.
 
 ## Blog Hakkında
 
