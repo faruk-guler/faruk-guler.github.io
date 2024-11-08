@@ -52,6 +52,14 @@
             margin: 5px 0 20px 0;
         }
 
+        .date {
+            font-size: 1em;
+            color: #666;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+
         .contact-info p {
             margin: 5px 0;
             font-size: 1em;
@@ -133,12 +141,41 @@
                 font-size: 1.2em;
             }
         }
+
+        @media (max-width: 480px) {
+            .header img {
+                width: 100px;
+                height: 100px;
+                right: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .subheading {
+                font-size: 1em;
+            }
+
+            .contact-info p, .contact-info a {
+                font-size: 0.9em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            h3 {
+                font-size: 1.1em;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <img src="https://farukguler.com/assets/img/person.webp"" alt="Faruk Güler">
+            <p class="date">Date: November 08, 2024</p>
+            <img src="https://farukguler.com/assets/img/person.webp" alt="Faruk Güler">
             <h1>Faruk Güler</h1>
             <p class="subheading">IT Server and Virtualization Manager</p>
             <div class="contact-info">
@@ -192,7 +229,7 @@
             
             <div class="School">
                 <h3>Suleyman Demirel University</h3>
-                <p class="degree">Associate's degree in Computer Engineering</p>
+                <p class="degree">Associate's Degree in Computer Engineering</p>
                 <p class="dates">September 2013 - June 2015</p>
             </div>
         </section>
@@ -209,8 +246,8 @@
         <section class="Hobbies">
             <h2>Hobbies</h2>
             <ul>
-                <li>Decentralized Finance -DEFI</li>
-                <li>Artificial Intelligence -AI</li>
+                <li>Decentralized Finance - DEFI</li>
+                <li>Artificial Intelligence - AI</li>
                 <li>Open Source Technologies</li>
                 <li>Web Exploitation - Reverse Engineering</li>
             </ul>
