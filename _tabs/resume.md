@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fa-solid fa-chess-knight
+icon: fa-brands fa-canadian-maple-leaf
 order: 2
 ---
 
