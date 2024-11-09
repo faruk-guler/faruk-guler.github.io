@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fa-regular fa-chess-knight
+icon: fa-solid fa-chess-knight
 order: 2
 ---
 
