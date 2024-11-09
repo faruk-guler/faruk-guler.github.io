@@ -42,9 +42,9 @@ categories: [Databases]
 <pre class="wp-block-preformatted">/var/lib/postgresql/&lt;version&gt;/main [Linux]<br>C:\Program Files\PostgreSQL\&lt;version&gt;\data [Win]</pre>
 <!-- /wp:preformatted -->
 
-<!-- wp:paragraph -->
-<p><strong>#Postgresql Configuration: Most Important [2] Files</strong></p>
-<!-- /wp:paragraph -->
+<!-- wp:heading -->
+<h2 class="wp-block-heading"><strong>Postgresql Configuration: Most Important [2] Files:</strong></h2>
+<!-- /wp:heading -->
 
 <!-- wp:preformatted -->
 <pre class="wp-block-preformatted"><strong>Debian:</strong> /etc/postgresql/&lt;version&gt;/main/postgresql.conf<br><strong>RHEL:</strong> /var/lib/pgsql/&lt;version&gt;/data/postgresql.conf<br><strong>Windows:</strong> C:\Program Files\PostgreSQL\&lt;version&gt;\data\postgresql.conf<br><br><strong>-1 postgresql.conf:<br>-2 pg_hba.conf:</strong><br>&gt;&gt;systemctl restart postgresql<br>&gt;&gt;ss -tulpan | grep 5432<br><br><strong>#1 .postgresql.conf</strong><br>Control of performance, connection settings, security, logging, storage management, etc.<br><br><strong>#2 .pg_hba.conf [Host-Based Authentication]</strong><br>The user determines the IP address and authentication methods.</pre>
