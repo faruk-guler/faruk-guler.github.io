@@ -45,8 +45,8 @@ categories: [Common]
 <p><strong>Linux için DNS Recursion Kapatma</strong></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:image {"id":6246,"width":"507px","height":"250","aspectRatio":"0.8977955911823647","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/recursion_linux.png?w=500" alt="" class="wp-image-6246" style="aspect-ratio:0.8977955911823647;width:507px;height:250" /></figure>
+<!-- wp:image {"id":6246,"width":"607px","height":"250","aspectRatio":"0.8977955911823647","sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/recursion_linux.png?w=500" alt="" class="wp-image-6246" style="aspect-ratio:0.8977955911823647;width:607px;height:250" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
