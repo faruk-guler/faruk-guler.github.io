@@ -48,6 +48,10 @@ categories: [Common]
 <p><strong>Linux için DNS Recursion Kapatma</strong></p>
 <!-- /wp:paragraph -->
 
+<!-- wp:image {"id":6246,"width":"407px","height":"auto","aspectRatio":"0.8977955911823647","sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/recursion_linux.png?w=500" alt="" class="wp-image-6246" style="aspect-ratio:0.8977955911823647;width:407px;height:auto" /></figure>
+<!-- /wp:image -->
+
 <!-- wp:list {"ordered":true} -->
 <ol class="wp-block-list"><!-- wp:list-item -->
 <li><strong>BIND </strong>(Berkeley Internet Name Domain) açık kaynaklı bir DNS sunucusu yazılımıdır. DNS rekürsif sorgulama özelliğini yönetmek ve devre dışı bırakmak için kullanılabilir.</li>
@@ -89,5 +93,5 @@ categories: [Common]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Son olarak, belirli bir DNS sunucusu üzerinde rekürsif sorgulamayı devre dışı bırakmak, genellikle bir ağda bulunan tüm cihazlar için geçerli değildir. Diğer DNS sunucuları üzerinden hala rekürsif sorgulama yapılabilir. Bu nedenle, ağınızdaki tüm DNS sunucularında bu ayarı yapmanız gerekebilir.</p>
+<p>Son olarak, belirli bir DNS sunucusu üzerinde rekürsif sorgulamayı devre dışı bırakmak, genellikle bir ağda bulunan tüm cihazlar için geçerli değildir. Diğer DNS sunucuları üzerinden hala rekürsif sorgulama yapılabilir. Bu nedenle, ağınızdaki tüm DNS sunucularında bu ayarı yapmanız gerekir.</p>
 <!-- /wp:paragraph -->
