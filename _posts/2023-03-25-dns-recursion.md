@@ -6,9 +6,6 @@ author: theguler
 comments: true
 categories: [Common]
 ---
-<!-- wp:image {"id":5331,"width":"470px","height":"264px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dns-reg.jpg?w=1024" alt="" class="wp-image-5331" style="width:470px;height:264px" /></figure>
-<!-- /wp:image -->
 
 <!-- wp:paragraph -->
 <p><strong>DNS rekürsif sorgulama (recursion), </strong>bir DNS sunucusunun, bir istemcinin DNS sorgusunu yanıtlayabilmek için, diğer DNS sunucularına yönelik sorgular yapmasıdır. Bu işlem, DNS sunucusunun, istemciye hızlı ve doğru bir yanıt sağlaması için gereklidir. Ancak, DNS rekürsif sorgulama özelliği, DNS sunucusunu potansiyel saldırılara açık hale getirebilir. Bu nedenle, bazı durumlarda DNS rekürsif sorgulama özelliği kapatılması gerekebilir.</p>
