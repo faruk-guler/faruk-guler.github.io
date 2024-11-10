@@ -88,10 +88,14 @@ categories: [Common]
 <pre class="wp-block-preformatted"><strong>sudo systemctl restart named</strong></pre>
 <!-- /wp:preformatted -->
 
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted"><strong>sudo systemctl restart bind9</strong></pre>
+<!-- /wp:preformatted -->
+
 <!-- wp:paragraph -->
 <p>Ancak, unutmayın ki DNS rekürsif sorgulama özelliği, DNS sunucunuzun doğru çalışması için gereklidir. Bu nedenle, bu özelliği devre dışı bırakırken, doğru yapılandırmayı sağlamak için DNS sunucunuzun diğer özelliklerini de gözden geçirmeniz gerekebilir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Son olarak, belirli bir DNS sunucusu üzerinde rekürsif sorgulamayı devre dışı bırakmak, genellikle bir ağda bulunan tüm cihazlar için geçerli değildir. Diğer DNS sunucuları üzerinden hala rekürsif sorgulama yapılabilir. Bu nedenle, ağınızdaki tüm DNS sunucularında bu ayarı yapmanız gerekir.</p>
+<p>Son olarak, belirli bir DNS sunucusu üzerinde rekürsif sorgulamayı devre dışı bırakmak, genellikle bir ağda bulunan tüm cihazlar için geçerli değildir. Diğer DNS sunucuları üzerinden hala rekürsif sorgulama yapılabilir. Bu nedenle, ağınızdaki tüm DNS sunucularında bu ayarı yapmanız gerekmektedir.</p>
 <!-- /wp:paragraph -->
