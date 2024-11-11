@@ -65,11 +65,13 @@ categories: [Containerization]
 <!-- /wp:image -->
 
 <!-- wp:heading -->
-<h2 class="wp-block-heading"><strong>1: Docker'ı Kurma</strong></h2>
+<h2 class="wp-block-heading"><strong>1: Docker'ı Kurma & Kaldırma</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Portainer'ı çalıştırmak için Docker'ın sisteminizde yüklü olması gerekmektedir. Docker kurumunu daha önce yapmıştık: <a href="https://farukguler.com/2023/06/25/install-docker-on-linux/">https://farukguler.com/2023/06/25/install-docker-on-linux/</a></p>
+<p>Portainer'ı çalıştırmak için Docker'ın sisteminizde yüklü olması gerekmektedir. Docker kurumunu daha önce yapmıştık:
+<a href="https://farukguler.com/posts/docker-install-on-linux/">https://farukguler.com/posts/docker-install-on-linux/</a></p>
+<a href="https://farukguler.com/posts/how-to-uninstall-docker-on-linux/">https://farukguler.com/posts/how-to-uninstall-docker-on-linux/</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
