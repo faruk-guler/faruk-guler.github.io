@@ -70,8 +70,8 @@ categories: [Containerization]
 
 <!-- wp:paragraph -->
 <p>Portainer'ı çalıştırmak için Docker'ın sisteminizde yüklü olması gerekmektedir. Docker kurumunu daha önce yapmıştık:
-<a href="https://farukguler.com/posts/docker-install-on-linux/">https://farukguler.com/posts/docker-install-on-linux/</a></p>
-<a href="https://farukguler.com/posts/how-to-uninstall-docker-on-linux/">https://farukguler.com/posts/how-to-uninstall-docker-on-linux/</a></p>
+<a href="https://farukguler.com/posts/docker-install-on-linux/">https://farukguler.com/posts/docker-install-on-linux/</p>
+<a href="https://farukguler.com/posts/how-to-uninstall-docker-on-linux/">https://farukguler.com/posts/how-to-uninstall-docker-on-linux/</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
