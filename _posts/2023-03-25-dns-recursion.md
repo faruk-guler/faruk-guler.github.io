@@ -6,9 +6,6 @@ author: theguler
 comments: true
 categories: [Common]
 ---
-<!-- wp:image {"id":5331,"width":"470px","height":"264px","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dns-reg.jpg?w=1024" alt="" class="wp-image-5331" style="width:470px;height:264px" /></figure>
-<!-- /wp:image -->
 
 <!-- wp:paragraph -->
 <p><strong>DNS rekürsif sorgulama (recursion), </strong>bir DNS sunucusunun, bir istemcinin DNS sorgusunu yanıtlayabilmek için, diğer DNS sunucularına yönelik sorgular yapmasıdır. Bu işlem, DNS sunucusunun, istemciye hızlı ve doğru bir yanıt sağlaması için gereklidir. Ancak, DNS rekürsif sorgulama özelliği, DNS sunucusunu potansiyel saldırılara açık hale getirebilir. Bu nedenle, bazı durumlarda DNS rekürsif sorgulama özelliği kapatılması gerekebilir.</p>
@@ -48,6 +45,10 @@ categories: [Common]
 <p><strong>Linux için DNS Recursion Kapatma</strong></p>
 <!-- /wp:paragraph -->
 
+<!-- wp:image {"id":6246,"width":"607px","height":"250","aspectRatio":"0.8977955911823647","sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/recursion_linux.png?w=500" alt="" class="wp-image-6246" style="aspect-ratio:0.8977955911823647;width:607px;height:250" /></figure>
+<!-- /wp:image -->
+
 <!-- wp:list {"ordered":true} -->
 <ol class="wp-block-list"><!-- wp:list-item -->
 <li><strong>BIND </strong>(Berkeley Internet Name Domain) açık kaynaklı bir DNS sunucusu yazılımıdır. DNS rekürsif sorgulama özelliğini yönetmek ve devre dışı bırakmak için kullanılabilir.</li>
@@ -84,10 +85,14 @@ categories: [Common]
 <pre class="wp-block-preformatted"><strong>sudo systemctl restart named</strong></pre>
 <!-- /wp:preformatted -->
 
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted"><strong>sudo systemctl restart bind9</strong></pre>
+<!-- /wp:preformatted -->
+
 <!-- wp:paragraph -->
 <p>Ancak, unutmayın ki DNS rekürsif sorgulama özelliği, DNS sunucunuzun doğru çalışması için gereklidir. Bu nedenle, bu özelliği devre dışı bırakırken, doğru yapılandırmayı sağlamak için DNS sunucunuzun diğer özelliklerini de gözden geçirmeniz gerekebilir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Son olarak, belirli bir DNS sunucusu üzerinde rekürsif sorgulamayı devre dışı bırakmak, genellikle bir ağda bulunan tüm cihazlar için geçerli değildir. Diğer DNS sunucuları üzerinden hala rekürsif sorgulama yapılabilir. Bu nedenle, ağınızdaki tüm DNS sunucularında bu ayarı yapmanız gerekebilir.</p>
+<p>Son olarak, belirli bir DNS sunucusu üzerinde rekürsif sorgulamayı devre dışı bırakmak, genellikle bir ağda bulunan tüm cihazlar için geçerli değildir. Diğer DNS sunucuları üzerinden hala rekürsif sorgulama yapılabilir. Bu nedenle, ağınızdaki tüm DNS sunucularında bu ayarı yapmanız gerekmektedir.</p>
 <!-- /wp:paragraph -->
