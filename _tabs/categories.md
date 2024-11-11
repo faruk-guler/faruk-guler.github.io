@@ -1,5 +1,5 @@
 ---
 layout: categories
-icon: fa-brands fa-canadian-maple-leaf
+icon: fa-solid fa-list
 order: 1
 ---
