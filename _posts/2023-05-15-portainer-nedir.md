@@ -69,10 +69,11 @@ categories: [Containerization]
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Portainer'ı çalıştırmak için Docker'ın sisteminizde yüklü olması gerekmektedir. Docker kurumunu daha önce yapmıştık:
-<a href="https://farukguler.com/posts/docker-install-on-linux/">https://farukguler.com/posts/docker-install-on-linux/</p>
-<a href="https://farukguler.com/posts/how-to-uninstall-docker-on-linux/">https://farukguler.com/posts/how-to-uninstall-docker-on-linux/</p>
+<p>Portainer'ı çalıştırmak için Docker'ın sisteminizde yüklü olması gerekmektedir. Docker kurulumunu daha önce yapmıştık:</p>
+<p><a href="https://farukguler.com/posts/docker-install-on-linux/">https://farukguler.com/posts/docker-install-on-linux/</a></p>
+<p><a href="https://farukguler.com/posts/how-to-uninstall-docker-on-linux/">https://farukguler.com/posts/how-to-uninstall-docker-on-linux/</a></p>
 <!-- /wp:paragraph -->
+
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading"><strong>2: Portainer'ı Kurma</strong></h2>
