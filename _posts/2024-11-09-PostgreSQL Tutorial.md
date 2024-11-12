@@ -1,7 +1,7 @@
 ---
 layout: post
 title: PostgreSQL Tutorial
-date: 2024-11-09 19:19
+date: 2023-11-09 19:19
 author: theguler
 comments: true
 categories: [Databases]
