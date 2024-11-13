@@ -11,7 +11,7 @@ categories: [Containerization]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p>Kubernetes, konteyner tabanlı uygulamaların otomatik dağıtımı, ölçeklendirilmesi ve yönetimi için açık kaynaklı bir platformdur. Google tarafından geliştirilmiş olup,şu anda Cloud Native Computing Foundation (CNCF) tarafından yönetilmektedir. Kubernetes (genellikle k8s olarak kısaltılır), karmaşık uygulama ve mikro servis tabanlı sistemleri yönetmek için bir çözüm sunar.</p>
+<p>Kubernetes, konteyner tabanlı uygulamaların otomatik dağıtımı, ölçeklendirilmesi ve yönetimi için açık kaynaklı bir platformdur. Google tarafından geliştirilmiş olup,şu anda Cloud Native Computing Foundation (CNCF) tarafından yönetilmektedir. Kubernetes (genellikle k8s olarak kısaltılır), karmaşık uygulama ve mikro servis tabanlı sistemleri yönetmek için bir çözüm sunar. Kubernetes, Docker, Containerd ve CRI-O ile çalışmaktadır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
