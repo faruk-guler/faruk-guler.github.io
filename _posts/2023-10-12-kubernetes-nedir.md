@@ -15,7 +15,7 @@ categories: [Containerization]
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>DOC's</strong><br>https://github.com/Furkan-Gulsen/kubernetes-docs<br>https://github.com/murataksunet/KUBERNETES-SifirdanBaslayarakUygulamaliOgrenin</pre>
+<pre class="wp-block-preformatted"><strong>DOC's</strong><br>https://github.com/Furkan-Gulsen/kubernetes-docs<br>https://github.com/murataksunet/KUBERNETES-SifirdanBaslayarakUygulamaliOgrenin<br>https://www.cncf.io<br>https://github.com/kubernetes<br>https://kubernetes.io/docs/home</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
