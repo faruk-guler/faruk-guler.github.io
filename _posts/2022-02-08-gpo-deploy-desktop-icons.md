@@ -25,7 +25,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:list -->
 
 <!-- wp:paragraph -->
-<p><strong>ilgili</strong> <strong>REG' i indirmek için:</strong> <a rel="noreferrer noopener" href="https://github.com/faruk-guler" target="_blank">https://github.com/theguler0x</a></p>
+<p><strong>ilgili</strong> <strong>REG' i indirmek için:</strong> <a rel="noreferrer noopener" href="https://github.com/faruk-guler" target="_blank">https://github.com/faruk-guler</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
