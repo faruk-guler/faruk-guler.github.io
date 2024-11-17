@@ -78,7 +78,7 @@ categories: [Common]
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
-<p><strong>named.conf </strong>dosyasındaki değişiklikleri kaydedin ve named servisini yeniden başlatın.</p>
+<p><strong>named.conf </strong>dosyasındaki değişiklikleri kaydedin ve named servisini yeniden başlatın. Ayrıca sonucu NMAP ile test edebilirsiniz.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
