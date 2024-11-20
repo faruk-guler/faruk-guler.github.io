@@ -55,7 +55,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted">&gt; 4GB / 1 #gb to byte<br>&gt; Get-DNSServerDiagnostics<br>&gt; Restart-Service -Name "DNS"</pre>
+<pre class="wp-block-preformatted">&gt; #PS\.<br>&gt; 4GB / 1 #gb to byte<br>&gt; Get-DNSServerDiagnostics<br>&gt; Restart-Service -Name "DNS"</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15399,"width":"575px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
