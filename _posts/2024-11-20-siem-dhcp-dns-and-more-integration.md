@@ -67,7 +67,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>You can also enable Log file rotation for SIEM. <a href="https://www.google.com/search?q=dns+server+enable+Log+file+rotation.&amp;oq=dns+server+enable+Log+file+rotation.&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDcwNTRqMGo3qAIAsAIA&amp;sourceid=chrome&amp;ie=UTF-8">https://www.google.com/search?q=dns+server+enable+Log+file+rotation</a></p>
+<p>**You can also enable Log file rotation for SIEM. <a href="https://www.google.com/search?q=dns+server+enable+Log+file+rotation.&amp;oq=dns+server+enable+Log+file+rotation.&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDcwNTRqMGo3qAIAsAIA&amp;sourceid=chrome&amp;ie=UTF-8">https://www.google.com/search?q=dns+server+enable+Log+file+rotation</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
