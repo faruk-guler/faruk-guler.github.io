@@ -4,7 +4,7 @@ title: What is MTU? (Maximum Transmission Unit) Maksimum İletim Birimi Nedir ?
 date: 2022-09-02 00:36
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":4226,"width":709,"height":278,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/mtu.png?w=1024" alt="" class="wp-image-4226" width="709" height="278" /></figure>

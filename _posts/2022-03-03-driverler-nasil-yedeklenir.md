@@ -4,7 +4,7 @@ title: Programsız driverler nasıl yedeklenir
 date: 2022-03-03 18:46
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:paragraph -->
 <p>Bilgisayarınızı ve sunucunuzu sıfırlamadan öncen önce Network, Grafik, Donanım vs gibi önemli driverların yedeklenmesi tavsiye edilmektedir</p>

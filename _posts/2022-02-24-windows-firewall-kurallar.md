@@ -4,7 +4,7 @@ title: Windows Server Firewall Nedir?
 date: 2022-02-24 14:29
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":2037,"width":"541px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/fw.jpg?w=1024" alt="" class="wp-image-2037" style="width:541px;height:auto" /></figure>

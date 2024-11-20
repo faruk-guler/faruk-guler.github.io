@@ -4,7 +4,7 @@ title: MTU değerini nasıl değiştirirsiniz?
 date: 2022-10-27 22:35
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":5209,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/mtusizer.png?w=986" alt="" class="wp-image-5209" /></figure>

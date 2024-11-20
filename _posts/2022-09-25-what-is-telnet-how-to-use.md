@@ -4,7 +4,7 @@ title: What is Telnet How to use?
 date: 2022-09-25 17:22
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":4797,"width":481,"height":265,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/telnet_cmd.jpeg?w=607" alt="" class="wp-image-4797" width="481" height="265" /></figure>

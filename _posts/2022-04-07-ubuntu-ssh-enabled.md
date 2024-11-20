@@ -4,7 +4,7 @@ title: Ubuntu’da SSH Servisini Etkinleştirme
 date: 2022-04-07 19:21
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":2571,"width":541,"height":288,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ssh-connect.png?w=750" alt="" class="wp-image-2571" width="541" height="288" /></figure>
