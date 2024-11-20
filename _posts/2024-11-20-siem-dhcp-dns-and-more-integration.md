@@ -47,7 +47,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":15403,"width":"433px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1_dns_enable-1.PNG?w=735" alt="" class="wp-image-15403" style="width:433px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1_dns_enable.PNG?w=735" alt="" class="wp-image-15403" style="width:433px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
