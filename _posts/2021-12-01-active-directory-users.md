@@ -4,7 +4,7 @@ title: Active Directory'de Default OU Değiştirilmesi
 date: 2021-12-01 23:36
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":2148,"sizeSlug":"large","linkDestination":"none"} -->

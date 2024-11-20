@@ -4,7 +4,7 @@ title: What is FastBoot and ADB (Android Debug Bridge)
 date: 2022-08-22 10:39
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":4149,"sizeSlug":"large","linkDestination":"none"} -->

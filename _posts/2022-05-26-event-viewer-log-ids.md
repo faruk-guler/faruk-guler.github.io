@@ -4,7 +4,7 @@ title: Windows Event Viewer log Event IDs
 date: 2022-05-26 23:09
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":3276,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/logs.png?w=1024" alt="" class="wp-image-3276" /></figure>

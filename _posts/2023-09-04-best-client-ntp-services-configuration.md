@@ -4,7 +4,7 @@ title: Best Client NTP Services Configuration
 date: 2023-09-04 13:54
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":8343,"width":"232px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/date-time-location.jpg?w=1024" alt="" class="wp-image-8343" style="width:232px;height:auto" /></figure>

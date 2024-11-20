@@ -4,7 +4,7 @@ title: Server Kurulumları Hakkında Bazı Notlar
 date: 2022-02-22 15:59
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":1924,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/pic_server_install-1.jpg?w=980" alt="" class="wp-image-1924" /></figure>
