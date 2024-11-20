@@ -23,7 +23,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":15391,"width":"372px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1_dhcp_enable.png?w=501" alt="" class="wp-image-15391" style="width:372px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1_dhcp_enable.PNG?w=501" alt="" class="wp-image-15391" style="width:372px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -35,7 +35,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15393,"width":"401px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/2_dhcp_enable.png?w=643" alt="" class="wp-image-15393" style="width:401px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/2_dhcp_enable.PNG?w=643" alt="" class="wp-image-15393" style="width:401px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:heading -->
@@ -47,7 +47,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":15403,"width":"433px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1_dns_enable-1.png?w=735" alt="" class="wp-image-15403" style="width:433px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/1_dns_enable-1.PNG?w=735" alt="" class="wp-image-15403" style="width:433px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
@@ -59,7 +59,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15399,"width":"575px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/2_dns_enable.png?w=999" alt="" class="wp-image-15399" style="width:575px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/2_dns_enable.PNG?w=999" alt="" class="wp-image-15399" style="width:575px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
