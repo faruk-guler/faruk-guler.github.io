@@ -4,7 +4,7 @@ title: What is NIC teaming ?
 date: 2022-07-24 21:02
 author: theguler
 comments: true
-categories: [Public]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":3708,"width":541,"height":387,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/nic-teaming.png?w=652" alt="" class="wp-image-3708" width="541" height="387" /></figure>

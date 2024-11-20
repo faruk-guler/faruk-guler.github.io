@@ -4,7 +4,7 @@ title: GPT ve MBR arasındaki fark nedir?
 date: 2022-02-06 18:54
 author: theguler
 comments: true
-categories: [Public]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":1424,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/sabit-diskler.jpg?w=536" alt="" class="wp-image-1424" /></figure>

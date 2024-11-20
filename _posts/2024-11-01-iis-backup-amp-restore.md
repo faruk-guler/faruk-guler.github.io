@@ -4,7 +4,7 @@ title: IIS Server Backup and Restore
 date: 2024-11-01 23:24
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":15349,"width":"451px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/iis.PNG?w=1024" alt="" class="wp-image-15349" style="width:451px;height:auto" /></figure>

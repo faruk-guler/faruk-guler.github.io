@@ -4,7 +4,7 @@ title: SLA (Service Level Agreement) Nedir?
 date: 2022-12-10 20:24
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":5685,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/managed-it-services.png?w=748" alt="" class="wp-image-5685" /></figure>

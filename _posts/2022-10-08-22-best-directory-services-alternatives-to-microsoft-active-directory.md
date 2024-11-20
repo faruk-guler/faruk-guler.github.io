@@ -4,7 +4,7 @@ title: 22 Best  [Directory Services] Alternatives to Microsoft Active Directory
 date: 2022-10-08 19:10
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":5021,"width":520,"height":272,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/active-directory-alternativ.jpg?w=800" alt="" class="wp-image-5021" style="width:520px;height:272px" /></figure>

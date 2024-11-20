@@ -4,7 +4,7 @@ title: iSCSI (Internet Small Computer System Interface) Why?
 date: 2022-08-07 02:22
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":3955,"width":543,"height":304,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/what-is-iscsi-1.jpg?w=817" alt="" class="wp-image-3955" width="543" height="304" /></figure>

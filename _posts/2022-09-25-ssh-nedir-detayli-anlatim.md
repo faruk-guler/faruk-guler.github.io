@@ -4,7 +4,7 @@ title: SSH Nedir? - What is SSH?
 date: 2022-09-25 18:25
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":4802,"width":461,"height":228,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ssh.png?w=1024" alt="" class="wp-image-4802" width="461" height="228" /></figure>

@@ -4,7 +4,7 @@ title: Unicast, Multicast Broadcast
 date: 2023-06-17 22:38
 author: theguler
 comments: true
-categories: [Public]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":7516,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/unicast-multicast-broadcast.jpg?w=691" alt="" class="wp-image-7516" /></figure>

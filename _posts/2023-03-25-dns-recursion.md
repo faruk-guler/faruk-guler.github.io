@@ -4,7 +4,7 @@ title: DNS Recursion Nedir-Nasıl Kapatılır?
 date: 2023-03-25 21:01
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 
 <!-- wp:paragraph -->

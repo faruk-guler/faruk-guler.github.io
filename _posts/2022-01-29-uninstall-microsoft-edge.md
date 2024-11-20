@@ -4,7 +4,7 @@ title: How to uninstall Microsoft Edge
 date: 2022-01-29 14:09
 author: theguler
 comments: true
-categories: [Public]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":1143,"width":626,"height":329,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/commandp.jpeg?w=998" alt="" class="wp-image-1143" width="626" height="329" /></figure>

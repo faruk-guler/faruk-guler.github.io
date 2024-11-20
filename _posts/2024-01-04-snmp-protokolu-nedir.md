@@ -5,7 +5,7 @@ date: 2024-01-04 21:14
 tag: [Monitoring]
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"lightbox":{"enabled":true},"id":10508,"width":"378px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/snmp.jpeg?w=568" alt="" class="wp-image-10508" style="width:378px;height:auto" /></figure>

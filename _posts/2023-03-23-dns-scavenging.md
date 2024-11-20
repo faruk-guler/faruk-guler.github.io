@@ -4,7 +4,7 @@ title: Whats DNS Scavenging?
 date: 2023-03-23 21:06
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:paragraph -->
 <p><strong>DNS Scavenging,</strong> bir DNS sunucusunun, kayıtlı kaynakların DNS önbelleğindeki zaman aşımını izleyerek eski kayıtları temizlemesi işlemidir. DNS önbelleği, daha önce çözümlenmiş DNS sorgularının sonuçlarını bir süre boyunca önbellekte saklar. Bu, ağ trafiğini azaltır ve sorguların daha hızlı çözümlenmesine yardımcı olur.</p>

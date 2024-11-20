@@ -4,7 +4,7 @@ title: DNS Kayıt Tipleri Detaylı
 date: 2023-05-13 22:16
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":7124,"width":451,"height":236,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dns-records.png?w=1024" alt="" class="wp-image-7124" width="451" height="236" /></figure>

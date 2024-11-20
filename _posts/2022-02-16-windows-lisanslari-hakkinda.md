@@ -4,7 +4,7 @@ title: Microsoft Windows Lisansları Hakkında
 date: 2022-02-16 15:56
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":1822,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/license.png?w=600" alt="" class="wp-image-1822" /></figure>

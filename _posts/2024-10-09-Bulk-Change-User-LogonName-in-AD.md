@@ -5,7 +5,7 @@ description:
 date: 2024-10-09 10:57
 By: theguler
 comments: true
-categories: [Public]
+categories: [Hybride]
 tags:
 pin:
 math:

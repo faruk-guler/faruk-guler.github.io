@@ -5,7 +5,7 @@ date: 2022-05-23 09:18
 tags: [dns]
 author: theguler
 comments: true
-categories: [Public]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":3224,"width":"452px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/bind-nedir.png?w=1024" alt="" class="wp-image-3224" style="width:452px;height:auto" /></figure>

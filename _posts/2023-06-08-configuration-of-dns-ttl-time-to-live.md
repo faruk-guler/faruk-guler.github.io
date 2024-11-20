@@ -4,7 +4,7 @@ title: Configuration of DNS TTL (Time-To-Live)
 date: 2023-06-08 15:43
 author: theguler
 comments: true
-categories: [Common]
+categories: [Hybride]
 ---
 <!-- wp:image {"id":13642,"width":"451px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/dns-time-to-live-ttl.webp?w=1024" alt="" class="wp-image-13642" style="width:451px;height:auto" /></figure>
