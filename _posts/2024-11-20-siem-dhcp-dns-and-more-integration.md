@@ -31,7 +31,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted">&gt; Get-DhcpServerAuditLog<br><br>Path              : C:\Windows\system32\dhcp<br>Enable            : True<br>MaxMBFileSize     : 100<br>DiskCheckInterval : 50<br>MinMBDiskSpace    : 20<br><br>&gt; Restart-Service DHCPServer</pre>
+<pre class="wp-block-preformatted">&gt; PS\.<br>&gt; Get-DhcpServerAuditLog<br><br>Path              : C:\Windows\system32\dhcp<br>Enable            : True<br>MaxMBFileSize     : 100<br>DiskCheckInterval : 50<br>MinMBDiskSpace    : 20<br><br>&gt; Restart-Service DHCPServer</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15393,"width":"401px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
@@ -55,7 +55,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted">&gt; #PS\.<br>&gt; 4GB / 1 #gb to byte<br>&gt; Get-DNSServerDiagnostics<br>&gt; Restart-Service -Name "DNS"</pre>
+<pre class="wp-block-preformatted">&gt; PS\.<br>&gt; 4GB / 1 #gb to byte<br>&gt; Get-DNSServerDiagnostics<br>&gt; Restart-Service -Name "DNS"</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15399,"width":"575px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
@@ -67,7 +67,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>**You can also enable Log file rotation for SIEM. <a href="https://www.google.com/search?q=dns+server+enable+Log+file+rotation.&amp;oq=dns+server+enable+Log+file+rotation.&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDcwNTRqMGo3qAIAsAIA&amp;sourceid=chrome&amp;ie=UTF-8">https://www.google.com/search?q=dns+server+enable+Log+file+rotation</a></p>
+<p>You can also enable Log file rotation for SIEM. <a href="https://www.google.com/search?q=dns+server+enable+Log+file+rotation.&amp;oq=dns+server+enable+Log+file+rotation.&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDcwNTRqMGo3qAIAsAIA&amp;sourceid=chrome&amp;ie=UTF-8">https://www.google.com/search?q=dns+server+enable+Log+file+rotation</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
