@@ -67,6 +67,13 @@ iex "&amp; { $(irm https://aka.ms/install-powershell.ps1) } -UseMSI"
 $PSversionTable</pre>
 <!-- /wp:preformatted -->
 
+<!-- wp:heading -->
+<h2 class="wp-block-heading">MSI paketi aracılığıyla PowerShell 7 Yüklemek için:</h2>
+<!-- /wp:heading -->
+
+<a href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows">https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows</a>
+
+
 <!-- wp:image {"id":3389,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/pwsh1.webp?w=495" alt="" class="wp-image-3389" /></figure>
 <!-- /wp:image -->
