@@ -43,7 +43,7 @@ categories: [Windows OS]
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>By default, Debug logging can be enabled both via <strong>Debug logging</strong> and via the <strong>Event viewer.</strong><br>Debug logging is also used for debugging.<br>Microsoft says that by default the max log file can reach a size of about<strong> 4.2 GB</strong> [4294967295 byte]  The size is calculated in <strong>[bytes].</strong> Default log path: <em>"C:\Windows\System32\dns"</em> You can also enable Log file rotation.</p>
+<p>By default, Debug logging can be enabled both via <strong>Debug logging</strong> and via the <strong>Event viewer.</strong><br>Debug logging is also used for debugging.<br>Microsoft says that by default the max log file can reach a size of about<strong> 4.2 GB</strong> [4294967295 byte]  The size is calculated in <strong>[bytes].</strong> Default log path: <em>"C:\Windows\System32\dns"</em>  **You can also enable Log file rotation.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":15403,"width":"433px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
