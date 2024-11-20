@@ -43,7 +43,11 @@ categories: [Windows OS]
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>By default, Debug logging can be enabled both via <strong>Debug logging</strong> and via the <strong>Event viewer.</strong><br>Debug logging is also used for debugging.<br>Microsoft says that by default the max log file can reach a size of about<strong> 4.2 GB</strong> [4294967295 byte]  The size is calculated in <strong>[bytes].</strong> Default log path: <em>"C:\Windows\System32\dns"</em>  **You can also enable Log file rotation.</p>
+<p>By default, Debug logging can be enabled both via <strong>Debug logging</strong> and via the <strong>Event viewer.</strong><br>Debug logging is also used for debugging.<br>Microsoft says that by default the max log file can reach a size of about<strong> 4.2 GB</strong> [4294967295 byte]  The size is calculated in <strong>[bytes].</strong> Default log path: <em>"C:\Windows\System32\dns"</em> </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>**You can also enable Log file rotation.</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":15403,"width":"433px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
@@ -67,7 +71,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>You can also enable Log file rotation. <a href="https://www.google.com/search?q=dns+server+enable+Log+file+rotation.&amp;oq=dns+server+enable+Log+file+rotation.&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDcwNTRqMGo3qAIAsAIA&amp;sourceid=chrome&amp;ie=UTF-8">https://www.google.com/search?q=dns+server+enable+Log+file+rotation</a></p>
+<p>You can also enable Log file rotation for SIEM. <a href="https://www.google.com/search?q=dns+server+enable+Log+file+rotation.&amp;oq=dns+server+enable+Log+file+rotation.&amp;gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDcwNTRqMGo3qAIAsAIA&amp;sourceid=chrome&amp;ie=UTF-8">https://www.google.com/search?q=dns+server+enable+Log+file+rotation</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
