@@ -31,7 +31,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted">&gt; PS\.<br>&gt; Get-DhcpServerAuditLog<br><br>Path              : C:\Windows\system32\dhcp<br>Enable            : True<br>MaxMBFileSize     : 100<br>DiskCheckInterval : 50<br>MinMBDiskSpace    : 20<br><br>&gt; Restart-Service DHCPServer</pre>
+<pre class="wp-block-preformatted">&gt; PS\.<br>&gt; Get-DhcpServerAuditLog<br><br>Path              : C:\Windows\system32\dhcp<br>Enable            : True<br>MaxMBFileSize     : 700<br>DiskCheckInterval : 50<br>MinMBDiskSpace    : 20<br><br>&gt; Restart-Service DHCPServer</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15393,"width":"401px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
