@@ -1,13 +1,13 @@
 ---
 layout: post
-title: Generate a Self-Signed Digital Certificate [Powershell]
+title: Generate a Self-Signed Digital Certificate Powershell
 date: 2022-10-19 12:20
 author: theguler
 comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":15422,"width":"514px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/self-signed-ssl-certificate-powershell.png?w=1024" alt="" class="wp-image-15422" style="width:514px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/self-signed-ssl-certificate-powershell.PNG?w=1024" alt="" class="wp-image-15422" style="width:514px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
@@ -45,7 +45,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15457,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/verify_cert.png?w=1024" alt="" class="wp-image-15457" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/verify_cert.PNG?w=1024" alt="" class="wp-image-15457" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -73,7 +73,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":15476,"width":"612px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/certlm.png?w=668" alt="" class="wp-image-15476" style="width:612px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/certlm.PNG?w=668" alt="" class="wp-image-15476" style="width:612px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -93,7 +93,7 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":15468,"width":"509px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/cert_view.png?w=630" alt="" class="wp-image-15468" style="width:509px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/cert_view.PNG?w=630" alt="" class="wp-image-15468" style="width:509px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
