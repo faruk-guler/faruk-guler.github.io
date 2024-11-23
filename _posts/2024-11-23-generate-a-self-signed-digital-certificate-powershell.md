@@ -1,10 +1,10 @@
 ---
 layout: post
 title: Generate a Self-Signed Digital Certificate Powershell
-date: 2022-10-19 12:20
+date: 2024-11-23 16:53
 author: theguler
 comments: true
-categories: [Windows OS]
+categories: [General]
 ---
 <!-- wp:image {"id":15422,"width":"514px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/self-signed-powershell.PNG?w=1024" alt="" class="wp-image-15422" style="width:514px;height:auto" /></figure>
@@ -37,7 +37,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>#Generate Basic Self-Signed Certificate:</strong></p>
+<p><strong>Generate Basic Self-Signed Certificate:</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
@@ -61,7 +61,7 @@ categories: [Windows OS]
 <!-- /wp:table -->
 
 <!-- wp:paragraph -->
-<p><strong>#Generate Advanced Self-Signed Certificate:</strong></p>
+<p><strong>Generate Advanced Self-Signed Certificate:</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
@@ -81,7 +81,7 @@ categories: [Windows OS]
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>#Export the certificate with its private key as a PFX:</strong><br>Get-ChildItem -Path Cert:\LocalMachine\My # *Thumbprint<br><br>Export-PfxCertificate -Cert Cert:\LocalMachine\My\[Thumbprint] -FilePath C:\example.pfx -Password (ConvertTo-SecureString -String "pass123" -Force -AsPlainText)<br><br><strong>#Export all certificates under cert:\LocalMachine\my store:</strong> [SST]<br>Get-ChildItem -Path cert:\LocalMachine\my | Export-Certificate -FilePath c:\allcerts.sst<br><strong><br>#Export all certificate without its private key as a CER:</strong><br>New-Item -Path "C:\LocalCertificates" -ItemType Directory<br>$certs = Get-ChildItem -Path cert:\LocalMachine\My<br>foreach ($cert in $certs) {<br>    $filePath = "C:\Certificates\$($cert.Thumbprint).cer"<br>    Export-Certificate -Cert $cert -FilePath $filePath<br>}</pre>
+<pre class="wp-block-preformatted"><strong>#Export the certificate with its private key as a PFX:</strong><br>Get-ChildItem -Path Cert:\LocalMachine\My # *Thumbprint<br><br>Export-PfxCertificate -Cert Cert:\LocalMachine\My\[Thumbprint] -FilePath C:\example.pfx -Password (ConvertTo-SecureString -String "pass123" -Force -AsPlainText)<br><br><strong>#Export all certificates under cert:\LocalMachine\my store:</strong> [SST]<br>Get-ChildItem -Path cert:\LocalMachine\my | Export-Certificate -FilePath c:\allcerts.sst<br><strong><br>#Export all certificate without its private key as a CER:</strong><br>New-Item -ItemType Directory -Path "C:\CertExports" -Force | Out-Null<br>$certs = Get-ChildItem -Path cert:\LocalMachine\My<br>foreach ($cert in $certs) {<br>    Export-Certificate -Cert $cert -FilePath "C:\CertExports\$($cert.Thumbprint).cer"<br>}</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
