@@ -1,7 +1,7 @@
 ---
 layout: post
 title: CyberThreat Hunting with (Sysmon)
-date: 2023-05-09 21:35
+date: 2023-05-09 21:36
 tag: [SIEM]
 author: theguler
 comments: true
