@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Vmware Workstation 16.2 dark mode error
+title: Vmware Workstation 16.2 dark mode fix
 date: 2021-12-05 20:45
 author: theguler
 comments: true

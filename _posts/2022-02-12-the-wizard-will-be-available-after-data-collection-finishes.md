@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The wizard will be available after data collection finishes.
+title: The wizard will be available after data collection finishes
 date: 2022-02-12 01:39
 author: theguler
 comments: true
