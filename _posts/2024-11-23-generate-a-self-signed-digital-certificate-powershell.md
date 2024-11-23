@@ -4,7 +4,7 @@ title: Generate a Self-Signed Digital Certificate Powershell
 date: 2024-11-23 16:53
 author: theguler
 comments: true
-categories: [General]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":15422,"width":"514px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/self-signed-powershell.PNG?w=1024" alt="" class="wp-image-15422" style="width:514px;height:auto" /></figure>
@@ -69,7 +69,7 @@ categories: [General]
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
-<p>This script creates a self-signed certificate for the DNS name <strong>“*.guler.com</strong>” and installs it in <strong>the local machine’s personal certificate store.</strong> [Cert:\LocalMachine\My]</p>
+<p>**This script creates a self-signed certificate for the DNS name <strong>“*.guler.com</strong>” and installs it in <strong>the local machine’s personal certificate store.</strong> [Cert:\LocalMachine\My]</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":15476,"width":"612px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
