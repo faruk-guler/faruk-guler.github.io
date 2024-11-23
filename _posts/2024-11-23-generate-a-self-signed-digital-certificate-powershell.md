@@ -109,5 +109,5 @@ categories: [Windows OS]
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
-<p>Error resolution is considered successful if you can put the pieces of the puzzle together. ❤︎</p>
+<p>Error resolution is considered successful if you can put the pieces of the puzzle together. 💖❤︎</p>
 <!-- /wp:paragraph -->
