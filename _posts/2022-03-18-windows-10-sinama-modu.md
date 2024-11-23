@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Windows 10 Sınama Modu Ne İşe Yarar ?
-date: 2022-03-18 15:29
+date: 2022-03-18 15:18
 author: theguler
 comments: true
 categories: [Windows OS]
