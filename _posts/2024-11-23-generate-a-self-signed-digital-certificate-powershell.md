@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Generate a Self-Signed Digital Certificate Powershell
-date: 2024-11-23 16:53
+date: 2022-10-13 16:53
 author: theguler
 comments: true
 categories: [Windows OS]
