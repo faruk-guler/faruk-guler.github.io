@@ -7,7 +7,7 @@ comments: true
 categories: [Windows OS]
 ---
 <!-- wp:image {"id":15422,"width":"514px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/self-signed-ssl-certificate-powershell.PNG?w=1024" alt="" class="wp-image-15422" style="width:514px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/self-signed-powershell.PNG?w=1024" alt="" class="wp-image-15422" style="width:514px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:list {"ordered":true} -->
