@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Let's Run Your Files with Admin Permissions
-date: 2023-06-01 21:37
+date: 2023-06-01 21:33
 author: theguler
 comments: true
 categories: [Windows OS]

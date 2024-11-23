@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Windows Event Viewer log Event IDs
+title: Windows Event Viewer log Event ID's
 date: 2022-05-26 23:09
 author: theguler
 comments: true

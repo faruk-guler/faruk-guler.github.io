@@ -1,7 +1,7 @@
 ---
 layout: post
 title: GPT ve MBR arasındaki fark nedir?
-date: 2022-02-06 18:54
+date: 2022-02-06 18:51
 author: theguler
 comments: true
 categories: [Hybride]

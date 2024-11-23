@@ -1,7 +1,7 @@
 ---
 layout: post
 title: AD Bulk Attribute "Mail, Name, etc." Export
-date: 2022-02-03 10:42
+date: 2022-02-03 10:47
 author: theguler
 comments: true
 categories: [PowerShell]

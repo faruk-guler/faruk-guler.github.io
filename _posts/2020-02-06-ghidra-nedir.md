@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Ghidra NSA'nın Tersine Mühendislik Araç Seti
-date: 2020-02-06 22:45
+date: 2020-02-06 22:44
 author: theguler
 comments: true
 categories: [Reverse Engineering]

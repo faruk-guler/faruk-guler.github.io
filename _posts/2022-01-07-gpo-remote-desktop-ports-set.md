@@ -1,7 +1,7 @@
 ---
 layout: post
 title: GPO Remote Desktop Portunu Değişimini Engelleme
-date: 2022-01-07 12:52
+date: 2022-01-07 12:56
 author: theguler
 comments: true
 categories: [Windows Group Policy GPO]
