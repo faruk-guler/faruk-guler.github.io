@@ -24,7 +24,7 @@ categories: [Linux / Unix]
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li>OPNsende</li>
+<li>OPNsense</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
@@ -32,7 +32,7 @@ categories: [Linux / Unix]
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
-<li>pfSense</li>
+<li>PFsense</li>
 <!-- /wp:list-item -->
 
 <!-- wp:list-item -->
