@@ -4,7 +4,7 @@ title: Fortigate Firewall ip Konfigürasyonu CLI
 date: 2022-02-16 21:02
 author: theguler
 comments: true
-categories: [Firewall-UTM-Gateway]
+categories: [UTM (Unified Threat Management)]
 ---
 <!-- wp:image {"id":1852,"width":"470px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/maxresdf.jpg?w=1024" alt="" class="wp-image-1852" style="width:470px;height:auto" /></figure>

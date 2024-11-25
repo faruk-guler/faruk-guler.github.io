@@ -4,7 +4,7 @@ title: Pfsense Nedir? - What is Pfsense?
 date: 2023-04-06 14:50
 author: theguler
 comments: true
-categories: [Firewall-UTM-Gateway]
+categories: [UTM (Unified Threat Management)]
 ---
 <!-- wp:image {"id":6372,"width":"468px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/pfsense.jpg?w=620" alt="" class="wp-image-6372" style="width:468px;height:auto" /></figure>

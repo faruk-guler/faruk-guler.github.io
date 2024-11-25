@@ -4,7 +4,7 @@ title: FORTİGATE İLK KURULUM NASIL YAPILIR ?
 date: 2021-12-24 09:54
 author: theguler
 comments: true
-categories: [Firewall-UTM-Gateway]
+categories: [UTM (Unified Threat Management)]
 ---
 <!-- wp:paragraph -->
 <p><strong>FortiGate,</strong> Fortinet tarafından geliştirilen bir ağ güvenlik donanımıdır. Geniş bir yelpazedeki ağ güvenliği çözümlerini tek bir platformda birleştirir ve ağ güvenliğini yönetmek için bir arayüz sağlar. FortiGate, Firewall, VPN, İçerik Filtreleme, Intrusion Prevention System (IPS), Antivirüs ve Web Filtreleme gibi çeşitli güvenlik özelliklerine sahiptir.</p>

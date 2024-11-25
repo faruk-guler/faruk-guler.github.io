@@ -4,7 +4,7 @@ title: SSL Inspection Nedir?
 date: 2022-12-16 22:00
 author: theguler
 comments: true
-categories: [Firewall-UTM-Gateway]
+categories: [UTM (Unified Threat Management)]
 ---
 <!-- wp:image {"id":5784,"width":481,"height":331,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ssl-inspection.jpg?w=1024" alt="" class="wp-image-5784" width="481" height="331" /></figure>
