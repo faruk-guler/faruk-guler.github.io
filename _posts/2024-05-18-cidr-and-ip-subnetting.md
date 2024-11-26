@@ -155,7 +155,7 @@ categories: [Network]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Subnet'teki toplam IP adresi sayısı <strong>2ⁿ</strong> ile bulunur demiştim. Ancak, her subnet 'te bulunan <strong>Network adresi</strong> ve <strong>Broadcast adresi</strong> hiçbir host 'a atanamaz ve çıkarılması gerekir. Bu yüzden available host IP sayısı: <strong>2ⁿ - 2</strong>'dir.<strong> [2⁸ = 256-2] = 254</strong> ' tür.</p>
+<p>Subnet'teki toplam IP adresi sayısı <strong>2ⁿ</strong> ile bulunur. Ancak, her subnet 'te bulunan <strong>Network adresi</strong> ve <strong>Broadcast adresi</strong> hiçbir host 'a atanamaz ve çıkarılması gerekir. Bu yüzden available host IP sayısı: <strong>2ⁿ - 2</strong>'dir.<strong> [2⁸ = 256-2] = 254</strong> ' tür.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
