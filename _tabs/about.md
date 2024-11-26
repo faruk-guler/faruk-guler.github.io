@@ -30,7 +30,7 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 - Docker-Hub: hub.docker.com/u/theguler0x
 - Blog: www.farukguler.com
 - LinkedIn: linkedin.com/in/farukgulerfdn
-- E-Mail: fguler962 @gmail .com
+- E-Mail:
 - X:
 - Exploit-DB:
 - Zone-H:
