@@ -240,3 +240,7 @@ jekyll-archives:
 
 permalink: pretty
 permalink: /:title/
+
+footer:
+  copyright: "© 2025 Faruk Güler. Some rights reserved."
+
