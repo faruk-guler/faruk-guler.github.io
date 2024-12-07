@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Detect Large Files on Windows with PowerShell
+title: Detect Large DIR/Files on Windows with PowerShell
 date: 2024-12-06 20:35
 author: theguler
 comments: true
