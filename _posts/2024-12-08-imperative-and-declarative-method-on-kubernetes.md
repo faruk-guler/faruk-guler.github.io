@@ -11,7 +11,7 @@ categories: [Containerization]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>1- Imperative Method</strong></p>
+<p><strong>╰┈➤ Imperative Method</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -31,7 +31,7 @@ categories: [Containerization]
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
-<p><strong>2- Declarative Method</strong></p>
+<p><strong>╰┈➤ Declarative Method</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -55,7 +55,7 @@ categories: [Containerization]
 <!-- /wp:preformatted -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Compare:</h3>
+<h3 class="wp-block-heading">🧐 Compare:</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
