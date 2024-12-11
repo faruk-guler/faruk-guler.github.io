@@ -27,7 +27,7 @@ categories: [Containerization]
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>#Create a Pod:</strong><br>kubectl create deployment nginx --image=nginx:1.17 --replicas=3<br><br><strong>#Delete a Pod:</strong><br>kubectl delete pod nginx-pod<br><br><strong>#Update a Pod: </strong><br>kubectl set image pod/nginx nginx=nginx:latest</pre>
+<pre class="wp-block-preformatted"><strong>#Create a Pod:</strong><br>kubectl run mypod --image=nginx:latest --port=80<br><br><strong>#Delete a Pod:</strong><br>kubectl delete pod nginx-pod<br><br><strong>#Update a Pod: </strong><br>kubectl set image pod/nginx nginx=nginx:latest</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
