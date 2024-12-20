@@ -1,5 +1,5 @@
 ---
 layout: page
-icon: fa-solid fa-cubes
+icon: fa-solid fa-cube
 order: 2
 ---
