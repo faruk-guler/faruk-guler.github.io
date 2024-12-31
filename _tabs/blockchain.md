@@ -5,7 +5,7 @@ order: 2
 ---
 --------------------------------------|                           
 -Bitcoin
--Etherum
+-Ethereum
 -Solana
 -Sonic
 -
