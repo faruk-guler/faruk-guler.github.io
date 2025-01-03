@@ -42,7 +42,7 @@ Paylaşımlarım tamamen açıktır. Kopyalanmasında ve Alıntı yapılmasında
 
 
 **Saygılarımla**  
-©2013 – 2024
+©2013 – 2025
 
 ## Yazara Kahve Ismarla ☕
 Çalışmalarımı değerli buluyorsan bana bir kahve ısmarlayarak destek olabilirsin. 💕
