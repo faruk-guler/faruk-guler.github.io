@@ -7,7 +7,7 @@ comments: true
 categories: [PowerShell]
 ---
 <!-- wp:image {"id":15489,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=625" alt="" class="wp-image-15489" /></figure>
+<figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=225" alt="" class="wp-image-15489" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
