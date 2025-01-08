@@ -2,7 +2,7 @@
 layout: post
 title: AD User Detailed Check PowerShell
 date: 2025-01-08 23:33
-author:
+By: faruk-guler
 comments: true
 categories: [PowerShell]
 ---

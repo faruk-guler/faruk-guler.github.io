@@ -2,7 +2,7 @@
 layout: post
 title: What is gMSA and sMSA?
 date: 2025-01-09 01:07
-author: faruk-guler
+By: faruk-guler
 comments: true
 categories: [Windows Server]
 ---
