@@ -1,7 +1,7 @@
 ---
 layout: post
 title: AD User Detailed Check PowerShell
-date: 2025-01-08 23:33
+date: 2025-01-01 23:33
 By: faruk-guler
 comments: true
 categories: [PowerShell]
