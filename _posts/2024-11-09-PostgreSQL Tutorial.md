@@ -59,7 +59,7 @@ categories: [Databases]
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted">getent passwd postgres<br>sudo su postgres<br>sudo -u postgres psql<br>psq<br>#psql -h 192.168.5.50 -p 5432 -d Devs -U postgres [Remote Connections]</pre>
+<pre class="wp-block-preformatted">getent passwd postgres<br>sudo su postgres<br>sudo -u postgres psql<br>psql<br>#psql -h 192.168.5.50 -p 5432 -d Devs -U postgres [Remote Connections]</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:paragraph -->
