@@ -75,7 +75,7 @@ categories: [Network]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p id="0485"><strong>A Sınıfı:</strong>&nbsp;1–126 Ağ Maskesi: 255.0.0.0<strong>/8</strong></p>
+<p id="0485"><strong>A Sınıfı:</strong>&nbsp;1–127 Ağ Maskesi: 255.0.0.0<strong>/8</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
