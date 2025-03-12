@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Microsoft Hyper-V [Failover Cluster] - [Load Balancing]
+title: Microsoft Hyper-V [Failover Cluster]
 date: 2024-03-01 22:59
 author: theguler
 comments: true
