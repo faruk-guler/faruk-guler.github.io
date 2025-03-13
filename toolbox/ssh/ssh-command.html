@@ -1,0 +1,19 @@
+<div id="ssh-command-tool">
+  <h2>SSH Komut Çalıştır</h2>
+  <label>Sunucu IP:</label> <input type="text" id="sshIP" placeholder="192.168.1.100">
+  <label>Komut:</label> <input type="text" id="sshCommand" placeholder="uptime">
+  <button onclick="runSSH()">Çalıştır</button>
+  <pre id="sshOutput"></pre>
+</div>
+
+<script>
+  async function runSSH() {
+    let ip = document.getElementById('sshIP').value;
+    let command = document.getElementById('sshCommand').value;
+
+    let response = await fetch(`https://api.example.com/ssh?host=${ip}&command=${encodeURIComponent(command)}`);
+    let data = await response.json();
+
+    document.getElementById('sshOutput').innerText = data.output;
+  }
+</script>
