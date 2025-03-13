@@ -1,0 +1,64 @@
+<div id="ssl-checker">
+  <h2>SSL/TLS Sertifika Kontrolü</h2>
+  <label>Alan Adı:</label>
+  <input type="text" id="domainInput" placeholder="example.com">
+  <button id="checkBtn" onclick="checkSSL()">Kontrol Et</button>
+  <pre id="sslOutput"></pre>
+</div>
+
+<script>
+  async function checkSSL() {
+    let domain = document.getElementById('domainInput').value.trim();
+    let output = document.getElementById('sslOutput');
+    let checkBtn = document.getElementById('checkBtn');
+
+    if (!domain) {
+      output.innerText = "⚠️ Lütfen bir alan adı girin!";
+      return;
+    }
+
+    output.innerText = "⏳ Kontrol ediliyor, lütfen bekleyin...";
+    checkBtn.disabled = true;  // Butonu devre dışı bırak
+
+    try {
+      let response = await fetch(`https://api.ssllabs.com/api/v3/analyze?host=${domain}`);
+      let data = await response.json();
+
+      if (!data || typeof data !== 'object') {
+        output.innerText = "❌ API hatalı bir yanıt verdi!";
+        return;
+      }
+
+      if (data.status === "ERROR") {
+        output.innerText = "❌ API yanıt vermedi veya alan adı hatalı!";
+        return;
+      }
+
+      if (data.status !== "READY") {
+        output.innerText = "⌛ Sertifika taraması devam ediyor, birkaç dakika sonra tekrar deneyin...";
+        return;
+      }
+
+      if (!data.endpoints || data.endpoints.length === 0 || !data.endpoints[0].details) {
+        output.innerText = "❌ Sertifika bilgisi bulunamadı!";
+        return;
+      }
+
+      let cert = data.endpoints[0].details.cert;
+      let issuer = cert.issuerLabel || "Bilinmiyor";
+      let validFrom = new Date(cert.notBefore).toLocaleDateString();
+      let validTo = new Date(cert.notAfter).toLocaleDateString();
+
+      output.innerText = `📌 Alan Adı: ${domain}
+✅ Sağlayıcı: ${issuer}
+📅 Geçerlilik Başlangıcı: ${validFrom}
+⏳ Geçerlilik Sonu: ${validTo}`;
+      
+    } catch (error) {
+      output.innerText = "🚨 Bir hata oluştu! Lütfen tekrar deneyin.";
+      console.error("SSL Kontrol Hatası:", error);
+    } finally {
+      checkBtn.disabled = false;  // İşlem bittiğinde butonu tekrar aktif et
+    }
+  }
+</script>
