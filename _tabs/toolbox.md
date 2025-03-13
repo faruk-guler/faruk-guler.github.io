@@ -8,7 +8,7 @@ order: 2
 
 <a href="https://farukguler.com/assets/box/converter/" target="_blank">Byte Converter</a>
 
-<a href="https://farukguler.com/assets/box/IPv4-subnet-calculator/" target="_blank">Subnet-calculator</a>
+<a href="https://farukguler.com/assets/box/IPv4-subnet-calculator/" target="_blank">Subnet-Calculator</a>
 
 <a href="https://farukguler.com/assets/box/md-viewer/" target="_blank">Markdown-viewer</a>
 
@@ -18,4 +18,4 @@ order: 2
 
 <a href="https://farukguler.com/assets/box/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
 
-<a href="https://farukguler.com/assets/box/whois-lookup/" target="_blank">Whois-lookup</a>
+<a href="https://farukguler.com/assets/box/whois-lookup/" target="_blank">Whois-Lookup</a>
