@@ -15,7 +15,7 @@
       return;
     }
 
-    fetch(`https://api.hackertarget.com/reverseiplookup/?q=${ip}`)
+    fetch(`https://api.viewdns.info/reverseip/?host=${ip}`)
       .then(response => response.text())
       .then(data => {
         output.textContent = data || "Sonuç bulunamadı.";

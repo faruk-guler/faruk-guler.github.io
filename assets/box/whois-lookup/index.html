@@ -3,113 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WHOIS Sorgulama</title>
+    <title>WHOIS Sorgulama Aracı</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-            text-align: center;
+            margin: 20px;
+            background-color: #f9f9f9;
         }
         h1 {
-            color: #007bff;
+            color: #333;
+            text-align: center;
         }
-        input {
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
             padding: 10px;
-            width: 80%;
-            max-width: 400px;
             font-size: 16px;
-            margin-top: 20px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
         button {
             padding: 10px 20px;
             background-color: #007bff;
             color: white;
-            font-size: 16px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
+            font-size: 16px;
+            width: 100%;
         }
         button:hover {
             background-color: #0056b3;
         }
-        #whoisResult {
+        .result {
             margin-top: 20px;
-            text-align: left;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: auto;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f1f1f1;
             white-space: pre-wrap;
-            word-wrap: break-word;
             font-family: monospace;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<h1>WHOIS Sorgulama</h1>
-<p>Domain adını girin ve "Sorgula" butonuna tıklayın:</p>
-<input type="text" id="domainName" placeholder="Örnek: farukguler.com" />
-<button onclick="whoisLookup()">Sorgula</button>
-
-<div id="whoisResult"></div>
+<div class="container">
+    <h1>WHOIS Sorgulama Aracı</h1>
+    <input type="text" id="domainInput" placeholder="Alan adını girin (örnek: farukguler.com)">
+    <button onclick="whoisLookup()">Sorgula</button>
+    <div class="result" id="result"></div>
+    <div class="error" id="error"></div>
+</div>
 
 <script>
-    function whoisLookup() {
-        var domain = document.getElementById('domainName').value.trim();
+    async function whoisLookup() {
+        const domain = document.getElementById('domainInput').value.trim();
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
 
+        // Giriş alanını kontrol et
         if (!domain) {
-            alert("Lütfen bir domain adı girin.");
+            errorDiv.textContent = "Lütfen bir alan adı girin.";
+            resultDiv.textContent = "";
             return;
         }
 
-        // WHOIS API sorgulaması yapmak için burada bir backend kullanmak gereklidir.
-        // Örnek olarak statik verilerle çalışıyoruz:
-        
-        var result = {
-            domain: domain,
-            available: "no",
-            type: "Commercial Sites",
-            registrar: "Cloudflare, Inc.",
-            statuses: ["clientTransferProhibited", "clienttransferprohibited"],
-            created: "1683404587",
-            updated: "1729488131",
-            expires: "1778098987",
-            whois: `Domain Name: ${domain}
-Registry Domain ID: 2778767323_DOMAIN_COM-VRSN
-Registrar WHOIS Server: whois.cloudflare.com
-Registrar URL: http://www.cloudflare.com
-Updated Date: 2024-10-21T05:22:11Z
-Creation Date: 2024-05-05T05:22:11Z
-Expiration Date: 2026-12-22T05:22:11Z
-Registrar: Cloudflare, Inc.
-Domain Status: clientTransferProhibited
-Creation Date: 2024-05-05
-Updated Date: 2024-10-21
-Expiration Date: 2026-12-22
-Whois Server: whois.cloudflare.com
-`
-        };
+        // WHOIS sorgusu için API endpoint'i
+        const apiUrl = `https://api.whois.vu/?q=${domain}`;
 
-        var whoisResultDiv = document.getElementById('whoisResult');
-        whoisResultDiv.innerHTML = `
-            <strong>Domain:</strong> ${result.domain} <br>
-            <strong>Durum:</strong> ${result.available} <br>
-            <strong>Tür:</strong> ${result.type} <br>
-            <strong>Kaydeden:</strong> ${result.registrar} <br>
-            <strong>Durumlar:</strong> ${result.statuses.join(', ')} <br>
-            <strong>Oluşturulma Tarihi:</strong> ${new Date(result.created * 1000).toLocaleDateString()} <br>
-            <strong>Güncellenme Tarihi:</strong> ${new Date(result.updated * 1000).toLocaleDateString()} <br>
-            <strong>Sonlanma Tarihi:</strong> ${new Date(result.expires * 1000).toLocaleDateString()} <br>
-            <hr>
-            <strong>WHOIS Verisi:</strong><br><pre>${result.whois}</pre>
-        `;
+        try {
+            // API'den veri çek
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error("WHOIS sorgusu başarısız oldu.");
+            }
+
+            const data = await response.json();
+
+            // Sonuçları göster
+            if (data.available === "yes") {
+                resultDiv.textContent = `Alan adı: ${domain}\nDurum: Kayıtlı değil (Müsait)`;
+            } else {
+                resultDiv.textContent = `Alan adı: ${domain}\n
+Durum: Kayıtlı
+Kayıt Şirketi: ${data.registrar}
+Oluşturulma Tarihi: ${new Date(data.created * 1000).toLocaleDateString()}
+Son Güncelleme Tarihi: ${new Date(data.updated * 1000).toLocaleDateString()}
+Son Kullanma Tarihi: ${new Date(data.expires * 1000).toLocaleDateString()}
+WHOIS Verileri: ${data.whois}`;
+            }
+            errorDiv.textContent = "";
+        } catch (error) {
+            // Hata durumunda kullanıcıya bilgi ver
+            errorDiv.textContent = "WHOIS sorgusu sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+            resultDiv.textContent = "";
+            console.error("WHOIS sorgu hatası:", error);
+        }
     }
 </script>
 
