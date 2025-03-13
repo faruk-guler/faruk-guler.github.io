@@ -8,23 +8,48 @@
 
 <script>
   async function checkSSL() {
-    let domain = document.getElementById('domainInput').value;
+    let domain = document.getElementById('domainInput').value.trim();
     let output = document.getElementById('sslOutput');
     
-    output.innerText = "Kontrol ediliyor...";
+    if (!domain) {
+      output.innerText = "⚠️ Lütfen bir alan adı girin!";
+      return;
+    }
 
-    let response = await fetch(`https://api.ssllabs.com/api/v3/analyze?host=${domain}`);
-    let data = await response.json();
+    output.innerText = "⏳ Kontrol ediliyor, lütfen bekleyin...";
 
-    if (data.status === "READY") {
+    try {
+      let response = await fetch(`https://api.ssllabs.com/api/v3/analyze?host=${domain}`);
+      let data = await response.json();
+
+      if (data.status === "ERROR") {
+        output.innerText = "❌ API yanıt vermedi veya alan adı hatalı!";
+        return;
+      }
+
+      if (data.status !== "READY") {
+        output.innerText = "⌛ Sertifika taraması devam ediyor, lütfen birkaç dakika sonra tekrar deneyin...";
+        return;
+      }
+
+      // Endpoint kontrolü
+      if (!data.endpoints || data.endpoints.length === 0 || !data.endpoints[0].details) {
+        output.innerText = "❌ Sertifika bilgisi bulunamadı!";
+        return;
+      }
+
       let cert = data.endpoints[0].details.cert;
-      let issuer = cert.issuerLabel;
+      let issuer = cert.issuerLabel || "Bilinmiyor";
       let validFrom = new Date(cert.notBefore);
       let validTo = new Date(cert.notAfter);
-      
-      output.innerText = `📌 Alan Adı: ${domain}\n✅ Sağlayıcı: ${issuer}\n📅 Geçerlilik Başlangıcı: ${validFrom.toLocaleDateString()}\n⏳ Geçerlilik Sonu: ${validTo.toLocaleDateString()}`;
-    } else {
-      output.innerText = "Sertifika bilgileri yükleniyor veya site erişilemiyor!";
+
+      output.innerText = `📌 Alan Adı: ${domain}
+✅ Sağlayıcı: ${issuer}
+📅 Geçerlilik Başlangıcı: ${validFrom.toLocaleDateString()}
+⏳ Geçerlilik Sonu: ${validTo.toLocaleDateString()}`;
+    } catch (error) {
+      output.innerText = "🚨 Bir hata oluştu! Lütfen tekrar deneyin.";
+      console.error("SSL Kontrol Hatası:", error);
     }
   }
 </script>
