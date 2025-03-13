@@ -1,6 +1,6 @@
 <div id="reverse-ip-tool">
-  <h2>Reverse IP Lookup - farukguler.com</h2>
-  <input type="text" id="ipAddress" placeholder="IP adresi veya DNS girin">
+  <h2>Reverse IP Lookup -farukguler.com</h2>
+  <input type="text" id="ipAddress" placeholder="IP adress or DNS">
   <button onclick="reverseIPLookup()">Sorgula</button>
   <pre id="output"></pre>
 </div>
@@ -11,13 +11,11 @@
     const output = document.getElementById('output');
 
     if (!ip) {
-      output.textContent = "Lütfen bir IP adresi veya DNS girin.";
+      output.textContent = "IP adress or DNS";
       return;
     }
 
-    const api = 'https://viewdns.info/reverseip/?host=' + ip + '&t=1';
-
-    fetch(api)
+    fetch(`https://api.hackertarget.com/reverseiplookup/?q=${ip}`)
       .then(response => response.text())
       .then(data => {
         output.textContent = data || "Sonuç bulunamadı.";
