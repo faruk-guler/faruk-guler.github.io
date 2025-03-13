@@ -1,0 +1,16 @@
+div id=markdown-preview
+  h2Markdown Önizleyicih2
+  textarea id=markdownInput placeholder=Markdown içeriğinizi buraya yazın...textarea
+  div id=previewOutputdiv
+div
+
+script src=httpscdn.jsdelivr.netnpmmarkedmarked.min.jsscript
+script
+  const markdownInput = document.getElementById('markdownInput');
+  const previewOutput = document.getElementById('previewOutput');
+
+  markdownInput.addEventListener('input', () = {
+    const markdownText = markdownInput.value;
+    previewOutput.innerHTML = marked.parse(markdownText);
+  });
+script
