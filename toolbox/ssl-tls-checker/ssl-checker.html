@@ -1,0 +1,30 @@
+<div id="ssl-checker">
+  <h2>SSL/TLS Sertifika Kontrolü</h2>
+  <label>Alan Adı:</label>
+  <input type="text" id="domainInput" placeholder="example.com">
+  <button onclick="checkSSL()">Kontrol Et</button>
+  <pre id="sslOutput"></pre>
+</div>
+
+<script>
+  async function checkSSL() {
+    let domain = document.getElementById('domainInput').value;
+    let output = document.getElementById('sslOutput');
+    
+    output.innerText = "Kontrol ediliyor...";
+
+    let response = await fetch(`https://api.ssllabs.com/api/v3/analyze?host=${domain}`);
+    let data = await response.json();
+
+    if (data.status === "READY") {
+      let cert = data.endpoints[0].details.cert;
+      let issuer = cert.issuerLabel;
+      let validFrom = new Date(cert.notBefore);
+      let validTo = new Date(cert.notAfter);
+      
+      output.innerText = `📌 Alan Adı: ${domain}\n✅ Sağlayıcı: ${issuer}\n📅 Geçerlilik Başlangıcı: ${validFrom.toLocaleDateString()}\n⏳ Geçerlilik Sonu: ${validTo.toLocaleDateString()}`;
+    } else {
+      output.innerText = "Sertifika bilgileri yükleniyor veya site erişilemiyor!";
+    }
+  }
+</script>
