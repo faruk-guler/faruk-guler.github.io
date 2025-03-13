@@ -7,8 +7,6 @@
 
 Welcome to the IPv4 Subnet Calculator repository! This tool is your ultimate companion for subnet calculations, offering advanced graphics and a user-friendly interface. No ads, no clutter—just pure functionality.
 
-## Live Preview: [Click Here](https://hegdepavankumar.github.io/IPv4-Subnet-Calculator/) 
-
 🔢 Easily manage your network with features like CIDR Notation, providing essential information such as:
 
 - Network Address: The starting address of the subnet.
@@ -30,13 +28,4 @@ Welcome to the IPv4 Subnet Calculator repository! This tool is your ultimate com
 <br>
 
 <hr>
-<br>
-
-## Contact
-
-Feel free to contact me if you have any questions or suggestions.
-
-Telegram Group: [here](https://t.me/)
-
-
 <br>
