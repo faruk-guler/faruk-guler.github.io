@@ -1,5 +1,5 @@
 <div id="reverse-ip-tool">
-  <h2>Reverse IP Lookup -farukguler.com</h2>
+  <h2>Reverse IP Lookup - farukguler.com</h2>
   <input type="text" id="ipAddress" placeholder="IP adress or DNS">
   <button onclick="reverseIPLookup()">Sorgula</button>
   <pre id="output"></pre>
@@ -15,10 +15,19 @@
       return;
     }
 
-    fetch(`https://api.viewdns.info/reverseip/?host=${ip}`)
-      .then(response => response.text())
+    // Backend proxy URL
+    const proxyUrl = 'https://your-backend-proxy.com/reverseip';
+    
+    // Send the IP address to your backend server
+    fetch(`${proxyUrl}?host=${ip}`)
+      .then(response => response.json())
       .then(data => {
-        output.textContent = data || "Sonuç bulunamadı.";
+        // Format the response as needed
+        if (data && data.results) {
+          output.textContent = JSON.stringify(data.results, null, 2); // Show formatted JSON
+        } else {
+          output.textContent = "Sonuç bulunamadı.";
+        }
       })
       .catch(error => {
         output.textContent = "Bir hata oluştu: " + error;
