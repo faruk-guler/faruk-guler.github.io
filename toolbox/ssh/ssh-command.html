@@ -1,7 +1,8 @@
 <div id="ssh-command-tool">
   <h2>SSH Komut Çalıştır</h2>
   <label>Sunucu IP:</label> <input type="text" id="sshIP" placeholder="192.168.1.100">
-  <label>Kullanıcı Adı:</label> <input type="text" id="sshUser" placeholder="root">
+  <label>Kullanıcı Adı:</label> <input type="text" id="sshUser" placeholder="kullanici_adi">
+  <label>Parola:</label> <input type="password" id="sshPassword" placeholder="parola">
   <label>Komut:</label> <input type="text" id="sshCommand" placeholder="uptime">
   <button onclick="runSSH()">Çalıştır</button>
   <pre id="sshOutput"></pre>
@@ -11,12 +12,14 @@
   async function runSSH() {
     let ip = document.getElementById('sshIP').value;
     let user = document.getElementById('sshUser').value;
+    let password = document.getElementById('sshPassword').value;
     let command = document.getElementById('sshCommand').value;
 
-    // Sunucuya bağlanmadan önce kimlik doğrulama (şifreli veya anahtar tabanlı) yapılmalı.
-    let response = await fetch(`https://api.example.com/ssh?host=${ip}&user=${user}&command=${encodeURIComponent(command)}`);
+    // API'ye istek gönder
+    let response = await fetch(`https://api.example.com/ssh?host=${ip}&user=${user}&password=${password}&command=${encodeURIComponent(command)}`);
     let data = await response.json();
 
+    // Çıktıyı ekranda göster
     document.getElementById('sshOutput').innerText = data.output;
   }
 </script>
