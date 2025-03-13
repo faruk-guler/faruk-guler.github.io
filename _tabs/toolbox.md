@@ -4,6 +4,18 @@ icon: fa-solid fa-toolbox
 order: 2
 ---
 
-<a href="https://farukguler.com/assets/box/base64/index.html" target="_blank">Base64 Encode/Decode</a>
+<a href="https://farukguler.com/assets/box/base64/" target="_blank">Base64 Encode/Decode</a>
 
-<a href="https://farukguler.com/assets/box/converter/index.html" target="_blank">Byte Converter</a>
+<a href="https://farukguler.com/assets/box/converter/" target="_blank">Byte Converter</a>
+
+<a href="https://farukguler.com/assets/box/IPv4-subnet-calculator/" target="_blank">Subnet-calculator</a>
+
+<a href="https://farukguler.com/assets/box/md-viewer/" target="_blank">Markdown-viewer</a>
+
+<a href="https://farukguler.com/assets/box/my-ip/" target="_blank">What Is My IP Address</a>
+
+<a href="https://farukguler.com/assets/box/reverse-ip/" target="_blank">Reverse IP</a>
+
+<a href="https://farukguler.com/assets/box/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
+
+<a href="https://farukguler.com/assets/box/whois-lookup/" target="_blank">Whois-lookup</a>
