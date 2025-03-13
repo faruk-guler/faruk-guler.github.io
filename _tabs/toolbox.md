@@ -1,8 +1,7 @@
 ---
 layout: page
-icon: fa-solid fa-chess-knight
+icon: fa-solid fa-toolbox
 order: 2
 ---
 
-<a href="https://farukguler.com/assets/resume.html" target="_blank">Open Resume page</a>
 <a href="https://farukguler.com/assets/box/base64/index.html" target="_blank">Base64 Encode/Decode</a>
