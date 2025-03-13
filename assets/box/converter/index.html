@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toolbox - Tüm Araçlar Tek Yerde</title>
+    <title>Byte Çevirici - Bytes, KB, MB, GB, TB</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,74 +13,109 @@
             padding: 20px;
         }
         .container {
-            max-width: 800px;
-            margin: auto;
             background: #fff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin: auto;
         }
-        h1 {
-            color: #007bff;
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
         }
-        .tool-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
-        .tool-card {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        .tool-card:hover {
-            transform: translateY(-5px);
-        }
-        .tool-card a {
-            text-decoration: none;
-            color: #333;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .tool-card a:hover {
-            color: #007bff;
+        button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Toolbox - Tüm Araçlar Tek Yerde</h1>
-    <div class="tool-list">
-        <div class="tool-card">
-            <a href="ipv4-subnet-calculator.html">IPv4 Subnet Calculator</a>
-        </div>
-        <div class="tool-card">
-            <a href="base64.html">Base64 Encode/Decode</a>
-        </div>
-        <div class="tool-card">
-            <a href="converter.html">Byte Converter</a>
-        </div>
-        <div class="tool-card">
-            <a href="md-viewer.html">Markdown Viewer</a>
-        </div>
-        <div class="tool-card">
-            <a href="my-ip.html">My IP Checker</a>
-        </div>
-        <div class="tool-card">
-            <a href="reverse-ip.html">Reverse IP Lookup</a>
-        </div>
-        <div class="tool-card">
-            <a href="ssl-tls-checker.html">SSL/TLS Checker</a>
-        </div>
-        <div class="tool-card">
-            <a href="whois-lookup.html">WHOIS Lookup</a>
-        </div>
-    </div>
+    <h2>Byte Çevirici</h2>
+    <label>Byte</label>
+    <input type="number" id="byte" oninput="convertFromByte()">
+
+    <label>Kilobyte (KB)</label>
+    <input type="number" id="kb" oninput="convertFromKB()">
+
+    <label>Megabyte (MB)</label>
+    <input type="number" id="mb" oninput="convertFromMB()">
+
+    <label>Gigabyte (GB)</label>
+    <input type="number" id="gb" oninput="convertFromGB()">
+
+    <label>Terabyte (TB)</label>
+    <input type="number" id="tb" oninput="convertFromTB()">
+
+    <button onclick="resetFields()">Sıfırla</button>
 </div>
+
+<script>
+    function convertFromByte() {
+        let byte = parseFloat(document.getElementById("byte").value) || 0;
+        document.getElementById("kb").value = formatNumber(byte / 1024);
+        document.getElementById("mb").value = formatNumber(byte / 1048576);
+        document.getElementById("gb").value = formatNumber(byte / 1073741824);
+        document.getElementById("tb").value = formatNumber(byte / 1099511627776);
+    }
+
+    function convertFromKB() {
+        let kb = parseFloat(document.getElementById("kb").value) || 0;
+        document.getElementById("byte").value = formatNumber(kb * 1024);
+        document.getElementById("mb").value = formatNumber(kb / 1024);
+        document.getElementById("gb").value = formatNumber(kb / 1048576);
+        document.getElementById("tb").value = formatNumber(kb / 1073741824);
+    }
+
+    function convertFromMB() {
+        let mb = parseFloat(document.getElementById("mb").value) || 0;
+        document.getElementById("byte").value = formatNumber(mb * 1048576);
+        document.getElementById("kb").value = formatNumber(mb * 1024);
+        document.getElementById("gb").value = formatNumber(mb / 1024);
+        document.getElementById("tb").value = formatNumber(mb / 1048576);
+    }
+
+    function convertFromGB() {
+        let gb = parseFloat(document.getElementById("gb").value) || 0;
+        document.getElementById("byte").value = formatNumber(gb * 1073741824);
+        document.getElementById("kb").value = formatNumber(gb * 1048576);
+        document.getElementById("mb").value = formatNumber(gb * 1024);
+        document.getElementById("tb").value = formatNumber(gb / 1024);
+    }
+
+    function convertFromTB() {
+        let tb = parseFloat(document.getElementById("tb").value) || 0;
+        document.getElementById("byte").value = formatNumber(tb * 1099511627776);
+        document.getElementById("kb").value = formatNumber(tb * 1073741824);
+        document.getElementById("mb").value = formatNumber(tb * 1048576);
+        document.getElementById("gb").value = formatNumber(tb * 1024);
+    }
+
+    function formatNumber(num) {
+        return num >= 1 ? Math.round(num) : num.toFixed(2);
+    }
+
+    function resetFields() {
+        document.getElementById("byte").value = "";
+        document.getElementById("kb").value = "";
+        document.getElementById("mb").value = "";
+        document.getElementById("gb").value = "";
+        document.getElementById("tb").value = "";
+    }
+</script>
 
 </body>
 </html>
