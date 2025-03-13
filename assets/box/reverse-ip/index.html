@@ -7,7 +7,7 @@
 
 <script>
   function reverseIPLookup() {
-    const ip = document.getElementById('ipAddress').value;
+    const ip = document.getElementById('ipAddress').value.trim();
     const output = document.getElementById('output');
 
     if (!ip) {
@@ -15,15 +15,22 @@
       return;
     }
 
-    const api = 'https://viewdns.info/reverseip/?host=' + ip + '&t=1';
+    // viewdns.info API'sini kullan
+    const api = 'https://viewdns.info/reverseip/?host=' + encodeURIComponent(ip) + '&t=1';
 
     fetch(api)
-      .then(response => response.text())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('API isteği başarısız oldu: ' + response.statusText);
+        }
+        return response.text(); // HTML formatında yanıt alınır
+      })
       .then(data => {
+        // API yanıtını işle ve kullanıcıya göster
         output.textContent = data || "Sonuç bulunamadı.";
       })
       .catch(error => {
-        output.textContent = "Bir hata oluştu: " + error;
+        output.textContent = "Bir hata oluştu: " + error.message;
       });
   }
 </script>
