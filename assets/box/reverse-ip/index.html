@@ -1,79 +1,27 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reverse IP Lookup</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-            text-align: center;
-        }
-        input {
-            padding: 10px;
-            margin-top: 20px;
-            width: 300px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        pre {
-            margin-top: 20px;
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-    </style>
-</head>
-<body>
-
-<h1>Reverse IP Lookup</h1>
-<p>Bir IP adresi veya DNS sorgulayın:</p>
-
-<input type="text" id="ipAddress" placeholder="IP adresi veya DNS girin">
-<button onclick="reverseIPLookup()">Sorgula</button>
-
-<pre id="output"></pre>
+<div id="reverse-ip-tool">
+  <h2>Reverse IP Lookup -farukguler.com</h2>
+  <input type="text" id="ipAddress" placeholder="IP adress or DNS">
+  <button onclick="reverseIPLookup()">Sorgula</button>
+  <pre id="output"></pre>
+</div>
 
 <script>
-    function reverseIPLookup() {
-        const ip = document.getElementById('ipAddress').value;
-        const output = document.getElementById('output');
+  function reverseIPLookup() {
+    const ip = document.getElementById('ipAddress').value;
+    const output = document.getElementById('output');
 
-        if (!ip) {
-            output.textContent = "Lütfen geçerli bir IP adresi veya DNS girin.";
-            return;
-        }
-
-        // ip-api.com üzerinden IP sorgulaması yapıyoruz
-        fetch(`http://ip-api.com/json/${ip}?fields=country,regionName,city,isp,org,reverse`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === "fail") {
-                    output.textContent = "Sonuç bulunamadı. Geçersiz IP adresi.";
-                } else {
-                    output.textContent = JSON.stringify(data, null, 2); // JSON formatında çıktı
-                }
-            })
-            .catch(error => {
-                output.textContent = "Bir hata oluştu: " + error;
-            });
+    if (!ip) {
+      output.textContent = "IP adress or DNS";
+      return;
     }
-</script>
 
-</body>
-</html>
+    fetch(`https://api.hackertarget.com/reverseiplookup/?q=${ip}`)
+      .then(response => response.text())
+      .then(data => {
+        output.textContent = data || "Sonuç bulunamadı.";
+      })
+      .catch(error => {
+        output.textContent = "Bir hata oluştu: " + error;
+      });
+  }
+</script>
