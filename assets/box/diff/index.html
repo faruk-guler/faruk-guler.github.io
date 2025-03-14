@@ -1,261 +1,68 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Text Differ</title>
-    <style>
-        :root {
-            --primary: #2196F3;
-            --background: #f5f5f5;
-            --added-bg: #e8f5e9;
-            --removed-bg: #ffebee;
-            --border: #ddd;
-        }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 2rem;
-            background: var(--background);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .editor-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            padding: 1.5rem;
-        }
-
-        .editor-box {
-            position: relative;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-        }
-
-        .editor-header {
-            padding: 0.5rem;
-            background: #f8f9fa;
-            border-bottom: 1px solid var(--border);
-            font-weight: 500;
-        }
-
-        textarea {
-            width: 100%;
-            height: 300px;
-            padding: 1rem;
-            border: none;
-            resize: none;
-            font-family: 'Consolas', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .diff-result {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .diff-line {
-            display: flex;
-            margin: 2px 0;
-        }
-
-        .line-number {
-            width: 40px;
-            color: #666;
-            user-select: none;
-        }
-
-        .line-content {
-            flex: 1;
-            padding: 0 0.5rem;
-        }
-
-        .added {
-            background: var(--added-bg);
-            color: #2e7d32;
-        }
-
-        .removed {
-            background: var(--removed-bg);
-            color: #c62828;
-            text-decoration: line-through;
-        }
-
-        .controls {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-            background: #f8f9fa;
-        }
-
-        button {
-            padding: 0.5rem 1rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Diff Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .differences {
+      white-space: pre-wrap;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+    .added {
+      color: green;
+    }
+    .removed {
+      color: red;
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="controls">
-            <!-- Karşılaştır ve Temizle butonları -->
-            <button onclick="compareTexts()">Karşılaştır</button>
-            <button onclick="clearTexts()">Temizle</button>
-        </div>
-        
-        <div class="editor-container">
-            <!-- İlk Metin Editoru -->
-            <div class="editor-box">
-                <div class="editor-header">Metin 1</div>
-                <textarea id="text1" placeholder="İlk metni buraya yapıştırın..."></textarea>
-            </div>
-            
-            <!-- İkinci Metin Editoru -->
-            <div class="editor-box">
-                <div class="editor-header">Metin 2</div>
-                <textarea id="text2" placeholder="İkinci metni buraya yapıştırın..."></textarea>
-            </div>
-        </div>
+  <h1>Text Diff Checker</h1>
+  <p>İki metin arasındaki farkları kontrol edin:</p>
+  <textarea id="text1" placeholder="Metin 1"></textarea>
+  <textarea id="text2" placeholder="Metin 2"></textarea>
+  <button onclick="checkDifferences()">Farkları Kontrol Et</button>
+  <h3>Sonuç:</h3>
+  <div id="diffResult" class="differences"></div>
 
-        <!-- Karşılaştırma Sonuçları -->
-        <div class="diff-result" id="diffResult"></div>
-    </div>
+  <script>
+    function checkDifferences() {
+      const text1 = document.getElementById('text1').value;
+      const text2 = document.getElementById('text2').value;
+      const diffResult = document.getElementById('diffResult');
 
-    <script>
-        // Karşılaştırma işlemi
-        function compareTexts() {
-            const text1 = document.getElementById('text1').value;
-            const text2 = document.getElementById('text2').value;
-            
-            const diff = calculateDiff(text1, text2);
-            displayDiff(diff);
+      // Farkları bulmak için metni kelimelere bölelim
+      const words1 = text1.split(/\s+/);
+      const words2 = text2.split(/\s+/);
+
+      let result = '';
+      const maxLength = Math.max(words1.length, words2.length);
+
+      for (let i = 0; i < maxLength; i++) {
+        if (words1[i] !== words2[i]) {
+          if (words1[i]) result += `<span class="removed">${words1[i]}</span> `;
+          if (words2[i]) result += `<span class="added">${words2[i]}</span> `;
+        } else {
+          result += `${words1[i] || ''} `;
         }
+      }
 
-        // Farkları hesaplama
-        function calculateDiff(text1, text2) {
-            const lines1 = text1.split('\n');
-            const lines2 = text2.split('\n');
-            
-            const diff = [];
-            let i = 0, j = 0;
-
-            while(i < lines1.length || j < lines2.length) {
-                if(i < lines1.length && j < lines2.length && lines1[i] === lines2[j]) {
-                    diff.push({ type: 'equal', line: lines1[i] });
-                    i++;
-                    j++;
-                }
-                else {
-                    const added = [];
-                    const removed = [];
-                    
-                    // Eklenecek satırları bulma
-                    while(j < lines2.length && (i >= lines1.length || lines1[i] !== lines2[j])) {
-                        added.push(lines2[j]);
-                        j++;
-                    }
-
-                    // Silinecek satırları bulma
-                    while(i < lines1.length && (j >= lines2.length || lines1[i] !== lines2[j])) {
-                        removed.push(lines1[i]);
-                        i++;
-                    }
-
-                    if(added.length || removed.length) {
-                        diff.push({
-                            type: 'change',
-                            removed,
-                            added
-                        });
-                    }
-                }
-            }
-
-            return diff;
-        }
-
-        // Farkları ekranda gösterme
-        function displayDiff(diff) {
-            const resultDiv = document.getElementById('diffResult');
-            resultDiv.innerHTML = '';
-            
-            let lineNumber = 1;
-
-            diff.forEach(change => {
-                const lineDiv = document.createElement('div');
-                lineDiv.className = 'diff-line';
-
-                if(change.type === 'equal') {
-                    lineDiv.innerHTML = ` 
-                        <div class="line-number">${lineNumber++}</div>
-                        <div class="line-content">${escapeHtml(change.line)}</div>
-                    `;
-                }
-                else {
-                    const maxLines = Math.max(change.removed.length, change.added.length);
-                    
-                    for(let i = 0; i < maxLines; i++) {
-                        const line = document.createElement('div');
-                        line.className = 'diff-line';
-
-                        const removedLine = change.removed[i];
-                        const addedLine = change.added[i];
-
-                        if(removedLine) {
-                            line.innerHTML += `
-                                <div class="line-number removed">-</div>
-                                <div class="line-content removed">${escapeHtml(removedLine)}</div>
-                            `;
-                        }
-                        if(addedLine) {
-                            line.innerHTML += `
-                                <div class="line-number added">+</div>
-                                <div class="line-content added">${escapeHtml(addedLine)}</div>
-                            `;
-                        }
-
-                        resultDiv.appendChild(line);
-                    }
-                    lineNumber += maxLines;
-                }
-
-                resultDiv.appendChild(lineDiv);
-            });
-        }
-
-        // Metin kutularını temizleme
-        function clearTexts() {
-            document.getElementById('text1').value = '';
-            document.getElementById('text2').value = '';
-            document.getElementById('diffResult').innerHTML = '';
-        }
-
-        // HTML karakterlerini güvenli hale getirme
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;")
-                       .replace(/</g, "&lt;")
-                       .replace(/>/g, "&gt;")
-                       .replace(/"/g, "&quot;")
-                       .replace(/'/g, "&#039;");
-        }
-    </script>
+      diffResult.innerHTML = result.trim() || "Fark bulunamadı.";
+    }
+  </script>
 </body>
 </html>
