@@ -146,20 +146,24 @@
             <div class="options">
                 <label class="option-item">
                     <input type="checkbox" id="uppercase" checked>
-                    Uppercase Letters (A-Z)
+                    Büyük Harfler (A-Z)
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" id="lowercase" checked>
+                    Küçük Harfler (a-z)
                 </label>
                 <label class="option-item">
                     <input type="checkbox" id="numbers" checked>
-                    Numbers (0-9)
+                    Sayılar (0-9)
                 </label>
                 <label class="option-item">
                     <input type="checkbox" id="symbols">
-                    Symbols (!@#$%^&*)
+                    Semboller (!@#$%^&*)
                 </label>
             </div>
 
             <div class="length-control">
-                <label>Password Length: <span id="lengthValue">12</span></label>
+                <label>Şifre Uzunluğu: <span id="lengthValue">12</span></label>
                 <input type="range" id="length" min="8" max="64" value="12">
             </div>
 
@@ -171,8 +175,8 @@
             </div>
 
             <div class="button-group">
-                <button onclick="generatePassword()">Generate</button>
-                <button onclick="copyPassword()">Copy</button>
+                <button onclick="generatePassword()">Üret</button>
+                <button onclick="copyPassword()">Kopyala</button>
             </div>
         </div>
     </div>
@@ -190,16 +194,20 @@
             let charset = '';
             
             if (document.getElementById('uppercase').checked) {
-                charset += characters.uppercase + characters.lowercase;
-            } else {
+                charset += characters.uppercase;
+            }
+            if (document.getElementById('lowercase').checked) {
                 charset += characters.lowercase;
             }
+            if (document.getElementById('numbers').checked) {
+                charset += characters.numbers;
+            }
+            if (document.getElementById('symbols').checked) {
+                charset += characters.symbols;
+            }
             
-            if (document.getElementById('numbers').checked) charset += characters.numbers;
-            if (document.getElementById('symbols').checked) charset += characters.symbols;
-
             if (!charset) {
-                alert('Please select at least one character type!');
+                alert('Lütfen en az bir karakter türü seçin!');
                 return;
             }
 
@@ -244,20 +252,22 @@
         }
 
         function copyPassword() {
-            const password = document.getElementById('password');
+            const passwordEl = document.getElementById('password');
             const feedback = document.getElementById('copyFeedback');
             
-            navigator.clipboard.writeText(password.value).then(() => {
-                feedback.style.opacity = '1';
-                setTimeout(() => feedback.style.opacity = '0', 1500);
-            });
+            navigator.clipboard.writeText(passwordEl.value)
+                .then(() => {
+                    feedback.style.opacity = '1';
+                    setTimeout(() => feedback.style.opacity = '0', 1500);
+                })
+                .catch(err => console.error('Şifre kopyalanamadı:', err));
         }
 
         document.getElementById('length').addEventListener('input', function() {
             document.getElementById('lengthValue').textContent = this.value;
         });
 
-        // Initial password generation
+        // Sayfa yüklendiğinde otomatik şifre üretimi
         generatePassword();
     </script>
 </body>
