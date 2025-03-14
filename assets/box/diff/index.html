@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="assets/images/favicon.png" rel="icon">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/jquery.scrollbar-gh-pages/jquery.scrollbar.css">
+    <script src="assets/js/libraries/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="assets/jquery.scrollbar-gh-pages/jquery.scrollbar.js"></script>
+    <script src="assets/js/actions.js"></script>
+    <script src="assets/js/scrollbar.js"></script>
+    <title>Diff Checker - Brensio</title>
+</head>
+<body>
+<div id="home">
+    <div class="flex full-height flex-column flex-c-align-center flex-c-just-center">
+      <h1 class="font-jso font-pcolor font-light no-margin"><span class="font-bold">DIFF CHECKER</span></h1>
+      <h4 class="font-jso font-pcolor font-light font-high-letter-spacing no-margin medium-margin-bottom opacity-70">BRENSIO</h4>
+      <div id="clipboard-alert" class="custom-alert font-jso font-pcolor"></div>
+      <textarea class="textarea-scrollbar scrollbar-outer font-jso font-min font-pcolor font-light unresizable menu-width secondary-background-color no-border primary-foreground-color default-padding default-radius min-margin-bottom textarea-focus bgcolor-transition" id="original" rows="10" cols="50" placeholder="ORIGINAL TEXT"></textarea>
+      <textarea class="textarea-scrollbar scrollbar-outer font-jso font-min font-pcolor font-light unresizable menu-width secondary-background-color no-border primary-foreground-color default-padding default-radius textarea-focus bgcolor-transition" id="modified" rows="10" cols="50" placeholder="MODIFIED TEXT"></textarea>
+      <div class="flex menu-width flex-r-just-between default-margin-top">
+        <div class="flex submenu-width flex-r-just-around">
+          <a href="#I"><p class="font-jso font-min font-scolor bold-on-hover no-margin pointer button-padding">ABOUT</p></a>
+        </div>
+        <div class="flex submenu-width flex-r-just-around">
+          <p class="font-jso font-min font-pcolor bold-on-hover no-margin pointer button-padding button-border" onclick="clearText()">CLEAR</p>
+          <p class="font-jso font-min font-pcolor bold-on-hover no-margin pointer button-padding button-border" onclick="compare()">COMPARE TEXT</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="I" class="modal-window">
+    <div class="primary-background-color default-radius">
+      <a href="#O" title="Fechar" class="modal-close">✖</a>
+      <h1 class="font-jso font-pcolor font-light no-margin font-bold">ABOUT</h1>
+      <div class="font-jso font-min font-pcolor">
+        <p class="text-just">Author: Breno Sousa (A.K.A. "Brensio")</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

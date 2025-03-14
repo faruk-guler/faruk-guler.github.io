@@ -1,0 +1,248 @@
+body {
+    background-color: #21252b;
+  }
+  @font-face {
+    font-family: "Work Sans";
+    src: url("../fonts/webfonts/WorkSans-ExtraLight.woff2");
+    src:
+    url("../fonts/webfonts/WorkSans-ExtraLight.woff") format("woff");
+  }
+  body{
+    margin: 0;
+  }
+  .flex{
+    display: flex;
+  }
+  .flex-column{
+    flex-direction: column;
+  }
+  .full-height{
+    height: 99vh;
+  }
+  .debug-border{
+    border: 1px solid red;
+  }
+  .flex-c-align-center{
+    justify-content: center;
+  }
+  .flex-c-just-center{
+    align-items: center;
+  }
+  .flex-r-just-start{
+    justify-content: flex-start;
+  }
+  .flex-r-just-end{
+    justify-content: flex-end;
+  }
+  .flex-r-just-around{
+    justify-content: space-around;
+  }
+  .flex-r-just-between{
+    justify-content: space-between;
+  }
+  .font-jso{
+    font-family: 'Work Sans', sans-serif;
+  }
+  .font-min{
+    font-size: 90%;
+  }
+  .font-pcolor{
+    color: #fff;
+  }
+  .font-scolor{
+    color: #808080;
+  }
+  .small-text{
+    font-size: 80%;
+  }
+  .font-light{
+    font-weight: normal;
+  }
+  .font-bold{
+    font-weight: bold;
+  }
+  .text-just{
+    text-align:justify;
+  }
+  .bold-on-hover:hover{
+    font-weight: bold;
+  }
+  .font-high-letter-spacing{
+    letter-spacing: 1em;
+    text-indent: 1em;
+  }
+  .align-center{
+    text-align: center;
+  }
+  .no-margin{
+    margin: 0;
+  }
+  .no-border{
+    border: 0;
+  }
+  .min-border-bottom{
+    border-bottom: 2px solid #ccc;
+  }
+  .default-border{
+    border: 1px solid #ccc;
+  }
+  .min-margin-top{
+    margin-top: 5px;
+  }
+  .default-margin-top{
+    margin-top: 20px;
+  }
+  .medium-margin-top{
+    margin-top: 40px;
+  }
+  .maximum-margin-top{
+    margin-top: 80px;
+  }
+  .min-margin-bottom{
+    margin-bottom: 5px;
+  }
+  .default-margin-bottom{
+    margin-bottom: 20px;
+  }
+  .medium-margin-bottom{
+    margin-bottom: 40px;
+  }
+  .maximum-margin-bottom{
+    margin-bottom: 80px;
+  }
+  .input-width{
+    width: 300px;
+  }
+  .menu-width{
+    width: 800px;
+  }
+  .submenu-width{
+    width: 300px;
+  }
+  input:focus::-moz-placeholder{
+    color: transparent!important;
+  }
+  .primary-background-color{
+    background-color: #21252b;
+  }
+  .secondary-background-color{
+    background-color: #282c34;
+  }
+  .primary-foreground-color{
+    color: #fff;
+  }
+  .min-padding-left{
+    padding-left: 5px;
+  }
+  .default-padding{
+    padding: 20px;
+  }
+  .default-radius{
+    border-radius: 5px;
+  }
+  .default-margin-right{
+    margin-right: 20px;
+  }
+  .default-margin-left{
+    margin-left: 20px;
+  }
+  .tracking-bar-width{
+    width: 576px;
+  }
+  .opacity-70{
+    opacity: .7;
+  }
+  .pointer{
+    cursor: pointer;
+  }
+  .display-inline{
+    display: inline;
+  }
+  .invisible{
+    display: none;
+  }
+  .visible{
+    display: block;
+  }
+  .unresizable{
+    resize: none;
+  }
+  .textarea-focus:focus{
+    background-color: #2f343d;
+  }
+  .bgcolor-transition{
+    transition: background-color 0.3s cubic-bezier(.75,0,.25,1);
+  }
+  .custom-alert {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: none;
+    background-color: #282c34;
+    color: #fff;
+    text-align: enter;
+    padding: 5px;
+  }
+  .hidden-textarea{
+    position:absolute;
+    left:-9999px
+  }
+  .button-padding{
+    padding: 10px;
+  }
+  .button-border{
+    border: 1px solid #2f343d;
+    border-radius: 5px;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .modal-window {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .modal-window:target {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-window>div {
+    width: 800px;
+    position: relative;
+    margin: 10% auto;
+    padding: 2rem;
+    background: #21252b;
+    color: #ccc;
+  }
+  .modal-window header {
+    font-weight: bold;
+  }
+  .modal-close {
+    color: #aaa;
+    line-height: 50px;
+    font-size: 80%;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 70px;
+    text-decoration: none;
+  }
+  .modal-close:hover {
+    color: #fff;
+  }
+  .modal-window h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
+  }
+  
