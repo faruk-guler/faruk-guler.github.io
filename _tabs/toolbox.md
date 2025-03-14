@@ -4,7 +4,7 @@ icon: fa-solid fa-toolbox
 order: 2
 ---
 
-<a href="https://farukguler.com/assets/box/base64/" target="_blank">Base64 Encode/Decode</a>
+<a href="https://farukguler.com/assets/box/base64/" target="_blank">Base64 Decoder/Encoder</a>
 
 <a href="https://farukguler.com/assets/box/converter/" target="_blank">Byte Converter</a>
 
@@ -14,7 +14,7 @@ order: 2
 
 <a href="https://farukguler.com/assets/box/my-ip/" target="_blank">What Is My IP Address</a>
 
-<a href="https://farukguler.com/assets/box/reverse-ip/" target="_blank">Reverse IP</a>
+<a href="https://farukguler.com/assets/box/reverse-ip/" target="_blank">Reverse IP Lookup</a>
 
 <a href="https://farukguler.com/assets/box/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
 
