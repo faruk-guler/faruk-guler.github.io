@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarayıcı ve IP Bilgileri</title>
+    <title>IP ve Tarayıcı Bilgileri</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,95 +12,101 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(to bottom, #2196F3, #E3F2FD);
         }
         .container {
             text-align: center;
-            background-color: #fff;
-            padding: 20px;
+            background: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 450px;
+            padding: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
             width: 100%;
         }
-        h2 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #1a237e;
         }
         button {
-            padding: 10px 15px;
+            padding: 10px 20px;
             font-size: 1em;
-            cursor: pointer;
+            background-color: #2196F3;
+            color: #ffffff;
             border: none;
-            background-color: #007BFF;
-            color: white;
             border-radius: 5px;
-            margin-bottom: 15px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #1976D2;
         }
         pre {
-            text-align: left;
-            background: #f8f8f8;
+            background-color: #f1f1f1;
             padding: 10px;
             border-radius: 5px;
-            font-size: 1em;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            margin-top: 15px;
+            font-size: 0.9em;
+            text-align: left;
+            overflow: auto;
+        }
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>IP ve Tarayıcı Bilgileri</h1>
+        <button onclick="getBrowserInfo()">Bilgilerimi Göster</button>
+        <pre id="infoOutput">Bilgilere ulaşmak için butona basın...</pre>
+    </div>
 
-<div class="container">
-    <h2>Tarayıcı ve IP Bilgileri</h2>
-    <button onclick="getBrowserInfo()">Bilgilerimi Göster</button>
-    <pre id="infoOutput">Bilgileriniz burada görünecek...</pre>
-</div>
+    <script>
+        function getBrowserInfo() {
+            const output = document.getElementById('infoOutput');
+            output.textContent = "Bilgiler yükleniyor...";
 
-<script>
-function getBrowserInfo() {
-    const output = document.getElementById('infoOutput');
-    output.textContent = "Bilgiler yükleniyor...";
+            // Kullanıcının IP adresini ve detaylı bilgilerini al
+            fetch('https://ipapi.co/json/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`API Hatası: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const userAgent = navigator.userAgent;
+                    const platform = navigator.platform;
+                    const language = navigator.language;
+                    const screenSize = `${screen.width}x${screen.height}`;
+                    const mapLink = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
 
-    // Tarayıcı bilgilerini al
-    const userAgent = navigator.userAgent;
-    const platform = navigator.platform;
-    const language = navigator.language;
-    const screenSize = `${screen.width}x${screen.height}`;
+                    output.textContent = 
+                        `IP Adresiniz: ${data.ip}\n` +
+                        `İşletim Sistemi: ${platform}\n` +
+                        `Tarayıcı Bilgisi: ${userAgent}\n` +
+                        `Dil: ${language}\n` +
+                        `Ekran Çözünürlüğü: ${screenSize}\n` +
+                        `Şehir: ${data.city || 'Bilinmiyor'}\n` +
+                        `Bölge: ${data.region || 'Bilinmiyor'}\n` +
+                        `Ülke: ${data.country_name || 'Bilinmiyor'}\n` +
+                        `ISP: ${data.org || 'Bilinmiyor'}\n` +
+                        `Koordinatlar: ${data.latitude}, ${data.longitude}\n` +
+                        `Harita: ${mapLink}`;
 
-    // IP Adresini al
-    fetch('https://api64.ipify.org?format=json')
-        .then(response => response.json())
-        .then(ipData => {
-            const ip = ipData.ip;
-
-            // IP'den konum bilgilerini al
-            return fetch(`https://ipapi.co/${ip}/json/`);
-        })
-        .then(response => response.json())
-        .then(locationData => {
-            const ip = locationData.ip || "Bilinmiyor";
-            const city = locationData.city || "Bilinmiyor";
-            const region = locationData.region || "Bilinmiyor";
-            const country = locationData.country_name || "Bilinmiyor";
-            const isp = locationData.org || "Bilinmiyor";
-
-            output.textContent = 
-                `IP Adresiniz: ${ip}\n` +
-                `Şehir: ${city}\n` +
-                `Bölge: ${region}\n` +
-                `Ülke: ${country}\n` +
-                `ISP: ${isp}\n` +
-                `İşletim Sistemi: ${platform}\n` +
-                `Tarayıcı Bilgisi: ${userAgent}\n` +
-                `Dil: ${language}\n` +
-                `Ekran Çözünürlüğü: ${screenSize}`;
-        })
-        .catch(error => {
-            console.error('Bilgiler alınamadı:', error);
-            output.textContent = "Bilgiler alınamadı.";
-        });
-}
-</script>
-
+                    // Harita bağlantısını kullanıcıya kolayca tıklanabilir hale getir
+                    output.innerHTML += `\n\n<a href="${mapLink}" target="_blank">Konumu Haritada Gör</a>`;
+                })
+                .catch(error => {
+                    output.textContent = "Bilgiler alınamadı.";
+                    console.error('Hata:', error);
+                });
+        }
+    </script>
 </body>
 </html>
