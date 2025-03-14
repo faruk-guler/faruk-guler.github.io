@@ -135,7 +135,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>🔐 Secure Password Generator</h2>
+        <h2>🔐 Advanced Password Generator</h2>
         
         <div class="password-display">
             <input type="text" id="password" readonly>
@@ -164,7 +164,7 @@
 
             <div class="length-control">
                 <label>Şifre Uzunluğu: <span id="lengthValue">12</span></label>
-                <input type="range" id="length" min="8" max="64" value="12">
+                <input type="range" id="length" min="3" max="100" value="12">
             </div>
 
             <div class="strength-indicator">
@@ -175,7 +175,7 @@
             </div>
 
             <div class="button-group">
-                <button onclick="generatePassword()">Üret</button>
+                <button onclick="generatePassword()">Generate</button>
                 <button onclick="copyPassword()">Kopyala</button>
             </div>
         </div>
