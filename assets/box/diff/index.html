@@ -1,46 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="assets/images/favicon.png" rel="icon">
-    <link href="assets/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/jquery.scrollbar-gh-pages/jquery.scrollbar.css">
-    <script src="assets/js/libraries/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="assets/jquery.scrollbar-gh-pages/jquery.scrollbar.js"></script>
-    <script src="assets/js/actions.js"></script>
-    <script src="assets/js/scrollbar.js"></script>
-    <title>Diff Checker - Brensio</title>
+    <title>Advanced Text Differ</title>
+    <style>
+        :root {
+            --primary: #2196F3;
+            --background: #f5f5f5;
+            --added-bg: #e8f5e9;
+            --removed-bg: #ffebee;
+            --border: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background: var(--background);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 1.5rem;
+        }
+
+        .editor-box {
+            position: relative;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .editor-header {
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 1rem;
+            border: none;
+            resize: none;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .diff-result {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .diff-line {
+            display: flex;
+            margin: 2px 0;
+        }
+
+        .line-number {
+            width: 40px;
+            color: #666;
+            user-select: none;
+        }
+
+        .line-content {
+            flex: 1;
+            padding: 0 0.5rem;
+        }
+
+        .added {
+            background: var(--added-bg);
+            color: #2e7d32;
+        }
+
+        .removed {
+            background: var(--removed-bg);
+            color: #c62828;
+            text-decoration: line-through;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
-<div id="home">
-    <div class="flex full-height flex-column flex-c-align-center flex-c-just-center">
-      <h1 class="font-jso font-pcolor font-light no-margin"><span class="font-bold">DIFF CHECKER</span></h1>
-      <h4 class="font-jso font-pcolor font-light font-high-letter-spacing no-margin medium-margin-bottom opacity-70">BRENSIO</h4>
-      <div id="clipboard-alert" class="custom-alert font-jso font-pcolor"></div>
-      <textarea class="textarea-scrollbar scrollbar-outer font-jso font-min font-pcolor font-light unresizable menu-width secondary-background-color no-border primary-foreground-color default-padding default-radius min-margin-bottom textarea-focus bgcolor-transition" id="original" rows="10" cols="50" placeholder="ORIGINAL TEXT"></textarea>
-      <textarea class="textarea-scrollbar scrollbar-outer font-jso font-min font-pcolor font-light unresizable menu-width secondary-background-color no-border primary-foreground-color default-padding default-radius textarea-focus bgcolor-transition" id="modified" rows="10" cols="50" placeholder="MODIFIED TEXT"></textarea>
-      <div class="flex menu-width flex-r-just-between default-margin-top">
-        <div class="flex submenu-width flex-r-just-around">
-          <a href="#I"><p class="font-jso font-min font-scolor bold-on-hover no-margin pointer button-padding">ABOUT</p></a>
+    <div class="container">
+        <div class="controls">
+            <!-- Karşılaştır ve Temizle butonları -->
+            <button onclick="compareTexts()">Karşılaştır</button>
+            <button onclick="clearTexts()">Temizle</button>
         </div>
-        <div class="flex submenu-width flex-r-just-around">
-          <p class="font-jso font-min font-pcolor bold-on-hover no-margin pointer button-padding button-border" onclick="clearText()">CLEAR</p>
-          <p class="font-jso font-min font-pcolor bold-on-hover no-margin pointer button-padding button-border" onclick="compare()">COMPARE TEXT</p>
+        
+        <div class="editor-container">
+            <!-- İlk Metin Editoru -->
+            <div class="editor-box">
+                <div class="editor-header">Metin 1</div>
+                <textarea id="text1" placeholder="İlk metni buraya yapıştırın..."></textarea>
+            </div>
+            
+            <!-- İkinci Metin Editoru -->
+            <div class="editor-box">
+                <div class="editor-header">Metin 2</div>
+                <textarea id="text2" placeholder="İkinci metni buraya yapıştırın..."></textarea>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <div id="I" class="modal-window">
-    <div class="primary-background-color default-radius">
-      <a href="#O" title="Fechar" class="modal-close">✖</a>
-      <h1 class="font-jso font-pcolor font-light no-margin font-bold">ABOUT</h1>
-      <div class="font-jso font-min font-pcolor">
-        <p class="text-just">Author: Breno Sousa (A.K.A. "Brensio")</p>
-      </div>
+        <!-- Karşılaştırma Sonuçları -->
+        <div class="diff-result" id="diffResult"></div>
     </div>
-  </div>
+
+    <script>
+        // Karşılaştırma işlemi
+        function compareTexts() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            
+            const diff = calculateDiff(text1, text2);
+            displayDiff(diff);
+        }
+
+        // Farkları hesaplama
+        function calculateDiff(text1, text2) {
+            const lines1 = text1.split('\n');
+            const lines2 = text2.split('\n');
+            
+            const diff = [];
+            let i = 0, j = 0;
+
+            while(i < lines1.length || j < lines2.length) {
+                if(i < lines1.length && j < lines2.length && lines1[i] === lines2[j]) {
+                    diff.push({ type: 'equal', line: lines1[i] });
+                    i++;
+                    j++;
+                }
+                else {
+                    const added = [];
+                    const removed = [];
+                    
+                    // Eklenecek satırları bulma
+                    while(j < lines2.length && (i >= lines1.length || lines1[i] !== lines2[j])) {
+                        added.push(lines2[j]);
+                        j++;
+                    }
+
+                    // Silinecek satırları bulma
+                    while(i < lines1.length && (j >= lines2.length || lines1[i] !== lines2[j])) {
+                        removed.push(lines1[i]);
+                        i++;
+                    }
+
+                    if(added.length || removed.length) {
+                        diff.push({
+                            type: 'change',
+                            removed,
+                            added
+                        });
+                    }
+                }
+            }
+
+            return diff;
+        }
+
+        // Farkları ekranda gösterme
+        function displayDiff(diff) {
+            const resultDiv = document.getElementById('diffResult');
+            resultDiv.innerHTML = '';
+            
+            let lineNumber = 1;
+
+            diff.forEach(change => {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'diff-line';
+
+                if(change.type === 'equal') {
+                    lineDiv.innerHTML = ` 
+                        <div class="line-number">${lineNumber++}</div>
+                        <div class="line-content">${escapeHtml(change.line)}</div>
+                    `;
+                }
+                else {
+                    const maxLines = Math.max(change.removed.length, change.added.length);
+                    
+                    for(let i = 0; i < maxLines; i++) {
+                        const line = document.createElement('div');
+                        line.className = 'diff-line';
+
+                        const removedLine = change.removed[i];
+                        const addedLine = change.added[i];
+
+                        if(removedLine) {
+                            line.innerHTML += `
+                                <div class="line-number removed">-</div>
+                                <div class="line-content removed">${escapeHtml(removedLine)}</div>
+                            `;
+                        }
+                        if(addedLine) {
+                            line.innerHTML += `
+                                <div class="line-number added">+</div>
+                                <div class="line-content added">${escapeHtml(addedLine)}</div>
+                            `;
+                        }
+
+                        resultDiv.appendChild(line);
+                    }
+                    lineNumber += maxLines;
+                }
+
+                resultDiv.appendChild(lineDiv);
+            });
+        }
+
+        // Metin kutularını temizleme
+        function clearTexts() {
+            document.getElementById('text1').value = '';
+            document.getElementById('text2').value = '';
+            document.getElementById('diffResult').innerHTML = '';
+        }
+
+        // HTML karakterlerini güvenli hale getirme
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;")
+                       .replace(/</g, "&lt;")
+                       .replace(/>/g, "&gt;")
+                       .replace(/"/g, "&quot;")
+                       .replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>
