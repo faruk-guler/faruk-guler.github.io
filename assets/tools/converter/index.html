@@ -44,7 +44,10 @@
 <body>
 
 <div class="container">
-    <h2>Byte Çevirici -Data Conversion</h2>
+    <h2>Byte Çevirici - Data Conversion</h2>
+    <label>Bit</label>
+    <input type="number" id="bit" oninput="convertFromBit()">
+
     <label>Byte</label>
     <input type="number" id="byte" oninput="convertFromByte()">
 
@@ -64,8 +67,18 @@
 </div>
 
 <script>
+    function convertFromBit() {
+        let bit = parseFloat(document.getElementById("bit").value) || 0;
+        document.getElementById("byte").value = formatNumber(bit / 8);
+        document.getElementById("kb").value = formatNumber(bit / 8192);
+        document.getElementById("mb").value = formatNumber(bit / 8388608);
+        document.getElementById("gb").value = formatNumber(bit / 8589934592);
+        document.getElementById("tb").value = formatNumber(bit / 8796093022208);
+    }
+
     function convertFromByte() {
         let byte = parseFloat(document.getElementById("byte").value) || 0;
+        document.getElementById("bit").value = formatNumber(byte * 8);
         document.getElementById("kb").value = formatNumber(byte / 1024);
         document.getElementById("mb").value = formatNumber(byte / 1048576);
         document.getElementById("gb").value = formatNumber(byte / 1073741824);
@@ -74,6 +87,7 @@
 
     function convertFromKB() {
         let kb = parseFloat(document.getElementById("kb").value) || 0;
+        document.getElementById("bit").value = formatNumber(kb * 8192);
         document.getElementById("byte").value = formatNumber(kb * 1024);
         document.getElementById("mb").value = formatNumber(kb / 1024);
         document.getElementById("gb").value = formatNumber(kb / 1048576);
@@ -82,6 +96,7 @@
 
     function convertFromMB() {
         let mb = parseFloat(document.getElementById("mb").value) || 0;
+        document.getElementById("bit").value = formatNumber(mb * 8388608);
         document.getElementById("byte").value = formatNumber(mb * 1048576);
         document.getElementById("kb").value = formatNumber(mb * 1024);
         document.getElementById("gb").value = formatNumber(mb / 1024);
@@ -90,6 +105,7 @@
 
     function convertFromGB() {
         let gb = parseFloat(document.getElementById("gb").value) || 0;
+        document.getElementById("bit").value = formatNumber(gb * 8589934592);
         document.getElementById("byte").value = formatNumber(gb * 1073741824);
         document.getElementById("kb").value = formatNumber(gb * 1048576);
         document.getElementById("mb").value = formatNumber(gb * 1024);
@@ -98,6 +114,7 @@
 
     function convertFromTB() {
         let tb = parseFloat(document.getElementById("tb").value) || 0;
+        document.getElementById("bit").value = formatNumber(tb * 8796093022208);
         document.getElementById("byte").value = formatNumber(tb * 1099511627776);
         document.getElementById("kb").value = formatNumber(tb * 1073741824);
         document.getElementById("mb").value = formatNumber(tb * 1048576);
@@ -109,6 +126,7 @@
     }
 
     function resetFields() {
+        document.getElementById("bit").value = "";
         document.getElementById("byte").value = "";
         document.getElementById("kb").value = "";
         document.getElementById("mb").value = "";
@@ -117,24 +135,24 @@
     }
 </script>
 
-
 <style>
     ul {
-      padding-left: 0; /* Listeyi sola yaslamak için padding'i sıfırladık */
-      list-style-position: inside; /* Liste işaretlerini soldan hizalamak için */
+      padding-left: 0;
+      list-style-position: inside;
     }
     li {
-      text-align: left; /* Liste öğelerini sola hizalar */
+      text-align: left;
     }
-  </style>
+</style>
 
-  <ul>
+<ul>
+    <li>1 Bit = 1 Bit</li>
     <li>1 Byte = 8 Bit</li>
-    <li>1 Kilobyte (KB) = 1024 Bytes</li>
-    <li>1 Megabyte (MB) = 1048576 Bytes</li>
-    <li>1 Gigabyte (GB) = 1073741824 Bytes</li>
-    <li>1 Terabyte (TB) = 1099511627776 Bytes</li>
-  </ul>
+    <li>1 Kilobyte (KB) = 8192 Bit</li>
+    <li>1 Megabyte (MB) = 8388608 Bit</li>
+    <li>1 Gigabyte (GB) = 8589934592 Bit</li>
+    <li>1 Terabyte (TB) = 8796093022208 Bit</li>
+</ul>
 
 </body>
 </html>
