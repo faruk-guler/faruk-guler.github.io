@@ -19,3 +19,6 @@ order: 2
 <a href="https://farukguler.com/assets/box/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
 
 <a href="https://farukguler.com/assets/box/whois-lookup/" target="_blank">Whois-Lookup</a>
+
+<a href="https://farukguler.com/assets/box/diff" target="_blank">Diff Checker</a>
+<a href="https://farukguler.com/assets/box/pass-generator" target="_blank">Random Password Generator</a>
