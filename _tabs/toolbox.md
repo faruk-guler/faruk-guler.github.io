@@ -20,6 +20,6 @@ order: 2
 
 <a href="https://farukguler.com/assets/box/whois-lookup/" target="_blank">Whois-Lookup</a>
 
-<a href="https://farukguler.com/assets/box/diff" target="_blank">Diff Checker</a>
+<a href="https://farukguler.com/assets/box/diff/" target="_blank">Diff Checker</a>
 
-<a href="https://farukguler.com/assets/box/random-pass-generator" target="_blank">Random Password Generator</a>
+<a href="https://farukguler.com/assets/box/random-pass-generator/" target="_blank">Random Password Generator</a>
