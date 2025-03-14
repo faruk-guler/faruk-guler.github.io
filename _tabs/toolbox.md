@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fa-solid fa-tooltools
+icon: fa-solid fa-toolbox
 order: 2
 ---
 
