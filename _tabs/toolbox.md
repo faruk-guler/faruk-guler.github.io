@@ -24,4 +24,4 @@ order: 2
 
 <a href="https://farukguler.com/assets/tools/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
 
-<a href="https://farukguler.com/assets/tools/profit-and-loss-calc/" target="_blank">Spot Profit and Loss Calc.</a>
+<a href="https://farukguler.com/assets/tools/profit-and-loss-calc/" target="_blank">Spot Profit and Loss Calculator</a>
