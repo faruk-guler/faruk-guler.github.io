@@ -33,11 +33,11 @@ categories: [Blockchain]
 
 | Funding Rate Aralığı | Anlamı | Genel Strateji |
 |----------------------|--------|---------------|
-| **0.05 ve üstü** | **Yüksek Pozitif Funding** (Long pozisyonlar aşırı fazla) | Short fırsatlarına bak **(long squeeze riski var)** |
+| **0.05 ve üstü** | **Yüksek Pozitif Funding** (Long pozisyonlar aşırı fazla) | SHORT! **(long squeeze riski var)** |
 | **0.01 - 0.05** | **Orta Pozitif Funding** (Long pozisyonlar fazla ama aşırı değil) | Teknik analizle işlem yap  |
 | **-0.01 ile 0.01 arası** | **Nötr Funding** (Long ve short dengeli) | Teknik analizle işlem yap |
 | **-0.01 ile -0.05 arası** | **Orta Negatif Funding** (Short pozisyonlar fazla ama aşırı değil) | Teknik analizle işlem yap  |
-| **-0.05 ve altı** | **Yüksek Negatif Funding** (Short pozisyonlar aşırı fazla) | Long fırsatlarına bak **(short squeeze gelebilir)** |
+| **-0.05 ve altı** | **Yüksek Negatif Funding** (Short pozisyonlar aşırı fazla) | LONG! **(short squeeze gelebilir)** |
 
 📌 **Kaynak:** [NinjaTools Funding Rate](https://beta.ninjatools.io/Crypto/FundingRate)  
 
