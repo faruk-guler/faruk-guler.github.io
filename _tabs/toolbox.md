@@ -8,6 +8,8 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/diff/" target="_blank">Diff Checker</a>
 
+<a href="https://farukguler.com/toolbox/text-editor/" target="_blank">Text Editor</a>
+
 <a href="https://farukguler.com/toolbox/random-pass-generator/" target="_blank">Random Password Generator</a>
 
 <a href="https://farukguler.com/toolbox/converter/" target="_blank">Byte Converter</a>
