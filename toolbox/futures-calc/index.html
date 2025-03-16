@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Futures liquidation Calculator</title>
+  <title>Futures Liquidation Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -65,7 +65,7 @@
 <body>
 
   <div class="container">
-    <h1>Futures liquidation Calculator -farukguler.com</h1>
+    <h1>Futures Liquidation Calculator - farukguler.com</h1>
     <form id="futuresForm">
       <label for="investmentAmount">Yatırım Miktarı (USDT):</label>
       <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Yatırım Miktarını Girin" required step="0.01">
@@ -114,6 +114,13 @@
         return;
       }
 
+      // Maksimum kaldıraç kontrolü
+      if (leverage > 125) {
+        alert("Kaldıraç değeri 125'ten büyük olamaz!");
+        document.getElementById('warningMessage').textContent = "";
+        return;
+      }
+
       // Yüksek kaldıraç uyarısı
       if (leverage > 50) {
         alert("Yüksek kaldıraç risklidir! Lütfen dikkatli olun.");
@@ -124,9 +131,9 @@
       var priceChangePercentage = Math.abs((1 / leverage) * 100); // % olarak
 
       if (positionType === "short") {
-        liquidationPrice = entryPrice * (1 + 1/leverage);
+        liquidationPrice = entryPrice * (1 + 1 / leverage);
       } else { // long
-        liquidationPrice = entryPrice * (1 - 1/leverage);
+        liquidationPrice = entryPrice * (1 - 1 / leverage);
       }
 
       // Başlangıç marjı hesaplama
