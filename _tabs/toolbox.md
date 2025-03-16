@@ -3,6 +3,9 @@ layout: page
 icon: fa-solid fa-toolbox  qr-generator
 order: 2
 ---
+<a href="https://farukguler.com/toolbox/spot-calc/" target="_blank">Spot Profit and Loss Calculator</a>
+
+<a href="https://farukguler.com/toolbox/futures-calc/" target="_blank">Futures liquidation Calculator</a>
 
 <a href="https://farukguler.com/toolbox/base64/" target="_blank">Base64 Decoder/Encoder</a>
 
@@ -25,7 +28,3 @@ order: 2
 <a href="https://farukguler.com/toolbox/reverse-ip/" target="_blank">Reverse IP Lookup</a>
 
 <a href="https://farukguler.com/toolbox/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
-
-<a href="https://farukguler.com/toolbox/spot-calc/" target="_blank">Spot Profit and Loss Calculator</a>
-
-<a href="https://farukguler.com/toolbox/futures-calc/" target="_blank">Futures liquidation Calculator</a>
