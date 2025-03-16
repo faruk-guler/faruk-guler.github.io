@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Futures liquidation Calculato</title>
+  <title>Futures liquidation Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -65,16 +65,16 @@
 <body>
 
   <div class="container">
-    <h1>Futures liquidation Calculato</h1>
+    <h1>Futures liquidation Calculator -farukguler.com</h1>
     <form id="futuresForm">
       <label for="investmentAmount">Yatırım Miktarı (USDT):</label>
-      <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Yatırım Miktarını Girin" required step="any">
+      <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Yatırım Miktarını Girin" required step="0.01">
 
       <label for="entryPrice">İşleme Giriş Fiyatı (USD):</label>
-      <input type="number" id="entryPrice" name="entryPrice" placeholder="Giriş Fiyatını Girin" required step="any">
+      <input type="number" id="entryPrice" name="entryPrice" placeholder="Giriş Fiyatını Girin" required step="0.01">
 
       <label for="leverage">Kaldıraç (1-125x):</label>
-      <input type="number" id="leverage" name="leverage" placeholder="Kaldıraç Değerini Girin" required>
+      <input type="number" id="leverage" name="leverage" placeholder="Kaldıraç Değerini Girin" required min="1" max="125">
 
       <label for="positionType">Pozisyon Tipi:</label>
       <select id="positionType" name="positionType" required>
@@ -83,7 +83,7 @@
       </select>
 
       <div class="buttons">
-        <button type="button" onclick="calculateFutures(event)">Hesapla</button>
+        <button type="button" onclick="calculateFutures()">Hesapla</button>
         <button type="button" class="clear-btn" onclick="clearForm()">Temizle</button>
       </div>
     </form>
@@ -93,15 +93,14 @@
       <p><strong>Giriş Fiyatı:</strong> <span id="resultEntryPrice"></span> USD</p>
       <p><strong>Kaldıraç:</strong> <span id="resultLeverage"></span> x</p>
       <p><strong>Likidasyon Fiyatı:</strong> $<span id="resultLiquidationPrice"></span></p>
+      <p><strong>Başlangıç Marjı:</strong> <span id="resultInitialMargin"></span> USDT</p>
       <p id="warningMessage" class="warning"></p>
       <p><strong>Pozisyon Yönü:</strong> <span id="resultPositionType"></span></p>
     </div>
   </div>
 
   <script>
-    function calculateFutures(event) {
-      event.preventDefault();
-
+    function calculateFutures() {
       // Girdi değerlerini al
       var investment = parseFloat(document.getElementById('investmentAmount').value);
       var entryPrice = parseFloat(document.getElementById('entryPrice').value);
@@ -110,7 +109,8 @@
 
       // Geçerli değer kontrolü
       if (isNaN(investment) || isNaN(entryPrice) || isNaN(leverage) || investment <= 0 || entryPrice <= 0 || leverage <= 0) {
-        alert("Lütfen geçerli sayılar girin!");
+        alert("Lütfen pozitif değerler girin!");
+        document.getElementById('warningMessage').textContent = "";
         return;
       }
 
@@ -121,21 +121,23 @@
 
       // Likidasyon fiyatı hesaplama
       var liquidationPrice;
-      var priceChangePercentage;
+      var priceChangePercentage = Math.abs((1 / leverage) * 100); // % olarak
 
       if (positionType === "short") {
         liquidationPrice = entryPrice * (1 + 1/leverage);
-        priceChangePercentage = (1 / leverage) * 100; // % olarak
       } else { // long
         liquidationPrice = entryPrice * (1 - 1/leverage);
-        priceChangePercentage = (1 / leverage) * 100; // % olarak
       }
+
+      // Başlangıç marjı hesaplama
+      var initialMargin = investment / leverage;
 
       // Sonuçları güncelle
       document.getElementById('resultInvestment').textContent = investment.toFixed(2);
       document.getElementById('resultEntryPrice').textContent = entryPrice.toFixed(2);
       document.getElementById('resultLeverage').textContent = leverage.toFixed(0);
       document.getElementById('resultLiquidationPrice').textContent = liquidationPrice.toFixed(2);
+      document.getElementById('resultInitialMargin').textContent = initialMargin.toFixed(2);
       document.getElementById('resultPositionType').textContent = positionType === "short" ? "SHORT (Kısa)" : "LONG (Uzun)";
 
       // Uyarı mesajı: pozisyon tipine göre
