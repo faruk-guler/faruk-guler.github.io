@@ -8,8 +8,6 @@ comments: true
 categories: [Blockchain]
 ---
 
-# Funding Rate Nedir?
-
 **Funding Rate (Fonlama Oranı)**, perpetual (sürekli) vadeli işlem piyasalarında long ve short pozisyonlar arasındaki dengeyi sağlamak için kullanılan bir mekanizmadır.  
 
 - Vadeli fiyatın (futures price), spot fiyattan çok fazla sapmasını önler.  
