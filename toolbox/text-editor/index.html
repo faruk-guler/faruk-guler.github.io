@@ -1,225 +1,190 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Editor</title>
-    <meta name="description" content="Text Editor ile küçük büyük harf değişimleri, sıralamalar ve diğer metin işlemlerini gerçekleştirin.">
-    <meta name="keywords" content="metin, Text Editor, küçük harf, büyük harf, sil, temizle, sırala">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
-        textarea {
-            width: 100%;
-            height: 200px;
-        }
-        footer {
-            margin-top: 20px;
-        }
-        /* Gece Modu Stili */
-        .bg-dark-mode {
-            background-color: #121212 !important;
-            color: #e0e0e0 !important;
-        }
-        .bg-dark-mode .navbar-light {
-            background-color: #333 !important;
-        }
-        .bg-dark-mode .form-control,
-        .bg-dark-mode .btn {
-            background-color: #333;
-            color: #e0e0e0;
-        }
-        .bg-dark-mode .btn-outline-secondary {
-            border-color: #e0e0e0;
-            color: #e0e0e0;
-        }
-        .bg-dark-mode .form-check-input {
-            background-color: #444;
-            border-color: #888;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Advanced Text Editor</title>
+	<meta name="description" content="Advanced Text Editor ile küçük büyük harf değişimleri, sıralamalar vb. metin işlemlerini gerçekleştirebilirsiniz.">
+    <meta name="keywords" content="metin, Advanced Text Editor, küçük harf, büyük harf, sil, temizle">
+    <link rel="stylesheet" type="text/css" href="ay/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="ay/me.css?v=1">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="ay/js/jquery-3.1.1.min.js"></script>
+    <script src="ay/bootstrap/js/bootstrap.min.js"></script>
+    <script async="" src="pagead/js/f.txt?client=ca-pub-8794677022808079" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Text Editor v1</a>
-        <button id="btn-nightmode" class="btn btn-outline-secondary ms-auto">Gece Modu</button>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <!-- button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button -->
+            <a class="navbar-brand" href="index-1.htm">Advanced Text Editor</a>
+        </div>
+         <div id="motto" class="hidden-xs"></div>
+		 <div class="navbar-right">
+			<br><a href="#" id="btn-nightmode"><span class="glyphicon glyphicon-adjust" aria-hidden="true"></span></a>
+		</div>
     </div>
 </nav>
 
-<div class="container">
-    <textarea id="text-input" class="form-control mb-3" placeholder="Metninizi buraya girin..."></textarea>
-    <div class="d-flex gap-2 flex-wrap">
-        <button id="uppercase" class="btn btn-primary">HEPSİ BÜYÜK</button>
-        <button id="lowercase" class="btn btn-primary">hepsi küçük</button>
-        <button id="capitalize-sentences" class="btn btn-primary">Cümlelerin İlk Harfi Büyük</button>
-        <button id="capitalize-words" class="btn btn-primary">Kelimelerin İlk Harfi Büyük</button>
-        <button id="clear" class="btn btn-danger">Temizle</button>
-        <button id="trim" class="btn btn-warning">Baş ve Son Boşlukları Temizle</button>
-        <button id="uppercase-all" class="btn btn-info">Tüm Satırlara Büyük Harf Ekle</button>
-        <button id="reverse-text" class="btn btn-secondary">Metni Ters Çevir</button>
-    </div>
-    <hr>
-    <h4>Bul ve Değiştir</h4>
-    <div class="row">
-        <div class="col-md-6 mb-2">
-            <input type="text" id="find-text" class="form-control" placeholder="Bulunacak metin">
+
+
+<div class="container box">
+
+    <form class="form-inline" onsubmit="return false">
+
+        <div class="gri-fon" style="text-align:right">
+            <span id="siteAdresi"></span>
+            <span id="metinBilgisi"></span>
+            <button id="btn_temizle" class="btn">Temizle</button> 
         </div>
-        <div class="col-md-6 mb-2">
-            <input type="text" id="replace-text" class="form-control" placeholder="Yerine koyulacak metin">
+
+        <div class="gri-fon">
+            <textarea id="girilenMetin" class="form-control" onkeyup="metinBilgisi();" onchange="metinBilgisi();" onfocus="metinBilgisi();"></textarea>
         </div>
-    </div>
-    <div class="d-flex align-items-center">
-        <button id="find-replace" class="btn btn-success me-3">Değiştir</button>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="case-sensitive">
-            <label class="form-check-label" for="case-sensitive">Küçük/Büyük Harf Duyarlı</label>
+
+        <div class="gri-fon">
+            <button id="btn_hepsiBuyuk" class="btn">HEPSİ BÜYÜK</button>
+            <button id="btn_hepsiKucuk" class="btn">hepsi küçük</button>
+            <button id="btn_cumleBuyuk" class="btn">Cümlelerin ilk harfi büyük</button>
+            <button id="btn_kelimeBuyuk" class="btn">Kelimelerin İlk Harfi Büyük</button>
+
+
+            <div class="btn-group">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                Sil <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a id="btn_bsBoslukSil" href="javascript:void(0)">Satır başlarındaki ve sonlarındaki boşlukları sil</a></li>
+                <li><a id="btn_bsTabSil" href="javascript:void(0)">Satır başlarındaki ve sonlarındaki sekmeleri (tab) sil</a></li>
+                <li><a id="btn_fazlaBoslukSil" href="javascript:void(0)">Fazla boşluk karakterlerini sil</a></li>
+				<li><a id="btn_boslukSil" href="javascript:void(0)">Tüm boşluk karakterlerini sil</a></li>
+                <li><a class="btn_HtmlEtiketleriniSil" satirbasikoru="0" href="javascript:void(0)">HTML etiketlerini sil</a></li>
+                <li><a class="btn_HtmlEtiketleriniSil" satirbasikoru="1" href="javascript:void(0)">HTML etiketlerini sil (Satırbaşlarını koru)</a></li>
+                <li class="divider"></li>
+                <li><a class="btn_tekrarlayanSatirlariSil" href="javascript:void(0)" harfduyarli="0">Tekrarlayan satırları sil</a></li>
+                <li><a class="btn_tekrarlayanSatirlariSil" href="javascript:void(0)" harfduyarli="1">Tekrarlayan satırları sil (Küçük Büyük Harf Duyarlı)</a></li>
+              </ul>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sırala <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a class="btn_sirala" href="javascript:void(0)" tip="alfabetik">Alfabetik sırala</a></li>
+                <li><a class="btn_sirala" href="javascript:void(0)" tip="uzunluk">Satır uzunluğuna göre sırala</a></li>
+                <li><a class="btn_sirala" href="javascript:void(0)" tip="ters">Sıralamayı ters çevir</a></li>
+                <li><a class="btn_sirala" href="javascript:void(0)" tip="rastgele">Rastgele Sırala</a></li>
+              </ul>
+            </div>
+
+
+            <div class="btn-group">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Karakter <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a id="btn_turkceHarfliYap" href="javascript:void(0)">Türkçe Harfli Yap</a></li>
+                <li><a id="btn_ingilizHarfliYap" href="javascript:void(0)">İngiliz Alfabesine Uyarla</a></li>
+              </ul>
+            </div>
+ 
+            <div class="btn-group">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Diğer <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a id="btn_urlEncode" href="javascript:void(0)">URL Encode</a></li>
+                <li><a id="btn_urlDecode" href="javascript:void(0)">URL Decode</a></li>				
+              </ul>
+            </div>
+			
+            <button id="btn_tumunuSec" class="btn">Hepsini Seç</button>
         </div>
-    </div>
-    <hr>
-    <h4>Satır İşlemleri</h4>
-    <div class="row mb-2">
-        <div class="col-md-6">
-            <select id="line-operation" class="form-select">
-                <option value="remove-spaces">Satır Başları ve Sonlarındaki Boşlukları Sil</option>
-                <option value="remove-tabs">Satır Başları ve Sonlarındaki Sekmeleri Sil</option>
-                <option value="remove-duplicates">Tekrarlayan Satırları Sil</option>
-                <option value="shuffle-lines">Satırları Karıştır</option>
+
+        <hr>
+
+        <p>
+            Bunu &nbsp; <textarea id="buldegistir_bunu" style="width:200px;height:60px" class="form-control"></textarea> &nbsp; şu &nbsp; 
+            <textarea id="buldegistir_su" style="width:200px;height:60px" class="form-control"></textarea> &nbsp; olarak  &nbsp; &nbsp;
+            <button onclick="bulDegistir();" class="btn">Değiştir</button> &nbsp; &nbsp;
+            <input type="checkbox" id="buldegistir_bkhd"> <label for="buldegistir_bkhd">Küçük/Büyük harf duyarlı</label>
+        </p>
+
+        <hr>
+
+        <p>Her satırın  &nbsp; 
+            <select id="ekleNereye" class="form-control" style="width:100px">
+                <option value="basina">Başına</option>
+                <option value="sonuna">Sonuna</option>
             </select>
-        </div>
-        <div class="col-md-6">
-            <button id="apply-line-operation" class="btn btn-primary w-100">Uygula</button>
-        </div>
-    </div>
-    <textarea id="line-output" class="form-control" placeholder="Sonuçlar burada görünecek..."></textarea>
-    <hr>
-    <h4>İstatistikler</h4>
-    <div class="row">
-        <div class="col-md-6">
-            <p>Karakter Sayısı: <span id="char-count">0</span></p>
-        </div>
-        <div class="col-md-6">
-            <p>Kelime Sayısı: <span id="word-count">0</span></p>
-        </div>
-    </div>
+            <textarea id="ekleMetin" style="width:200px;height:60px" class="form-control" placeholder="bunu"></textarea>
+            <button onclick="bsMetinEkle();" class="btn">Ekle</button> &nbsp; &nbsp; Satır numarası eklemek için %S kullanın.
+        </p>
+
+        <hr>
+
+    </form>
+ 
 </div>
 
-<footer class="text-center mt-4">
-    <small>Text Editor v1&copy; -farukguler.com</small>
-</footer>
+<!--
+ <br>
+ <div class="container box aciklama">
+    <h2>Advanced Text Editor</h2>
+    <p>Advanced Text Editor sitemiz, metinler üzerinde çeşitli değişiklikler yapmanıza imkan tanıyarak işlemlerinizi kolaylaştırmaktadır. Örneğin; büyük-küçük harf değiştirme, cümlelerin veya kelimelerin ilk harflerini büyük yapma, metindeki bazı kelime veya kelime gruplarını bulup değiştirme, silme, sıralama vb.</p>
+        <br>
+    <h3>Büyük-küçük ya da küçük-büyük harf değiştirme</h3>
+    <p>Öncelikle değiştirmek istediğini kutucuğa girin. 
+    <br><br><strong>HEPSİ BÜYÜK :</strong> tüm metni büyük harfe dönüştürür
+    <br><br><strong>hepsi küçük :</strong> tüm metni küçük harfe dönüştürür
+    <br><br><strong>Cümlelerin ilk harfi büyük :</strong> Cümlelerin sadece ilk harfini büyük harf yapar. Diğer harfleri küçültmez, dilerseniz önce tüm metni küçük harf yaptıktan sonra cümlelerin ilk harfini büyük yaptırabilirsiniz.
+    <br><br><strong>Kelimelerin ilk harfi büyük :</strong> sadece kelimelerin ilk harflerini büyük yapar. Diğer harfleri küçültmez, bunun için önce tüm metni küçük harf yapabilirsiniz.
+    </p>
+    <br>
+    <h3>Bul ve Değiştir</h3>
+    <p><strong>Bunu</strong> ifadesinin sağındaki kutucuğa bulunacak, <strong>şu</strong> ifadesinin sağındaki kutucuğa yerine konacak ifadeyi girip <strong>Değiştir</strong> butonuna tıkladığınızda metindeki ifadeleri bulup değiştirecektir. Küçük Büyük harfe duyarlı olmasını isterseniz ilgili onay kutucuğunu işaretleyiniz.</p>
+        <br>
+    <h3>Satır İşlemleri</h3>
+    <p>Eğer bir listeye sahipseniz bu listeyi kutucuğa girerek çeşitli değişiklikler yapabilirsiniz;
+       <br><br><strong>Satır başlarındaki ve sonlarındaki boşlukları sil :</strong> Sil menüsü altındaki bu seçeneğe tıkladığınızda tüm satırların başındaki ve sonundaki boşluk karakterlerini siler.
+        <br><br><strong>Satır başlarındaki ve sonlarındaki sekmeleri sil :</strong> Sil menüsü altındaki bu seçeneğe tıkladığınızda tüm satırların başındaki ve sonundaki sekme (tab) karakterlerini siler.
+        <br><br><strong>Tekrarlayan satırları sil :</strong> Listenizde tekrarlayan satırları siler. Dilerseniz bunu küçük büyük harf duyarlı olarak da yapabilir.
+        <br><br><strong>Her satırın başına/sonuna ifade ekleme : </strong> işlemler kısmındaki en altta yer alan seçim menüsünden satırların sonuna mı başına mı ifade eklemek istediğinizi seçip, yanındaki kutuya eklemek istediğiniz ifadeyi girin ve Ekle butonuna tıklayın. Eğer eklemek istediğiniz satır numarası ise %S yazabilirsiniz.
+        <br>
+        <br><strong>Satırları sıralamak : </strong> Kutuya girdiğiniz listeyi;
+        alfabetik olarak, satır uzunluğuna göre veya rastgele sıralayabilir ya da sıralamayı ters çevirebilirsiniz...
+    </p>
+ </div>
+-->  
+ 
+ <div class="text-center" style="padding:20px;">Advanced Text Editor : farukguler.com</div>
 
+<script src="ay/js/deasciifier.js"></script>
+<script src="ay/js/deasciify_handler.js"></script>
+<script src="ay/js/metin.js?v=1.00"></script>
+ 
+
+<!-- Google tag (gtag.js) -->
+<script async="" src="gtag/js?id=G-5KC2JJ1R4Z"></script>
 <script>
-    // Gece Modu
-    document.getElementById("btn-nightmode").addEventListener("click", () => {
-        document.body.classList.toggle("bg-dark-mode");
-    });
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    // Dönüştürme İşlemleri
-    document.getElementById("uppercase").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        textArea.value = textArea.value.toUpperCase();
-    });
-
-    document.getElementById("lowercase").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        textArea.value = textArea.value.toLowerCase();
-    });
-
-    document.getElementById("capitalize-sentences").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        textArea.value = textArea.value
-            .toLowerCase()
-            .replace(/(^\s*\w|[\.\!\?]\s*\w)/g, c => c.toUpperCase());
-    });
-
-    document.getElementById("capitalize-words").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        textArea.value = textArea.value
-            .toLowerCase()
-            .replace(/\b\w/g, c => c.toUpperCase());
-    });
-
-    document.getElementById("clear").addEventListener("click", () => {
-        document.getElementById("text-input").value = "";
-        updateStats();
-    });
-
-    // Yeni Özellikler: Baş ve Son Boşlukları Temizleme
-    document.getElementById("trim").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        textArea.value = textArea.value.trim();
-        updateStats();
-    });
-
-    // Yeni Özellik: Tüm Satırlara Büyük Harf Ekleme
-    document.getElementById("uppercase-all").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        textArea.value = textArea.value.split("\n").map(line => line.toUpperCase()).join("\n");
-        updateStats();
-    });
-
-    // Yeni Özellik: Metni Ters Çevirme
-    document.getElementById("reverse-text").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        textArea.value = textArea.value.split("").reverse().join("");
-        updateStats();
-    });
-
-    // Bul ve Değiştir
-    document.getElementById("find-replace").addEventListener("click", () => {
-        const textArea = document.getElementById("text-input");
-        const findText = document.getElementById("find-text").value;
-        const replaceText = document.getElementById("replace-text").value;
-        const caseSensitive = document.getElementById("case-sensitive").checked;
-        if (!findText) {
-            alert("Lütfen bulunacak metni girin.");
-            return;
-        }
-        const regex = new RegExp(findText, caseSensitive ? "g" : "gi");
-        textArea.value = textArea.value.replace(regex, replaceText);
-        updateStats();
-    });
-
-    // Satır İşlemleri
-    document.getElementById("apply-line-operation").addEventListener("click", () => {
-        const operation = document.getElementById("line-operation").value;
-        const output = document.getElementById("line-output");
-        const textArea = document.getElementById("text-input");
-        let lines = textArea.value.split("\n");
-        
-        if (operation === "remove-spaces") {
-            lines = lines.map(line => line.trim());
-        } else if (operation === "remove-tabs") {
-            lines = lines.map(line => line.replace(/^\t+|\t+$/g, ""));
-        } else if (operation === "remove-duplicates") {
-            lines = Array.from(new Set(lines));
-        } else if (operation === "shuffle-lines") {
-            lines = lines.sort(() => Math.random() - 0.5);
-        }
-        
-        output.value = lines.join("\n");
-        textArea.value = lines.join("\n"); // Sonuçları ana metin alanına da yansıt
-        updateStats();
-    });
-
-    // İstatistikler
-    const updateStats = () => {
-        const text = document.getElementById("text-input").value;
-        document.getElementById("char-count").textContent = text.length;
-        document.getElementById("word-count").textContent = text.split(/\s+/).filter(word => word.length > 0).length;
-    };
-
-    document.getElementById("text-input").addEventListener("input", updateStats);
-    updateStats(); // Sayfa yüklendiğinde istatistikleri güncelle
+  gtag('config', 'G-5KC2JJ1R4Z');
 </script>
 
+
 </body>
-</html>
+</html> 
