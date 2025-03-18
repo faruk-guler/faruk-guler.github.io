@@ -28,7 +28,7 @@
         }
         .permission-grid {
             display: grid;
-            grid-template-columns: 80px repeat(3, 1fr);
+            grid-template-columns: 100px repeat(3, 1fr); /* Permission | Owner | Group | Others */
             gap: 8px;
             margin-bottom: 15px;
             font-size: 14px;
@@ -42,12 +42,12 @@
             border-radius: 4px;
             font-size: 12px;
         }
-        .permission-role {
+        .permission-label {
             font-weight: bold;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding-right: 8px;
+            justify-content: flex-start;
+            padding-left: 8px;
             font-size: 12px;
         }
         .checkbox-container {
@@ -124,10 +124,10 @@
         }
         @media (max-width: 600px) {
             .permission-grid {
-                grid-template-columns: 60px repeat(3, 1fr);
+                grid-template-columns: 80px repeat(3, 1fr);
                 font-size: 12px;
             }
-            .permission-role {
+            .permission-label {
                 font-size: 10px;
             }
             .result-value {
@@ -141,7 +141,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Unix Permissions Calculator -farukguler.com</h1>
+        <h1>Unix Permissions Calculator</h1>
         
         <!-- File Type Selection -->
         <div class="file-type-container">
@@ -177,39 +177,39 @@
 
         <!-- Permissions Table -->
         <div class="permission-grid">
-            <div></div>
-            <div class="permission-header">Read (r)</div>
-            <div class="permission-header">Write (w)</div>
-            <div class="permission-header">Execute (x)</div>
+            <div class="permission-header">Permission</div>
+            <div class="permission-header">Owner (u)</div>
+            <div class="permission-header">Group (g)</div>
+            <div class="permission-header">Others (o)</div>
             
-            <div class="permission-role">User (u):</div>
+            <div class="permission-label">Read (4)</div>
             <div class="checkbox-container">
                 <input type="checkbox" id="ur" checked>
             </div>
             <div class="checkbox-container">
-                <input type="checkbox" id="uw" checked>
-            </div>
-            <div class="checkbox-container">
-                <input type="checkbox" id="ux">
-            </div>
-            
-            <div class="permission-role">Group (g):</div>
-            <div class="checkbox-container">
                 <input type="checkbox" id="gr" checked>
             </div>
             <div class="checkbox-container">
-                <input type="checkbox" id="gw">
-            </div>
-            <div class="checkbox-container">
-                <input type="checkbox" id="gx">
+                <input type="checkbox" id="or">
             </div>
             
-            <div class="permission-role">Others (o):</div>
+            <div class="permission-label">Write (2)</div>
             <div class="checkbox-container">
-                <input type="checkbox" id="or">
+                <input type="checkbox" id="uw" checked>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="gw" checked>
             </div>
             <div class="checkbox-container">
                 <input type="checkbox" id="ow">
+            </div>
+            
+            <div class="permission-label">Execute (1)</div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="ux">
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="gx">
             </div>
             <div class="checkbox-container">
                 <input type="checkbox" id="ox">
