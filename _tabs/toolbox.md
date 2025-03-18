@@ -9,6 +9,8 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/base64/" target="_blank">Base64 Decoder/Encoder</a>
 
+<a href="https://farukguler.com/toolbox/chmod-calculator/" target="_blank">Unix Permissions Calculator</a>
+
 <a href="https://farukguler.com/toolbox/diff/" target="_blank">Diff Checker</a>
 
 <a href="https://farukguler.com/toolbox/text-editor/" target="_blank">Advanced Text Editor</a>
