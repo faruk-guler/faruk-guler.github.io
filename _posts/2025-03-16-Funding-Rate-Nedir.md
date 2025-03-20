@@ -25,7 +25,7 @@ categories: [Blockchain]
 |---------|--------------|-----------------|
 | **CRV** | **-1.1268%** | **Negatif** (Short pozisyonlar aşırı fazla)  
 | **RVN** | **0.0100%**  | **Nötr**  
-| **BNX** | **0.0803%**  | **Pozitif** (Long pozisyonlar aşırı fazla)  
+| **BNX** | **2.3803%**  | **Pozitif** (Long pozisyonlar aşırı fazla)  
 
 ```
 
