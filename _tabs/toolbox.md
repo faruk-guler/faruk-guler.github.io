@@ -1,6 +1,6 @@
 ---
 layout: page
-icon: fa-solid fa-toolbox  qr-generator
+icon: fa-solid fa-wrench
 order: 2
 ---
 <a href="https://farukguler.com/toolbox/spot-calc/" target="_blank">Spot Profit and Loss Calculator</a>
