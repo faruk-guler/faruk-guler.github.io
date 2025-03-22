@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronjob Planlama Aracı</title>
+    <style>
+        /* Önceki CSS stil tanımlamaları aynen kalacak */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .cron-container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .cron-inputs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        input {
+            padding: 8px;
+            width: 120px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        .examples {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gelişmiş Cronjob Planlama Aracı</h1>
+    
+    <div class="cron-container">
+        <h3>Cron İfadesi Oluştur</h3>
+        <div class="cron-inputs">
+            <div>
+                <label>Dakika (0-59)</label><br>
+                <input type="text" id="minute" value="*" placeholder="*/15, 0-30/5">
+            </div>
+            <div>
+                <label>Saat (0-23)</label><br>
+                <input type="text" id="hour" value="*" placeholder="8-18/2">
+            </div>
+            <div>
+                <label>Gün (1-31)</label><br>
+                <input type="text" id="day" value="*" placeholder="1,15">
+            </div>
+            <div>
+                <label>Ay (1-12)</label><br>
+                <input type="text" id="month" value="*" placeholder="1-6">
+            </div>
+            <div>
+                <label>Haftanın Günü (0-6)</label><br>
+                <input type="text" id="weekday" value="*" placeholder="1-5">
+            </div>
+        </div>
+        
+        <div class="help-text">
+            * = her zaman, / = adım aralığı, - = değer aralığı, , = değer listesi
+        </div>
+        
+        <div class="examples">
+            <strong>Örnek Cron İfadeleri:</strong><br>
+            - Her 15 dakikada: <code>*/15 * * * *</code><br>
+            - Çalışma saatleri: <code>0 9-17/2 * * 1-5</code><br>
+            - Aylık bakım: <code>0 3 1 */3 *</code>
+        </div>
+        
+        <button onclick="generateCron()">Cron İfadesini Oluştur</button>
+        
+        <div id="result">
+            Sonuçlar burada görünecek
+        </div>
+    </div>
+
+    <script>
+        // Cron parçası analiz fonksiyonu
+        function parseCronPart(part, min, max) {
+            if (part === '*') return { type: 'any' };
+            
+            const results = new Set();
+            const ranges = part.split(',');
+            
+            for (const range of ranges) {
+                let [start, end, step] = range.split(/(\-|\/)/);
+                step = parseInt(step) || 1;
+                
+                if (range.includes('/')) {
+                    const [base, step] = range.split('/');
+                    const baseValues = base === '*' ? 
+                        Array.from({length: max - min + 1}, (_, i) => min + i) :
+                        parseCronPart(base, min, max).values;
+                    
+                    for (let i = 0; i < baseValues.length; i += parseInt(step)) {
+                        results.add(baseValues[i]);
+                    }
+                } else if (range.includes('-')) {
+                    [start, end] = range.split('-').map(Number);
+                    start = Math.max(min, start);
+                    end = Math.min(max, end);
+                    for (let i = start; i <= end; i++) {
+                        results.add(i);
+                    }
+                } else {
+                    const value = parseInt(range);
+                    if (!isNaN(value) && value >= min && value <= max) {
+                        results.add(value);
+                    }
+                }
+            }
+            
+            return results.size > 0 ? 
+                { type: 'values', values: [...results].sort((a, b) => a - b) } : 
+                { type: 'invalid' };
+        }
+
+        // Bir sonraki çalışma zamanını hesapla
+        function calculateNextRun(cronExpr) {
+            const cronParts = cronExpr.split(' ');
+            const [
+                minutePart = '*',
+                hourPart = '*',
+                dayPart = '*',
+                monthPart = '*',
+                weekdayPart = '*'
+            ] = cronParts;
+
+            const specs = {
+                minute: parseCronPart(minutePart, 0, 59),
+                hour: parseCronPart(hourPart, 0, 23),
+                day: parseCronPart(dayPart, 1, 31),
+                month: parseCronPart(monthPart, 1, 12),
+                weekday: parseCronPart(weekdayPart, 0, 6)
+            };
+
+            // Hata kontrolü
+            if (Object.values(specs).some(s => s.type === 'invalid')) {
+                throw new Error('Geçersiz cron ifadesi');
+            }
+
+            const now = new Date();
+            let date = new Date(now);
+            date.setSeconds(0, 0);
+
+            const maxAttempts = 100000;
+            let attempts = 0;
+
+            while (attempts++ < maxAttempts) {
+                // Ay kontrolü
+                if (specs.month.type !== 'any') {
+                    const currentMonth = date.getMonth() + 1;
+                    if (!specs.month.values.includes(currentMonth)) {
+                        date.setMonth(currentMonth);
+                        date.setDate(1);
+                        date.setHours(0, 0, 0);
+                        continue;
+                    }
+                }
+
+                // Gün kontrolü
+                let dayValid = true;
+                const currentDay = date.getDate();
+                const currentWeekday = date.getDay();
+
+                if (specs.day.type !== 'any' && !specs.day.values.includes(currentDay)) {
+                    dayValid = false;
+                }
+                if (specs.weekday.type !== 'any' && !specs.weekday.values.includes(currentWeekday)) {
+                    dayValid = false;
+                }
+
+                if (!dayValid) {
+                    date.setDate(date.getDate() + 1);
+                    date.setHours(0, 0, 0);
+                    continue;
+                }
+
+                // Saat kontrolü
+                if (specs.hour.type !== 'any') {
+                    const currentHour = date.getHours();
+                    const validHours = specs.hour.values.filter(h => h >= currentHour);
+                    if (validHours.length === 0) {
+                        date.setDate(date.getDate() + 1);
+                        date.setHours(0, 0, 0);
+                        continue;
+                    }
+                    if (validHours[0] > currentHour) {
+                        date.setHours(validHours[0], 0, 0);
+                    }
+                }
+
+                // Dakika kontrolü
+                if (specs.minute.type !== 'any') {
+                    const currentMinute = date.getMinutes();
+                    const validMinutes = specs.minute.values.filter(m => m >= currentMinute);
+                    if (validMinutes.length === 0) {
+                        date.setHours(date.getHours() + 1);
+                        date.setMinutes(0, 0, 0);
+                        continue;
+                    }
+                    if (validMinutes[0] > currentMinute) {
+                        date.setMinutes(validMinutes[0], 0, 0);
+                    }
+                }
+
+                // Gelecek zamanı bulduk
+                if (date > now) {
+                    return date;
+                }
+
+                // Sonraki dakikaya ilerle
+                date.setMinutes(date.getMinutes() + 1);
+            }
+
+            throw new Error('Gelecek çalışma zamanı bulunamadı');
+        }
+
+        // UI İşlemleri
+        function generateCron() {
+            const parts = [
+                document.getElementById('minute').value.trim(),
+                document.getElementById('hour').value.trim(),
+                document.getElementById('day').value.trim(),
+                document.getElementById('month').value.trim(),
+                document.getElementById('weekday').value.trim()
+            ];
+
+            try {
+                const cronExpression = parts.join(' ');
+                const nextRun = calculateNextRun(cronExpression);
+                
+                const explanation = `Cron İfadesi: ${cronExpression}\n\n` +
+                    `Bir Sonraki Çalışma: ${nextRun.toLocaleString('tr-TR')}\n\n` +
+                    `Detaylar:\n` +
+                    `- Dakika: ${explainPart(parts[0], '0-59')}\n` +
+                    `- Saat: ${explainPart(parts[1], '0-23')}\n` +
+                    `- Gün: ${explainPart(parts[2], '1-31')}\n` +
+                    `- Ay: ${explainPart(parts[3], '1-12')}\n` +
+                    `- Hafta Günü: ${explainWeekday(parts[4])}`;
+
+                document.getElementById('result').innerHTML = explanation.replace(/\n/g, '<br>');
+            } catch (error) {
+                document.getElementById('result').innerHTML = 
+                    `<span class="error">Hata: ${error.message}</span>`;
+            }
+        }
+
+        // Açıklama oluşturma yardımcıları
+        function explainPart(part, range) {
+            if (part === '*') return `Her değer (${range})`;
+            if (part.includes('/')) return `Her ${part.split('/')[1]} değerde bir`;
+            if (part.includes('-')) return `${part.replace('-', ' ile ')} arası`;
+            if (part.includes(',')) return `Belirli değerler: ${part}`;
+            return `Sabit değer: ${part}`;
+        }
+
+        function explainWeekday(part) {
+            const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 
+                        'Perşembe', 'Cuma', 'Cumartesi'];
+            if (part === '*') return 'Her gün';
+            return part.split(',').map(d => {
+                if (d.includes('-')) {
+                    const [s, e] = d.split('-');
+                    return `${days[s]} - ${days[e]}`;
+                }
+                return days[d];
+            }).join(', ');
+        }
+    </script>
+</body>
+</html>
