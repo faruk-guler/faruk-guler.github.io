@@ -21,7 +21,7 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/converter/" target="_blank">Byte Converter</a>
 
-<a href="https://farukguler.com/toolbox/diff/" target="_blank">Diskpart Tool</a>
+<a href="https://farukguler.com/toolbox/diskpart/" target="_blank">Diskpart Tool</a>
 
 <a href="https://farukguler.com/toolbox/qr-generator/" target="_blank">QR Code Generator</a>
 
