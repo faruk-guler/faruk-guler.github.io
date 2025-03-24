@@ -11,6 +11,8 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/cronjob-planner/" target="_blank">Best Cronjob Planner Tool</a>
 
+<a href="https://farukguler.com/toolbox/parted/" target="_blank">Parted Jump Manual</a>
+
 <a href="https://farukguler.com/toolbox/chmod-calculator/" target="_blank">Unix Permissions Calculator</a>
 
 <a href="https://farukguler.com/toolbox/diff/" target="_blank">Diff Checker</a>
@@ -21,9 +23,9 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/converter/" target="_blank">Byte Converter</a>
 
-<a href="https://farukguler.com/toolbox/parted/" target="_blank">Parted Jump Manual</a>
-
 <a href="https://farukguler.com/toolbox/qr-generator/" target="_blank">QR Code Generator</a>
+
+<a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Tool</a>
 
 <a href="https://farukguler.com/toolbox/IPv4-subnet-calculator/" target="_blank">Subnet-Calculator</a>
 
@@ -34,3 +36,5 @@ order: 2
 <a href="https://farukguler.com/toolbox/reverse-ip/" target="_blank">Reverse IP Lookup</a>
 
 <a href="https://farukguler.com/toolbox/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
+
+<a href="https://farukguler.com/toolbox/whois-lookup/" target="_blank">Whois Lookup</a>
