@@ -47,7 +47,7 @@
             <div class="tab-content" id="cronTabsContent">
                 <!-- Cron Oluştur Sekmesi -->
                 <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
-                    <h5 class="mt-3">Cron İfadesi Oluştur</h5>
+                    <h5 class="mt-3">Create Cron Expression</h5>
                     <div class="row g-3">
                         <div class="col">
                             <label for="minute" class="form-label">Dakika (0-59)</label>
@@ -94,12 +94,12 @@
 
                 <!-- Cron Doğrula Sekmesi -->
                 <div class="tab-pane fade" id="validate" role="tabpanel" aria-labelledby="validate-tab">
-                    <h5 class="mt-3">Cron İfadesi Doğrula</h5>
+                    <h5 class="mt-3">Validate Cron Expression</h5>
                     <div class="mb-3">
                         <label for="validateInput" class="form-label">Cron İfadesini Girin (5 parça, boşlukla ayrılmış)</label>
                         <input type="text" class="form-control" id="validateInput" placeholder="*/15 * * * *">
                     </div>
-                    <button class="btn btn-primary" id="validateCronButton">Doğrula ve Analiz Et</button>
+                    <button class="btn btn-primary" id="validateCronButton">Verify and Analyze</button>
                     <div class="mt-3" id="validateResult"></div>
                 </div>
             </div>
