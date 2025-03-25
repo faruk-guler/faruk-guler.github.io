@@ -25,7 +25,7 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/qr-generator/" target="_blank">QR Code Generator</a>
 
-<a href="https://farukguler.com/toolbox/nobet/" target="_blank">Hastane Nöbet Yazıcı Tool</a>
+<a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Yazma Programı 2025</a>
 
 <a href="https://farukguler.com/toolbox/IPv4-subnet-calculator/" target="_blank">Subnet-Calculator</a>
 
