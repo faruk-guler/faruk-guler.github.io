@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Diff Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .differences {
+      white-space: pre-wrap;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+    .added {
+      color: green;
+    }
+    .removed {
+      color: red;
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <h1>Text Diff Checker</h1>
+  <p>İki metin arasındaki farkları kontrol edin:</p>
+  <textarea id="text1" placeholder="Metin 1"></textarea>
+  <textarea id="text2" placeholder="Metin 2"></textarea>
+  <button onclick="checkDifferences()">Farkları Kontrol Et</button>
+  <h3>Sonuç:</h3>
+  <div id="diffResult" class="differences"></div>
+
+  <script>
+    function checkDifferences() {
+      const text1 = document.getElementById('text1').value;
+      const text2 = document.getElementById('text2').value;
+      const diffResult = document.getElementById('diffResult');
+
+      // Farkları bulmak için metni kelimelere bölelim
+      const words1 = text1.split(/\s+/);
+      const words2 = text2.split(/\s+/);
+
+      let result = '';
+      const maxLength = Math.max(words1.length, words2.length);
+
+      for (let i = 0; i < maxLength; i++) {
+        if (words1[i] !== words2[i]) {
+          if (words1[i]) result += `<span class="removed">${words1[i]}</span> `;
+          if (words2[i]) result += `<span class="added">${words2[i]}</span> `;
+        } else {
+          result += `${words1[i] || ''} `;
+        }
+      }
+
+      diffResult.innerHTML = result.trim() || "Fark bulunamadı.";
+    }
+  </script>
+</body>
+</html>
