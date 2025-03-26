@@ -29,7 +29,7 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/IPv4-subnet-calculator/" target="_blank">Subnet-Calculator</a>
 
-<a href="https://farukguler.com/toolbox/md-viewer/" target="_blank">Markdown-viewer</a>
+<a href="https://farukguler.com/toolbox/md-viewer/" target="_blank">Markdown viewer</a>
 
 <a href="https://farukguler.com/toolbox/my-ip/" target="_blank">What Is My IP Address</a>
 
