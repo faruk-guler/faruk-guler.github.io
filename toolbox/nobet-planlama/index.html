@@ -368,6 +368,7 @@
         let duzenlemeModu = false;
         let seciliMazeretGunleri = new Set();
         let takvimGunleri = [];
+        let mazeretAciklamalari = {}; // Mazeret açıklamalarını saklamak için
 
         // Sayfa yüklendiğinde
         document.addEventListener('DOMContentLoaded', function() {
@@ -502,7 +503,7 @@
             }
         }
 
-        // Takvim oluşturma (DÜZELTİLMİŞ VERSİYON)
+        // Takvim oluşturma
         function takvimOlustur() {
             const baslangic = new Date(document.getElementById('baslangicTarihi').value);
             const bitis = new Date(document.getElementById('bitisTarihi').value);
@@ -520,6 +521,7 @@
             if(seciliPersonelIndex >= 0) {
                 personeller[seciliPersonelIndex].mazeretler.forEach(m => {
                     seciliMazeretGunleri.add(m.tarih);
+                    mazeretAciklamalari[m.tarih] = m.aciklama; // Açıklamaları global değişkene yükle
                 });
             }
             
@@ -559,6 +561,7 @@
                 gunElement.onclick = function() {
                     if(seciliMazeretGunleri.has(gunStr)) {
                         seciliMazeretGunleri.delete(gunStr);
+                        delete mazeretAciklamalari[gunStr]; // Açıklamayı da sil
                         this.classList.remove('mazeret-secili');
                     } else {
                         seciliMazeretGunleri.add(gunStr);
@@ -604,15 +607,22 @@
                 const aciklamaDiv = document.createElement('div');
                 aciklamaDiv.className = 'flex flex-col';
                 
-                const mevcutMazeret = seciliPersonelIndex >= 0 ? 
-                    personeller[seciliPersonelIndex].mazeretler.find(m => m.tarih === tarih) : null;
+                // Açıklama için öncelik sırası:
+                // 1. Global değişkende saklanan değer
+                // 2. Personel verisindeki mevcut açıklama
+                // 3. Boş değer
+                const mevcutAciklama = mazeretAciklamalari[tarih] || 
+                                      (seciliPersonelIndex >= 0 ? 
+                                       personeller[seciliPersonelIndex].mazeretler.find(m => m.tarih === tarih)?.aciklama : 
+                                       '');
                 
                 aciklamaDiv.innerHTML = `
                     <label class="text-xs text-gray-500 mb-1">Mazeret Açıklaması:</label>
                     <input type="text" class="mazeret-aciklama" 
                            data-tarih="${tarih}" 
                            placeholder="Mazeret sebebini yazın" 
-                           value="${mevcutMazeret?.aciklama || ''}">
+                           value="${mevcutAciklama || ''}"
+                           oninput="mazeretAciklamaGuncelle('${tarih}', this.value)">
                 `;
                 
                 div.appendChild(tarihRow);
@@ -621,9 +631,15 @@
             });
         }
 
+        // Mazeret açıklaması güncellendiğinde çağrılacak fonksiyon
+        function mazeretAciklamaGuncelle(tarih, deger) {
+            mazeretAciklamalari[tarih] = deger;
+        }
+
         // Mazeret Silme
         function mazeretSil(tarih) {
             seciliMazeretGunleri.delete(tarih);
+            delete mazeretAciklamalari[tarih]; // Açıklamayı da sil
             document.querySelectorAll(`#takvim [data-tarih="${tarih}"]`).forEach(el => {
                 el.classList.remove('mazeret-secili');
             });
@@ -634,6 +650,7 @@
         function mazeretleriTemizle() {
             if(confirm("Tüm mazeret günlerini silmek istediğinize emin misiniz?")) {
                 seciliMazeretGunleri = new Set();
+                mazeretAciklamalari = {}; // Tüm açıklamaları temizle
                 document.querySelectorAll('#takvim .mazeret-secili').forEach(el => {
                     el.classList.remove('mazeret-secili');
                 });
@@ -645,13 +662,10 @@
         function mazeretKaydet() {
             if(seciliPersonelIndex >= 0) {
                 personeller[seciliPersonelIndex].mazeretler = Array.from(seciliMazeretGunleri).map(tarih => {
-                    const aciklamaInput = document.querySelector(`.mazeret-aciklama[data-tarih="${tarih}"]`);
-                    const aciklama = aciklamaInput ? aciklamaInput.value : formatDate(tarih);
-                    
                     return {
                         tarih: tarih,
                         tur: 'genel',
-                        aciklama: aciklama || formatDate(tarih)
+                        aciklama: mazeretAciklamalari[tarih] || formatDate(tarih)
                     };
                 });
                 
@@ -661,6 +675,23 @@
                 showToast("Mazeretler başarıyla kaydedildi", "success");
             }
         }
+
+        // Modal açılırken çağrılacak fonksiyon
+        window.mazeretModalAc = function(index) {
+            seciliPersonelIndex = index;
+            document.getElementById('mazeretPersonelAdi').textContent = personeller[index].ad;
+            document.getElementById('mazeretModal').classList.remove('hidden');
+            
+            // Global değişkenleri personel verisiyle doldur
+            seciliMazeretGunleri = new Set();
+            mazeretAciklamalari = {};
+            personeller[index].mazeretler.forEach(m => {
+                seciliMazeretGunleri.add(m.tarih);
+                mazeretAciklamalari[m.tarih] = m.aciklama;
+            });
+            
+            takvimOlustur();
+        };
 
         // Personel Listesini Güncelleme
         function personelListesiniGuncelle() {
@@ -723,7 +754,12 @@
             
             if(!baslangic || !bitis || personeller.length === 0) return;
             
-            const gunSayisi = Math.ceil((bitis - baslangic) / (1000 * 60 * 60 * 24)) + 1;
+            const gunler = [];
+            for(let d = new Date(baslangic); d <= bitis; d.setDate(d.getDate() + 1)) {
+                gunler.push(new Date(d));
+            }
+            
+            const gunSayisi = gunler.length;
             const haftaSonuSayisi = gunler.filter(g => [0,6].includes(g.getDay())).length;
             
             const toplamNobet = gunSayisi * nobetciSayisi;
@@ -941,7 +977,7 @@
             }
         }
 
-        // Personel Dışa Aktar
+        // Personel Dışa Aktar (Gelişmiş)
         function personelDisariAktar() {
             if(personeller.length === 0) {
                 showToast("Dışa aktarılacak personel bulunamadı!", "error");
@@ -949,68 +985,227 @@
             }
             
             try {
-                const data = personeller.map(p => ({
-                    Ad: p.ad,
-                    NöbetSayısı: p.nobetSayisi,
-                    HaftaSonuNöbetSayısı: p.haftaSonuNobetSayisi,
-                    Mazeretler: p.mazeretler.map(m => `${m.tarih} (${m.aciklama})`).join('; ')
-                }));
+                // Create headers with all necessary columns
+                const headers = [
+                    "Personel Adı", 
+                    "Toplam Nöbet", 
+                    "Hafta Sonu Nöbet", 
+                    "Mazeret Sayısı",
+                    "Mazeret Tarihleri",
+                    "Mazeret Açıklamaları"
+                ];
                 
+                // Prepare data rows
+                const data = personeller.map(p => {
+                    // Separate dates and explanations for better Excel processing
+                    const mazeretTarihleri = p.mazeretler.map(m => m.tarih).join("; ");
+                    const mazeretAciklamalari = p.mazeretler.map(m => m.aciklama).join("; ");
+                    
+                    return [
+                        p.ad,
+                        p.nobetSayisi,
+                        p.haftaSonuNobetSayisi,
+                        p.mazeretler.length,
+                        mazeretTarihleri,
+                        mazeretAciklamalari
+                    ];
+                });
+                
+                // Create workbook with both data and instructions
                 const workbook = XLSX.utils.book_new();
-                const worksheet = XLSX.utils.json_to_sheet(data);
+                const worksheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+                
+                // Add instructions sheet
+                const instructions = [
+                    ["DİKKAT: Bu dosyayı düzenlerken lütfen aşağıdaki kurallara uyunuz"],
+                    [""],
+                    ["1. Sütun başlıklarını değiştirmeyiniz"],
+                    ["2. Personel adlarını değiştirebilirsiniz (veya yeni yeni satıra ekleyin)"],
+                    ["3. Mazeret tarihleri YYYY-AA-GG formatında olmalıdır (örnek: 2023-12-31)"],
+                    ["4. Mazeret tarihlerini noktalı virgül (;) ile ayırabilirsiniz"],
+                    ["5. Programı bozmamak için diğer sütunlardaki verileri değiştirmeyin"]
+                ];
+                const instructionSheet = XLSX.utils.aoa_to_sheet(instructions);
+                
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Personeller");
+                XLSX.utils.book_append_sheet(workbook, instructionSheet, "Talimatlar");
+                
                 XLSX.writeFile(workbook, 'Personel_Listesi.xlsx');
                 showToast("Personel listesi başarıyla dışa aktarıldı", "success");
             } catch (e) {
                 console.error("Dışa aktarım hatası:", e);
-                showToast("Personel listesi dışa aktarılırken hata oluştu!", "error");
+                showToast("Dışa aktarım sırasında bir hata oluştu!", "error");
             }
         }
 
-        // Personel İçe Aktar
+        // Personel İçe Aktar (Gelişmiş)
         function personelIcerikAktar() {
             const input = document.createElement('input');
             input.type = 'file';
-            input.accept = '.xlsx,.xls';
+            input.accept = '.xlsx,.xls,.csv';
             
-            input.onchange = e => {
+            input.onchange = async e => {
                 const file = e.target.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    try {
-                        const data = new Uint8Array(e.target.result);
-                        const workbook = XLSX.read(data, { type: 'array' });
-                        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-                        
-                        if(jsonData.length === 0) {
-                            showToast("Dosyada personel bilgisi bulunamadı!", "error");
-                            return;
+                if (!file) return;
+
+                try {
+                    const data = await readFileAsArrayBuffer(file);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    // Find the personel sheet (skip instruction sheet)
+                    const personelSheetName = workbook.SheetNames.find(name => 
+                        name.toLowerCase().includes('personel') || 
+                        !name.toLowerCase().includes('talimat')
+                    );
+                    
+                    if (!personelSheetName) {
+                        showToast("Personel sayfası bulunamadı!", "error");
+                        return;
+                    }
+                    
+                    const worksheet = workbook.Sheets[personelSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    if (jsonData.length < 2) {
+                        showToast("Excel dosyasında veri bulunamadı!", "error");
+                        return;
+                    }
+                    
+                    // Get column indexes from headers
+                    const headers = jsonData[0].map(h => h.toString().toLowerCase().trim());
+                    const adIndex = headers.findIndex(h => h.includes("personel") || h.includes("adı") || h.includes("ad"));
+                    const nobetIndex = headers.findIndex(h => h.includes("toplam") || h.includes("nöbet"));
+                    const hsNobetIndex = headers.findIndex(h => h.includes("hafta") || h.includes("sonu"));
+                    const mazeretTarihIndex = headers.findIndex(h => h.includes("mazeret tarih"));
+                    const mazeretAciklamaIndex = headers.findIndex(h => h.includes("mazeret açıklama"));
+                    
+                    if (adIndex === -1) {
+                        showToast("Personel adı sütunu bulunamadı!", "error");
+                        return;
+                    }
+                    
+                    let basarili = 0;
+                    let hatali = 0;
+                    const yeniPersoneller = [];
+                    
+                    // Process data starting from row 1 (skip header)
+                    for (let i = 1; i < jsonData.length; i++) {
+                        const row = jsonData[i];
+                        try {
+                            const ad = cleanPersonelName(row[adIndex]?.toString()?.trim());
+                            
+                            if (!ad || ad.length < 2) {
+                                hatali++;
+                                continue;
+                            }
+                            
+                            const personel = {
+                                ad: escapeHtml(ad),
+                                nobetSayisi: parseInt(row[nobetIndex]) || 0,
+                                haftaSonuNobetSayisi: parseInt(row[hsNobetIndex]) || 0,
+                                mazeretler: [],
+                                sonNobet: null,
+                                ustusteNobet: 0
+                            };
+                            
+                            // Process unavailability dates if columns exist
+                            if (mazeretTarihIndex !== -1 && row[mazeretTarihIndex]) {
+                                const tarihler = row[mazeretTarihIndex].toString().split(';').map(t => t.trim());
+                                const aciklamalar = mazeretAciklamaIndex !== -1 && row[mazeretAciklamaIndex] ? 
+                                    row[mazeretAciklamaIndex].toString().split(';').map(a => a.trim()) : 
+                                    Array(tarihler.length).fill("Mazeret");
+                                
+                                tarihler.forEach((tarih, idx) => {
+                                    if (tarih) {
+                                        personel.mazeretler.push({
+                                            tarih: formatDateForStorage(tarih),
+                                            tur: 'genel',
+                                            aciklama: aciklamalar[idx] || "Mazeret"
+                                        });
+                                    }
+                                });
+                            }
+                            
+                            yeniPersoneller.push(personel);
+                            basarili++;
+                            
+                        } catch (e) {
+                            hatali++;
+                            console.error("Personel kaydı işlenirken hata:", e);
                         }
-                        
-                        personeller = jsonData.map(item => ({
-                            ad: escapeHtml(item.Ad || ''),
-                            nobetSayisi: 0,
-                            haftaSonuNobetSayisi: 0,
-                            mazeretler: [],
-                            sonNobet: null,
-                            ustusteNobet: 0
-                        }));
-                        
+                    }
+
+                    if (yeniPersoneller.length > 0) {
+                        personeller = yeniPersoneller;
                         personelListesiniGuncelle();
                         nobetDagilimKontrol();
-                        showToast(`${personeller.length} personel başarıyla içe aktarıldı`, "success");
-                    } catch (e) {
-                        console.error("İçe aktarım hatası:", e);
-                        showToast("Personel listesi içe aktarılırken hata oluştu!", "error");
+                        
+                        let mesaj = `${basarili} personel başarıyla içe aktarıldı`;
+                        if (hatali > 0) {
+                            mesaj += ` (${hatali} geçersiz kayıt atlandı)`;
+                        }
+                        showToast(mesaj, "success");
+                    } else {
+                        showToast("İçe aktarılacak geçerli personel bulunamadı!", "error");
                     }
-                };
-                
-                reader.readAsArrayBuffer(file);
+                    
+                } catch (e) {
+                    console.error("İçe aktarım hatası:", e);
+                    showToast("Dosya okunamadı! Lütfen formatı kontrol edin.", "error");
+                }
             };
             
             input.click();
+        }
+
+        // Yardımcı Fonksiyonlar
+        function formatDateForStorage(dateString) {
+            // Handle different date formats from Excel
+            if (!dateString) return '';
+            
+            // Try ISO format first
+            let d = new Date(dateString);
+            if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
+            
+            // Try common Turkish date formats
+            const turkishFormats = [
+                /(\d{2})\.(\d{2})\.(\d{4})/, // DD.MM.YYYY
+                /(\d{4})-(\d{2})-(\d{2})/,   // YYYY-MM-DD
+                /(\d{2})\/(\d{2})\/(\d{4})/  // DD/MM/YYYY
+            ];
+            
+            for (const format of turkishFormats) {
+                const match = dateString.match(format);
+                if (match) {
+                    const day = match[1];
+                    const month = match[2];
+                    const year = match[3];
+                    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                }
+            }
+            
+            // Fallback - return original if can't parse
+            return dateString;
+        }
+
+        function readFileAsArrayBuffer(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(new Error("Dosya okunamadı"));
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        function cleanPersonelName(name) {
+            if (!name) return '';
+            return name.toString()
+                .replace(/[\/\\*\[\]{}:;|=<>]/g, '') // Remove special chars
+                .replace(/^\s+|\s+$/g, '') // Trim
+                .replace(/\s{2,}/g, ' ') // Collapse multiple spaces
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ');
         }
 
         // İleri Butonu İşlemi
@@ -1094,12 +1289,10 @@
                   "   - Excel'e aktarın veya yeniden oluşturun\n\n" +
                   "ÖNEMLİ:\n" +
                   "- Tarih ve günler otomatik olarak doğru şekilde eşleşir\n" +
-                  "- Uluslararası standartlarda haftanın ilk günü Pazartesi, ABD, Kanada gibi ülkelerde Pazar'dır.\n" +
                   "- Hafta sonları (Cumartesi/Pazar) otomatik kırmızı renkte gösterilir\n\n" +
-
                   "HAKKINDA:\n" +
                   "- Author: farukguler.com\n" +
-                  "- Version: v2.4");
+                  "- Version: v2.6");
         }
 
         // Tarih formatlama
@@ -1122,13 +1315,6 @@
         function kapatModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
         }
-
-        window.mazeretModalAc = function(index) {
-            seciliPersonelIndex = index;
-            document.getElementById('mazeretPersonelAdi').textContent = personeller[index].ad;
-            document.getElementById('mazeretModal').classList.remove('hidden');
-            takvimOlustur();
-        };
     </script>
 
 <div style="background-color: #95c4ed; padding: 15px; border-radius: 5px; margin-top: 20px; text-align: center;">
