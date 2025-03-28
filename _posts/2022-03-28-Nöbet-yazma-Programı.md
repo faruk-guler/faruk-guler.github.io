@@ -21,9 +21,9 @@ image:
 
 ![Arayüzü](https://farukguler.com/assets/post_images/nobet2.JPG)
 
-**Nöbet Yazma Programı**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş kapsamlı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yaparken, mazeret yönetimi ve raporlama özellikleri sunar.
+**Nöbet Yazma Programı**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş kapsamlı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza indirmenize gerek yoktur. İnternet erişimi olmayan bilgisayarlarda ise tarayıcı üzerinden kullanılabilir.
 
-[farukguler.com/nobet-programi](https://farukguler.com/toolbox/nobet-planlama/) adresini ziyaret edin
+[farukguler.com/nobet-programi](https://farukguler.com/toolbox/nobet-planlama/) adresini ziyaret edin!
 
 ## ✨ Temel Özellikler
 
@@ -32,6 +32,7 @@ image:
 - Vardiya başına personel sayısı ayarlama
 - Üst üste nöbet sınırlamaları
 - Hafta sonu özel ayarları
+- Rastgele Planlama
 
 ### 👥 Personel Yönetimi
 - Personel ekleme/düzenleme/silme
@@ -50,7 +51,7 @@ image:
 | Özellik | Açıklama |
 |---------|----------|
 | **Platform** | Web Tabanlı (Tüm cihazlarda çalışır) |
-| **Dil** | Türkçe |
+| **Dil** | Türkçe/İngilizce |
 | **Kurulum** | Gerektirmez - Tarayıcıda çalışır |
 | **Veri Saklama** | Tarayıcı yerel depolama |
 | **Uyumluluk** | Chrome, Firefox, Edge, Safari |
@@ -64,7 +65,7 @@ image:
 
 ## 📥 Kurulum ve Kullanım
 
-Programın kurulum gerektirmeyen web sürümünü kullanmak için:
+Program kurulum gerektirmeyen web sürümü olarak kullanılır. Proje Opensource olup lisans gerektirmez:
 
 1. [farukguler.com/nobet-programi](https://farukguler.com/toolbox/nobet-planlama/) adresini ziyaret edin
 2. Adımları takip ederek nöbet programınızı oluşturun
@@ -72,7 +73,7 @@ Programın kurulum gerektirmeyen web sürümünü kullanmak için:
 ## 📈 İstatistikler
 
 - 500+ başarılı nöbet planlaması
-- 94% kullanıcı memnuniyeti
+- 98% kullanıcı memnuniyeti
 - 3 dakikada nöbet çizelgesi oluşturma
 
 ## 🌟 Kullanıcı Yorumları
@@ -80,14 +81,14 @@ Programın kurulum gerektirmeyen web sürümünü kullanmak için:
 > "Artık Nöbetlerin daha adil olacağını düşünüyorum."  
 > - Dr. Ahmet Yurdakul, Devlet Hastanesi
 
-> "Excel entegrasyonu güzel nöbet yazmak dahada kolaylaştı. Ama geliştirilmeye devam edilmeli"  
+> "Excel entegrasyonu güzel nöbet yazmak dahada kolaylaştı. Ama proje geliştirilmeye devam edilmeli"  
 > - Nurcan Kaya Metinoğlu, Okul Müdürü
 
 ## 📞 İletişim
 
-Sorularınız ve destek için:  
-📧 farukguler.com  
+Sorularınız ve destek almak için iletişime geçmekten çekineyin:  
+📧 https://farukguler.com/about
 
 ---
 
-© 2025 www.farukguler.com - licenses CC-BY-4.0.
+© 2025 www.farukguler.com - Licenses CC-BY-4.0.
