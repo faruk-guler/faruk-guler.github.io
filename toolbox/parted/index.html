@@ -342,7 +342,7 @@
                 <p>Standard invocation syntax</p>
                 
                 <div class="command">
-                    parted /dev/nvme0n1
+parted /dev/nvme0n1
                 </div>
                 <p>Interactive mode for NVMe disk</p>
                 
@@ -514,7 +514,7 @@ disk_set FLAG STATE
         
         <h3>Partition Creation</h3>
         <div class="command">
-            mkpart [PART-TYPE] [FS-TYPE] START END
+mkpart [PART-TYPE] [FS-TYPE] START END
         </div>
         <p>Create a new partition (does not create filesystem)</p>
         
@@ -565,12 +565,12 @@ disk_set FLAG STATE
         
         <h4>Advanced Partition Creation</h4>
         <div class="command">
-            mkpart PART-NAME PART-TYPE [FS-TYPE] START END
+mkpart PART-NAME PART-TYPE [FS-TYPE] START END
         </div>
         <p>Create partition with name (GPT only)</p>
         
         <div class="command">
-            mkpartfs PART-TYPE FS-TYPE START END
+mkpartfs PART-TYPE FS-TYPE START END
         </div>
         <p>Create partition and filesystem (experimental, not recommended)</p>
         
@@ -614,7 +614,7 @@ set NUMBER uuid <span class="uuid-example">123e4567-e89b-12d3-a456-426614174000<
                 <p>Toggle partition flag state</p>
                 
                 <div class="command">
-                    align-check TYPE NUMBER
+align-check TYPE NUMBER
                 </div>
                 <p>Check partition alignment (TYPE: minimal/optimal)</p>
             </div>
@@ -622,7 +622,7 @@ set NUMBER uuid <span class="uuid-example">123e4567-e89b-12d3-a456-426614174000<
         
         <h3>Partition Type and UUID</h3>
         <div class="command">
-            type NUMBER ID-or-UUID
+type NUMBER ID-or-UUID
         </div>
         <p>Change partition type or UUID</p>
         
@@ -657,12 +657,12 @@ set NUMBER uuid <span class="uuid-example">123e4567-e89b-12d3-a456-426614174000<
         <div class="advanced">
             <h3>Lost Partition Recovery</h3>
             <div class="command">
-                rescue START END
+rescue START END
             </div>
             <p>Search for lost partitions in specified range</p>
             
             <div class="command">
-                parted /dev/sda rescue 0% 100%
+parted /dev/sda rescue 0% 100%
             </div>
             <p>Search entire disk for lost partitions</p>
             
@@ -671,7 +671,7 @@ set NUMBER uuid <span class="uuid-example">123e4567-e89b-12d3-a456-426614174000<
             </div>
             
             <div class="command">
-                testdisk /dev/sda
+testdisk /dev/sda
             </div>
             <p>Advanced recovery tool for complex cases</p>
         </div>
@@ -681,7 +681,7 @@ set NUMBER uuid <span class="uuid-example">123e4567-e89b-12d3-a456-426614174000<
         <h2>Partition Flags</h2>
         
         <div class="command">
-            set NUMBER FLAG STATE
+set NUMBER FLAG STATE
         </div>
         <p>Set partition flag (STATE: on/off)</p>
         
@@ -786,25 +786,25 @@ set NUMBER uuid <span class="uuid-example">123e4567-e89b-12d3-a456-426614174000<
         
         <h3>Alignment Control</h3>
         <div class="command">
-            align-check TYPE NUMBER
+align-check TYPE NUMBER
         </div>
         <p>Check partition alignment (TYPE: minimal/optimal)</p>
         
         <div class="command">
-            parted -a optimal /dev/sda mkpart primary ext4 1MiB 100%
+parted -a optimal /dev/sda mkpart primary ext4 1MiB 100%
         </div>
         <p>Create partition with optimal alignment</p>
         
         <div class="warning">
             <strong>4K Sector Warning:</strong> For Advanced Format (4K physical sector) drives, ensure partitions are aligned to 1MiB (2048-sector) boundaries for optimal performance.
             <div class="command">
-                cat /sys/block/sdX/queue/physical_block_size
-                cat /sys/block/sdX/queue/logical_block_size
+cat /sys/block/sdX/queue/physical_block_size
+cat /sys/block/sdX/queue/logical_block_size
             </div>
         </div>
         
         <div class="command">
-            parted /dev/sda unit GiB print
+parted /dev/sda unit GiB print
         </div>
         <p>Display sizes in GiB units</p>
     </div>
@@ -1032,7 +1032,7 @@ mkfs.ext4 /dev/vg_system/lv_var    # /var
             <h4>Partition Table Corruption</h4>
             <p><strong>Symptoms:</strong> Partitions not recognized, strange errors</p>
             <div class="command">
-                parted /dev/sda rescue 0% 100%
+parted /dev/sda rescue 0% 100%
             </div>
             <p>Attempt to recover lost partitions in specified range</p>
             <p><strong>Alternative:</strong> Use <span class="command-inline">gdisk</span> or <span class="command-inline">testdisk</span> for advanced recovery</p>
@@ -1042,7 +1042,7 @@ mkfs.ext4 /dev/vg_system/lv_var    # /var
             <h4>Alignment Problems</h4>
             <p><strong>Symptoms:</strong> Poor disk performance, especially on SSDs</p>
             <div class="command">
-                parted /dev/sda align-check optimal 1
+parted /dev/sda align-check optimal 1
             </div>
             <p>Check partition 1 alignment (returns "1 aligned" if correct)</p>
             <p><strong>Solution:</strong> Recreate partitions with proper alignment (1MiB boundaries)</p>
@@ -1052,30 +1052,30 @@ mkfs.ext4 /dev/vg_system/lv_var    # /var
             <h4>4K Sector Drives</h4>
             <p>For Advanced Format (4K physical sector) drives:</p>
             <div class="command">
-                cat /sys/block/sdX/queue/physical_block_size
-                cat /sys/block/sdX/queue/logical_block_size
+cat /sys/block/sdX/queue/physical_block_size
+cat /sys/block/sdX/queue/logical_block_size
             </div>
             <p>Verify sector sizes. Ensure partitions are aligned to 1MiB (2048-sector) boundaries.</p>
         </div>
         
         <h3>Debugging Commands</h3>
         <div class="command">
-            parted /dev/sda unit s print
+parted /dev/sda unit s print
         </div>
         <p>Show exact sector numbers for debugging</p>
         
         <div class="command">
-            fdisk -l /dev/sda
+fdisk -l /dev/sda
         </div>
         <p>Cross-verify with fdisk</p>
         
         <div class="command">
-            gdisk -l /dev/sda
+gdisk -l /dev/sda
         </div>
         <p>Inspect GPT structures with gdisk</p>
         
         <div class="command">
-            lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT,UUID,PTTYPE
+lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT,UUID,PTTYPE
         </div>
         <p>View block devices and partition table types</p>
         
@@ -1083,7 +1083,7 @@ mkfs.ext4 /dev/vg_system/lv_var    # /var
             <h4>Secure Wipe</h4>
             <p><strong>Warning:</strong> parted doesn't erase data, it only modifies partition tables. To securely wipe data:</p>
             <div class="command">
-                dd if=/dev/zero of=/dev/sda bs=1M count=100
+dd if=/dev/zero of=/dev/sda bs=1M count=100
             </div>
             <p>(Wipes first 100MB, use with caution)</p>
             <p><strong>Alternative:</strong> <span class="command-inline">blkdiscard -s /dev/sda</span> (for SSDs with TRIM support)</p>
