@@ -12,7 +12,7 @@ mermaid:
 image:
   path: https://farukguler.com/assets/post_images/nobet1.JPG
   width: 450
-  height: 200
+  height: 150
   lqip:
   alt:
 ---
