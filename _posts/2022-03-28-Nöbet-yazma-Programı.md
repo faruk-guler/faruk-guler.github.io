@@ -4,11 +4,11 @@ title: Nöbet Yazma Programı Yardımcısı
 date: 2025-03-28 16:00
 author: theguler
 comments: true
-categories: [Windows Group Policy GPO]
+categories: [3th Party / Tools]
 ---
 # Nöbet Yazma Programı Yardımcısı
 
-![Nöbet Yazma Programı Arayüzü](https://farukguler.com/images/nobet-yazma-programi.png)
+![Arayüzü](https://farukguler.com/images/nobet-yazma-programi.png)
 
 ## 📌 Program Hakkında
 
