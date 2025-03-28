@@ -11,7 +11,7 @@ math:
 mermaid:
 image:
   path: https://farukguler.com/assets/post_images/nobet1.JPG
-  width: 500
+  width: 450
   height: 200
   lqip:
   alt:
