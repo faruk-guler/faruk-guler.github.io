@@ -67,7 +67,7 @@ image:
 
 Program kurulum gerektirmeyen web sürümü olarak kullanılır. Proje Opensource olup lisans gerektirmez:
 
-1. [farukguler.com/nobet-programi](https://farukguler.com/toolbox/nobet-planlama/) adresini ziyaret edin
+1. <a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Yazma Programı</a> adresini ziyaret edin!
 2. Adımları takip ederek nöbet programınızı oluşturun
 
 ## 📈 İstatistikler
