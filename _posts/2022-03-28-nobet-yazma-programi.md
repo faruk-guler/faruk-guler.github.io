@@ -21,7 +21,7 @@ image:
 
 **Nöbet Yazma Programı**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş kapsamlı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza indirmenize gerek yoktur. İnternet erişimi olmayan bilgisayarlarda ise tarayıcı üzerinden kullanılabilir.
 
-<a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Yazma Programı</a> adresini ziyaret edin!
+<a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Yazma Programı</a> Buradan veya TOOLBOX kısmından ulaşabilirsiniz!
 
 ![Arayüzü](https://farukguler.com/assets/post_images/nobet2.JPG)
 
@@ -67,7 +67,7 @@ image:
 
 Program kurulum gerektirmeyen web sürümü olarak kullanılır. Proje Opensource olup lisans gerektirmez:
 
-1. <a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Yazma Programı</a> adresini ziyaret edin!
+1. <a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Yazma Programı</a> Buradan veya TOOLBOX kısmından ulaşabilirsiniz!
 2. Adımları takip ederek nöbet programınızı oluşturun
 
 ## 📈 İstatistikler
