@@ -277,7 +277,7 @@
                                     <th class="p-2 text-left text-sm">Tarih</th>
                                     <th class="p-2 text-left text-sm">Gün</th>
                                     <th class="p-2 text-left text-sm">Nöbetçiler</th>
-                                    <th class="p-2 text-left text-sm">Notlar</th>
+                                    <th class="p-2 text-left text-sm">Notlar & Mazeretler</th>
                                 </tr>
                             </thead>
                             <tbody id="sonucListesi" class="divide-y divide-gray-200"></tbody>
@@ -966,10 +966,10 @@
                 });
                 
                 const notesWS = XLSX.utils.aoa_to_sheet(notes);
-                XLSX.utils.book_append_sheet(workbook, notesWS, "Notlar");
+                XLSX.utils.book_append_sheet(workbook, notesWS, "Notlar & Mazeretler");
                 
                 // Dosyayı indir
-                XLSX.writeFile(workbook, 'Nobet_Programi.xlsx');
+                XLSX.writeFile(workbook, 'Nobet_Listesi.xlsx');
                 showToast("Excel dosyası başarıyla oluşturuldu", "success");
             } catch (e) {
                 console.error("Excel aktarım hatası:", e);
@@ -1288,11 +1288,12 @@
                   "3. SONUÇ:\n" +
                   "   - Excel'e aktarın veya yeniden oluşturun\n\n" +
                   "ÖNEMLİ:\n" +
-                  "- Tarih ve günler otomatik olarak doğru şekilde eşleşir\n" +
+                  "- Verileriniz hiçbir şekilde depolanmaz\n" +
+                  "- [.xlsx .xls .csv] dosya uzantıları desteklenir.\n" +
                   "- Hafta sonları (Cumartesi/Pazar) otomatik kırmızı renkte gösterilir\n\n" +
                   "HAKKINDA:\n" +
                   "- Author: farukguler.com\n" +
-                  "- Version: v3.8");
+                  "- Version: v2.6");
         }
 
         // Tarih formatlama
