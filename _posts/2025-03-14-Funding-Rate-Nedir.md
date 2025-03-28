@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Funding Rate Nedir?
-date: 2025-03-16 18:23
+date: 2025-03-14 18:23
 tag: [Blockchain]
 author: theguler
 comments: true
