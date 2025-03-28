@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ücretsiz Nöbet Yazma Programı Yardımcısı
+title: Ücretsiz Nöbet Yazma Programı
 date: 2025-03-28 16:00
 author: theguler
 comments: true
@@ -17,13 +17,13 @@ image:
   alt:
 ---
 
-# Nöbet Yazma Programı Yardımcısı
+## 📌 Program Hakkında
 
 ![Arayüzü](https://farukguler.com/assets/post_images/nobet2.JPG)
 
-## 📌 Program Hakkında
-
 **Nöbet Yazma Programı**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş kapsamlı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yaparken, mazeret yönetimi ve raporlama özellikleri sunar.
+
+[farukguler.com/nobet-programi](https://farukguler.com/toolbox/nobet-planlama/) adresini ziyaret edin
 
 ## ✨ Temel Özellikler
 
@@ -72,12 +72,12 @@ Programın kurulum gerektirmeyen web sürümünü kullanmak için:
 ## 📈 İstatistikler
 
 - 500+ başarılı nöbet planlaması
-- 98% kullanıcı memnuniyeti
+- 94% kullanıcı memnuniyeti
 - 3 dakikada nöbet çizelgesi oluşturma
 
 ## 🌟 Kullanıcı Yorumları
 
-> "Artık Nöbetlerin daha adil olduğunu düşünüyorum. Mazeret yönetimi özelliği iyiymiş!"  
+> "Artık Nöbetlerin daha adil olacağını düşünüyorum."  
 > - Dr. Ahmet Yurdakul, Devlet Hastanesi
 
 > "Excel entegrasyonu güzel nöbet yazmak dahada kolaylaştı. Ama geliştirilmeye devam edilmeli"  
@@ -87,7 +87,6 @@ Programın kurulum gerektirmeyen web sürümünü kullanmak için:
 
 Sorularınız ve destek için:  
 📧 farukguler.com  
-
 
 ---
 
