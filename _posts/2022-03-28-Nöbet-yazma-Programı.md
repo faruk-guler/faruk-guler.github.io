@@ -56,8 +56,7 @@ categories: [Windows Group Policy GPO]
 Programın kurulum gerektirmeyen web sürümünü kullanmak için:
 
 1. [farukguler.com/nobet-programi](https://farukguler.com/toolbox/nobet-planlama/) adresini ziyaret edin
-2. "Hemen Kullan" butonuna tıklayın
-3. Adımları takip ederek nöbet programınızı oluşturun
+2. Adımları takip ederek nöbet programınızı oluşturun
 
 ## 📈 İstatistikler
 
@@ -67,11 +66,11 @@ Programın kurulum gerektirmeyen web sürümünü kullanmak için:
 
 ## 🌟 Kullanıcı Yorumları
 
-> "Artık nöbetleri adil şekilde dağıtabiliyoruz. Mazeret yönetimi özelliği harika!"  
+> "Artık Nöbetlerin daha adil olduğunu düşünüyorum. Mazeret yönetimi özelliği iyiymiş!"  
 > - Dr. Ahmet Yurdakul, Devlet Hastanesi
 
-> "Excel entegrasyonu sayesinde raporlamamız çok kolaylaştı."  
-> - Ayşe Kaya, Okul Müdürü
+> "Excel entegrasyonu güzel nöbet yazmak dahada kolaylaştı. Ama geliştirilmeye devam edilmeli"  
+> - Nurcan Kaya Metinoğlu, Okul Müdürü
 
 ## 📞 İletişim
 
