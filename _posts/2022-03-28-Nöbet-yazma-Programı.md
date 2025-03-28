@@ -1,11 +1,22 @@
 ---
 layout: post
-title: Nöbet Yazma Programı Yardımcısı
+title: Ücretsiz Nöbet Yazma Programı Yardımcısı
 date: 2025-03-28 16:00
 author: theguler
 comments: true
 categories: [3th Party / Tools]
+tags:
+pin:
+math:
+mermaid:
+image:
+  path: https://farukguler.com/assets/post_images/nobet1.JPG
+  width: 500
+  height: 200
+  lqip:
+  alt:
 ---
+
 # Nöbet Yazma Programı Yardımcısı
 
 ![Arayüzü](https://farukguler.com/images/nobet-yazma-programi.png)
