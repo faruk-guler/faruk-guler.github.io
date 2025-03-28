@@ -7,7 +7,7 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/futures-calc/" target="_blank">Futures liquidation Calculator</a>
 
-<a href="https://farukguler.com/toolbox/nobet-planlama/" target="_blank">Nöbet Yazma Programı</a>
+<a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Yazma Programı</a>
 
 <a href="https://farukguler.com/toolbox/base64/" target="_blank">Base64 Decoder/Encoder</a>
 
