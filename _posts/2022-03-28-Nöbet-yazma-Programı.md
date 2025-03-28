@@ -19,7 +19,7 @@ image:
 
 # Nöbet Yazma Programı Yardımcısı
 
-![Arayüzü](https://farukguler.com/images/nobet-yazma-programi.png)
+![Arayüzü](https://farukguler.com/assets/post_images/nobet2.JPG)
 
 ## 📌 Program Hakkında
 
