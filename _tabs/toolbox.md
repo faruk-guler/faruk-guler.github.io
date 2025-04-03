@@ -15,6 +15,8 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/parted/" target="_blank">Parted Jump Manual</a>
 
+<a href="https://farukguler.com/toolbox/localhosting/" target="_blank">Live Localhosting</a>
+
 <a href="https://farukguler.com/toolbox/chmod-calculator/" target="_blank">Unix Permissions Calculator</a>
 
 <a href="https://farukguler.com/toolbox/diff/" target="_blank">Diff Checker</a>
