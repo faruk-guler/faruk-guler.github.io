@@ -40,3 +40,11 @@ order: 2
 <a href="https://farukguler.com/toolbox/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a>
 
 <a href="https://farukguler.com/toolbox/whois-lookup/" target="_blank">Whois Lookup</a>
+
+
+| [Spot Profit Calculator](https://farukguler.com/toolbox/spot-calc/) | [Futures Liquidation Calculator](https://farukguler.com/toolbox/futures-calc/) |
+|---------------------------------|------------------------------------|
+| [Nöbet Hazırlama](https://farukguler.com/toolbox/nobet/) | [Base64 Encoder/Decoder](https://farukguler.com/toolbox/base64/) |
+| [Cronjob Planner](https://farukguler.com/toolbox/cronjob-planner/) | [Parted Jump Manual](https://farukguler.com/toolbox/parted/) |
+| [Live Localhosting](https://farukguler.com/toolbox/localhosting/) | [Unix Permissions Calculator](https://farukguler.com/toolbox/chmod-calculator/) |
+
