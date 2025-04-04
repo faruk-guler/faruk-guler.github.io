@@ -41,8 +41,9 @@ order: 2
 
 <a href="https://farukguler.com/toolbox/whois-lookup/" target="_blank">Whois Lookup</a>
 
-| <a href="https://farukguler.com/toolbox/spot-calc/" target="_blank">Spot Profit Calculator</a> | <a href="https://farukguler.com/toolbox/futures-calc/" target="_blank">Futures Liquidation Calculator</a> |
+
 |---------------------------------|------------------------------------|
+| <a href="https://farukguler.com/toolbox/spot-calc/" target="_blank">Spot Profit Calculator</a> | <a href="https://farukguler.com/toolbox/futures-calc/" target="_blank">Futures Liquidation Calculator</a> |
 | <a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Hazırlama</a> | <a href="https://farukguler.com/toolbox/base64/" target="_blank">Base64 Encoder/Decoder</a> |
 | <a href="https://farukguler.com/toolbox/cronjob-planner/" target="_blank">Cronjob Planner</a> | <a href="https://farukguler.com/toolbox/parted/" target="_blank">Parted Jump Manual</a> |
 | <a href="https://farukguler.com/toolbox/localhosting/" target="_blank">Live Localhosting</a> | <a href="https://farukguler.com/toolbox/chmod-calculator/" target="_blank">Unix Permissions Calculator</a> |
