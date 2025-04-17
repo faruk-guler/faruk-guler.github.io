@@ -15,7 +15,7 @@ categories: [Containerization]
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>#Rancher Install on Docker</strong>:<br>sudo apt update<br>#sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 --name=rancher --privileged -v /var/run/docker.sock:/var/run/docker.sock -v rancher_data:/var/lib/rancher rancher/rancher<br><br><strong>#Rancher Startup configuration</strong><br>docker ps<br>docker logs  container-id  2&gt;&amp;1 | grep "Bootstrap Password:"<br><br><strong>#See Address list</strong><br>#http://your-server-address:80<br>#https://your-server-address:443</pre>
+<pre class="wp-block-preformatted"><strong>#Rancher Install on Docker</strong>:<br>#sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 --name=rancher --privileged -v /var/run/docker.sock:/var/run/docker.sock -v rancher_data:/var/lib/rancher rancher/rancher<br><br><strong>#Rancher Startup configuration</strong><br>docker ps<br>docker logs  container-id  2&gt;&amp;1 | grep "Bootstrap Password:"<br><br><strong>#See Address list</strong><br>#http://your-server-address:80<br>#https://your-server-address:443</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":11838,"width":"655px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
