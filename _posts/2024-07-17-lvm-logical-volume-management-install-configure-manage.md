@@ -1,7 +1,7 @@
 ---
 layout: post
 title: LVM Logical Volume Management Install, Configure, Manage Part-2
-date: 2025-01-4 14:33
+date: 2025-01-01 10:30
 author: theguler
 comments: true
 categories: [Storage]
