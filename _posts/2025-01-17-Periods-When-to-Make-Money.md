@@ -33,8 +33,6 @@ Bu dönemler, yüksek fiyatların gözlendiği ve satış yapmak için en uygun 
 
 Bu yıllarda, hisse senetleri, mallar ve varlıklar satın almayı ve iyi zamanların "patlama" yıllarına kadar elde tutmayı, sonra da elden çıkarmayı öneriyor.
 
-![Benner Döngüsü Görseli](https://farukguler.com/assets/post_images/benner_dongusu.JPG)
-
 ## 100+ Yıldır "Kesin Olan Şey"
 
 Yukarıda görüntüsü yer alan kartının altına "Kesin olan şey." yazan Samuel Benner'ın yatırım stratejisi, 100 yıldan uzun bir süredir neredeyse mükemmel bir başarı elde etmiştir. Başarılı bir Ohio çiftçisi olan Benner için, 1873 piyasa paniği onun için büyük bir darbe olmuş ve onu iflas ettirmiştir. Bu durumun nedenini anlamaya çalışırken, Benner piyasa döngüleri kavramını keşfetmiştir.
