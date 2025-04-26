@@ -19,17 +19,17 @@ Benner Döngüsü ayrıca
 
 Şimdi ise Samuel Benner'ın bu üçe ayırdığı dönemler olan; Panik Yılları, İyi Zamanları ve Zor Zamanları detaylı bir şekilde açıklayalım:
 
-### Panik Yılları
+### A- Panik Yılları
 
 Bu yıllar, piyasanın dalgalanmaları nedeniyle hisse senetlerinin fiyatlarında aşırı oynaklıkların yaşandığı yıllardır. Bu dönemlerde yatırımcılar, hisse senetlerini mantıksızca ya alıp ya da satıp fiyatlarını tavan yaptırarak veya dip seviyelere düşürerek piyasayı etkilerler. Piyasanın paniklediği dönemlerde yatırımcılar genellikle kısa vadeli hedeflerle hareket ederler ve piyasanın o anki durumuna göre hisse senedi alıp satma kararları alırlar. Bu kararlar, piyasa koşullarının aşırı dalgalanması nedeniyle çoğunlukla irrasyonel olur.
 
 Bu panik dönemlerinde, bir hisse senedinin fiyatı ya inanılmaz derecede düşük bir seviyeye kadar düşer veya tam tersine beklenmedik bir şekilde yükselir. Bu nedenle, yatırımcıların bu panik dönemlerinde yatırım yaparken çok dikkatli olmaları gerekmektedir. Eğer doğru kararlar alırlarsa, büyük kazançlar elde edebilirler. Ancak, hatalı kararlar alırlarsa, ciddi kayıplarla karşılaşabilirler.
 
-### İyi Zamanlar
+### B- İyi Zamanlar
 
 Bu dönemler, yüksek fiyatların gözlendiği ve satış yapmak için en uygun zamanların geldiği yıllardır. Bu zamanlarda, yatırımcılar ellerindeki hisse senetleri, değerli kağıtlar ve diğer varlıkları en iyi fiyatlardan satabilirler. Bu nedenle, Benner'ın "İyi Zamanlar" olarak tanımladığı yıllar, yatırımcılar için fırsat dolu zamanlar olarak kabul edilir. Ancak bu dönemlerin uzun sürmeyeceği ve sonrasında diğer dönemlere geçileceği de unutulmamalıdır.
 
-### Zor Zamanlar
+### C- Zor Zamanlar
 
 Bu yıllarda, hisse senetleri, mallar ve varlıklar satın almayı ve iyi zamanların "patlama" yıllarına kadar elde tutmayı, sonra da elden çıkarmayı öneriyor.
 
