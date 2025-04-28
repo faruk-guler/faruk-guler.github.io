@@ -241,5 +241,8 @@ jekyll-archives:
 permalink: pretty
 permalink: /:title/
 
-pagination:
-  omit: 0  # Bu sayıyı azaltın, örneğin 0 yapın daha fazla sayfa gösterecektir
+plugins:
+  - jekyll-paginate
+
+paginate: 10
+paginate_path: "/page:num/"
