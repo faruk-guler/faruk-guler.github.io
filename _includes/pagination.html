@@ -2,9 +2,9 @@
 <div class="pagination">
   <!-- Önceki sayfa -->
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | relative_url }}" class="page-link">&lt;</a>
+    <a href="{{ paginator.previous_page_path | relative_url }}" class="page-link"><</a>
   {% else %}
-    <span class="page-link disabled">&lt;</span>
+    <span class="page-link disabled"><</span>
   {% endif %}
 
   <!-- Sayfa numaraları -->
@@ -47,9 +47,9 @@
 
   <!-- Sonraki sayfa -->
   {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | relative_url }}" class="page-link">&gt;</a>
+    <a href="{{ paginator.next_page_path | relative_url }}" class="page-link">></a>
   {% else %}
-    <span class="page-link disabled">&gt;</span>
+    <span class="page-link disabled">></span>
   {% endif %}
 </div>
 {% endif %}
