@@ -19,7 +19,7 @@ categories: [Active Directory]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>✅ LastLogonTimeStamp: </strong>This value is an attribute in Active Directory that allows tracking user logon information more centrally. This value is not updated immediately for each logon. (<strong>Default is updated with a delay of 9-14 days</strong>) However, it is replicated among other domain controllers and becomes a common source of information among all DCs. <strong>*** However, it cannot be used to determine the exact logon time!</strong></p>
+<p><strong>🚫 LastLogonTimeStamp: </strong>This value is an attribute in Active Directory that allows tracking user logon information more centrally. This value is not updated immediately for each logon. (<strong>Default is updated with a delay of 9-14 days</strong>) However, it is replicated among other domain controllers and becomes a common source of information among all DCs. <strong>*** However, it cannot be used to determine the exact logon time!</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
