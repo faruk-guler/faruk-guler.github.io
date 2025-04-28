@@ -241,6 +241,9 @@ jekyll-archives:
 permalink: pretty
 permalink: /:title/
 
+plugins:
+  - jekyll-paginate
+
 pagination:
   enabled: true
   per_page: 10  # Sayfa başına gösterilecek gönderi sayısı
