@@ -2,13 +2,13 @@
 <div class="pagination">
   <!-- Önceki sayfa -->
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | relative_url }}" class="page-link">« Prev</a>
+    <a href="{{ paginator.previous_page_path | relative_url }}" class="page-link">&lt;</a>
   {% else %}
-    <span class="page-link disabled">« Prev</span>
+    <span class="page-link disabled">&lt;</span>
   {% endif %}
 
   <!-- Sayfa numaraları -->
-  {% assign range = 5 %} <!-- Her iki yanda gösterilecek sayfa sayısı (örneğin, 5+5=10 ek sayfa) -->
+  {% assign range = 5 %} <!-- Mevcut sayfanın her iki yanında 5 sayfa -->
   {% assign start_page = paginator.page | minus: range %}
   {% assign end_page = paginator.page | plus: range %}
 
@@ -31,7 +31,7 @@
   <!-- Sayfa numaralarını döngüyle yazdır -->
   {% for page in (start_page..end_page) %}
     {% if page == paginator.page %}
-      <em class="page-link current">{{ page }}</em>
+      <em class="page-link current">[{{ page }}]</em>
     {% else %}
       <a href="{% if page == 1 %}{{ site.paginate_path | relative_url | replace: 'page:num/', '' }}{% else %}{{ site.paginate_path | relative_url | replace: ':num', page }}{% endif %}" class="page-link">{{ page }}</a>
     {% endif %}
@@ -47,9 +47,9 @@
 
   <!-- Sonraki sayfa -->
   {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | relative_url }}" class="page-link">Next »</a>
+    <a href="{{ paginator.next_page_path | relative_url }}" class="page-link">&gt;</a>
   {% else %}
-    <span class="page-link disabled">Next »</span>
+    <span class="page-link disabled">&gt;</span>
   {% endif %}
 </div>
 {% endif %}
