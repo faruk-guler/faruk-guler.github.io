@@ -212,6 +212,22 @@
       font-size: 16px;
     }
     
+    .privacy-notice {
+      font-size: 14px;
+      color: var(--light-text);
+      margin-top: 20px;
+      text-align: left;
+    }
+    
+    .privacy-notice a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .privacy-notice a:hover {
+      text-decoration: underline;
+    }
+    
     @media (max-width: 768px) {
       .button-group {
         flex-direction: column;
@@ -239,10 +255,7 @@
     </div>
     
     <select id="serverSelect" class="server-select">
-      <option value="auto">Otomatik Sunucu Seçimi</option>
       <option value="hetzner">Hetzner (Almanya)</option>
-      <option value="linode">Linode (ABD)</option>
-      <option value="do">DigitalOcean (Singapur)</option>
     </select>
     
     <div class="error-message" id="errorMessage"></div>
@@ -285,13 +298,17 @@
     <button id="clearHistory" class="secondary" style="margin-top: 15px;">Geçmişi Temizle</button>
   </div>
 
+  <div class="privacy-notice">
+    <p>Bu hız testi, test sonuçlarınızı tarayıcınızın yerel depolama alanında saklar. Veriler yalnızca test geçmişinizi göstermek için kullanılır ve üçüncü taraflarla paylaşılmaz. Sorularınız için <a href="mailto:support@speedtest.example.com">destek ekibimize</a> ulaşabilirsiniz.</p>
+  </div>
+
   <script>
     // Test sunucuları
     const testServers = {
       hetzner: {
         name: "Hetzner (Almanya)",
         download: {
-          fileSizes: [1, 5, 10, 20], // MB
+          fileSizes: [1, 5, 10, 20],
           urls: [
             "https://speed.hetzner.de/1MB.bin",
             "https://speed.hetzner.de/5MB.bin",
@@ -301,33 +318,9 @@
         },
         upload: {
           endpoint: "https://httpbin.org/post"
-        }
-      },
-      linode: {
-        name: "Linode (ABD)",
-        download: {
-          fileSizes: [1, 5, 10, 20], // MB
-          urls: [
-            "https://speedtest.dallas.linode.com/100MB-dallas.bin",
-            "https://speedtest.newark.linode.com/100MB-newark.bin",
-            "https://speedtest.singapore.linode.com/100MB-singapore.bin"
-          ]
         },
-        upload: {
-          endpoint: "https://httpbin.org/post"
-        }
-      },
-      do: {
-        name: "DigitalOcean (Singapur)",
-        download: {
-          fileSizes: [1, 5, 10, 20], // MB
-          urls: [
-            "https://speedtest-sgp1.digitalocean.com/100mb.test",
-            "https://speedtest-nyc1.digitalocean.com/100mb.test"
-          ]
-        },
-        upload: {
-          endpoint: "https://httpbin.org/post"
+        ping: {
+          url: "https://speed.hetzner.de/1MB.bin"
         }
       }
     };
@@ -335,20 +328,19 @@
     // Test ayarları
     const testSettings = {
       ping: {
-        url: "https://www.google.com",
         trials: 10
       },
       download: {
         testCount: 4
       },
       upload: {
-        testDataSizes: [1, 5, 10, 20] // MB
+        testDataSizes: [1, 5, 10, 20]
       }
     };
 
     // Test durumu
     let testInProgress = false;
-    let currentServer = null;
+    let currentServer = testServers.hetzner;
     let testHistory = JSON.parse(localStorage.getItem('speedTestHistory')) || [];
 
     // Elementler
@@ -365,21 +357,13 @@
     // Sayfa yüklendiğinde
     document.addEventListener('DOMContentLoaded', () => {
       loadHistory();
-      
-      // Sunucu testi yap ve en iyi sunucuyu seç
-      if (serverSelect.value === 'auto') {
-        findBestServer();
-      }
+      showSuccess(`Varsayılan sunucu: ${currentServer.name}`);
     });
 
     // Sunucu değiştiğinde
     serverSelect.addEventListener('change', () => {
-      if (serverSelect.value === 'auto') {
-        findBestServer();
-      } else {
-        currentServer = testServers[serverSelect.value];
-        showSuccess(`Sunucu değiştirildi: ${currentServer.name}`);
-      }
+      currentServer = testServers[serverSelect.value];
+      showSuccess(`Sunucu değiştirildi: ${currentServer.name}`);
     });
 
     // Geçmişi temizle
@@ -402,8 +386,6 @@
         await testPing();
         await testDownloadSpeed();
         await testUploadSpeed();
-        
-        // Sonuçları kaydet
         saveTestResults();
       } catch (error) {
         showError(`Test sırasında hata: ${error.message}`);
@@ -422,42 +404,9 @@
     // Ping testi
     pingTestBtn.addEventListener('click', testPing);
 
-    // En iyi sunucuyu bul
-    async function findBestServer() {
-      showSuccess('En iyi sunucu aranıyor...');
-      
-      let bestServer = null;
-      let bestPing = Infinity;
-      
-      for (const [key, server] of Object.entries(testServers)) {
-        try {
-          const startTime = performance.now();
-          const response = await fetch(server.download.urls[0] + `?ping=${Math.random()}`, { method: 'HEAD' });
-          if (!response.ok) continue;
-          
-          const ping = performance.now() - startTime;
-          if (ping < bestPing) {
-            bestPing = ping;
-            bestServer = key;
-          }
-        } catch (error) {
-          console.error(`Sunucu test hatası (${key}):`, error);
-        }
-      }
-      
-      if (bestServer) {
-        currentServer = testServers[bestServer];
-        showSuccess(`En iyi sunucu seçildi: ${currentServer.name} (Ping: ${bestPing.toFixed(2)}ms)`);
-      } else {
-        currentServer = testServers.hetzner; // Varsayılan sunucu
-        showError('Otomatik sunucu seçilemedi, varsayılan sunucu kullanılıyor');
-      }
-    }
-
     // İndirme hızı testi
     async function testDownloadSpeed() {
       if (testInProgress) return;
-      if (!currentServer) await findBestServer();
       
       testInProgress = true;
       disableButtons();
@@ -473,35 +422,36 @@
           const url = currentServer.download.urls[i] + `?cache=${Math.random()}`;
           const fileSizeBytes = currentServer.download.fileSizes[i] * 1024 * 1024;
           
-          // İlerleme çubuğunu güncelle
-          const progressInterval = setInterval(() => {
-            const currentWidth = parseInt(document.getElementById('downloadProgress').style.width) || 0;
-            const newWidth = Math.min(currentWidth + 1, (i + 1) * (100 / testSettings.download.testCount));
-            document.getElementById('downloadProgress').style.width = `${newWidth}%`;
-          }, 50);
+          let loaded = 0;
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', url, true);
+          xhr.responseType = 'blob';
+          
+          xhr.onprogress = (event) => {
+            if (event.lengthComputable) {
+              loaded = event.loaded;
+              const progress = (loaded / fileSizeBytes) * (100 / testSettings.download.testCount);
+              document.getElementById('downloadProgress').style.width = `${Math.min(progress + (i * (100 / testSettings.download.testCount)), 100)}%`;
+            }
+          };
           
           const startTime = performance.now();
-          const response = await fetch(url);
-          if (!response.ok) throw new Error(`İndirme dosyası alınamadı: ${url}`);
-          const blob = await response.blob();
+          await new Promise((resolve, reject) => {
+            xhr.onload = () => resolve();
+            xhr.onerror = () => reject(new Error(`İndirme başarısız: ${url}`));
+            xhr.send();
+          });
           const endTime = performance.now();
           
-          clearInterval(progressInterval);
-          document.getElementById('downloadProgress').style.width = `${(i + 1) * (100 / testSettings.download.testCount)}%`;
-          
-          const duration = (endTime - startTime) / 1000; // saniye
+          const duration = (endTime - startTime) / 1000;
           totalBytes += fileSizeBytes;
           totalTime += duration;
           
-          // Kısmi hızı hesapla
           const speedMbps = ((fileSizeBytes * 8) / duration) / (1024 * 1024);
           speeds.push(speedMbps);
-          
-          // Kısmi sonucu göster
           document.getElementById('downloadSpeed').textContent = speedMbps.toFixed(2);
         }
         
-        // Ortalama hızı hesapla (sonuçların medyanını alarak daha doğru sonuç)
         speeds.sort((a, b) => a - b);
         const medianSpeed = speeds.length % 2 === 0 ? 
           (speeds[speeds.length/2 - 1] + speeds[speeds.length/2]) / 2 : 
@@ -513,8 +463,8 @@
         document.getElementById('downloadSpeed').textContent = 'Hata';
         showError(`İndirme testi hatası: ${error.message}`);
       } finally {
-        if (!testInProgress) enableButtons();
         testInProgress = false;
+        enableButtons();
       }
     }
 
@@ -537,41 +487,38 @@
           const fileSizeBytes = size * 1024 * 1024;
           const testData = new Uint8Array(fileSizeBytes).fill(0);
           
-          // İlerleme çubuğunu güncelle
-          const progressInterval = setInterval(() => {
-            const currentWidth = parseInt(document.getElementById('uploadProgress').style.width) || 0;
-            const newWidth = Math.min(currentWidth + 1, (i + 1) * (100 / testSettings.upload.testDataSizes.length));
-            document.getElementById('uploadProgress').style.width = `${newWidth}%`;
-          }, 50);
+          let uploaded = 0;
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', currentServer.upload.endpoint, true);
+          
+          xhr.upload.onprogress = (event) => {
+            if (event.lengthComputable) {
+              uploaded = event.loaded;
+              const progress = (uploaded / fileSizeBytes) * (100 / testSettings.upload.testDataSizes.length);
+              document.getElementById('uploadProgress').style.width = `${Math.min(progress + (i * (100 / testSettings.upload.testDataSizes.length)), 100)}%`;
+            }
+          };
           
           const formData = new FormData();
           formData.append('file', new Blob([testData], { type: 'application/octet-stream' }), 'test.bin');
           
           const startTime = performance.now();
-          const response = await fetch(currentServer.upload.endpoint, {
-            method: 'POST',
-            body: formData
+          await new Promise((resolve, reject) => {
+            xhr.onload = () => resolve();
+            xhr.onerror = () => reject(new Error(`Yükleme başarısız: ${currentServer.upload.endpoint}`));
+            xhr.send(formData);
           });
-          if (!response.ok) throw new Error(`Yükleme başarısız: ${currentServer.upload.endpoint}`);
-          await response.json();
           const endTime = performance.now();
           
-          clearInterval(progressInterval);
-          document.getElementById('uploadProgress').style.width = `${(i + 1) * (100 / testSettings.upload.testDataSizes.length)}%`;
-          
-          const duration = (endTime - startTime) / 1000; // saniye
+          const duration = (endTime - startTime) / 1000;
           totalBytes += fileSizeBytes;
           totalTime += duration;
           
-          // Kısmi hızı hesapla
           const speedMbps = ((fileSizeBytes * 8) / duration) / (1024 * 1024);
           speeds.push(speedMbps);
-          
-          // Kısmi sonucu göster
           document.getElementById('uploadSpeed').textContent = speedMbps.toFixed(2);
         }
         
-        // Ortalama hızı hesapla (sonuçların medyanını alarak daha doğru sonuç)
         speeds.sort((a, b) => a - b);
         const medianSpeed = speeds.length % 2 === 0 ? 
           (speeds[speeds.length/2 - 1] + speeds[speeds.length/2]) / 2 : 
@@ -583,8 +530,8 @@
         document.getElementById('uploadSpeed').textContent = 'Hata';
         showError(`Yükleme testi hatası: ${error.message}`);
       } finally {
-        if (!testInProgress) enableButtons();
         testInProgress = false;
+        enableButtons();
       }
     }
 
@@ -603,27 +550,26 @@
         
         for (let i = 0; i < testSettings.ping.trials; i++) {
           const startTime = performance.now();
-          const response = await fetch(testSettings.ping.url, { method: 'HEAD', cache: 'no-store' });
-          if (!response.ok) throw new Error(`Ping testi başarısız: ${testSettings.ping.url}`);
+          const response = await fetch(currentServer.ping.url, { method: 'HEAD', cache: 'no-store' });
+          if (!response.ok) throw new Error(`Ping testi başarısız: ${currentServer.ping.url}`);
           const endTime = performance.now();
           
           const ping = endTime - startTime;
           pingResults.push(ping);
           totalPing += ping;
           
-          // Kısmi sonucu göster
           document.getElementById('pingResult').textContent = `Ping: ${(totalPing / (i + 1)).toFixed(2)} ms (${i + 1}/${testSettings.ping.trials})`;
         }
         
-        // Ortalama ping ve jitter hesapla
         const avgPing = totalPing / testSettings.ping.trials;
         
-        // Jitter hesapla (ping değişkenliği)
         let jitter = 0;
-        for (let i = 1; i < pingResults.length; i++) {
-          jitter += Math.abs(pingResults[i] - pingResults[i - 1]);
+        if (pingResults.length > 1) {
+          for (let i = 1; i < pingResults.length; i++) {
+            jitter += Math.abs(pingResults[i] - pingResults[i - 1]);
+          }
+          jitter /= (pingResults.length - 1);
         }
-        jitter /= (pingResults.length - 1);
         
         document.getElementById('pingResult').textContent = `Ping: ${avgPing.toFixed(2)} ms`;
         document.getElementById('jitterResult').textContent = `Jitter: ${jitter.toFixed(2)} ms`;
@@ -632,8 +578,8 @@
         document.getElementById('pingResult').textContent = 'Ping testi başarısız';
         showError(`Ping testi hatası: ${error.message}`);
       } finally {
-        if (!testInProgress) enableButtons();
         testInProgress = false;
+        enableButtons();
       }
     }
 
@@ -642,19 +588,22 @@
       const downloadSpeed = parseFloat(document.getElementById('downloadSpeed').textContent);
       const uploadSpeed = parseFloat(document.getElementById('uploadSpeed').textContent);
       const pingText = document.getElementById('pingResult').textContent;
-      const ping = parseFloat(pingText.match(/[\d.]+/)[0]);
+      const jitterText = document.getElementById('jitterResult').textContent;
+      const ping = parseFloat(pingText.match(/[\d.]+/)?.[0] || NaN);
+      const jitter = parseFloat(jitterText.match(/[\d.]+/)?.[0] || NaN);
       
-      if (!isNaN(downloadSpeed) && !isNaN(uploadSpeed) && !isNaN(ping)) {
+      if (!isNaN(downloadSpeed) && !isNaN(uploadSpeed) && !isNaN(ping) && !isNaN(jitter)) {
         const testResult = {
           date: new Date().toLocaleString(),
           download: downloadSpeed,
           upload: uploadSpeed,
           ping: ping,
-          server: currentServer ? currentServer.name : 'Bilinmiyor'
+          jitter: jitter,
+          server: currentServer.name
         };
         
-        testHistory.unshift(testResult); // En yeni testi başa ekle
-        if (testHistory.length > 10) testHistory.pop(); // En fazla 10 kayıt tut
+        testHistory.unshift(testResult);
+        if (testHistory.length > 10) testHistory.pop();
         
         localStorage.setItem('speedTestHistory', JSON.stringify(testHistory));
         loadHistory();
@@ -671,7 +620,7 @@
         return;
       }
       
-      testHistory.forEach((test, index) => {
+      testHistory.forEach((test) => {
         const historyItem = document.createElement('div');
         historyItem.className = 'history-item';
         
@@ -689,6 +638,10 @@
             <div class="history-result">
               <div>Ping</div>
               <div><strong>${test.ping.toFixed(2)}</strong> ms</div>
+            </div>
+            <div class="history-result">
+              <div>Jitter</div>
+              <div><strong>${test.jitter.toFixed(2)}</strong> ms</div>
             </div>
           </div>
         `;
