@@ -1,192 +1,350 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ağ Hız Testi</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            background-color: #f5f5f5;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e9e9e9;
-            border-radius: 5px;
-        }
-        .progress-container {
-            width: 100%;
-            background-color: #ddd;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        .progress-bar {
-            height: 20px;
-            background-color: #4CAF50;
-            border-radius: 5px;
-            width: 0%;
-            transition: width 0.3s;
-        }
-        .speed-value {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .unit {
-            font-size: 16px;
-            color: #666;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gelişmiş Hız Testi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+    .test-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    button:disabled {
+      background-color: #95a5a6;
+      cursor: not-allowed;
+    }
+    .result {
+      font-size: 22px;
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #ecf0f1;
+    }
+    .speed-value {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .unit {
+      font-size: 18px;
+      color: #7f8c8d;
+    }
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 20px 0;
+      height: 20px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background-color: #3498db;
+      width: 0%;
+      transition: width 0.3s;
+    }
+    .test-section {
+      margin: 30px 0;
+    }
+    .test-title {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #34495e;
+    }
+    .ping-result {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Ağ Hız Testi</h1>
-        <p>İnternet bağlantı hızınızı test etmek için başlat butonuna tıklayın.</p>
-        
-        <button id="startTest">Testi Başlat</button>
-        
-        <div class="progress-container" id="progressContainer" style="display: none;">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        
-        <div class="result" id="downloadResult" style="display: none;">
-            <h3>İndirme Hızı</h3>
-            <div class="speed-value" id="downloadSpeed">0</div>
-            <span class="unit">Mbps</span>
-        </div>
-        
-        <div class="result" id="uploadResult" style="display: none;">
-            <h3>Yükleme Hızı</h3>
-            <div class="speed-value" id="uploadSpeed">0</div>
-            <span class="unit">Mbps</span>
-        </div>
-    </div>
+  <h1>Gelişmiş İnternet Hız Testi</h1>
+  
+  <div class="test-container">
+    <button id="startTest">Tam Testi Başlat</button>
+    <button id="downloadTest" onclick="testDownloadSpeed()">Sadece İndirme Testi</button>
+    <button id="uploadTest" onclick="testUploadSpeed()">Sadece Yükleme Testi</button>
+    <button id="pingTest" onclick="testPing()">Ping Testi</button>
+  </div>
 
-    <script>
-        document.getElementById('startTest').addEventListener('click', startTest);
+  <div class="test-section">
+    <div class="test-title">İndirme Hızı (Download)</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="downloadProgress"></div>
+    </div>
+    <div class="result" id="downloadResult">
+      <span class="speed-value" id="downloadSpeed">-</span>
+      <span class="unit">Mbps</span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-title">Yükleme Hızı (Upload)</div>
+    <div class="progress-container">
+      <div class="progress-bar" id="uploadProgress"></div>
+    </div>
+    <div class="result" id="uploadResult">
+      <span class="speed-value" id="uploadSpeed">-</span>
+      <span class="unit">Mbps</span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-title">Ping ve Gecikme</div>
+    <div class="ping-result" id="pingResult">-</div>
+  </div>
+
+  <script>
+    // Test ayarları
+    const testSettings = {
+      download: {
+        fileSizes: [1, 5, 10], // MB cinsinden
+        urls: [
+          "https://speed.hetzner.de/1MB.bin",
+          "https://speed.hetzner.de/5MB.bin",
+          "https://speed.hetzner.de/10MB.bin"
+        ]
+      },
+      upload: {
+        endpoint: "https://httpbin.org/post",
+        testDataSizes: [1, 5, 10] // MB cinsinden
+      },
+      ping: {
+        url: "https://www.google.com",
+        trials: 5
+      }
+    };
+
+    // Test durumu
+    let testInProgress = false;
+
+    // Elementler
+    const startTestBtn = document.getElementById('startTest');
+    const downloadTestBtn = document.getElementById('downloadTest');
+    const uploadTestBtn = document.getElementById('uploadTest');
+    const pingTestBtn = document.getElementById('pingTest');
+
+    // Tam testi başlat
+    startTestBtn.addEventListener('click', async () => {
+      if (testInProgress) return;
+      
+      testInProgress = true;
+      disableButtons();
+      clearResults();
+      
+      try {
+        await testPing();
+        await testDownloadSpeed();
+        await testUploadSpeed();
+      } catch (error) {
+        console.error("Test sırasında hata:", error);
+      } finally {
+        testInProgress = false;
+        enableButtons();
+      }
+    });
+
+    // İndirme hızı testi
+    async function testDownloadSpeed() {
+      if (testInProgress) return;
+      
+      testInProgress = true;
+      disableButtons();
+      document.getElementById('downloadSpeed').textContent = '...';
+      document.getElementById('downloadProgress').style.width = '0%';
+      
+      try {
+        let totalBytes = 0;
+        let totalTime = 0;
         
-        let testInProgress = false;
-        const testDataSize = 10 * 1024 * 1024; // 10MB test verisi
-        const testData = new Array(testDataSize).join('0');
-        let startTime, endTime;
-        
-        function startTest() {
-            if (testInProgress) return;
-            
-            testInProgress = true;
-            document.getElementById('startTest').disabled = true;
-            document.getElementById('progressContainer').style.display = 'block';
-            document.getElementById('downloadResult').style.display = 'none';
-            document.getElementById('uploadResult').style.display = 'none';
-            
-            // Önce indirme hızını test et
-            testDownloadSpeed()
-                .then(downloadSpeed => {
-                    document.getElementById('downloadSpeed').textContent = downloadSpeed.toFixed(2);
-                    document.getElementById('downloadResult').style.display = 'block';
-                    
-                    // Sonra yükleme hızını test et
-                    return testUploadSpeed();
-                })
-                .then(uploadSpeed => {
-                    document.getElementById('uploadSpeed').textContent = uploadSpeed.toFixed(2);
-                    document.getElementById('uploadResult').style.display = 'block';
-                })
-                .catch(error => {
-                    console.error('Hız testi sırasında hata:', error);
-                    alert('Hız testi sırasında bir hata oluştu: ' + error.message);
-                })
-                .finally(() => {
-                    testInProgress = false;
-                    document.getElementById('startTest').disabled = false;
-                    document.getElementById('progressContainer').style.display = 'none';
-                    document.getElementById('progressBar').style.width = '0%';
-                });
+        for (let i = 0; i < testSettings.download.fileSizes.length; i++) {
+          const size = testSettings.download.fileSizes[i];
+          const url = testSettings.download.urls[i] + `?cache=${Math.random()}`;
+          const fileSizeBytes = size * 1024 * 1024;
+          
+          // İlerleme çubuğunu güncelle
+          const progressInterval = setInterval(() => {
+            const currentWidth = parseInt(document.getElementById('downloadProgress').style.width) || 0;
+            const newWidth = Math.min(currentWidth + 1, (i + 1) * (100 / testSettings.download.fileSizes.length));
+            document.getElementById('downloadProgress').style.width = `${newWidth}%`;
+          }, 50);
+          
+          const startTime = performance.now();
+          const response = await fetch(url);
+          const blob = await response.blob();
+          const endTime = performance.now();
+          
+          clearInterval(progressInterval);
+          document.getElementById('downloadProgress').style.width = `${(i + 1) * (100 / testSettings.download.fileSizes.length)}%`;
+          
+          const duration = (endTime - startTime) / 1000; // saniye
+          totalBytes += fileSizeBytes;
+          totalTime += duration;
+          
+          // Kısmi sonucu göster
+          const speedMbps = ((fileSizeBytes * 8) / duration) / (1024 * 1024);
+          document.getElementById('downloadSpeed').textContent = speedMbps.toFixed(2);
         }
         
-        function testDownloadSpeed() {
-            return new Promise((resolve) => {
-                const testUrl = `https://httpbin.org/bytes/${testDataSize}?r=${Math.random()}`;
-                startTime = Date.now();
-                
-                fetch(testUrl)
-                    .then(response => response.blob())
-                    .then(() => {
-                        endTime = Date.now();
-                        const duration = (endTime - startTime) / 1000; // saniye cinsinden
-                        const bitsLoaded = testDataSize * 8;
-                        const speedMbps = (bitsLoaded / duration) / (1024 * 1024);
-                        resolve(speedMbps);
-                    });
-                
-                // İlerleme çubuğu güncelleme
-                const progressInterval = setInterval(() => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(50, (elapsed / 3000) * 50); // Max 3 saniye için %50
-                    document.getElementById('progressBar').style.width = `${progress}%`;
-                }, 100);
-                
-                setTimeout(() => clearInterval(progressInterval), 3000);
-            });
+        // Ortalama hızı hesapla
+        const avgSpeedMbps = ((totalBytes * 8) / totalTime) / (1024 * 1024);
+        document.getElementById('downloadSpeed').textContent = avgSpeedMbps.toFixed(2);
+        
+      } catch (error) {
+        document.getElementById('downloadSpeed').textContent = 'Hata';
+        console.error("İndirme testi hatası:", error);
+      } finally {
+        if (!testInProgress) enableButtons();
+        testInProgress = false;
+      }
+    }
+
+    // Yükleme hızı testi
+    async function testUploadSpeed() {
+      if (testInProgress) return;
+      
+      testInProgress = true;
+      disableButtons();
+      document.getElementById('uploadSpeed').textContent = '...';
+      document.getElementById('uploadProgress').style.width = '0%';
+      
+      try {
+        let totalBytes = 0;
+        let totalTime = 0;
+        
+        for (let i = 0; i < testSettings.upload.testDataSizes.length; i++) {
+          const size = testSettings.upload.testDataSizes[i];
+          const fileSizeBytes = size * 1024 * 1024;
+          const testData = new Uint8Array(fileSizeBytes).fill(0);
+          
+          // İlerleme çubuğunu güncelle
+          const progressInterval = setInterval(() => {
+            const currentWidth = parseInt(document.getElementById('uploadProgress').style.width) || 0;
+            const newWidth = Math.min(currentWidth + 1, (i + 1) * (100 / testSettings.upload.testDataSizes.length));
+            document.getElementById('uploadProgress').style.width = `${newWidth}%`;
+          }, 50);
+          
+          const formData = new FormData();
+          formData.append('file', new Blob([testData], { type: 'application/octet-stream' }), 'test.bin');
+          
+          const startTime = performance.now();
+          const response = await fetch(testSettings.upload.endpoint, {
+            method: 'POST',
+            body: formData
+          });
+          await response.json();
+          const endTime = performance.now();
+          
+          clearInterval(progressInterval);
+          document.getElementById('uploadProgress').style.width = `${(i + 1) * (100 / testSettings.upload.testDataSizes.length)}%`;
+          
+          const duration = (endTime - startTime) / 1000; // saniye
+          totalBytes += fileSizeBytes;
+          totalTime += duration;
+          
+          // Kısmi sonucu göster
+          const speedMbps = ((fileSizeBytes * 8) / duration) / (1024 * 1024);
+          document.getElementById('uploadSpeed').textContent = speedMbps.toFixed(2);
         }
         
-        function testUploadSpeed() {
-            return new Promise((resolve) => {
-                const testUrl = 'https://httpbin.org/post';
-                const formData = new FormData();
-                formData.append('data', new Blob([testData], { type: 'application/octet-stream' }));
-                
-                startTime = Date.now();
-                
-                fetch(testUrl, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(() => {
-                    endTime = Date.now();
-                    const duration = (endTime - startTime) / 1000; // saniye cinsinden
-                    const bitsLoaded = testDataSize * 8;
-                    const speedMbps = (bitsLoaded / duration) / (1024 * 1024);
-                    resolve(speedMbps);
-                });
-                
-                // İlerleme çubuğu güncelleme
-                const progressInterval = setInterval(() => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = 50 + Math.min(50, (elapsed / 3000) * 50); // Max 3 saniye için %50-100
-                    document.getElementById('progressBar').style.width = `${progress}%`;
-                }, 100);
-                
-                setTimeout(() => clearInterval(progressInterval), 3000);
-            });
+        // Ortalama hızı hesapla
+        const avgSpeedMbps = ((totalBytes * 8) / totalTime) / (1024 * 1024);
+        document.getElementById('uploadSpeed').textContent = avgSpeedMbps.toFixed(2);
+        
+      } catch (error) {
+        document.getElementById('uploadSpeed').textContent = 'Hata';
+        console.error("Yükleme testi hatası:", error);
+      } finally {
+        if (!testInProgress) enableButtons();
+        testInProgress = false;
+      }
+    }
+
+    // Ping testi
+    async function testPing() {
+      if (testInProgress) return;
+      
+      testInProgress = true;
+      disableButtons();
+      document.getElementById('pingResult').textContent = 'Test ediliyor...';
+      
+      try {
+        let totalPing = 0;
+        
+        for (let i = 0; i < testSettings.ping.trials; i++) {
+          const startTime = performance.now();
+          await fetch(testSettings.ping.url, { method: 'HEAD', cache: 'no-store' });
+          const endTime = performance.now();
+          totalPing += (endTime - startTime);
+          
+          // Kısmi sonucu göster
+          document.getElementById('pingResult').textContent = `Ping: ${(totalPing / (i + 1)).toFixed(2)} ms (${i + 1}/${testSettings.ping.trials})`;
         }
-    </script>
+        
+        const avgPing = totalPing / testSettings.ping.trials;
+        document.getElementById('pingResult').textContent = `Ortalama Ping: ${avgPing.toFixed(2)} ms`;
+        
+      } catch (error) {
+        document.getElementById('pingResult').textContent = 'Ping testi başarısız';
+        console.error("Ping testi hatası:", error);
+      } finally {
+        if (!testInProgress) enableButtons();
+        testInProgress = false;
+      }
+    }
+
+    // Yardımcı fonksiyonlar
+    function disableButtons() {
+      startTestBtn.disabled = true;
+      downloadTestBtn.disabled = true;
+      uploadTestBtn.disabled = true;
+      pingTestBtn.disabled = true;
+    }
+
+    function enableButtons() {
+      startTestBtn.disabled = false;
+      downloadTestBtn.disabled = false;
+      uploadTestBtn.disabled = false;
+      pingTestBtn.disabled = false;
+    }
+
+    function clearResults() {
+      document.getElementById('downloadSpeed').textContent = '-';
+      document.getElementById('uploadSpeed').textContent = '-';
+      document.getElementById('pingResult').textContent = '-';
+      document.getElementById('downloadProgress').style.width = '0%';
+      document.getElementById('uploadProgress').style.width = '0%';
+    }
+  </script>
 </body>
 </html>
