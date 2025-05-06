@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gelişmiş Hız Testi - Faruk Güler</title>
+  <title>Gelişmiş Hız Testi</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -71,7 +71,7 @@
       height: 100%;
       background-color: #3498db;
       width: 0%;
-      transition: width 0.3s ease-in-out;
+      transition: width 0.3s;
     }
     .test-section {
       margin: 30px 0;
@@ -91,28 +91,10 @@
       margin: 10px 0;
       display: none;
     }
-    .status-message {
-      font-size: 16px;
-      color: #34495e;
-      margin: 10px 0;
-    }
-    .privacy-notice {
-      font-size: 14px;
-      color: #7f8c8d;
-      margin-top: 20px;
-      text-align: left;
-    }
-    .privacy-notice a {
-      color: #3498db;
-      text-decoration: none;
-    }
-    .privacy-notice a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
-  <h1>Gelişmiş İnternet Hız Testi - Faruk Güler</h1>
+  <h1>Gelişmiş İnternet Hız Testi</h1>
   
   <div class="test-container">
     <button id="startTest">Tam Testi Başlat</button>
@@ -120,7 +102,6 @@
     <button id="uploadTest" onclick="testUploadSpeed()">Sadece Yükleme Testi</button>
     <button id="pingTest" onclick="testPing()">Ping Testi</button>
     <div class="error-message" id="errorMessage"></div>
-    <div class="status-message" id="statusMessage"></div>
   </div>
 
   <div class="test-section">
@@ -146,12 +127,8 @@
   </div>
 
   <div class="test-section">
-    <div class="test-title">Ping ve Jitter</div>
+    <div class="test-title">Ping ve Gecikme</div>
     <div class="ping-result" id="pingResult">-</div>
-  </div>
-
-  <div class="privacy-notice">
-    <p>Bu hız testi, IP adresinizi ve test sonuçlarınızı kaydedebilir. Veriler yalnızca test sonuçlarını göstermek için kullanılır ve üçüncü taraflarla paylaşılmaz. Daha fazla bilgi için <a href="mailto:info@farukguler.com">iletişime geçin</a>.</p>
   </div>
 
   <script>
@@ -160,17 +137,17 @@
       download: {
         fileSizes: [1, 5, 10], // MB cinsinden
         urls: [
-          "https://farukguler.com/test-files/1MB.bin",
-          "https://farukguler.com/test-files/5MB.bin",
-          "https://farukguler.com/test-files/10MB.bin"
+          "https://speed.hetzner.de/1MB.bin",
+          "https://speed.hetzner.de/5MB.bin",
+          "https://speed.hetzner.de/10MB.bin"
         ]
       },
       upload: {
-        endpoint: "https://farukguler.com/upload",
+        endpoint: "https://httpbin.org/post",
         testDataSizes: [1, 5, 10] // MB cinsinden
       },
       ping: {
-        url: "https://farukguler.com/ping",
+        url: "https://www.google.com",
         trials: 5
       }
     };
@@ -184,44 +161,12 @@
     const uploadTestBtn = document.getElementById('uploadTest');
     const pingTestBtn = document.getElementById('pingTest');
     const errorMessage = document.getElementById('errorMessage');
-    const statusMessage = document.getElementById('statusMessage');
 
-    // Hata ve durum mesajlarını göster
+    // Hata mesajını göster
     function showError(message) {
       errorMessage.textContent = message;
       errorMessage.style.display = 'block';
       setTimeout(() => { errorMessage.style.display = 'none'; }, 5000);
-    }
-
-    function showStatus(message) {
-      statusMessage.textContent = message;
-      statusMessage.style.display = 'block';
-    }
-
-    function clearStatus() {
-      statusMessage.textContent = '';
-      statusMessage.style.display = 'none';
-    }
-
-    // Sunucu uç noktalarını kontrol et
-    async function checkEndpoints() {
-      try {
-        // İndirme uç noktalarını kontrol et
-        for (const url of testSettings.download.urls) {
-          const response = await fetch(url, { method: 'HEAD' });
-          if (!response.ok) throw new Error(`İndirme dosyası erişilemez: ${url}`);
-        }
-        // Yükleme uç noktasını kontrol et
-        const uploadResponse = await fetch(testSettings.upload.endpoint, { method: 'OPTIONS' });
-        if (!uploadResponse.ok) throw new Error(`Yükleme uç noktası erişilemez: ${testSettings.upload.endpoint}`);
-        // Ping uç noktasını kontrol et
-        const pingResponse = await fetch(testSettings.ping.url, { method: 'HEAD' });
-        if (!pingResponse.ok) throw new Error(`Ping uç noktası erişilemez: ${testSettings.ping.url}`);
-        return true;
-      } catch (error) {
-        showError(`Sunucu uç noktaları erişilemez: ${error.message}`);
-        return false;
-      }
     }
 
     // Tam testi başlat
@@ -231,14 +176,7 @@
       testInProgress = true;
       disableButtons();
       clearResults();
-      clearStatus();
-
-      if (!(await checkEndpoints())) {
-        testInProgress = false;
-        enableButtons();
-        return;
-      }
-
+      
       try {
         await testPing();
         await testDownloadSpeed();
@@ -248,7 +186,6 @@
       } finally {
         testInProgress = false;
         enableButtons();
-        clearStatus();
       }
     });
 
@@ -264,44 +201,37 @@
       try {
         let totalBytes = 0;
         let totalTime = 0;
-
+        
         for (let i = 0; i < testSettings.download.fileSizes.length; i++) {
           const size = testSettings.download.fileSizes[i];
           const url = testSettings.download.urls[i] + `?cache=${Math.random()}`;
           const fileSizeBytes = size * 1024 * 1024;
-
-          showStatus(`${size}MB dosya indiriliyor...`);
-
-          let loaded = 0;
-          const xhr = new XMLHttpRequest();
-          xhr.open('GET', url, true);
-          xhr.responseType = 'blob';
-
-          xhr.onprogress = (event) => {
-            if (event.lengthComputable) {
-              loaded = event.loaded;
-              const progress = (loaded / fileSizeBytes) * (100 / testSettings.download.fileSizes.length);
-              document.getElementById('downloadProgress').style.width = `${Math.min(progress + (i * (100 / testSettings.download.fileSizes.length)), 100)}%`;
-            }
-          };
-
+          
+          // İlerleme çubuğunu güncelle
+          const progressInterval = setInterval(() => {
+            const currentWidth = parseInt(document.getElementById('downloadProgress').style.width) || 0;
+            const newWidth = Math.min(currentWidth + 1, (i + 1) * (100 / testSettings.download.fileSizes.length));
+            document.getElementById('downloadProgress').style.width = `${newWidth}%`;
+          }, 50);
+          
           const startTime = performance.now();
-          await new Promise((resolve, reject) => {
-            xhr.onload = () => resolve();
-            xhr.onerror = () => reject(new Error(`İndirme başarısız: ${url}`));
-            xhr.send();
-          });
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`İndirme dosyası alınamadı: ${url}`);
+          const blob = await response.blob();
           const endTime = performance.now();
-
+          
+          clearInterval(progressInterval);
+          document.getElementById('downloadProgress').style.width = `${(i + 1) * (100 / testSettings.download.fileSizes.length)}%`;
+          
           const duration = (endTime - startTime) / 1000; // saniye
           totalBytes += fileSizeBytes;
           totalTime += duration;
-
+          
           // Kısmi sonucu göster
           const speedMbps = ((fileSizeBytes * 8) / duration) / (1024 * 1024);
           document.getElementById('downloadSpeed').textContent = speedMbps.toFixed(2);
         }
-
+        
         // Ortalama hızı hesapla
         const avgSpeedMbps = ((totalBytes * 8) / totalTime) / (1024 * 1024);
         document.getElementById('downloadSpeed').textContent = avgSpeedMbps.toFixed(2);
@@ -312,7 +242,6 @@
       } finally {
         if (!testInProgress) enableButtons();
         testInProgress = false;
-        clearStatus();
       }
     }
 
@@ -328,46 +257,43 @@
       try {
         let totalBytes = 0;
         let totalTime = 0;
-
+        
         for (let i = 0; i < testSettings.upload.testDataSizes.length; i++) {
           const size = testSettings.upload.testDataSizes[i];
           const fileSizeBytes = size * 1024 * 1024;
           const testData = new Uint8Array(fileSizeBytes).fill(0);
-
-          showStatus(`${size}MB dosya yükleniyor...`);
-
-          let uploaded = 0;
-          const xhr = new XMLHttpRequest();
-          xhr.open('POST', testSettings.upload.endpoint, true);
-
-          xhr.upload.onprogress = (event) => {
-            if (event.lengthComputable) {
-              uploaded = event.loaded;
-              const progress = (uploaded / fileSizeBytes) * (100 / testSettings.upload.testDataSizes.length);
-              document.getElementById('uploadProgress').style.width = `${Math.min(progress + (i * (100 / testSettings.upload.testDataSizes.length)), 100)}%`;
-            }
-          };
-
+          
+          // İlerleme çubuğunu güncelle
+          const progressInterval = setInterval(() => {
+            const currentWidth = parseInt(document.getElementById('uploadProgress').style.width) || 0;
+            const newWidth = Math.min(currentWidth + 1, (i + 1) * (100 / testSettings.upload.testDataSizes.length));
+            document.getElementById('uploadProgress').style.width = `${newWidth}%`;
+          }, 50);
+          
           const formData = new FormData();
           formData.append('file', new Blob([testData], { type: 'application/octet-stream' }), 'test.bin');
-
+          
           const startTime = performance.now();
-          await new Promise((resolve, reject) => {
-            xhr.onload = () => resolve();
-            xhr.onerror = () => reject(new Error(`Yükleme başarısız: ${testSettings.upload.endpoint}`));
-            xhr.send(formData);
+          const response = await fetch(testSettings.upload.endpoint, {
+            method: 'POST',
+            body: formData
           });
+          if (!response.ok) throw new Error(`Yükleme başarısız: ${testSettings.upload.endpoint}`);
+          await response.json();
           const endTime = performance.now();
-
+          
+          clearInterval(progressInterval);
+          document.getElementById('uploadProgress').style.width = `${(i + 1) * (100 / testSettings.upload.testDataSizes.length)}%`;
+          
           const duration = (endTime - startTime) / 1000; // saniye
           totalBytes += fileSizeBytes;
           totalTime += duration;
-
+          
           // Kısmi sonucu göster
           const speedMbps = ((fileSizeBytes * 8) / duration) / (1024 * 1024);
           document.getElementById('uploadSpeed').textContent = speedMbps.toFixed(2);
         }
-
+        
         // Ortalama hızı hesapla
         const avgSpeedMbps = ((totalBytes * 8) / totalTime) / (1024 * 1024);
         document.getElementById('uploadSpeed').textContent = avgSpeedMbps.toFixed(2);
@@ -378,11 +304,10 @@
       } finally {
         if (!testInProgress) enableButtons();
         testInProgress = false;
-        clearStatus();
       }
     }
 
-    // Ping ve jitter testi
+    // Ping testi
     async function testPing() {
       if (testInProgress) return;
       
@@ -391,31 +316,21 @@
       document.getElementById('pingResult').textContent = 'Test ediliyor...';
       
       try {
-        let pings = [];
+        let totalPing = 0;
         
         for (let i = 0; i < testSettings.ping.trials; i++) {
-          showStatus(`Ping testi ${i + 1}/${testSettings.ping.trials}...`);
           const startTime = performance.now();
           const response = await fetch(testSettings.ping.url, { method: 'HEAD', cache: 'no-store' });
           if (!response.ok) throw new Error(`Ping testi başarısız: ${testSettings.ping.url}`);
           const endTime = performance.now();
-          pings.push(endTime - startTime);
+          totalPing += (endTime - startTime);
+          
+          // Kısmi sonucu göster
+          document.getElementById('pingResult').textContent = `Ping: ${(totalPing / (i + 1)).toFixed(2)} ms (${i + 1}/${testSettings.ping.trials})`;
         }
-
-        // Ortalama ping
-        const avgPing = pings.reduce((a, b) => a + b, 0) / pings.length;
         
-        // Jitter (ping değerleri arasındaki farkların ortalaması)
-        let jitter = 0;
-        if (pings.length > 1) {
-          let diffs = [];
-          for (let i = 1; i < pings.length; i++) {
-            diffs.push(Math.abs(pings[i] - pings[i - 1]));
-          }
-          jitter = diffs.reduce((a, b) => a + b, 0) / diffs.length;
-        }
-
-        document.getElementById('pingResult').textContent = `Ortalama Ping: ${avgPing.toFixed(2)} ms, Jitter: ${jitter.toFixed(2)} ms`;
+        const avgPing = totalPing / testSettings.ping.trials;
+        document.getElementById('pingResult').textContent = `Ortalama Ping: ${avgPing.toFixed(2)} ms`;
         
       } catch (error) {
         document.getElementById('pingResult').textContent = 'Ping testi başarısız';
@@ -423,7 +338,6 @@
       } finally {
         if (!testInProgress) enableButtons();
         testInProgress = false;
-        clearStatus();
       }
     }
 
