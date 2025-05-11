@@ -43,7 +43,11 @@ categories: [Windows Server]
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>The choice to choose one over the other depends on the requirement of the application or service that will use these accounts. If the application is on a single server only, you can use an sMSA, but if the service needs to run on multiple servers, you should opt for gMSA, which provides this flexibility.</p>
+<p>The choice to choose one over the other depends on the requirement of the application or service that will use these accounts. If the application is on a single server only, you can use an sMSA, but if the service needs to run on multiple servers, You should choose gMSA that provides this width.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Additionally, Windows Server 2025 introduced the Delegated Managed Service Account (dMSA) as a natural successor to gMSA and sMSA. It is a new service account model that takes things further in terms of security and flexibility.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
