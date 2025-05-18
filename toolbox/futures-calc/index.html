@@ -150,9 +150,9 @@
       // Uyarı mesajı: pozisyon tipine göre
       var warningMessage = "";
       if (positionType === "short") {
-        warningMessage = "Fiyat %" + priceChangePercentage.toFixed(2) + " yükseldiğinde likidite olursunuz.";
+        warningMessage = "Fiyat %" + priceChangePercentage.toFixed(2) + " yükseldiğinde likidite edileceksiniz !";
       } else {
-        warningMessage = "Fiyat %" + priceChangePercentage.toFixed(2) + " düştüğünde likidite olursunuz.";
+        warningMessage = "Fiyat %" + priceChangePercentage.toFixed(2) + " düştüğünde likidite edileceksiniz !";
       }
       document.getElementById('warningMessage').textContent = warningMessage;
 
