@@ -1,5 +1,5 @@
 ---
 layout: tags
-icon: fa-solid fa-hashtag
+icon: fas fa-tags
 order: 2
 ---
