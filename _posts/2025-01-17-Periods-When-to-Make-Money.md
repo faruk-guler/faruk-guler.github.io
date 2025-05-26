@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Periods When to Make Money by "Samuel Benner"
+title: Periods When to Make Money by Samuel Benner
 date: 2024-03-18 23:24
 By: faruk-guler
 comments: true
