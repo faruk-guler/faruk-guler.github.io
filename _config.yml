@@ -1,5 +1,4 @@
 # The Site Configuration
-
 # Import the theme
 theme: jekyll-theme-chirpy
 
@@ -9,40 +8,43 @@ theme: jekyll-theme-chirpy
 lang: en
 
 # Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
-timezone:
+timezone: Europe/Istanbul
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: Guler Open IT Platform # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: ⬡ System ⬢ Network ⬡ Cloud ⬢ Virtualization ⬡ Security ⬢ # it will display as the subtitle
 
-description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+description: System Network Cloud Virtualization Security
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: ""
+url: "https://farukguler.com"
 
 github:
-  username: github_username # change to your GitHub username
+  username: faruk-guler # change to your GitHub username
 
-twitter:
-  username: twitter_username # change to your Twitter username
+linkedin:
+  username: farukgulerfdn 
+
+#twitter:
+  #username: faruk-guler # change to your Twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@domain.com # change to your email address
+  name: faruk-guler
+  email: https://farukguler.com/about # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your Twitter homepage
-    - https://github.com/username # change to your GitHub homepage
-    # Uncomment below to add more social links
+    # - https://twitter.com/faruk-guler # change to your Twitter homepage
     # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
+     - https://github.com/faruk-guler # change to your GitHub homepage
+     - https://www.linkedin.com/in/farukgulerfdn
+    
+    # Uncomment below to add more social links
 
 # Site Verification Settings
 webmaster_verifications:
@@ -88,17 +90,17 @@ pageviews:
 #     light — Use the light color scheme
 #     dark — Use the dark color scheme
 #
-theme_mode: # [light | dark]
+theme_mode: # dark | light
 
 # The CDN endpoint for media resources.
 # Notice that once it is assigned, the CDN url
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-cdn:
+img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: https://avatars.githubusercontent.com/u/95317318
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
@@ -118,7 +120,17 @@ comments:
     repo: # <gh-username>/<repo>
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
+  
   giscus:
+    repo: faruk-guler/faruk-guler.github.io
+    repo_id: R_kgDOM77PCQ
+    category: General
+    category_id: DIC_kwDOJ-5M8c4CZbjA
+    mapping: pathname 
+    input_position: bottom  
+    reactions_enabled: 1 
+
+giscus:
     repo: # <gh-username>/<repo>
     repo_id:
     category:
@@ -147,7 +159,7 @@ pwa:
     deny_paths:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
-paginate: 10
+paginate: 4
 
 # The base URL of your site
 baseurl: ""
@@ -212,9 +224,10 @@ exclude:
   - tools
   - README.md
   - LICENSE
-  - purgecss.js
   - "*.config.js"
-  - "package*.json"
+  - gulpfile.js
+  - node_modules
+  - package*.json
 
 jekyll-archives:
   enabled: [categories, tags]
@@ -224,3 +237,6 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+permalink: pretty
+permalink: /:title/
