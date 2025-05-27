@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futures Liquidation Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .clear-btn {
+      background-color: #f44336;
+    }
+    .clear-btn:hover {
+      background-color: #d32f2f;
+    }
+    .result {
+      background-color: #e7f7e7;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .result p {
+      margin: 8px 0;
+    }
+    .warning {
+      color: #d32f2f;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Futures Liquidation Calculator - farukguler.com</h1>
+    <form id="futuresForm">
+      <label for="investmentAmount">Yatırım Miktarı (USDT):</label>
+      <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Yatırım Miktarını Girin" required step="0.01">
+
+      <label for="entryPrice">İşleme Giriş Fiyatı (USD):</label>
+      <input type="number" id="entryPrice" name="entryPrice" placeholder="Giriş Fiyatını Girin" required step="0.01">
+
+      <label for="leverage">Kaldıraç (1-125x):</label>
+      <input type="number" id="leverage" name="leverage" placeholder="Kaldıraç Değerini Girin" required min="1" max="125">
+
+      <label for="positionType">Pozisyon Tipi:</label>
+      <select id="positionType" name="positionType" required>
+        <option value="long">LONG (Uzun)</option>
+        <option value="short">SHORT (Kısa)</option>
+      </select>
+
+      <div class="buttons">
+        <button type="button" onclick="calculateFutures()">Hesapla</button>
+        <button type="button" class="clear-btn" onclick="clearForm()">Temizle</button>
+      </div>
+    </form>
+
+    <div class="result" id="result" style="display:none;">
+      <p><strong>Yatırım Miktarı:</strong> <span id="resultInvestment"></span> USDT</p>
+      <p><strong>Giriş Fiyatı:</strong> <span id="resultEntryPrice"></span> USD</p>
+      <p><strong>Kaldıraç:</strong> <span id="resultLeverage"></span> x</p>
+      <p><strong>Likidasyon Fiyatı:</strong> $<span id="resultLiquidationPrice"></span></p>
+      <p><strong>Başlangıç Marjı:</strong> <span id="resultInitialMargin"></span> USDT</p>
+      <p id="warningMessage" class="warning"></p>
+      <p><strong>Pozisyon Yönü:</strong> <span id="resultPositionType"></span></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateFutures() {
+      // Girdi değerlerini al
+      var investment = parseFloat(document.getElementById('investmentAmount').value);
+      var entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      var leverage = parseFloat(document.getElementById('leverage').value);
+      var positionType = document.getElementById('positionType').value;  // "short" veya "long"
+
+      // Geçerli değer kontrolü
+      if (isNaN(investment) || isNaN(entryPrice) || isNaN(leverage) || investment <= 0 || entryPrice <= 0 || leverage <= 0) {
+        alert("Lütfen pozitif değerler girin!");
+        document.getElementById('warningMessage').textContent = "";
+        return;
+      }
+
+      // Maksimum kaldıraç kontrolü
+      if (leverage > 125) {
+        alert("Kaldıraç değeri 125'ten büyük olamaz!");
+        document.getElementById('warningMessage').textContent = "";
+        return;
+      }
+
+      // Yüksek kaldıraç uyarısı
+      if (leverage > 50) {
+        alert("Yüksek kaldıraç risklidir! Lütfen dikkatli olun.");
+      }
+
+      // Likidasyon fiyatı hesaplama
+      var liquidationPrice;
+      var priceChangePercentage = Math.abs((1 / leverage) * 100); // % olarak
+
+      if (positionType === "short") {
+        liquidationPrice = entryPrice * (1 + 1 / leverage);
+      } else { // long
+        liquidationPrice = entryPrice * (1 - 1 / leverage);
+      }
+
+      // Başlangıç marjı hesaplama
+      var initialMargin = investment / leverage;
+
+      // Sonuçları güncelle
+      document.getElementById('resultInvestment').textContent = investment.toFixed(2);
+      document.getElementById('resultEntryPrice').textContent = entryPrice.toFixed(2);
+      document.getElementById('resultLeverage').textContent = leverage.toFixed(0);
+      document.getElementById('resultLiquidationPrice').textContent = liquidationPrice.toFixed(2);
+      document.getElementById('resultInitialMargin').textContent = initialMargin.toFixed(2);
+      document.getElementById('resultPositionType').textContent = positionType === "short" ? "SHORT (Kısa)" : "LONG (Uzun)";
+
+      // Uyarı mesajı: pozisyon tipine göre
+      var warningMessage = "";
+      if (positionType === "short") {
+        warningMessage = "Fiyat %" + priceChangePercentage.toFixed(2) + " yükseldiğinde likidite edileceksiniz !";
+      } else {
+        warningMessage = "Fiyat %" + priceChangePercentage.toFixed(2) + " düştüğünde likidite edileceksiniz !";
+      }
+      document.getElementById('warningMessage').textContent = warningMessage;
+
+      // Sonuç kutusunu göster
+      document.getElementById('result').style.display = 'block';
+    }
+
+    function clearForm() {
+      document.getElementById('futuresForm').reset();
+      document.getElementById('result').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

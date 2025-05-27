@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profesyonel İnternet Hız Testi</title>
+  <style>
+    /* Geliştirilmiş stil kodları burada aynı kalabilir */
+    /* İlgili CSS yukarıdaki sürümle aynı kalabilir */
+  </style>
+</head>
+<body>
+  <h1>Profesyonel İnternet Hız Testi  /yapım aşamasında :(</h1>
+
+  <div class="test-container">
+    <div class="button-group">
+      <button id="startTest">Tam Testi Başlat</button>
+      <button id="downloadTest" class="secondary">Sadece İndirme Testi</button>
+      <button id="uploadTest" class="secondary">Sadece Yükleme Testi</button>
+      <button id="pingTest" class="secondary">Ping ve Jitter Testi</button>
+    </div>
+
+    <select id="serverSelect" class="server-select">
+      <option value="auto">Otomatik Sunucu Seçimi</option>
+      <option value="hetzner">Hetzner (Almanya)</option>
+      <option value="linode">Linode (ABD)</option>
+      <option value="do">DigitalOcean (Singapur)</option>
+    </select>
+
+    <div class="error-message" id="errorMessage"></div>
+    <div class="success-message" id="successMessage"></div>
+  </div>
+
+  <div class="result-container">
+    <div class="result-card">
+      <div class="test-title">İndirme Hızı (Download)</div>
+      <div class="progress-container"><div class="progress-bar" id="downloadProgress"></div></div>
+      <div class="result" id="downloadResult">
+        <div class="speed-value" id="downloadSpeed">-</div><span class="unit">Mbps</span>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="test-title">Yükleme Hızı (Upload)</div>
+      <div class="progress-container"><div class="progress-bar" id="uploadProgress"></div></div>
+      <div class="result" id="uploadResult">
+        <div class="speed-value" id="uploadSpeed">-</div><span class="unit">Mbps</span>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="test-title">Ping ve Jitter</div>
+      <div class="ping-result" id="pingResult">-</div>
+      <div class="ping-result" id="jitterResult">-</div>
+    </div>
+  </div>
+
+  <div class="test-container history-container">
+    <div class="history-title">Test Geçmişi</div>
+    <div id="historyList"></div>
+    <button id="clearHistory" class="secondary" style="margin-top: 15px;">Geçmişi Temizle</button>
+  </div>
+
+  <script>
+    const testServers = {
+      hetzner: {
+        name: "Hetzner (Almanya)",
+        downloadUrls: ["https://speed.hetzner.de/100MB.bin"],
+        uploadEndpoint: "https://httpbin.org/post"
+      },
+      linode: {
+        name: "Linode (ABD)",
+        downloadUrls: ["https://speedtest.dallas.linode.com/100MB-dallas.bin"],
+        uploadEndpoint: "https://httpbin.org/post"
+      },
+      do: {
+        name: "DigitalOcean (Singapur)",
+        downloadUrls: ["https://speedtest-sgp1.digitalocean.com/100mb.test"],
+        uploadEndpoint: "https://httpbin.org/post"
+      }
+    };
+
+    function getSelectedServer() {
+      const val = document.getElementById("serverSelect").value;
+      if (val === "auto") return testServers.hetzner; // Basit otomatik seçim
+      return testServers[val] || testServers.hetzner;
+    }
+
+    async function measureDownload(server) {
+      const url = server.downloadUrls[0];
+      const start = performance.now();
+      try {
+        const response = await fetch(url, { method: 'GET' });
+        await response.blob();
+        const end = performance.now();
+        const seconds = (end - start) / 1000;
+        const mbits = (100 * 8) / seconds; // 100MB dosya * 8 (bit)
+        document.getElementById("downloadSpeed").textContent = mbits.toFixed(2);
+      } catch (e) {
+        showError("İndirme testi başarısız: " + e.message);
+      }
+    }
+
+    async function measureUpload(server) {
+      const blob = new Blob([new ArrayBuffer(5 * 1024 * 1024)]); // 5MB
+      const start = performance.now();
+      try {
+        await fetch(server.uploadEndpoint, {
+          method: 'POST',
+          body: blob
+        });
+        const end = performance.now();
+        const seconds = (end - start) / 1000;
+        const mbits = (5 * 8) / seconds;
+        document.getElementById("uploadSpeed").textContent = mbits.toFixed(2);
+      } catch (e) {
+        showError("Yükleme testi başarısız: " + e.message);
+      }
+    }
+
+    async function measurePing() {
+      const trials = 5;
+      const times = [];
+      for (let i = 0; i < trials; i++) {
+        const start = performance.now();
+        await fetch("https://www.google.com", { mode: 'no-cors' });
+        const end = performance.now();
+        times.push(end - start);
+      }
+      const avg = times.reduce((a, b) => a + b) / trials;
+      const jitter = times.map(t => Math.abs(t - avg)).reduce((a, b) => a + b) / trials;
+      document.getElementById("pingResult").textContent = `Ping: ${avg.toFixed(1)} ms`;
+      document.getElementById("jitterResult").textContent = `Jitter: ${jitter.toFixed(1)} ms`;
+    }
+
+    function showError(msg) {
+      const el = document.getElementById("errorMessage");
+      el.textContent = msg;
+      el.style.display = "block";
+    }
+
+    document.getElementById("startTest").onclick = async () => {
+      const server = getSelectedServer();
+      await measureDownload(server);
+      await measureUpload(server);
+      await measurePing();
+    };
+
+    document.getElementById("downloadTest").onclick = async () => {
+      await measureDownload(getSelectedServer());
+    };
+
+    document.getElementById("uploadTest").onclick = async () => {
+      await measureUpload(getSelectedServer());
+    };
+
+    document.getElementById("pingTest").onclick = async () => {
+      await measurePing();
+    };
+
+    document.getElementById("clearHistory").onclick = () => {
+      document.getElementById("historyList").innerHTML = "";
+    };
+  </script>
+</body>
+</html>
