@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Permissions Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        .permission-grid {
+            display: grid;
+            grid-template-columns: 100px repeat(3, 1fr); /* Permission | Owner | Group | Others */
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .permission-header {
+            font-weight: bold;
+            text-align: center;
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .permission-label {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 8px;
+            font-size: 12px;
+        }
+        .checkbox-container {
+            text-align: center;
+            background-color: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .checkbox-container:hover {
+            background-color: #e9ecef;
+        }
+        .checkbox-container input {
+            margin-right: 5px;
+            transform: scale(1.2);
+        }
+        .results-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 5px solid #2c3e50;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dotted #ddd;
+            font-size: 14px;
+        }
+        .result-value {
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .file-type-container, .special-perms-container {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 5px solid #27ae60;
+            font-size: 14px;
+        }
+        .file-type-title, .special-perms-title {
+            margin-bottom: 8px;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .permission-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #eef5ff;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+            font-size: 14px;
+        }
+        .info-title {
+            color: #3498db;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .warning {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-left: 3px solid #dc3545;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 8px 0;
+            display: none;
+            font-size: 12px;
+        }
+        @media (max-width: 600px) {
+            .permission-grid {
+                grid-template-columns: 80px repeat(3, 1fr);
+                font-size: 12px;
+            }
+            .permission-label {
+                font-size: 10px;
+            }
+            .result-value {
+                font-size: 12px;
+            }
+            .file-type-container, .special-perms-container, .results-container, .permission-info {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unix Permissions Calculator -farukguler.com</h1>
+        
+        <!-- File Type Selection -->
+        <div class="file-type-container">
+            <div class="file-type-title">File Type:</div>
+            <label>
+                <input type="radio" name="fileType" value="-" checked> File
+            </label>
+            &nbsp;&nbsp;
+            <label>
+                <input type="radio" name="fileType" value="d"> Directory
+            </label>
+            &nbsp;&nbsp;
+            <label>
+                <input type="radio" name="fileType" value="l"> Symbolic Link
+            </label>
+        </div>
+        
+        <!-- Special Permissions -->
+        <div class="special-perms-container">
+            <div class="special-perms-title">Special Permissions:</div>
+            <div class="special-perms-grid">
+                <label>
+                    <input type="checkbox" id="setuid"> SetUID (s)
+                </label>
+                <label>
+                    <input type="checkbox" id="setgid"> SetGID (s)
+                </label>
+                <label>
+                    <input type="checkbox" id="sticky"> Sticky Bit (t)
+                </label>
+            </div>
+        </div>
+
+        <!-- Permissions Table -->
+        <div class="permission-grid">
+            <div class="permission-header">Permission</div>
+            <div class="permission-header">Owner (u)</div>
+            <div class="permission-header">Group (g)</div>
+            <div class="permission-header">Others (o)</div>
+            
+            <div class="permission-label">Read (4)</div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="ur" checked>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="gr" checked>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="or">
+            </div>
+            
+            <div class="permission-label">Write (2)</div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="uw" checked>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="gw" checked>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="ow">
+            </div>
+            
+            <div class="permission-label">Execute (1)</div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="ux">
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="gx">
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="ox">
+            </div>
+        </div>
+        
+        <!-- Warnings -->
+        <div class="warning" id="dirWarning">
+            ⚠️ Directories require execute (x) permissions to be accessible.
+        </div>
+        <div class="warning" id="setuidWarning">
+            ⚠️ SetUID should only be used for executable files.
+        </div>
+        <div class="warning" id="setgidWarning">
+            ⚠️ SetGID should only be used for executable files or directories.
+        </div>
+        <div class="warning" id="stickyWarning">
+            ⚠️ Sticky Bit should only be used for directories.
+        </div>
+        
+        <!-- Results -->
+        <div class="results-container">
+            <div class="result-item">
+                <div>Symbolic Notation:</div>
+                <div class="result-value" id="symbolicDisplay">-rw-r-----</div>
+            </div>
+            <div class="result-item">
+                <div>Numeric (Octal) Notation:</div>
+                <div class="result-value" id="octalDisplay">640</div>
+            </div>
+            <div class="result-item">
+                <div>Chmod Command:</div>
+                <div class="result-value" id="chmodCommand">chmod 640 file</div>
+            </div>
+            <div class="result-item">
+                <div>Recursive Chmod Command:</div>
+                <div class="result-value" id="recursiveCommand">chmod -R 640 directory</div>
+            </div>
+            <div class="result-item">
+                <div>Symbolic Chmod Command:</div>
+                <div class="result-value" id="symbolicCommand">chmod u=rw,g=r,o= file</div>
+            </div>
+        </div>
+        
+        <!-- Permissions Information -->
+        <div class="permission-info">
+            <div class="info-title">About Permissions:</div>
+            <p><strong>r (read):</strong> View file content, list directory contents</p>
+            <p><strong>w (write):</strong> Modify file content, create/delete files in a directory</p>
+            <p><strong>x (execute):</strong> Execute a file, enter a directory</p>
+            <p><strong>SetUID (s):</strong> Executes with the file owner's permissions</p>
+            <p><strong>SetGID (s):</strong> Executes with the group's permissions, directories inherit the parent's group</p>
+            <p><strong>Sticky Bit (t):</strong> Only the file owner or root can delete/rename files in the directory</p>
+        </div>
+    </div>
+
+    <script>
+        // Select all permission inputs
+        const allPermissionInputs = document.querySelectorAll('input[type="checkbox"]');
+        const fileTypeInputs = document.querySelectorAll('input[name="fileType"]');
+        const specialPermInputs = document.querySelectorAll('#setuid, #setgid, #sticky');
+        
+        // Select display elements
+        const symbolicDisplay = document.getElementById('symbolicDisplay');
+        const octalDisplay = document.getElementById('octalDisplay');
+        const chmodCommand = document.getElementById('chmodCommand');
+        const recursiveCommand = document.getElementById('recursiveCommand');
+        const symbolicCommand = document.getElementById('symbolicCommand');
+        
+        // Select warning elements
+        const dirWarning = document.getElementById('dirWarning');
+        const setuidWarning = document.getElementById('setuidWarning');
+        const setgidWarning = document.getElementById('setgidWarning');
+        const stickyWarning = document.getElementById('stickyWarning');
+        
+        // Update permissions on any checkbox change
+        allPermissionInputs.forEach(input => {
+            input.addEventListener('change', updatePermissions);
+        });
+        
+        // Update permissions on file type change
+        fileTypeInputs.forEach(input => {
+            input.addEventListener('change', updatePermissions);
+        });
+        
+        // Update permissions on special permissions change
+        specialPermInputs.forEach(input => {
+            input.addEventListener('change', updatePermissions);
+        });
+        
+        // Add click event for checkbox containers
+        document.querySelectorAll('.checkbox-container').forEach(container => {
+            container.addEventListener('click', function(e) {
+                // If the click is not directly on the checkbox
+                if (e.target.type !== 'checkbox') {
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+        
+        // Function to calculate and update permissions
+        function updatePermissions() {
+            // Calculate basic permissions
+            const userPerms = getPermValue('u');
+            const groupPerms = getPermValue('g');
+            const otherPerms = getPermValue('o');
+            
+            // Calculate special permissions
+            let specialPerms = 0;
+            if (document.getElementById('setuid').checked) specialPerms += 4;
+            if (document.getElementById('setgid').checked) specialPerms += 2;
+            if (document.getElementById('sticky').checked) specialPerms += 1;
+            
+            // Update octal value
+            const octalValue = specialPerms * 1000 + userPerms * 100 + groupPerms * 10 + otherPerms;
+            octalDisplay.textContent = octalValue;
+            
+            // Update symbolic notation
+            const fileType = document.querySelector('input[name="fileType"]:checked').value;
+            const symbolic = getSymbolicDisplay(fileType, userPerms, groupPerms, otherPerms);
+            symbolicDisplay.textContent = symbolic;
+            
+            // Update commands
+            chmodCommand.textContent = `chmod ${octalValue} file`;
+            recursiveCommand.textContent = `chmod -R ${octalValue} /directory`;
+            symbolicCommand.textContent = `chmod ${getSymbolicCommand()} file`;
+            
+            // Check and display warnings
+            checkWarnings(fileType, userPerms, groupPerms, otherPerms);
+        }
+        
+        // Calculate permission value for a category (0-7)
+        function getPermValue(category) {
+            let value = 0;
+            if (document.getElementById(`${category}r`).checked) value += 4;
+            if (document.getElementById(`${category}w`).checked) value += 2;
+            if (document.getElementById(`${category}x`).checked) value += 1;
+            return value;
+        }
+        
+        // Generate symbolic notation (e.g., -rwxr-xr--)
+        function getSymbolicDisplay(fileType, user, group, other) {
+            const userSymbolic = getSymbolicForValue(user, 'u');
+            const groupSymbolic = getSymbolicForValue(group, 'g');
+            const otherSymbolic = getSymbolicForValue(other, 'o');
+            
+            return `${fileType}${userSymbolic}${groupSymbolic}${otherSymbolic}`;
+        }
+        
+        // Generate symbolic notation for a specific value (e.g., 7 -> rwx)
+        function getSymbolicForValue(value, category) {
+            let result = '';
+            
+            // Add r, w, x
+            result += (value & 4) ? 'r' : '-';
+            result += (value & 2) ? 'w' : '-';
+            
+            // Check for execute permission and special permissions
+            const hasExec = (value & 1) ? true : false;
+            
+            if (category === 'u' && document.getElementById('setuid').checked) {
+                result += hasExec ? 's' : 'S';
+            }
+            else if (category === 'g' && document.getElementById('setgid').checked) {
+                result += hasExec ? 's' : 'S';
+            }
+            else if (category === 'o' && document.getElementById('sticky').checked) {
+                result += hasExec ? 't' : 'T';
+            }
+            else {
+                result += hasExec ? 'x' : '-';
+            }
+            
+            return result;
+        }
+        
+        // Generate symbolic command (e.g., u=rwx,g=rx,o=r)
+        function getSymbolicCommand() {
+            const parts = [];
+            
+            // Generate permissions for user, group, and others
+            const userPerms = getSymbolicPart('u');
+            const groupPerms = getSymbolicPart('g');
+            const otherPerms = getSymbolicPart('o');
+            
+            // Add non-empty parts
+            if (userPerms) parts.push(`u=${userPerms}`);
+            if (groupPerms) parts.push(`g=${groupPerms}`);
+            if (otherPerms) parts.push(`o=${otherPerms}`);
+            
+            // Add special permissions
+            const specialParts = [];
+            if (document.getElementById('setuid').checked) specialParts.push('u+s');
+            if (document.getElementById('setgid').checked) specialParts.push('g+s');
+            if (document.getElementById('sticky').checked) specialParts.push('+t');
+            
+            // Combine all parts
+            return parts.join(',') + (specialParts.length > 0 ? ',' + specialParts.join(',') : '');
+        }
+        
+        // Generate symbolic part for a category (e.g., rwx)
+        function getSymbolicPart(category) {
+            let part = '';
+            if (document.getElementById(`${category}r`).checked) part += 'r';
+            if (document.getElementById(`${category}w`).checked) part += 'w';
+            if (document.getElementById(`${category}x`).checked) part += 'x';
+            return part;
+        }
+        
+        // Check and display warnings
+        function checkWarnings(fileType, userPerms, groupPerms, otherPerms) {
+            // Directory warning
+            if (fileType === 'd' && !(userPerms & 1) && !(groupPerms & 1) && !(otherPerms & 1)) {
+                dirWarning.style.display = 'block';
+            } else {
+                dirWarning.style.display = 'none';
+            }
+            
+            // SetUID warning
+            if (document.getElementById('setuid').checked && fileType !== '-') {
+                setuidWarning.style.display = 'block';
+            } else {
+                setuidWarning.style.display = 'none';
+            }
+            
+            // SetGID warning
+            if (document.getElementById('setgid').checked && fileType !== '-' && fileType !== 'd') {
+                setgidWarning.style.display = 'block';
+            } else {
+                setgidWarning.style.display = 'none';
+            }
+            
+            // Sticky Bit warning
+            if (document.getElementById('sticky').checked && fileType !== 'd') {
+                stickyWarning.style.display = 'block';
+            } else {
+                stickyWarning.style.display = 'none';
+            }
+        }
+        
+        // Initialize permissions on page load
+        updatePermissions();
+    </script>
+</body>
+</html>
