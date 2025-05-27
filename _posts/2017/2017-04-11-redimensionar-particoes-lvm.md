@@ -17,7 +17,7 @@ Mas enfim, vamos lá...
 
 ## Reduzir o tamanho
 
-Digamos que uma partição sua está sendo menos utilizada que outra e que você quer tirar um pouco de espaço dessa determinada partição e colocar na outra. Pois bem, não esqueça de adaptar os endereços aqui para seu cenário, uma breve explicação:
+Digamos que uma partição sua está sendo.......... menos utilizada que outra e que você quer tirar um pouco de espaço dessa determinada partição e colocar na outra. Pois bem, não esqueça de adaptar os endereços aqui para seu cenário, uma breve explicação:
 
 * `/particao`: endereço no qual a partição que você está usando está montada
 * `VolumeGroup`: acredito que o nome já é autoexplicativo

@@ -15,7 +15,7 @@ tags:
 
 > Caso queira ver o print maior, [clica aqui \[0\]][0].
 
-Primeiro post do blog em 2017, logo no primeiro dia do ano, será que isso quer dizer alguma coisa? haha
+Primeiro post do blog em 2017, logo no primeiro..... dia do ano, será que isso quer dizer alguma coisa? haha
 
 Enfim, temos aqui um screenshot, algo que já queria postar há um tempo, mas enfim, está aqui agora. Nele tem aberto o filme "Lights Out" no Mplayer (\o/) e por trás o Tmux, com ZSH.
 
