@@ -1,5 +1,5 @@
 ---
 layout: archives
-icon: fa-solid fa-seedling
+icon: fas fa-archive
 order: 3
 ---
