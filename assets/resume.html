@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Faruk Güler</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header img {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #4ecdc4;
+            margin: 0;
+        }
+
+        .subheading {
+            font-size: 1.2em;
+            color: #666;
+            margin: 5px 0 20px 0;
+        }
+
+        .date {
+            font-size: 1em;
+            color: #666;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+            font-size: 1em;
+        }
+
+        .contact-info a {
+            color: #4ecdc4;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #4ecdc4;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 1.3em;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .job-dates, .degree, .dates {
+            font-size: 1em;
+            color: #777;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            font-size: 1em;
+            margin: 5px 0;
+        }
+
+        .skills ul {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .skills ul li {
+            font-size: 1.1em;
+        }
+
+        .languages ul {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .references p {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .skills ul, .languages ul {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header img {
+                width: 100px;
+                height: 100px;
+                right: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .subheading {
+                font-size: 1em;
+            }
+
+            .contact-info p, .contact-info a {
+                font-size: 0.9em;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            h3 {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <p class="date">Last updated: November 04, 2024</p>
+            <img src="https://farukguler.com/assets/img/person.webp" alt="Faruk Güler">
+            <h1>Faruk Güler</h1>
+            <p class="subheading">IT Server and Virtualization Manager</p>
+            <div class="contact-info">
+                <p>System | Network | Cloud | Virtualization | Security</p>
+                <p>Email: jobs@example.com</p>
+                <p>Phone: +90 555 123 45 67</p>
+                <p>LinkedIn: <a href="https://www.linkedin.com/in/farukgulerfdn" target="_blank">linkedin.com/in/farukgulerfdn</a></p>
+                <p>Page: <a href="https://farukguler.com" target="_blank">farukguler.com</a></p>
+            </div>
+        </header>
+
+        <section class="Summary">
+            <h2>Summary</h2>
+            <p>
+I am Faruk GÜLER, a dedicated and enthusiastic IT professional with 5 years of professional experience and accreditation, specializing in the management and optimization of network and server infrastructures. I demonstrate performance in successfully completing projects with my extensive troubleshooting skills in software and network systems. I conduct research in areas such as information technologies, cybersecurity, cryptocurrencies, artificial intelligence and blockchain, and I also share sectoral information by writing blog posts.
+            </p>
+        </section>
+
+        <section class="Experience">
+            <h2>Work Experience</h2>
+            
+            <div class="Job">
+                <h3>BGN Technologies Inc. - System Administrator</h3>
+                <p class="job-dates">February 2020 - Present</p>
+                <ul>
+                    <li>Managing server administration, network security, and performance monitoring.</li>
+                    <li>Setting up, maintaining, and updating Linux and Windows-based servers.</li>
+                    <li>Developing backup solutions and disaster recovery scenarios.</li>
+                    <li>Optimize the configuration and management of Kubernetes clusters to increase efficiency.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="Skills">
+            <h2>Skills</h2>
+            <ul>
+                <li>Server Management: Linux and Windows OS</li>
+                <li>Virtualization: RedHat OpenShift, Vmware, Hyper-V, OpenStack, KVM, Proxmox VE</li>
+                <li>Web Technologies: HTML, CSS, JavaScript, PHP</li>
+                <li>Cloud Computing: Azure, Microsoft 365, Google Cloud Platform</li>
+                <li>Monitoring and Log Management: Splunk, ELK, Grafana, Zabbix</li>
+                <li>Container Technologies: Docker, Containerd, Rancher, Kubernetes</li>
+                <li>Database Management: MySQL, PostgreSQL, Microsoft SQL</li>
+                <li>Powershell, Python and Bash Scripting</li>
+                <li>Git & GitHub</li>
+                <li>Disaster and Recovery Operations</li>
+                <li>Network and System Security</li>
+            </ul>
+        </section>
+
+        <section class="Education">
+            <h2>Education</h2>
+            
+            <div class="School">
+                <h3>Suleyman Demirel University</h3>
+                <p class="degree">Associate's Degree in Computer Engineering</p>
+                <p class="dates">September 2013 - June 2015</p>
+                <p class="degree">Internship</p>
+                <p class="dates">October 2012 - June 2013</p>
+
+            </div>
+        </section>
+
+        <section class="Certifications and Trainings">
+            <h2>Certifications and Trainings</h2>
+            <ul>
+                <li>VMware vSphere: Install, Configure, Manage [V7]</li>
+                <li>Linux Networking and System Administration</li>
+                <li>Installation, Storage and Compute with Windows Server 2019</li>
+                <li>Microsoft Certified System Engineer (MCSE)</li>
+                <li>Networking with Windows Server 2019</li>
+                <li>Identity with Windows Server 2019</li>
+                <li>Administering a SQL Database Infrastructure 2019</li>
+                <li>Active Directory Administration in Windows Server 2016</li>
+                <li>Administering Microsoft Exchange Server 2019</li>
+                <li>Microsoft Endpoint Configuration Manager (MECM)</li>
+                <li>System Center Operations Manager (SCOM)</li>
+                <li>Administering the Web Server (IIS) Role of Windows Server</li>
+                <li>Veeam Backup & Replication V12 (VMCE)</li>
+                <li>Vinchin Backup & Recovery V7.0</li>
+                 
+            </ul>
+        </section>
+
+        <section class="Interests">
+            <h2>Interests</h2>
+            <ul>
+                <li>Decentralized Finance - DEFI</li>
+                <li>FPV Drones(First Person View)</li>
+                <li>Open Source Technologies</li>
+                <li>Web Exploitation</li>
+                <li>Reverse Engineering</li>
+                <li>AI</li>   
+            </ul>
+        </section>
+
+        <section class="Languages">
+            <h2>Languages</h2>
+            <ul>
+                <li>Turkish: Native</li>
+                <li>English: Intermediate</li>
+                <li>Arabic: Intermediate</li>
+            </ul>
+        </section>
+
+        <section class="References">
+            <h2>References</h2>
+            <p>References will be provided upon request.</p>
+        </section>
+    </div>
+</body>
+</html>
