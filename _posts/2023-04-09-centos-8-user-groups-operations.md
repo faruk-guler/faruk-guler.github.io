@@ -11,7 +11,7 @@ categories: [RedHat]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p>Burada yayınlanan komutlar Linux&nbsp;tabanlı<strong>&nbsp;Centos</strong> için geçerlidir.</p>
+<p>Burada yayınlanan komutlar RHELL/Centos&nbsp;tabanı<strong>&nbsp;için</strong> geçerlidir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
