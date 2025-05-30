@@ -9,7 +9,8 @@ işte o paha biçilmez.
 
 **Ben Faruk GÜLER**, BT. sunucu ve sanallaştırma yöneticisiyim. 5 yıllık mesleki deneyime ve akreditasyona sahip, kendini işine adamış ve hevesli bir bilgi teknolojisi ve siber güvenlik araştırmacısıyım. 
 IT dünyası, Yapay Zeka ve Blockchain Projeleri üzerine araştırma ve çalışmalar yapıp, farklı teknolojiler ve hizmetler alanında blog yazıyorum. 
-Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum. Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum. 
+Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum. 
+- Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum. 
 Bu makaleyi okuduğunuzda, değerli bulduğum ve sizinle paylaştığım bu projeler değersiz hale gelmiş olabilir. 
 Kripto yatırımları çok riskli ve değişkendir. Uyarı: "Makalelerimin hiçbiri yatırım tavsiyesi olarak kabul edilemez!" 
 Daha fazlasına ihtiyacınız varsa ve yardım almak istiyorsanız, benimle iletişime geçmekten çekinmeyin...
