@@ -11,7 +11,7 @@ işte o paha biçilmez.
 IT dünyası, Yapay Zeka ve Blockchain Projeleri üzerine araştırma ve çalışmalar yapıp, farklı teknolojiler ve hizmetler alanında blog yazıyorum. 
 Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum. 
 - Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum. 
-Bu makaleyi okuduğunuzda, değerli bulduğum ve sizinle paylaştığım bu projeler değersiz hale gelmiş olabilir. Daha fazlasına ihtiyacınız varsa veya yardım almak istiyorsanız, benimle iletişime geçmekten çekinmeyin...
+Bu makaleyi okuduğunuzda, değerli bulduğum ve sizinle paylaştığım bu projeler değersiz hale gelmiş olabilir. Daha fazlasına ihtiyacınız vara benimle iletişime geçmekten çekinmeyin...
 - <span style="color:red">"Kripto yatırımları özünde çok riskli ve fiyat skalası çok değişkendir!</span> 
 - <span style="color:red">"Makalelerimin hiçbiri yatırım tavsiyesi olarak kabul edilemez!</span> 
 
@@ -48,8 +48,7 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 Son olarak; **kaynak göstermenin bilim ve sanat etiğinin bir gereği olduğunu** bilmenizi istiyorum. Hangi biçimde olursa olsun bilgi ileten kişi bilginin kaynağını gösterme sorumluluğunu taşımalıdır. 
 Bloğumda paylaşılan çoğu konunun kaynağı temel araştırmalarım ve kendi deneyimlerimden oluşmaktadır. 
 **“Mutlak doğruluk içermez”** Bu sebeple, @links kısmında yararlandığım kaynakları açıkça belirtmeyi borç bilirim.
-Paylaşımlarım tamamen açıktır. Kopyalanmasında ve Alıntı yapılmasında; **“Kaynak gösterilDİĞİ sürece”** hiçbir sakınca yoktur.
-
+- <span style="color:red">Paylaşımlarım tamamen açıktır. Kopyalanmasında ve Alıntı yapılmasında; **“Kaynak gösterilDİĞİ sürece”** hiçbir sakınca yoktur.</span> 
 
 **Saygılarımla**  
 ©2010 – 2025
