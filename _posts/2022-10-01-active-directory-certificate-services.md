@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Whats is Active Directory Certifıcate Services(ADCS)
+title: Whats is Active Directory Certificate Services(ADCS)
 date: 2022-10-01 23:35
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":4938,"width":648,"height":204,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/adcs.png?w=1024" alt="" class="wp-image-4938" width="648" height="204" /></figure>

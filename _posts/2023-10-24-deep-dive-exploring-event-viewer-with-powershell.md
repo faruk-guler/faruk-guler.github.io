@@ -4,7 +4,7 @@ title: Deep Dive Exploring Event Viewer with "PowerShell"
 date: 2023-10-24 20:02
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":8971,"width":"473px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/ps_event.jpg?w=1024" alt="" class="wp-image-8971" style="width:473px;height:auto" /></figure>

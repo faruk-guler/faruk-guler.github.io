@@ -4,7 +4,7 @@ title: Imperative and Declarative Method on Kubernetes
 date: 2023-10-08 20:31
 author: theguler
 comments: true
-categories: [Containerization]
+categories: [Kubernetes]
 ---
 <!-- wp:image {"id":15422,"width":"490px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/k8s.png?w=625" alt="" class="wp-image-15422" style="width:490px;height:auto" /></figure>

@@ -4,7 +4,7 @@ title: Microsoft Local Administrator Password Solution (LAPS) Detaylı
 date: 2023-07-26 23:57
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":7909,"width":"458px","height":"auto","aspectRatio":"2.083682008368201","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/laps-logo.png?w=832" alt="" class="wp-image-7909" style="aspect-ratio:2.083682008368201;width:458px;height:auto" /></figure>

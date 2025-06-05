@@ -4,7 +4,7 @@ title: HOW TO RESET USER'S PASSWORDS ON WINDOWS SERVER &amp; CLIENT
 date: 2023-07-24 00:14
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":7872,"width":"602px","height":"343px","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/reset-windows-10-password.jpg?w=600" alt="" class="wp-image-7872" style="width:602px;height:343px" /></figure>

@@ -4,7 +4,7 @@ title: Extend Windows Server Evaluation 180 days Trial
 date: 2022-07-24 17:45
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":3691,"width":800,"height":132,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/microsoft-licence.png?w=1024" alt="" class="wp-image-3691" width="800" height="132" /></figure>

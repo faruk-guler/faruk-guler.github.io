@@ -4,7 +4,7 @@ title: What is gMSA and sMSA?
 date: 2025-01-09 01:07
 By: faruk-guler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":15489,"width":"558px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/gmsa_ad.JPG?w=625" alt="" class="wp-image-15489" style="width:558px;height:auto" /></figure>

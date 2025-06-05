@@ -4,7 +4,7 @@ title: Preventing "Server Manager" From Opening Automatically on Every Logon Pro
 date: 2023-05-01 00:07
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":6981,"width":524,"height":388,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/server_manager-1.jpg?w=1024" alt="" class="wp-image-6981" width="524" height="388" /></figure>

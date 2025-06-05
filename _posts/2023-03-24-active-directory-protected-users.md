@@ -4,7 +4,7 @@ title: Active Directory “Protected Users” Güvenlik Grubu Nedir?
 date: 2023-03-24 22:27
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":6234,"width":432,"height":494,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/protected_group.png?w=496" alt="" class="wp-image-6234" width="432" height="494" /></figure>

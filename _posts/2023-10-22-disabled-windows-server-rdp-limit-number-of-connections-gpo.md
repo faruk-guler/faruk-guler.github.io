@@ -4,7 +4,7 @@ title: Disabled Windows Server RDP Limit Number of Connections (GPO)
 date: 2023-10-22 15:57
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":8947,"width":"508px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/maxresdefault_rdp-1.jpg?w=837" alt="" class="wp-image-8947" style="width:508px;height:auto" /></figure>

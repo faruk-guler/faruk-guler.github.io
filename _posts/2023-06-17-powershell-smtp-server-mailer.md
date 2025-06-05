@@ -4,7 +4,7 @@ title: SMTP Server kullanımı "Powershell" - Using SMTP Server "Powershell"
 date: 2023-06-17 21:22
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":7499,"width":604,"height":339,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/send-email-in-powershell-script.jpg?w=1024" alt="" class="wp-image-7499" width="604" height="339" /></figure>

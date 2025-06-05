@@ -4,7 +4,7 @@ title: Active Directory Tiering Model Nedir? Örnek Yapı
 date: 2024-04-22 22:26
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":11370,"width":"629px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/tiers-active-directorys-5.jpg?w=1024" alt="" class="wp-image-11370" style="width:629px;height:auto" /></figure>

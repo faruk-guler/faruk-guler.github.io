@@ -4,7 +4,7 @@ title: Windows Server 2022 Sonunda Yayınlandı.
 date: 2022-02-06 19:16
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":1438,"width":252,"height":370,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/server-2022-datacenter.png?w=696" alt="" class="wp-image-1438" width="252" height="370" /></figure>

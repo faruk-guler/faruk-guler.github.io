@@ -4,7 +4,7 @@ title: Disabling Shutdown Event Monitor
 date: 2022-10-07 20:56
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":4962,"width":511,"height":328,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/tracker.png?w=724" alt="" class="wp-image-4962" width="511" height="328" /></figure>

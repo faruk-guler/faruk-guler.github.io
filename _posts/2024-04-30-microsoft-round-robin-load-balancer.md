@@ -4,7 +4,7 @@ title: Round Robin DNS Load Balancer
 date: 2024-04-30 14:11
 author: theguler
 comments: true
-categories: [Windows Server]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":11739,"width":"518px","height":"258px","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/round-robin-cf.jpg?w=1024" alt="" class="wp-image-11739" style="width:518px;height:258px" /></figure>
