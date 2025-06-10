@@ -4,7 +4,7 @@ title: YAML Nedir? - What is YAML?
 date: 2022-12-21 19:35
 author: theguler
 comments: true
-categories: [Containerization]
+categories: [AI / Machine Learning]
 ---
 <!-- wp:image {"id":5851,"width":485,"height":256,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/yaml.png?w=1000" alt="" class="wp-image-5851" width="485" height="256" /></figure>
