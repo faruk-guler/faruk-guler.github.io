@@ -37,7 +37,7 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 - Github: github.com/faruk-guler
 - Docker-Hub: hub.docker.com/u/farukguler
 - Blog: www.farukguler.com
-- LinkedIn: linkedin.com/in/farukgulerfdn
+- LinkedIn: linkedin.com/in/gulerfaruk
 - E-Mail:
 - X:
 - Exploit-DB:
