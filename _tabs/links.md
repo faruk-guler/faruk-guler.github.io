@@ -12,6 +12,7 @@ https://www.revshells.com
 https://www.oracle.com/cloud/  
 https://linuxjourney.com  
 https://www.server-world.info  
+https://endoflife.date  
 https://www.erenet.info/webmaster_hizmetleri.php  
 
 https://dev.to  
