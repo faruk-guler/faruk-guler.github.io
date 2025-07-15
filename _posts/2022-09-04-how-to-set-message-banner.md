@@ -59,7 +59,7 @@ categories: [Linux / Unix]
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted"><strong>#sudo nano /etc/issue.net (SSH Client)</strong><br>\S<br>Kernel \r on an \m<br><strong><br>sudo nano /etc/issue (Server Consolu)</strong><br>\S<br>Kernel \r on an \m<br><br><strong>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+<br>                 farukguler.com<br>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+</strong><br>                 Host Name: \n<br>                 Time: \d \t<br>                 System IP address: \4<br>                 User Name: faruk<br>                 Password: Passwd12345</pre>
+<pre class="wp-block-preformatted"><strong>#sudo nano /etc/issue.net (SSH Client)</strong><br>\S<br>Kernel \r on an \m<br><strong><br>sudo nano /etc/issue (Server Consolu)</strong><br>\S<br>Kernel \r on an \m<br><br><strong>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+<br>                 farukguler.com<br>+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-++-+-+-+-+-+-+-+</strong><br>                 Host Name: \n<br>                 Time: \d \t<br>                 System IP address: \4<br>                 User Name: faruk<br>                 Location: Istanbul</pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:preformatted -->
