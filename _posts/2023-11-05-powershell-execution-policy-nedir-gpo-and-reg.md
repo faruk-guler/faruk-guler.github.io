@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PowerShell Execution Policy Nedir?
+title: PowerShell (Execution Policy) Nedir?
 date: 2023-11-05 21:23
 author: theguler
 comments: true

@@ -1,8 +1,8 @@
 ---
 layout: post
-title: EFS Şifreleme Dosya Sistemi Nedir?
+title: EFS (Şifreleme Dosya Sistemi) Nedir?
 date: 2022-11-15 20:15
-author: faruk-guler
+author: theguler
 comments: true
 categories: [Hybride]
 ---
