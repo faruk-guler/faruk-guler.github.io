@@ -2,7 +2,7 @@
 layout: post
 title: Active Directory DC Health Check and Replication
 date: 2022-07-20 16:56
-author: theguler
+author: faruk-guler
 comments: true
 categories: [Active Directory]
 ---
