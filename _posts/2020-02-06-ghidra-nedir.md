@@ -1,11 +1,27 @@
 ---
-layout: post
-title: Ghidra NSA'nın Tersine Mühendislik Araç Seti
+
+title: "Ghidra NSA'nın Tersine Mühendislik Araç Seti"
+author: faruk-guler
 date: 2020-02-06 22:44
-author: theguler
+published: true
 comments: true
 categories: [Reverse Engineering]
+ # pin: true
+ # image:
+ # path: /assets/img/posts/2024-06-16-thoughts-on-starting-a-github-blog/jekyll_pages.webp
+ # alt: "Jekyll"
+ # show_in_post: false
+ # tags:
+  [
+    github,
+    jekyll,
+    open source
+  ]
+
 ---
+
+
+
 <!-- wp:gallery {"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-default is-cropped"><!-- wp:image {"id":11231,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/ghidra.png?w=1024" alt="" class="wp-image-11231" /></figure>
