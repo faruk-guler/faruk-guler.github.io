@@ -1,5 +1,5 @@
 ---
-title: "Ghidra NSA'nın Tersine Mühendislik Araç Seti"
+title: Ghidra NSA'nın Tersine Mühendislik Araç Seti
 author: faruk-guler
 date: 2020-02-06 22:44
 published: true
