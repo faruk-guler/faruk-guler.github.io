@@ -32,6 +32,7 @@ https://farukguler.com
 https://manima.de  
 https://www.blockchaincenter.net (Crypto Prices, Tools & Guides)  
 https://emrah.com  
+https://kadirkozan.com.tr  
 https://interopmatrix.vmware.com (VMware ürün uyumluluklarını gösteren Matris)  
 https://explainshell.com (linux command tester)  
 https://www.hakanuzuner.com  
