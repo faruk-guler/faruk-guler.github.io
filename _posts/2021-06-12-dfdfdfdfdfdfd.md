@@ -2,7 +2,7 @@
 layout: post
 title: asass dfdfdfhgwqwqewew ascxcxcv
 date: 2021-12-02 20:50
-author: theguler
+author: faruk-guler
 comments: true
 categories: [Public]
 ---
