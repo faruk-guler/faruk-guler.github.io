@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Detecting Operating Systems Using the Ping Command -TTL
+title: Detecting OS Using the Ping Command TTL
 date: 2022-08-11 22:02
-author: theguler
+author: faruk-guler
 comments: true
 categories: [Hybride]
 ---
