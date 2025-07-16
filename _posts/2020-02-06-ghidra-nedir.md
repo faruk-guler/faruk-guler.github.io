@@ -2,8 +2,9 @@
 title: "Ghidra NSA'nın Tersine Mühendislik Araç Seti"
 author: faruk-guler
 date: 2024-10-31 00:48:00 +09:00
+# pin: true
 categories: [Reverse Engineering]
-tags: [cve, cve 2025-32463, privilege escalation, chroot, chwoot, PoC, linux, sudo, zero-day, exploit]
+tags: [Reverse Engineering, PoC,]
 layout: post
 published: true
 ---
