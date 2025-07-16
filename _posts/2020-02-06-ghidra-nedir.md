@@ -1,7 +1,7 @@
 ---
 title: Ghidra NSA'nın Tersine Mühendislik Araç Seti
 author: faruk-guler
-date: 2020-02-06 22:44
+date: 2020-02-06 16:50:00 +09:00
 published: true
 comments: true
 categories: [Reverse Engineering]
