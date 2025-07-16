@@ -5,8 +5,7 @@ date: 2024-10-31 00:48:00 +09:00
 categories: [Reverse Engineering]
 tags: [cve, cve 2025-32463, privilege escalation, chroot, chwoot, PoC, linux, sudo, zero-day, exploit]
 layout: post
-published: true  
-lang: "tr"
+published: true
 ---
 
 <!-- wp:gallery {"linkTo":"none"} -->
