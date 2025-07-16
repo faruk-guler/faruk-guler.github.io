@@ -9,7 +9,7 @@ categories: [Reverse Engineering]
  # image:
  # path: /assets/img/posts/2024-06-16-thoughts-on-starting-a-github-blog/jekyll_pages.webp
  # alt: "Jekyll"
- # show_in_post: false
+show_in_post: true
  # tags:
   [
     github,
