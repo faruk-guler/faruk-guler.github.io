@@ -23,3 +23,7 @@ secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 Log Wiew:
 %windir%\security\logs\scesrv.log for detail info.
 
+<!-- wp:preformatted -->
+<pre class="wp-block-preformatted"></pre>
+<!-- /wp:preformatted -->
+
