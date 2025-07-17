@@ -6,7 +6,7 @@ author: theguler
 comments: true
 categories: [3th Party / Tools]
 tags:
-pin:
+# pin:
 math:
 mermaid:
 image:
