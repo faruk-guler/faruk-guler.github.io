@@ -2,6 +2,7 @@
 title: Creating Jekyll blog posts right from GitHub
 date: 2022-10-18 19:03
 author: Nathan Evans
+categories: [xxx]
 category: blog
 layout: post
 ---
