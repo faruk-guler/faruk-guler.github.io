@@ -1,9 +1,10 @@
 ---
-title: xxx network
-date: 2022-10-18 19:03
-author: Nathan Evans
-categories: [xxx]
 layout: post
+title: xxxxxxxxxxx
+date: 2023-10-08 20:31
+author: faruk-guler
+comments: true
+categories: [xxxxxxx]
 ---
 <!-- wp:image {"id":13315,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/nt-user.jpg?w=442" alt="" class="wp-image-13315" /></figure>
