@@ -25,7 +25,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:list -->
 
 <!-- wp:paragraph -->
-<p><strong>ilgili</strong> <strong>REG' i indirmek için:</strong> <a rel="noreferrer noopener" href="https://github.com/faruk-guler" target="_blank">https://github.com/faruk-guler</a></p>
+<p><strong>ilgili</strong> <strong>REG' i indirmek için:</strong> <a rel="noreferrer noopener" href="https://github.com/faruk-guler/JumpTools" target="_blank">https://github.com/faruk-guler/JumpTools</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -61,7 +61,7 @@ categories: [Windows Group Policy GPO]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>son olarak ise <a href="https://github.com/theguler0x" target="_blank" rel="noreferrer noopener">https://github.com/theguler0x</a> indirme linkini vermiş olduğum dosyayı indirerek aşağıdaki görüldüğü gibi <strong>Show Files:</strong> <strong>user\scripts\logon</strong> dizini altına yapıştıralım.</p>
+<p>son olarak ise <a href="https://github.com/faruk-guler/JumpTools" target="_blank" rel="noreferrer noopener">https://github.com/faruk-guler/JumpTools</a> indirme linkini vermiş olduğum dosyayı indirerek aşağıdaki görüldüğü gibi <strong>Show Files:</strong> <strong>user\scripts\logon</strong> dizini altına yapıştıralım.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":1564,"sizeSlug":"large","linkDestination":"none"} -->
