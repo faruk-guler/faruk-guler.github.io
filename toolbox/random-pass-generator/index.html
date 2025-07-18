@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Password Generator</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --background: #1e1e1e;
+            --container: #2d2d2d;
+            --text: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .container {
+            width: min(90%, 500px);
+            padding: 2rem;
+            background: var(--container);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            margin: 0 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+        }
+
+        .password-display {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        #password {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid #3a3a3a;
+            border-radius: 8px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .strength-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .strength-bar {
+            flex: 1;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background 0.3s;
+        }
+
+        .copy-feedback {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🔐 Advanced Password Generator</h2>
+        
+        <div class="password-display">
+            <input type="text" id="password" readonly>
+            <div class="copy-feedback" id="copyFeedback">Copied!</div>
+        </div>
+
+        <div class="controls">
+            <div class="options">
+                <label class="option-item">
+                    <input type="checkbox" id="uppercase" checked>
+                    Büyük Harfler (A-Z)
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" id="lowercase" checked>
+                    Küçük Harfler (a-z)
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" id="numbers" checked>
+                    Sayılar (0-9)
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" id="symbols">
+                    Semboller (!@#$%^&*)
+                </label>
+            </div>
+
+            <div class="length-control">
+                <label>Şifre Uzunluğu: <span id="lengthValue">12</span></label>
+                <input type="range" id="length" min="3" max="100" value="12">
+            </div>
+
+            <div class="strength-indicator">
+                <div class="strength-bar">
+                    <div class="strength-fill" id="strengthFill"></div>
+                </div>
+                <span id="strengthText">Weak</span>
+            </div>
+
+            <div class="button-group">
+                <button onclick="generatePassword()">Generate</button>
+                <button onclick="copyPassword()">Kopyala</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const characters = {
+            uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            lowercase: 'abcdefghijklmnopqrstuvwxyz',
+            numbers: '0123456789',
+            symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'
+        };
+
+        function generatePassword() {
+            const length = parseInt(document.getElementById('length').value);
+            let charset = '';
+            
+            if (document.getElementById('uppercase').checked) {
+                charset += characters.uppercase;
+            }
+            if (document.getElementById('lowercase').checked) {
+                charset += characters.lowercase;
+            }
+            if (document.getElementById('numbers').checked) {
+                charset += characters.numbers;
+            }
+            if (document.getElementById('symbols').checked) {
+                charset += characters.symbols;
+            }
+            
+            if (!charset) {
+                alert('Lütfen en az bir karakter türü seçin!');
+                return;
+            }
+
+            const passwordArray = new Uint32Array(length);
+            window.crypto.getRandomValues(passwordArray);
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset[passwordArray[i] % charset.length];
+            }
+
+            document.getElementById('password').value = password;
+            updateStrengthIndicator(password);
+        }
+
+        function updateStrengthIndicator(password) {
+            const entropy = calculateEntropy(password);
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            
+            let strength = 'Weak';
+            let color = '#ff4444';
+            
+            if (entropy > 100) {
+                strength = 'Strong';
+                color = '#4CAF50';
+            } else if (entropy > 60) {
+                strength = 'Good';
+                color = '#ffa500';
+            }
+
+            strengthFill.style.width = `${Math.min(entropy, 100)}%`;
+            strengthFill.style.background = color;
+            strengthText.textContent = strength;
+            strengthText.style.color = color;
+        }
+
+        function calculateEntropy(password) {
+            const charsetSize = new Set(password.split('')).size;
+            const length = password.length;
+            return Math.round(length * Math.log2(charsetSize));
+        }
+
+        function copyPassword() {
+            const passwordEl = document.getElementById('password');
+            const feedback = document.getElementById('copyFeedback');
+            
+            navigator.clipboard.writeText(passwordEl.value)
+                .then(() => {
+                    feedback.style.opacity = '1';
+                    setTimeout(() => feedback.style.opacity = '0', 1500);
+                })
+                .catch(err => console.error('Şifre kopyalanamadı:', err));
+        }
+
+        document.getElementById('length').addEventListener('input', function() {
+            document.getElementById('lengthValue').textContent = this.value;
+        });
+
+        // Sayfa yüklendiğinde otomatik şifre üretimi
+        generatePassword();
+    </script>
+</body>
+</html>
