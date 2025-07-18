@@ -12,11 +12,11 @@ categories: [Public]
 
 <!-- wp:preformatted -->
 <pre class="wp-block-preformatted"><strong>YouTube:</strong>
+<strong>Ayhan Tarakcı</strong> <a href="https://www.youtube.com/c/Donan%C4%B1mc%C4%B1Baba/videos">https://www.youtube.com/c/Donan%C4%B1mc%C4%B1Baba/videos</a>
 <strong>Evrim Ağacı</strong> <a href="https://www.youtube.com/c/evrimagaci/videos">https://www.youtube.com/c/evrimagaci/videos</a>
 <strong>Barış Özcan</strong> <a href="https://www.youtube.com/c/BarisOzcan/videos">https://www.youtube.com/c/BarisOzcan/videos</a>
 <strong>Çılgın Fizikçiler</strong> youtube.com/c/cilginfizikcilervebiliminsanlariOfficial/videos
 <strong>Bebar Bilim</strong> <a href="https://www.youtube.com/c/bebarbilim/videos">https://www.youtube.com/c/bebarbilim/videos</a>
-<strong>Ayhan Tarakcı</strong> <a href="https://www.youtube.com/c/Donan%C4%B1mc%C4%B1Baba/videos">https://www.youtube.com/c/Donan%C4%B1mc%C4%B1Baba/videos</a>
 <strong>PopularScienceTR</strong> <a href="https://www.youtube.com/user/PopularScienceTR/videos">https://www.youtube.com/user/PopularScienceTR/videos</a>
 <strong>Ruhi Çenet Medya</strong> <a href="https://www.youtube.com/c/Ruhi%C3%87enetMedya">https://www.youtube.com/c/Ruhi%C3%87enetMedya</a>
 <strong>Faruk Yılmaz</strong> <a href="https://www.youtube.com/c/dexpanted41/videos">https://www.youtube.com/c/dexpanted41/videos</a>
