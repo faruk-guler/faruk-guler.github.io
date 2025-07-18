@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Oturumunuz Gecici Profille Acildi.
-date: 2022-02-19 20:15
+date: 2024-02-17 20:53
 author: faruk-guler
 comments: true
 categories: [Windows OS]
