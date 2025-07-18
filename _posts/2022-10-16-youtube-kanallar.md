@@ -1,6 +1,6 @@
 ---
 layout: post
-title: YouTube'da size bir şeyler katacağını düşündüğüm yerli kanallar
+title: YouTube'da size bir şeyler katacağını düşündüğüm kanallar
 date: 2022-10-16 15:05
 author: theguler
 comments: true
