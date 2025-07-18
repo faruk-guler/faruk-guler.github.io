@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Proxy on Ef&#39;s log</title>
+    <link>https://fahmifj.github.io/tags/proxy/</link>
+    <description>Recent content in Proxy on Ef&#39;s log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 04 Nov 2021 16:40:44 +0700</lastBuildDate><atom:link href="https://fahmifj.github.io/tags/proxy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Personal Take on Bypassing ISP Blocks</title>
+      <link>https://fahmifj.github.io/articles/unblock-isp-blocked-sites/</link>
+      <pubDate>Thu, 04 Nov 2021 16:40:44 +0700</pubDate>
+      
+      <guid>https://fahmifj.github.io/articles/unblock-isp-blocked-sites/</guid>
+      <description>Finding ways around digital roadblocks</description>
+      <content:encoded><![CDATA[<p>Di waktu yang lalu, beberapa teman gw mengalami kesulitan saat akan mengakses situs seperti reddit atau situs streaming anime <del>ilegal</del> legal yang tidak lain dan tidak bukan ini karena situs-situs tersebut diblokir oleh ISP. Solusi mereka saat itu tentu saja pakai VPN, tapi sayangnya muncul problem lain, yaitu speed internet yang turun drastis. Yap! Karena VPN yang digunakan ini gratisan (baca: berjamaah).</p>
+<p>Akhirnya, gw kasih tahu solusi lain yang mudah dan murah, yaitu mengaktifkan fitur <a href="https://developers.cloudflare.com/1.1.1.1/encrypted-dns">DNS over HTTPS (DoH)</a> pada browsernya. Beberapa saat kemudian, salah satunya memberi respon berikut.</p>
+<figure>
+    <img src="imgs/image-20211103210137432.png"
+         alt="Sebuah testimoni"/> <figcaption>
+            <p>Sebuah testimoni
+            </p>
+        </figcaption>
+</figure>
+
+<p>Saat ini sebagian besar browser-browser populer sudah memiliki fitur <strong>DoH</strong>. Meskipun begitu, ternyata masih banyak orang yang belum tahu tentang adanya fitur ini.</p>
+<figure>
+    <img src="imgs/image-20211104224726768.png"
+         alt="Settingan DoH pada Chrome dan Firefox"/> <figcaption>
+            <p>Settingan DoH pada Chrome dan Firefox
+            </p>
+        </figcaption>
+</figure>
+
+<p>Dengan mengaktifkan fitur DoH, hampir semua situs yang diblokir oleh ISP bisa dibuka kembali, loh.</p>
+<p><em><strong>Kok bisa?</strong></em></p>
+<p>Nah, dipostingan ini gw akan coba bahas kenapa DoH bisa dipakai untuk mem-<em>bypass</em> website yang diblokir*. Selanjutnya gw juga akan menggunakan dua cara alternatif untuk melakukan bypass tanpa DoH ataupun VPN dan mencari tahu apakah cara-cara tersebut bisa menjadikan kita sebagai anonymous 🎭, setidaknya untuk ISP.</p>
+<blockquote>
+<p>*Aslinya cuma dasar kerja DNS, but let me try to explain it.</p>
+</blockquote>
+<h2 id="how-do-isps-block-websites">How do ISPs block websites?</h2>
+<h3 id="dns-request-flow">DNS Request Flow</h3>
+<p>Pertama-tama, kita perlu tahu dulu alur tentang bagaimana sebuah website itu akhirnya bisa terbuka oleh browser kita.</p>
+<p>Ketika kita mengakses sebuah situs, sebut misal <code>www.reddit.com</code>, komputer kita akan mengirimkan sebuah <a href="https://www.cloudns.net/wiki/article/254/">kueri DNS</a> ke server DNS. Secara default, kueri tadi akan sampai ke server DNS milik penyedia jasa internet (ISP) atau operator seluler yang kita pakai. Tujuannya supaya  <code>www.reddit.com</code> bisa diterjemahkan ke alamat IP sehingga laman situs tersebut bisa dimuat kemudian.</p>
+<img src="./imgs/image-20250128220902286.png" alt="image-20250128220902286" style="zoom:50%;" />
+<p>Jadi, server DNS ini simplenya berisi informasi/mapping nama-nama domain dan menerjemahkannya ke alamat IP.</p>
+<h3 id="dns-filtering">DNS Filtering</h3>
+<p>Jika alur DNS sudah kita pahami, selanjutnya adalah alur tentang proses pemblokiran sebuah website.</p>
+<p>Ketika kita mengakses situs yang ternyata nama domain-nya tercatat di &ldquo;daftar hitam&rdquo; dari server DNS, maka domain yang sedang kita tuju akan diganti alamat IP dan domainnya menjadi halaman blokir milik si ISP, seperti merconsuar, IPO chan, dll. Metode yang digunakan ISP ini lebih dikenal dengan sebutan <a href="https://en.wikipedia.org/wiki/DNS_hijacking">DNS hijack/poisoning</a>.</p>
+<p>Kita bisa melihat hasil hijack oleh server DNS ISP untuk <code>www.reddit.com</code> menggunakan Wireshark. Dari hasil inspeksi, kueri DNS untuk <code>www.reddit.com</code> telah diarahkan ke <code>internetpositif.id</code> yang beralamat di <code>36.86.63.185</code>.</p>
+<img src="./imgs//image-20241226140545496.png" alt="image-20241226140545496" style="zoom:50%;" />
+<p>Hasil <em>tracing</em> (pelacakan) paket data yang ditujukan ke <code>www.reddit.com</code> dengan tool bawaan Windows, yaitu: <code>tracert</code> pun menunjukkan hal yang kurang lebih sama. Tapi kali ini, gw menggunakan koneksi operator seluler yang di tethering oleh smartphone. Alamat IP dari situs <code>www.reddit.com</code> diterjemahkan menjadi alamat IP <code>***.215.248.131</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ tracert -4 -d -h <span class="m">5</span> www.reddit.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Tracing route to blockpage.****.id <span class="o">[</span>***.215.197.131<span class="o">]</span> 
+</span></span><span class="line"><span class="cl">over a maximum of <span class="m">5</span> hops:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="m">1</span>     <span class="m">2</span> ms     <span class="m">2</span> ms     <span class="m">2</span> ms  192.168.1.1 
+</span></span><span class="line"><span class="cl">  <span class="m">2</span>     *        *        *     Request timed out.
+</span></span><span class="line"><span class="cl">  <span class="m">3</span>    <span class="m">38</span> ms    <span class="m">32</span> ms    <span class="m">24</span> ms  10.***.44.1 
+</span></span><span class="line"><span class="cl">  <span class="m">4</span>    <span class="m">26</span> ms    <span class="m">31</span> ms    <span class="m">22</span> ms  ***.215.248.78 
+</span></span><span class="line"><span class="cl">  <span class="m">5</span>    <span class="m">33</span> ms    <span class="m">25</span> ms    <span class="m">27</span> ms  ***.215.248.82 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Trace complete.
+</span></span></code></pre></div><p>Jadi, manakah alamat IP dari <code>www.reddit.com</code>?</p>
+<p>Kita bisa validasi hal ini menggunakan tool seperti <a href="https://toolbox.googleapps.com/apps/dig/#A/">Dig Google</a> atau <a href="https://digwebinterface.com/?hostnames=www.reddit.com&amp;type=&amp;ns=resolver&amp;useresolver=9.9.9.10&amp;nameservers=">Dig Web Interface</a>. Ibaratnya, kita membuat kueri DNS langsung di komputer dan ISP pihak penyedia tool tersebut. Hasilnya adalah berikut.</p>
+<figure>
+    <img src="imgs/image-20211104095424598.png"
+         alt="Hasil dig www.reddit.com"/> <figcaption>
+            <p>Hasil dig <a href="https://www.reddit.com">www.reddit.com</a>
+            </p>
+        </figcaption>
+</figure>
+
+<p>Yap, ternyata alamat IP dari <code>www.reddit.com</code> menurut Google dan Dig Web adalah <code>151.101.X.140</code>, bukan <code>36.86.63.185</code> ataupun <code>***.215.197.131</code>. Yah, komputernya kena penipuan :/</p>
+<p>Alur pemblokiran website ini bisa diilustrasikan sebagai berikut.</p>
+<figure>
+    <img src="imgs/image-20211103163418666.png"
+         alt="Ilustrasi(nya)"/> <figcaption>
+            <p>Ilustrasi(nya)
+            </p>
+        </figcaption>
+</figure>
+
+<p><em><strong>Darimana gw tau 10.***.44.1 itu router ISP?</strong></em></p>
+<p>Setiap alamat IP yang dijajaki atau menjadi <em>hop</em> ini tentunya sebuah perangkat router/modem. Perangkat ini juga punya port SSH yang terbuka, jadi kemungkinan memang milik ISP.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ nc -vn 10.***.44.1 <span class="m">22</span>
+</span></span><span class="line"><span class="cl">Ncat: Version 5.59BETA1 <span class="o">(</span> http://nmap.org/ncat <span class="o">)</span>
+</span></span><span class="line"><span class="cl">Ncat: Connected to 10.***.44.1:22.
+</span></span><span class="line"><span class="cl">SSH-2.0-OpenSSH_7.5
+</span></span></code></pre></div><p><em><strong>Tapi kan HTTPS, S-nya secure, kok bisa ISP tahu dan di-hijack?</strong></em></p>
+<p>Perlu diingat, kueri DNS itu mendahului trafik HTTP/S dan isi kuerinya tidak terenkripsi alias plain text. Lalu proses enkripsi dari HTTPS itu hanya bagian kontennya<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>Tanpa DoH, paket-paket dan kueri DNS untuk me-<em>resolve</em> nama domain ke sebuah alamat IP dikirimkan secara <em>plain-text</em> (tanpa enkripsi).</p>
+<p>Saat kita mengunjungi sebuah situs, ISP hanya dapat melihat nama domain dan alamat IP dari situs tersebut. Informasi seperti username, password, dan bahkan URL endpoint/path beserta kuerynya tidak dapat diketahui oleh ISP. Misal, jika  URL-nya adalah:</p>
+<p><code>https://website.com/api/v1/login?username=admin&amp;password=admin</code></p>
+<p>Maka, yang terlihat oleh ISP saat paket data kita transit di router mereka hanya nama domain, yaitu: <code>website.com</code>. Sedangkan sisanya, akan terenkripsi seperti berikut.</p>
+<figure>
+    <img src="imgs/image-20211104092043412.png"
+         alt="Contoh konten yang dienkripsi"/> <figcaption>
+            <p>Contoh konten yang dienkripsi
+            </p>
+        </figcaption>
+</figure>
+
+<p>Dengan DoH, kueri DNS ikut &ldquo;dibungkus&rdquo; HTTPS sebagai bagian dari konten aplikasi yang dikirim ke <em>endpoint</em> DoH seperti Cloudflare di <a href="https://cloudflare-dns.com/dns-query">https://cloudflare-dns.com/dns-query</a>.</p>
+<p>Sebenarnya, baik dengan atau tanpa DoH, ISP tetap tahu tujuan kita mau kemana. Namun, dengan DoH ini, ISP tidak dapat lagi mencegat dan membongkar kueri DNS yang kita kirimkan, sehingga komputer kita terhindar dari &ldquo;penipuan&rdquo; alamat yang dilakukan server DNS ISP pada kasus <code>reddit.com</code> diatas.</p>
+<p><em><strong>Lalu, endpoint cloudflare-dns.com di-resolve siapa?</strong></em></p>
+<p>Ya, itu DNSnya ISP, sih. Wkwkw.</p>
+<p>Yah, ISP tahu nih kita pakai DoH. But tenang, kita bisa pakai versi IP 1^4-nya*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ curl -H <span class="s1">&#39;accept: application/dns-json&#39;</span> <span class="s2">&#34;https://1.1.1.1/dns-query?name=www.reddit.com&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;Status&#34;</span>:0,<span class="s2">&#34;TC&#34;</span>:false,<span class="s2">&#34;RD&#34;</span>:true,<span class="s2">&#34;RA&#34;</span>:true,<span class="s2">&#34;AD&#34;</span>:false,<span class="s2">&#34;CD&#34;</span>:false,<span class="s2">&#34;Question&#34;</span>:<span class="o">[{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;www.reddit.com&#34;</span>,<span class="s2">&#34;type&#34;</span>:1<span class="o">}]</span>,<span class="s2">&#34;Answer&#34;</span>:<span class="o">[{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;www.reddit.com&#34;</span>,<span class="s2">&#34;type&#34;</span>:5,<span class="s2">&#34;TTL&#34;</span>:288,<span class="s2">&#34;data&#34;</span>:<span class="s2">&#34;reddit.map.fastly.net.&#34;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;reddit.map.fastly.net&#34;</span>,<span class="s2">&#34;type&#34;</span>:1,<span class="s2">&#34;TTL&#34;</span>:18,<span class="s2">&#34;data&#34;</span>:<span class="s2">&#34;151.101.65.140&#34;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;reddit.map.fastly.net&#34;</span>,<span class="s2">&#34;type&#34;</span>:1,<span class="s2">&#34;TTL&#34;</span>:18,<span class="s2">&#34;data&#34;</span>:<span class="s2">&#34;151.101.129.140&#34;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;reddit.map.fastly.net&#34;</span>,<span class="s2">&#34;type&#34;</span>:1,<span class="s2">&#34;TTL&#34;</span>:18,<span class="s2">&#34;data&#34;</span>:<span class="s2">&#34;151.101.193.140&#34;</span><span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;reddit.map.fastly.net&#34;</span>,<span class="s2">&#34;type&#34;</span>:1,<span class="s2">&#34;TTL&#34;</span>:18,<span class="s2">&#34;data&#34;</span>:<span class="s2">&#34;151.101.1.140&#34;</span><span class="o">}]}</span>
+</span></span></code></pre></div><blockquote>
+<p>*Tetap ketahuan sih, karena dari alamat IPnya ya punya cloudflare :))</p>
+</blockquote>
+<h2 id="thou-shalt-bypass">Thou Shalt (By)Pass</h2>
+<h3 id="hosts-file-the-primivite-dns">Hosts file: The Primivite DNS</h3>
+<p>Sebenarnya, tanpa DoH, kita bisa menghindari &ldquo;penipuan&rdquo; alamat IP tadi di level <em>cache</em>, alias melakukan bypass dengan cara yang mirip dengan tekniknya ISP untuk memblokir situs web.</p>
+<p>Kita tahu bahwa alasan komputer kita mengirimkan kueri DNS terlebih dahulu ke server DNS saat akan mengakses sebuah situs web adalah karena komputer belum tahu alamat IP dari domain situs web yang dimaksud. Setelah si komputer tahu, alamat IP dan domain situs web ini akan di simpan pada <a href="https://www.cloudns.net/blog/dns-cache-explained/">cache</a>. Di <em>request</em> selanjutnya, komputer akan mengandalkan entri alamat yang ada pada <em>cache</em>, selama entri tersebut belum kadaluarsa, umumnya dalam jangka waktu 24 jam.</p>
+<p>Pada Windows, kita bisa melihat daftar IP dan nama domain yang sudah di <em>cache</em> dengan menjalankan perintah berikut.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">C:<span class="se">\&gt;</span>ifconfig /displaydns
+</span></span></code></pre></div><p>Informasi nama-nama domain pada server DNS milik ISP memiliki sifat dinamis. Informasi tersebut akan selalu up to date secara periodik alias bersifat dinamis. Nah, di sistem operasi sendiri, terdapat sebuah file yang merupakan bagian dari sistem DNS, namun bersifat statis, yaitu file <code>hosts</code>.</p>
+<p>File <code>hosts</code> Windows bisa ditemukan di <code>C:\Windows\System32\drivers\etc\hosts</code>, sedangkan untuk Linux/Unix, file ini terdapat berlokasi di <code>/etc/hosts</code>. Karena gw pengguna Windows, yang akan dibahas disini adalah <code>hosts</code> file Windows saja, tetapi secara fungsi, keduanya sama (pengguna Linux rata-rata udah suhu soalnya).</p>
+<figure>
+    <img src="imgs/image-20211104123812239.png"
+         alt="Windows hosts file"/> <figcaption>
+            <p>Windows hosts file
+            </p>
+        </figcaption>
+</figure>
+
+<p>Isi dari file <code>hosts</code> ini akan selalu masuk ke dalam entri <em>cache</em> dari DNS. Maka dari itu, kita bisa memanfaatkan hal ini untuk memberi tahu komputer secara langsung (<em>bypass</em>) bahwa alamat IP, misalnya <code>www.reddit.com</code>, adalah <code>151.101.129.140</code>. Caranya adalah dengan menambahkan sebuah entri ke dalam file hosts dengan format berikut.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl"># [Alamat IP] [domain name 1] [domain name 2] [domain name N]
+</span></span><span class="line"><span class="cl">151.101.129.140 reddit.com www.reddit.com
+</span></span></code></pre></div><img src="imgs/image-20211104131236469.png" alt="image-20211104131236469" style="zoom:50%;" />
+<p>Sekarang kita bisa jalankan kembali perintah yang sama untuk menampilkan DNS cache, tapi sebelum itu ada baiknya DNS cache ini di-<em>flush</em> terlebih dulu.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">C:<span class="se">\&gt;</span>ipconfig /flushdns <span class="c1"># clear cache dulu untuk menghilangkan &#34;brainwash&#34; dari Server DNS ISP</span>
+</span></span><span class="line"><span class="cl">C:<span class="se">\&gt;</span>ipconfig /displaydns
+</span></span></code></pre></div><p>Seharusnya saat ini <code>www.reddit.com</code> dan <code>reddit.com</code> berada di entry paling atas.</p>
+<p>Karena si komputer sudah tahu alamat IP dari <code>www.reddit.com</code>, maka dia tidak perlu lagi &ldquo;bertanya&rdquo; ke server DNS milik ISP.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ tracert -d www.reddit.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Tracing route to reddit.com <span class="o">[</span>151.101.129.140<span class="o">]</span>
+</span></span><span class="line"><span class="cl">over a maximum of <span class="m">30</span> hops:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="m">1</span>   <span class="m">120</span> ms     <span class="m">2</span> ms     <span class="m">3</span> ms  192.168.43.1
+</span></span><span class="line"><span class="cl">  <span class="m">2</span>     *        *        *     Request timed out.
+</span></span><span class="line"><span class="cl">  <span class="m">3</span>   <span class="m">162</span> ms    <span class="m">26</span> ms    <span class="m">26</span> ms  10.***.44.2
+</span></span><span class="line"><span class="cl">  <span class="m">4</span>   <span class="m">160</span> ms    <span class="m">25</span> ms    <span class="m">30</span> ms  ***.215.36.238 
+</span></span><span class="line"><span class="cl">  <span class="m">5</span>   <span class="m">187</span> ms    <span class="m">46</span> ms    <span class="m">46</span> ms  180.87.12.233
+</span></span><span class="line"><span class="cl">  <span class="m">6</span>   <span class="m">186</span> ms    <span class="m">57</span> ms    <span class="m">50</span> ms  180.87.12.232
+</span></span><span class="line"><span class="cl">  <span class="m">7</span>   <span class="m">191</span> ms    <span class="m">49</span> ms    <span class="m">47</span> ms  180.87.12.250
+</span></span><span class="line"><span class="cl">  <span class="m">8</span>    <span class="m">49</span> ms    <span class="m">49</span> ms    <span class="m">48</span> ms  210.57.30.38
+</span></span><span class="line"><span class="cl">  <span class="m">9</span>   <span class="m">188</span> ms    <span class="m">53</span> ms    <span class="m">52</span> ms  202.84.219.174
+</span></span><span class="line"><span class="cl"> <span class="m">10</span>    <span class="m">70</span> ms    <span class="m">49</span> ms    <span class="m">52</span> ms  202.84.219.174
+</span></span><span class="line"><span class="cl"> <span class="m">11</span>    <span class="m">60</span> ms    <span class="m">54</span> ms    <span class="m">49</span> ms  202.84.224.197
+</span></span><span class="line"><span class="cl"> <span class="m">12</span>    <span class="m">83</span> ms    <span class="m">80</span> ms    <span class="m">85</span> ms  210.57.38.171
+</span></span><span class="line"><span class="cl"> <span class="m">13</span>   <span class="m">205</span> ms   <span class="m">200</span> ms   <span class="m">203</span> ms  151.101.129.140 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Trace complete.
+</span></span></code></pre></div><p>Tekniknya bisa diilustrasikan seperti berikut.</p>
+<img src="./imgs/image-20250128224915710.png" alt="image-20250128224915710" style="zoom:50%;" />
+<p><em><strong>Kalau untuk situs lain gimana?</strong></em></p>
+<p>Caranya, kamu bisa <em>resolve</em> dulu IPnya menggunakan tool dig DNS, misalnya dengan dig milik Google.</p>
+<img src="imgs/image-20211104142819468.png" alt="image-20211104142819468" style="zoom: 50%;" />
+<p>Lalu tambahkan hasil record yang di dapat ke dalam <code>hosts</code> file:</p>
+<img src="imgs/image-20211104142858365.png" alt="image-20211104142858365" style="zoom:50%;" />
+<h3 id="ssh-socks-proxy">SSH SOCKS Proxy</h3>
+<p>Penggunaan <code>host</code> file dan DoH memang bisa mem-<em>bypass</em> Website, tapi pihak ISP masih bisa mengetahui situs apa yang kita akses berdasarkan kepemilikan IP dan nama domain. Untuk menghindari ini, salah satu cara &lsquo;murah&rsquo; dan mudah yang gw rekomendasikan adalah menggunakan <em>virtual private server</em> dan memanfaatkan fitur SOCKS <a href="https://en.wikipedia.org/wiki/Proxy_server">proxy</a> bawaan OpenSSH. VPS ini bisa kalian beli atau deploy sendiri di platform cloud seperti Microsoft Azure.</p>
+<blockquote>
+<p>Jika dari pembaca ada yang masih berstatus pelajar, silahkan cek <a href="https://azure.microsoft.com/en-us/free/students/">tautan ini</a>.</p>
+</blockquote>
+<p>Untuk memanfaatkan proxy SOCKS dari SSH, perintahnya cukup simple:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ ssh user@vps-ip -D <span class="m">1080</span> -N
+</span></span></code></pre></div><ul>
+<li><code>-D 1080</code>: Buka SOCKS proxy di port 1080</li>
+<li><code>-N</code>: Tanpa interactive shell.</li>
+</ul>
+<p>Saat ini proxy SOCKS sudah tersedia pada local interface,  <code>127.0.0.1:1080</code>. Kita tinggal mengkonfigurasikan browser untuk menggunakan proxy tersebut.</p>
+<figure>
+    <img src="imgs/image-20211104161049841.png"
+         alt="Firefox proxy settings"/> <figcaption>
+            <p>Firefox proxy settings
+            </p>
+        </figcaption>
+</figure>
+
+<p>Mudah kan?</p>
+<p>Untuk memudahkan proses switching proxy-unproxy, gw pakai ekstensi browser bernama <a href="https://addons.mozilla.org/en-US/firefox/addon/foxyproxy-standard/">FoxyProxy</a>. Jadi, gw gak perlu buka-buka settingan browser lagi. Berikut tampilannya.</p>
+<figure>
+    <img src="imgs/image-20211104160902204.png"
+         alt="FoxyProxy Toogle"/> <figcaption>
+            <p>FoxyProxy Toogle
+            </p>
+        </figcaption>
+</figure>
+
+<p>Konfigurasinya? sama dengan settingan browser tadi!</p>
+<figure>
+    <img src="imgs/image-20211104090204141.png"
+         alt="Konfigurasi SOCKS Proxy di Foxy Proxy"/> <figcaption>
+            <p>Konfigurasi SOCKS Proxy di Foxy Proxy
+            </p>
+        </figcaption>
+</figure>
+
+<p>Untuk mengecek apakah proxy tersebut berjalan, cukup kunjungi situs: <code>ifconfig.co/json</code>. Sebagai contoh, hasil berikut menunjukkan IP publik gw sekarang adalah IP publik si VPS dan terdeteksi berada di US.</p>
+<figure>
+    <img src="imgs/image-20211104090145368.png"
+         alt="Akses ifconfig.co dengan proxy"/> <figcaption>
+            <p>Akses ifconfig.co dengan proxy
+            </p>
+        </figcaption>
+</figure>
+
+<p>Sampai sini seharusnya ISP hanya lihat komputer gw yang mengakses VPS dengan trafik seperti berikut.</p>
+<figure>
+    <img src="imgs/image-20211104152555436.png"
+         alt="Web trafic yang terenkripsi melalui SSH tunnel"/> <figcaption>
+            <p>Web trafic yang terenkripsi melalui SSH tunnel
+            </p>
+        </figcaption>
+</figure>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Selain menggunakan VPN, setidaknya ada 3 metode yang bisa kamu coba untuk melakukan bypass web filter yang diterapkan oleh ISP langganan kamu,:</p>
+<ul>
+<li>Hosts file,</li>
+<li>DoH,</li>
+<li>SSH SOCKS Proxy.</li>
+</ul>
+<p>Menggunakan <code>hosts</code> file dan DoH hanya sebatas menghindari komputer kita dari &ldquo;penipuan&rdquo; alamat palsu oleh server DNS ISP. Sedangkan untuk &ldquo;SSH SOCKS Proxy + Doh&rdquo;, selain menghindari &ldquo;penipuan&rdquo;, tunnel yang dibuat juga mengenkripsi keseluruhan trafik web kita.</p>
+<p>Hasil <em>testing</em> ketiganya, bukan <em>testing</em> sih tapi kesimpulannya bisa di-&ldquo;tabel&rdquo;-kan seperti berikut.</p>
+<div class="force-center">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Bypass Web filters</th>
+<th>Hide the domain we visit from ISP?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hosts file</td>
+<td>Probably yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>DoH</td>
+<td>Yes, mostly</td>
+<td>No</td>
+</tr>
+<tr>
+<td>SSH SOCKS Proxy</td>
+<td>Yes, mostly, but it depends.</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em><strong>Gimana kalau IP DoH resolvernya diblokir ISP/Kom*nfo?</strong></em></p>
+<p>Kembali ke VPN deh. Hahaha.</p>
+<p>Tapi sejauh ini sepertinya teknik blokir situs yang dipakai Kom*nfo dan ISP hanya sebatas di DNS hijack/redirection. Mungkin alasannya, jika yang diblokir sudah sampai IP, kemungkinan service-service internal mereka juga akan bermasalah, entah down atau semacamnya.</p>
+<p>Ya, jadi gak perlu khawatir deh!</p>
+<blockquote>
+<p>Karena sudah kejadian di 2024. Lol.</p>
+</blockquote>
+<p><em><strong>Apakah dengan ini gw sudah bisa menjadi <del>seperti  bjoorka</del> anonymous user?</strong></em></p>
+<p>Nope, karena private server yang gw pakai pun milik sesuatu yang lebih besar dari ISP dan dua-duanya mengumpulkan data juga.</p>
+<p>Baiklah, sekian untuk postingan ini semoga bermanfaat. See you in the next post.</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://https.cio.gov/faq/#what-does-https-do">https://https.cio.gov/faq/#what-does-https-do</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

