@@ -1,7 +1,7 @@
 ---
 layout: post
-title: xxxxxxxxxxx
-date: 2023-10-08 20:31
+title: xxxxxxxxxxx net
+date: 2023-10-08 20:44
 author: faruk-guler
 comments: true
 categories: [xxxxxxx]
