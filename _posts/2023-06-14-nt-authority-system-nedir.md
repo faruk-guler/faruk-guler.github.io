@@ -1,6 +1,6 @@
 ---
 layout: post
-title: NT AUTHORITY\SYSTEM Nedir?
+title: NT AUTHORITY-SYSTEM Nedir?
 date: 2023-06-14 18:42
 author: theguler
 comments: true
