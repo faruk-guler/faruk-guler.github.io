@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "NT AUTHORITY\\SYSTEM Nedir?"
+title: "NT AUTHORITY SYSTEM Nedir?"
 date: 2023-12-18 19:07:00 +0300
 author: faruk-guler
 comments: true
 categories: [Hacking-Security]
 tags: [windows, security, system-account, nt-authority, cybersecurity]
-excerpt: "Windows sistemlerinde en yüksek ayrıcalıklara sahip NT AUTHORITY\\SYSTEM hesabının özellikleri ve güvenlik açısından önemi."
-image: "/assets/post_images/nt-user.jpg"
+excerpt: "Windows sistemlerinde en yüksek ayrıcalıklara sahip NT AUTHORITY SYSTEM hesabının özellikleri ve güvenlik açısından önemi."
+image: "/assets/images/nt-user.jpg"
 ---
 
 ![NT Authority System](/assets/images/nt-user.jpg){: .img-responsive}
