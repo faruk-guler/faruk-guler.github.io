@@ -7,7 +7,7 @@ comments: true
 categories: [Hacking-Security]
 tags: [windows, security, system-account, nt-authority, cybersecurity]
 excerpt: "Windows sistemlerinde en yüksek ayrıcalıklara sahip NT AUTHORITY SYSTEM hesabının özellikleri ve güvenlik açısından önemi."
-image: "/assets/images/nt-user.jpg"
+image: "/assets/post_images/nt-user.jpg"
 ---
 
 ![NT Authority System](/assets/images/nt-user.jpg){: .img-responsive}
