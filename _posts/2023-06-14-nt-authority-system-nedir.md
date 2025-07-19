@@ -2,9 +2,9 @@
 layout: post
 title: NT AUTHORITY-SYSTEM Nedir
 date: 2023-06-14 18:42
-author: theguler
+author: faruk-guler
 comments: true
-categories: [Hacking / Security]
+categories: [Hacking - Security]
 ---
 <!-- wp:image {"id":15489,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large"><img src="https://farukguler.com/assets/post_images/nt-user.jpg?w=625" alt="" class="wp-image-15489" /></figure>
