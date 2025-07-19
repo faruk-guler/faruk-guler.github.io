@@ -6,11 +6,10 @@ author: faruk-guler
 comments: true
 categories: [Hacking-Security]
 tags: [windows, security, system-account, nt-authority, cybersecurity]
-excerpt: "Windows sistemlerinde en yüksek ayrıcalıklara sahip NT AUTHORITY SYSTEM hesabının özellikleri ve güvenlik açısından önemi."
 image: "/assets/post_images/nt-user.jpg"
 ---
 
-![NT Authority System](/assets/images/nt-user.jpg){: .img-responsive}
+![NT Authority System](/assets/post_images/nt-user.jpg){: .img-responsive}
 
 **"NT AUTHORITY\SYSTEM"** refers to the user account with the highest privileges on the system in Windows NT and later versions. This account is used by the operating system to execute or manage a program or process. The "SYSTEM" account has a much higher level of permissions and authorities than regular user accounts. Access to this account is typically used for operations required at the administrator level.
 
