@@ -8,7 +8,7 @@ comments: true
 categories: [Blockchain]
 ---
 <!-- wp:image {"id":1197,"width":"459px","height":"auto","sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/sonic-labs?w=1024" alt="" class="wp-image-1197" style="width:459px;height:auto" /></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/sonic-labs.jpg?w=1024" alt="" class="wp-image-1197" style="width:459px;height:auto" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
