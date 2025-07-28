@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Sonic (S) Nedir?
+title: Sonic Labs (S) Nedir?
 date: 2022-02-06 18:23
 tag: [Tokens]
-author: theguler
+author: faruk-guler
 comments: true
 categories: [Blockchain]
 ---
