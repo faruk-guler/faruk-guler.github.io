@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fantom Foundation (S) Nedir?
+title: Sonic (S) Nedir?
 date: 2022-02-06 18:23
 tag: [Tokens]
 author: theguler
