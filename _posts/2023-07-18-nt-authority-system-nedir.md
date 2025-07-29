@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "NT AUTHORITY\\SYSTEM Nedir?"
+title: "NT AUTHORITY SYSTEM Nedir?"
 date: 2023-07-18 19:07:00 +0300
 author: faruk-guler
 comments: true
