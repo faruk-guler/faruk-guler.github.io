@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OpenDraw WebUI - farukguler.com</title>
-    <script src="jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/roughjs@latest/dist/rough.min.js"></script>
     <style>
         :root {
             --bg-color: #f8f9fa;
@@ -167,13 +168,17 @@
             position: absolute;
             border: 2px dashed var(--btn-active-bg);
             background: transparent;
-            font-size: 16px;
+            font-size: 16px; /* Default font size */
             font-family: inherit;
             outline: none;
             padding: 4px;
             min-width: 100px;
             resize: none;
             color: var(--text-color);
+            text-align: left; /* Default text align */
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
         }
 
         /* Properties Panel */
@@ -378,23 +383,10 @@
             opacity: 0.7;
             pointer-events: none;
         }
-
-        /* Text properties toolbar */
-        .text-properties-toolbar {
-            background: var(--toolbar-bg);
-            border-bottom: 1px solid var(--toolbar-border);
-            padding: 8px 20px;
-            display: none;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 1px 3px var(--toolbar-shadow);
-            z-index: 999;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Toolbar -->
         <div class="toolbar">
             <div class="tool-group">
                 <button class="tool-btn active" data-tool="select" title="Seç">
@@ -448,11 +440,6 @@
                 <button class="tool-btn" data-tool="pen" title="Kalem">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-                    </svg>
-                </button>
-                <button class="tool-btn" data-tool="text" title="Metin">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 3h14M12 3v18M9 21h6"/>
                     </svg>
                 </button>
                 
@@ -540,19 +527,11 @@
 
         
 
-        <!-- Canvas Container -->
         <div class="canvas-container">
             <canvas id="canvas"></canvas>
             <textarea id="textInput" class="text-input" style="display: none;"></textarea>
         </div>
 
-        <!-- Text properties toolbar -->
-        <div class="text-properties-toolbar">
-            
-            
-        </div>
-
-        <!-- Properties Panel -->
         <div class="properties-panel" id="propertiesPanel" style="display: none;">
             <h3>Özellikler</h3>
             <div class="property-group">
@@ -580,7 +559,6 @@
             </div>
         </div>
 
-        <!-- Export Modal -->
         <div id="exportModal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="close-btn" id="closeExportModal">&times;</span>
@@ -601,6 +579,8 @@
             constructor() {
                 this.canvas = document.getElementById('canvas');
                 this.ctx = this.canvas.getContext('2d');
+                this.rc = rough.canvas(this.canvas); // Initialize Rough.js
+                this.textInput = document.getElementById('textInput');
                 this.elements = [];
                 this.history = [];
                 this.historyIndex = -1;
@@ -616,11 +596,7 @@
                 this.penPath = [];
                 this.eraserRadius = 10;
                 this.selectionTolerance = 5;
-                this.roughness = 2;
-
-                // Text properties
-                
-                
+                this.roughness = 1.5; // Controls the "sketchiness" of Rough.js drawings
 
                 // Canvas pan and zoom
                 this.offsetX = 0;
@@ -681,12 +657,35 @@
                 this.canvas.addEventListener('dblclick', (e) => this.handleDoubleClick(e));
                 this.canvas.addEventListener('wheel', (e) => this.handleWheel(e));
 
-                // Keyboard events for panning
+                // Keyboard events for panning and shortcuts
                 document.addEventListener('keydown', (e) => {
                     this.keys[e.code] = true;
                     if (e.code === 'Space') {
                         e.preventDefault();
                         this.canvas.style.cursor = 'grab';
+                    }
+                    if (e.ctrlKey || e.metaKey) {
+                        switch (e.key) {
+                            case 'z':
+                                e.preventDefault();
+                                this.undo();
+                                break;
+                            case 'y':
+                                e.preventDefault();
+                                this.redo();
+                                break;
+                            case 'c':
+                                e.preventDefault();
+                                this.copySelectedElements();
+                                break;
+                            case 'v':
+                                e.preventDefault();
+                                this.pasteElements();
+                                break;
+                        }
+                    }
+                    if (e.key === 'Delete' && this.selectedElement) {
+                        this.deleteSelectedElement();
                     }
                 });
 
@@ -721,12 +720,13 @@
                     }
                 });
 
-                // Color and stroke controls
+                // Color and stroke controls in main toolbar
                 document.getElementById('strokeColor').addEventListener('change', (e) => {
                     if (this.selectedElement) {
                         this.selectedElement.strokeColor = e.target.value;
                         this.redraw();
                         this.saveState();
+                        this.updatePropertiesPanel();
                     }
                 });
 
@@ -735,6 +735,7 @@
                         this.selectedElement.fillColor = e.target.value;
                         this.redraw();
                         this.saveState();
+                        this.updatePropertiesPanel();
                     }
                 });
 
@@ -743,6 +744,7 @@
                         this.selectedElement.strokeWidth = parseInt(e.target.value);
                         this.redraw();
                         this.saveState();
+                        this.updatePropertiesPanel();
                     }
                 });
 
@@ -764,7 +766,7 @@
                 document.querySelectorAll('.export-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const format = e.target.dataset.format;
-                        this.showExportOptions(format);
+                        this.exportDrawing(format);
                         document.getElementById('exportModal').style.display = 'none';
                     });
                 });
@@ -772,17 +774,13 @@
                 document.getElementById('importBtn').addEventListener('change', (e) => this.importDrawing(e));
                 document.getElementById('imageInput').addEventListener('change', (e) => this.addImage(e));
 
-                // Text properties toolbar events
-                
-
-                
-
                 // Properties panel
                 document.getElementById('propStrokeColor').addEventListener('change', (e) => {
                     if (this.selectedElement) {
                         this.selectedElement.strokeColor = e.target.value;
                         this.redraw();
                         this.saveState();
+                        document.getElementById('strokeColor').value = e.target.value;
                     }
                 });
 
@@ -791,6 +789,7 @@
                         this.selectedElement.fillColor = e.target.value;
                         this.redraw();
                         this.saveState();
+                        document.getElementById('fillColor').value = e.target.value;
                     }
                 });
 
@@ -799,11 +798,12 @@
                         this.selectedElement.strokeWidth = parseInt(e.target.value);
                         this.redraw();
                         this.saveState();
+                        document.getElementById('strokeWidth').value = e.target.value;
                     }
                 });
 
                 document.getElementById('propWidth').addEventListener('input', (e) => {
-                    if (this.selectedElement) {
+                    if (this.selectedElement && this.selectedElement.type !== 'pen' && this.selectedElement.type !== 'text') { // Text width is dynamic
                         this.selectedElement.width = parseInt(e.target.value);
                         this.redraw();
                         this.saveState();
@@ -811,7 +811,7 @@
                 });
 
                 document.getElementById('propHeight').addEventListener('input', (e) => {
-                    if (this.selectedElement) {
+                    if (this.selectedElement && this.selectedElement.type !== 'pen' && this.selectedElement.type !== 'text') { // Text height is dynamic
                         this.selectedElement.height = parseInt(e.target.value);
                         this.redraw();
                         this.saveState();
@@ -824,42 +824,15 @@
                     }
                 });
 
-                document.getElementById('textInput').addEventListener('keydown', (e) => {
+                this.textInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         this.finishTextInput();
                     }
                 });
 
-                document.getElementById('textInput').addEventListener('blur', () => {
+                this.textInput.addEventListener('blur', () => {
                     this.finishTextInput();
-                });
-
-                // Keyboard shortcuts
-                document.addEventListener('keydown', (e) => {
-                    if (e.ctrlKey || e.metaKey) {
-                        switch (e.key) {
-                            case 'z':
-                                e.preventDefault();
-                                this.undo();
-                                break;
-                            case 'y':
-                                e.preventDefault();
-                                this.redo();
-                                break;
-                            case 'c':
-                                e.preventDefault();
-                                this.copySelectedElements();
-                                break;
-                            case 'v':
-                                e.preventDefault();
-                                this.pasteElements();
-                                break;
-                        }
-                    }
-                    if (e.key === 'Delete' && this.selectedElement) {
-                        this.deleteSelectedElement();
-                    }
                 });
 
                 // Close modal when clicking outside
@@ -870,7 +843,47 @@
                 });
             }
 
-            
+            // UI related methods
+            showPropertiesPanel() {
+                const panel = document.getElementById('propertiesPanel');
+                if (this.selectedElement) {
+                    panel.style.display = 'block';
+                    document.getElementById('propStrokeColor').value = this.selectedElement.strokeColor || '#000000';
+                    document.getElementById('propFillColor').value = this.selectedElement.fillColor || '#ffffff';
+                    document.getElementById('propStrokeWidth').value = this.selectedElement.strokeWidth || 1;
+
+                    // Hide width/height for pen and text elements
+                    const widthGroup = document.getElementById('propWidth').closest('.property-group');
+                    const heightGroup = document.getElementById('propHeight').closest('.property-group');
+                    if (this.selectedElement.type === 'pen' || this.selectedElement.type === 'text') {
+                        widthGroup.style.display = 'none';
+                        heightGroup.style.display = 'none';
+                    } else {
+                        widthGroup.style.display = 'block';
+                        heightGroup.style.display = 'block';
+                        document.getElementById('propWidth').value = Math.abs(this.selectedElement.width) || 1;
+                        document.getElementById('propHeight').value = Math.abs(this.selectedElement.height) || 1;
+                    }
+                } else {
+                    panel.style.display = 'none';
+                }
+            }
+
+            hidePropertiesPanel() {
+                document.getElementById('propertiesPanel').style.display = 'none';
+            }
+
+            updatePropertiesPanel() {
+                if (this.selectedElement) {
+                    document.getElementById('propStrokeColor').value = this.selectedElement.strokeColor || '#000000';
+                    document.getElementById('propFillColor').value = this.selectedElement.fillColor || '#ffffff';
+                    document.getElementById('propStrokeWidth').value = this.selectedElement.strokeWidth || 1;
+                    if (this.selectedElement.type !== 'pen' && this.selectedElement.type !== 'text') {
+                        document.getElementById('propWidth').value = Math.abs(this.selectedElement.width) || 1;
+                        document.getElementById('propHeight').value = Math.abs(this.selectedElement.height) || 1;
+                    }
+                }
+            }
 
             getMousePos(e) {
                 const rect = this.canvas.getBoundingClientRect();
@@ -882,13 +895,9 @@
             handleMouseDown(e) {
                 if (this.isPanning) return;
 
-                const textInput = document.getElementById('textInput');
                 // Check if text input is active and the click is not on the text input itself
-                if (textInput.style.display === 'block' && e.target !== textInput) {
+                if (this.textInput.style.display === 'block' && e.target !== this.textInput) {
                     this.finishTextInput();
-                    // If the current tool is still 'text' after finishing,
-                    // the user might want to start a new text input at the clicked position.
-                    // The rest of the function will handle this.
                 }
                 
                 const pos = this.getMousePos(e);
@@ -946,7 +955,6 @@
                     this.redraw();
                 } else if (this.currentTool === 'text') {
                     this.startTextInput(pos.x, pos.y);
-                    document.querySelector('.text-properties-toolbar').style.display = 'flex';
                 } else if (this.currentTool === 'pen') {
                     this.penPath = [{ x: pos.x, y: pos.y }];
                     this.currentElement = this.createElement('pen', pos.x, pos.y, pos.x, pos.y);
@@ -1025,7 +1033,7 @@
                         this.selectedElements.forEach(element => {
                             element.x = element._initialX + dx;
                             element.y = element._initialY + dy;
-                            if (element.type === 'pen' && element._initialPath) {
+                            if (element.type === 'pen' && element.path) {
                                 element.path = element._initialPath.map(p => ({
                                     x: p.x + dx,
                                     y: p.y + dy
@@ -1062,9 +1070,7 @@
 
             handleMouseUp(e) {
                 if (!this.isDrawing) return;
-
                 this.isDrawing = false;
-
                 if (this.currentTool === 'eraser') {
                     this.saveState();
                 } else if (this.currentTool === 'select' && (this.selectedElement || this.selectedElements.length > 0)) {
@@ -1080,7 +1086,7 @@
                 } else if (this.currentTool === 'text') {
                     // Do nothing here, finishTextInput is called on blur or enter
                 }
-
+                
                 if (this.currentElement && this.currentTool !== 'select' && this.currentTool !== 'text') {
                     if (this.currentTool === 'pen') {
                         if (this.penPath.length > 1) {
@@ -1088,11 +1094,15 @@
                             this.saveState();
                         }
                     } else {
+                        // Ensure width/height are positive for shapes
+                        this.currentElement.width = Math.abs(this.currentElement.width);
+                        this.currentElement.height = Math.abs(this.currentElement.height);
+                        this.currentElement.x = Math.min(this.startX, this.getMousePos(e).x);
+                        this.currentElement.y = Math.min(this.startY, this.getMousePos(e).y);
                         this.elements.push(this.currentElement);
                         this.saveState();
                     }
                 }
-
                 this.currentElement = null;
                 this.penPath = [];
             }
@@ -1100,7 +1110,6 @@
             handleDoubleClick(e) {
                 const pos = this.getMousePos(e);
                 const clickedElement = this.getElementAt(pos.x, pos.y);
-
                 if (clickedElement && clickedElement.type === 'text') {
                     this.selectedElement = clickedElement;
                     this.startTextEditing(clickedElement);
@@ -1111,32 +1120,25 @@
 
             handleWheel(e) {
                 e.preventDefault();
-
                 const zoomIntensity = 0.1;
                 const mouseX = e.clientX - this.canvas.getBoundingClientRect().left;
                 const mouseY = e.clientY - this.canvas.getBoundingClientRect().top;
-
                 const oldZoom = this.zoomLevel;
-
                 if (e.deltaY < 0) {
                     this.zoomLevel *= (1 + zoomIntensity);
                 } else {
                     this.zoomLevel /= (1 + zoomIntensity);
                 }
-
-                this.zoomLevel = Math.max(0.1, Math.min(5, this.zoomLevel));
-
+                this.zoomLevel = Math.max(0.1, Math.min(5, this.zoomLevel)); // Limit zoom level
                 this.offsetX -= (mouseX / oldZoom) * (this.zoomLevel - oldZoom);
                 this.offsetY -= (mouseY / oldZoom) * (this.zoomLevel - oldZoom);
-
                 this.redraw();
             }
 
-            createElement(type, x, y, endX, endY) {
+            createElement(type, x, y, endX, endY, textContent = '') {
                 const strokeColor = document.getElementById('strokeColor').value;
                 const fillColor = document.getElementById('fillColor').value;
                 const strokeWidth = parseInt(document.getElementById('strokeWidth').value);
-
                 const element = {
                     type,
                     x,
@@ -1152,14 +1154,23 @@
                 if (type === 'pen') {
                     element.path = [];
                 } else if (type === 'arrow') {
-                    element.arrowheadSize = 10;
+                    element.arrowheadSize = 10; // Default arrowhead size
                 } else if (type === 'image') {
                     element.src = '';
-                    element.image = new Image();
-                } else if (type === 'cloud' || type === 'file') {
-                    // No specific properties needed for now, basic element properties are enough
+                    element.image = new Image(); // Will be loaded later
+                } else if (type === 'text') {
+                    element.text = textContent;
+                    // Default text properties (no user customization)
+                    element.fontFamily = 'Arial';
+                    element.fontSize = 16;
+                    element.fontWeight = 'normal';
+                    element.fontStyle = 'normal';
+                    element.textDecoration = 'none';
+                    element.textAlign = 'left';
+                    element.textColor = '#000000';
+                    element.width = 0;
+                    element.height = 0;
                 }
-
                 return element;
             }
 
@@ -1177,11 +1188,18 @@
                 const { x: ex, y: ey, width, height } = element;
                 const tolerance = isErasing ? this.eraserRadius : this.selectionTolerance;
 
-                if (element.type === 'circle') {
+                if (element.type === 'rectangle' || element.type === 'image' || element.type === 'text') {
+                    const minX = Math.min(ex, ex + width) - tolerance;
+                    const maxX = Math.max(ex, ex + width) + tolerance;
+                    const minY = Math.min(ey, ey + height) - tolerance;
+                    const maxY = Math.max(ey, ey + height) + tolerance;
+                    return x >= minX && x <= maxX && y >= minY && y <= maxY;
+                } else if (element.type === 'circle') {
                     const centerX = ex + width / 2;
                     const centerY = ey + height / 2;
                     const radiusX = Math.abs(width) / 2;
                     const radiusY = Math.abs(height) / 2;
+                    // Check if point is inside ellipse with tolerance
                     const dx = (x - centerX) / (radiusX + tolerance);
                     const dy = (y - centerY) / (radiusY + tolerance);
                     return dx * dx + dy * dy <= 1;
@@ -1203,12 +1221,18 @@
                     const y2 = ey + height;
                     const dist = this.getDistanceToSegment(x, y, x1, y1, x2, y2);
                     return dist <= (element.strokeWidth / 2) + tolerance;
+                } else if (element.type === 'triangle') {
+                    // For triangle, check if point is inside its bounding box with tolerance
+                    const minX = Math.min(ex, ex + width) - tolerance;
+                    const maxX = Math.max(ex, ex + width) + tolerance;
+                    const minY = Math.min(ey, ey + height) - tolerance;
+                    const maxY = Math.max(ey, ey + height) + tolerance;
+                    return x >= minX && x <= maxX && y >= minY && y <= maxY;
                 } else if (element.type === 'cylinder') {
                     const cylX = ex;
                     const cylY = ey;
                     const cylWidth = width;
                     const cylHeight = height;
-
                     const ellipseRadiusX = Math.abs(cylWidth) / 2;
                     const ellipseRadiusY = Math.abs(cylHeight) / 8; // Adjusted for database look
 
@@ -1233,532 +1257,335 @@
                     const maxY = Math.max(cylY + ellipseRadiusY, cylY + cylHeight - ellipseRadiusY) + tolerance;
                     return x >= minX && x <= maxX && y >= minY && y <= maxY;
                 } else if (element.type === 'cloud' || element.type === 'file') {
-                    const minX = Math.min(ex, ex + width) - tolerance;
-                    const maxX = Math.max(ex, ex + width) + tolerance;
-                    const minY = Math.min(ey, ey + height) - tolerance;
-                    const maxY = Math.max(ey, ey + height) + tolerance;
-                    return x >= minX && x <= maxX && y >= minY && y <= maxY;
-                } else {
+                    // For cloud and file, simply check bounding box for simplicity
                     const minX = Math.min(ex, ex + width) - tolerance;
                     const maxX = Math.max(ex, ex + width) + tolerance;
                     const minY = Math.min(ey, ey + height) - tolerance;
                     const maxY = Math.max(ey, ey + height) + tolerance;
                     return x >= minX && x <= maxX && y >= minY && y <= maxY;
                 }
+                return false;
             }
 
+            // Helper function to get distance from a point to a line segment
             getDistanceToSegment(px, py, x1, y1, x2, y2) {
-                const dx = x2 - x1;
-                const dy = y2 - y1;
-                if (dx === 0 && dy === 0) {
-                    return Math.sqrt(Math.pow(px - x1, 2) + Math.pow(py - y1, 2));
-                }
-                const t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy);
-                const closestX = x1 + t * dx;
-                const closestY = y1 + t * dy;
-
-                if (t < 0) {
-                    return Math.sqrt(Math.pow(px - x1, 2) + Math.pow(py - y1, 2));
-                } else if (t > 1) {
-                    return Math.sqrt(Math.pow(px - x2, 2) + Math.pow(py - y2, 2));
-                } else {
-                    return Math.sqrt(Math.pow(px - closestX, 2) + Math.pow(py - closestY, 2));
-                }
+                const l2 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+                if (l2 === 0) return Math.sqrt((px - x1) * (px - x1) + (py - y1) * (py - y1));
+                let t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / l2;
+                t = Math.max(0, Math.min(1, t));
+                const nearestX = x1 + t * (x2 - x1);
+                const nearestY = y1 + t * (y2 - y1);
+                return Math.sqrt((px - nearestX) * (px - nearestX) + (py - nearestY) * (py - nearestY));
             }
 
-            startTextInput(x, y, initialText = '') {
-                const textInput = document.getElementById('textInput');
-                textInput.style.display = 'block';
-                textInput.style.left = (x * this.zoomLevel + this.offsetX) + 'px';
-                textInput.style.top = (y * this.zoomLevel + this.offsetY) + 'px';
-                textInput.value = initialText;
-                textInput.focus();
-                this.textInputPos = { x, y };
-                document.querySelector('.text-properties-toolbar').style.display = 'flex';
-            }
-
-            startTextEditing(element) {
-                this.startTextInput(element.x, element.y, element.text);
-                
-                
-            }
-
-            finishTextInput() {
-                const textInput = document.getElementById('textInput');
-                const text = textInput.value.trim();
-
-                if (this.selectedElement && this.selectedElement.type === 'text') {
-                    // Update existing text element
-                    this.selectedElement.text = text;
-                    this.ctx.font = `16px Arial`; // Default font
-                    const textMetrics = this.ctx.measureText(text);
-                    this.selectedElement.width = textMetrics.width;
-                    this.selectedElement.height = 16; // Approximate height based on default font size
-
-                    this.selectedElement = null; // Deselect after editing
-                } else if (text) {
-                    // Create new text element
-                    const element = this.createElement('text', this.textInputPos.x, this.textInputPos.y, 0, 0);
-                    element.text = text;
-                    this.ctx.font = `16px Arial`; // Default font
-                    const textMetrics = this.ctx.measureText(text);
-                    element.width = textMetrics.width;
-                    element.height = 16; // Approximate height based on default font size
-
-                    this.elements.push(element);
-                }
-
-                textInput.style.display = 'none';
-                document.querySelector('.text-properties-toolbar').style.display = 'none';
-                this.saveState();
-                this.redraw();
-            }
-
-            redraw() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-                this.ctx.save();
-                this.ctx.translate(this.offsetX, this.offsetY);
-                this.ctx.scale(this.zoomLevel, this.zoomLevel);
-
-                this.elements.forEach(element => this.drawElement(element));
-
-                if (this.currentElement) {
-                    this.drawElement(this.currentElement);
-                }
-
-                if (this.selectedElement) {
-                    this.drawSelection(this.selectedElement);
-                }
-                this.selectedElements.forEach(element => {
-                    if (element !== this.selectedElement) {
-                        this.drawSelection(element);
-                    }
-                });
-
-                this.ctx.restore();
-            }
-
-            _drawRoughLine(x1, y1, x2, y2, roughness) {
-                const numSegments = Math.ceil(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) / 10);
-                this.ctx.beginPath();
-                this.ctx.moveTo(x1, y1);
-
-                for (let i = 1; i <= numSegments; i++) {
-                    const t = i / numSegments;
-                    const currentX = x1 + t * (x2 - x1);
-                    const currentY = y1 + t * (y2 - y1);
-
-                    const offsetX = (Math.random() - 0.5) * roughness;
-                    const offsetY = (Math.random() - 0.5) * roughness;
-
-                    this.ctx.lineTo(currentX + offsetX, currentY + offsetY);
-                }
-                this.ctx.stroke();
-            }
-
-            drawElement(element) {
-                this.ctx.strokeStyle = element.strokeColor;
-                this.ctx.fillStyle = element.fillColor;
-                this.ctx.lineWidth = element.strokeWidth;
-
-                switch (element.type) {
-                    case 'rectangle':
-                        const rectX = element.x;
-                        const rectY = element.y;
-                        const rectWidth = element.width;
-                        const rectHeight = element.height;
-
-                        this.ctx.fillRect(element.x, element.y, element.width, element.height);
-
-                        this._drawRoughLine(rectX, rectY, rectX + rectWidth, rectY, this.roughness);
-                        this._drawRoughLine(rectX + rectWidth, rectY, rectX + rectWidth, rectY + rectHeight, this.roughness);
-                        this._drawRoughLine(rectX + rectWidth, rectY + rectHeight, rectX, rectY + rectHeight, this.roughness);
-                        this._drawRoughLine(rectX, rectY + rectHeight, rectX, rectY, this.roughness);
-                        break;
-
-                    case 'circle':
-                        const centerX = element.x + element.width / 2;
-                        const centerY = element.y + element.height / 2;
-                        const radiusX = Math.abs(element.width) / 2;
-                        const radiusY = Math.abs(element.height) / 2;
-
-                        this.ctx.beginPath();
-                        this.ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
-                        this.ctx.fill();
-
-                        // Draw rough outline for circle
-                        const numSegmentsCircle = 60; // More segments for smoother rough circle
-                        let prevX = centerX + radiusX * Math.cos(0);
-                        let prevY = centerY + radiusY * Math.sin(0);
-                        for (let i = 1; i <= numSegmentsCircle; i++) {
-                            const angle = (i / numSegmentsCircle) * 2 * Math.PI;
-                            const currentX = centerX + radiusX * Math.cos(angle);
-                            const currentY = centerY + radiusY * Math.sin(angle);
-                            this._drawRoughLine(prevX, prevY, currentX, currentY, this.roughness);
-                            prevX = currentX;
-                            prevY = currentY;
-                        }
-                        break;
-
-                    case 'triangle':
-                        const triX1 = element.x + element.width / 2;
-                        const triY1 = element.y;
-                        const triX2 = element.x;
-                        const triY2 = element.y + element.height;
-                        const triX3 = element.x + element.width;
-                        const triY3 = element.y + element.height;
-
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(triX1, triY1);
-                        this.ctx.lineTo(triX2, triY2);
-                        this.ctx.lineTo(triX3, triY3);
-                        this.ctx.closePath();
-                        this.ctx.fill();
-
-                        this._drawRoughLine(triX1, triY1, triX2, triY2, this.roughness);
-                        this._drawRoughLine(triX2, triY2, triX3, triY3, this.roughness);
-                        this._drawRoughLine(triX3, triY3, triX1, triY1, this.roughness);
-                        break;
-
-                    case 'cylinder':
-                        const dbX = element.x;
-                        const dbY = element.y;
-                        const dbWidth = element.width;
-                        const dbHeight = element.height;
-
-                        const dbEllipseRadiusX = Math.abs(dbWidth) / 2;
-                        const dbEllipseRadiusY = Math.abs(dbHeight) / 8; // Top/bottom ellipse height, smaller for database look
-
-                        // Top ellipse
-                        this.ctx.beginPath();
-                        this.ctx.ellipse(dbX + dbWidth / 2, dbY + dbEllipseRadiusY, dbEllipseRadiusX, dbEllipseRadiusY, 0, 0, 2 * Math.PI);
-                        this.ctx.fill();
-                        this.ctx.stroke();
-
-                        // Sides
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(dbX, dbY + dbEllipseRadiusY);
-                        this.ctx.lineTo(dbX, dbY + dbHeight - dbEllipseRadiusY);
-                        this.ctx.stroke();
-
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(dbX + dbWidth, dbY + dbEllipseRadiusY);
-                        this.ctx.lineTo(dbX + dbWidth, dbY + dbHeight - dbEllipseRadiusY);
-                        this.ctx.stroke();
-
-                        // Bottom ellipse (convex, downward-facing)
-                        this.ctx.beginPath();
-                        this.ctx.ellipse(dbX + dbWidth / 2, dbY + dbHeight - dbEllipseRadiusY, dbEllipseRadiusX, dbEllipseRadiusY, 0, 0, Math.PI, false); // Draws convex arc
-                        this.ctx.fill();
-                        this.ctx.stroke();
-
-                        break;
-
-                    case 'cloud':
-                        const clX = element.x;
-                        const clY = element.y;
-                        const clWidth = element.width;
-                        const clHeight = element.height;
-
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(clX + 0.5 * clWidth, clY + 0.8 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 0.2 * clWidth, clY + 1.1 * clHeight, clX - 0.1 * clWidth, clY + 0.6 * clHeight, clX + 0.2 * clWidth, clY + 0.4 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 0.1 * clWidth, clY + 0.1 * clHeight, clX + 0.5 * clWidth, clY, clX + 0.8 * clWidth, clY + 0.1 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 1.1 * clWidth, clY + 0.1 * clHeight, clX + 1.2 * clWidth, clY + 0.4 * clHeight, clX + clWidth, clY + 0.6 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 1.2 * clWidth, clY + 0.9 * clHeight, clX + 0.8 * clWidth, clY + 1.1 * clHeight, clX + 0.5 * clWidth, clY + 0.8 * clHeight);
-                        this.ctx.closePath();
-                        this.ctx.fill();
-                        this.ctx.stroke();
-                        break;
-
-                    case 'pen':
-                        if (element.path && element.path.length > 1) {
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(element.path[0].x, element.path[0].y);
-                            for (let i = 1; i < element.path.length; i++) {
-                                this.ctx.lineTo(element.path[i].x, element.path[i].y);
-                            }
-                            this.ctx.stroke();
-                        }
-                        break;
-
-                    case 'text':
-                        this.ctx.font = `16px Arial`; // Default font
-                        this.ctx.fillStyle = element.strokeColor;
-                        this.ctx.textAlign = 'left'; // Always left align
-
-                        this.ctx.fillText(element.text, element.x, element.y + 16); // Use default font size for y offset
-                        break;
-
-                    case 'image':
-                        if (element.image && element.image.complete) {
-                            this.ctx.drawImage(element.image, element.x, element.y, element.width, element.height);
-                        }
-                        break;
-
-                    case 'cloud':
-                        const clX = element.x;
-                        const clY = element.y;
-                        const clWidth = element.width;
-                        const clHeight = element.height;
-
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(clX + 0.5 * clWidth, clY + 0.8 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 0.2 * clWidth, clY + 1.1 * clHeight, clX - 0.1 * clWidth, clY + 0.6 * clHeight, clX + 0.2 * clWidth, clY + 0.4 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 0.1 * clWidth, clY + 0.1 * clHeight, clX + 0.5 * clWidth, clY, clX + 0.8 * clWidth, clY + 0.1 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 1.1 * clWidth, clY + 0.1 * clHeight, clX + 1.2 * clWidth, clY + 0.4 * clHeight, clX + clWidth, clY + 0.6 * clHeight);
-                        this.ctx.bezierCurveTo(clX + 1.2 * clWidth, clY + 0.9 * clHeight, clX + 0.8 * clWidth, clY + 1.1 * clHeight, clX + 0.5 * clWidth, clY + 0.8 * clHeight);
-                        this.ctx.closePath();
-                        this.ctx.fill();
-                        this.ctx.stroke();
-                        break;
-
-                    case 'file':
-                        const fX = element.x;
-                        const fY = element.y;
-                        const fWidth = element.width;
-                        const fHeight = element.height;
-
-                        const cornerFold = Math.min(fWidth, fHeight) * 0.2; // Size of the folded corner
-
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(fX + cornerFold, fY);
-                        this.ctx.lineTo(fX + fWidth, fY);
-                        this.ctx.lineTo(fX + fWidth, fY + fHeight);
-                        this.ctx.lineTo(fX, fY + fHeight);
-                        this.ctx.lineTo(fX, fY + cornerFold);
-                        this.ctx.closePath();
-                        this.ctx.fill();
-                        this.ctx.stroke();
-
-                        // Folded corner
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(fX + cornerFold, fY);
-                        this.ctx.lineTo(fX + cornerFold, fY + cornerFold);
-                        this.ctx.lineTo(fX, fY + cornerFold);
-                        this.ctx.closePath();
-                        this.ctx.fill();
-                        this.ctx.stroke();
-                        break;
-
-                    case 'arrow':
-                        this._drawRoughLine(element.x, element.y, element.x + element.width, element.y + element.height, this.roughness);
-                        const angle = Math.atan2(element.height, element.width);
-                        const headlen = element.arrowheadSize;
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(element.x + element.width, element.y + element.height);
-                        this.ctx.lineTo(element.x + element.width - headlen * Math.cos(angle - Math.PI / 6), element.y + element.height - headlen * Math.sin(angle - Math.PI / 6));
-                        this.ctx.moveTo(element.x + element.width, element.y + element.height);
-                        this.ctx.lineTo(element.x + element.width - headlen * Math.cos(angle + Math.PI / 6), element.y + element.height - headlen * Math.sin(angle + Math.PI / 6));
-                        this.ctx.stroke();
-                        break;
-
-                    case 'line':
-                        this._drawRoughLine(element.x, element.y, element.x + element.width, element.y + element.height, this.roughness);
-                        break;
-
-                    case 'pen':
-                        if (element.path && element.path.length > 1) {
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(element.path[0].x, element.path[0].y);
-                            for (let i = 1; i < element.path.length; i++) {
-                                this.ctx.lineTo(element.path[i].x, element.path[i].y);
-                            }
-                            this.ctx.stroke();
-                        }
-                        break;
-
-                    case 'text':
-                        this.ctx.font = `16px Arial`; // Default font
-                        this.ctx.fillStyle = element.strokeColor;
-                        this.ctx.textAlign = 'left'; // Always left align
-
-                        this.ctx.fillText(element.text, element.x, element.y + 16); // Use default font size for y offset
-                        break;
-
-                    case 'image':
-                        if (element.image && element.image.complete) {
-                            this.ctx.drawImage(element.image, element.x, element.y, element.width, element.height);
-                        }
-                        break;
-                }
-            }
-
-            drawSelection(element) {
-                this.ctx.strokeStyle = '#3b82f6';
-                this.ctx.lineWidth = 1;
-                this.ctx.setLineDash([5, 5]);
-
-                let bounds;
-                if (element.type === 'pen') {
-                    bounds = this.getPenBounds(element);
-                } else {
-                    bounds = {
-                        x: Math.min(element.x, element.x + element.width),
-                        y: Math.min(element.y, element.y + element.height),
-                        width: Math.abs(element.width),
-                        height: Math.abs(element.height)
-                    };
-                }
-
-                this.ctx.strokeRect(bounds.x - 2, bounds.y - 2, bounds.width + 4, bounds.height + 4);
-                this.ctx.setLineDash([]);
-
-                const handleSize = 8;
-                const handles = [
-                    { x: bounds.x, y: bounds.y, cursor: 'nwse-resize' },
-                    { x: bounds.x + bounds.width / 2, y: bounds.y, cursor: 'ns-resize' },
-                    { x: bounds.x + bounds.width, y: bounds.y, cursor: 'nesw-resize' },
-                    { x: bounds.x, y: bounds.y + bounds.height / 2, cursor: 'ew-resize' },
-                    { x: bounds.x + bounds.width, y: bounds.y + bounds.height / 2, cursor: 'ew-resize' },
-                    { x: bounds.x, y: bounds.y + bounds.height, cursor: 'nesw-resize' },
-                    { x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height, cursor: 'ns-resize' },
-                    { x: bounds.x + bounds.width, y: bounds.y + bounds.height, cursor: 'nwse-resize' }
-                ];
-
-                handles.forEach(handle => {
-                    this.ctx.fillStyle = '#3b82f6';
-                    this.ctx.fillRect(handle.x - handleSize / 2, handle.y - handleSize / 2, handleSize, handleSize);
-                });
-            }
-
-            getPenBounds(element) {
-                if (!element.path || element.path.length === 0) {
-                    return { x: 0, y: 0, width: 0, height: 0 };
-                }
-
-                let minX = element.path[0].x;
-                let maxX = element.path[0].x;
-                let minY = element.path[0].y;
-                let maxY = element.path[0].y;
-
-                for (let point of element.path) {
-                    minX = Math.min(minX, point.x);
-                    maxX = Math.max(maxX, point.x);
-                    minY = Math.min(minY, point.y);
-                    maxY = Math.max(maxY, point.y);
-                }
-
-                return {
-                    x: minX,
-                    y: minY,
-                    width: maxX - minX,
-                    height: maxY - minY
-                };
-            }
-
+            // Selection handles for resizing
             getHandleAt(x, y, element) {
-                if (!element) return null;
-                const handleSize = 8;
-                const bounds = {
-                    x: Math.min(element.x, element.x + element.width),
-                    y: Math.min(element.y, element.y + element.height),
-                    width: Math.abs(element.width),
-                    height: Math.abs(element.height)
+                if (!element || element.type === 'pen' || element.type === 'text') return null; // Pen and text are not resizable with handles
+                const { x: elX, y: elY, width: elW, height: elH } = element;
+                const handles = {
+                    tl: { x: elX, y: elY },
+                    tm: { x: elX + elW / 2, y: elY },
+                    tr: { x: elX + elW, y: elY },
+                    ml: { x: elX, y: elY + elH / 2 },
+                    mr: { x: elX + elW, y: elY + elH / 2 },
+                    bl: { x: elX, y: elY + elH },
+                    bm: { x: elX + elW / 2, y: elY + elH },
+                    br: { x: elX + elW, y: elY + elH }
                 };
-
-                const handles = [
-                    { x: bounds.x, y: bounds.y, type: 'tl' },
-                    { x: bounds.x + bounds.width / 2, y: bounds.y, type: 'tm' },
-                    { x: bounds.x + bounds.width, y: bounds.y, type: 'tr' },
-                    { x: bounds.x, y: bounds.y + bounds.height / 2, type: 'ml' },
-                    { x: bounds.x + bounds.width, y: bounds.y + bounds.height / 2, type: 'mr' },
-                    { x: bounds.x, y: bounds.y + bounds.height, type: 'bl' },
-                    { x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height, type: 'bm' },
-                    { x: bounds.x + bounds.width, y: bounds.y + bounds.height, type: 'br' }
-                ];
-
-                for (let i = 0; i < handles.length; i++) {
-                    const handle = handles[i];
+                const handleSize = 8 / this.zoomLevel; // Adjust handle size based on zoom
+                for (const key in handles) {
+                    const handle = handles[key];
                     if (x >= handle.x - handleSize / 2 && x <= handle.x + handleSize / 2 &&
                         y >= handle.y - handleSize / 2 && y <= handle.y + handleSize / 2) {
-                        return handle.type;
+                        return key;
                     }
                 }
                 return null;
             }
 
-            showPropertiesPanel() {
-                const panel = document.getElementById('propertiesPanel');
-                const textToolbar = document.querySelector('.text-properties-toolbar');
+            // Drawing logic
+            redraw() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.save();
+                this.ctx.translate(this.offsetX, this.offsetY);
+                this.ctx.scale(this.zoomLevel, this.zoomLevel);
 
-                if (this.selectedElements.length > 1) {
-                    panel.style.display = 'none';
-                    textToolbar.style.display = 'none';
-                    return;
+                this.elements.forEach(element => {
+                    this.drawElement(element);
+                });
+
+                if (this.currentElement && this.currentTool !== 'select' && this.currentTool !== 'text') {
+                    this.drawElement(this.currentElement);
                 }
 
                 if (this.selectedElement) {
-                    panel.style.display = 'block';
-                    document.getElementById('propStrokeColor').value = this.selectedElement.strokeColor;
-                    document.getElementById('propFillColor').value = this.selectedElement.fillColor;
-                    document.getElementById('propStrokeWidth').value = this.selectedElement.strokeWidth;
+                    this.drawSelectionOutline(this.selectedElement);
+                } else if (this.selectedElements.length > 0) {
+                    this.selectedElements.forEach(el => this.drawSelectionOutline(el));
+                }
 
-                    if (this.selectedElement.type === 'text') {
-                        textToolbar.style.display = 'flex';
+                this.ctx.restore();
+            }
 
-                        // Hide width/height for text elements as they are dynamically calculated
-                        document.getElementById('propWidth').parentElement.style.display = 'none';
-                        document.getElementById('propHeight').parentElement.style.display = 'none';
-                    } else {
-                        textToolbar.style.display = 'none';
-                        document.getElementById('propWidth').parentElement.style.display = 'block';
-                        document.getElementById('propHeight').parentElement.style.display = 'block';
-                        document.getElementById('propWidth').value = Math.abs(this.selectedElement.width);
-                        document.getElementById('propHeight').value = Math.abs(this.selectedElement.height);
-                    }
-                } else {
-                    panel.style.display = 'none';
-                    textToolbar.style.display = 'none';
+            drawElement(element) {
+                const ctx = this.ctx;
+                const rc = this.rc;
+                const { type, x, y, width, height, strokeColor, fillColor, strokeWidth } = element;
+
+                // Rough.js options
+                const roughOptions = {
+                    stroke: strokeColor,
+                    fill: fillColor,
+                    strokeWidth: strokeWidth,
+                    roughness: this.roughness,
+                    fillStyle: (fillColor === '#ffffff' || fillColor === 'transparent') ? 'hachure' : 'solid' // Use hachure for white/transparent fills for a sketchy look
+                };
+
+                const drawRect = (x, y, w, h) => {
+                    rc.rectangle(x, y, w, h, roughOptions);
+                };
+
+                const drawCircle = (cx, cy, rX, rY) => {
+                    rc.ellipse(cx, cy, rX * 2, rY * 2, roughOptions); // Rough.js ellipse uses width/height not radius
+                };
+
+                const drawLine = (x1, y1, x2, y2) => {
+                    rc.line(x1, y1, x2, y2, roughOptions);
+                };
+
+                const drawTriangle = (x, y, w, h) => {
+                    rc.polygon([
+                        [x + w / 2, y],
+                        [x, y + h],
+                        [x + w, y + h]
+                    ], roughOptions);
+                };
+
+                // For complex shapes not well-suited for rough.js, use native canvas drawing
+                const drawCylinder = (x, y, w, h) => {
+                    const ellipseRadiusX = Math.abs(w) / 2;
+                    const ellipseRadiusY = Math.abs(h) / 8; // Adjust for database look
+
+                    ctx.strokeStyle = strokeColor;
+                    ctx.fillStyle = fillColor;
+                    ctx.lineWidth = strokeWidth;
+
+                    ctx.beginPath();
+                    // Top ellipse
+                    ctx.ellipse(x + w / 2, y + ellipseRadiusY, ellipseRadiusX, ellipseRadiusY, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Sides
+                    ctx.beginPath(); // New path for sides to ensure proper stroke
+                    ctx.moveTo(x, y + ellipseRadiusY);
+                    ctx.lineTo(x, y + h - ellipseRadiusY);
+                    ctx.moveTo(x + w, y + ellipseRadiusY);
+                    ctx.lineTo(x + w, y + h - ellipseRadiusY);
+                    ctx.stroke();
+
+                    // Bottom ellipse (only visible half)
+                    ctx.beginPath();
+                    ctx.ellipse(x + w / 2, y + h - ellipseRadiusY, ellipseRadiusX, ellipseRadiusY, 0, 0, Math.PI, false);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.beginPath(); // For the back half of the ellipse
+                    ctx.ellipse(x + w / 2, y + h - ellipseRadiusY, ellipseRadiusX, ellipseRadiusY, 0, Math.PI, 0, false);
+                    ctx.stroke();
+                };
+
+                const drawCloud = (x, y, w, h) => {
+                    ctx.strokeStyle = strokeColor;
+                    ctx.fillStyle = fillColor;
+                    ctx.lineWidth = strokeWidth;
+                    // Simplified cloud shape
+                    ctx.beginPath();
+                    ctx.moveTo(x + w * 0.2, y + h * 0.7);
+                    ctx.bezierCurveTo(x - w * 0.1, y + h * 0.9, x + w * 0.1, y + h * 0.3, x + w * 0.4, y + h * 0.2);
+                    ctx.bezierCurveTo(x + w * 0.8, y - h * 0.1, x + w * 1.1, y + h * 0.2, x + w * 0.9, y + h * 0.5);
+                    ctx.bezierCurveTo(x + w * 1.2, y + h * 0.8, x + w * 0.8, y + h * 1.1, x + w * 0.5, y + h * 0.9);
+                    ctx.bezierCurveTo(x + w * 0.2, y + h * 1.1, x + w * 0.0, y + h * 0.9, x + w * 0.2, y + h * 0.7);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                };
+
+                const drawFile = (x, y, w, h) => {
+                    ctx.strokeStyle = strokeColor;
+                    ctx.fillStyle = fillColor;
+                    ctx.lineWidth = strokeWidth;
+                    const foldSize = Math.min(w, h) * 0.2;
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + foldSize);
+                    ctx.lineTo(x, y + h);
+                    ctx.lineTo(x + w, y + h);
+                    ctx.lineTo(x + w, y + foldSize);
+                    ctx.lineTo(x + w - foldSize, y + foldSize);
+                    ctx.lineTo(x + w - foldSize, y);
+                    ctx.lineTo(x, y);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    // Fold
+                    ctx.beginPath();
+                    ctx.moveTo(x + w - foldSize, y);
+                    ctx.lineTo(x + w - foldSize, y + foldSize);
+                    ctx.lineTo(x + w, y + foldSize);
+                    ctx.stroke();
+                };
+
+                const drawArrow = (x1, y1, x2, y2, arrowheadSize) => {
+                    ctx.strokeStyle = strokeColor;
+                    ctx.lineWidth = strokeWidth;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke(); // Draw the line part
+
+                    const angle = Math.atan2(y2 - y1, x2 - x1);
+                    ctx.beginPath(); // New path for arrowhead
+                    ctx.moveTo(x2, y2);
+                    ctx.lineTo(x2 - arrowheadSize * Math.cos(angle - Math.PI / 6), y2 - arrowheadSize * Math.sin(angle - Math.PI / 6));
+                    ctx.moveTo(x2, y2);
+                    ctx.lineTo(x2 - arrowheadSize * Math.cos(angle + Math.PI / 6), y2 - arrowheadSize * Math.sin(angle + Math.PI / 6));
+                    ctx.stroke(); // Draw the arrowhead
+                };
+
+                switch (type) {
+                    case 'rectangle':
+                        drawRect(x, y, width, height);
+                        break;
+                    case 'circle':
+                        drawCircle(x + width / 2, y + height / 2, Math.abs(width) / 2, Math.abs(height) / 2);
+                        break;
+                    case 'line':
+                        drawLine(x, y, x + width, y + height);
+                        break;
+                    case 'triangle':
+                        drawTriangle(x, y, width, height);
+                        break;
+                    case 'cylinder':
+                        drawCylinder(x, y, width, height);
+                        break;
+                    case 'cloud':
+                        drawCloud(x, y, width, height);
+                        break;
+                    case 'file':
+                        drawFile(x, y, width, height);
+                        break;
+                    case 'arrow':
+                        drawArrow(x, y, x + width, y + height, element.arrowheadSize);
+                        break;
+                    case 'pen':
+                        if (element.path && element.path.length > 1) {
+                            // Draw each segment of the pen path using rough.js line
+                            for (let i = 0; i < element.path.length - 1; i++) {
+                                rc.line(element.path[i].x, element.path[i].y, element.path[i+1].x, element.path[i+1].y, roughOptions);
+                            }
+                        }
+                        break;
+                    case 'text':
+                        // Use default text properties
+                        ctx.fillStyle = '#000000'; // Black
+                        ctx.font = `normal normal 16px Arial`;
+                        ctx.textAlign = 'left';
+                        const textLines = element.text.split('\n');
+                        let maxWidth = 0;
+                        let lineHeight = 16 * 1.2; 
+
+                        textLines.forEach(line => {
+                            const textWidth = ctx.measureText(line).width;
+                            if (textWidth > maxWidth) {
+                                maxWidth = textWidth;
+                            }
+                        });
+
+                        element.width = maxWidth;
+                        element.height = textLines.length * lineHeight;
+
+                        textLines.forEach((line, index) => {
+                            ctx.fillText(line, element.x, element.y + (index + 1) * lineHeight - (lineHeight * 0.2));
+                        });
+                        break;
+                    case 'image':
+                        if (element.image && element.image.complete && element.image.naturalWidth !== 0) {
+                            ctx.drawImage(element.image, x, y, width, height);
+                        } else if (element.src) {
+                            // Try loading again if image wasn't loaded
+                            element.image = new Image();
+                            element.image.onload = () => {
+                                this.redraw(); // Redraw once image is loaded
+                            };
+                            element.image.src = element.src;
+                        }
+                        break;
                 }
             }
 
-            hidePropertiesPanel() {
-                document.getElementById('propertiesPanel').style.display = 'none';
-                if (this.currentTool !== 'text' || !this.selectedElement || this.selectedElement.type !== 'text') {
-                    document.querySelector('.text-properties-toolbar').style.display = 'none';
+            drawSelectionOutline(element) {
+                const ctx = this.ctx;
+                const { x, y, width, height, type } = element;
+
+                ctx.save();
+                ctx.strokeStyle = '#3b82f6'; // Blue
+                ctx.lineWidth = 2 / this.zoomLevel; // Keep line width consistent regardless of zoom
+                ctx.setLineDash([5, 5]); // Dashed line
+
+                let outlineX = x;
+                let outlineY = y;
+                let outlineWidth = width;
+                let outlineHeight = height;
+
+                if (type === 'text') {
+                    // For text, use its dynamic width/height and default alignment
+                    outlineWidth = element.width;
+                    outlineHeight = element.height;
+                    // Since text is always left-aligned now, no x adjustment needed for text-align.
                 }
+
+                ctx.strokeRect(outlineX, outlineY, outlineWidth, outlineHeight);
+                ctx.setLineDash([]); // Reset line dash
+
+                // Draw resize handles for shapes (not pen or text)
+                if (type !== 'pen' && type !== 'text') {
+                    const handleSize = 8 / this.zoomLevel;
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.strokeStyle = 'white';
+                    ctx.lineWidth = 1 / this.zoomLevel;
+
+                    const handles = [
+                        { x: outlineX, y: outlineY },                                     // TL
+                        { x: outlineX + outlineWidth / 2, y: outlineY },                 // TM
+                        { x: outlineX + outlineWidth, y: outlineY },                     // TR
+                        { x: outlineX, y: outlineY + outlineHeight / 2 },                // ML
+                        { x: outlineX + outlineWidth, y: outlineY + outlineHeight / 2 }, // MR
+                        { x: outlineX, y: outlineY + outlineHeight },                    // BL
+                        { x: outlineX + outlineWidth / 2, y: outlineY + outlineHeight }, // BM
+                        { x: outlineX + outlineWidth, y: outlineY + outlineHeight }      // BR
+                    ];
+
+                    handles.forEach(handle => {
+                        ctx.beginPath();
+                        ctx.rect(handle.x - handleSize / 2, handle.y - handleSize / 2, handleSize, handleSize);
+                        ctx.fill();
+                        ctx.stroke();
+                    });
+                }
+                ctx.restore();
             }
 
-            deleteSelectedElement() {
-                if (this.selectedElements.length > 0) {
-                    this.elements = this.elements.filter(el => !this.selectedElements.includes(el));
-                    this.selectedElements = [];
-                    this.selectedElement = null;
-                    this.hidePropertiesPanel();
-                    this.redraw();
-                    this.saveState();
-                } else if (this.selectedElement) {
-                    const index = this.elements.indexOf(this.selectedElement);
-                    if (index > -1) {
-                        this.elements.splice(index, 1);
-                        this.selectedElement = null;
-                        this.hidePropertiesPanel();
-                        this.redraw();
-                        this.saveState();
-                    }
-                }
-            }
-
+            // History Management
             saveState() {
-                this.historyIndex++;
-                this.history = this.history.slice(0, this.historyIndex);
+                // Clear redo history
+                this.history = this.history.slice(0, this.historyIndex + 1);
                 this.history.push(JSON.parse(JSON.stringify(this.elements)));
+                this.historyIndex++;
             }
 
             undo() {
                 if (this.historyIndex > 0) {
                     this.historyIndex--;
                     this.elements = JSON.parse(JSON.stringify(this.history[this.historyIndex]));
-                    this.elements.forEach(element => {
-                        if (element.type === 'image' && element.src) {
-                            const img = new Image();
-                            img.onload = () => this.redraw(); // Redraw after image loads
-                            img.src = element.src;
-                            element.image = img;
-                        }
-                    });
                     this.selectedElement = null;
                     this.selectedElements = [];
                     this.hidePropertiesPanel();
@@ -1770,14 +1597,6 @@
                 if (this.historyIndex < this.history.length - 1) {
                     this.historyIndex++;
                     this.elements = JSON.parse(JSON.stringify(this.history[this.historyIndex]));
-                    this.elements.forEach(element => {
-                        if (element.type === 'image' && element.src) {
-                            const img = new Image();
-                            img.onload = () => this.redraw(); // Redraw after image loads
-                            img.src = element.src;
-                            element.image = img;
-                        }
-                    });
                     this.selectedElement = null;
                     this.selectedElements = [];
                     this.hidePropertiesPanel();
@@ -1786,8 +1605,22 @@
             }
 
             clear() {
-                if (confirm('Tüm çizimi silmek istediğinizden emin misiniz?')) {
+                if (confirm('Tuvali temizlemek istediğinizden emin misiniz?')) {
                     this.elements = [];
+                    this.history = [];
+                    this.historyIndex = -1;
+                    this.selectedElement = null;
+                    this.selectedElements = [];
+                    this.clipboard = [];
+                    this.redraw();
+                    this.saveState();
+                    this.hidePropertiesPanel();
+                }
+            }
+
+            deleteSelectedElement() {
+                if (this.selectedElement) {
+                    this.elements = this.elements.filter(el => el.id !== this.selectedElement.id);
                     this.selectedElement = null;
                     this.selectedElements = [];
                     this.hidePropertiesPanel();
@@ -1796,267 +1629,532 @@
                 }
             }
 
-            showExportOptions(format) {
-                try {
-                    switch (format) {
-                        case 'png':
-                            this.exportAsPNG();
-                            break;
-                        case 'jpg':
-                            this.exportAsJPEG();
-                            break;
-                        case 'svg':
-                            this.exportAsSVG();
-                            break;
-                        case 'pdf':
-                            this.exportAsPDF();
-                            break;
-                        case 'json':
-                            this.exportAsJSON();
-                            break;
-                        default:
-                            alert('Geçersiz format seçimi!');
+            // Text input handling
+            startTextInput(x, y) {
+                this.textInput.style.display = 'block';
+                this.textInput.style.left = `${x * this.zoomLevel + this.offsetX}px`;
+                this.textInput.style.top = `${y * this.zoomLevel + this.offsetY}px`;
+                this.textInput.style.fontSize = `${16 * this.zoomLevel}px`; // Fixed font size
+                this.textInput.style.fontFamily = 'Arial'; // Fixed font family
+                this.textInput.style.fontWeight = 'normal';
+                this.textInput.style.fontStyle = 'normal';
+                this.textInput.style.textDecoration = 'none';
+                this.textInput.style.color = '#000000';
+                this.textInput.style.textAlign = 'left';
+                this.textInput.value = '';
+                this.textInput.focus();
+
+                this.currentElement = this.createElement('text', x, y, 0, 0, ''); // Temporary text element
+                this.selectedElement = this.currentElement; // Select it for editing context
+            }
+
+            startTextEditing(textElement) {
+                this.textInput.style.display = 'block';
+                // Adjust position for zooming and panning
+                this.textInput.style.left = `${textElement.x * this.zoomLevel + this.offsetX}px`;
+                this.textInput.style.top = `${textElement.y * this.zoomLevel + this.offsetY}px`;
+                this.textInput.style.fontSize = `${textElement.fontSize * this.zoomLevel}px`;
+                this.textInput.style.fontFamily = textElement.fontFamily;
+                this.textInput.style.fontWeight = textElement.fontWeight;
+                this.textInput.style.fontStyle = textElement.fontStyle;
+                this.textInput.style.textDecoration = textElement.textDecoration;
+                this.textInput.style.color = textElement.textColor;
+                this.textInput.style.textAlign = textElement.textAlign;
+
+                this.textInput.value = textElement.text;
+                this.textInput.focus();
+                this.textInput.setSelectionRange(this.textInput.value.length, this.textInput.value.length); // Put cursor at end
+
+                this.selectedElement = textElement; // Set selected element to the one being edited
+                this.elements = this.elements.filter(el => el.id !== textElement.id); // Remove temporarily for editing
+                this.redraw();
+            }
+
+            finishTextInput() {
+                if (this.textInput.style.display === 'block' && this.textInput.value.trim() !== '') {
+                    const text = this.textInput.value;
+                    const x = (parseFloat(this.textInput.style.left) - this.offsetX) / this.zoomLevel;
+                    const y = (parseFloat(this.textInput.style.top) - this.offsetY) / this.zoomLevel;
+
+                    // If editing an existing text element
+                    if (this.selectedElement && this.selectedElement.type === 'text') {
+                        this.selectedElement.text = text;
+                        this.selectedElement.x = x;
+                        this.selectedElement.y = y;
+                        // Restore the element to the elements array if it was removed for editing
+                        if (!this.elements.some(el => el.id === this.selectedElement.id)) {
+                             this.elements.push(this.selectedElement);
+                        }
+                    } else { // New text element
+                        const newTextElement = this.createElement('text', x, y, 0, 0, text);
+                        // Default text properties are already set in createElement
+                        this.elements.push(newTextElement);
+                        this.selectedElement = newTextElement;
+                        this.selectedElements = [newTextElement];
                     }
-                } catch (error) {
-                    console.error('Export error:', error);
-                    alert('Dışa aktarma sırasında bir hata oluştu: ' + error.message);
+                    this.saveState();
+                } else if (this.textInput.style.display === 'block' && this.textInput.value.trim() === '') {
+                    // If text input is empty and it was for a new element, don't add it.
+                    // If it was for an existing element, it's already filtered out, no need to add back empty.
+                    this.selectedElement = null; // Deselect
+                }
+
+                this.textInput.style.display = 'none';
+                this.textInput.value = '';
+                this.redraw();
+                // Re-select if it was an edit
+                if (this.selectedElement && !this.elements.includes(this.selectedElement)) {
+                    this.elements.push(this.selectedElement);
+                    this.selectedElements = [this.selectedElement];
+                    this.showPropertiesPanel();
                 }
             }
 
-            exportAsJSON() {
-                const dataStr = JSON.stringify({
-                    elements: this.elements,
-                    version: '1.0',
-                    exportDate: new Date().toISOString()
-                }, null, 2);
-                
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'cizim_' + new Date().toISOString().slice(0, 10) + '.json';
-                link.click();
-                
-                URL.revokeObjectURL(url);
+            // Clipboard functions
+            copySelectedElements() {
+                if (this.selectedElements.length > 0) {
+                    // Deep copy to break reference
+                    this.clipboard = JSON.parse(JSON.stringify(this.selectedElements));
+                    console.log('Elements copied to clipboard:', this.clipboard);
+                }
             }
 
-            exportAsPNG() {
-                const link = document.createElement('a');
-                link.download = 'cizim_' + new Date().toISOString().slice(0, 10) + '.png';
-                link.href = this.canvas.toDataURL('image/png');
-                link.click();
+            pasteElements() {
+                if (this.clipboard.length > 0) {
+                    const pasteOffset = 20; // Offset for pasted elements
+                    const pastedElements = [];
+                    this.clipboard.forEach(el => {
+                        const newElement = JSON.parse(JSON.stringify(el));
+                        newElement.id = Date.now() + Math.random(); // Assign new ID
+                        newElement.x += pasteOffset;
+                        newElement.y += pasteOffset;
+                        // For pen tool, update each path point
+                        if (newElement.type === 'pen' && newElement.path) {
+                            newElement.path = newElement.path.map(p => ({ x: p.x + pasteOffset, y: p.y + pasteOffset }));
+                        }
+                        // For image elements, re-create Image object
+                        if (newElement.type === 'image' && newElement.src) {
+                            newElement.image = new Image();
+                            newElement.image.onload = () => {
+                                this.redraw();
+                            };
+                            newElement.image.src = newElement.src;
+                        }
+                        pastedElements.push(newElement);
+                    });
+
+                    this.elements.push(...pastedElements);
+                    this.selectedElement = null; // Clear single selection
+                    this.selectedElements = pastedElements; // Select newly pasted elements
+                    this.redraw();
+                    this.saveState();
+                }
             }
 
-            exportAsJPEG() {
-                const link = document.createElement('a');
-                link.download = 'cizim_' + new Date().toISOString().slice(0, 10) + '.jpeg';
-                link.href = this.canvas.toDataURL('image/jpeg', 0.9);
-                link.click();
-            }
+            // Export and Import
+            exportDrawing(format) {
+                if (format === 'json') {
+                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.elements, null, 2));
+                    const downloadAnchorNode = document.createElement('a');
+                    downloadAnchorNode.setAttribute("href", dataStr);
+                    downloadAnchorNode.setAttribute("download", "drawing.json");
+                    document.body.appendChild(downloadAnchorNode);
+                    downloadAnchorNode.click();
+                    downloadAnchorNode.remove();
+                } else {
+                    // For image exports (PNG, JPG, SVG, PDF), redraw on a temporary canvas without selection outlines
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = this.canvas.width;
+                    tempCanvas.height = this.canvas.height;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    const tempRc = rough.canvas(tempCanvas); // Rough.js instance for temp canvas
 
-            exportAsSVG() {
-                let svgContent = `<svg width="${this.canvas.width}" height="${this.canvas.height}" xmlns="http://www.w3.org/2000/svg">`;
-                
-                this.elements.forEach(element => {
-                    switch (element.type) {
-                        case 'rectangle':
-                            svgContent += `<rect x="${element.x}" y="${element.y}" width="${element.width}" height="${element.height}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'circle':
-                            svgContent += `<ellipse cx="${element.x + element.width / 2}" cy="${element.y + element.height / 2}" rx="${Math.abs(element.width / 2)}" ry="${Math.abs(element.height / 2)}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'line':
-                            svgContent += `<line x1="${element.x}" y1="${element.y}" x2="${element.x + element.width}" y2="${element.y + element.height}" stroke="${element.strokeColor}" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'pen':
-                            if (element.path && element.path.length > 1) {
-                                const pathData = element.path.map((p, i) => (i === 0 ? 'M' : 'L') + `${p.x} ${p.y}`).join(' ');
-                                svgContent += `<path d="${pathData}" stroke="${element.strokeColor}" fill="none" stroke-width="${element.strokeWidth}"/>`;
+                    // Apply current pan and zoom to temp canvas
+                    tempCtx.translate(this.offsetX, this.offsetY);
+                    tempCtx.scale(this.zoomLevel, this.zoomLevel);
+
+                    // Draw elements on temp canvas
+                    this.elements.forEach(element => {
+                        // Temporarily disable outlines for export
+                        const originalSelectedElement = this.selectedElement;
+                        const originalSelectedElements = this.selectedElements;
+                        this.selectedElement = null;
+                        this.selectedElements = [];
+                        
+                        // Pass tempRc for rough drawings
+                        this.drawElementExport.call({ ctx: tempCtx, rc: tempRc, roughness: this.roughness }, element);
+                        
+                        this.selectedElement = originalSelectedElement;
+                        this.selectedElements = originalSelectedElements;
+                    });
+                    
+                    // Reset transform for data export
+                    tempCtx.setTransform(1, 0, 0, 1, 0, 0);
+
+
+                    if (format === 'png' || format === 'jpg') {
+                        const imageData = tempCanvas.toDataURL(`image/${format}`, format === 'jpg' ? 0.9 : 1.0);
+                        const a = document.createElement('a');
+                        a.href = imageData;
+                        a.download = `drawing.${format}`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    } else if (format === 'pdf') {
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('landscape', 'px', [tempCanvas.width, tempCanvas.height]);
+                        pdf.addImage(tempCanvas.toDataURL('image/png'), 'PNG', 0, 0, tempCanvas.width, tempCanvas.height);
+                        pdf.save("drawing.pdf");
+                    } else if (format === 'svg') {
+                        // A more robust SVG export would require re-generating SVG elements
+                        // based on the stored element properties, rather than tracing canvas.
+                        // Rough.js provides SVG methods that could be used for rough shapes.
+                        alert("SVG export generates a basic SVG for Rough.js shapes. Complex shapes and text may not be perfectly represented.");
+                        let svgContent = `<svg width="${tempCanvas.width}" height="${tempCanvas.height}" xmlns="http://www.w3.org/2000/svg">`;
+                        const roughSvg = rough.svg(tempCanvas); // Create rough.js SVG renderer
+                        this.elements.forEach(element => {
+                            const { type, x, y, width, height, strokeColor, fillColor, strokeWidth } = element;
+                            const svgOptions = {
+                                stroke: strokeColor,
+                                fill: fillColor,
+                                strokeWidth: strokeWidth,
+                                roughness: this.roughness,
+                                fillStyle: (fillColor === '#ffffff' || fillColor === 'transparent') ? 'hachure' : 'solid'
+                            };
+                            if (type === 'rectangle') {
+                                svgContent += roughSvg.rectangle(x, y, width, height, svgOptions).outerHTML;
+                            } else if (type === 'circle') {
+                                svgContent += roughSvg.ellipse(x + width / 2, y + height / 2, Math.abs(width), Math.abs(height), svgOptions).outerHTML;
+                            } else if (type === 'line') {
+                                svgContent += roughSvg.line(x, y, x + width, y + height, svgOptions).outerHTML;
+                            } else if (type === 'triangle') {
+                                svgContent += roughSvg.polygon([
+                                    [x + width / 2, y],
+                                    [x, y + height],
+                                    [x + width, y + height]
+                                ], svgOptions).outerHTML;
+                            } else if (type === 'pen') {
+                                if (element.path && element.path.length > 1) {
+                                    for (let i = 0; i < element.path.length - 1; i++) {
+                                        svgContent += roughSvg.line(element.path[i].x, element.path[i].y, element.path[i+1].x, element.path[i+1].y, svgOptions).outerHTML;
+                                    }
+                                }
+                            } else if (type === 'text') {
+                                // For text, use basic SVG text element
+                                svgContent += `<text x="${x}" y="${y + element.fontSize}" font-family="Arial" font-size="16" fill="#000000" text-anchor="start">${element.text}</text>`;
                             }
-                            break;
-                        case 'text':
-                            svgContent += `<text x="${element.x}" y="${element.y + 16}" font-family="Arial" font-size="16" fill="${element.strokeColor}" text-anchor="start">`; // Default font size and always start align
-                            svgContent += `${element.text}</text>`;
-                            break;
-                        case 'triangle':
-                            const triX1 = element.x + element.width / 2;
-                            const triY1 = element.y;
-                            const triX2 = element.x;
-                            const triY2 = element.y + element.height;
-                            const triX3 = element.x + element.width;
-                            const triY3 = element.y + element.height;
-                            svgContent += `<polygon points="${triX1},${triY1} ${triX2},${triY2} ${triX3},${triY3}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'cylinder':
-                            const dbX = element.x;
-                            const dbY = element.y;
-                            const dbWidth = element.width;
-                            const dbHeight = element.height;
-                            const dbEllipseRadiusX = Math.abs(dbWidth) / 2;
-                            const dbEllipseRadiusY = Math.abs(dbHeight) / 8;
-                            svgContent += `<ellipse cx="${dbX + dbWidth / 2}" cy="${dbY + dbEllipseRadiusY}" rx="${dbEllipseRadiusX}" ry="${dbEllipseRadiusY}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            svgContent += `<line x1="${dbX}" y1="${dbY + dbEllipseRadiusY}" x2="${dbX}" y2="${dbY + dbHeight - dbEllipseRadiusY}" stroke="${element.strokeColor}" stroke-width="${element.strokeWidth}"/>`;
-                            svgContent += `<line x1="${dbX + dbWidth}" y1="${dbY + dbEllipseRadiusY}" x2="${dbX + dbWidth}" y2="${dbY + dbHeight - dbEllipseRadiusY}" stroke="${element.strokeColor}" stroke-width="${element.strokeWidth}"/>`;
-                            svgContent += `<path d="M${dbX} ${dbY + dbHeight - dbEllipseRadiusY} A${dbEllipseRadiusX} ${dbEllipseRadiusY} 0 0 0 ${dbX + dbWidth} ${dbY + dbHeight - dbEllipseRadiusY}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'cloud':
-                            const clX = element.x;
-                            const clY = element.y;
-                            const clWidth = element.width;
-                            const clHeight = element.height;
-                            svgContent += `<path d="M${clX + 0.5 * clWidth} ${clY + 0.8 * clHeight} C${clX + 0.2 * clWidth} ${clY + 1.1 * clHeight}, ${clX - 0.1 * clWidth} ${clY + 0.6 * clHeight}, ${clX + 0.2 * clWidth} ${clY + 0.4 * clHeight} C${clX + 0.1 * clWidth} ${clY + 0.1 * clHeight}, ${clX + 0.5 * clWidth} ${clY}, ${clX + 0.8 * clWidth} ${clY + 0.1 * clHeight} C${clX + 1.1 * clWidth} ${clY + 0.1 * clHeight}, ${clX + 1.2 * clWidth} ${clY + 0.4 * clHeight}, ${clX + clWidth} ${clY + 0.6 * clHeight} C${clX + 1.2 * clWidth} ${clY + 0.9 * clHeight}, ${clX + 0.8 * clWidth} ${clY + 1.1 * clHeight}, ${clX + 0.5 * clWidth} ${clY + 0.8 * clHeight}Z" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'file':
-                            const fX = element.x;
-                            const fY = element.y;
-                            const fWidth = element.width;
-                            const fHeight = element.height;
-                            const cornerFold = Math.min(fWidth, fHeight) * 0.2;
-                            svgContent += `<path d="M${fX} ${fY} L${fX + fWidth - cornerFold} ${fY} L${fX + fWidth} ${fY + cornerFold} L${fX + fWidth} ${fY + fHeight} L${fX} ${fY + fHeight} Z" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            svgContent += `<polyline points="${fX + fWidth - cornerFold},${fY} ${fX + fWidth - cornerFold},${fY + cornerFold} ${fX + fWidth},${fY + cornerFold}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'arrow':
-                            svgContent += `<line x1="${element.x}" y1="${element.y}" x2="${element.x + element.width}" y2="${element.y + element.height}" stroke="${element.strokeColor}" stroke-width="${element.strokeWidth}"/>`;
-                            const angle = Math.atan2(element.height, element.width);
-                            const headlen = element.arrowheadSize;
-                            const arrowX1 = element.x + element.width - headlen * Math.cos(angle - Math.PI / 6);
-                            const arrowY1 = element.y + element.height - headlen * Math.sin(angle - Math.PI / 6);
-                            const arrowX2 = element.x + element.width - headlen * Math.cos(angle + Math.PI / 6);
-                            const arrowY2 = element.y + element.height - headlen * Math.sin(angle + Math.PI / 6);
-                            svgContent += `<polyline points="${element.x + element.width},${element.y + element.height} ${arrowX1},${arrowY1} ${arrowX2},${arrowY2} ${element.x + element.width},${element.y + element.height}" stroke="${element.strokeColor}" fill="none" stroke-width="${element.strokeWidth}"/>`;
-                            break;
-                        case 'image':
-                            if (element.src) {
-                                svgContent += `<image href="${element.src}" x="${element.x}" y="${element.y}" width="${element.width}" height="${element.height}"/>`;
+                            // Other complex shapes will require manual SVG generation for precision
+                            // (or rendering them as raster images and embedding them in SVG)
+                            // For simplicity, we'll draw them on a temporary canvas and then export as PNG embedded in SVG
+                            else {
+                                // Fallback for complex shapes not directly handled by rough.js SVG
+                                // This will draw them to a temporary canvas and embed as image in SVG
+                                const singleElementCanvas = document.createElement('canvas');
+                                singleElementCanvas.width = this.canvas.width; // Use full canvas size for rendering context
+                                singleElementCanvas.height = this.canvas.height;
+                                const singleElementCtx = singleElementCanvas.getContext('2d');
+                                singleElementCtx.translate(this.offsetX, this.offsetY);
+                                singleElementCtx.scale(this.zoomLevel, this.zoomLevel);
+                                this.drawElementExport.call({ ctx: singleElementCtx, rc: rough.canvas(singleElementCanvas), roughness: this.roughness }, element);
+                                const imgData = singleElementCanvas.toDataURL('image/png');
+                                svgContent += `<image href="${imgData}" x="0" y="0" width="${this.canvas.width}" height="${this.canvas.height}"/>`;
                             }
-                            break;
+                        });
+                        svgContent += `</svg>`;
+
+                        const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'drawing.svg';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
                     }
-                });
-                
-                svgContent += `</svg>`;
-                const dataBlob = new Blob([svgContent], { type: 'image/svg+xml' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'cizim_' + new Date().toISOString().slice(0, 10) + '.svg';
-                link.click();
-                URL.revokeObjectURL(url);
+                }
+            }
+            
+            // Helper for exportDrawing to draw elements without selection outlines
+            drawElementExport(element) {
+                const ctx = this.ctx;
+                const rc = this.rc; // Use this.rc for the export context as well.
+                const { type, x, y, width, height, strokeColor, fillColor, strokeWidth } = element;
+
+                // Rough.js options for export (can be identical to regular drawing)
+                const roughOptions = {
+                    stroke: strokeColor,
+                    fill: fillColor,
+                    strokeWidth: strokeWidth,
+                    roughness: this.roughness,
+                    fillStyle: (fillColor === '#ffffff' || fillColor === 'transparent') ? 'hachure' : 'solid'
+                };
+
+                const drawRect = (x, y, w, h) => {
+                    rc.rectangle(x, y, w, h, roughOptions);
+                };
+
+                const drawCircle = (cx, cy, rX, rY) => {
+                    rc.ellipse(cx, cy, rX * 2, rY * 2, roughOptions);
+                };
+
+                const drawLine = (x1, y1, x2, y2) => {
+                    rc.line(x1, y1, x2, y2, roughOptions);
+                };
+
+                const drawTriangle = (x, y, w, h) => {
+                    rc.polygon([
+                        [x + w / 2, y],
+                        [x, y + h],
+                        [x + w, y + h]
+                    ], roughOptions);
+                };
+
+                // Native canvas drawing for complex shapes / text / image
+                const drawCylinder = (x, y, w, h) => { /* ... (same as original drawElement) ... */
+                    const ellipseRadiusX = Math.abs(w) / 2;
+                    const ellipseRadiusY = Math.abs(h) / 8;
+
+                    ctx.strokeStyle = strokeColor;
+                    ctx.fillStyle = fillColor;
+                    ctx.lineWidth = strokeWidth;
+
+                    ctx.beginPath();
+                    ctx.ellipse(x + w / 2, y + ellipseRadiusY, ellipseRadiusX, ellipseRadiusY, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + ellipseRadiusY);
+                    ctx.lineTo(x, y + h - ellipseRadiusY);
+                    ctx.moveTo(x + w, y + ellipseRadiusY);
+                    ctx.lineTo(x + w, y + h - ellipseRadiusY);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.ellipse(x + w / 2, y + h - ellipseRadiusY, ellipseRadiusX, ellipseRadiusY, 0, 0, Math.PI, false);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.ellipse(x + w / 2, y + h - ellipseRadiusY, ellipseRadiusX, ellipseRadiusY, 0, Math.PI, 0, false);
+                    ctx.stroke();
+                };
+
+                const drawCloud = (x, y, w, h) => { /* ... (same as original drawElement) ... */
+                    ctx.strokeStyle = strokeColor;
+                    ctx.fillStyle = fillColor;
+                    ctx.lineWidth = strokeWidth;
+                    ctx.beginPath();
+                    ctx.moveTo(x + w * 0.2, y + h * 0.7);
+                    ctx.bezierCurveTo(x - w * 0.1, y + h * 0.9, x + w * 0.1, y + h * 0.3, x + w * 0.4, y + h * 0.2);
+                    ctx.bezierCurveTo(x + w * 0.8, y - h * 0.1, x + w * 1.1, y + h * 0.2, x + w * 0.9, y + h * 0.5);
+                    ctx.bezierCurveTo(x + w * 1.2, y + h * 0.8, x + w * 0.8, y + h * 1.1, x + w * 0.5, y + h * 0.9);
+                    ctx.bezierCurveTo(x + w * 0.2, y + h * 1.1, x + w * 0.0, y + h * 0.9, x + w * 0.2, y + h * 0.7);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                };
+
+                const drawFile = (x, y, w, h) => { /* ... (same as original drawElement) ... */
+                    ctx.strokeStyle = strokeColor;
+                    ctx.fillStyle = fillColor;
+                    ctx.lineWidth = strokeWidth;
+                    const foldSize = Math.min(w, h) * 0.2;
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + foldSize);
+                    ctx.lineTo(x, y + h);
+                    ctx.lineTo(x + w, y + h);
+                    ctx.lineTo(x + w, y + foldSize);
+                    ctx.lineTo(x + w - foldSize, y + foldSize);
+                    ctx.lineTo(x + w - foldSize, y);
+                    ctx.lineTo(x, y);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(x + w - foldSize, y);
+                    ctx.lineTo(x + w - foldSize, y + foldSize);
+                    ctx.lineTo(x + w, y + foldSize);
+                    ctx.stroke();
+                };
+
+                const drawArrow = (x1, y1, x2, y2, arrowheadSize) => { /* ... (same as original drawElement) ... */
+                    ctx.strokeStyle = strokeColor;
+                    ctx.lineWidth = strokeWidth;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+
+                    const angle = Math.atan2(y2 - y1, x2 - x1);
+                    ctx.beginPath();
+                    ctx.moveTo(x2, y2);
+                    ctx.lineTo(x2 - arrowheadSize * Math.cos(angle - Math.PI / 6), y2 - arrowheadSize * Math.sin(angle - Math.PI / 6));
+                    ctx.moveTo(x2, y2);
+                    ctx.lineTo(x2 - arrowheadSize * Math.cos(angle + Math.PI / 6), y2 - arrowheadSize * Math.sin(angle + Math.PI / 6));
+                    ctx.stroke();
+                };
+
+                switch (type) {
+                    case 'rectangle':
+                        drawRect(x, y, width, height);
+                        break;
+                    case 'circle':
+                        drawCircle(x + width / 2, y + height / 2, Math.abs(width) / 2, Math.abs(height) / 2);
+                        break;
+                    case 'line':
+                        drawLine(x, y, x + width, y + height);
+                        break;
+                    case 'triangle':
+                        drawTriangle(x, y, width, height);
+                        break;
+                    case 'cylinder':
+                        drawCylinder(x, y, width, height);
+                        break;
+                    case 'cloud':
+                        drawCloud(x, y, width, height);
+                        break;
+                    case 'file':
+                        drawFile(x, y, width, height);
+                        break;
+                    case 'arrow':
+                        drawArrow(x, y, x + width, y + height, element.arrowheadSize);
+                        break;
+                    case 'pen':
+                        if (element.path && element.path.length > 1) {
+                            for (let i = 0; i < element.path.length - 1; i++) {
+                                rc.line(element.path[i].x, element.path[i].y, element.path[i+1].x, element.path[i+1].y, roughOptions);
+                            }
+                        }
+                        break;
+                    case 'text':
+                        // Fixed text properties for export as well
+                        ctx.fillStyle = '#000000'; // Black
+                        ctx.font = `normal normal 16px Arial`;
+                        ctx.textAlign = 'left';
+                        const textLines = element.text.split('\n');
+                        let maxWidth = 0;
+                        let lineHeight = 16 * 1.2; 
+
+                        textLines.forEach(line => {
+                            const textWidth = ctx.measureText(line).width;
+                            if (textWidth > maxWidth) {
+                                maxWidth = textWidth;
+                            }
+                        });
+
+                        element.width = maxWidth;
+                        element.height = textLines.length * lineHeight;
+
+                        textLines.forEach((line, index) => {
+                            ctx.fillText(line, element.x, element.y + (index + 1) * lineHeight - (lineHeight * 0.2));
+                        });
+                        break;
+                    case 'image':
+                        if (element.image && element.image.complete && element.image.naturalWidth !== 0) {
+                            ctx.drawImage(element.image, x, y, width, height);
+                        } else if (element.src) {
+                            element.image = new Image();
+                            element.image.onload = () => {
+                                // this.redraw(); // No redraw here, just for export
+                            };
+                            element.image.src = element.src;
+                            if (element.image.complete) { // If already loaded by the time we call drawElementExport
+                                ctx.drawImage(element.image, x, y, width, height);
+                            }
+                        }
+                        break;
+                }
             }
 
-            exportAsPDF() {
-                if (typeof window.jspdf === 'undefined') {
-                    alert('PDF kütüphanesi yüklenemedi!');
+            importDrawing(event) {
+                const file = event.target.files[0];
+                if (!file) {
                     return;
                 }
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                const imgData = this.canvas.toDataURL('image/png');
-                doc.addImage(imgData, 'PNG', 10, 10, 180, 150);
-                doc.save('cizim_' + new Date().toISOString().slice(0, 10) + '.pdf');
-            }
-
-            importDrawing(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-
                 const reader = new FileReader();
-                reader.onload = (event) => {
+                reader.onload = (e) => {
                     try {
-                        const data = JSON.parse(event.target.result);
-                        if (data.elements && Array.isArray(data.elements)) {
-                            this.elements = data.elements;
-                            this.selectedElement = null;
-                            this.selectedElements = [];
-                            this.hidePropertiesPanel();
-                            this.redraw();
-                            this.saveState();
-                        } else {
-                            alert('Geçersiz dosya formatı!');
-                        }
+                        const importedElements = JSON.parse(e.target.result);
+                        // Ensure imported elements have necessary properties, especially for images
+                        importedElements.forEach(el => {
+                            if (el.type === 'image' && el.src) {
+                                el.image = new Image();
+                                el.image.onload = () => {
+                                    this.redraw(); // Redraw once image is loaded
+                                };
+                                el.image.src = el.src;
+                            }
+                        });
+                        this.elements = importedElements;
+                        this.saveState();
+                        this.redraw();
+                        alert('Drawing imported successfully!');
                     } catch (error) {
-                        alert('Dosya okuma hatası: ' + error.message);
+                        alert('Failed to import drawing: Invalid JSON file. Error: ' + error.message);
+                        console.error('Import error:', error);
                     }
                 };
                 reader.readAsText(file);
-                e.target.value = '';
             }
 
-            addImage(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-
+            addImage(event) {
+                const file = event.target.files[0];
+                if (!file) {
+                    return;
+                }
                 const reader = new FileReader();
-                reader.onload = (event) => {
+                reader.onload = (e) => {
                     const img = new Image();
                     img.onload = () => {
-                        const element = this.createElement('image', 50, 50, img.width, img.height);
-                        element.src = event.target.result;
-                        element.image = img;
-                        this.elements.push(element);
-                        this.saveState();
+                        const imgWidth = img.naturalWidth;
+                        const imgHeight = img.naturalHeight;
+                        const centerX = (this.canvas.width / 2 - this.offsetX) / this.zoomLevel;
+                        const centerY = (this.canvas.height / 2 - this.offsetY) / this.zoomLevel;
+                        
+                        // Default size for image if not specified, scaled by zoom
+                        const defaultWidth = 100 / this.zoomLevel;
+                        const defaultHeight = (imgHeight / imgWidth) * defaultWidth;
+
+                        const newImageElement = this.createElement('image', centerX - defaultWidth / 2, centerY - defaultHeight / 2, defaultWidth, defaultHeight);
+                        newImageElement.src = e.target.result;
+                        newImageElement.image = img;
+                        newImageElement.width = defaultWidth;
+                        newImageElement.height = defaultHeight;
+
+                        this.elements.push(newImageElement);
+                        this.selectedElement = newImageElement;
+                        this.selectedElements = [newImageElement];
                         this.redraw();
+                        this.saveState();
+                        this.showPropertiesPanel();
                     };
-                    img.src = event.target.result;
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
-                e.target.value = '';
+            }
+
+            // Theme toggle
+            loadTheme() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    this.isDarkMode = true;
+                    document.body.classList.add('dark-mode');
+                } else {
+                    this.isDarkMode = false;
+                    document.body.classList.remove('dark-mode');
+                }
             }
 
             toggleTheme() {
                 this.isDarkMode = !this.isDarkMode;
                 if (this.isDarkMode) {
                     document.body.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark');
                 } else {
                     document.body.classList.remove('dark-mode');
+                    localStorage.setItem('theme', 'light');
                 }
-                // Note: In Claude.ai environment, localStorage is not supported
-                // In a real environment, you would save the theme preference like this:
-                // localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
-            }
-
-            loadTheme() {
-                // Note: In Claude.ai environment, localStorage is not supported
-                // In a real environment, you would load the theme preference like this:
-                // const savedTheme = localStorage.getItem('theme');
-                // if (savedTheme === 'dark') {
-                //     this.isDarkMode = true;
-                //     document.body.classList.add('dark-mode');
-                // }
-            }
-
-            copySelectedElements() {
-                if (this.selectedElements.length > 0) {
-                    this.clipboard = JSON.parse(JSON.stringify(this.selectedElements));
-                } else if (this.selectedElement) {
-                    this.clipboard = [JSON.parse(JSON.stringify(this.selectedElement))];
-                } else {
-                    this.clipboard = [];
-                }
-            }
-
-            pasteElements() {
-                if (this.clipboard.length === 0) return;
-
-                const pastedElements = [];
-                const pasteOffset = 10;
-
-                this.clipboard.forEach(el => {
-                    const newElement = JSON.parse(JSON.stringify(el));
-                    newElement.id = Date.now() + Math.random();
-                    newElement.x += pasteOffset;
-                    newElement.y += pasteOffset;
-                    if (newElement.type === 'pen' && newElement.path) {
-                        newElement.path = newElement.path.map(p => ({ x: p.x + pasteOffset, y: p.y + pasteOffset }));
-                    }
-                    pastedElements.push(newElement);
-                });
-
-                this.elements.push(...pastedElements);
-                this.selectedElement = null;
-                this.selectedElements = pastedElements;
-                this.redraw();
-                this.saveState();
             }
         }
 
