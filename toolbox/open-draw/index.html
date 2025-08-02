@@ -90,6 +90,14 @@
             box-shadow: 0 1px 3px var(--toolbar-shadow);
             z-index: 1000;
             flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .app-title {
+            margin-left: auto;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--text-color);
         }
 
         .tool-group {
@@ -414,6 +422,23 @@
                         <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
                     </svg>
                 </button>
+                <button class="tool-btn" data-tool="cylinder" title="Veritabanı">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                        <path d="M3 5v14a9 3 0 0 0 18 0V5"/>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="cloud" title="Bulut">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                    </svg>
+                </button>
+                <button class="tool-btn" data-tool="file" title="Dosya">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                        <polyline points="13 2 13 9 20 9"/>
+                    </svg>
+                </button>
                 <button class="tool-btn" data-tool="arrow" title="Ok">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M5 12h14"/>
@@ -427,11 +452,10 @@
                 </button>
                 <button class="tool-btn" data-tool="text" title="Metin">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="4,7 4,4 20,4 20,7"/>
-                        <line x1="9" y1="20" x2="15" y2="20"/>
-                        <line x1="12" y1="4" x2="12" y2="20"/>
+                        <path d="M5 3h14M12 3v18M9 21h6"/>
                     </svg>
                 </button>
+                
                 <button class="tool-btn" data-tool="eraser" title="Silgi">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M16 2L21 7L11 17L6 12L16 2Z" />
@@ -477,7 +501,7 @@
                     </svg>
                 </button>
                 <input type="file" id="importBtn" accept=".json" style="display: none;">
-                <button class="action-btn" onclick="document.getElementById('importBtn').click()" title="İçe Aktar">
+                <button class="action-btn" onclick="document.getElementById('importBtn').click()" title="İçe Aktar (JSON)">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <polyline points="17,8 12,3 7,8"/>
@@ -509,64 +533,23 @@
                     </svg>
                 </button>
             </div>
+            <div class="tool-group app-title">
+                OpenDraw WebUI -farukguler.com
+            </div>
         </div>
 
-        <!-- Text Properties Toolbar (initially hidden) -->
-        <div class="toolbar text-properties-toolbar">
-            <div class="tool-group">
-                <label for="fontSize">Boyut:</label>
-                <input type="range" id="fontSize" min="10" max="72" value="16">
-            </div>
-            <div class="tool-group">
-                <button class="action-btn" id="boldBtn" title="Kalın">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
-                        <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
-                    </svg>
-                </button>
-                <button class="action-btn" id="italicBtn" title="İtalik">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="19" y1="4" x2="10" y2="4"/>
-                        <line x1="14" y1="20" x2="5" y2="20"/>
-                        <line x1="15" y1="4" x2="9" y2="20"/>
-                    </svg>
-                </button>
-                <button class="action-btn" id="underlineBtn" title="Altı Çizili">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 4v6a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4"/>
-                        <line x1="4" y1="20" x2="20" y2="20"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="tool-group">
-                <button class="action-btn" id="alignLeftBtn" title="Sola Hizala">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="3" y1="12" x2="21" y2="12"/>
-                        <line x1="3" y1="6" x2="15" y2="6"/>
-                        <line x1="3" y1="18" x2="15" y2="18"/>
-                    </svg>
-                </button>
-                <button class="action-btn" id="alignCenterBtn" title="Ortala">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="3" y1="12" x2="21" y2="12"/>
-                        <line x1="7" y1="6" x2="17" y2="6"/>
-                        <line x1="7" y1="18" x2="17" y2="18"/>
-                    </svg>
-                </button>
-                <button class="action-btn" id="alignRightBtn" title="Sağa Hizala">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="3" y1="12" x2="21" y2="12"/>
-                        <line x1="9" y1="6" x2="21" y2="6"/>
-                        <line x1="9" y1="18" x2="21" y2="18"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
+        
 
         <!-- Canvas Container -->
         <div class="canvas-container">
             <canvas id="canvas"></canvas>
-            <input type="text" id="textInput" class="text-input" style="display: none;">
+            <textarea id="textInput" class="text-input" style="display: none;"></textarea>
+        </div>
+
+        <!-- Text properties toolbar -->
+        <div class="text-properties-toolbar">
+            
+            
         </div>
 
         <!-- Properties Panel -->
@@ -636,11 +619,8 @@
                 this.roughness = 2;
 
                 // Text properties
-                this.fontSize = 16;
-                this.isBold = false;
-                this.isItalic = false;
-                this.isUnderlined = false;
-                this.textAlign = 'left';
+                
+                
 
                 // Canvas pan and zoom
                 this.offsetX = 0;
@@ -680,6 +660,10 @@
                 // Tool buttons
                 document.querySelectorAll('.tool-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
+                        // If text input is active and not switching to text tool, finalize text
+                        if (this.currentTool === 'text' && btn.dataset.tool !== 'text') {
+                            this.finishTextInput();
+                        }
                         document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
                         this.currentTool = btn.dataset.tool;
@@ -788,6 +772,11 @@
                 document.getElementById('importBtn').addEventListener('change', (e) => this.importDrawing(e));
                 document.getElementById('imageInput').addEventListener('change', (e) => this.addImage(e));
 
+                // Text properties toolbar events
+                
+
+                
+
                 // Properties panel
                 document.getElementById('propStrokeColor').addEventListener('change', (e) => {
                     if (this.selectedElement) {
@@ -835,49 +824,15 @@
                     }
                 });
 
-                // Text input
-                const textInput = document.getElementById('textInput');
-                textInput.addEventListener('blur', () => this.finishTextInput());
-                textInput.addEventListener('keydown', (e) => {
+                document.getElementById('textInput').addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         this.finishTextInput();
                     }
                 });
 
-                // Text properties toolbar
-                document.getElementById('fontSize').addEventListener('input', (e) => {
-                    this.fontSize = parseInt(e.target.value);
-                });
-
-                document.getElementById('boldBtn').addEventListener('click', () => {
-                    this.isBold = !this.isBold;
-                    document.getElementById('boldBtn').style.backgroundColor = this.isBold ? 'var(--btn-active-bg)' : 'var(--btn-bg)';
-                });
-
-                document.getElementById('italicBtn').addEventListener('click', () => {
-                    this.isItalic = !this.isItalic;
-                    document.getElementById('italicBtn').style.backgroundColor = this.isItalic ? 'var(--btn-active-bg)' : 'var(--btn-bg)';
-                });
-
-                document.getElementById('underlineBtn').addEventListener('click', () => {
-                    this.isUnderlined = !this.isUnderlined;
-                    document.getElementById('underlineBtn').style.backgroundColor = this.isUnderlined ? 'var(--btn-active-bg)' : 'var(--btn-bg)';
-                });
-
-                document.getElementById('alignLeftBtn').addEventListener('click', () => {
-                    this.textAlign = 'left';
-                    this.updateAlignmentButtons();
-                });
-
-                document.getElementById('alignCenterBtn').addEventListener('click', () => {
-                    this.textAlign = 'center';
-                    this.updateAlignmentButtons();
-                });
-
-                document.getElementById('alignRightBtn').addEventListener('click', () => {
-                    this.textAlign = 'right';
-                    this.updateAlignmentButtons();
+                document.getElementById('textInput').addEventListener('blur', () => {
+                    this.finishTextInput();
                 });
 
                 // Keyboard shortcuts
@@ -915,16 +870,7 @@
                 });
             }
 
-            updateAlignmentButtons() {
-                const buttons = ['alignLeftBtn', 'alignCenterBtn', 'alignRightBtn'];
-                buttons.forEach(btnId => {
-                    document.getElementById(btnId).style.backgroundColor = 'var(--btn-bg)';
-                });
-                
-                const activeBtn = this.textAlign === 'left' ? 'alignLeftBtn' : 
-                                 this.textAlign === 'center' ? 'alignCenterBtn' : 'alignRightBtn';
-                document.getElementById(activeBtn).style.backgroundColor = 'var(--btn-active-bg)';
-            }
+            
 
             getMousePos(e) {
                 const rect = this.canvas.getBoundingClientRect();
@@ -935,6 +881,15 @@
 
             handleMouseDown(e) {
                 if (this.isPanning) return;
+
+                const textInput = document.getElementById('textInput');
+                // Check if text input is active and the click is not on the text input itself
+                if (textInput.style.display === 'block' && e.target !== textInput) {
+                    this.finishTextInput();
+                    // If the current tool is still 'text' after finishing,
+                    // the user might want to start a new text input at the clicked position.
+                    // The rest of the function will handle this.
+                }
                 
                 const pos = this.getMousePos(e);
                 this.startX = pos.x;
@@ -1122,9 +1077,11 @@
                             delete el._initialPath;
                         }
                     });
+                } else if (this.currentTool === 'text') {
+                    // Do nothing here, finishTextInput is called on blur or enter
                 }
 
-                if (this.currentElement && this.currentTool !== 'select') {
+                if (this.currentElement && this.currentTool !== 'select' && this.currentTool !== 'text') {
                     if (this.currentTool === 'pen') {
                         if (this.penPath.length > 1) {
                             this.elements.push(this.currentElement);
@@ -1141,8 +1098,13 @@
             }
 
             handleDoubleClick(e) {
-                if (this.currentTool === 'text') {
-                    const pos = this.getMousePos(e);
+                const pos = this.getMousePos(e);
+                const clickedElement = this.getElementAt(pos.x, pos.y);
+
+                if (clickedElement && clickedElement.type === 'text') {
+                    this.selectedElement = clickedElement;
+                    this.startTextEditing(clickedElement);
+                } else if (this.currentTool === 'text') {
                     this.startTextInput(pos.x, pos.y);
                 }
             }
@@ -1194,6 +1156,8 @@
                 } else if (type === 'image') {
                     element.src = '';
                     element.image = new Image();
+                } else if (type === 'cloud' || type === 'file') {
+                    // No specific properties needed for now, basic element properties are enough
                 }
 
                 return element;
@@ -1239,6 +1203,41 @@
                     const y2 = ey + height;
                     const dist = this.getDistanceToSegment(x, y, x1, y1, x2, y2);
                     return dist <= (element.strokeWidth / 2) + tolerance;
+                } else if (element.type === 'cylinder') {
+                    const cylX = ex;
+                    const cylY = ey;
+                    const cylWidth = width;
+                    const cylHeight = height;
+
+                    const ellipseRadiusX = Math.abs(cylWidth) / 2;
+                    const ellipseRadiusY = Math.abs(cylHeight) / 8; // Adjusted for database look
+
+                    // Check top ellipse
+                    const topEllipseCenterX = cylX + cylWidth / 2;
+                    const topEllipseCenterY = cylY + ellipseRadiusY;
+                    const dxTop = (x - topEllipseCenterX) / (ellipseRadiusX + tolerance);
+                    const dyTop = (y - topEllipseCenterY) / (ellipseRadiusY + tolerance);
+                    if (dxTop * dxTop + dyTop * dyTop <= 1) return true;
+
+                    // Check bottom ellipse
+                    const bottomEllipseCenterX = cylX + cylWidth / 2;
+                    const bottomEllipseCenterY = cylY + cylHeight - ellipseRadiusY;
+                    const dxBottom = (x - bottomEllipseCenterX) / (ellipseRadiusX + tolerance);
+                    const dyBottom = (y - bottomEllipseCenterY) / (ellipseRadiusY + tolerance);
+                    if (dxBottom * dxBottom + dyBottom * dyBottom <= 1) return true;
+
+                    // Check sides (simplified as a rectangle for selection)
+                    const minX = Math.min(cylX, cylX + cylWidth) - tolerance;
+                    const maxX = Math.max(cylX, cylX + cylWidth) + tolerance;
+                    const minY = Math.min(cylY + ellipseRadiusY, cylY + cylHeight - ellipseRadiusY) - tolerance;
+                    const maxY = Math.max(cylY + ellipseRadiusY, cylY + cylHeight - ellipseRadiusY) + tolerance;
+                    return x >= minX && x <= maxX && y >= minY && y <= maxY;
+                } else if (element.type === 'cloud' || element.type === 'file') {
+                    const minX = Math.min(ex, ex + width) - tolerance;
+                    const maxX = Math.max(ex, ex + width) + tolerance;
+                    const minY = Math.min(ey, ey + height) - tolerance;
+                    const maxY = Math.max(ey, ey + height) + tolerance;
+                    return x >= minX && x <= maxX && y >= minY && y <= maxY;
                 } else {
                     const minX = Math.min(ex, ex + width) - tolerance;
                     const maxX = Math.max(ex, ex + width) + tolerance;
@@ -1267,35 +1266,52 @@
                 }
             }
 
-            startTextInput(x, y) {
+            startTextInput(x, y, initialText = '') {
                 const textInput = document.getElementById('textInput');
                 textInput.style.display = 'block';
                 textInput.style.left = (x * this.zoomLevel + this.offsetX) + 'px';
                 textInput.style.top = (y * this.zoomLevel + this.offsetY) + 'px';
-                textInput.value = '';
+                textInput.value = initialText;
                 textInput.focus();
                 this.textInputPos = { x, y };
+                document.querySelector('.text-properties-toolbar').style.display = 'flex';
+            }
+
+            startTextEditing(element) {
+                this.startTextInput(element.x, element.y, element.text);
+                
+                
             }
 
             finishTextInput() {
                 const textInput = document.getElementById('textInput');
                 const text = textInput.value.trim();
 
-                if (text) {
+                if (this.selectedElement && this.selectedElement.type === 'text') {
+                    // Update existing text element
+                    this.selectedElement.text = text;
+                    this.ctx.font = `16px Arial`; // Default font
+                    const textMetrics = this.ctx.measureText(text);
+                    this.selectedElement.width = textMetrics.width;
+                    this.selectedElement.height = 16; // Approximate height based on default font size
+
+                    this.selectedElement = null; // Deselect after editing
+                } else if (text) {
+                    // Create new text element
                     const element = this.createElement('text', this.textInputPos.x, this.textInputPos.y, 0, 0);
                     element.text = text;
-                    element.fontSize = this.fontSize;
-                    element.isBold = this.isBold;
-                    element.isItalic = this.isItalic;
-                    element.isUnderlined = this.isUnderlined;
-                    element.textAlign = this.textAlign;
+                    this.ctx.font = `16px Arial`; // Default font
+                    const textMetrics = this.ctx.measureText(text);
+                    element.width = textMetrics.width;
+                    element.height = 16; // Approximate height based on default font size
+
                     this.elements.push(element);
-                    this.saveState();
-                    this.redraw();
                 }
 
                 textInput.style.display = 'none';
                 document.querySelector('.text-properties-toolbar').style.display = 'none';
+                this.saveState();
+                this.redraw();
             }
 
             redraw() {
@@ -1362,21 +1378,165 @@
                         break;
 
                     case 'circle':
-                        this.ctx.beginPath();
                         const centerX = element.x + element.width / 2;
                         const centerY = element.y + element.height / 2;
                         const radiusX = Math.abs(element.width) / 2;
                         const radiusY = Math.abs(element.height) / 2;
+
+                        this.ctx.beginPath();
                         this.ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, 0, 2 * Math.PI);
+                        this.ctx.fill();
+
+                        // Draw rough outline for circle
+                        const numSegmentsCircle = 60; // More segments for smoother rough circle
+                        let prevX = centerX + radiusX * Math.cos(0);
+                        let prevY = centerY + radiusY * Math.sin(0);
+                        for (let i = 1; i <= numSegmentsCircle; i++) {
+                            const angle = (i / numSegmentsCircle) * 2 * Math.PI;
+                            const currentX = centerX + radiusX * Math.cos(angle);
+                            const currentY = centerY + radiusY * Math.sin(angle);
+                            this._drawRoughLine(prevX, prevY, currentX, currentY, this.roughness);
+                            prevX = currentX;
+                            prevY = currentY;
+                        }
+                        break;
+
+                    case 'triangle':
+                        const triX1 = element.x + element.width / 2;
+                        const triY1 = element.y;
+                        const triX2 = element.x;
+                        const triY2 = element.y + element.height;
+                        const triX3 = element.x + element.width;
+                        const triY3 = element.y + element.height;
+
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(triX1, triY1);
+                        this.ctx.lineTo(triX2, triY2);
+                        this.ctx.lineTo(triX3, triY3);
+                        this.ctx.closePath();
+                        this.ctx.fill();
+
+                        this._drawRoughLine(triX1, triY1, triX2, triY2, this.roughness);
+                        this._drawRoughLine(triX2, triY2, triX3, triY3, this.roughness);
+                        this._drawRoughLine(triX3, triY3, triX1, triY1, this.roughness);
+                        break;
+
+                    case 'cylinder':
+                        const dbX = element.x;
+                        const dbY = element.y;
+                        const dbWidth = element.width;
+                        const dbHeight = element.height;
+
+                        const dbEllipseRadiusX = Math.abs(dbWidth) / 2;
+                        const dbEllipseRadiusY = Math.abs(dbHeight) / 8; // Top/bottom ellipse height, smaller for database look
+
+                        // Top ellipse
+                        this.ctx.beginPath();
+                        this.ctx.ellipse(dbX + dbWidth / 2, dbY + dbEllipseRadiusY, dbEllipseRadiusX, dbEllipseRadiusY, 0, 0, 2 * Math.PI);
+                        this.ctx.fill();
+                        this.ctx.stroke();
+
+                        // Sides
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(dbX, dbY + dbEllipseRadiusY);
+                        this.ctx.lineTo(dbX, dbY + dbHeight - dbEllipseRadiusY);
+                        this.ctx.stroke();
+
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(dbX + dbWidth, dbY + dbEllipseRadiusY);
+                        this.ctx.lineTo(dbX + dbWidth, dbY + dbHeight - dbEllipseRadiusY);
+                        this.ctx.stroke();
+
+                        // Bottom ellipse (convex, downward-facing)
+                        this.ctx.beginPath();
+                        this.ctx.ellipse(dbX + dbWidth / 2, dbY + dbHeight - dbEllipseRadiusY, dbEllipseRadiusX, dbEllipseRadiusY, 0, 0, Math.PI, false); // Draws convex arc
+                        this.ctx.fill();
+                        this.ctx.stroke();
+
+                        break;
+
+                    case 'cloud':
+                        const clX = element.x;
+                        const clY = element.y;
+                        const clWidth = element.width;
+                        const clHeight = element.height;
+
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(clX + 0.5 * clWidth, clY + 0.8 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 0.2 * clWidth, clY + 1.1 * clHeight, clX - 0.1 * clWidth, clY + 0.6 * clHeight, clX + 0.2 * clWidth, clY + 0.4 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 0.1 * clWidth, clY + 0.1 * clHeight, clX + 0.5 * clWidth, clY, clX + 0.8 * clWidth, clY + 0.1 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 1.1 * clWidth, clY + 0.1 * clHeight, clX + 1.2 * clWidth, clY + 0.4 * clHeight, clX + clWidth, clY + 0.6 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 1.2 * clWidth, clY + 0.9 * clHeight, clX + 0.8 * clWidth, clY + 1.1 * clHeight, clX + 0.5 * clWidth, clY + 0.8 * clHeight);
+                        this.ctx.closePath();
                         this.ctx.fill();
                         this.ctx.stroke();
                         break;
 
-                    case 'triangle':
+                    case 'pen':
+                        if (element.path && element.path.length > 1) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(element.path[0].x, element.path[0].y);
+                            for (let i = 1; i < element.path.length; i++) {
+                                this.ctx.lineTo(element.path[i].x, element.path[i].y);
+                            }
+                            this.ctx.stroke();
+                        }
+                        break;
+
+                    case 'text':
+                        this.ctx.font = `16px Arial`; // Default font
+                        this.ctx.fillStyle = element.strokeColor;
+                        this.ctx.textAlign = 'left'; // Always left align
+
+                        this.ctx.fillText(element.text, element.x, element.y + 16); // Use default font size for y offset
+                        break;
+
+                    case 'image':
+                        if (element.image && element.image.complete) {
+                            this.ctx.drawImage(element.image, element.x, element.y, element.width, element.height);
+                        }
+                        break;
+
+                    case 'cloud':
+                        const clX = element.x;
+                        const clY = element.y;
+                        const clWidth = element.width;
+                        const clHeight = element.height;
+
                         this.ctx.beginPath();
-                        this.ctx.moveTo(element.x + element.width / 2, element.y);
-                        this.ctx.lineTo(element.x, element.y + element.height);
-                        this.ctx.lineTo(element.x + element.width, element.y + element.height);
+                        this.ctx.moveTo(clX + 0.5 * clWidth, clY + 0.8 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 0.2 * clWidth, clY + 1.1 * clHeight, clX - 0.1 * clWidth, clY + 0.6 * clHeight, clX + 0.2 * clWidth, clY + 0.4 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 0.1 * clWidth, clY + 0.1 * clHeight, clX + 0.5 * clWidth, clY, clX + 0.8 * clWidth, clY + 0.1 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 1.1 * clWidth, clY + 0.1 * clHeight, clX + 1.2 * clWidth, clY + 0.4 * clHeight, clX + clWidth, clY + 0.6 * clHeight);
+                        this.ctx.bezierCurveTo(clX + 1.2 * clWidth, clY + 0.9 * clHeight, clX + 0.8 * clWidth, clY + 1.1 * clHeight, clX + 0.5 * clWidth, clY + 0.8 * clHeight);
+                        this.ctx.closePath();
+                        this.ctx.fill();
+                        this.ctx.stroke();
+                        break;
+
+                    case 'file':
+                        const fX = element.x;
+                        const fY = element.y;
+                        const fWidth = element.width;
+                        const fHeight = element.height;
+
+                        const cornerFold = Math.min(fWidth, fHeight) * 0.2; // Size of the folded corner
+
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(fX + cornerFold, fY);
+                        this.ctx.lineTo(fX + fWidth, fY);
+                        this.ctx.lineTo(fX + fWidth, fY + fHeight);
+                        this.ctx.lineTo(fX, fY + fHeight);
+                        this.ctx.lineTo(fX, fY + cornerFold);
+                        this.ctx.closePath();
+                        this.ctx.fill();
+                        this.ctx.stroke();
+
+                        // Folded corner
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(fX + cornerFold, fY);
+                        this.ctx.lineTo(fX + cornerFold, fY + cornerFold);
+                        this.ctx.lineTo(fX, fY + cornerFold);
                         this.ctx.closePath();
                         this.ctx.fill();
                         this.ctx.stroke();
@@ -1410,46 +1570,16 @@
                         break;
 
                     case 'text':
-                        let fontStyle = '';
-                        if (element.isBold) fontStyle += 'bold ';
-                        if (element.isItalic) fontStyle += 'italic ';
-                        this.ctx.font = `${fontStyle}${element.fontSize}px Arial`;
+                        this.ctx.font = `16px Arial`; // Default font
                         this.ctx.fillStyle = element.strokeColor;
-                        this.ctx.textAlign = element.textAlign;
+                        this.ctx.textAlign = 'left'; // Always left align
 
-                        let textX = element.x;
-                        if (element.textAlign === 'center') {
-                            textX = element.x + element.width / 2;
-                        } else if (element.textAlign === 'right') {
-                            textX = element.x + element.width;
-                        }
-
-                        this.ctx.fillText(element.text, textX, element.y + element.fontSize);
-
-                        if (element.isUnderlined) {
-                            const textWidth = this.ctx.measureText(element.text).width;
-                            let underlineX = element.x;
-                            if (element.textAlign === 'center') {
-                                underlineX = element.x + element.width / 2 - textWidth / 2;
-                            } else if (element.textAlign === 'right') {
-                                underlineX = element.x + element.width - textWidth;
-                            }
-                            this.ctx.beginPath();
-                            this.ctx.strokeStyle = element.strokeColor;
-                            this.ctx.lineWidth = 1;
-                            this.ctx.moveTo(underlineX, element.y + element.fontSize + 2);
-                            this.ctx.lineTo(underlineX + textWidth, element.y + element.fontSize + 2);
-                            this.ctx.stroke();
-                        }
+                        this.ctx.fillText(element.text, element.x, element.y + 16); // Use default font size for y offset
                         break;
 
                     case 'image':
                         if (element.image && element.image.complete) {
                             this.ctx.drawImage(element.image, element.x, element.y, element.width, element.height);
-                        } else if (element.src) {
-                            element.image = new Image();
-                            element.image.onload = () => this.redraw();
-                            element.image.src = element.src;
                         }
                         break;
                 }
@@ -1551,18 +1681,36 @@
 
             showPropertiesPanel() {
                 const panel = document.getElementById('propertiesPanel');
+                const textToolbar = document.querySelector('.text-properties-toolbar');
+
                 if (this.selectedElements.length > 1) {
                     panel.style.display = 'none';
+                    textToolbar.style.display = 'none';
                     return;
                 }
-                panel.style.display = 'block';
 
                 if (this.selectedElement) {
+                    panel.style.display = 'block';
                     document.getElementById('propStrokeColor').value = this.selectedElement.strokeColor;
                     document.getElementById('propFillColor').value = this.selectedElement.fillColor;
                     document.getElementById('propStrokeWidth').value = this.selectedElement.strokeWidth;
-                    document.getElementById('propWidth').value = Math.abs(this.selectedElement.width);
-                    document.getElementById('propHeight').value = Math.abs(this.selectedElement.height);
+
+                    if (this.selectedElement.type === 'text') {
+                        textToolbar.style.display = 'flex';
+
+                        // Hide width/height for text elements as they are dynamically calculated
+                        document.getElementById('propWidth').parentElement.style.display = 'none';
+                        document.getElementById('propHeight').parentElement.style.display = 'none';
+                    } else {
+                        textToolbar.style.display = 'none';
+                        document.getElementById('propWidth').parentElement.style.display = 'block';
+                        document.getElementById('propHeight').parentElement.style.display = 'block';
+                        document.getElementById('propWidth').value = Math.abs(this.selectedElement.width);
+                        document.getElementById('propHeight').value = Math.abs(this.selectedElement.height);
+                    }
+                } else {
+                    panel.style.display = 'none';
+                    textToolbar.style.display = 'none';
                 }
             }
 
@@ -1603,6 +1751,14 @@
                 if (this.historyIndex > 0) {
                     this.historyIndex--;
                     this.elements = JSON.parse(JSON.stringify(this.history[this.historyIndex]));
+                    this.elements.forEach(element => {
+                        if (element.type === 'image' && element.src) {
+                            const img = new Image();
+                            img.onload = () => this.redraw(); // Redraw after image loads
+                            img.src = element.src;
+                            element.image = img;
+                        }
+                    });
                     this.selectedElement = null;
                     this.selectedElements = [];
                     this.hidePropertiesPanel();
@@ -1614,6 +1770,14 @@
                 if (this.historyIndex < this.history.length - 1) {
                     this.historyIndex++;
                     this.elements = JSON.parse(JSON.stringify(this.history[this.historyIndex]));
+                    this.elements.forEach(element => {
+                        if (element.type === 'image' && element.src) {
+                            const img = new Image();
+                            img.onload = () => this.redraw(); // Redraw after image loads
+                            img.src = element.src;
+                            element.image = img;
+                        }
+                    });
                     this.selectedElement = null;
                     this.selectedElements = [];
                     this.hidePropertiesPanel();
@@ -1712,7 +1876,8 @@
                             }
                             break;
                         case 'text':
-                            svgContent += `<text x="${element.x}" y="${element.y + 16}" font-family="Arial" font-size="16" fill="${element.strokeColor}">${element.text}</text>`;
+                            svgContent += `<text x="${element.x}" y="${element.y + 16}" font-family="Arial" font-size="16" fill="${element.strokeColor}" text-anchor="start">`; // Default font size and always start align
+                            svgContent += `${element.text}</text>`;
                             break;
                         case 'triangle':
                             const triX1 = element.x + element.width / 2;
@@ -1722,6 +1887,34 @@
                             const triX3 = element.x + element.width;
                             const triY3 = element.y + element.height;
                             svgContent += `<polygon points="${triX1},${triY1} ${triX2},${triY2} ${triX3},${triY3}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
+                            break;
+                        case 'cylinder':
+                            const dbX = element.x;
+                            const dbY = element.y;
+                            const dbWidth = element.width;
+                            const dbHeight = element.height;
+                            const dbEllipseRadiusX = Math.abs(dbWidth) / 2;
+                            const dbEllipseRadiusY = Math.abs(dbHeight) / 8;
+                            svgContent += `<ellipse cx="${dbX + dbWidth / 2}" cy="${dbY + dbEllipseRadiusY}" rx="${dbEllipseRadiusX}" ry="${dbEllipseRadiusY}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
+                            svgContent += `<line x1="${dbX}" y1="${dbY + dbEllipseRadiusY}" x2="${dbX}" y2="${dbY + dbHeight - dbEllipseRadiusY}" stroke="${element.strokeColor}" stroke-width="${element.strokeWidth}"/>`;
+                            svgContent += `<line x1="${dbX + dbWidth}" y1="${dbY + dbEllipseRadiusY}" x2="${dbX + dbWidth}" y2="${dbY + dbHeight - dbEllipseRadiusY}" stroke="${element.strokeColor}" stroke-width="${element.strokeWidth}"/>`;
+                            svgContent += `<path d="M${dbX} ${dbY + dbHeight - dbEllipseRadiusY} A${dbEllipseRadiusX} ${dbEllipseRadiusY} 0 0 0 ${dbX + dbWidth} ${dbY + dbHeight - dbEllipseRadiusY}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
+                            break;
+                        case 'cloud':
+                            const clX = element.x;
+                            const clY = element.y;
+                            const clWidth = element.width;
+                            const clHeight = element.height;
+                            svgContent += `<path d="M${clX + 0.5 * clWidth} ${clY + 0.8 * clHeight} C${clX + 0.2 * clWidth} ${clY + 1.1 * clHeight}, ${clX - 0.1 * clWidth} ${clY + 0.6 * clHeight}, ${clX + 0.2 * clWidth} ${clY + 0.4 * clHeight} C${clX + 0.1 * clWidth} ${clY + 0.1 * clHeight}, ${clX + 0.5 * clWidth} ${clY}, ${clX + 0.8 * clWidth} ${clY + 0.1 * clHeight} C${clX + 1.1 * clWidth} ${clY + 0.1 * clHeight}, ${clX + 1.2 * clWidth} ${clY + 0.4 * clHeight}, ${clX + clWidth} ${clY + 0.6 * clHeight} C${clX + 1.2 * clWidth} ${clY + 0.9 * clHeight}, ${clX + 0.8 * clWidth} ${clY + 1.1 * clHeight}, ${clX + 0.5 * clWidth} ${clY + 0.8 * clHeight}Z" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
+                            break;
+                        case 'file':
+                            const fX = element.x;
+                            const fY = element.y;
+                            const fWidth = element.width;
+                            const fHeight = element.height;
+                            const cornerFold = Math.min(fWidth, fHeight) * 0.2;
+                            svgContent += `<path d="M${fX} ${fY} L${fX + fWidth - cornerFold} ${fY} L${fX + fWidth} ${fY + cornerFold} L${fX + fWidth} ${fY + fHeight} L${fX} ${fY + fHeight} Z" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
+                            svgContent += `<polyline points="${fX + fWidth - cornerFold},${fY} ${fX + fWidth - cornerFold},${fY + cornerFold} ${fX + fWidth},${fY + cornerFold}" stroke="${element.strokeColor}" fill="${element.fillColor}" stroke-width="${element.strokeWidth}"/>`;
                             break;
                         case 'arrow':
                             svgContent += `<line x1="${element.x}" y1="${element.y}" x2="${element.x + element.width}" y2="${element.y + element.height}" stroke="${element.strokeColor}" stroke-width="${element.strokeWidth}"/>`;
