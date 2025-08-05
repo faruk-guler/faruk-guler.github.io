@@ -38,7 +38,7 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 - Docker-Hub: hub.docker.com/u/farukguler
 - Blog: www.farukguler.com
 - LinkedIn: linkedin.com/in/gulerfaruk
-- E-Mail: <img src="/assets/img/mail-inf.png" alt="email" />
+- E-Mail: <img src="/assets/img/mail-inf.png" />
 - X:
 - Exploit-DB:
 - Zone-H:
