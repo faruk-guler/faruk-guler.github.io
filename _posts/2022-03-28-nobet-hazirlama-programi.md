@@ -19,7 +19,7 @@ image:
 
 ## 📌 Program Hakkında
 
-**Nöbet Hazırlama Programı**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş kapsamlı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza indirmenize gerek yoktur. İnternet erişimi olmayan bilgisayarlarda ise tarayıcı üzerinden kullanılabilir.
+**Nöbet Hazırlama Programı**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş yardımcı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza indirmenize ve kurmanıza gerek yoktur. İnternet erişimi olmayan bilgisayarlarda "html" olarak indirilip tarayıcı üzerinden kullanılabilir. Hiçbir şekilde verileriniz depolanmaz.(Proje açık kaynaklıdır.)
 
 <a href="https://farukguler.com/toolbox/nobet/" target="_blank">Nöbet Hazırlama Programı</a> Buradan veya TOOLBOX kısmından ulaşabilirsiniz!
 
@@ -75,18 +75,17 @@ Program kurulum gerektirmeyen web sürümü olarak kullanılır. Proje Opensourc
 - 500+ başarılı nöbet planlaması
 - 98% kullanıcı memnuniyeti
 - 3 dakikada nöbet çizelgesi oluşturma
+- Açık kaynak
 
 ## 🌟 Kullanıcı Yorumları
 
-> "Artık Nöbetlerin daha adil olacağını düşünüyorum."  
-> - Dr. Ahmet Yurdakul, Devlet Hastanesi
 
-> "Excel entegrasyonu güzel nöbet yazmak dahada kolaylaştı. Ama proje geliştirilmeye devam edilmeli"  
+> "Excel entegrasyonu güzel, Nöbetleri excel olarak indirme ve yükleme var. Nöbet yazmayı dahada kolaylaştırıyor. Ama proje geliştirilmeye devam edilmeli bence"  
 > - Nurcan Kaya Metinoğlu, Okul Müdürü
 
 ## 📞 İletişim
 
-Sorularınız ve destek almak için iletişime geçmekten çekineyin:  
+Geliştirme önerileriniz ve sorularınız için iletişime geçmekten çekineyin:  
 📧 https://farukguler.com/about
 
 ---
