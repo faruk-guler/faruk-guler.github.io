@@ -102,7 +102,7 @@ Durum: Kayıtlı
 Kayıt Şirketi: ${data.registrar}
 Oluşturulma Tarihi: ${new Date(data.created * 1000).toLocaleDateString()}
 Son Güncelleme Tarihi: ${new Date(data.updated * 1000).toLocaleDateString()}
-❌-----> Son Kullanma Tarihi: ${new Date(data.expires * 1000).toLocaleDateString()}
+❌-----> Domain Expire Tarihi: ${new Date(data.expires * 1000).toLocaleDateString()}
 WHOIS Verileri: ${data.whois}`;
             }
             errorDiv.textContent = "";
