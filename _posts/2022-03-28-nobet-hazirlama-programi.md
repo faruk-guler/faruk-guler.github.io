@@ -90,4 +90,4 @@ Geliştirme önerileriniz ve sorularınız için iletişime geçmekten çekineyi
 
 ---
 
-© 2025 www.farukguler.com - Licenses CC-BY-4.0.
+© 2025 www.farukguler.com - Guler Open IT Platform
