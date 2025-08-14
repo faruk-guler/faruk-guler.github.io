@@ -2,7 +2,7 @@
 layout: post
 title: Ücretsiz Nöbet Hazırlama Programı
 date: 2023-03-28 16:00
-author: theguler
+author: faruk-guler
 comments: true
 categories: [3th Party / Tools]
 tags:
