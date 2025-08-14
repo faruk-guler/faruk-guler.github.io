@@ -80,7 +80,7 @@ Program kurulum gerektirmeyen web sürümü olarak kullanılır. Proje OpenSourc
 ## 🌟 Kullanıcı Yorumları
 
 
-> "Excel entegrasyonu güzel, Nöbetleri excel olarak indirme ve yükleme var. Nöbet yazmayı dahada kolaylaştırıyor. Ama proje geliştirilmeye devam edilmeli bence"  
+> "Excel entegrasyonu güzel, Nöbetleri excel olarak indirme ve yükleme imkanı var. Nöbet yazmak 3 dakika civarı."  
 > - Nurcan Kaya Metinoğlu, Okul Müdürü
 
 ## 📞 İletişim
