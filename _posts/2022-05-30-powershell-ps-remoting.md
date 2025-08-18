@@ -31,22 +31,28 @@ categories: [Windows OS]
 <!-- /wp:heading -->
 
 <!-- wp:preformatted -->
-<pre class="wp-block-preformatted">1- <strong>Get-PSSessionConfiguration</strong>
-# WinRm servisi ve PowerShell Remoting sorgusu
+```bash
+# WinRm servisi ve PowerShell Remoting sorgusu:
+Get-PSSessionConfiguration</strong>
 
-2- <strong>Enable-PSRemoting -Force</strong>
-#PowerShell Remoting özelliğini manual olarak açmak için
+# PowerShell Remoting özelliğini manual olarak açmak için:
+Enable-PSRemoting -Force</strong>
 
-3- <strong>Disable-PSRemoting -Force</strong>
-# PowerShell Remoting özelliğini kapatmak için
+# PowerShell Remoting özelliğini kapatmak için:
+Disable-PSRemoting -Force
 
-4- <strong>Enter-PSSession -ComputerName 192.168.1.100 -Credential guler.com\Admin04</strong>
-4-<strong> Enter-PSSession -ComputerName COMPUTER-696YS5KF -Credential guler.com\Admin04</strong>
-# <strong>"Enter-PSSession" </strong>komutunu kullanarak uzak bilgisayara bağlanıp komut vermek için
+# "Enter-PSSession" komutunu kullanarak uzak bilgisayara bağlanıp komut vermek için:
+Enter-PSSession -ComputerName 192.168.1.100 -Credential guler.com\Admin04
+Enter-PSSession -ComputerName COMPUTER-696YS5KF -Credential guler.com\Admin04
 
-<strong>#Uzak makinelerde Komut yada GPO ile aktif edebilirsiniz.</strong></pre>
-<!-- /wp:preformatted -->
+# Doğrudan komut vermek için:
+Invoke-Command -ComputerName 192.168.1.100 -Credential guler.com\Admin04 -ScriptBlock { ipconfig }
 
+# Bağlantıyı Kapatmak için:
+Exit-PSSession
+
+#Uzak makinelerde Komut yada GPO ile aktif edebilirsiniz.
+```
 <!-- wp:paragraph -->
 <p></p>
 <!-- /wp:paragraph -->
