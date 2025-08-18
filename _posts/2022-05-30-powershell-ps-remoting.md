@@ -33,10 +33,10 @@ categories: [Windows OS]
 <!-- wp:preformatted -->
 ```bash
 # WinRm servisi ve PowerShell Remoting sorgusu:
-Get-PSSessionConfiguration</strong>
+Get-PSSessionConfiguration
 
 # PowerShell Remoting özelliğini manual olarak açmak için:
-Enable-PSRemoting -Force</strong>
+Enable-PSRemoting -Force
 
 # PowerShell Remoting özelliğini kapatmak için:
 Disable-PSRemoting -Force
