@@ -50,9 +50,7 @@ Invoke-Command -ComputerName 192.168.1.100 -Credential guler.com\Admin04 -Script
 
 # Bağlantıyı Kapatmak için:
 Exit-PSSession
-
-#Uzak makinelerde Komut yada GPO ile aktif edebilirsiniz.
 ```
 <!-- wp:paragraph -->
-<p></p>
+<h2 class="wp-block-heading"><strong>#Uzak makinelerde Komut yada GPO ile aktif edebilirsiniz.</strong></h2>
 <!-- /wp:paragraph -->
