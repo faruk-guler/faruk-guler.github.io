@@ -7,6 +7,7 @@ render_with_liquid: false
 layout: post
 published: true  
 ---
+![Resim](https://farukguler.com/assets/post_images/we3.jpg)
 
 Bu işlem genelde “Kullanıcı profili yüklenemedi / Temporary profile ile oturum açıldı” gibi hataları düzeltmek içindir. Sorun, kayıt defterinde ProfileList altında kullanıcıya ait SID anahtarının yanına .BAK uzantılı bir kopya oluşmasıdır. Doğru olan kayıt .BAK’li olandır; Windows bazen yanlış olanı yüklemeye çalışır.
 
@@ -52,3 +53,4 @@ Saygılarımla. – Best regards.
   font-family: 'Open Sans', sans-serif !important;
 }
 </style>
+
