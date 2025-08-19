@@ -11,7 +11,7 @@ categories: [Windows OS]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>Windows işletim sistemlerinde Grup İlkesi (Group Policy - GPO) ve Yerel Güvenlik İlkesi (Local Security Policy) ayarları PowerShell ve CMD komutlarıyla varsayılan haline döndürülebilir.</p>
+<strong>Windows işletim sistemlerinde Grup İlkesi (Group Policy - GPO) ve Yerel Güvenlik İlkesi (Local Security Policy) ayarları PowerShell ve CMD komutlarıyla varsayılan haline döndürülebilir.
 <!-- /wp:paragraph -->
 
 
@@ -35,3 +35,4 @@ Log Wiew:
 %windir%\security\logs\scesrv.log for detail info.
 ```
 <!-- wp:paragraph -->
+
