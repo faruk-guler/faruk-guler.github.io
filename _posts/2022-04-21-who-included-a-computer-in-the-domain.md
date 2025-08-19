@@ -43,5 +43,5 @@ Get-ADComputer  -Filter * | foreach {
 }
 $list
 ```
+$list
 <!-- wp:paragraph -->
-
