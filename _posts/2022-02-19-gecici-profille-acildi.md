@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Oturumunuz Gecici Profille Acildi Hatasi
-date: 2022-02-19 07:28
+date: 2022-05-14 07:28
 author: faruk-guler
 comments: true
 categories: [Windows OS]
@@ -37,6 +37,7 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
 Saygılarımla. – Best regards.
 ```
 <!-- wp:paragraph -->
+
 
 
 
