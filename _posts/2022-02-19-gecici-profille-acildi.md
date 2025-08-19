@@ -14,6 +14,12 @@ categories: [Windows OS]
 <strong>Kayıt defteri üzerinde bazı ayarlar ve sorun giderme - Some settings on the registry and troubleshooting.
 <!-- /wp:paragraph -->
 
+<!-- wp:heading -->
+
+<h2 class="wp-block-heading"><strong>Nasıl Kullanılır?</strong></h2>
+
+<!-- /wp:heading -->
+
 <!-- wp:preformatted -->
 ```bash
 -1 Kayıt defteri dizinine git:
@@ -37,6 +43,7 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
 Saygılarımla. – Best regards.
 ```
 <!-- wp:paragraph -->
+
 
 
 
