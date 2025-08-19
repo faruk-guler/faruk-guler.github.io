@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Who included a computer in the domain
-date: 2022-04-21 11:56
+date: 2022-05-10 09:20
 author: faruk-guler
 comments: true
 categories: [PowerShell]
@@ -11,14 +11,12 @@ categories: [PowerShell]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<strong>Yetkili bir kullanıcı ile windows\debug klasörü altındaki NetSetup.log dosyasını inceler, Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız.
-
-Examine the NetSetup.log file under the windows\debug folder with an effective user. Do not forget to share the C:\ path of all computers in your network.
+<strong>Yetkili bir kullanıcı ile windows\debug klasörü altındaki NetSetup.log dosyasını inceler, Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız. Examine the NetSetup.log file under the windows\debug folder with an effective user. Do not forget to share the C:\ path of all computers in your network.
 <!-- /wp:paragraph -->
 
 
 <!-- wp:heading -->
-<h2 class="wp-block-heading"><strong>Powershell:</strong></h2>
+<h2 class="wp-block-heading"><strong>Powershell ISE</strong></h2>
 <!-- /wp:heading -->
 
 <!-- wp:preformatted -->
@@ -46,3 +44,4 @@ Get-ADComputer  -Filter * | foreach {
 $list
 ```
 <!-- wp:paragraph -->
+
