@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Oturumunuz Geçici Profille Açıldı
+title: Oturumunuz Gecici Profille Açıldı
 date: 2022-02-19 03:34
 author: faruk-guler
 comments: true
@@ -37,3 +37,4 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
 Saygılarımla. – Best regards.
 ```
 <!-- wp:paragraph -->
+
