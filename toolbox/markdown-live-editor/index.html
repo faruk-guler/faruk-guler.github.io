@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown live Editor -farukguler.com</title>
+    <title>Markdown Live Editor -farukguler.com</title>
     <style>
         * {
             margin: 0;
@@ -34,6 +34,11 @@
             padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .clear-btn:hover {
+            background: #c0392b;
         }
         
         .main {
@@ -84,10 +89,24 @@
         .resizer {
             background: #ddd;
             cursor: col-resize;
+            position: relative;
+            transition: background 0.2s;
         }
         
         .resizer:hover {
             background: #bbb;
+        }
+        
+        .resizer::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 30px;
+            background: #999;
+            border-radius: 1px;
         }
         
         .preview h1, .preview h2, .preview h3 {
@@ -115,11 +134,45 @@
             margin: 10px 0;
         }
         
-        .placeholder {
-            color: #999;
-            font-style: italic;
-            text-align: center;
-            margin-top: 50px;
+        .preview blockquote {
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            color: #555;
+        }
+        
+        .preview ul, .preview ol {
+            margin: 10px 0 10px 20px;
+        }
+        
+        .preview li {
+            margin: 5px 0;
+        }
+        
+        .preview a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .preview a:hover {
+            text-decoration: underline;
+        }
+        
+        .preview table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        
+        .preview th, .preview td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        .preview th {
+            background: #f8f9fa;
         }
     </style>
 </head>
@@ -165,8 +218,12 @@
         }
         
         function clearEditor() {
+            if (editor.value.trim() !== '' && !confirm('Clear all content?')) {
+                return;
+            }
             editor.value = '';
             updatePreview();
+            editor.focus();
         }
         
         function startResize(e) {
@@ -174,6 +231,8 @@
             document.addEventListener('mousemove', doResize);
             document.addEventListener('mouseup', stopResize);
             document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+            e.preventDefault();
         }
         
         function doResize(e) {
@@ -193,7 +252,25 @@
             document.removeEventListener('mousemove', doResize);
             document.removeEventListener('mouseup', stopResize);
             document.body.style.cursor = '';
+            document.body.style.userSelect = '';
         }
+        
+        // Keyboard shortcuts
+        editor.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
+                editor.selectionStart = editor.selectionEnd = start + 4;
+                updatePreview();
+            }
+        });
+        
+        // Prevent text selection during resize
+        document.addEventListener('selectstart', function(e) {
+            if (isResizing) e.preventDefault();
+        });
         
         updatePreview();
     </script>
