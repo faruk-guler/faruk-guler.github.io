@@ -43,11 +43,3 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
 Saygılarımla. – Best regards.
 ```
 <!-- wp:paragraph -->
-
-
-
-
-
-
-
-
