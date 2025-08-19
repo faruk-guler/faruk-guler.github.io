@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Oturumunuz Gecici Profille Açıldı
-date: 2022-02-19 03:34
+title: Oturumunuz Gecici Profille Acildi
+date: 2022-02-19 07:28
 author: faruk-guler
 comments: true
 categories: [Windows OS]
@@ -11,7 +11,7 @@ categories: [Windows OS]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<strong>Kayıt defteri üzerinde bazı ayarlar ve sorun giderme - Some settings on the registry and troubleshooting
+<strong>Kayıt defteri üzerinde bazı ayarlar ve sorun giderme - Some settings on the registry and troubleshooting.
 <!-- /wp:paragraph -->
 
 <!-- wp:preformatted -->
@@ -37,4 +37,5 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList
 Saygılarımla. – Best regards.
 ```
 <!-- wp:paragraph -->
+
 
