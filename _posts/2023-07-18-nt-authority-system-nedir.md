@@ -1,5 +1,5 @@
 ---
-title: "NT AUTHORITY\SYSTEM nedir?"
+title: "NT AUTHORITY SYSTEM nedir?"
 author: faruk-guler
 categories: [Hacking - Security]
 render_with_liquid: false
@@ -52,3 +52,4 @@ published: true
   font-family: 'Open Sans', sans-serif !important;
 }
 </style>
+
