@@ -1,11 +1,11 @@
 ---
-title: "Ghidra NSA'nın Tersine Mühendislik Araç Seti"
+title: "NT AUTHORITY SYSTEM nedir"
 author: faruk-guler
-date: 2022-11-26 00:44:00 +07:00
-categories: [Reverse Engineering]
-tags: [Reverse Engineering, PoC,]
+categories: [Hacking - Security]
+tags: [windows]
+render_with_liquid: false
 layout: post
-published: true
+published: true  
 ---
 
 <!-- wp:gallery {"linkTo":"none"} -->
@@ -67,3 +67,4 @@ published: true
 <!-- wp:paragraph -->
 <p>Defend yourself, be stay strong. -Faruk GULER</p>
 <!-- /wp:paragraph -->
+
