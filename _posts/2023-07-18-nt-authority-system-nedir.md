@@ -35,7 +35,7 @@ published: true
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>- The SYSTEM account cannot be used to access a computer remotely.</p>
+<p>The SYSTEM account cannot be used to access a computer remotely.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -67,5 +67,6 @@ published: true
 <!-- wp:paragraph -->
 <p>Defend yourself, be stay strong. -Faruk GULER</p>
 <!-- /wp:paragraph -->
+
 
 
