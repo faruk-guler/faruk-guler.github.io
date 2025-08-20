@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Who included a computer in the domain?
+title: Who included a computer in the domain
 date: 2022-05-14 07:10
 author: faruk-guler
 comments: true
@@ -17,7 +17,6 @@ categories: [PowerShell]
 <!-- wp:paragraph -->
 <strong>Examine the NetSetup.log file under the windows\debug folder with an effective user. Do not forget to share the C:\ path of all computers in your network.
 <!-- /wp:paragraph -->
-
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading"><strong>Powershell ISE</strong></h2>
@@ -49,3 +48,4 @@ $list
 ```
 
 <!-- wp:paragraph -->
+
