@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Who included a computer in the domain?
-date: 2022-05-03 09:14
+date: 2022-05-03
 author: faruk-guler
 comments: true
 categories: [PowerShell]
@@ -50,3 +50,4 @@ $list
 <h2 class="wp-block-heading"><strong>Uzak makinelerden Winrm ile talep edebilirsiniz.</strong></h2>
 
 <!-- /wp:paragraph -->
+
