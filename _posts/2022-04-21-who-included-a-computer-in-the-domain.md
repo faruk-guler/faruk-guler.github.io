@@ -1,17 +1,21 @@
 ---
 layout: post
-title: xxxxxxxxxx
+title: Who included a computer in the domain?
 date: 2022-05-14 07:10
 author: faruk-guler
 comments: true
-categories: [Windows OS]
+categories: [PowerShell]
 ---
 <!-- wp:image {"id":333,"width":414,"height":233,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" width="414" height="233" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<strong>Yetkili bir kullanıcı ile windows\debug klasörü altındaki NetSetup.log dosyasını inceler, Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız. Examine the NetSetup.log file under the windows\debug folder with an effective user. Do not forget to share the C:\ path of all computers in your network.
+<strong>Yetkili bir kullanıcı ile windows\debug klasörü altındaki NetSetup.log dosyasını inceler, Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız.
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<strong>Examine the NetSetup.log file under the windows\debug folder with an effective user. Do not forget to share the C:\ path of all computers in your network.
 <!-- /wp:paragraph -->
 
 
@@ -43,4 +47,5 @@ Get-ADComputer  -Filter * | foreach {
 }
 $list
 ```
+
 <!-- wp:paragraph -->
