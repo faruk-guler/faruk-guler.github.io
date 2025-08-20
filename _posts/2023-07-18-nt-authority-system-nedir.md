@@ -1,5 +1,5 @@
 ---
-title: "NT AUTHORITY SYSTEM nedir?"
+title: "NT AUTHORITY SYSTEM Nedir"
 author: faruk-guler
 categories: [Hacking - Security]
 tags: [windows]
@@ -28,4 +28,5 @@ Information:
 
 Important: Due to the privileges of the SYSTEM account, it is important that only authorized users use this account. Access to the SYSTEM account by unauthorized users may compromise the security and integrity of the system.
 
-## Defend yourself, be stay strong. -Faruk GULER
+**Defend yourself, be stay strong. -Faruk GULER**
+
