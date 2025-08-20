@@ -1,7 +1,7 @@
 ---
 layout: post
 title: xxxxxxxxxx
-date: 2022-05-14 07:10
+date: 2022-05-07
 author: faruk-guler
 comments: true
 categories: [Windows OS]
@@ -43,4 +43,5 @@ Get-ADComputer  -Filter * | foreach {
 }
 $list
 ```
+
 <!-- wp:paragraph -->
