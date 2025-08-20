@@ -1,6 +1,6 @@
 ---
 layout: post
-title: NT AUTHORITY SYSTEM Nedir
+title: Nt Authority System Nedir
 date: 2022-04-05 15:43
 tag: [windows]
 author: faruk-guler
@@ -30,3 +30,4 @@ Cannot be created or deleted by the user: The SYSTEM account is automatically cr
 <!-- wp:paragraph -->
 <p>Defend yourself, be stay strong.<strong><strong>-Faruk</strong> GULER</strong></p>
 <!-- /wp:paragraph -->
+
