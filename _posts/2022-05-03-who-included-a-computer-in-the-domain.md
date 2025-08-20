@@ -1,32 +1,27 @@
 ---
 layout: post
-title: Who included a computer in the domain
+title: "Who included a computer in the domain"
 date: 2022-05-03
 author: faruk-guler
 comments: true
 categories: [PowerShell]
+tags: [powershell, active-directory, domain]
 ---
-<!-- wp:image {"id":333,"width":414,"height":233,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" width="414" height="233" /></figure>
-<!-- /wp:image -->
 
-<!-- wp:paragraph -->
-<p><strong>Yetkili bir kullanıcı ile C:\Windows\Debug klasörü altındaki NetSetup.log dosyasını inceleyerek tespit etmeye çalışınız. Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız.</strong></p>
+![PowerShell Logo](https://farukguler.com/assets/post_images/powershell-4-sdn.jpg)
 
-<p><strong>Examine the NetSetup.log file under the C:\Windows\Debug folder with an authorized user. Do not forget to share the C:\ path of all computers in your network.</strong></p>
+## Giriş
 
-<!-- /wp:paragraph -->
+**Yetkili bir kullanıcı ile C:\Windows\Debug klasörü altındaki NetSetup.log dosyasını inceleyerek tespit etmeye çalışınız. Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız.**
 
-<!-- wp:heading -->
-<h2 class="wp-block-heading"><strong>Powershell ISE</strong></h2>
-<!-- /wp:heading -->
+**Examine the NetSetup.log file under the C:\Windows\Debug folder with an authorized user. Do not forget to share the C:\ path of all computers in your network.**
 
-<!-- wp:preformatted -->
-```bash
+## PowerShell ISE
+
+```powershell
 $NoInfo = $null
 $Offline = $null
 $List = $null
-
 #Get-Content getir.txt | foreach {
 Get-ADComputer  -Filter * | foreach {
     $FQDN = $_.DNSHostName 
@@ -37,7 +32,6 @@ Get-ADComputer  -Filter * | foreach {
             $User = ($($(Select-String -Path $Path -Pattern "lpAccount: " -CaseSensitive)  -split " ")[3])
             $User
             [array]$List += Write-Output $FQDN";"$User
-
         } 
     else {[array]$NoInfo += $FQDN}
     } 
@@ -45,10 +39,23 @@ Get-ADComputer  -Filter * | foreach {
 }
 $list
 ```
-<!-- wp:paragraph -->
 
-<h2 class="wp-block-heading"><strong>Uzak makinelerden Winrm ile talep edebilirsiniz.</strong></h2>
+## Uzak Makinelerden WinRM ile Erişim
 
-<!-- /wp:paragraph -->
+Uzak makinelerden Winrm ile talep edebilirsiniz.
 
+```powershell
+# WinRM ile alternatif yöntem
+Invoke-Command -ComputerName $ComputerName -ScriptBlock {
+    if (Test-Path "C:\Windows\Debug\NetSetup.log") {
+        Select-String -Path "C:\Windows\Debug\NetSetup.log" -Pattern "lpAccount: " -CaseSensitive | Select-Object -Last 1
+    }
+}
+```
 
+## Notlar
+
+- Bu script, domain'e katılan bilgisayarlarda hangi kullanıcı hesabının kullanıldığını tespit eder
+- NetSetup.log dosyası domain join/unjoin işlemlerini kaydeder
+- Yönetici yetkisi gereklidir
+- Network paylaşımları aktif olmalıdır
