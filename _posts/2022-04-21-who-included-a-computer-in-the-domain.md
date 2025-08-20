@@ -11,7 +11,10 @@ categories: [PowerShell]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>Yetkili bir kullanıcı ile windows\debug klasörü altındaki NetSetup.log dosyasını inceleyerek tespit etmeye çalışır, Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız. Examine the NetSetup.log file under the windows\debug folder with an effective user. Do not forget to share the C:\ path of all computers in your network.</p>
+<p><strong>Yetkili bir kullanıcı ile C:\Windows\Debug klasörü altındaki NetSetup.log dosyasını inceleyerek tespit etmeye çalışınız. Ağınızdaki tüm bilgisayarların C:\ yolunu paylaşıma açmayı unutmayınız.</strong></p>
+
+<p><strong>Examine the NetSetup.log file under the C:\Windows\Debug folder with an authorized user. Do not forget to share the C:\ path of all computers in your network.</strong></p>
+
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
@@ -43,5 +46,7 @@ Get-ADComputer  -Filter * | foreach {
 $list
 ```
 <!-- wp:paragraph -->
-<h2 class="wp-block-heading"><strong>#Uzak makinelerden Winrm ile talep edebilirsiniz.</strong></h2>
+
+<h2 class="wp-block-heading"><strong>Uzak makinelerden Winrm ile talep edebilirsiniz.</strong></h2>
+
 <!-- /wp:paragraph -->
