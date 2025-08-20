@@ -8,7 +8,9 @@ layout: post
 published: true  
 ---
 
-![Resim](https://farukguler.com/assets/post_images/nt-user.jpg)
+<div class="center">
+  <img src="https://farukguler.com/assets/post_images/nt-user.jpg" alt="NT AUTHORITY SYSTEM">
+</div>
 
 “NT AUTHORITY\SYSTEM” refers to the user account with the highest privileges on the system in Windows NT and later versions. This account is used by the operating system to execute or manage a program or process. The “SYSTEM” account has a much higher level of permissions and authorities than regular user accounts. Access to this account is typically used for operations required at the administrator level.
 
@@ -24,23 +26,6 @@ Information:
 - Backup and Restore: Backup software can usually access and back up all files and folders using the “NT AUTHORITY\SYSTEM” account.
 - Security: This account has the highest security privileges in the system. Therefore, malwares may try to take over this account.
 
-
-
 Important: Due to the privileges of the SYSTEM account, it is important that only authorized users use this account. Access to the SYSTEM account by unauthorized users may compromise the security and integrity of the system.
 
 ## Defend yourself, be stay strong. -Faruk GULER
-
-<style>
-
-.center img {
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
-}
-.wrap pre{
-    white-space: pre-wrap;
-}
-.post-desc {
-  font-family: 'Open Sans', sans-serif !important;
-}
-</style>
