@@ -2,9 +2,9 @@
 layout: post
 title: Who included a computer in the domain?
 date: 2023-04-17 16:35
-author: faruk guler
+author: faruk-guler
 comments: true
-categories: [Windows Group Policy GPO]
+categories: [PowerShell]
 ---
 <!-- wp:image {"id":333,"width":414,"height":233,"sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=1024" alt="" class="wp-image-333" style="width:414px;height:233px" width="414" height="233" /></figure>
