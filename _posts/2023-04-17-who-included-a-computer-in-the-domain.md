@@ -2,7 +2,7 @@
 layout: post
 title: Who included a computer in the domain?
 date: 2023-04-17 16:35
-author: faruk-guler
+author: faruk guler
 comments: true
 categories: [Windows Group Policy GPO]
 ---
