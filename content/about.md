@@ -17,6 +17,6 @@ Here's a few things I have worked with -
 - Python
 - Flutter
 
-I build stuff for fun, some which are available on my [Github](https://github.com/saurabhmittal16) profile. Some of my projects can be found [here](/projects).
+I build stuff for fun, some which are available on my [Github](https://github.com/faruk-guler) profile. Some of my projects can be found [here](/projects).
 
 I enjoy participating in CTF challenges under the name [@sorvast](https://ctftime.org/team/109717) (_just a beginner_)
