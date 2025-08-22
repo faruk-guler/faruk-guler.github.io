@@ -2,7 +2,8 @@ baseURL = "https://faruk-guler.github.io/"
 languageCode = "en"
 title = "Faruk Güler Blog"
 theme = "hello-friend-ng"
-paginate = 10
+[pagination]
+  pagerSize = 10
 defaultContentLanguage = "en"
 
 [params]
