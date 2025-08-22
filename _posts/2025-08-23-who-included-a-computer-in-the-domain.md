@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Who included a computer in the domain?
+title: "Who included a computer in the domain"
 date: 2025-08-23 00:51
 author: faruk-guler
 comments: true

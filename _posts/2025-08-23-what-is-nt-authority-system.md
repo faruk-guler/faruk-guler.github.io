@@ -1,10 +1,10 @@
 ---
 layout: post
-title: NT AUTHORITY SYSTEM Nedir?
+title: "NT AUTHORITY SYSTEM Nedir"
 date: 2025-08-23 00:51
 author: faruk-guler
 comments: true
-categories: [Windows]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":15489,"width":"516px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://sddfder.wordpress.com/wp-content/uploads/2024/12/large_files_.png?w=625" alt="" class="wp-image-15489" style="width:516px;height:auto" /></figure>
