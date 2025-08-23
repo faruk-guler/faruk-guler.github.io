@@ -1,5 +1,0 @@
-{{ range .Site.RegularPages }}
-# {{ .Title }}
-
-{{ .RawContent }}
-{{- end -}}
