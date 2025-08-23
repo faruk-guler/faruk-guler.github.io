@@ -1,64 +1,225 @@
-baseURL = 'farukguler.com'
-languageCode = 'zh-cn'
-title = 'faruk-guler'
-theme = 'hello-friend-ng'
-pagination.pagerSize = 10
+# THIS IS THE CONFIGURATION FILE FOR HUGO.
 
-[params]
-author = "faruk-guler"
-user = "faruk-guler"
-hostname = "farukguler.com"
-#homeSubtitle = "// TODO"
-enableSharingButtons = true
 
-dateform = "Jan 2, 2006"
-dateformShort = "Jan 2"
-dateformNum = "2006-01-02"
-dateformNumTime = "2006-01-02 15:04"
+languageCode = 'en' # This is what goes in <html lang="">
+baseURL = 'https://dandylyons.net'
+title = 'Daniel Lyons'
 
-[params.logo]
-logoText = "faruk-guler"
-logoHomeLink = "/"
+# This defines how dates are formatted
+defaultContentLanguage = "en-gb"
+
+# Enable emojis globally
+enableEmoji = true
+ignoreErrors = ["additional-script-loading-error"] # ignore error of loading additional scripts.
+
+
+################# DEPENDENCIES ################################
+# I've found 4 ways to add dependencies to a hugo project: 
+# 1. A hugo submodule
+# 2. A git submodule using `git submodule add`
+# 3. git cloning a theme into the themes/ directory
+# 4. manually dragging in your dependency
+# as of 2024-07-27 this project uses the git submodule method
+
+# traditional way: theme component resides in directory 'themes' 
+theme = "hugo-blog-awesome"
+
+# # modern way: pull in theme component as hugo module
+# [module]
+#   # Uncomment the next line to build and serve using local theme clone declared in the named Hugo workspace:
+#   # workspace = "hugo-blog-awesome.work"
+#   [module.hugoVersion]
+#     extended = true
+#     min = "0.87.0"
+#   [[module.imports]]
+#     path = "github.com/hugo-sid/hugo-blog-awesome"
+#     disable = false
+
+[frontmatter]
+  format = "yaml" 
 
 [taxonomies]
-category = "blog"
-tag = "tags"
-series = "series"
+  series = "series" # blog series
+  topics = "topics"
 
-
-[[menu.main]]
-# weight = "1"
-identifier = "blog"
-name = "Blog"
-url = "/posts/"
-
-[[menu.main]]
-# weight = "0"
-identifier = "about"
-name = "About"
-url = "/about"
-
-# 社交网络链接
-[[params.social]]
-key = 0
-name = "github"
-url = "https://github.com/faruk-guler"
-
-[[params.social]]
-key = 1
-name = "twitter"
-url = "https://twitter.com/faruk-guler"
-
-[[params.social]]
-key = 2
-name = "linkedin"
-url = "https://www.linkedin.cn/in/yuan-yuan-1b820570"
-
-[[params.social]]
-key = 3
-name = "email"
-url = "mailto:faruk-guler+blog@gmail.com"
+[permalinks]
+  series = "/posts/series/:slug/"
+  topics = "/topics/:slug/"
 
 [services]
+# To enable Google Analytics 4 (gtag.js) provide G-MEASUREMENT_ID below.
+# To disable Google Analytics, simply leave the field empty or remove the next two lines
+  [services.googleAnalytics]
+    id = 'G-Q45HSMM0MJ' # G-MEASUREMENT_ID
+
+# To enable Disqus comments, provide Disqus Shortname below.
+# To disable Disqus comments, simply leave the field empty or remove the next two lines
   [services.disqus]
-    shortname = 'faruk-guler'
+    shortname = ''
+
+# set markup.highlight.noClasses=false to enable code highlight
+[markup]
+  [markup.highlight]
+    noClasses = false
+  [markup.goldmark.renderer]
+    unsafe = true
+	[markup.tableOfContents]
+		startLevel = 2 # ToC starts from H2
+		endLevel = 4 # ToC ends at H4
+		ordered = false # generates <ul> instead of <ol>
+
+############################## English language ################################
+[Languages.en-gb]
+  languageName = "English"
+  languageCode = "en-gb"
+  contentDir = "content/en-gb"
+  weight = 1
+
+  [Languages.en-gb.menu]
+  [[Languages.en-gb.menu.main]]
+    # The page reference (pageRef) is useful for menu highlighting
+    # When pageRef is set, setting `url` is optional; it will be used as a fallback if the page is not found.
+    pageRef="/"
+    name = 'Home'
+    url = '/'
+    weight = 10
+  [[Languages.en-gb.menu.main]]
+    # pageRef="about"
+    name = 'About'
+    url = '/about/'
+    weight = 20
+  [[Languages.en-gb.menu.main]]
+    # pageRef="essays"
+    name = 'Essays'
+    url = '/essays/' # Added URL for Essays menu item
+    weight = 30
+  [[Languages.en-gb.menu.main]]
+    # pageRef="projects"
+    name = 'Thoughts'
+    url = '/thoughts/'
+    weight = 40
+  [[Languages.en-gb.menu.main]]
+    pageRef="posts"
+    name = 'Posts'
+    url = '/posts/'
+    weight = 50
+  [[Languages.en-gb.menu.main]]
+    pageRef="projects"
+    name = 'Projects'
+    url = '/projects/'
+    weight = 60
+  [[Languages.en-gb.menu.main]]
+    # pageRef="projects"
+    name = 'Notes'
+    url = '/notes/'
+    weight = 70
+
+
+[Languages.en-gb.params]
+  sitename = "Daniel Lyons"
+  defaultColor = "auto" # set color mode: dark, light, auto
+  # Setting it to 'auto' applies the color scheme based on the visitor's device color preference.If you don't specify anything, ignore this parameter, or leave it blank,
+  # the default value is set to 'auto'.
+  # You can take a look at layouts/index.html for more information.
+  description = "The personal site of Daniel Lyons."
+  mainSections = ['posts', 'thoughts', 'essays'] # sections to be included in the main menu
+  toc = true # set to false to disable table of contents 'globally'
+  tocOpen = false # set to true to open table of contents by default
+  goToTop = true # set to false to disable 'go to top' button
+  additionalScripts = ['js/custom.js', 'js/custom-2.js']
+  # Will try to load 'assets/js/custom.js' and 'assets/js/custom-2.js'.
+  # Your custom scripts will be concatenated to one file `custom.js`.
+  # When building for production it will be minified.
+  # The file `custom.js` is loaded on each page (before body tag ends).
+  dateFormat = "2006-01-02" # date format used to show dates on various pages. If nothing is specified, then "2 Jan 2006" format is used.
+  # See https://gohugo.io/functions/format/#hugo-date-and-time-templating-reference for available date formats.
+  rssFeedDescription = "full" # available options: 1) summary 2) full
+  # summary - includes a short summary of the blog post in the RSS feed. Generated using Hugo .Summary .
+  # full - includes full blog post in the RSS feed. Generated using Hugo .Content .
+  # By default (or if nothing is specified), summary is used.
+  defaultSocialImage = "/images/site-social-preview.jpeg"
+
+[Languages.en-gb.params.author]
+  avatar = "DanielLyons.png" # put the file in assets folder; also ensure that image has same height and width
+  # Note: image is not rendered if the resource(avatar image) is not found. No error is displayed.
+  intro = "Daniel Lyons"
+  name = "Daniel Lyons"
+  description = "Developer, specializing in Swift and Apple Platforms"
+
+# Allow to override webmanifest options
+[Languages.en-gb.params.webmanifest]
+  name = "Daniel Lyons" # will use "params.sitename" or "title" by default
+  short_name = "daniellyons" # same as name
+  start_url = "/" # will use homepage url by default
+  theme_color = "#434648" # default is "#434648" (base color of text). Also will override html `<meta name="theme-color" />`
+  background_color = "#fff" # by default depend on "params.defaultColor" for "light" or "auto" will be set to "#fff" for dark will be "#131418" (color of dark mode background)
+  display = "standalone"
+
+# MARK: Params
+
+# Allow to override `browserconfig.xml` params (configuration for windows embedded browsers)
+[params.browserconfig]
+  TileColor = "#2d89ef" # default windows 10 blue tile color
+
+
+## Social Icons
+## See: https://github.com/hugo-sid/hugo-blog-awesome#adding-social-icons
+[[params.socialIcons]]
+name = "RSS"
+url = "/posts/index.xml"
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/DandyLyons"
+
+[[params.socialIcons]]
+name = "mastodon"
+url = "https://iosdev.space/@dandylyons"
+
+[[params.socialIcons]]
+name = "bluesky"
+url = "https://bsky.app/profile/dan-dee-lyons.bsky.social"
+
+# [[params.socialIcons]]
+# name = "email"
+# url = "mailto://daniellyons500@gmail.com"
+
+# [[params.socialIcons]]
+# name = "dev"
+# url = "https://dev.to/dandylyons"
+
+[[params.socialIcons]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/dandylyons/"
+
+
+
+[[params.socialIcons]]
+name = "medium"
+url = "https://medium.com/@_DandyLyons"
+
+[[params.socialIcons]]
+name = "x"
+url = "https://x.com/dan_dee_lyons"
+
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+
+# OUTPUTS
+[outputs]
+home = ["HTML", "RSS", "llms", "llms-full"]
+
+# generates dandylyons.net/llms.txt
+# SEE: https://glaforge.dev/posts/2025/03/03/llms-txt-to-help-llms-grok-your-content/
+[outputFormats.llms]
+baseName = "llms"
+mediaType = "text/plain"
+isPlainText = true
+
+# generates dandylyons.net/llms-full.txt
+[outputFormats.llms-full]
+baseName = "llms-full"
+mediaType = "text/plain"
+isPlainText = true
+
