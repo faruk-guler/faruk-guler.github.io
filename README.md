@@ -1,1 +1,1 @@
-www.farukguler.com
+web page
