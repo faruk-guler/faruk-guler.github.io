@@ -2,7 +2,7 @@ baseURL: "https://faruk-guler.github.io"
 title: FurkanYILMAZ.ME
 pagination:
   pagerSize: 10
-theme: PaperMod
+theme: github.com/adityatelange/hugo-PaperMod
 defaultContentLanguage: "tr"
 
 module:
