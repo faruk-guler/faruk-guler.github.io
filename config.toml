@@ -3,7 +3,7 @@ title   = "Saurabh Mittal"
 
 DefaultContentLanguage = "en"
 
-theme = "hello-friend-ng"
+theme = "github.com/rhazdon/hugo-theme-hello-friend-ng"
 
 PygmentsCodeFences = true
 PygmentsStyle = "monokai"
