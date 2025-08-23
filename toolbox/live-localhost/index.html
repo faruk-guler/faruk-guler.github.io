@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Localhosting Tool</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    #editor-container, #output-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+    #editor {
+      width: 100%;
+      flex: 1;
+      box-sizing: border-box;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      border: none;
+      border-right: 1px solid #ccc;
+      resize: none;
+    }
+    #output {
+      flex: 1;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="editor-container">
+    <textarea id="editor" placeholder="HTML kodunuzu buraya yazın..."></textarea>
+  </div>
+  <div id="output-container">
+    <iframe id="output"></iframe>
+  </div>
+
+  <script>
+    function updateOutput() {
+      var htmlContent = document.getElementById('editor').value;
+      document.getElementById('output').srcdoc = htmlContent;
+    }
+
+    // Otomatik güncelleme için event listener
+    document.getElementById('editor').addEventListener('input', updateOutput);
+
+    // Başlangıçta örnek içerik
+    document.getElementById('editor').value = "<h1>Merhaba Dünya!</h1>\n<p>Bu, canlı HTML test aracınızın örnek içeriğidir.</p>";
+    updateOutput();
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<title>Base64 Decode/Encode Tool</title>
+<div id="base64-tool">
+  <h2>Base64 Decode/Encode Tool -farukguler.com</h2>
+  <textarea id="textInput" placeholder="Metni girin"></textarea>
+  <br>
+  <button onclick="encodeBase64()">Encode</button>
+  <button onclick="decodeBase64()">Decode</button>
+  <pre id="output"></pre>
+</div>
+
+<script>
+  function encodeBase64() {
+    let input = document.getElementById('textInput').value;
+    document.getElementById('output').textContent = btoa(input);
+  }
+
+  function decodeBase64() {
+    let input = document.getElementById('textInput').value;
+    try {
+      document.getElementById('output').textContent = atob(input);
+    } catch {
+      document.getElementById('output').textContent = "Geçersiz Base64 formatı!";
+    }
+  }
+</script>
