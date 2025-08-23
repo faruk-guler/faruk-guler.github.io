@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hi, I&#39;m Ela.</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Hi, I&#39;m Ela.</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 02 Jul 2025 20:10:37 -0500</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Resume</title>
+      <link>http://localhost:1313/resume/</link>
+      <pubDate>Wed, 02 Jul 2025 20:10:37 -0500</pubDate>
+      <guid>http://localhost:1313/resume/</guid>
+      <description>&lt;p&gt;Highly motivated, team-oriented software engineer with a track record of developing tools to address novel scientific problems and leading teams in both technical and community settings. Capacity to learn rapidly and commitment to excellence have allowed contributions in neurotechnology, neuroscientific research, defense systems, and data storage infrastructure. Seeking opportunities to learn from expert engineers while contributing to cutting-edge technology.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;SKILLS&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Languages:&lt;/em&gt; Python, Java, Rust, SQL, JavaScript, Typescript&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Tools/Frameworks:&lt;/em&gt; Git, HTML, CSS, React, Bootstrap, Flask, SQLAlchemy, GCP, Postman API, RxJava, Jenkins, Pytorch, Tensorflow&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>About me</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Tue, 02 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Highly motivated, team-oriented software engineer with a track record of developing tools to address novel scientific problems and leading teams in both technical and community settings. Capacity to learn rapidly and commitment to excellence have allowed contributions in neurotechnology, neuroscientific research, defense systems, and data storage infrastructure. Seeking opportunities to learn from expert engineers while contributing to cutting-edge technology.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;My background&amp;hellip;&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;Originally, I didn&amp;rsquo;t go to college with the goal of becoming a software engineer. I went to UT Austin (hook &amp;rsquo;em horns!) and started out as a Neuroscience major on the pre-medical school track. I was always very interested in cognition and the human brain, and I thought the next logical step would be medical school. I finally took my dad&amp;rsquo;s advice (who is a software engineer himself) and enrolled in my first intro level Python programming class during my sophomore year of college. Once I had my first major &amp;ldquo;aha!&amp;rdquo; moment when everything we learned in class clicked and I realized how much fun I have solving problems, I had to keep chasing that feeling. I immediately dropped my pre-med status and started studying Computer Science alongside Neuroscience.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
