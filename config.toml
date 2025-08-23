@@ -1,0 +1,64 @@
+baseURL = 'yuanis.me'
+languageCode = 'zh-cn'
+title = 'twiceYuan'
+theme = 'hello-friend-ng'
+pagination.pagerSize = 10
+
+[params]
+author = "twiceYuan"
+user = "twiceYuan"
+hostname = "yuanis.me"
+#homeSubtitle = "// TODO"
+enableSharingButtons = true
+
+dateform = "Jan 2, 2006"
+dateformShort = "Jan 2"
+dateformNum = "2006-01-02"
+dateformNumTime = "2006-01-02 15:04"
+
+[params.logo]
+logoText = "twiceYuan"
+logoHomeLink = "/"
+
+[taxonomies]
+category = "blog"
+tag = "tags"
+series = "series"
+
+
+[[menu.main]]
+# weight = "1"
+identifier = "blog"
+name = "Blog"
+url = "/posts/"
+
+[[menu.main]]
+# weight = "0"
+identifier = "about"
+name = "About"
+url = "/about"
+
+# 社交网络链接
+[[params.social]]
+key = 0
+name = "github"
+url = "https://github.com/twiceyuan"
+
+[[params.social]]
+key = 1
+name = "twitter"
+url = "https://twitter.com/twiceYuan"
+
+[[params.social]]
+key = 2
+name = "linkedin"
+url = "https://www.linkedin.cn/in/yuan-yuan-1b820570"
+
+[[params.social]]
+key = 3
+name = "email"
+url = "mailto:twiceyuan+blog@gmail.com"
+
+[services]
+  [services.disqus]
+    shortname = 'twiceyuan'

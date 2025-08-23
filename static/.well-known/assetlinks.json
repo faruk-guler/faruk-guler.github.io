@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.twiceyuan.passkeydemo",
+      "sha256_cert_fingerprints": [
+        "D6:45:22:BD:B3:C9:24:E0:C9:BB:23:0F:A1:51:C2:5A:12:A0:3B:8B:3C:37:0E:0B:46:E2:17:10:3B:DD:8F:50"
+      ]
+    }
+  }
+]
