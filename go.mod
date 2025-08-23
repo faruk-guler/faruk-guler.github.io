@@ -1,4 +1,4 @@
-module github.com/Rhino-Nine/Rhino-Nine.github.io
+module github.com/faruk-guler/faruk-guler.github.io
 
 go 1.23.2
 

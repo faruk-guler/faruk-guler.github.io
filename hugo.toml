@@ -1,5 +1,5 @@
 title = '犀谭'
-baseURL = 'https://ariesnine.cn/'
+baseURL = 'https://farukguler.com/'
 languageCode = 'en-us'
 enableEmoji = true
 ignoreErrors = ["additional-script-loading-error"] 
@@ -67,7 +67,7 @@ category = "categories"
 
 [[params.socialIcons]]
 name = "github"
-url = "https://github.com/Rhino-Nine"
+url = "https://github.com/faruk-guler"
 
 [[params.socialIcons]]
 name = "Rss"
