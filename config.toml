@@ -1,0 +1,64 @@
+baseURL = 'farukguler.com'
+languageCode = 'zh-cn'
+title = 'faruk-guler'
+theme = 'hello-friend-ng'
+pagination.pagerSize = 10
+
+[params]
+author = "faruk-guler"
+user = "faruk-guler"
+hostname = "farukguler.com"
+#homeSubtitle = "// TODO"
+enableSharingButtons = true
+
+dateform = "Jan 2, 2006"
+dateformShort = "Jan 2"
+dateformNum = "2006-01-02"
+dateformNumTime = "2006-01-02 15:04"
+
+[params.logo]
+logoText = "faruk-guler"
+logoHomeLink = "/"
+
+[taxonomies]
+category = "blog"
+tag = "tags"
+series = "series"
+
+
+[[menu.main]]
+# weight = "1"
+identifier = "blog"
+name = "Blog"
+url = "/posts/"
+
+[[menu.main]]
+# weight = "0"
+identifier = "about"
+name = "About"
+url = "/about"
+
+# 社交网络链接
+[[params.social]]
+key = 0
+name = "github"
+url = "https://github.com/faruk-guler"
+
+[[params.social]]
+key = 1
+name = "twitter"
+url = "https://twitter.com/faruk-guler"
+
+[[params.social]]
+key = 2
+name = "linkedin"
+url = "https://www.linkedin.cn/in/yuan-yuan-1b820570"
+
+[[params.social]]
+key = 3
+name = "email"
+url = "mailto:faruk-guler+blog@gmail.com"
+
+[services]
+  [services.disqus]
+    shortname = 'faruk-guler'
