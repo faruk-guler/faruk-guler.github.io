@@ -1,0 +1,75 @@
+body {
+    --banana-yellow: #fddc85;
+    --banana-orange: #ffbd66;
+    --banana-orange-brown: #f1bb6b;
+}
+
+.experience-heading {
+    margin-bottom: 0 !important;
+}
+
+.experience-company {
+    color: var(--banana-orange-brown);
+    font-weight: bold;
+    margin-top: unset;
+}
+
+.experience-dates {
+    margin-bottom: unset;
+    text-align: right;
+}
+
+.experience-location {
+    font-style: italic;
+    margin-top: unset;
+    text-align: right;
+}
+
+#logo-wrapper {
+    width: 100%;
+    position: relative;
+}
+
+#logo-wrapper img {
+    max-width: 100%;
+}
+
+#anchor-banana {
+    /*border: 1px solid var(--banana-yellow);*/
+    height: 58%;
+    width: 6.75%;
+    position: absolute;
+    left: 51.1%;
+    top: 28%;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center; /* Vertically align image and text */
+}
+
+.image-container {
+    width: 50px; /* Fixed width for the image container */
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center; /* Vertically center the SVG within its container */
+    justify-content: center; /* Horizontally center the SVG within its container */
+}
+
+.image-container img {
+    max-width: 100%; /* Ensure SVG doesn't overflow its container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.text-container {
+    margin-left: 30px; /* Adjust spacing between image and text */
+}
+
+[data-theme=dark] .image-container img {
+    /* Thanks @ https://angel-rs.github.io/css-color-filter-generator/ */
+    filter: brightness(0) saturate(100%) invert(73%) sepia(6%) saturate(286%) hue-rotate(202deg) brightness(91%) contrast(98%);
+}
+
+[data-theme=light] .image-container img {
+    filter: brightness(0) saturate(100%) invert(4%) sepia(36%) saturate(404%) hue-rotate(314deg) brightness(97%) contrast(80%);
+}
