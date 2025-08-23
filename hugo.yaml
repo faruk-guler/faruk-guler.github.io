@@ -1,6 +1,6 @@
 baseURL: "https://faruk-guler.github.io"
 title: FurkanYILMAZ.ME
-theme = "PaperMod"
+theme: PaperMod
 pagination:
   pagerSize: 10
 defaultContentLanguage: "tr"
