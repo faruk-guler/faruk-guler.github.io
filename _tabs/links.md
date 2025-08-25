@@ -8,7 +8,7 @@ order: 2
 https://archive.org (Wayback Machine)  
 https://www.diffchecker.com (Comparing Tool)  
 https://cheatsheets.zip 🌹🌹🌹🌹🌹🌹  
-https://quickref.me  
+https://openguessr.com/
 https://www.revshells.com  
 https://www.oracle.com/cloud/  
 https://linuxjourney.com  
