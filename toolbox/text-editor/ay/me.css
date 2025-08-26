@@ -1,0 +1,136 @@
+body {
+	background:#c8d8ee;
+}
+
+
+.navbar {
+    border-radius:0
+}
+
+.navbar-header {
+  width:400px
+}
+
+.navbar-default { 
+	background:#1976d2;
+    border:none;
+    border-radius:none
+}
+.navbar-default img {
+  height:60px;
+}
+
+a.navbar-brand {
+	color:#fff !important;
+    border-radius:3px;
+    font-family:trebuchet ms;
+    font-size:20px;
+}
+
+#motto { padding-top:10px;display:inline-block; color:#fff; font: italic 14px sans-serif}
+
+#social {font-size:1px; text-align:right; padding-bottom:10px;}
+
+.navbar-nav a {
+	color:#fff !important;
+    border-radius:3px
+}
+
+.navbar-nav a:hover {
+	background:#f47932 !important;
+}
+
+#btn-nightmode {
+	margin:20px;
+    font-size: 20px;
+    color: white;
+}
+
+.box {
+	background:#fff;
+	padding:20px; 
+    border-radius:2px
+}
+
+#girilenMetin {
+	width:100%;
+	height:300px
+}
+
+#siteAdresi {
+    color:#fff;
+    float:left;
+    font:normal 20px verdana;
+}
+
+.gri-fon {
+	background:#e0e0ff;
+	padding:10px
+}
+
+.form-control {
+	border-radius:0
+}
+
+.btn, .btn:active {
+	background:#779;
+	color:#fff !important;
+	border-radius:2px;
+	margin-bottom:2px;
+}
+
+.btn:hover {
+	background:#1870ab;
+	color:#fff
+}
+
+.aciklama {
+    font-family:Verdana;
+    line-height:150%
+}
+
+#footer {
+  text-align:center
+}
+
+
+/* ------------------------------ /
+/         night mode              /
+/  ----------------------------- */
+
+body.nightMode {
+    background:#18191d;
+    color:#cfd4d7;
+}
+
+.nightMode a, .nightMode a:visited {
+    color:#64b5f6
+}
+
+.nightMode a:active, .nightMode a:hover {
+    color:yellow
+}
+
+
+.nightMode .navbar-default {
+    background:#3b4652;
+}
+
+
+.nightMode .box {
+	background:#333944
+	
+}
+
+.nightMode .gri-fon {
+    background: #223;
+}
+
+.nightMode .form-control{
+	background:#000;
+	color:#eee
+}
+
+
+
+

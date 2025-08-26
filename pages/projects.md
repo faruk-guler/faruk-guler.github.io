@@ -1,5 +1,0 @@
-# Projects
-
-<br>
-
-! Projects List !

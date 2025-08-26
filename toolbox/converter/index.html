@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Byte Çevirici - Bytes, KB, MB, GB, TB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin: auto;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Data Conversion -farukguler.com</h2>
+    <label>Bit</label>
+    <input type="number" id="bit" oninput="convertFromBit()">
+
+    <label>Byte</label>
+    <input type="number" id="byte" oninput="convertFromByte()">
+
+    <label>Kilobyte (KB)</label>
+    <input type="number" id="kb" oninput="convertFromKB()">
+
+    <label>Megabyte (MB)</label>
+    <input type="number" id="mb" oninput="convertFromMB()">
+
+    <label>Gigabyte (GB)</label>
+    <input type="number" id="gb" oninput="convertFromGB()">
+
+    <label>Terabyte (TB)</label>
+    <input type="number" id="tb" oninput="convertFromTB()">
+
+    <button onclick="resetFields()">Sıfırla</button>
+</div>
+
+<script>
+    function convertFromBit() {
+        let bit = parseFloat(document.getElementById("bit").value) || 0;
+        document.getElementById("byte").value = formatNumber(bit / 8);
+        document.getElementById("kb").value = formatNumber(bit / 8192);
+        document.getElementById("mb").value = formatNumber(bit / 8388608);
+        document.getElementById("gb").value = formatNumber(bit / 8589934592);
+        document.getElementById("tb").value = formatNumber(bit / 8796093022208);
+    }
+
+    function convertFromByte() {
+        let byte = parseFloat(document.getElementById("byte").value) || 0;
+        document.getElementById("bit").value = formatNumber(byte * 8);
+        document.getElementById("kb").value = formatNumber(byte / 1024);
+        document.getElementById("mb").value = formatNumber(byte / 1048576);
+        document.getElementById("gb").value = formatNumber(byte / 1073741824);
+        document.getElementById("tb").value = formatNumber(byte / 1099511627776);
+    }
+
+    function convertFromKB() {
+        let kb = parseFloat(document.getElementById("kb").value) || 0;
+        document.getElementById("bit").value = formatNumber(kb * 8192);
+        document.getElementById("byte").value = formatNumber(kb * 1024);
+        document.getElementById("mb").value = formatNumber(kb / 1024);
+        document.getElementById("gb").value = formatNumber(kb / 1048576);
+        document.getElementById("tb").value = formatNumber(kb / 1073741824);
+    }
+
+    function convertFromMB() {
+        let mb = parseFloat(document.getElementById("mb").value) || 0;
+        document.getElementById("bit").value = formatNumber(mb * 8388608);
+        document.getElementById("byte").value = formatNumber(mb * 1048576);
+        document.getElementById("kb").value = formatNumber(mb * 1024);
+        document.getElementById("gb").value = formatNumber(mb / 1024);
+        document.getElementById("tb").value = formatNumber(mb / 1048576);
+    }
+
+    function convertFromGB() {
+        let gb = parseFloat(document.getElementById("gb").value) || 0;
+        document.getElementById("bit").value = formatNumber(gb * 8589934592);
+        document.getElementById("byte").value = formatNumber(gb * 1073741824);
+        document.getElementById("kb").value = formatNumber(gb * 1048576);
+        document.getElementById("mb").value = formatNumber(gb * 1024);
+        document.getElementById("tb").value = formatNumber(gb / 1024);
+    }
+
+    function convertFromTB() {
+        let tb = parseFloat(document.getElementById("tb").value) || 0;
+        document.getElementById("bit").value = formatNumber(tb * 8796093022208);
+        document.getElementById("byte").value = formatNumber(tb * 1099511627776);
+        document.getElementById("kb").value = formatNumber(tb * 1073741824);
+        document.getElementById("mb").value = formatNumber(tb * 1048576);
+        document.getElementById("gb").value = formatNumber(tb * 1024);
+    }
+
+    function formatNumber(num) {
+        return num >= 1 ? Math.round(num) : num.toFixed(2);
+    }
+
+    function resetFields() {
+        document.getElementById("bit").value = "";
+        document.getElementById("byte").value = "";
+        document.getElementById("kb").value = "";
+        document.getElementById("mb").value = "";
+        document.getElementById("gb").value = "";
+        document.getElementById("tb").value = "";
+    }
+</script>
+
+<style>
+    ul {
+      padding-left: 0;
+      list-style-position: inside;
+    }
+    li {
+      text-align: left;
+    }
+</style>
+
+<ul>
+    <li>1 Bit = 1 Bit</li>
+    <li>1 Byte = 8 Bit</li>
+    <li>1 Kilobyte (KB) = 8192 Bit</li>
+    <li>1 Megabyte (MB) = 8388608 Bit</li>
+    <li>1 Gigabyte (GB) = 8589934592 Bit</li>
+    <li>1 Terabyte (TB) = 8796093022208 Bit</li>
+<li> Others:
+-Petabyte (PB)
+-Exabyte (EB)
+-Zettabyte (ZB)
+-Yottabyte (YB)
+</li>
+</ul>
+
+</body>
+</html>
