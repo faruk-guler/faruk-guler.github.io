@@ -1,6 +1,6 @@
 # Welcome to my Personal Site!
 
-Check it out: [mattmorgan6.github.io](https://mattmorgan6.github.io/)
+Check it out: [faruk-guler.github.io](https://faruk-guler.github.io/)
 
 <br>
 
