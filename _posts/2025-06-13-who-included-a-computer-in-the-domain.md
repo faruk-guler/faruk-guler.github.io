@@ -4,7 +4,7 @@ title: Who included a computer in the domain
 date: 2025-06-13 00:51
 author: faruk-guler
 comments: true
-categories: [[Windows OS]
+categories: [Windows OS]
 ---
 <!-- wp:image {"id":13844,"width":"438px","height":"auto","sizeSlug":"large","linkDestination":"none"} -->
 <figure class="wp-block-image size-large is-resized"><img src="https://farukguler.com/assets/post_images/powershell-4-sdn.jpg?w=540" alt="" class="wp-image-13844" style="width:438px;height:auto" /></figure>
