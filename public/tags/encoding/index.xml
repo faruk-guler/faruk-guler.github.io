@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Encoding on My New Hugo Site</title>
+    <link>http://localhost:1313/tags/encoding/</link>
+    <description>Recent content in Encoding on My New Hugo Site</description>
+    <generator>Hugo -- 0.150.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 15 Mar 2024 23:09:45 +0530</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/encoding/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How Base64 Encoding Works?</title>
+      <link>http://localhost:1313/blog/how-base64-encoding-works/</link>
+      <pubDate>Fri, 15 Mar 2024 23:09:45 +0530</pubDate>
+      <guid>http://localhost:1313/blog/how-base64-encoding-works/</guid>
+      <description>Let&amp;#39;s understand the Base64 Encoding under the hood.</description>
+    </item>
+  </channel>
+</rss>

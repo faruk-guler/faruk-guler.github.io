@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>How Webhook Works? | My New Hugo Site</title>
+<meta name="keywords" content="how-it-works, webhook, tech">
+<meta name="description" content="Let&#39;s understand how webhook works under the hood.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/blog/how-webhook-works/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2211ca3164be7830024f6aad2b3a2e520843a64f8f048445c3401c1249aa051d.css" integrity="sha256-IhHKMWS&#43;eDACT2qtKzouUghDpk&#43;PBIRFw0AcEkmqBR0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/blog/how-webhook-works/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="My New Hugo Site (Alt + H)">My New Hugo Site</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      How Webhook Works?
+    </h1>
+    <div class="post-description">
+      Let&#39;s understand how webhook works under the hood.
+    </div>
+    <div class="post-meta"><span title='2024-04-12 15:18:25 +0530 +0530'>April 12, 2024</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="http://localhost:1313/images/how-webhook-works/cover.png" alt="">
+        
+</figure>
+  <div class="post-content"><p>A few years ago, my colleagues and I were tasked with implementing webhooks in one of our products. I immersed myself in numerous blogs and documentation until the concept of webhooks clicked. Excited to share my newfound understanding, I explained it to my colleagues using a simple analogy:</p>
+<blockquote>
+<p><em>&ldquo;Imagine you&rsquo;re hungry and order food at a restaurant. Instead of constantly asking the waiter every few mins if your food is ready, the waiter brings it to you the moment it&rsquo;s prepared. That&rsquo;s exactly what a webhook does. Instead of repeatedly requesting information, a webhook sends you data in real-time as soon as an event happens.&rdquo;</em></p></blockquote>
+<h3 id="breaking-it-down-what-exactly-is-a-webhook">Breaking It Down: What exactly is a Webhook?<a hidden class="anchor" aria-hidden="true" href="#breaking-it-down-what-exactly-is-a-webhook">#</a></h3>
+<p>In simpler terms, a webhook is a way for one application to send real-time data to another application. It&rsquo;s like getting a text message or a call when new mail arrives in your mailbox—instead of you checking the mailbox repeatedly, the postman informs you directly when there&rsquo;s something new. While webhooks provide instant updates and are more efficient, they can be more complex to set up compared to polling. But one might wonder why not simply poll the data, so let&rsquo;s understand that.</p>
+<h4 id="polling-vs-webhook">Polling vs Webhook<a hidden class="anchor" aria-hidden="true" href="#polling-vs-webhook">#</a></h4>
+<p>Polling is a technique where one application (client) checks another application (server) at regular intervals to detect any updates. It&rsquo;s like repeatedly checking your mailbox to see if there&rsquo;s any new mail. You keep going back to the mailbox at regular intervals to check for updates.</p>
+<p><strong>Pros of Polling:</strong></p>
+<ul>
+<li>Simple to implement.</li>
+<li>Works with any server that can handle regular requests.</li>
+</ul>
+<p><strong>Cons of Polling:</strong></p>
+<ul>
+<li>Inefficient, as it keeps sending requests even if there&rsquo;s no new data.</li>
+<li>Can create unnecessary load on the server and consume more bandwidth.</li>
+</ul>
+<p><strong>How does Polling work?</strong></p>
+<ol>
+<li><code>Application A</code> sends a request to <code>Application B</code> to check for updates.</li>
+<li><code>Application B</code> responds with either the new update or indicates no new update is available.</li>
+<li><code>Application A</code> waits for a specified interval (e.g., N seconds or minutes) before repeating the process.</li>
+</ol>
+<!-- raw HTML omitted -->
+<p>Webhooks provide a more efficient solution by notifying the application directly when new data is available, reducing unnecessary requests and ensuring real-time updates.</p>
+<p><strong>Pros of Web Hooks:</strong></p>
+<ul>
+<li>More efficient, as the server only sends data when there&rsquo;s something new.</li>
+<li>Reduces unnecessary requests, saving bandwidth and reducing server load.</li>
+<li>Provides real-time updates.</li>
+</ul>
+<p><strong>Cons of Web Hooks:</strong></p>
+<ul>
+<li>Can be more complex to set up compared to polling.</li>
+<li>Your application needs to be accessible to the server (i.e., it must have a public-facing URL).</li>
+<li>Security considerations are crucial to ensure that only trusted servers can send data to your application.</li>
+</ul>
+<h3 id="how-webhooks-actually-work">How Webhooks Actually Work<a hidden class="anchor" aria-hidden="true" href="#how-webhooks-actually-work">#</a></h3>
+<p>Here’s a step-by-step explanation of how webhooks work:</p>
+<ol>
+<li><strong>Event Occurs:</strong> An event triggers the webhook request in <code>Application A</code>. This event could be anything from a new user signing up, a payment being processed, or a GitHub action being completed.</li>
+<li><strong>Webhook URL:</strong> <code>Application A</code>, where the event occurred, sends a payload of data to a specified webhook URL.</li>
+<li><strong>Receiving Data:</strong> The receiving <code>Application B</code> captures the data and processes it accordingly.</li>
+<li><strong>Response:</strong> The receiving <code>Application B</code> sends a response back, confirming whether the data was received successfully or with an error.</li>
+</ol>
+<h3 id="webhook-security">Webhook Security<a hidden class="anchor" aria-hidden="true" href="#webhook-security">#</a></h3>
+<p>Ensuring the security of webhooks is crucial to prevent unauthorized access and data breaches. Here are effective strategies to secure webhooks:</p>
+<table>
+  <thead>
+      <tr>
+          <th><strong>Threat</strong></th>
+          <th><strong>Solution</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Payload Exposure</strong></td>
+          <td>Use HTTPS for webhook URLs to ensure SSL encryption.</td>
+      </tr>
+      <tr>
+          <td><strong>Attacks from Unknown Webhook Sources</strong></td>
+          <td>Implement authentication tokens and whitelist webhook source IPs.</td>
+      </tr>
+      <tr>
+          <td><strong>Webhook Interception and Redirection</strong></td>
+          <td>Employ Mutual TLS for client verification.</td>
+      </tr>
+      <tr>
+          <td><strong>Webhook Payload Corruption</strong></td>
+          <td>Verify messages using HMAC signatures.</td>
+      </tr>
+      <tr>
+          <td><strong>Replay Attacks</strong></td>
+          <td>Use timestamped messages to prevent replay attacks.</td>
+      </tr>
+  </tbody>
+</table>
+<p>For more detailed explanations of these security threats and their solutions, you can refer to <!-- raw HTML omitted -->this blog on webhook security<!-- raw HTML omitted -->.</p>
+<h3 id="a-simple-webhook-implementation-in-go">A simple Webhook implementation in Go<a hidden class="anchor" aria-hidden="true" href="#a-simple-webhook-implementation-in-go">#</a></h3>
+<p>Here, <strong>Application A</strong> sends a webhook request to <strong>Application B</strong> whenever an event occurs. <strong>Application B</strong> acts as the webhook recipient and both applications share a common secret key for HMAC signature verification, ensuring data integrity and authenticating the source in the webhook implementation.</p>
+<h4 id="step-0">Step-0<a hidden class="anchor" aria-hidden="true" href="#step-0">#</a></h4>
+<p>Let&rsquo;s create a new directory <code>webhook</code> and navigate into it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir webhook
+</span></span><span style="display:flex;"><span>cd webhook
+</span></span></code></pre></div><h4 id="step-1-create-webhook-server">Step-1: Create Webhook Server<a hidden class="anchor" aria-hidden="true" href="#step-1-create-webhook-server">#</a></h4>
+<p>Create a new file <code>recipient/server.go</code> to set up an <code>Application B</code> which acts as a web server with signature verification to ensure some basic security</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// server.go (Application B)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;crypto/hmac&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;crypto/sha256&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/hex&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;log&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">secretKey</span> = <span style="color:#e6db74">&#34;shared_secret_key&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">verifySignature</span>(<span style="color:#a6e22e">payload</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">signature</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">secret</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mac</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">hmac</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">sha256</span>.<span style="color:#a6e22e">New</span>, []byte(<span style="color:#a6e22e">secret</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mac</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">payload</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">expectedMAC</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mac</span>.<span style="color:#a6e22e">Sum</span>(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">expectedSignature</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">hex</span>.<span style="color:#a6e22e">EncodeToString</span>(<span style="color:#a6e22e">expectedMAC</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hmac</span>.<span style="color:#a6e22e">Equal</span>([]byte(<span style="color:#a6e22e">expectedSignature</span>), []byte(<span style="color:#a6e22e">signature</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">webhookHandler</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Method</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">MethodPost</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Invalid request method&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;Invalid request method&#34;</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">signature</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;X-Signature&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">signature</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Missing signature&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;Missing signature&#34;</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">payload</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Invalid payload&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;Invalid payload&#34;</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">verifySignature</span>(<span style="color:#a6e22e">payload</span>, <span style="color:#a6e22e">signature</span>, <span style="color:#a6e22e">secretKey</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Invalid signature&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">w</span>, <span style="color:#e6db74">&#34;Invalid signature&#34;</span>, <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusBadRequest</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Received payload:&#34;</span>, string(<span style="color:#a6e22e">payload</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Header</span>().<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#e6db74">`{&#34;status&#34;: &#34;success&#34;}`</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/webhook&#34;</span>, <span style="color:#a6e22e">webhookHandler</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Webhook Server started at port 8080&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#66d9ef">nil</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="step-2-create-webhook-client">Step-2: Create Webhook Client<a hidden class="anchor" aria-hidden="true" href="#step-2-create-webhook-client">#</a></h4>
+<p>Create a new file <code>origin/client.go</code>, to set up an <code>Application A</code> which will compute the signature based on common shared secret key, and then sends the request to webhook URL when an event occurs with <code>X-Signature</code> request headers.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// client.go (Application A)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;bytes&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;crypto/hmac&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;crypto/sha256&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/hex&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">webhookURL</span> = <span style="color:#e6db74">&#34;http://localhost:8080/webhook&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">secretKey</span> = <span style="color:#e6db74">&#34;shared_secret_key&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">computeSignature</span>(<span style="color:#a6e22e">payload</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">secret</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mac</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">hmac</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">sha256</span>.<span style="color:#a6e22e">New</span>, []byte(<span style="color:#a6e22e">secret</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">mac</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">payload</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">expectedMAC</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mac</span>.<span style="color:#a6e22e">Sum</span>(<span style="color:#66d9ef">nil</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hex</span>.<span style="color:#a6e22e">EncodeToString</span>(<span style="color:#a6e22e">expectedMAC</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendRequest</span>(<span style="color:#a6e22e">url</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">payload</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">signature</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">url</span>, <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewBuffer</span>(<span style="color:#a6e22e">payload</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;error creating request: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;X-Signature&#34;</span>, <span style="color:#a6e22e">signature</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">client</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Client</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Do</span>(<span style="color:#a6e22e">req</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;error sending request: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">body</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;error reading response: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Response status:&#34;</span>, <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Status</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Response body:&#34;</span>, string(<span style="color:#a6e22e">body</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eventOccurred</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">eventOccurred</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> []byte(<span style="color:#e6db74">`{&#34;event&#34;: &#34;test&#34;, &#34;data&#34;: &#34;sample&#34;}`</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">signature</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">computeSignature</span>(<span style="color:#a6e22e">payload</span>, <span style="color:#a6e22e">secretKey</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sendRequest</span>(<span style="color:#a6e22e">webhookURL</span>, <span style="color:#a6e22e">payload</span>, <span style="color:#a6e22e">signature</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error:&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;No event occurred.&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="step-3-run-the-webhook-server">Step-3: Run the Webhook Server<a hidden class="anchor" aria-hidden="true" href="#step-3-run-the-webhook-server">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  go run recipient/server.go
+</span></span><span style="display:flex;"><span>2024/07/14 15:57:44 Webhook Server started at port <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>2024/07/14 15:57:50 Received payload: <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;event&#34;</span>: <span style="color:#e6db74">&#34;test&#34;</span>, <span style="color:#e6db74">&#34;data&#34;</span>: <span style="color:#e6db74">&#34;sample&#34;</span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h4 id="step-4-run-the-webhook-client">Step-4: Run the Webhook Client<a hidden class="anchor" aria-hidden="true" href="#step-4-run-the-webhook-client">#</a></h4>
+<p>To test the web hook with the client program, ensure your webhook server is running and then run the client program:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  go run origin/client.go
+</span></span><span style="display:flex;"><span>Response status: <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Response body: <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;status&#34;</span>: <span style="color:#e6db74">&#34;success&#34;</span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>We can also send the webhook request using cURL or any programming language, as REST APIs are language-agnostic. We just need to compute the <code>X-Signature</code> request header using the shared secret key.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Simple cURL example</span>
+</span></span><span style="display:flex;"><span>curl -X POST http://localhost:8080/webhook <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -H <span style="color:#e6db74">&#34;X-Signature: &lt;computed_signature&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>     -d <span style="color:#e6db74">&#39;{&#34;event&#34;: &#34;test&#34;, &#34;data&#34;: &#34;sample&#34;}&#39;</span>
+</span></span></code></pre></div><h3 id="real-life-usecases">Real-Life Usecases<a hidden class="anchor" aria-hidden="true" href="#real-life-usecases">#</a></h3>
+<p>Some real-life implementations include:</p>
+<ol>
+<li>
+<p>When a GitHub action, such as a CI/CD pipeline, completes, it can notify a Slack channel using a webhook URL set up through Slack&rsquo;s workflow.</p>
+</li>
+<li>
+<p>Payment services like Stripe or Razorpay use webhooks to instantly update merchant systems about successful payments, refunds, ensuring real-time transaction status updates.</p>
+</li>
+<li>
+<p>E-commerce platforms utilize webhooks to notify warehouses or logistics systems about new orders, updates in order status, or cancellations, ensuring efficient processing and timely delivery.</p>
+</li>
+</ol>
+<p>I realized the value of this knowledge and felt motivated to share it through this blog. Webhooks ability to automate workflows and deliver timely updates makes them indispensable in modern digital products.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/how-it-works/">How-It-Works</a></li>
+      <li><a href="http://localhost:1313/tags/webhook/">Webhook</a></li>
+      <li><a href="http://localhost:1313/tags/tech/">Tech</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">My New Hugo Site</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

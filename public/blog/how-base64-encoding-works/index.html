@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>How Base64 Encoding Works? | My New Hugo Site</title>
+<meta name="keywords" content="how-it-works, base64, encoding, tech">
+<meta name="description" content="Let&#39;s understand the Base64 Encoding under the hood.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/blog/how-base64-encoding-works/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.2211ca3164be7830024f6aad2b3a2e520843a64f8f048445c3401c1249aa051d.css" integrity="sha256-IhHKMWS&#43;eDACT2qtKzouUghDpk&#43;PBIRFw0AcEkmqBR0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/blog/how-base64-encoding-works/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="My New Hugo Site (Alt + H)">My New Hugo Site</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      How Base64 Encoding Works?
+    </h1>
+    <div class="post-description">
+      Let&#39;s understand the Base64 Encoding under the hood.
+    </div>
+    <div class="post-meta"><span title='2024-03-15 23:09:45 +0530 +0530'>March 15, 2024</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="http://localhost:1313/images/how-base64-encoding-works/cover.png" alt="">
+        
+</figure>
+  <div class="post-content"><p>In my everyday work with Kubernetes, I often encounter Kubernetes secrets containing strings of seemingly random characters ending with equal signs. These are Base64 encoded texts. This made me curious: What exactly is Base64 encoding, and how does it work its magic?</p>
+<p>So, one day, I decided to learn how Base64 actually works. It turns out to be a pretty simple process where the data (normal text and numbers) are converted into a special format that machines can easily read and use. Even though it&rsquo;s not super secure like encryption, it&rsquo;s really handy for keeping things organized and safe in places like Kubernetes.</p>
+<h3 id="what-exactly-is-base64-encoding">What exactly is Base64 Encoding?<a hidden class="anchor" aria-hidden="true" href="#what-exactly-is-base64-encoding">#</a></h3>
+<p>Base64 is a method used to change any type of data, like text or pictures, into a format that&rsquo;s safe and easy for machines to handle. It&rsquo;s called &ldquo;Base64&rdquo; because it uses 64 different characters to represent data. These characters include letters (both uppercase and lowercase), numbers, and symbols like <code>+</code> and <code>/</code>. Base64 encoding ensures that the data is not altered during transmission and helps maintain data integrity as it passes through various systems and networks.</p>
+<h3 id="how-does-base64-encoding-work">How does Base64 Encoding Work?<a hidden class="anchor" aria-hidden="true" href="#how-does-base64-encoding-work">#</a></h3>
+<p>Let&rsquo;s quickly break down into how Base64 encoding works step by step:</p>
+<h4 id="1-convert-to-ascii">1. Convert to ASCII<a hidden class="anchor" aria-hidden="true" href="#1-convert-to-ascii">#</a></h4>
+<p>Convert each character in the string to its ASCII value.</p>
+<h4 id="2-convert-ascii-to-binary">2. Convert ASCII to Binary<a hidden class="anchor" aria-hidden="true" href="#2-convert-ascii-to-binary">#</a></h4>
+<p>Convert each ASCII value to its 8-bit binary equivalent.</p>
+<h4 id="3-combine-binary-values">3. Combine Binary Values<a hidden class="anchor" aria-hidden="true" href="#3-combine-binary-values">#</a></h4>
+<p>Combine all the 8-bit binary values into a single continuous binary string.</p>
+<h4 id="4-split-into-6-bit-segments">4. Split into 6-bit Segments<a hidden class="anchor" aria-hidden="true" href="#4-split-into-6-bit-segments">#</a></h4>
+<p>Split the continuous binary string into segments of 6 bits each.</p>
+<h4 id="5-add-padding-if-necessary">5. Add Padding (if necessary)<a hidden class="anchor" aria-hidden="true" href="#5-add-padding-if-necessary">#</a></h4>
+<p>If the final segment is less than 6 bits, add padding bits <code>0</code> to make it a full 6-bit segment.</p>
+<h4 id="6-convert-6-bit-segments-to-decimal">6. Convert 6-bit Segments to Decimal<a hidden class="anchor" aria-hidden="true" href="#6-convert-6-bit-segments-to-decimal">#</a></h4>
+<p>Convert each 6-bit binary segment to its decimal equivalent.</p>
+<h4 id="7-map-decimal-to-base64-characters">7. Map Decimal to Base64 Characters<a hidden class="anchor" aria-hidden="true" href="#7-map-decimal-to-base64-characters">#</a></h4>
+<p>Map each decimal value to its corresponding Base64 character using the Base64 index table, which consists of uppercase letters, lowercase letters, digits, plus <code>+</code>, &amp; slash <code>/</code></p>
+<h4 id="8-combine-base64-characters">8. Combine Base64 Characters<a hidden class="anchor" aria-hidden="true" href="#8-combine-base64-characters">#</a></h4>
+<p>Combine all the Base64 characters obtained from the previous step into a single string.</p>
+<h4 id="9-add-padding-characters">9. Add Padding Characters<a hidden class="anchor" aria-hidden="true" href="#9-add-padding-characters">#</a></h4>
+<p>If necessary, add <code>=</code> characters to the end of the Base64 string to make the total length a multiple of 4 characters.</p>
+<h3 id="example-steps-to-encode-hello-into-base64">Example: Steps to Encode &ldquo;Hello&rdquo; into Base64<a hidden class="anchor" aria-hidden="true" href="#example-steps-to-encode-hello-into-base64">#</a></h3>
+<p>Here&rsquo;s a breakdown of how the word &ldquo;Hello&rdquo; is encoded into Base64 string:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p><strong>1. Convert &ldquo;Hello&rdquo; to ASCII</strong>
+First, convert each character in the string &ldquo;Hello&rdquo; to its ASCII value:</p>
+<ul>
+<li><code>H</code> -&gt; <code>72</code></li>
+<li><code>e</code> -&gt; <code>101</code></li>
+<li><code>l</code> -&gt; <code>108</code></li>
+<li><code>l</code> -&gt; <code>108</code></li>
+<li><code>o</code> -&gt; <code>111</code></li>
+</ul>
+<p><strong>2. Convert ASCII to Binary</strong>
+Next, convert each ASCII value to its 8-bit binary equivalent:</p>
+<ul>
+<li><code>72</code>  -&gt; <code>01001000</code></li>
+<li><code>101</code> -&gt; <code>01100101</code></li>
+<li><code>108</code> -&gt; <code>01101100</code></li>
+<li><code>108</code> -&gt; <code>01101100</code></li>
+<li><code>111</code> -&gt; <code>01101111</code></li>
+</ul>
+<p><strong>3. Combine Binary Values</strong>
+Combine these binary values into a single binary string:</p>
+<p><code>0100100001100101011011000110110001101111</code></p>
+<p><strong>4. Split into 6-bit Segments</strong>
+Split the combined binary string into 6-bit segments:</p>
+<p><code>010010</code> <code>000110</code> <code>010101</code> <code>101100</code> <code>011011</code> <code>000110</code> <code>1111</code></p>
+<p><strong>5. Add Padding</strong>
+Since the last segment is less than 6 bits, add padding to make it a full 6-bit segment. Each padding bit is 0:</p>
+<p><code>010010</code> <code>000110</code> <code>010101</code> <code>101100</code> <code>011011</code> <code>000110</code> <code>1111[00]</code></p>
+<p><strong>6. Convert 6-bit Segments to Decimal</strong>
+Convert each 6-bit segment to its decimal equivalent:</p>
+<ul>
+<li><code>010010</code> -&gt; <code>18</code></li>
+<li><code>000110</code> -&gt; <code>6</code></li>
+<li><code>010101</code> -&gt; <code>21</code></li>
+<li><code>101100</code> -&gt; <code>44</code></li>
+<li><code>011011</code> -&gt; <code>27</code></li>
+<li><code>000110</code> -&gt; <code>6</code></li>
+<li><code>111100</code> -&gt; <code>60</code></li>
+</ul>
+<p><strong>7. Map Decimal to Base64 Characters</strong>
+Map each decimal value to the corresponding Base64 character using the Base64 index table:</p>
+<blockquote>
+<p><strong>Reference:</strong> Base64 index table</p></blockquote>
+<table>
+  <thead>
+      <tr>
+          <th>Index</th>
+          <th>Character</th>
+          <th>Index</th>
+          <th>Character</th>
+          <th>Index</th>
+          <th>Character</th>
+          <th>Index</th>
+          <th>Character</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td><code>A</code></td>
+          <td>16</td>
+          <td><code>Q</code></td>
+          <td>32</td>
+          <td><code>g</code></td>
+          <td>48</td>
+          <td><code>w</code></td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td><code>B</code></td>
+          <td>17</td>
+          <td><code>R</code></td>
+          <td>33</td>
+          <td><code>h</code></td>
+          <td>49</td>
+          <td><code>x</code></td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td><code>C</code></td>
+          <td><!-- raw HTML omitted -->18</td>
+          <td><!-- raw HTML omitted -->S</td>
+          <td>34</td>
+          <td><code>i</code></td>
+          <td>50</td>
+          <td><code>y</code></td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td><code>D</code></td>
+          <td>19</td>
+          <td><code>T</code></td>
+          <td>35</td>
+          <td><code>j</code></td>
+          <td>51</td>
+          <td><code>z</code></td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td><code>E</code></td>
+          <td>20</td>
+          <td><code>U</code></td>
+          <td>36</td>
+          <td><code>k</code></td>
+          <td>52</td>
+          <td><code>0</code></td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td><code>F</code></td>
+          <td><!-- raw HTML omitted -->21</td>
+          <td><!-- raw HTML omitted -->V</td>
+          <td>37</td>
+          <td><code>l</code></td>
+          <td>53</td>
+          <td><code>1</code></td>
+      </tr>
+      <tr>
+          <td><!-- raw HTML omitted -->6</td>
+          <td><!-- raw HTML omitted -->G</td>
+          <td>22</td>
+          <td><code>W</code></td>
+          <td>38</td>
+          <td><code>m</code></td>
+          <td>54</td>
+          <td><code>2</code></td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td><code>H</code></td>
+          <td>23</td>
+          <td><code>X</code></td>
+          <td>39</td>
+          <td><code>n</code></td>
+          <td>55</td>
+          <td><code>3</code></td>
+      </tr>
+      <tr>
+          <td>8</td>
+          <td><code>I</code></td>
+          <td>24</td>
+          <td><code>Y</code></td>
+          <td>40</td>
+          <td><code>o</code></td>
+          <td>56</td>
+          <td><code>4</code></td>
+      </tr>
+      <tr>
+          <td>9</td>
+          <td><code>J</code></td>
+          <td>25</td>
+          <td><code>Z</code></td>
+          <td>41</td>
+          <td><code>p</code></td>
+          <td>57</td>
+          <td><code>5</code></td>
+      </tr>
+      <tr>
+          <td>10</td>
+          <td><code>K</code></td>
+          <td>26</td>
+          <td><code>a</code></td>
+          <td>42</td>
+          <td><code>q</code></td>
+          <td>58</td>
+          <td><code>6</code></td>
+      </tr>
+      <tr>
+          <td>11</td>
+          <td><code>L</code></td>
+          <td><!-- raw HTML omitted -->27</td>
+          <td><!-- raw HTML omitted -->b</td>
+          <td>43</td>
+          <td><code>r</code></td>
+          <td>59</td>
+          <td><code>7</code></td>
+      </tr>
+      <tr>
+          <td>12</td>
+          <td><code>M</code></td>
+          <td>28</td>
+          <td><code>c</code></td>
+          <td><!-- raw HTML omitted -->44</td>
+          <td><!-- raw HTML omitted -->s</td>
+          <td><!-- raw HTML omitted -->60</td>
+          <td><!-- raw HTML omitted -->8</td>
+      </tr>
+      <tr>
+          <td>13</td>
+          <td><code>N</code></td>
+          <td>29</td>
+          <td><code>d</code></td>
+          <td>45</td>
+          <td><code>t</code></td>
+          <td>61</td>
+          <td><code>9</code></td>
+      </tr>
+      <tr>
+          <td>14</td>
+          <td><code>O</code></td>
+          <td>30</td>
+          <td><code>e</code></td>
+          <td>46</td>
+          <td><code>u</code></td>
+          <td>62</td>
+          <td><code>+</code></td>
+      </tr>
+      <tr>
+          <td>15</td>
+          <td><code>P</code></td>
+          <td>31</td>
+          <td><code>f</code></td>
+          <td>47</td>
+          <td><code>v</code></td>
+          <td>63</td>
+          <td><code>/</code></td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><code>18</code> -&gt; <code>S</code></li>
+<li><code>6</code>  -&gt; <code>G</code></li>
+<li><code>21</code> -&gt; <code>V</code></li>
+<li><code>44</code> -&gt; <code>s</code></li>
+<li><code>27</code> -&gt; <code>b</code></li>
+<li><code>6</code> -&gt; <code>G</code></li>
+<li><code>60</code> -&gt; <code>8</code></li>
+</ul>
+<p><strong>8. Combine Base64 Characters</strong>
+Combine the Base64 characters: <code>SGVsbG8</code></p>
+<p><strong>9. Add Padding Characters</strong>
+Base64 encoding requires the output to be a multiple of 4 characters. As required here, let&rsquo;s add <code>=</code> to the end to make it so.</p>
+<p>So, the Base64 encoding of <!-- raw HTML omitted -->Hello<!-- raw HTML omitted --> is <!-- raw HTML omitted -->SGVsbG8=<!-- raw HTML omitted --></p>
+<h3 id="base64url">Base64URL<a hidden class="anchor" aria-hidden="true" href="#base64url">#</a></h3>
+<p>Base64URL is a variant of the Base64 standard tailored for use in filenames and URLs. Standard Base64 includes the characters <code>+</code>, <code>/</code>,&amp; <code>=</code>, which can interfere with their reserved meanings in filesystems and URLs. Base64URL replaces <code>+</code> with <code>-</code>, <code>/</code> with <code>_</code>,&amp; removes the trailing <code>=</code> padding when not necessary, ensuring the encoded data can be used in URLs without any issues.</p>
+<h3 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h3>
+<p>Base64 encoding is a simple yet powerful tool to ensure data integrity and compatibility across different systems and platforms. By converting binary data into a text-friendly format, it allows for smooth data transfer and storage without any risk of data corruption, making it very useful for applications like emails and web development. Additionally, Base64 encoding is easily reversible, allowing for straightforward decoding back to the original data.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/how-it-works/">How-It-Works</a></li>
+      <li><a href="http://localhost:1313/tags/base64/">Base64</a></li>
+      <li><a href="http://localhost:1313/tags/encoding/">Encoding</a></li>
+      <li><a href="http://localhost:1313/tags/tech/">Tech</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">My New Hugo Site</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
