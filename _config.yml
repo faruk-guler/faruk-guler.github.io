@@ -97,7 +97,7 @@ theme_mode: # [light | dark]
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn:
+cdn:
 
 # the avatar on sidebar, support local or CORS resources
 avatar: https://avatars.githubusercontent.com/u/95317318
@@ -225,8 +225,6 @@ exclude:
   - README.md
   - LICENSE
   - "*.config.js"
-  - gulpfile.js
-  - node_modules
   - package*.json
 
 jekyll-archives:
