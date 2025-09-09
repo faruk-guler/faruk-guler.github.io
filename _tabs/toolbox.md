@@ -12,7 +12,7 @@ order: 2
 | <a href="https://farukguler.com/apps/diff/" target="_blank">Diff Checker</a> | <a href="https://farukguler.com/apps/text-editor/" target="_blank">Advanced Text Editor</a> |
 | <a href="https://farukguler.com/apps/random-pass-generator/" target="_blank">Advanced Password Generator</a> | <a href="https://farukguler.com/apps/converter/" target="_blank">Byte Converter</a> |
 | <a href="https://farukguler.com/apps/qr-generator/" target="_blank">QR Code Generator</a> | <a href="https://farukguler.com/apps/IPv4-subnet-calculator/" target="_blank">Subnet-Calculator</a> |
-| <a href="https://farukguler.com/apps/markdown-live-editor/" target="_blank">Markdown Live Editor</a> | <a href="https://farukguler.com/apps/my-ip/" target="_blank">What Is My IP Address</a> |
+| <a href="https://farukguler.com/apps/my-ip/" target="_blank">What Is My IP Address</a> |
 | <a href="https://farukguler.com/apps/reverse-ip/" target="_blank">Reverse IP Lookup</a> | <a href="https://farukguler.com/apps/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a> |
 | <a href="https://farukguler.com/apps/speed-test/" target="_blank">NetSpeed Test</a> | <a href="https://farukguler.com/apps/tld-lookup/" target="_blank">Domain TLD Bulk Lookup</a> |
 
