@@ -1,1 +1,3 @@
 ## Clean jekyll theme for community -faruk-guler
+
+www.farukguler.com
