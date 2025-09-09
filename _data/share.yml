@@ -39,6 +39,6 @@ platforms:
   #     - label: photog.social
   #       link: "https://photog.social/"
 
- - type: Threads
+  - type: Threads
    icon: "fa-brands fa-square-threads"
    link: "https://www.threads.net/intent/post?text=TITLE%20URL"
