@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP and Browser Information Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, #2196F3, #E3F2FD);
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #1a237e;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #2196F3;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            text-align: left;
+            overflow: auto;
+        }
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IP and Browser Information</h1>
+        <button onclick="getBrowserInfo()">Show My Information</button>
+        <pre id="infoOutput">Click the button to access the information...</pre>
+    </div>
+
+    <script>
+        function getBrowserInfo() {
+            const output = document.getElementById('infoOutput');
+            output.textContent = "Bilgiler yükleniyor...";
+
+            // Kullanıcının IP adresini ve detaylı bilgilerini al
+            fetch('https://ipapi.co/json/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`API Hatası: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const userAgent = navigator.userAgent;
+                    const platform = navigator.platform;
+                    const language = navigator.language;
+                    const screenSize = `${screen.width}x${screen.height}`;
+                    const mapLink = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
+
+                    output.textContent = 
+                        `IP Adresiniz: ${data.ip}\n` +
+                        `İşletim Sistemi: ${platform}\n` +
+                        `Tarayıcı Bilgisi: ${userAgent}\n` +
+                        `Dil: ${language}\n` +
+                        `Ekran Çözünürlüğü: ${screenSize}\n` +
+                        `Şehir: ${data.city || 'Bilinmiyor'}\n` +
+                        `Bölge: ${data.region || 'Bilinmiyor'}\n` +
+                        `Ülke: ${data.country_name || 'Bilinmiyor'}\n` +
+                        `ISP: ${data.org || 'Bilinmiyor'}\n` +
+                        `Koordinatlar: ${data.latitude}, ${data.longitude}\n` +
+                        `Harita: ${mapLink}`;
+
+                    // Harita bağlantısını kullanıcıya kolayca tıklanabilir hale getir
+                    output.innerHTML += `\n\n<a href="${mapLink}" target="_blank">Konumu Haritada Gör</a>`;
+                })
+                .catch(error => {
+                    output.textContent = "Bilgiler alınamadı.";
+                    console.error('Hata:', error);
+                });
+        }
+    </script>
+</body>
+</html>

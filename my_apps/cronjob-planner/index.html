@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Cronjob Planner Tool</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .cron-input {
+            max-width: 120px;
+        }
+        .cron-expression {
+            background-color: #f8f9fa;
+        }
+        .help-text {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+        .examples {
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">Best Cronjob Planner Tool -farukguler.com</h2>
+
+        <div class="card p-3">
+            <!-- Sekme Navigasyonu -->
+            <ul class="nav nav-tabs" id="cronTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="create-tab" data-bs-toggle="tab" data-bs-target="#create" type="button" role="tab" aria-controls="create" aria-selected="true">Create a Cron</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="validate-tab" data-bs-toggle="tab" data-bs-target="#validate" type="button" role="tab" aria-controls="validate" aria-selected="false">Verify a Cron</button>
+                </li>
+            </ul>
+
+            <!-- Sekme İçerikleri -->
+            <div class="tab-content" id="cronTabsContent">
+                <!-- Cron Oluştur Sekmesi -->
+                <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+                    <h5 class="mt-3">Create Cron Expression</h5>
+                    <div class="row g-3">
+                        <div class="col">
+                            <label for="minute" class="form-label">Dakika (0-59)</label>
+                            <input type="text" class="form-control cron-input" id="minute" value="*">
+                        </div>
+                        <div class="col">
+                            <label for="hour" class="form-label">Saat (0-23)</label>
+                            <input type="text" class="form-control cron-input" id="hour" value="*">
+                        </div>
+                        <div class="col">
+                            <label for="day" class="form-label">Gün (1-31)</label>
+                            <input type="text" class="form-control cron-input" id="day" value="*">
+                        </div>
+                        <div class="col">
+                            <label for="month" class="form-label">Ay (1-12)</label>
+                            <input type="text" class="form-control cron-input" id="month" value="*">
+                        </div>
+                        <div class="col">
+                            <label for="weekday" class="form-label">Haftanın Günü (0-6)</label>
+                            <input type="text" class="form-control cron-input" id="weekday" value="*">
+                        </div>
+                    </div>
+
+                    <div class="help-text">
+                        * = her zaman, / = adım aralığı, - = değer aralığı, , = değer listesi
+                    </div>
+
+                    <div class="examples">
+                        <strong>Örnek Cron İfadeleri:</strong><br>
+                        - Her 15 dakikada: <code>*/15 * * * *</code><br>
+                        - Çalışma saatleri: <code>0 9-17/2 * * 1-5</code><br>
+                        - Aylık bakım: <code>0 3 1 */3 *</code>
+                    </div>
+
+                    <button class="btn btn-primary mt-3" id="generateCron">Create</button>
+
+                    <div class="mt-3">
+                        <h5>Cron İfadesi</h5>
+                        <input type="text" class="form-control cron-expression" id="cronExpression" readonly>
+                    </div>
+
+                    <div class="mt-3" id="createResult"></div>
+                </div>
+
+                <!-- Cron Doğrula Sekmesi -->
+                <div class="tab-pane fade" id="validate" role="tabpanel" aria-labelledby="validate-tab">
+                    <h5 class="mt-3">Validate Cron Expression</h5>
+                    <div class="mb-3">
+                        <label for="validateInput" class="form-label">Cron İfadesini Girin (5 parça, boşlukla ayrılmış)</label>
+                        <input type="text" class="form-control" id="validateInput" placeholder="*/15 * * * *">
+                    </div>
+                    <button class="btn btn-primary" id="validateCronButton">Verify and Analyze</button>
+                    <div class="mt-3" id="validateResult"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cron parçası doğrulama fonksiyonu
+        function validateCronField(value, min, max) {
+            if (!value || value.trim() === "") return false;
+
+            const cronRegex = /^(\*|([0-9]+(-[0-9]+)?(,[0-9]+(-[0-9]+)?)*)|\*\/[0-9]+|[0-9]+)$/;
+            if (!cronRegex.test(value)) return false;
+
+            if (value === "*") return true;
+
+            if (value.includes("/")) {
+                const [base, step] = value.split("/");
+                if (parseInt(step) <= 0) return false;
+                if (base !== "*") {
+                    const baseValues = base.split(",");
+                    return baseValues.every(val => {
+                        if (val.includes("-")) {
+                            const [start, end] = val.split("-").map(Number);
+                            return start >= min && end <= max && start <= end;
+                        }
+                        const num = parseInt(val);
+                        return num >= min && num <= max;
+                    });
+                }
+                return true;
+            }
+
+            if (value.includes(",")) {
+                return value.split(",").every(val => {
+                    if (val.includes("-")) {
+                        const [start, end] = val.split("-").map(Number);
+                        return start >= min && end <= max && start <= end;
+                    }
+                    const num = parseInt(val);
+                    return num >= min && num <= max;
+                });
+            }
+
+            if (value.includes("-")) {
+                const [start, end] = value.split("-").map(Number);
+                return start >= min && end <= max && start <= end;
+            }
+
+            const num = parseInt(value);
+            return !isNaN(num) && num >= min && num <= max;
+        }
+
+        // Cron parçası çözümleme fonksiyonu
+        function parseCronPart(part, min, max) {
+            if (part === '*') return { type: 'any' };
+            
+            const results = new Set();
+            const ranges = part.split(',');
+            
+            for (const range of ranges) {
+                let [start, end, step] = range.split(/(\-|\/)/);
+                step = parseInt(step) || 1;
+                
+                if (range.includes('/')) {
+                    const [base, step] = range.split('/');
+                    const baseValues = base === '*' ? 
+                        Array.from({length: max - min + 1}, (_, i) => min + i) :
+                        parseCronPart(base, min, max).values;
+                    
+                    for (let i = 0; i < baseValues.length; i += parseInt(step)) {
+                        results.add(baseValues[i]);
+                    }
+                } else if (range.includes('-')) {
+                    [start, end] = range.split('-').map(Number);
+                    start = Math.max(min, start);
+                    end = Math.min(max, end);
+                    for (let i = start; i <= end; i++) {
+                        results.add(i);
+                    }
+                } else {
+                    const value = parseInt(range);
+                    if (!isNaN(value) && value >= min && value <= max) {
+                        results.add(value);
+                    }
+                }
+            }
+            
+            return results.size > 0 ? 
+                { type: 'values', values: [...results].sort((a, b) => a - b) } : 
+                { type: 'invalid' };
+        }
+
+        // Bir sonraki çalıştırma zamanını hesapla
+        function calculateNextRun(cronExpr) {
+            const cronParts = cronExpr.split(' ');
+            if (cronParts.length !== 5) throw new Error('Cron ifadesi 5 parça olmalı');
+            
+            const [minutePart, hourPart, dayPart, monthPart, weekdayPart] = cronParts;
+
+            const specs = {
+                minute: parseCronPart(minutePart, 0, 59),
+                hour: parseCronPart(hourPart, 0, 23),
+                day: parseCronPart(dayPart, 1, 31),
+                month: parseCronPart(monthPart, 1, 12),
+                weekday: parseCronPart(weekdayPart, 0, 6)
+            };
+
+            if (Object.values(specs).some(s => s.type === 'invalid')) {
+                throw new Error('Geçersiz cron ifadesi');
+            }
+
+            const now = new Date();
+            let date = new Date(now);
+            date.setSeconds(0, 0);
+
+            const maxAttempts = 100000;
+            let attempts = 0;
+
+            while (attempts++ < maxAttempts) {
+                if (specs.month.type !== 'any') {
+                    const currentMonth = date.getMonth() + 1;
+                    if (!specs.month.values.includes(currentMonth)) {
+                        date.setMonth(currentMonth);
+                        date.setDate(1);
+                        date.setHours(0, 0, 0);
+                        continue;
+                    }
+                }
+
+                let dayValid = true;
+                const currentDay = date.getDate();
+                const currentWeekday = date.getDay();
+
+                if (specs.day.type !== 'any' && !specs.day.values.includes(currentDay)) {
+                    dayValid = false;
+                }
+                if (specs.weekday.type !== 'any' && !specs.weekday.values.includes(currentWeekday)) {
+                    dayValid = false;
+                }
+
+                if (!dayValid) {
+                    date.setDate(date.getDate() + 1);
+                    date.setHours(0, 0, 0);
+                    continue;
+                }
+
+                if (specs.hour.type !== 'any') {
+                    const currentHour = date.getHours();
+                    const validHours = specs.hour.values.filter(h => h >= currentHour);
+                    if (validHours.length === 0) {
+                        date.setDate(date.getDate() + 1);
+                        date.setHours(0, 0, 0);
+                        continue;
+                    }
+                    if (validHours[0] > currentHour) {
+                        date.setHours(validHours[0], 0, 0);
+                    }
+                }
+
+                if (specs.minute.type !== 'any') {
+                    const currentMinute = date.getMinutes();
+                    const validMinutes = specs.minute.values.filter(m => m >= currentMinute);
+                    if (validMinutes.length === 0) {
+                        date.setHours(date.getHours() + 1);
+                        date.setMinutes(0, 0, 0);
+                        continue;
+                    }
+                    if (validMinutes[0] > currentMinute) {
+                        date.setMinutes(validMinutes[0], 0, 0);
+                    }
+                }
+
+                if (date > now) {
+                    return date;
+                }
+
+                date.setMinutes(date.getMinutes() + 1);
+            }
+
+            throw new Error('Gelecek çalışma zamanı bulunamadı');
+        }
+
+        // Cron ifadesi oluşturma ve doğrulama
+        function generateCron() {
+            let minute = $("#minute").val().trim();
+            let hour = $("#hour").val().trim();
+            let day = $("#day").val().trim();
+            let month = $("#month").val().trim();
+            let weekday = $("#weekday").val().trim();
+
+            // Boş değer kontrolü
+            if (!minute || !hour || !day || !month || !weekday) {
+                $("#createResult").html('<div class="alert alert-danger">Hata: Tüm alanlar doldurulmalıdır.</div>');
+                $("#cronExpression").val("");
+                return;
+            }
+
+            // Doğrulama
+            let isValid = validateCronField(minute, 0, 59) &&
+                          validateCronField(hour, 0, 23) &&
+                          validateCronField(day, 1, 31) &&
+                          validateCronField(month, 1, 12) &&
+                          validateCronField(weekday, 0, 6);
+
+            if (!isValid) {
+                $("#createResult").html('<div class="alert alert-danger">Hata: Geçersiz cron ifadesi. Lütfen değerleri kontrol edin.</div>');
+                $("#cronExpression").val("");
+                return;
+            }
+
+            // Cron ifadesini oluştur
+            let cronExpr = `${minute} ${hour} ${day} ${month} ${weekday}`;
+            $("#cronExpression").val(cronExpr);
+
+            // Bir sonraki çalıştırma zamanını hesapla
+            try {
+                const nextRun = calculateNextRun(cronExpr);
+                const explanation = `
+                    <strong>Cron İfadesi:</strong> ${cronExpr}<br>
+                    <strong>Bir Sonraki Çalışma:</strong> ${nextRun.toLocaleString('tr-TR')}<br>
+                    <strong>Detaylar:</strong><br>
+                    - Dakika: ${explainPart(minute, '0-59')}<br>
+                    - Saat: ${explainPart(hour, '0-23')}<br>
+                    - Gün: ${explainPart(day, '1-31')}<br>
+                    - Ay: ${explainPart(month, '1-12')}<br>
+                    - Hafta Günü: ${explainWeekday(weekday)}
+                `;
+                $("#createResult").html(`<div class="alert alert-success">${explanation}</div>`);
+            } catch (error) {
+                $("#createResult").html(`<div class="alert alert-danger">Hata: ${error.message}</div>`);
+            }
+        }
+
+        // Cron ifadesi doğrulama
+        function validateCron() {
+            let cronExpr = $("#validateInput").val().trim();
+            let resultDiv = $("#validateResult");
+
+            // Boş giriş kontrolü
+            if (!cronExpr) {
+                resultDiv.html('<div class="alert alert-danger">Hata: Cron ifadesi boş olamaz.</div>');
+                return;
+            }
+
+            // 5 parça kontrolü
+            let parts = cronExpr.split(/\s+/);
+            if (parts.length !== 5) {
+                resultDiv.html('<div class="alert alert-danger">Hata: Cron ifadesi tam olarak 5 parça içermeli.</div>');
+                return;
+            }
+
+            // Her parçayı doğrulama
+            let [minute, hour, day, month, weekday] = parts;
+            let isValid = validateCronField(minute, 0, 59) &&
+                          validateCronField(hour, 0, 23) &&
+                          validateCronField(day, 1, 31) &&
+                          validateCronField(month, 1, 12) &&
+                          validateCronField(weekday, 0, 6);
+
+            if (!isValid) {
+                resultDiv.html('<div class="alert alert-danger">Hata: Geçersiz cron ifadesi. Lütfen değerleri kontrol edin.</div>');
+                return;
+            }
+
+            // Bir sonraki çalıştırma zamanını hesapla
+            try {
+                const nextRun = calculateNextRun(cronExpr);
+                const explanation = `
+                    <strong>Girilen Cron İfadesi:</strong> ${cronExpr}<br>
+                    <strong>Bir Sonraki Çalışma:</strong> ${nextRun.toLocaleString('tr-TR')}<br>
+                    <strong>Detaylar:</strong><br>
+                    - Dakika: ${explainPart(minute, '0-59')}<br>
+                    - Saat: ${explainPart(hour, '0-23')}<br>
+                    - Gün: ${explainPart(day, '1-31')}<br>
+                    - Ay: ${explainPart(month, '1-12')}<br>
+                    - Hafta Günü: ${explainWeekday(weekday)}
+                `;
+                resultDiv.html(`<div class="alert alert-success">${explanation}</div>`);
+            } catch (error) {
+                resultDiv.html(`<div class="alert alert-danger">Hata: ${error.message}</div>`);
+            }
+        }
+
+        // Açıklama oluşturma yardımcı fonksiyonları
+        function explainPart(part, range) {
+            if (part === '*') return `Her değer (${range})`;
+            if (part.includes('/')) return `Her ${part.split('/')[1]} değerde bir`;
+            if (part.includes('-')) return `${part.replace('-', ' ile ')} arası`;
+            if (part.includes(',')) return `Belirli değerler: ${part}`;
+            return `Sabit değer: ${part}`;
+        }
+
+        function explainWeekday(part) {
+            const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+            if (part === '*') return 'Her gün';
+            return part.split(',').map(d => {
+                if (d.includes('-')) {
+                    const [s, e] = d.split('-');
+                    return `${days[s]} - ${days[e]}`;
+                }
+                return days[d];
+            }).join(', ');
+        }
+
+        // Olay dinleyicileri
+        $("#generateCron").click(generateCron);
+        $("#validateCronButton").click(validateCron);
+    </script>
+</body>
+</html>

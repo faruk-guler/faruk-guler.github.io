@@ -1,0 +1,27 @@
+<div id="reverse-ip-tool">
+  <h2>Reverse IP Lookup -farukguler.com</h2>
+  <input type="text" id="ipAddress" placeholder="IP adress or DNS">
+  <button onclick="reverseIPLookup()">Sorgula</button>
+  <pre id="output"></pre>
+</div>
+
+<script>
+  function reverseIPLookup() {
+    const ip = document.getElementById('ipAddress').value;
+    const output = document.getElementById('output');
+
+    if (!ip) {
+      output.textContent = "IP adress or DNS";
+      return;
+    }
+
+    fetch(`https://api.hackertarget.com/reverseiplookup/?q=${ip}`)
+      .then(response => response.text())
+      .then(data => {
+        output.textContent = data || "Sonuç bulunamadı.";
+      })
+      .catch(error => {
+        output.textContent = "Bir hata oluştu: " + error;
+      });
+  }
+</script>

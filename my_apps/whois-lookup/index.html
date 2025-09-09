@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHOIS Domain Lookup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .error {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>WHOIS Domain Lookup</h1>
+    <input type="text" id="domainInput" placeholder="Alan adını girin (örnek: farukguler.com)">
+    <button onclick="whoisLookup()">Sorgula</button>
+    <div class="result" id="result"></div>
+    <div class="error" id="error"></div>
+</div>
+
+<script>
+    async function whoisLookup() {
+        const domain = document.getElementById('domainInput').value.trim();
+        const resultDiv = document.getElementById('result');
+        const errorDiv = document.getElementById('error');
+
+        // Giriş alanını kontrol et
+        if (!domain) {
+            errorDiv.textContent = "Lütfen bir alan adı girin.";
+            resultDiv.textContent = "";
+            return;
+        }
+
+        // WHOIS sorgusu için API endpoint'i
+        const apiUrl = `https://api.whois.vu/?q=${domain}`;
+
+        try {
+            // API'den veri çek
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error("WHOIS sorgusu başarısız oldu.");
+            }
+
+            const data = await response.json();
+
+            // Sonuçları göster
+            if (data.available === "yes") {
+                resultDiv.textContent = `Alan adı: ${domain}\nDurum: Kayıtlı değil (Müsait)`;
+            } else {
+                resultDiv.textContent = `Alan adı: ${domain}\n
+Durum: Kayıtlı
+Kayıt Şirketi: ${data.registrar}
+Oluşturulma Tarihi: ${new Date(data.created * 1000).toLocaleDateString()}
+Son Güncelleme Tarihi: ${new Date(data.updated * 1000).toLocaleDateString()}
+❌-----> Domain Expire Tarihi: ${new Date(data.expires * 1000).toLocaleDateString()}
+WHOIS Verileri: ${data.whois}`;
+            }
+            errorDiv.textContent = "";
+        } catch (error) {
+            // Hata durumunda kullanıcıya bilgi ver
+            errorDiv.textContent = "WHOIS sorgusu sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+            resultDiv.textContent = "";
+            console.error("WHOIS sorgu hatası:", error);
+        }
+    }
+</script>
+
+</body>
+</html>

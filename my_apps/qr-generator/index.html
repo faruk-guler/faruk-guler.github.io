@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      background-color: #f4f4f9;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    input[type="text"], input[type="color"], input[type="file"] {
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #qrcode {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <input type="text" id="text-input" placeholder="Metin veya URL girin...">
+    <input type="color" id="color-dark" value="#000000">
+    <input type="color" id="color-light" value="#ffffff">
+    <input type="file" id="logo-input" accept="image/*">
+    <button onclick="generateQRCode()">QR Kodu Oluştur</button>
+    <button onclick="downloadQRCode()">QR Kodunu İndir</button>
+    <div id="qrcode"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script>
+    function generateQRCode() {
+      const input = document.getElementById("text-input").value;
+      const qrcodeDiv = document.getElementById("qrcode");
+      const colorDark = document.getElementById("color-dark").value;
+      const colorLight = document.getElementById("color-light").value;
+      const logoInput = document.getElementById("logo-input");
+
+      if (!input.trim()) {
+        alert("Lütfen metin veya URL girin!");
+        return;
+      }
+      
+      while (qrcodeDiv.firstChild) qrcodeDiv.removeChild(qrcodeDiv.firstChild);
+
+      const qrcode = new QRCode(qrcodeDiv, {
+        text: input,
+        width: 256,
+        height: 256,
+        colorDark: colorDark,
+        colorLight: colorLight,
+      });
+
+      if (logoInput.files && logoInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const logo = new Image();
+          logo.src = e.target.result;
+          logo.onload = function () {
+            const canvas = qrcodeDiv.querySelector("canvas");
+            const ctx = canvas.getContext("2d");
+            const logoSize = canvas.width * 0.2; 
+            const x = (canvas.width - logoSize) / 2;
+            const y = (canvas.height - logoSize) / 2;
+            ctx.drawImage(logo, x, y, logoSize, logoSize);
+          };
+        };
+        reader.readAsDataURL(logoInput.files[0]);
+      }
+    }
+
+    function downloadQRCode() {
+      const canvas = document.querySelector("#qrcode canvas");
+      if (canvas) {
+        const link = document.createElement("a");
+        link.href = canvas.toDataURL("image/png");
+        link.download = "qrcode.png";
+        link.click();
+      } else {
+        alert("Önce bir QR kodu oluşturun!");
+      }
+    }
+  </script>
+</body>
+</html>

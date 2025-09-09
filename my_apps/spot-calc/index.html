@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spot Kar/Zarar Hesaplama</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .clear-btn {
+            background-color: #f44336;
+        }
+        .clear-btn:hover {
+            background-color: #d32f2f;
+        }
+        .result {
+            background-color: #e7f7e7;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .result-item {
+            margin: 0 10px;
+        }
+        .profit {
+            color: green;
+        }
+        .loss {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Spot Profit and Loss Calculator</h1>
+        <form id="calcForm">
+            <label for="coinName">Coin Name:</label>
+            <input type="text" id="coinName" name="coinName" placeholder="Coin Symbol Girin" required>
+
+            <label for="buyPrice">Alış Fiyatı (USD):</label>
+            <input type="number" id="buyPrice" name="buyPrice" placeholder="Alış Fiyatını Girin" required>
+
+            <label for="investmentAmount">Yatırım Miktarı (USD):</label>
+            <input type="number" id="investmentAmount" name="investmentAmount" placeholder="Yatırım Miktarını Girin" required>
+
+            <label for="sellPrice">Satış Fiyatı (USD):</label>
+            <input type="number" id="sellPrice" name="sellPrice" placeholder="Satış Fiyatını Girin" required>
+
+            <div class="buttons">
+                <button type="button" onclick="calculateProfit(event)">Hesapla</button>
+                <button type="button" class="clear-btn" onclick="clearForm()">Temizle</button>
+            </div>
+        </form>
+
+        <div class="result" id="result" style="display:none;">
+            <div class="result-item"><strong>Name:</strong> <span id="resultCoinName"></span></div>
+            <div class="result-item"><strong>PNL:</strong> <span id="resultProfitLoss"></span></div>
+            <div class="result-item"><strong>PNL %:</strong> <span id="resultProfitLossPercentage"></span>%</div>
+            <div class="result-item"><strong>(X):</strong> <span id="resultMultiplier"></span></div>
+            <div class="result-item"><strong>Yatırım:</strong> $<span id="resultInvestmentAmount"></span></div>
+            <div class="result-item"><strong>Son:</strong> $<span id="resultExitAmount"></span></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateProfit(event) {
+            event.preventDefault();  // Formun varsayılan davranışını engelle
+
+            var coinName = document.getElementById('coinName').value;
+            var buyPrice = parseFloat(document.getElementById('buyPrice').value);
+            var investmentAmount = parseFloat(document.getElementById('investmentAmount').value);
+            var sellPrice = parseFloat(document.getElementById('sellPrice').value);
+
+            if (isNaN(buyPrice) || isNaN(investmentAmount) || isNaN(sellPrice) || buyPrice <= 0 || sellPrice <= 0 || investmentAmount <= 0) {
+                alert("Lütfen geçerli sayılar girin!");
+                return;
+            }
+
+            var profitLoss = (sellPrice - buyPrice) * (investmentAmount / buyPrice);
+            var profitLossPercentage = (profitLoss / investmentAmount) * 100;
+            var multiplier = sellPrice / buyPrice;
+
+            document.getElementById('resultCoinName').textContent = coinName;
+
+            var profitLossElement = document.getElementById('resultProfitLoss');
+            profitLossElement.textContent = profitLoss.toFixed(2) + " USD";
+            profitLossElement.className = profitLoss >= 0 ? "profit" : "loss";
+
+            document.getElementById('resultProfitLossPercentage').textContent = profitLossPercentage.toFixed(2);
+            document.getElementById('resultMultiplier').textContent = multiplier.toFixed(2);
+            document.getElementById('resultInvestmentAmount').textContent = investmentAmount.toFixed(2);
+            document.getElementById('resultExitAmount').textContent = (investmentAmount + profitLoss).toFixed(2);
+
+            document.getElementById('result').style.display = 'flex';
+        }
+
+        function clearForm() {
+            document.getElementById('calcForm').reset();
+            document.getElementById('result').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
