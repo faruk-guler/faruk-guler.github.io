@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found!</title>
+    <style>
+        :root { --x: 50%; --y: 50%; } /* Başlangıç noktaları */
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden; /* Taşmayı gizler */
+            font-family: Arial, sans-serif; /* Standart font eklendi */
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Resmin orantılı görünmesi için */
+            position: absolute; /* Resmi arka plana almak için */
+            top: 0;
+            left: 0;
+            z-index: -1; /* Resmin arka planda görünmesi için */
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--x) var(--y), rgba(10, 0, 10, 0.0), rgba(0, 0, 0, 0.9)); /* Gölge efekti düzeltildi */
+            z-index: 1; /* Gölge efektini ön plana alır */
+        }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+        h2 {
+            color: white; /* Metin rengi */
+            margin-bottom: 30px;
+        }
+        .btn-home {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .btn-home:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://farukguler.com/assets/img/404.png" alt="404 Not Found">
+    <div class="overlay"></div> <!-- Gölge efekti -->
+    <div class="content">
+      <a href="https://farukguler.com" class="btn-home">Kayboldun, Burada cırcır böceklerinden başka bir şey yok!</a>
+    </div>
+    <script>
+        document.addEventListener('mousemove', function(e) {
+            // X ve Y koordinatlarını yüzde olarak ayarlama
+            const x = e.clientX / window.innerWidth * 100;
+            const y = e.clientY / window.innerHeight * 100;
+            document.documentElement.style.setProperty('--x', `${x}%`);
+            document.documentElement.style.setProperty('--y', `${y}%`);
+        });
+    </script>
+</body>
+</html>
