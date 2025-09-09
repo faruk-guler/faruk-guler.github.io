@@ -40,5 +40,5 @@ platforms:
   #       link: "https://photog.social/"
 
   - type: Threads
-   icon: "fa-brands fa-square-threads"
-   link: "https://www.threads.net/intent/post?text=TITLE%20URL"
+    icon: "fa-brands fa-square-threads"
+    link: "https://www.threads.net/intent/post?text=TITLE%20URL"
