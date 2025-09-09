@@ -39,7 +39,7 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 - Blog: farukguler.com
 - LinkedIn: linkedin.com/in/gulerfaruk
 - Credly: credly.com/users/farukguler
-- E-Mail: <img src="/assets/img/mail-inf.png" style="height:1.1em; vertical-align:middle;" />
+- E-Mail: <img src="/assets/img/mail-inf.png" alt="E-Mail" style="height:1.1em; vertical-align:middle;" />
 - X:
 - Exploit-DB:
 - Zone-H:
