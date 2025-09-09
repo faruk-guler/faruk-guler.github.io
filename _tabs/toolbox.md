@@ -5,7 +5,7 @@ order: 2
 ---
 
 |--------------------|--------------------|----------------------|
-| <a href="https://farukguler.com/c/open-draw/" target="_blank">OpenDraw WebUI</a> | <a href="https://farukguler.com/apps/futures-calc/" target="_blank">Futures Liquidation Calculator</a> | <a href="https://farukguler.com/apps/spot-calc/" target="_blank">Spot Profit Calculator</a> |
+| <a href="https://farukguler.com/apps/open-draw/" target="_blank">OpenDraw WebUI</a> | <a href="https://farukguler.com/apps/futures-calc/" target="_blank">Futures Liquidation Calculator</a> | <a href="https://farukguler.com/apps/spot-calc/" target="_blank">Spot Profit Calculator</a> |
 | <a href="https://farukguler.com/apps/nobet/" target="_blank">Ücretsiz Nöbet Hazırlama Programı</a> | <a href="https://farukguler.com/apps/base64/" target="_blank">Base64 Encoder/Decoder</a> | <a href="https://farukguler.com/apps/whois-lookup/" target="_blank">WHOIS Domain Lookup</a> |
 | <a href="https://farukguler.com/apps/cronjob-planner/" target="_blank">Cronjob Planner</a> | <a href="https://farukguler.com/apps/parted/" target="_blank">Parted Jump Manual</a> | <a href="https://github.com/faruk-guler/Neutron/" target="_blank">Neutron -Powerful automation</a> |
 | <a href="https://farukguler.com/apps/live-localhost/" target="_blank">Live Localhost</a> | <a href="https://farukguler.com/apps/chmod-calculator/" target="_blank">Unix Permissions Calculator</a> |
