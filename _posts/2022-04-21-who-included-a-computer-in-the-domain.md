@@ -2,7 +2,7 @@
 layout: post
 title: Who included a computer in the domain
 date: 2022-05-10 09:20
-author: faruk-guler
+by: faruk-guler
 comments: true
 categories: [PowerShell]
 ---
