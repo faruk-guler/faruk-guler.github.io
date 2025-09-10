@@ -235,3 +235,10 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+# footer
+
+footer:
+  owner: "Faruk Güler"
+  text: "Tüm hakları saklıdır."
+  url: "https://faruk-guler.github.io"
