@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Preventing "Server Manager" From Opening Automatically on Every Logon Process
+title: Preventing Server Manager From Opening Automatically on Every Logon Process
 date: 2023-05-01 00:07
 by: faruk-guler
 comments: true

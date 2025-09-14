@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to find .Net-Framework version ?
+title: How to find .Net-Framework version
 date: 2021-12-30 09:11
 by: faruk-guler
 comments: true
