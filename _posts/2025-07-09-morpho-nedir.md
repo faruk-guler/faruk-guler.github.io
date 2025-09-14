@@ -3,7 +3,7 @@ layout: post
 title: Morpho Nedir?
 date: 2025-07-09 13:43
 tag: [Tokens]
-author: faruk-guler
+by: faruk-guler
 comments: true
 categories: [Blockchain]
 ---
