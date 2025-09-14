@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to find .Net-Framework version
-date: 2021-12-30 09:11
+date: 2021-11-28 07:17
 by: faruk-guler
 comments: true
 categories: [PowerShell]
