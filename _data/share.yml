@@ -26,9 +26,9 @@ platforms:
     icon: "fa-brands fa-square-reddit"
     link: "https://www.reddit.com/submit?url=URL&title=TITLE"
 
-  # Irnek Mastodon paylasimi icin acaabilirsiniz:
-  # - type: Mastodon
-  #   icon: "fa-brands fa-mastodon"
+  - type: Mastodon
+    icon: "fa-brands fa-mastodon"
+  #   # See: https://github.com/justinribeiro/share-to-mastodon#properties
   #   instances:
   #     - label: mastodon.social
   #       link: "https://mastodon.social/"
