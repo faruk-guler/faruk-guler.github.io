@@ -21,6 +21,9 @@ categories: [Windows OS]
 
 <!-- wp:preformatted -->
 ```bash
+Stop-Service -Name gpsvc -Force
+Start-Service -Name gpsvc
+
 Bulk Reset Group Policy Settings PS:
 (gpedit.msc)
 Remove-Item -Path "C:\Windows\System32\GroupPolicy\*" -Force -Recurse
@@ -30,8 +33,9 @@ gpupdate /force
 Reset Local Security Policy Settings to Default in Windows CMD:
 (secpol.msc)
 secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
+secedit /configure /cfg "$env:windir\inf\defltbase.inf" /db "$env:windir\security\database\defltbase.sdb" /verbose
 
 Log Wiew:
-%windir%\security\logs\scesrv.log for detail info.
+notepad "$env:windir\security\logs\scesrv.log"
 ```
 <!-- wp:paragraph -->
