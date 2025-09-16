@@ -21,6 +21,7 @@ categories: [Windows OS]
 
 <!-- wp:preformatted -->
 ```bash
+Services:
 Stop-Service -Name gpsvc -Force
 Start-Service -Name gpsvc
 
