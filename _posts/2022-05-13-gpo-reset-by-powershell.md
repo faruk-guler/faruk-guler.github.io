@@ -26,8 +26,8 @@ Start-Service -Name gpsvc
 
 Bulk Reset Group Policy Settings PS:
 (gpedit.msc)
-Remove-Item -Path "C:\Windows\System32\GroupPolicy\*" -Force -Recurse
-Remove-Item -Path "C:\Windows\System32\GroupPolicyUsers\*" -Force -Recurse
+Remove-Item -Path "C:\Windows\System32\GroupPolicy\*" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "C:\Windows\System32\GroupPolicyUsers\*" -Force -Recurse -ErrorAction SilentlyContinue
 gpupdate /force
 
 Reset Local Security Policy Settings to Default in Windows CMD:
