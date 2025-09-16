@@ -28,8 +28,8 @@ platforms:
 
   - type: Mastodon
     icon: "fa-brands fa-mastodon"
-  #   # See: https://github.com/justinribeiro/share-to-mastodon#properties
-instances:
+      # See: https://github.com/justinribeiro/share-to-mastodon#properties
+    instances:
       - label: mastodon.social
         link: "https://mastodon.social/share?text=TITLE%20URL"
       - label: mastodon.online
