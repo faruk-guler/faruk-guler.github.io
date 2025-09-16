@@ -27,6 +27,7 @@ Start-Service -Name gpsvc
 
 Backup gpo:
 Copy-Item -Path "C:\Windows\System32\GroupPolicy" -Destination "C:\Backup\GroupPolicy" -Recurse
+Copy-Item -Path "C:\Windows\System32\GroupPolicyUsers" -Destination "C:\Backup\GroupPolicyUsers" -Recurse
 
 Bulk Reset Group Policy Settings PS:
 (gpedit.msc)
