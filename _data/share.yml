@@ -29,15 +29,15 @@ platforms:
   - type: Mastodon
     icon: "fa-brands fa-mastodon"
   #   # See: https://github.com/justinribeiro/share-to-mastodon#properties
-     instances:
-       - label: mastodon.social
-         link: "https://mastodon.social/"
-       - label: mastodon.online
-         link: "https://mastodon.online/"
-       - label: fosstodon.org
-         link: "https://fosstodon.org/"
-       - label: photog.social
-        link: "https://photog.social/"
+instances:
+      - label: mastodon.social
+        link: "https://mastodon.social/share?text=TITLE%20URL"
+      - label: mastodon.online
+        link: "https://mastodon.online/share?text=TITLE%20URL"
+      - label: fosstodon.org
+        link: "https://fosstodon.org/share?text=TITLE%20URL"
+      - label: photog.social
+        link: "https://photog.social/share?text=TITLE%20URL"
 
   - type: Threads
     icon: "fa-brands fa-square-threads"
