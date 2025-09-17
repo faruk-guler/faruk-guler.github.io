@@ -25,7 +25,7 @@ Services:
 Stop-Service -Name gpsvc -Force
 Start-Service -Name gpsvc
 
-Backup gpo:
+Backup GPO:
 Copy-Item -Path "C:\Windows\System32\GroupPolicy" -Destination "C:\Backup\GroupPolicy" -Recurse
 Copy-Item -Path "C:\Windows\System32\GroupPolicyUsers" -Destination "C:\Backup\GroupPolicyUsers" -Recurse
 
@@ -35,7 +35,7 @@ Remove-Item -Path "C:\Windows\System32\GroupPolicy\*" -Force -Recurse -ErrorActi
 Remove-Item -Path "C:\Windows\System32\GroupPolicyUsers\*" -Force -Recurse -ErrorAction SilentlyContinue
 gpupdate /force
 
-Reset Local Security Policy Settings to Default in Windows CMD:
+Reset Local Security Policy Settings to Default in Windows CMD and PS:
 (secpol.msc)
 secedit /configure /cfg %windir%\inf\defltbase.inf /db defltbase.sdb /verbose
 secedit /configure /cfg "$env:windir\inf\defltbase.inf" /db "$env:windir\security\database\defltbase.sdb" /verbose
