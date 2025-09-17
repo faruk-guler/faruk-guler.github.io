@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Markdown Live Editor</title>
+    <title>Markdown Editor</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="lib/material-icons.css">
     <link rel="stylesheet" href="lib/base16-light.css">
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <body id="toplevel">
-    <div id="in"><form><textarea id="code"># test</textarea></form></div>
+    <div id="in"><form><textarea id="code"># New Document</textarea></form></div>
     <div id="out" class="markdown-body"></div>
     <div id="menu">
       <span>Save As</span>
@@ -38,8 +38,8 @@
     </div>
     <div id="navbar">
       <div id="navcontent">
-        <a id="logo" href = "https://farukguler.com" tooltip = "Check out the code on Github!">
-          <p id="title" class="left"># Markdown Live Editor -farukguler.com</p>
+        <a id="logo" href = "https://github.com/jbt/markdown-editor" tooltip = "Check out the code on Github!">
+          <p id="title" class="left"># Markdown Editor</p>
         </a>
         <p id="openbutton" title="Open from Disk" class="navbutton left" onclick="document.getElementById('fileInput').click();"><i class="material-icons">open_in_browser</i></p>
         <input id="fileInput" type="file" class="hidden" accept=".md,.mdown,.txt,.markdown"/>
