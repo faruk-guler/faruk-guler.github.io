@@ -7,7 +7,7 @@ comments: true
 categories: [Active Directory]
 ---
 <!-- wp:image {"id":3588,"sizeSlug":"large","linkDestination":"none","className":"is-resized"} -->
-<figure class="wp-block-image size-medium is-resized"><img src="https://farukguler.com/assets/post_images/health_check.jpg?w=1024" alt="" class="wp-image-88" /></figure>
+<figure class="wp-block-image size-small is-resized"><img src="https://farukguler.com/assets/post_images/health_check.jpg?w=1024" alt="" class="wp-image-88" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:preformatted -->
