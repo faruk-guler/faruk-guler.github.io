@@ -1,71 +1,293 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Markdown Editor</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="lib/material-icons.css">
-    <link rel="stylesheet" href="lib/base16-light.css">
-    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="lib/default.css">
-    <link rel="stylesheet" href="lib/github-markdown.css">
-    <link rel="stylesheet" href="lib/spell-checker.min.css">
-    <link rel="stylesheet" href="lib/sweetalert.css">
-    <link rel="stylesheet" href="index.css">
-  </head>
-  <body id="toplevel">
-    <div id="in"><form><textarea id="code"># New Document</textarea></form></div>
-    <div id="out" class="markdown-body"></div>
-    <div id="menu">
-      <span>Save As</span>
-      <div id="saveas-markdown">
-        <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-          <g transform="scale(0.0625)">
-            <path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z" />
-          </g>
-        </svg>
-        <span>Markdown</span>
-      </div>
-      <div id="saveas-html">
-        <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-          <g transform="scale(0.0625) translate(64,0)">
-            <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z" />
-          </g>
-        </svg>
-        <span>HTML</span>
-      </div>
-      <a id="close-menu" href="#">×</a>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>var _hsq=_hsq||[];_hsq.push(["setContentType","blog-post"]);</script>
+    <meta name=description content="Markdown is a plain text formatting syntax to speed up your writing. Let us try Markdown by using this online Markdown editor.">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/vendor/editor.md/editormd.js"></script>
+    <script src="/vendor/editor.md/languages/en.js"></script>
+    <link rel="stylesheet" href="/vendor/editor.md/css/editormd.min.css?ver=1.5.0.5" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Markdown Editor - Learn Markdown Online</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135081047-3"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-135081047-3');
+    </script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #4f5e6d;
+        }
+        .editor-wrapper {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            width: calc(100% - 2px);
+            height: calc(100% - 62px);
+        }
+
+        .examples {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            bottom: 0;
+            background: #f1f1f1;
+            text-align: center;
+            padding-top: 0;
+            height: 100%;
+            opacity: 0;
+            color: #333333;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+            display: block;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100%;
+            visibility: hidden;
+        }
+
+        .examples.active {
+            opacity: 1;
+            top: 0;
+            left: 0;
+            visibility: visible;
+            z-index: 9999;
+        }
+
+        .page-close {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 999;
+            color: #aaaaaa;
+            font-size: 2em;
+            cursor: pointer;
+            height: 50px;
+            width: 50px;
+            box-sizing: border-box;
+            line-height: 50px;
+            display: inline-block;
+        }
+        .site-nav {
+            background-color: #4f5e6d;
+            height: 60px;
+            line-height: 60px;
+            padding: 0 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.428571429;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+
+        .btn.btn-default {
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+            text-decoration: none;
+            margin-right: 5px;
+        }
+
+        .table {
+            background-color: #ffffff;
+        }
+
+        .examples-wrapper {
+            text-align: left;
+        }
+    
+    </style>
+</head>
+<body>
+<div class="site-nav">
+    <a href="javascript:void(0);" class="btn btn-default" onclick="showFloatPage('example');"><i class="fa fa-book" aria-hidden="true"></i> Tutorial</a>
+    <a href="https://wordpress.org/plugins/wp-githuber-md/" title="Markdown editor plugin for WordPress" class="btn btn-default" target="_blank"><i class="fa fa-wordpress" aria-hidden="true"></i> Download</a>
+    <a href="https://github.com/terrylinooo/githuber-md" title="Markdown editor plugin @ Github"class="btn btn-default" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></i> GitHub</a>
+</div>
+<div class="editor-wrapper">
+    <div id="wp-content-editor-container"></div>
+</div>
+<div id="example" class="examples">
+    <a href="#" class="page-close" data-page="example"><i class="fa fa-times" aria-hidden="true"></i></a>
+    <div class="examples-wrapper">
+        <div class="container">
+            <h1>Markdown Editor</h1>
+
+            <h2>Headings</h2>
+
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th>Markdown</th>
+                    <th>HTML</th>
+                    <th>Rendered Output</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code># Heading level 1</code></td>
+                    <td><code>&lt;h1&gt;Heading level 1&lt;/h1&gt;</code></td>
+                    <td><h1>Heading level 1</h1></td>
+                </tr>
+                <tr>
+                    <td><code>## Heading level 2</code></td>
+                    <td><code>&lt;h2&gt;Heading level 2&lt;/h2&gt;</code></td>
+                    <td><h2>Heading level 2</h2></td>
+                </tr>
+                <tr>
+                    <td><code>### Heading level 3</code></td>
+                    <td><code>&lt;h3&gt;Heading level 3&lt;/h3&gt;</code></td>
+                    <td><h3>Heading level 3</h3></td>
+                </tr>
+                <tr>
+                    <td><code>#### Heading level 4</code></td>
+                    <td><code>&lt;h4&gt;Heading level  4&lt;/h4&gt;</code></td>
+                    <td><h4 class="no-anchor">Heading level 4</h4></td>
+                </tr>
+                <tr>
+                    <td><code>##### Heading level 5</code></td>
+                    <td><code>&lt;h5&gt;Heading level 5&lt;/h5&gt;</code></td>
+                    <td><h5 class="no-anchor">Heading level 5</h5></td>
+                </tr>
+                <tr>
+                    <td><code>###### Heading level 6</code></td>
+                    <td><code>&lt;h6&gt;Heading level 6&lt;/h6&gt;</code></td>
+                    <td><h6 class="no-anchor">Heading level 6</h6></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div id="navbar">
-      <div id="navcontent">
-        <a id="logo" href = "https://github.com/jbt/markdown-editor" tooltip = "Check out the code on Github!">
-          <p id="title" class="left"># Markdown Editor</p>
-        </a>
-        <p id="openbutton" title="Open from Disk" class="navbutton left" onclick="document.getElementById('fileInput').click();"><i class="material-icons">open_in_browser</i></p>
-        <input id="fileInput" type="file" class="hidden" accept=".md,.mdown,.txt,.markdown"/>
-        <p id="savebutton" title="Download" class="navbutton left" onclick="showMenu()"><i class="material-icons">file_download</i></p>
-        <p id="browsersavebutton" title="Browser Save (Experimental)" class="navbutton left" onclick="saveInBrowser()"><i class="material-icons">save</i></p>
-        <p id="sharebutton" title="Generate Shareable Link" class="navbutton left" onclick="updateHash()"><i class="material-icons">share</i></p>
-        <p id="nightbutton" title="Night Mode" class="navbutton left" onclick="toggleNightMode(this)"><i class="material-icons">invert_colors</i></p>
-        <p id="readbutton" title="Reading Mode" class="navbutton left" onclick="toggleReadMode(this)"><i class="material-icons">chrome_reader_mode</i></p>
-        <p id="spellbutton" title="Spell Check" class="navbutton left selected" onclick="toggleSpellCheck(this)"><i class="material-icons">spellcheck</i></p>
-        <p id="newbutton" class="navbutton left hidden" onclick="clearEditor()">Clear</p>
-        <p id="sharebutton" class="navbutton left selected hidden">Share</p>
-      </div>
-    </div>
-    <script src="lib/markdown-it.js"></script>
-    <script src="lib/markdown-it-footnote.js"></script>
-    <script src="lib/highlight.pack.js"></script>
-    <script src="lib/emojify.js"></script>
-    <script src="codemirror/lib/codemirror.js"></script>
-    <script src="codemirror/overlay.js"></script>
-    <script src="codemirror/css/css.js"></script>
-    <script src="codemirror/htmlmixed/htmlmixed.js"></script>
-    <script src="codemirror/lib/util/continuelist.js"></script>
-    <script src="lib/spell-checker.min.js"></script>
-    <script src="lib/rawinflate.js"></script>
-    <script src="lib/rawdeflate.js"></script>
-    <script src = "lib/sweetalert.min.js"></script>
-    <script src="index.js"></script>
-  </body>
+</div>
+
+<script>
+
+    var global_editormd_config = {};
+    var wp_editor_container = '#wp-content-editor-container';
+    var wp_editor = 'wp-content-editor-container';
+    var githuber_md_editor;
+
+    function showFloatPage(page) {
+        $('#' + page).addClass('active');
+    }
+    
+    (function($) {
+        $(function() {
+
+            $('.page-close').click(function() {
+                var page = $(this).attr('data-page');
+                console.log(page);
+                $('#' + page).removeClass('active');
+            });
+
+            global_editormd_config = {
+                width: '100%',
+                height: 'calc(100vh - 100px)',
+                path: '/vendor/editor.md/lib/',
+                placeholder: '',
+                syncScrolling: true,
+                watch: true,        
+                htmlDecode: true,
+                theme: 'default', 
+                previewTheme: 'default',
+                editorTheme: 'default',   
+                tex: true,
+                flowChart: true,  
+                sequenceDiagram: true, 
+                taskList: true,
+                mermaid: true,
+                lineNumbers: true,
+                previewCodeLineNumber: true,
+                toolbarAutoFixed: true, 
+                tocm: false, 
+                tocDropdown: false,    
+                atLink: false,
+                //imagePasteCallback: config.image_paste_callback,
+                toolbarIcons: function () {
+                    return [
+                        'undo', 'redo', '|',
+                        'bold', 'del', 'italic', 'quote', '|',
+                        'h1', 'h2', 'h3', 'h4', '|',
+                        'list-ul', 'list-ol', 'hr', '|',
+                        'link', 'reference-link', 'image', 'code', 'code-block', 'table', 'datetime', 'html-entities', 'more', 'pagebreak', '|',
+                        'watch', 'preview', 'fullscreen'
+                    ];
+                },
+                onfullscreen: function () {
+                    $(wp_editor_container).css({
+                        'position': 'fixed',
+                        'z-index': '99999'
+                    })
+                },
+
+                onfullscreenExit: function () {
+                    $(wp_editor_container).css({
+                        'position': 'relative',
+                        'z-index': 'auto'
+                    });
+                },
+
+                toolbarIconsClass: {
+                    toc: 'fa-list-alt',
+                    more: 'fa-ellipsis-h'
+                },
+
+                toolbarHandlers: {
+                    toc: function (cm, icon, cursor, selection) {
+                        cm.replaceSelection('[toc]');
+                    },
+                    more: function (cm, icon, cursor, selection) {
+                        cm.replaceSelection('\r\n<!--more-->\r\n');
+                    }
+                },
+                lang: {
+                    toolbar: {
+                        toc: 'The Table Of Contents',
+                        more: 'More'
+                    }
+                },
+                onload : function() {
+                    var keyMap = {
+                        "Ctrl-T": function(cm) {
+                            alert("Ctrl+T");
+                        },
+                
+                    };
+                    this.addKeyMap(keyMap);
+                }
+            };
+
+            if ($(wp_editor_container).length == 1) {
+                githuber_md_editor = editormd(wp_editor, global_editormd_config);
+            }
+        });
+
+    })(jQuery);
+
+</script>
+</body>
 </html>
+
+
