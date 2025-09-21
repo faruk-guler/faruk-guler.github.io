@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
+    <title>Domain/IP Analyzer -farukguler.com</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body { 
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace; 
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%); 
+            color: #e0e0e0; 
+            padding: 20px; 
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            font-size: 2.2em;
+        }
+        
+        .input-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .help-text {
+            color: #aaa;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        textarea { 
+            width: 100%; 
+            height: 120px; 
+            margin-bottom: 15px; 
+            background: rgba(0, 0, 0, 0.6); 
+            color: #00ff88; 
+            border: 2px solid rgba(0, 255, 136, 0.3); 
+            border-radius: 8px;
+            padding: 15px; 
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        button { 
+            padding: 12px 24px; 
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: #000; 
+            border: none; 
+            border-radius: 8px;
+            cursor: pointer; 
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+        
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        button:disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .clear-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+        }
+        
+        .export-btn {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+        }
+        
+        .progress-container {
+            display: none;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+        
+        .stats {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #00ff88;
+        }
+        
+        .result { 
+            margin: 20px 0; 
+            padding: 20px; 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .result:hover {
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.1);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .domain-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status.success { background: rgba(0, 255, 136, 0.2); color: #00ff88; }
+        .status.error { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+        .status.partial { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #00ff88;
+        }
+        
+        .info-title {
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        
+        .ip { 
+            color: #00bfff; 
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+        
+        .subs { 
+            color: #ffd700;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .subs::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .subs::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        .subs::-webkit-scrollbar-thumb {
+            background: #00ff88;
+            border-radius: 3px;
+        }
+        
+        .subdomain-item {
+            padding: 2px 0;
+            font-size: 0.9em;
+        }
+        
+        a { 
+            color: #00bfff; 
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover { 
+            color: #00ff88;
+            text-decoration: underline; 
+        }
+        
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-top: 2px solid #00ff88;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+        
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            z-index: 1000;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Domain/IP Analyzer -farukguler.com</h1>
+        
+        <div class="input-section">
+            <div class="help-text">
+                📝 Her satıra bir domain veya IP adresi girin. Maksimum 20 entry desteklenir.
+            </div>
+            <textarea id="domains" placeholder="farukguler.com&#10;google.com&#10;183.114.23.9&#10;github.com"></textarea>
+            
+            <div class="controls">
+                <button id="startBtn" onclick="startLookup()">
+                    🚀 Start
+                </button>
+                <button class="clear-btn" onclick="clearAll()">
+                    🗑️ Clear
+                </button>
+                <button class="export-btn" onclick="exportResults()">
+                    💾 Export
+                </button>
+            </div>
+        </div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Hazırlanıyor...</div>
+        </div>
+        
+        <div class="stats" id="stats"></div>
+        
+        <div id="output"></div>
+    </div>
+
+    <script>
+        let isProcessing = false;
+        let processedResults = [];
+        
+        // Rate limiting için delay
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        
+        // Güvenli input sanitization
+        function sanitizeInput(input) {
+            return input.replace(/<[^>]*>/g, '').trim();
+        }
+        
+        // IP format kontrolü (IPv4)
+        function isValidIP(ip) {
+            const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return ipv4Regex.test(ip);
+        }
+        
+        // Domain format kontrolü
+        function isValidDomain(domain) {
+            const domainRegex = /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
+            return domainRegex.test(domain) && domain.length <= 253;
+        }
+        
+        // Timeout wrapper
+        async function withTimeout(promise, timeoutMs = 10000) {
+            const timeout = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('İstek zaman aşımına uğradı')), timeoutMs)
+            );
+            return Promise.race([promise, timeout]);
+        }
+        
+        // Domain → IP çözümü (Google DNS API)
+        async function resolveDomain(domain) {
+            try {
+                const response = await withTimeout(
+                    fetch(`https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=A&cd=false`, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.Answer && data.Answer.length > 0) {
+                    const aRecord = data.Answer.find(record => record.type === 1);
+                    if (aRecord && aRecord.data) {
+                        return aRecord.data;
+                    }
+                }
+                
+                return null;
+            } catch (error) {
+                console.error(`Domain çözümleme hatası (${domain}):`, error);
+                return null;
+            }
+        }
+        
+        // Subdomain keşfi (crt.sh)
+        async function getSubdomains(domain) {
+            try {
+                const response = await withTimeout(
+                    fetch(`https://crt.sh/?q=%25.${encodeURIComponent(domain)}&output=json`, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!Array.isArray(data)) {
+                    return [];
+                }
+                
+                const subdomains = new Set();
+                
+                data.forEach(cert => {
+                    if (cert.name_value) {
+                        const names = cert.name_value.split('\n');
+                        names.forEach(name => {
+                            let cleanName = name.trim()
+                                .replace(/^\*\./, '')  // Wildcard temizle
+                                .toLowerCase();
+                                
+                            if (cleanName && cleanName.includes('.') && 
+                                cleanName.endsWith('.' + domain.toLowerCase()) && 
+                                isValidDomain(cleanName)) {
+                                subdomains.add(cleanName);
+                            }
+                        });
+                    }
+                });
+                
+                return Array.from(subdomains).sort();
+                
+            } catch (error) {
+                console.error(`Subdomain keşif hatası (${domain}):`, error);
+                return [];
+            }
+        }
+        
+        // Progress güncelleme
+        function updateProgress(current, total, text) {
+            const percent = Math.round((current / total) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `${text} (${current}/${total}) - %${percent}`;
+        }
+        
+        // Sonuç HTML oluştur
+        function createResultHTML(input, result) {
+            const { ip, subdomains, error, type } = result;
+            
+            let statusClass = 'success';
+            let statusText = 'Başarılı';
+            
+            if (error) {
+                statusClass = 'error';
+                statusText = 'Hata';
+            } else if (type === 'domain' && (!ip || subdomains.length === 0)) {
+                statusClass = 'partial';
+                statusText = 'Kısmi';
+            }
+            
+            let html = `
+                <div class="result">
+                    <div class="result-header">
+                        <div class="domain-name">${sanitizeInput(input)}</div>
+                        <div class="status ${statusClass}">${statusText}</div>
+                    </div>
+            `;
+            
+            if (error) {
+                html += `<div class="error">❌ Hata: ${sanitizeInput(error)}</div>`;
+            } else {
+                html += `<div class="info-grid">`;
+                
+                // IP Bilgisi
+                if (ip) {
+                    html += `
+                        <div class="info-card">
+                            <div class="info-title">🌐 IP Adresi</div>
+                            <div class="ip">${sanitizeInput(ip)}</div>
+                        </div>
+                    `;
+                    
+                    // Reverse IP
+                    const reverseUrl = `https://viewdns.info/reverseip/?host=${encodeURIComponent(ip)}&t=1`;
+                    html += `
+                        <div class="info-card">
+                            <div class="info-title">🔄 Reverse IP</div>
+                            <a href="${reverseUrl}" target="_blank" rel="noopener noreferrer">
+                                ViewDNS'de Görüntüle →
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                // Subdomain listesi
+                if (type === 'domain') {
+                    html += `
+                        <div class="info-card">
+                            <div class="info-title">
+                                🔍 Alt Domainler 
+                                <span class="tooltip" data-tooltip="SSL sertifika loglarından elde edildi">(${subdomains.length})</span>
+                            </div>
+                            <div class="subs">
+                    `;
+                    
+                    if (subdomains.length > 0) {
+                        subdomains.forEach(subdomain => {
+                            html += `<div class="subdomain-item">• ${sanitizeInput(subdomain)}</div>`;
+                        });
+                    } else {
+                        html += '<div style="color: #888; font-style: italic;">Alt domain bulunamadı</div>';
+                    }
+                    
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            return html;
+        }
+        
+        // Ana lookup fonksiyonu
+        async function startLookup() {
+            if (isProcessing) return;
+            
+            const textarea = document.getElementById('domains');
+            const rawInputs = textarea.value.split('\n')
+                .map(line => sanitizeInput(line))
+                .filter(line => line.length > 0);
+            
+            if (rawInputs.length === 0) {
+                alert('⚠️ Lütfen en az bir domain veya IP adresi girin!');
+                return;
+            }
+            
+            if (rawInputs.length > 20) {
+                alert('⚠️ Maksimum 20 entry desteklenir. Lütfen listeyinizi kısaltın.');
+                return;
+            }
+            
+            // Input validasyonu
+            const validInputs = rawInputs.filter(input => {
+                return isValidIP(input) || isValidDomain(input);
+            });
+            
+            if (validInputs.length === 0) {
+                alert('❌ Geçerli domain veya IP adresi bulunamadı!');
+                return;
+            }
+            
+            if (validInputs.length !== rawInputs.length) {
+                const invalid = rawInputs.filter(input => !isValidIP(input) && !isValidDomain(input));
+                console.warn('Geçersiz girişler atlandı:', invalid);
+            }
+            
+            isProcessing = true;
+            processedResults = [];
+            
+            const startBtn = document.getElementById('startBtn');
+            const progressContainer = document.getElementById('progressContainer');
+            const output = document.getElementById('output');
+            
+            startBtn.disabled = true;
+            startBtn.innerHTML = '<div class="loading"></div> İşleniyor...';
+            progressContainer.style.display = 'block';
+            output.innerHTML = '';
+            
+            const startTime = Date.now();
+            let completed = 0;
+            
+            try {
+                // Paralel işlem (concurrent limit ile)
+                const concurrencyLimit = 3;
+                const results = [];
+                
+                for (let i = 0; i < validInputs.length; i += concurrencyLimit) {
+                    const batch = validInputs.slice(i, i + concurrencyLimit);
+                    
+                    const batchPromises = batch.map(async (input) => {
+                        updateProgress(completed, validInputs.length, `İşleniyor: ${input}`);
+                        
+                        try {
+                            let result = { ip: null, subdomains: [], error: null };
+                            
+                            if (isValidIP(input)) {
+                                result.type = 'ip';
+                                result.ip = input;
+                            } else {
+                                result.type = 'domain';
+                                
+                                // IP çözümle
+                                result.ip = await resolveDomain(input);
+                                await delay(200); // Rate limiting
+                                
+                                // Subdomain keşif
+                                result.subdomains = await getSubdomains(input);
+                                await delay(300); // Rate limiting
+                            }
+                            
+                            return { input, result };
+                            
+                        } catch (error) {
+                            console.error(`İşlem hatası (${input}):`, error);
+                            return { 
+                                input, 
+                                result: { 
+                                    ip: null, 
+                                    subdomains: [], 
+                                    error: error.message,
+                                    type: isValidIP(input) ? 'ip' : 'domain'
+                                }
+                            };
+                        } finally {
+                            completed++;
+                        }
+                    });
+                    
+                    const batchResults = await Promise.allSettled(batchPromises);
+                    batchResults.forEach(settled => {
+                        if (settled.status === 'fulfilled') {
+                            results.push(settled.value);
+                        }
+                    });
+                    
+                    // Batch'ler arası kısa mola
+                    if (i + concurrencyLimit < validInputs.length) {
+                        await delay(500);
+                    }
+                }
+                
+                // Sonuçları göster
+                output.innerHTML = '';
+                results.forEach(({ input, result }) => {
+                    output.innerHTML += createResultHTML(input, result);
+                    processedResults.push({ input, result });
+                });
+                
+                // İstatistikler
+                const stats = {
+                    total: results.length,
+                    successful: results.filter(r => !r.result.error).length,
+                    withIP: results.filter(r => r.result.ip).length,
+                    withSubdomains: results.filter(r => r.result.subdomains && r.result.subdomains.length > 0).length,
+                    duration: Math.round((Date.now() - startTime) / 1000)
+                };
+                
+                document.getElementById('stats').innerHTML = `
+                    📊 <strong>İstatistikler:</strong> 
+                    ${stats.total} toplam, 
+                    ${stats.successful} başarılı, 
+                    ${stats.withIP} IP çözümlendi, 
+                    ${stats.withSubdomains} subdomain bulundu, 
+                    ${stats.duration}s sürdü
+                `;
+                document.getElementById('stats').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Genel hata:', error);
+                output.innerHTML = `<div class="error">❌ Beklenmeyen bir hata oluştu: ${sanitizeInput(error.message)}</div>`;
+            } finally {
+                isProcessing = false;
+                startBtn.disabled = false;
+                startBtn.innerHTML = '🚀 Start';
+                progressContainer.style.display = 'none';
+            }
+        }
+        
+        // Temizleme
+        function clearAll() {
+            if (isProcessing) return;
+            
+            document.getElementById('domains').value = '';
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('stats').style.display = 'none';
+            processedResults = [];
+        }
+        
+        // Export fonksiyonu
+        function exportResults() {
+            if (processedResults.length === 0) {
+                alert('📋 Dışa aktarılacak sonuç bulunamadı!');
+                return;
+            }
+            
+            let exportData = '# Domain/IP Analiz Sonuçları\n';
+            exportData += `# Tarih: ${new Date().toLocaleString('tr-TR')}\n`;
+            exportData += `# Toplam: ${processedResults.length} entry\n\n`;
+            
+            processedResults.forEach(({ input, result }) => {
+                exportData += `## ${input}\n`;
+                
+                if (result.error) {
+                    exportData += `- Durum: HATA\n`;
+                    exportData += `- Hata: ${result.error}\n`;
+                } else {
+                    exportData += `- Durum: BAŞARILI\n`;
+                    if (result.ip) {
+                        exportData += `- IP: ${result.ip}\n`;
+                        exportData += `- Reverse IP: https://viewdns.info/reverseip/?host=${result.ip}&t=1\n`;
+                    }
+                    if (result.subdomains && result.subdomains.length > 0) {
+                        exportData += `- Subdomainler (${result.subdomains.length}):\n`;
+                        result.subdomains.forEach(sub => {
+                            exportData += `  * ${sub}\n`;
+                        });
+                    }
+                }
+                exportData += '\n';
+            });
+            
+            // Dosya indir
+            const blob = new Blob([exportData], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `domain-analysis-${new Date().getTime()}.md`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'Enter':
+                        e.preventDefault();
+                        if (!isProcessing) startLookup();
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        clearAll();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        exportResults();
+                        break;
+                }
+            }
+        });
+        
+        // Auto-focus
+        document.getElementById('domains').focus();
+    </script>
+</body>
+</html>
