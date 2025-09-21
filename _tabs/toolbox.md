@@ -15,7 +15,7 @@ order: 2
 | <a href="https://farukguler.com/apps/my-ip/" target="_blank">What Is My IP Address</a> | <a href="https://farukguler.com/apps/tld-lookup/" target="_blank">Domain TLD Bulk Lookup</a> |
 | <a href="https://farukguler.com/apps/reverse-ip/" target="_blank">Reverse IP Lookup</a> | <a href="https://farukguler.com/apps/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a> |
 | <a href="https://farukguler.com/apps/speed-test/" target="_blank">NetSpeed Test</a> | <a href="https://farukguler.com/apps/tiny-markdown-editor/" target="_blank">Tiny Markdown Editor</a> |
-| <a href="https://farukguler.com/apps/domain-ip-analyzer/" target="_blank">Domain IP Analyzer</a> | <a href="https://farukguler.com/apps/domain-ip-analyzer/" target="_blank">Domain IP Analyzer</a> |
+| <a href="https://farukguler.com/apps/subdomain-finder/" target="_blank">Subdomain Finder</a> | <a href="https://farukguler.com/apps/domain-ip-analyzer/" target="_blank">Domain IP Analyzer</a> |
 
 ---
 
