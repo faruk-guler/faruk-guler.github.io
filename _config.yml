@@ -101,7 +101,7 @@ cdn:
 
 # the avatar on sidebar, support local or CORS resources
 # avatar: https://avatars.githubusercontent.com/u/95317318
-  avatar: https://preview.redd.it/what-is-bro-doing-back-there-v0-rjs7o09ru7od1.jpeg?width=320&crop=smart&auto=webp&s=762f60405142f75574f0470c5a8bc376b0774dd2
+  avatar: https://e0.pxfuel.com/wallpapers/599/204/desktop-wallpaper-adelie-penguin-animal-penguin-bird-adelie.jpg
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
