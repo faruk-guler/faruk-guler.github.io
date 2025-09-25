@@ -16,7 +16,7 @@ categories: [PowerShell]
 
 <!-- wp:preformatted -->
 <pre class="wp-block-preformatted"><strong>Password Never Expire kullanıcıları tespit et - Identify Password Never Expire users</strong>
-Get-ADUser -Filter ‘useraccountcontrol -band 66048’ -Properties useraccountcontrol
+get-ADUser -Filter {useraccountcontrol -band 66048} -Properties useraccountcontrol
 get-aduser -Filter {passwordNeverExpires -eq "true"} |Select-Object name
 
 <strong>kullanıcıdan Password Never Expire kaldır - Remove Password Never Expire from user</strong>
