@@ -27,7 +27,7 @@ categories: [Hybride]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>✔✔✔ “Enable automatic scavenging of stale records”</strong> seçeneğini enable etmelisiniz. Bunu yapmadan zoneler üzerinde yaptığınız bir ayarın hiçbir etkisi olmayacaktır.</p>
+<p><strong>✔✔  “Enable automatic scavenging of stale records”</strong> seçeneğini enable etmelisiniz. Bunu yapmadan zoneler üzerinde yaptığınız bir ayarın hiçbir etkisi olmayacaktır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6177,"width":616,"height":262,"sizeSlug":"large","linkDestination":"none"} -->
@@ -35,23 +35,23 @@ categories: [Hybride]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>✔✔✔ </strong>Bu işlemi toplu halde yapmak, zone’lar üzerinde aging özelliğini açmak için  <strong>Server &gt; sağ tık &gt; “Set Aging/Scavenging for all zones”</strong> seçeneğini seçebilirsiniz.</p>
+<p><strong>✔✔  </strong>Bu işlemi toplu halde yapmak, zone’lar üzerinde aging özelliğini açmak için  <strong>Server &gt; sağ tık &gt; “Set Aging/Scavenging for all zones”</strong> seçeneğini seçebilirsiniz.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>✔✔✔ </strong>Bu toplu işlem sadece Active Directory <strong>Integrated zoneleri </strong>etkiler. <strong>Primary zone'ler</strong> için bu işlemi yapmak istiyorsanız ilgili zonenin Properties/Özelliklerinden bu seçeneği aktif etmeniz gerekir.</p>
+<p><strong>✔✔  </strong>Bu toplu işlem sadece Active Directory <strong>Integrated zoneleri </strong>etkiler. <strong>Primary zone'ler</strong> için bu işlemi yapmak istiyorsanız ilgili zonenin Properties/Özelliklerinden bu seçeneği aktif etmeniz gerekir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>✔✔✔ </strong>Bu işlemi istediğiniz herhangi bir zamanda <strong>manuel olarak</strong> tetikleyebilirsiniz.       <strong>Server &gt; sağ tık &gt; "Scavenge Stale Resource Records"</strong> girdiğiniz&nbsp;<strong>Aging</strong>(saat-gün) tanımlamalarına göre&nbsp;<strong>Stale</strong>(süresi geçmiş)&nbsp;duruma düşen tüm kayıtlar tanımladığınız zonelerden anında silinecektir.</p>
+<p><strong>✔✔  </strong>Bu işlemi istediğiniz herhangi bir zamanda <strong>manuel olarak</strong> tetikleyebilirsiniz.       <strong>Server &gt; sağ tık &gt; "Scavenge Stale Resource Records"</strong> girdiğiniz&nbsp;<strong>Aging</strong>(saat-gün) tanımlamalarına göre&nbsp;<strong>Stale</strong>(süresi geçmiş)&nbsp;duruma düşen tüm kayıtlar tanımladığınız zonelerden anında silinecektir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>✔✔✔ </strong>Timestamp değeri ise clientlerın kendisini DNS'e kaydettirdiği en son <strong>gün ve saati</strong> göstermektedir.</p>
+<p><strong>✔✔  </strong>Timestamp değeri ise clientlerın kendisini DNS'e kaydettirdiği en son <strong>gün ve saati</strong> göstermektedir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>✔✔✔</strong>Manuel olarak girilen DNS kayıtları, DNS scavenging işlemine tabi değildirler. Yani bu kayıtlar, Timestamp değeri olmadığı için belirli bir süre sonra otomatik olarak silinmezler ve kullanılmayan kayıt listesine eklenmezler. Manuel olarak girilen kayıtların ne zaman silineceği veya güncellenmesi gerektiği, <strong>sistem yöneticisi </strong>tarafından takip edilmelidir.</p>
+<p><strong>✔✔ </strong>Manuel olarak girilen DNS kayıtları, DNS scavenging işlemine tabi değildirler. Yani bu kayıtlar, Timestamp değeri olmadığı için belirli bir süre sonra otomatik olarak silinmezler ve kullanılmayan kayıt listesine eklenmezler. Manuel olarak girilen kayıtların ne zaman silineceği veya güncellenmesi gerektiği, <strong>sistem yöneticisi </strong>tarafından takip edilmelidir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -63,7 +63,7 @@ categories: [Hybride]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>✔✔✔</strong> <strong>“Apply these settings to the existing Active Directory Integrated Zones” </strong>seçeneği işaretlerseniz varolan zone’lar üzerinde de bu işlemi gerçekleşecektir. Eğer bu seçeneği işaretlemezseniz sadece yeni zoneler içinde scavenging işlemi gerçekleştirilir. Mevcut zone'lerin ayarı değişmez.</p>
+<p><strong>✔✔ </strong> <strong>“Apply these settings to the existing Active Directory Integrated Zones” </strong>seçeneği işaretlerseniz varolan zone’lar üzerinde de bu işlemi gerçekleşecektir. Eğer bu seçeneği işaretlemezseniz sadece yeni zoneler içinde scavenging işlemi gerçekleştirilir. Mevcut zone'lerin ayarı değişmez.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
