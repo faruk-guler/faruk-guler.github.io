@@ -1,17 +1,17 @@
 ---
 layout: post
-title: Whats DNS Scavenging?
+title: What's DNS Scavenging?
 date: 2023-03-23 21:06
 by: faruk-guler
 comments: true
 categories: [Hybride]
 ---
 <!-- wp:paragraph -->
-<p><strong>DNS Scavenging,</strong> bir DNS sunucusunudaki, kayıtlı kaynakların zaman aşımını izleyerek eski kayıtları temizlemesi işlemidir. DNS bölgesi(Zone), daha önce çözümlenmiş DNS sorgularının sonuçlarını bir süre boyunca önbellekte saklar. Bu, ağ trafiğini azaltır ve sorguların daha hızlı çözümlenmesine yardımcı olur.</p>
+<p><strong>DNS Scavenging,</strong> bir DNS sunucusunudaki, kayıtlı kaynakların zaman aşımını izleyerek eski kayıtları temizlemesi işlemidir. Bu işlem artık kullanılmayan veya güncel olmayan DNS kayıtlarının DNS Zone database'inden silinmesini sağlar.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Ancak, </strong>DNS bölgesi (Zone) kayıtların sonsuza kadar saklanması mümkün değildir. Kaynakların IP adresleri değiştikçe veya kaynaklar ağdan kaldırıldıkça, DNS bölgesi (Zone) kayıtlar zamanla eski hale gelebilir. Bu eski kayıtlar, hatalı sorgu sonuçlarına neden olabilir ve ağ performansını olumsuz etkileyebilir.</p>
+<p><strong>Ancak, </strong>DNS bölgesi (Zone) kayıtların sonsuza kadar saklanması uygun olmaz. Kaynakların IP adresleri değiştikçe veya kaynaklar ağdan kaldırıldıkça, DNS bölgesi (Zone) kayıtlar zamanla eski hale gelebilir. Bu eski kayıtlar, hatalı sorgu sonuçlarına neden olabilir ve ağ performansını olumsuz etkileyebilir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -27,7 +27,7 @@ categories: [Hybride]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>***** “Enable automatic scavenging of stale records”</strong> seçeneğini enable hale getirmelisiniz. Bunu yapmadan zoneler üzerinde yaptığınız bir ayarın hiçbir etkisi olmayacaktır.</p>
+<p><strong>***** “Enable automatic scavenging of stale records”</strong> seçeneğini enable etmelisiniz. Bunu yapmadan zoneler üzerinde yaptığınız bir ayarın hiçbir etkisi olmayacaktır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6177,"width":616,"height":262,"sizeSlug":"large","linkDestination":"none"} -->
@@ -47,7 +47,7 @@ categories: [Hybride]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>***** </strong>Timestamp değeri ise clientlerın kendisini DNS' kaydettirdiği en son <strong>gün ve saati</strong> göstermektedir.</p>
+<p><strong>***** </strong>Timestamp değeri ise clientlerın kendisini DNS'e kaydettirdiği en son <strong>gün ve saati</strong> göstermektedir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -55,7 +55,7 @@ categories: [Hybride]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>******</strong>Ortamınızda hali hazırda bir <strong>DHCP Server </strong>veya Yapılandırması kullanıyorsanız <strong>Scaveng Periyod </strong>sürelerinin, DHCP<strong> (Lease Duration</strong>)&nbsp;IP kira süresinden daha uzun olmasına dikkat edin. Çünkü DHCP kirası dolan ip adresini farklı bir cihaz/client'e verdiğinde eski DNS kaydı <strong>DNS Scavenging </strong>tarafından çoktan silinmiş olmalıdır.</p>
+<p><strong>✔</strong>Ortamınızda hali hazırda bir <strong>DHCP Server </strong>veya Yapılandırması kullanıyorsanız <strong>Scaveng Periyod </strong>sürelerinin, DHCP<strong> (Lease Duration</strong>)&nbsp;IP kira süresinden daha uzun veya eşit olmasına dikkat edin. Çünkü DHCP kirası dolan ip adresini farklı bir cihaz/client'e verdiğinde eski DNS kaydı <strong>DNS Scavenging </strong>tarafından çoktan silinmiş olmalıdır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6178,"width":322,"height":338,"sizeSlug":"large","linkDestination":"none"} -->
@@ -63,11 +63,11 @@ categories: [Hybride]
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
-<p><strong>*****</strong> <strong>“Apply these settings to the existing Active Directory Integrated Zones” </strong>seçeneği seçerseniz varolan zone’lar üzerinde de bu işlemi gerçekleşecektir. Eğer bu seçeneği seçmez iseniz yeni zoneler içinde scavenging işlemi gerçekleştirilir.</p>
+<p><strong>*****</strong> <strong>“Apply these settings to the existing Active Directory Integrated Zones” </strong>seçeneği işaretlerseniz varolan zone’lar üzerinde de bu işlemi gerçekleşecektir. Eğer bu seçeneği işaretlemezseniz sadece yeni zoneler içinde scavenging işlemi gerçekleştirilir. Mevcut zone'lerin ayarı değişmez.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>DNS scavenging'in etkinleştirilmesiyle birlikte, DNS sunucusu artık kayıtları otomatik olarak temizleyecektir. Bu, ağ performansını iyileştirir ve hatalı sorgu sonuçlarını azaltır. Ancak, DNS scavenging işlemi, doğru şekilde yapılandırılmalıdır. Yanlış yapılandırılmış bir DNS scavenging, ağ sorunlarına neden olabilir.</p>
+<p>DNS scavenging'in etkinleştirilmesiyle birlikte, DNS sunucusu artık kayıtları otomatik olarak temizleyecektir. Bu süre defaultta 7+7= (14) gündür. Bu, ağ performansını iyileştirir ve hatalı sorgu sonuçlarını azaltır. Ancak, DNS scavenging işlemi, doğru şekilde yapılandırılmalıdır. Yanlış yapılandırılmış bir DNS scavenging, ağ sorunlarına neden olabilir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -86,7 +86,7 @@ categories: [Hybride]
 
 <!-- wp:list -->
 <ul><!-- wp:list-item -->
-<li><strong>Refresh interval:</strong> Aşağıda, 5 gün daha bekledikten sonra, bu clientleri "stale" olarak işaretle, Toplamda <strong>10+5</strong>  yani toplamda <strong>(15) </strong>gün daha kendisini DNS' e kayıt ettirmezlerse "<strong>Host kayıtlarını sil" </strong>anlamına gelmektedir.</li>
+<li><strong>Refresh interval:</strong> Aşağıda, 5 gün daha bekledikten sonra, bu clientleri "stale" olarak işaretle, Toplamda <strong>10+5</strong>  yani <strong>(15) </strong>gün daha kendisini DNS' e kayıt ettirmezlerse "<strong>Host kayıtlarını sil" </strong>anlamına gelmektedir.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 
