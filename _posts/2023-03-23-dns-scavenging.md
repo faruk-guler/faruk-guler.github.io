@@ -80,7 +80,7 @@ categories: [Hybride]
 
 <!-- wp:list -->
 <ul><!-- wp:list-item -->
-<li><strong>No-refresh interval:</strong> Yukarıda, 10 gün içerisinde istemci kayıt yenileme isteği gönderse bile kaydı güncellemesine izin verilmeyen süredir. Buda istemcilerin gereksiz yere sık sık kayıt güncellemesini engeller.</li>
+<li><strong>No-refresh interval:</strong> Yukarıda, 10 gün içerisinde istemci kayıt yenileme isteği gönderse bile timestamp değerinin güncellemesine izin verilmeyen süredir. Buda istemcilerin gereksiz yere sık sık kayıt güncellemesini engeller.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 
