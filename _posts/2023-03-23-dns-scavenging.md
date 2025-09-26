@@ -7,15 +7,15 @@ comments: true
 categories: [Hybride]
 ---
 <!-- wp:paragraph -->
-<p><strong>DNS Scavenging,</strong> bir DNS sunucusunudaki, kayıtlı kaynakların zaman aşımını izleyerek eski kayıtları temizlemesi işlemidir. DNS önbelleği, daha önce çözümlenmiş DNS sorgularının sonuçlarını bir süre boyunca önbellekte saklar. Bu, ağ trafiğini azaltır ve sorguların daha hızlı çözümlenmesine yardımcı olur.</p>
+<p><strong>DNS Scavenging,</strong> bir DNS sunucusunudaki, kayıtlı kaynakların zaman aşımını izleyerek eski kayıtları temizlemesi işlemidir. DNS bölgesi(Zone), daha önce çözümlenmiş DNS sorgularının sonuçlarını bir süre boyunca önbellekte saklar. Bu, ağ trafiğini azaltır ve sorguların daha hızlı çözümlenmesine yardımcı olur.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Ancak, </strong>DNS önbelleğindeki kayıtların sonsuza kadar saklanması mümkün değildir. Kaynakların IP adresleri değiştikçe veya kaynaklar ağdan kaldırıldıkça, DNS önbelleğindeki kayıtlar zamanla eski hale gelebilir. Bu eski kayıtlar, hatalı sorgu sonuçlarına neden olabilir ve ağ performansını olumsuz etkileyebilir.</p>
+<p><strong>Ancak, </strong>DNS bölgesi (Zone) kayıtların sonsuza kadar saklanması mümkün değildir. Kaynakların IP adresleri değiştikçe veya kaynaklar ağdan kaldırıldıkça, DNS bölgesi (Zone) kayıtlar zamanla eski hale gelebilir. Bu eski kayıtlar, hatalı sorgu sonuçlarına neden olabilir ve ağ performansını olumsuz etkileyebilir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>DNS Scavenging,</strong> bu eski kayıtların temizlenmesine yardımcı olur. DNS sunucusu, DNS önbelleğindeki kayıtların ömrünü izleyerek, ömrü dolmuş kayıtları siler. Bu işlem, ağ performansını iyileştirir ve hatalı sorgu döndürme sonuçlarını azaltır.</p>
+<p><strong>DNS Scavenging,</strong> bu eski kayıtların temizlenmesine yardımcı olur. DNS sunucusu, DNS bölgesi(Zone) kayıtların ömrünü izleyerek, ömrü dolmuş kayıtları siler. Bu işlem, ağ performansını iyileştirir ve hatalı sorgu döndürme sonuçlarını azaltır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
