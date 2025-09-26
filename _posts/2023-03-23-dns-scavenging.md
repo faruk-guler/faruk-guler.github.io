@@ -55,7 +55,7 @@ categories: [Hybride]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>✔</strong>Ortamınızda hali hazırda bir <strong>DHCP Server </strong>veya Yapılandırması kullanıyorsanız <strong>Scaveng Periyod </strong>sürelerinin, DHCP<strong> (Lease Duration</strong>)&nbsp;IP kira süresinden daha uzun veya eşit olmasına dikkat edin. Çünkü DHCP kirası dolan ip adresini farklı bir cihaz/client'e verdiğinde eski DNS kaydı <strong>DNS Scavenging </strong>tarafından çoktan silinmiş olmalıdır. Yoksa çakışma yaşanacaktır.</p>
+<p><strong>✔✔ </strong>Ortamınızda hali hazırda bir <strong>DHCP Server </strong>veya Yapılandırması kullanıyorsanız <strong>Scaveng Periyod </strong>sürelerinin, DHCP<strong> (Lease Duration</strong>)&nbsp;IP kira süresinden daha uzun veya eşit olmasına dikkat edin. Çünkü DHCP kirası dolan ip adresini farklı bir cihaz/client'e verdiğinde eski DNS kaydı <strong>DNS Scavenging </strong>tarafından çoktan silinmiş olmalıdır. Yoksa çakışma yaşanacaktır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6178,"width":322,"height":338,"sizeSlug":"large","linkDestination":"none"} -->
