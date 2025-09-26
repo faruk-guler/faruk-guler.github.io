@@ -51,7 +51,7 @@ categories: [Hybride]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>*****</strong>Manuel olarak girilen DNS kayıtları, DNS scavenging işlemine tabi değildirler. Yani bu kayıtlar, Timestamp'i olmadığı için belirli bir süre sonra otomatik olarak silinmezler ve kullanılmayan kayıt listesine eklenmezler. Manuel olarak girilen kayıtların ne zaman silineceği veya güncellenmesi gerektiği, <strong>sistem yöneticisi </strong>tarafından takip edilmelidir.</p>
+<p><strong>*****</strong>Manuel olarak girilen DNS kayıtları, DNS scavenging işlemine tabi değildirler. Yani bu kayıtlar, Timestamp değeri olmadığı için belirli bir süre sonra otomatik olarak silinmezler ve kullanılmayan kayıt listesine eklenmezler. Manuel olarak girilen kayıtların ne zaman silineceği veya güncellenmesi gerektiği, <strong>sistem yöneticisi </strong>tarafından takip edilmelidir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
