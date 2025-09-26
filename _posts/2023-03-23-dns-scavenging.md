@@ -7,7 +7,7 @@ comments: true
 categories: [Hybride]
 ---
 <!-- wp:paragraph -->
-<p><strong>DNS Scavenging,</strong> bir DNS sunucusunun, kayıtlı kaynakların DNS önbelleğindeki zaman aşımını izleyerek eski kayıtları temizlemesi işlemidir. DNS önbelleği, daha önce çözümlenmiş DNS sorgularının sonuçlarını bir süre boyunca önbellekte saklar. Bu, ağ trafiğini azaltır ve sorguların daha hızlı çözümlenmesine yardımcı olur.</p>
+<p><strong>DNS Scavenging,</strong> bir DNS sunucusunudaki, kayıtlı kaynakların zaman aşımını izleyerek eski kayıtları temizlemesi işlemidir. DNS önbelleği, daha önce çözümlenmiş DNS sorgularının sonuçlarını bir süre boyunca önbellekte saklar. Bu, ağ trafiğini azaltır ve sorguların daha hızlı çözümlenmesine yardımcı olur.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -51,11 +51,11 @@ categories: [Hybride]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>*****</strong>Manuel olarak girilen DNS kayıtları, DNS scavenging işlemine tabi değildirler. Yani bu kayıtlar, belirli bir süre sonra otomatik olarak silinmezler ve kullanılmayan kayıt listesine eklenmezler. Manuel olarak girilen kayıtların ne zaman silineceği veya güncellenmesi gerektiği, <strong>sistem yöneticisi </strong>tarafından takip edilmelidir.</p>
+<p><strong>*****</strong>Manuel olarak girilen DNS kayıtları, DNS scavenging işlemine tabi değildirler. Yani bu kayıtlar, Timestamp'i olmadığı için belirli bir süre sonra otomatik olarak silinmezler ve kullanılmayan kayıt listesine eklenmezler. Manuel olarak girilen kayıtların ne zaman silineceği veya güncellenmesi gerektiği, <strong>sistem yöneticisi </strong>tarafından takip edilmelidir.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>******</strong>Ortamınızda hali hazırda bir <strong>DHCP Server </strong>veya Yapılandırması kullanıyorsanız <strong>Scaveng Periyod </strong>sürelerinin, DHCP<strong> (Lease Duration</strong>)&nbsp;IP kira süresinden daha kısa olmasına dikkat edin. Çünkü DHCP kirası dolan ip adresini farklı bir cihaz/client'e verdiğinde eski DNS kaydı <strong>DNS Scavenging </strong>tarafından çoktan silinmiş olmalıdır.</p>
+<p><strong>******</strong>Ortamınızda hali hazırda bir <strong>DHCP Server </strong>veya Yapılandırması kullanıyorsanız <strong>Scaveng Periyod </strong>sürelerinin, DHCP<strong> (Lease Duration</strong>)&nbsp;IP kira süresinden daha uzun olmasına dikkat edin. Çünkü DHCP kirası dolan ip adresini farklı bir cihaz/client'e verdiğinde eski DNS kaydı <strong>DNS Scavenging </strong>tarafından çoktan silinmiş olmalıdır.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":6178,"width":322,"height":338,"sizeSlug":"large","linkDestination":"none"} -->
