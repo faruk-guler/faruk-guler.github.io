@@ -80,13 +80,13 @@ categories: [Hybride]
 
 <!-- wp:list -->
 <ul><!-- wp:list-item -->
-<li><strong>No-refresh interval:</strong> Yukarıda 10 gün içerisinde kendisini DNS' e kaydettirmeyen clientleri belirle,</li>
+<li><strong>No-refresh interval:</strong> Yukarıda, 10 gün içerisinde istemci kayıt yenileme isteği gönderse bile kaydı güncellemesine izin verilmeyen süre</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 
 <!-- wp:list -->
 <ul><!-- wp:list-item -->
-<li><strong>Refresh interval:</strong> Aşağıda ise 5 gün daha bekledikten sonra, bu Clientleri belleğe al, Toplamda <strong>10+5</strong>  yani toplamda <strong>(15) </strong>gün daha kendisini DNS' e kayıt ettirmezlerse "<strong>Host kayıtlarını sil" </strong>anlamına gelmektedir.</li>
+<li><strong>Refresh interval:</strong> Aşağıda, 5 gün daha bekledikten sonra, bu Clientleri işaretle, Toplamda <strong>10+5</strong>  yani toplamda <strong>(15) </strong>gün daha kendisini DNS' e kayıt ettirmezlerse "<strong>Host kayıtlarını sil" </strong>anlamına gelmektedir.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 
