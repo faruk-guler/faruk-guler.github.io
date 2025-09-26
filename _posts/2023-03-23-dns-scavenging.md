@@ -2,7 +2,7 @@
 layout: post
 title: Whats DNS Scavenging?
 date: 2023-03-23 21:06
-author: theguler
+by: faruk-guler
 comments: true
 categories: [Hybride]
 ---
