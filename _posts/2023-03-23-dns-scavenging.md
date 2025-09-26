@@ -86,7 +86,7 @@ categories: [Hybride]
 
 <!-- wp:list -->
 <ul><!-- wp:list-item -->
-<li><strong>Refresh interval:</strong> Aşağıda, 5 gün daha bekledikten sonra, bu Clientleri işaretle, Toplamda <strong>10+5</strong>  yani toplamda <strong>(15) </strong>gün daha kendisini DNS' e kayıt ettirmezlerse "<strong>Host kayıtlarını sil" </strong>anlamına gelmektedir.</li>
+<li><strong>Refresh interval:</strong> Aşağıda, 5 gün daha bekledikten sonra, bu clientleri "stale" olarak işaretle, Toplamda <strong>10+5</strong>  yani toplamda <strong>(15) </strong>gün daha kendisini DNS' e kayıt ettirmezlerse "<strong>Host kayıtlarını sil" </strong>anlamına gelmektedir.</li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
 
