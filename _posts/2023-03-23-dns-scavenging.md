@@ -11,14 +11,6 @@ categories: [Hybride]
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Ancak, </strong>DNS bölgesi (Zone) kayıtların sonsuza kadar saklanması uygun olmaz. Kaynakların IP adresleri değiştikçe veya kaynaklar ağdan kaldırıldıkça, DNS bölgesi (Zone) kayıtlar zamanla eski hale gelebilir. Bu eski kayıtlar, hatalı sorgu sonuçlarına neden olabilir ve ağ performansını olumsuz etkileyebilir.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p><strong>DNS Scavenging,</strong> bu eski kayıtların temizlenmesine yardımcı olur. DNS sunucusu, DNS bölgesi(Zone) kayıtların ömrünü izleyerek, ömrü dolmuş kayıtları siler. Bu işlem, ağ performansını iyileştirir ve hatalı sorgu döndürme sonuçlarını azaltır.</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
 <p><strong>Peki Nasıl kullanılır?</strong></p>
 <!-- /wp:paragraph -->
 
