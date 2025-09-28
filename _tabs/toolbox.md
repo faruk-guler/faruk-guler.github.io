@@ -17,8 +17,6 @@ order: 2
 | <a href="https://farukguler.com/app/speed-test/" target="_blank">NetSpeed Test</a> | <a href="https://farukguler.com/app/tiny-markdown-editor/" target="_blank">Tiny Markdown Editor</a> |
 | <a href="https://farukguler.com/app/subdomain-finder/" target="_blank">Subdomain Finder</a> | <a href="https://farukguler.com/app/domain-ip-analyzer/" target="_blank">Domain IP Analyzer</a> |
 
-<<<<<<< HEAD
+
 ---
-=======
----
->>>>>>> 1e892e130c3f24395e84f5f6bf1f85e7085882a2
+
