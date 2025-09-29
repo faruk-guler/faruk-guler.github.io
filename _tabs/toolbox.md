@@ -18,5 +18,3 @@ order: 2
 | <a href="https://farukguler.com/app/subdomain-finder/" target="_blank">Subdomain Finder</a> | <a href="https://farukguler.com/app/domain-ip-analyzer/" target="_blank">Domain IP Analyzer</a> |
 
 ---
-
-
