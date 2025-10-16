@@ -67,7 +67,7 @@ image:
 
 Program kurulum gerektirmeyen web sürümü olarak kullanılır. Proje OpenSource olup lisans gerektirmez:
 
-1. <a href="https://farukguler.com/app/nobet/" target="_blank">Nöbet Hazırlama Programı</a> Buradan veya APBOX kısmından ulaşabilirsiniz!
+1. <a href="https://farukguler.com/app/nobet/" target="_blank">Nöbet Hazırlama Programı</a> Buradan veya APPBOX kısmından ulaşabilirsiniz!
 2. Adımları takip ederek nöbet programınızı oluşturun
 
 ## 📈 İstatistikler
