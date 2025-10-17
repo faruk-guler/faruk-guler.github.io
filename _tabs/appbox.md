@@ -4,7 +4,7 @@ icon: fa-solid fa-wrench
 order: 2
 ---
 
-## 💻 Sistem & Network Araçları
+# 💻 System & Networking
 - [What Is My IP Address](https://farukguler.com/app/my-ip/)
 - [SSL/TLS Checker](https://farukguler.com/app/ssl-tls-checker/)
 - [NetSpeed Test](https://farukguler.com/app/speed-test/)
@@ -14,14 +14,14 @@ order: 2
 
 ---
 
-## 🌐 Domain & DNS Araçları
+# 🌐 Domain & DNS
 - [WHOIS Domain Lookup](https://farukguler.com/app/whois-lookup/)
 - [Domain TLD Bulk Lookup](https://farukguler.com/app/tld-lookup/)
 - [Subnet Calculator](https://farukguler.com/app/IPv4-subnet-calculator/)
 
 ---
 
-## ⚙️ Linux / Sysadmin Araçları
+## ⚙️ Linux / Sysadmin
 - [Cronjob Planner](https://farukguler.com/app/cronjob-planner/)
 - [Parted Jump Manual](https://farukguler.com/app/parted/)
 - [Unix Permissions Calculator](https://farukguler.com/app/chmod-calculator/)
@@ -30,14 +30,14 @@ order: 2
 
 ---
 
-## 💰 Finans & Kripto Araçları
+## 💰 Financial Tools
 - [Futures Liquidation Calculator](https://farukguler.com/app/futures-calc/)
 - [Spot Profit Calculator](https://farukguler.com/app/spot-calc/)
 - [Portfolio Analyzer USD/TRY](https://farukguler.com/app/portfolio-analyzer-usd-try/)
 
 ---
 
-## 🧰 Genel Yardımcı Araçlar
+## 🧰 General
 - [Base64 Encoder/Decoder](https://farukguler.com/app/base64/)
 - [Byte Converter](https://farukguler.com/app/converter/)
 - [Advanced Password Generator](https://farukguler.com/app/random-pass-generator/)
@@ -46,16 +46,12 @@ order: 2
 
 ---
 
-## 📝 Metin & Editör Araçları
+## 📝 Editors
 - [Advanced Text Editor](https://farukguler.com/app/text-editor/)
 - [Tiny Markdown Editor](https://farukguler.com/app/tiny-markdown-editor/)
 
 ---
 
-## 🧮 Planlama & Organizasyon
-- [Ücretsiz Nöbet Hazırlama Programı](https://farukguler.com/app/nobet/)
-
----
-
-## 🎨 Görsel & Çizim Araçları
+## 🎨 Visual & Drawing:
 - [OpenDraw WebUI](https://farukguler.com/app/open-draw/)
+- [Ücretsiz Nöbet Hazırlama Programı](https://farukguler.com/app/nobet/)
