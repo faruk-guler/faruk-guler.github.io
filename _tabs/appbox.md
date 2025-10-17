@@ -8,6 +8,7 @@ order: 2
 - [What Is My IP Address](https://farukguler.com/app/my-ip/)
 - [SSL/TLS Checker](https://farukguler.com/app/ssl-tls-checker/)
 - [NetSpeed Test](https://farukguler.com/app/speed-test/)
+- [Subnet Calculator](https://farukguler.com/app/IPv4-subnet-calculator/)
 - [Domain IP Analyzer](https://farukguler.com/app/domain-ip-analyzer/)
 - [Reverse IP Lookup](https://farukguler.com/app/reverse-ip/)
 - [Subdomain Finder](https://farukguler.com/app/subdomain-finder/)
@@ -17,7 +18,6 @@ order: 2
 ### 🌐 Domain & DNS
 - [WHOIS Domain Lookup](https://farukguler.com/app/whois-lookup/)
 - [Domain TLD Bulk Lookup](https://farukguler.com/app/tld-lookup/)
-- [Subnet Calculator](https://farukguler.com/app/IPv4-subnet-calculator/)
 
 ---
 
