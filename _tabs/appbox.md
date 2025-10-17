@@ -1,9 +1,3 @@
----
-layout: page
-icon: fa-solid fa-wrench
-order: 2
----
-
 <style>
   details {
     margin-bottom: 15px;
