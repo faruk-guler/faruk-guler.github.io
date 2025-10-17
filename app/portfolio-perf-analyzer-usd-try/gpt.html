@@ -9,68 +9,87 @@
   h2 { text-align: center; }
   label { display: block; margin-top: 10px; }
   input { width: 100%; padding: 8px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
-  button { margin-top: 15px; padding: 10px; border: none; border-radius: 8px; background: #2563eb; color: white; cursor: pointer; }
+  button { margin-top: 15px; padding: 10px; border: none; border-radius: 8px; background: #2563eb; color: white; cursor: pointer; width: 100%; font-size: 15px; }
   button:hover { background: #1e40af; }
   .result { margin-top: 20px; padding: 15px; border-radius: 10px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-  .profit { color: green; font-weight: bold; }
-  .loss { color: red; font-weight: bold; }
+  .ok { color: #0f5132; font-weight: bold; }
+  .err { color: #842029; font-weight: bold; }
+  .muted { color: #6b7280; font-size: 13px }
 </style>
 </head>
 <body>
   <h2>Coin Kar Hesaplayıcı</h2>
-  <label>Coin Adı</label>
+
+  <label>Coin Adı <span class="muted">(opsiyonel)</span></label>
   <input id="coin" placeholder="BNB, BTC, ETH..." />
 
   <label>Alış Fiyatı (USD)</label>
-  <input id="buyPrice" type="number" step="0.01" />
+  <input id="buyPrice" type="number" step="0.01" placeholder="ör: 10.30" />
 
   <label>Güncel Fiyat (USD)</label>
-  <input id="currentPrice" type="number" step="0.01" />
+  <input id="currentPrice" type="number" step="0.01" placeholder="ör: 1100" />
 
   <label>Alış Dolar Kuru (USD/TRY)</label>
-  <input id="buyRate" type="number" step="0.01" />
+  <input id="buyRate" type="number" step="0.0001" placeholder="ör: 8" />
 
   <label>Güncel Dolar Kuru (USD/TRY)</label>
-  <input id="currentRate" type="number" step="0.01" />
+  <input id="currentRate" type="number" step="0.0001" placeholder="ör: 43" />
 
   <label>Adet (Miktar)</label>
-  <input id="amount" type="number" step="0.0001" />
+  <input id="amount" type="number" step="0.0001" placeholder="ör: 1" />
 
-  <button onclick="calculate()">Hesapla</button>
+  <button id="calcBtn">Hesapla</button>
 
-  <div class="result" id="result"></div>
+  <div class="result" id="result" aria-live="polite"></div>
 
   <script>
-  function calculate() {
+  function fmt(n,dec=2){return Number(n).toLocaleString('tr-TR',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+
+  function showError(msg){
+    document.getElementById('result').innerHTML = `<div class="err">${msg}</div>`;
+  }
+
+  function calculate(){
     const buyPrice = parseFloat(document.getElementById('buyPrice').value);
     const currentPrice = parseFloat(document.getElementById('currentPrice').value);
     const buyRate = parseFloat(document.getElementById('buyRate').value);
     const currentRate = parseFloat(document.getElementById('currentRate').value);
     const amount = parseFloat(document.getElementById('amount').value);
 
-    if (!buyPrice || !currentPrice || !buyRate || !currentRate || !amount) {
-      alert('Lütfen tüm alanları doldurun.');
+    if ([buyPrice,currentPrice,buyRate,currentRate,amount].some(v => isNaN(v))){
+      showError("Lütfen tüm alanlara geçerli sayısal değer girin.");
+      return;
+    }
+    if (buyPrice <= 0 || currentPrice <= 0 || buyRate <= 0 || currentRate <= 0 || amount <= 0){
+      showError("Tüm değerler 0'dan büyük olmalıdır.");
       return;
     }
 
     const investUsd = buyPrice * amount;
     const investTry = investUsd * buyRate;
-
-    const currentUsdValue = currentPrice * amount;
-    const currentTryValue = currentUsdValue * currentRate;
-
-    const profitUsd = currentUsdValue - investUsd;
-    const profitTry = currentTryValue - investTry;
-
+    const currentUsd = currentPrice * amount;
+    const currentTry = currentUsd * currentRate;
+    const profitUsd = currentUsd - investUsd;
+    const profitTry = currentTry - investTry;
     const roiUsd = (profitUsd / investUsd) * 100;
     const roiTry = (profitTry / investTry) * 100;
+    const xUsd = currentUsd / investUsd;
+    const xTry = currentTry / investTry;
+    const coin = (document.getElementById("coin").value || "").toUpperCase();
+    const cls = profitUsd >= 0 ? "ok" : "err";
 
-    const xUsd = currentUsdValue / investUsd;
-    const xTry = currentTryValue / investTry;
+    document.getElementById("result").innerHTML = `
+      ${coin ? `<p><b>Coin:</b> ${coin}</p>` : ""}
+      <p><b>Yatırım (USD):</b> $${fmt(investUsd)}</p>
+      <p><b>Yatırım (TRY):</b> ₺${fmt(investTry)}</p>
+      <p><b>Güncel Değer (USD):</b> $${fmt(currentUsd)}</p>
+      <p><b>Güncel Değer (TRY):</b> ₺${fmt(currentTry)}</p>
+      <p class="${cls}"><b>Kâr / Zarar (USD):</b> ${profitUsd>=0?'+':''}$${fmt(profitUsd)} (${fmt(roiUsd)}%) → ${fmt(xUsd,3)}x</p>
+      <p class="${cls}"><b>Kâr / Zarar (TRY):</b> ${profitTry>=0?'+':''}₺${fmt(profitTry)} (${fmt(roiTry)}%) → ${fmt(xTry,3)}x</p>
+    `;
+  }
 
-    const profitClass = profitUsd >= 0 ? 'profit' : 'loss';
-
-    document.getElementById('result').innerHTML = `
-      <p><b>Yatırım USD:</b> ${investUsd.toFixed(2)} $</p>
-      <p><b>Yatırım TL:</b> ${investTry.toFixed(2)} ₺</p>
-      <p><b>Güncel Değer USD:</b> ${currentUsdValue.toFixed(2)} $</
+  document.getElementById("calcBtn").addEventListener("click", calculate);
+  </script>
+</body>
+</html>
