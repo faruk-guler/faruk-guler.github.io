@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coin Kar Hesaplama (USD & TL + X Çarpanı)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .note {
+      background-color: #fff8e1;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      border-left: 4px solid #ffc107;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e8f4fc;
+      border-radius: 6px;
+      display: none;
+    }
+    .result h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #27ae60;
+    }
+    .loss {
+      color: #e74c3c;
+    }
+    .error {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Coin Kar Hesaplama (USD & TL + X Çarpanı)</h1>
+
+  <div class="note">
+    <strong>Not:</strong> Bu hesaplama, <em>USD cinsinden yatırım yapıldığını</em> varsayar. 
+    TL bazındaki sonuçlar, hem coinin USD değer artışını hem de doların TL karşısındaki değişimini içerir.
+    <br><strong>X çarpanı:</strong> 1x = başa baş, 10x = 10 kat kar, 0.5x = %50 zarar.
+  </div>
+
+  <div class="form-group">
+    <label for="coinName">Coin Adı (örn: BNB):</label>
+    <input type="text" id="coinName" value="BNB">
+  </div>
+
+  <div class="form-group">
+    <label for="initialPriceUsd">Başlangıç Fiyatı (USD):</label>
+    <input type="number" id="initialPriceUsd" step="0.01" min="0.01" value="10.30">
+  </div>
+
+  <div class="form-group">
+    <label for="initialUsdToTry">Başlangıç Döviz Kuru (1 USD = ? TL):</label>
+    <input type="number" id="initialUsdToTry" step="0.01" min="0.01" value="8.00">
+  </div>
+
+  <div class="form-group">
+    <label for="currentPriceUsd">Mevcut Fiyat (USD):</label>
+    <input type="number" id="currentPriceUsd" step="0.01" min="0.01" value="1100.00">
+  </div>
+
+  <div class="form-group">
+    <label for="currentUsdToTry">Mevcut Döviz Kuru (1 USD = ? TL):</label>
+    <input type="number" id="currentUsdToTry" step="0.01" min="0.01" value="43.00">
+  </div>
+
+  <div class="form-group">
+    <label for="investedUsd">Yatırılan Tutar (USD):</label>
+    <input type="number" id="investedUsd" step="0.01" min="0.01" value="1000.00">
+  </div>
+
+  <button onclick="calculateProfit()">Hesapla</button>
+  <div id="errorMessage" class="error" style="display:none; margin-top:10px;"></div>
+
+  <div class="result" id="result">
+    <h2>Sonuçlar</h2>
+    <p><strong>Yatırılan Miktar:</strong> <span id="investedUsdOut"></span> USD (<span id="investedTryOut"></span> TL)</p>
+    <p><strong>Mevcut Değer:</strong> <span class="highlight" id="currentUsdOut"></span> USD (<span class="highlight" id="currentTryOut"></span> TL)</p>
+    
+    <p><strong>Dolar Bazında:</strong> 
+      <span id="profitUsdPercent"></span>% | 
+      <span id="multiplierUsd"></span>
+    </p>
+    
+    <p><strong>TL Bazında:</strong> 
+      <span id="profitTryPercent"></span>% | 
+      <span id="multiplierTry"></span>
+    </p>
+  </div>
+
+  <script>
+    function calculateProfit() {
+      const errorMsg = document.getElementById("errorMessage");
+      errorMsg.style.display = "none";
+      document.getElementById("result").style.display = "none";
+
+      const fields = [
+        { id: "initialPriceUsd", name: "Başlangıç Fiyatı", min: 0.01 },
+        { id: "initialUsdToTry", name: "Başlangıç Döviz Kuru", min: 0.01 },
+        { id: "currentPriceUsd", name: "Mevcut Fiyat", min: 0.01 },
+        { id: "currentUsdToTry", name: "Mevcut Döviz Kuru", min: 0.01 },
+        { id: "investedUsd", name: "Yatırılan Tutar", min: 0.01 }
+      ];
+
+      let values = {};
+      for (const field of fields) {
+        const el = document.getElementById(field.id);
+        const val = parseFloat(el.value);
+        if (isNaN(val) || val < field.min) {
+          errorMsg.textContent = `"${field.name}" geçerli bir sayı olmalı ve en az ${field.min} olmalıdır.`;
+          errorMsg.style.display = "block";
+          return;
+        }
+        values[field.id] = val;
+      }
+
+      // Hesaplamalar
+      const coinAmount = values.investedUsd / values.initialPriceUsd;
+      const currentValueUsd = coinAmount * values.currentPriceUsd;
+      const investedTry = values.investedUsd * values.initialUsdToTry;
+      const currentValueTry = currentValueUsd * values.currentUsdToTry;
+
+      // Yüzde kar/zarar
+      const profitUsdPercent = ((currentValueUsd - values.investedUsd) / values.investedUsd) * 100;
+      const profitTryPercent = ((currentValueTry - investedTry) / investedTry) * 100;
+
+      // X Çarpanları
+      const multiplierUsd = currentValueUsd / values.investedUsd;
+      const multiplierTry = currentValueTry / investedTry;
+
+      // Çarpan metin formatı
+      function formatMultiplier(mult) {
+        if (mult >= 1) {
+          return `<span class="highlight">${mult.toFixed(2)}x kar</span>`;
+        } else {
+          return `<span class="loss">${mult.toFixed(2)}x zarar</span>`;
+        }
+      }
+
+      // Sonuçları göster
+      document.getElementById("investedUsdOut").textContent = values.investedUsd.toFixed(2);
+      document.getElementById("investedTryOut").textContent = investedTry.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById("currentUsdOut").textContent = currentValueUsd.toFixed(2);
+      document.getElementById("currentTryOut").textContent = currentValueTry.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById("profitUsdPercent").textContent = profitUsdPercent.toFixed(2);
+      document.getElementById("profitTryPercent").textContent = profitTryPercent.toFixed(2);
+      
+      document.getElementById("multiplierUsd").innerHTML = formatMultiplier(multiplierUsd);
+      document.getElementById("multiplierTry").innerHTML = formatMultiplier(multiplierTry);
+
+      document.getElementById("result").style.display = "block";
+    }
+  </script>
+</body>
+</html>

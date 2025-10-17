@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coin Kar Hesaplayıcı</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f9fafb; color: #111; padding: 20px; max-width: 600px; margin: auto; }
+  h2 { text-align: center; }
+  label { display: block; margin-top: 10px; }
+  input { width: 100%; padding: 8px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
+  button { margin-top: 15px; padding: 10px; border: none; border-radius: 8px; background: #2563eb; color: white; cursor: pointer; }
+  button:hover { background: #1e40af; }
+  .result { margin-top: 20px; padding: 15px; border-radius: 10px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+  .profit { color: green; font-weight: bold; }
+  .loss { color: red; font-weight: bold; }
+</style>
+</head>
+<body>
+  <h2>Coin Kar Hesaplayıcı</h2>
+  <label>Coin Adı</label>
+  <input id="coin" placeholder="BNB, BTC, ETH..." />
+
+  <label>Alış Fiyatı (USD)</label>
+  <input id="buyPrice" type="number" step="0.01" />
+
+  <label>Güncel Fiyat (USD)</label>
+  <input id="currentPrice" type="number" step="0.01" />
+
+  <label>Alış Dolar Kuru (USD/TRY)</label>
+  <input id="buyRate" type="number" step="0.01" />
+
+  <label>Güncel Dolar Kuru (USD/TRY)</label>
+  <input id="currentRate" type="number" step="0.01" />
+
+  <label>Adet (Miktar)</label>
+  <input id="amount" type="number" step="0.0001" />
+
+  <button onclick="calculate()">Hesapla</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+  function calculate() {
+    const buyPrice = parseFloat(document.getElementById('buyPrice').value);
+    const currentPrice = parseFloat(document.getElementById('currentPrice').value);
+    const buyRate = parseFloat(document.getElementById('buyRate').value);
+    const currentRate = parseFloat(document.getElementById('currentRate').value);
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (!buyPrice || !currentPrice || !buyRate || !currentRate || !amount) {
+      alert('Lütfen tüm alanları doldurun.');
+      return;
+    }
+
+    const investUsd = buyPrice * amount;
+    const investTry = investUsd * buyRate;
+
+    const currentUsdValue = currentPrice * amount;
+    const currentTryValue = currentUsdValue * currentRate;
+
+    const profitUsd = currentUsdValue - investUsd;
+    const profitTry = currentTryValue - investTry;
+
+    const roiUsd = (profitUsd / investUsd) * 100;
+    const roiTry = (profitTry / investTry) * 100;
+
+    const xUsd = currentUsdValue / investUsd;
+    const xTry = currentTryValue / investTry;
+
+    const profitClass = profitUsd >= 0 ? 'profit' : 'loss';
+
+    document.getElementById('result').innerHTML = `
+      <p><b>Yatırım USD:</b> ${investUsd.toFixed(2)} $</p>
+      <p><b>Yatırım TL:</b> ${investTry.toFixed(2)} ₺</p>
+      <p><b>Güncel Değer USD:</b> ${currentUsdValue.toFixed(2)} $</
