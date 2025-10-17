@@ -4,52 +4,113 @@ icon: fa-solid fa-wrench
 order: 2
 ---
 
-### 💻 System & Networking
-- [What Is My IP Address](https://farukguler.com/app/my-ip/)
-- [SSL/TLS Checker](https://farukguler.com/app/ssl-tls-checker/)
-- [NetSpeed Test](https://farukguler.com/app/speed-test/)
-- [Subnet Calculator](https://farukguler.com/app/IPv4-subnet-calculator/)
-- [Domain IP Analyzer](https://farukguler.com/app/domain-ip-analyzer/)
-- [Reverse IP Lookup](https://farukguler.com/app/reverse-ip/)
-- [Subdomain Finder](https://farukguler.com/app/subdomain-finder/)
+<style>
+  details {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    background: #f9f9f9;
+    transition: background 0.2s;
+  }
 
----
+  details[open] {
+    background: #e6f0ff;
+  }
 
-### 🌐 Domain & DNS
-- [WHOIS Domain Lookup](https://farukguler.com/app/whois-lookup/)
-- [Domain TLD Bulk Lookup](https://farukguler.com/app/tld-lookup/)
+  summary {
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
 
----
+  summary::-webkit-details-marker {
+    display: none; /* varsayılan ok işaretini kaldırır */
+  }
 
-### ⚙️ Linux / Sysadmin
-- [Cronjob Planner](https://farukguler.com/app/cronjob-planner/)
-- [Parted Jump Manual](https://farukguler.com/app/parted/)
-- [Unix Permissions Calculator](https://farukguler.com/app/chmod-calculator/)
-- [Neutron – Powerful Automation](https://github.com/faruk-guler/Neutron/)
-- [Live Localhost](https://farukguler.com/app/live-localhost/)
+  .tool-list {
+    margin-top: 10px;
+    padding-left: 15px;
+  }
 
----
+  .tool-list a {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+  }
 
-### 💰 Financial Tools
-- [Futures Liquidation Calculator](https://farukguler.com/app/futures-calc/)
-- [Spot Profit Calculator](https://farukguler.com/app/spot-calc/)
-- [Portfolio Analyzer USD/TRY](https://farukguler.com/app/portfolio-analyzer-usd-try/)
+  .tool-list a:hover {
+    color: #007bff;
+  }
+</style>
 
----
+<details>
+  <summary>💻 System & Networking</summary>
+  <div class="tool-list">
+    <a href="https://farukguler.com/app/my-ip/">What Is My IP Address</a>
+    <a href="https://farukguler.com/app/ssl-tls-checker/">SSL/TLS Checker</a>
+    <a href="https://farukguler.com/app/speed-test/">NetSpeed Test</a>
+    <a href="https://farukguler.com/app/IPv4-subnet-calculator/">Subnet Calculator</a>
+    <a href="https://farukguler.com/app/domain-ip-analyzer/">Domain IP Analyzer</a>
+    <a href="https://farukguler.com/app/reverse-ip/">Reverse IP Lookup</a>
+    <a href="https://farukguler.com/app/subdomain-finder/">Subdomain Finder</a>
+  </div>
+</details>
 
-### 🧰 General
-- [Base64 Encoder/Decoder](https://farukguler.com/app/base64/)
-- [Byte Converter](https://farukguler.com/app/converter/)
-- [Advanced Password Generator](https://farukguler.com/app/random-pass-generator/)
-- [QR Code Generator](https://farukguler.com/app/qr-generator/)
-- [Diff Checker](https://farukguler.com/app/diff/)
+<details>
+  <summary>🌐 Domain & DNS</summary>
+  <div class="tool-list">
+    <a href="https://farukguler.com/app/whois-lookup/">WHOIS Domain Lookup</a>
+    <a href="https://farukguler.com/app/tld-lookup/">Domain TLD Bulk Lookup</a>
+  </div>
+</details>
 
----
+<details>
+  <summary>⚙️ Linux / Sysadmin</summary>
+  <div class="tool-list">
+    <a href="https://farukguler.com/app/cronjob-planner/">Cronjob Planner</a>
+    <a href="https://farukguler.com/app/parted/">Parted Jump Manual</a>
+    <a href="https://farukguler.com/app/chmod-calculator/">Unix Permissions Calculator</a>
+    <a href="https://github.com/faruk-guler/Neutron/">Neutron – Powerful Automation</a>
+    <a href="https://farukguler.com/app/live-localhost/">Live Localhost</a>
+  </div>
+</details>
 
-### 📝 Editors & Visual & Drawing:
-- [Advanced Text Editor](https://farukguler.com/app/text-editor/)
-- [Tiny Markdown Editor](https://farukguler.com/app/tiny-markdown-editor/)
-- [OpenDraw WebUI](https://farukguler.com/app/open-draw/)
-- [Ücretsiz Nöbet Hazırlama Programı](https://farukguler.com/app/nobet/)
+<details>
+  <summary>💰 Financial Tools</summary>
+  <div class="tool-list">
+    <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/">Portfolio Analyzer USD/TRY</a>
+    <a href="https://farukguler.com/app/futures-calc/">Futures Liquidation Calculator</a>
+    <a href="https://farukguler.com/app/spot-calc/">Spot Profit Calculator</a>
+  </div>
+</details>
 
+<details>
+  <summary>🧰 General</summary>
+  <div class="tool-list">
+    <a href="https://farukguler.com/app/nobet/">Ücretsiz Nöbet Hazırlama Programı</a>
+    <a href="https://farukguler.com/app/base64/">Base64 Encoder/Decoder</a>
+    <a href="https://farukguler.com/app/converter/">Byte Converter</a>
+    <a href="https://farukguler.com/app/random-pass-generator/">Advanced Password Generator</a>
+    <a href="https://farukguler.com/app/qr-generator/">QR Code Generator</a>
+    <a href="https://farukguler.com/app/diff/">Diff Checker</a>
+  </div>
+</details>
 
+<details>
+  <summary>📝 Editors</summary>
+  <div class="tool-list">
+    <a href="https://farukguler.com/app/text-editor/">Advanced Text Editor</a>
+    <a href="https://farukguler.com/app/tiny-markdown-editor/">Tiny Markdown Editor</a>
+  </div>
+</details>
+
+<details>
+  <summary>🎨 Visual & Drawing</summary>
+  <div class="tool-list">
+    <a href="https://farukguler.com/app/open-draw/">OpenDraw WebUI</a>
+  </div>
+</details>
