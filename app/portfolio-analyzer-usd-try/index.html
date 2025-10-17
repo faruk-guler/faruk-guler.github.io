@@ -228,8 +228,8 @@
       ${coin ? `<p><b>Coin:</b> ${coin}</p>` : ""}
       <p><b>Yatırım (USD):</b> $${fmt(investUsd)}</p>
       <p><b>Yatırım (TRY):</b> ₺${fmt(investTry)}</p>
-      <p><b>Bugünkü Güncel Değer (USD):</b> $${fmt(currentUsd)}</p>
-      <p><b>Bugünkü Güncel Değer (TRY):</b> ₺${fmt(currentTry)}</p>
+      <p><b>Bugünkü Güncel Değeri (USD):</b> $${fmt(currentUsd)}</p>
+      <p><b>Bugünkü Güncel Değeri (TRY):</b> ₺${fmt(currentTry)}</p>
       <p class="${clsUsd}"><b>Kâr / Zarar (USD):</b> ${profitUsd >= 0 ? '+' : ''}${fmt(profitUsd)} (${fmt(roiUsd)}%) → ${fmt(xUsd, 3)}x</p>
       <p class="${clsTry}"><b>Kâr / Zarar (TRY):</b> ${profitTry >= 0 ? '+' : ''}₺${fmt(profitTry)} (${fmt(roiTry)}%) → ${fmt(xTry, 3)}x</p>
     `;
