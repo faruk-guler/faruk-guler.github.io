@@ -12,8 +12,7 @@ IT dünyası, Hacking ve Güvenlik, Yapay Zeka, Blockchain Projeleri ve Kripto P
 Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum. 
 - Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum. 
 Bu makaleyi okuduğunuzda, değerli bulduğum ve sizinle paylaştığım bu projeler çok değersiz hale gelmiş veya aşırı değer kazanmış olabilir. Daha fazlasına ihtiyacınız varsa benimle iletişime geçmekten çekinmeyin...
-- <span style="color:red">"Kripto para yatırımları özünde risklidir, fiyat skalası ise çok değişkendir!</span> 
-- <span style="color:red">"Makalelerimin hiçbiri yatırım tavsiyesi olarak kabul edilemez!</span> 
+- <span style="color:red">⚠️ Uyarı: Bu tahminler ve araştırmalar, kişisel deneyimlere ve özel verilerin işlenmesine dayanır yatırım tavsiyesi değildir. Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kapsamlı araştırma yapın ve profesyonel danışmanlık alın.</span> 
 
 
 ## Blog Hakkında
