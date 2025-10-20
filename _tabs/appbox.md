@@ -16,10 +16,7 @@ order: 2
 | <a href="https://farukguler.com/app/reverse-ip/" target="_blank">Reverse IP Lookup</a> | <a href="https://farukguler.com/app/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a> |
 | <a href="https://farukguler.com/app/speed-test/" target="_blank">NetSpeed Test</a> | <a href="https://farukguler.com/app/tiny-markdown-editor/" target="_blank">Tiny Markdown Editor</a> |
 | <a href="https://farukguler.com/app/subdomain-finder/" target="_blank">Subdomain Finder</a> | <a href="https://farukguler.com/app/domain-ip-analyzer/" target="_blank">Domain IP Analyzer</a> |
-<<<<<<< HEAD
 | <a href="https://farukguler.com/app/portfolio-analyzer-usdt-try/" target="_blank">Portfolio Analyzer USDT/TRY</a> | | <a href="https://farukguler.com/app/rise-comparison/" target="_blank">Potential rise comparison</a> |
-=======
 | <a href="https://farukguler.com/app/open-draw/" target="_blank">OpenDraw WebUI</a> | <a href="https://github.com/faruk-guler/Neutron/" target="_blank">Neutron -Powerful automation</a> |
->>>>>>> fb93529476ac874fde50861c7794d1723e404d6b
 
 ---
