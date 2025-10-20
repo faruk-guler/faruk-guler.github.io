@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 Spot Potential Rise Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .coins-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .coin-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .coin-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .coin-badge {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.7em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input.error {
+            border-color: #f87171;
+        }
+
+        .error-message {
+            color: #f87171;
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .btn-compare {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-compare:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-compare:active {
+            transform: translateY(0);
+        }
+
+        .btn-compare:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .metric-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .prediction-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
+        }
+
+        .prediction-box h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .prediction-value {
+            font-size: 3em;
+            font-weight: 700;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .prediction-details {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .prediction-details p {
+            margin-bottom: 10px;
+            font-size: 1.05em;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.95em;
+        }
+
+        .ratio-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            margin-left: 10px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .coins-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .prediction-value {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📈 Spot Potential Rise Comparison Tool</h1>
+        <p class="subtitle">İki varlığı karşılaştırın ve potansiyel fiyat tahminlerini görün</p>
+
+        <div class="coins-wrapper">
+            <div class="coin-section">
+                <h2><span class="coin-badge">REFERANS</span> <span id="coin1Name">Varlık 1</span></h2>
+                <div class="input-group">
+                    <label for="coin1_name">Varlık Adı / Sembol</label>
+                    <input type="text" id="coin1_name" placeholder="Örn: BTC" value="BTC">
+                </div>
+                <div class="input-group">
+                    <label for="coin1_price">Mevcut Fiyat ($)</label>
+                    <input type="number" id="coin1_price" placeholder="Örn: 50000" step="0.00000001" min="0">
+                    <div class="error-message" id="coin1_price_error">Lütfen geçerli bir fiyat girin</div>
+                </div>
+                <div class="input-group">
+                    <label for="coin1_mcap">Piyasa Değeri ($)</label>
+                    <input type="number" id="coin1_mcap" placeholder="Örn: 1000000000" step="1" min="0">
+                    <div class="error-message" id="coin1_mcap_error">Lütfen geçerli bir piyasa değeri girin</div>
+                </div>
+                <div class="input-group">
+                    <label for="coin1_supply">Dolaşımdaki Arz</label>
+                    <input type="number" id="coin1_supply" placeholder="Örn: 21000000" step="1" min="0">
+                    <div class="error-message" id="coin1_supply_error">Lütfen geçerli bir arz miktarı girin</div>
+                </div>
+            </div>
+
+            <div class="coin-section">
+                <h2><span class="coin-badge">HEDEF</span> <span id="coin2Name">Varlık 2</span></h2>
+                <div class="input-group">
+                    <label for="coin2_name">Varlık Adı / Sembol</label>
+                    <input type="text" id="coin2_name" placeholder="Örn: ETH" value="ETH">
+                </div>
+                <div class="input-group">
+                    <label for="coin2_price">Mevcut Fiyat ($)</label>
+                    <input type="number" id="coin2_price" placeholder="Örn: 3000" step="0.00000001" min="0">
+                    <div class="error-message" id="coin2_price_error">Lütfen geçerli bir fiyat girin</div>
+                </div>
+                <div class="input-group">
+                    <label for="coin2_mcap">Piyasa Değeri ($)</label>
+                    <input type="number" id="coin2_mcap" placeholder="Örn: 500000000" step="1" min="0">
+                    <div class="error-message" id="coin2_mcap_error">Lütfen geçerli bir piyasa değeri girin</div>
+                </div>
+                <div class="input-group">
+                    <label for="coin2_supply">Dolaşımdaki Arz</label>
+                    <input type="number" id="coin2_supply" placeholder="Örn: 120000000" step="1" min="0">
+                    <div class="error-message" id="coin2_supply_error">Lütfen geçerli bir arz miktarı girin</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-compare" onclick="compareCoins()">&#x1F4CA; Karşılaştır ve Tahmin Yap</button>
+
+        <div class="results" id="results">
+            <h2 style="margin-bottom: 20px; color: #333;">&#x1F4C8; Karşılaştırma Sonuçları</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metrik</th>
+                        <th id="th_coin1">Varlık 1</th>
+                        <th id="th_coin2">Varlık 2</th>
+                        <th>Oran</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonBody">
+                </tbody>
+            </table>
+
+            <div class="prediction-box">
+                <h3>&#x1F3AF; Fiyat Tahmini</h3>
+                <p id="predictionText"></p>
+                <div class="prediction-value" id="predictionValue">-</div>
+                
+                <div class="prediction-details">
+                    <p><strong>&#x1F4CA; Piyasa Değeri Bazlı Tahmin:</strong> <span id="mcapPrediction"></span></p>
+                    <p><strong>&#x1F4B0; Arz Oranı Bazlı Tahmin:</strong> <span id="supplyPrediction"></span></p>
+                    <p><strong>&#x1F504; Potansiyel Değişim:</strong> <span id="changePercent"></span></p>
+                </div>
+            </div>
+
+            <div class="warning">
+                <strong>&#x26A0;&#xFE0F; Uyarı:</strong> Bu tahminler matematiksel karşılaştırmalara dayanır ve yatırım tavsiyesi değildir. 
+                Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kapsamlı araştırma yapın 
+                ve profesyonel danışmanlık alın.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sayfa tamamen yüklendikten sonra çalış
+        document.addEventListener('DOMContentLoaded', function() {
+
+            function formatNumber(num) {
+                if (num >= 1e12) return '$' + (num / 1e12).toFixed(2) + 'T';
+                if (num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
+                if (num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
+                if (num >= 1e3) return '$' + (num / 1e3).toFixed(2) + 'K';
+                return '$' + num.toFixed(2);
+            }
+
+            function formatPrice(num) {
+                if (num === 0) return '$0.00';
+                if (num >= 1) return '$' + num.toFixed(2);
+                if (num >= 0.01) return '$' + num.toFixed(4);
+                if (num >= 0.0001) return '$' + num.toFixed(6);
+                if (num >= 1e-8) return '$' + num.toFixed(8);
+                return '$' + num.toExponential(2);
+            }
+
+            function validateInput(value, fieldName, errorId) {
+                const input = document.getElementById(fieldName);
+                const error = document.getElementById(errorId);
+                
+                if (!value || value <= 0 || isNaN(value) || !isFinite(value)) {
+                    input.classList.add('error');
+                    error.classList.add('show');
+                    return false;
+                }
+                
+                input.classList.remove('error');
+                error.classList.remove('show');
+                return true;
+            }
+
+            window.compareCoins = function() {
+                const coin1 = {
+                    name: document.getElementById('coin1_name').value.trim() || 'Varlık 1',
+                    price: parseFloat(document.getElementById('coin1_price').value),
+                    mcap: parseFloat(document.getElementById('coin1_mcap').value),
+                    supply: parseFloat(document.getElementById('coin1_supply').value)
+                };
+
+                const coin2 = {
+                    name: document.getElementById('coin2_name').value.trim() || 'Varlık 2',
+                    price: parseFloat(document.getElementById('coin2_price').value),
+                    mcap: parseFloat(document.getElementById('coin2_mcap').value),
+                    supply: parseFloat(document.getElementById('coin2_supply').value)
+                };
+
+                let isValid = true;
+                isValid = validateInput(coin1.price, 'coin1_price', 'coin1_price_error') && isValid;
+                isValid = validateInput(coin1.mcap, 'coin1_mcap', 'coin1_mcap_error') && isValid;
+                isValid = validateInput(coin1.supply, 'coin1_supply', 'coin1_supply_error') && isValid;
+                isValid = validateInput(coin2.price, 'coin2_price', 'coin2_price_error') && isValid;
+                isValid = validateInput(coin2.mcap, 'coin2_mcap', 'coin2_mcap_error') && isValid;
+                isValid = validateInput(coin2.supply, 'coin2_supply', 'coin2_supply_error') && isValid;
+
+                if (!isValid) return;
+
+                if (coin2.supply <= 0 || coin1.supply <= 0 || coin2.price <= 0) {
+                    alert('Fiyat ve arz değerleri sıfırdan büyük olmalıdır!');
+                    return;
+                }
+
+                document.getElementById('th_coin1').textContent = coin1.name;
+                document.getElementById('th_coin2').textContent = coin2.name;
+
+                const tbody = document.getElementById('comparisonBody');
+                tbody.innerHTML = '';
+
+                const safeRatio = (a, b) => b > 0 ? (a / b).toFixed(2) + 'x' : '—';
+
+                const metrics = [
+                    { 
+                        name: 'Fiyat', 
+                        val1: formatPrice(coin1.price), 
+                        val2: formatPrice(coin2.price), 
+                        ratio: safeRatio(coin1.price, coin2.price)
+                    },
+                    { 
+                        name: 'Piyasa Değeri', 
+                        val1: formatNumber(coin1.mcap), 
+                        val2: formatNumber(coin2.mcap), 
+                        ratio: safeRatio(coin1.mcap, coin2.mcap)
+                    },
+                    { 
+                        name: 'Dolaşımdaki Arz', 
+                        val1: coin1.supply.toLocaleString('tr-TR'), 
+                        val2: coin2.supply.toLocaleString('tr-TR'), 
+                        ratio: safeRatio(coin1.supply, coin2.supply)
+                    },
+                    { 
+                        name: 'Fiyat/Arz Tutarlılığı', 
+                        val1: Math.abs(coin1.price * coin1.supply - coin1.mcap) / coin1.mcap < 0.05 ? '✅ Tutarlı' : '⚠️ Tutsuz',
+                        val2: Math.abs(coin2.price * coin2.supply - coin2.mcap) / coin2.mcap < 0.05 ? '✅ Tutarlı' : '⚠️ Tutsuz',
+                        ratio: '—'
+                    }
+                ];
+
+                metrics.forEach(metric => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td class="metric-name">${metric.name}</td>
+                        <td>${metric.val1}</td>
+                        <td>${metric.val2}</td>
+                        <td><span class="ratio-badge">${metric.ratio}</span></td>
+                    `;
+                });
+
+                const mcapBasedPrice = coin1.mcap / coin2.supply;
+                const supplyBasedPrice = coin1.price * (coin1.supply / coin2.supply);
+                const avgPrediction = mcapBasedPrice * 0.7 + supplyBasedPrice * 0.3;
+                const changePercent = ((avgPrediction - coin2.price) / coin2.price) * 100;
+
+                document.getElementById('predictionText').textContent = 
+                    `${coin2.name}, ${coin1.name} seviyesinde bir piyasa değeri kazanırsa potansiyel fiyatı:`;
+
+                document.getElementById('predictionValue').textContent = formatPrice(avgPrediction);
+                document.getElementById('mcapPrediction').textContent = formatPrice(mcapBasedPrice) + ' (Piyasa Değeri Bazlı)';
+                document.getElementById('supplyPrediction').textContent = formatPrice(supplyBasedPrice) + ' (Arz Oranı Bazlı)';
+
+                const changeColor = changePercent > 0 ? '#4ade80' : '#f87171';
+                const changeSymbol = changePercent >= 0 ? '+' : '';
+                document.getElementById('changePercent').innerHTML = 
+                    `<span style="color: ${changeColor}; font-weight: bold;">
+                        ${changeSymbol}${changePercent.toFixed(2)}% (${formatPrice(Math.abs(avgPrediction - coin2.price))})
+                    </span>`;
+
+                document.getElementById('results').classList.add('show');
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+
+            // Canlı isim güncellemeleri
+            document.getElementById('coin1_name').addEventListener('input', (e) => {
+                document.getElementById('coin1Name').textContent = e.target.value.trim() || 'Varlık 1';
+            });
+
+            document.getElementById('coin2_name').addEventListener('input', (e) => {
+                document.getElementById('coin2Name').textContent = e.target.value.trim() || 'Varlık 2';
+            });
+
+            // Hata temizleme
+            ['coin1_price', 'coin1_mcap', 'coin1_supply', 'coin2_price', 'coin2_mcap', 'coin2_supply'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('focus', function() {
+                        this.classList.remove('error');
+                        const errorEl = document.getElementById(id + '_error');
+                        if (errorEl) errorEl.classList.remove('show');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
