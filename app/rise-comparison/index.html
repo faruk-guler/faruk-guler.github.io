@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💲📈 Poential rise comparison</title>
+    <title>💲📈 Potansiyel Yükseliş Karşılaştırma Aracı</title>
     <style>
         * {
             margin: 0;
@@ -264,8 +264,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>💲📈 Potential rise comparison tool</h1>
-        <p class="subtitle">İki varlığı karşılaştırın ve potansiyel fiyat tahminlerini görün</p>
+        <h1>💲📈 Potansiyel Yükseliş Karşılaştırma Aracı</h1>
+        <p class="subtitle">İki kripto varlığı karşılaştırın ve potansiyel fiyat tahminlerini görün</p>
 
         <div class="coins-wrapper">
             <div class="coin-section">
@@ -280,9 +280,9 @@
                     <div class="error-message" id="coin1_price_error">Lütfen geçerli bir fiyat girin</div>
                 </div>
                 <div class="input-group">
-                    <label for="coin1_mcap">Market Cap ($)</label>
+                    <label for="coin1_mcap">Piyasa Değeri ($)</label>
                     <input type="number" id="coin1_mcap" placeholder="Örn: 1000000000" step="1" min="0">
-                    <div class="error-message" id="coin1_mcap_error">Lütfen geçerli bir market cap girin</div>
+                    <div class="error-message" id="coin1_mcap_error">Lütfen geçerli bir piyasa değeri girin</div>
                 </div>
                 <div class="input-group">
                     <label for="coin1_supply">Dolaşımdaki Arz</label>
@@ -303,9 +303,9 @@
                     <div class="error-message" id="coin2_price_error">Lütfen geçerli bir fiyat girin</div>
                 </div>
                 <div class="input-group">
-                    <label for="coin2_mcap">Market Cap ($)</label>
+                    <label for="coin2_mcap">Piyasa Değeri ($)</label>
                     <input type="number" id="coin2_mcap" placeholder="Örn: 500000000" step="1" min="0">
-                    <div class="error-message" id="coin2_mcap_error">Lütfen geçerli bir market cap girin</div>
+                    <div class="error-message" id="coin2_mcap_error">Lütfen geçerli bir piyasa değeri girin</div>
                 </div>
                 <div class="input-group">
                     <label for="coin2_supply">Dolaşımdaki Arz</label>
@@ -339,8 +339,8 @@
                 <div class="prediction-value" id="predictionValue">-</div>
                 
                 <div class="prediction-details">
-                    <p><strong>&#x1F4CA; Market Cap Bazlı Tahmin:</strong> <span id="mcapPrediction"></span></p>
-                    <p><strong>&#x1F4B0; Arz Bazlı Tahmin:</strong> <span id="supplyPrediction"></span></p>
+                    <p><strong>&#x1F4CA; Piyasa Değeri Bazlı Tahmin:</strong> <span id="mcapPrediction"></span></p>
+                    <p><strong>&#x1F4B0; Arz Oranı Bazlı Tahmin:</strong> <span id="supplyPrediction"></span></p>
                     <p><strong>&#x1F504; Potansiyel Değişim:</strong> <span id="changePercent"></span></p>
                 </div>
             </div>
@@ -354,161 +354,158 @@
     </div>
 
     <script>
-        function formatNumber(num) {
-            if (num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
-            if (num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
-            if (num >= 1e3) return '$' + (num / 1e3).toFixed(2) + 'K';
-            return '$' + num.toFixed(2);
-        }
+        // Sayfa tamamen yüklendikten sonra çalış
+        document.addEventListener('DOMContentLoaded', function() {
 
-        function formatPrice(num) {
-            if (num >= 1) return '$' + num.toFixed(2);
-            if (num >= 0.01) return '$' + num.toFixed(4);
-            if (num >= 0.0001) return '$' + num.toFixed(6);
-            if (num >= 0.00000001) return '$' + num.toFixed(8);
-            return '$' + num.toExponential(2);
-        }
-
-        function validateInput(value, fieldName, errorId) {
-            const input = document.getElementById(fieldName);
-            const error = document.getElementById(errorId);
-            
-            if (!value || value <= 0 || isNaN(value)) {
-                input.classList.add('error');
-                error.classList.add('show');
-                return false;
-            }
-            
-            input.classList.remove('error');
-            error.classList.remove('show');
-            return true;
-        }
-
-        function compareCoins() {
-            // Verileri al
-            const coin1 = {
-                name: document.getElementById('coin1_name').value.trim() || 'Varlık 1',
-                price: parseFloat(document.getElementById('coin1_price').value),
-                mcap: parseFloat(document.getElementById('coin1_mcap').value),
-                supply: parseFloat(document.getElementById('coin1_supply').value)
-            };
-
-            const coin2 = {
-                name: document.getElementById('coin2_name').value.trim() || 'Varlık 2',
-                price: parseFloat(document.getElementById('coin2_price').value),
-                mcap: parseFloat(document.getElementById('coin2_mcap').value),
-                supply: parseFloat(document.getElementById('coin2_supply').value)
-            };
-
-            // Validasyon
-            let isValid = true;
-            isValid = validateInput(coin1.price, 'coin1_price', 'coin1_price_error') && isValid;
-            isValid = validateInput(coin1.mcap, 'coin1_mcap', 'coin1_mcap_error') && isValid;
-            isValid = validateInput(coin1.supply, 'coin1_supply', 'coin1_supply_error') && isValid;
-            isValid = validateInput(coin2.price, 'coin2_price', 'coin2_price_error') && isValid;
-            isValid = validateInput(coin2.mcap, 'coin2_mcap', 'coin2_mcap_error') && isValid;
-            isValid = validateInput(coin2.supply, 'coin2_supply', 'coin2_supply_error') && isValid;
-
-            if (!isValid) {
-                return;
+            function formatNumber(num) {
+                if (num >= 1e12) return '$' + (num / 1e12).toFixed(2) + 'T';
+                if (num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
+                if (num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
+                if (num >= 1e3) return '$' + (num / 1e3).toFixed(2) + 'K';
+                return '$' + num.toFixed(2);
             }
 
-            // Sıfıra bölme kontrolü
-            if (coin2.supply === 0 || coin1.supply === 0) {
-                alert('Arz değerleri sıfır olamaz!');
-                return;
+            function formatPrice(num) {
+                if (num === 0) return '$0.00';
+                if (num >= 1) return '$' + num.toFixed(2);
+                if (num >= 0.01) return '$' + num.toFixed(4);
+                if (num >= 0.0001) return '$' + num.toFixed(6);
+                if (num >= 1e-8) return '$' + num.toFixed(8);
+                return '$' + num.toExponential(2);
             }
 
-            // Header'ları güncelle
-            document.getElementById('th_coin1').textContent = coin1.name;
-            document.getElementById('th_coin2').textContent = coin2.name;
-
-            // Karşılaştırma tablosunu oluştur
-            const tbody = document.getElementById('comparisonBody');
-            tbody.innerHTML = '';
-
-            const priceRatio = coin1.price / coin2.price;
-            const mcapRatio = coin1.mcap / coin2.mcap;
-            const supplyRatio = coin1.supply / coin2.supply;
-
-            const metrics = [
-                { 
-                    name: 'Fiyat', 
-                    val1: formatPrice(coin1.price), 
-                    val2: formatPrice(coin2.price), 
-                    ratio: priceRatio.toFixed(2) + 'x' 
-                },
-                { 
-                    name: 'Market Cap', 
-                    val1: formatNumber(coin1.mcap), 
-                    val2: formatNumber(coin2.mcap), 
-                    ratio: mcapRatio.toFixed(2) + 'x' 
-                },
-                { 
-                    name: 'Dolaşımdaki Arz', 
-                    val1: coin1.supply.toLocaleString(), 
-                    val2: coin2.supply.toLocaleString(), 
-                    ratio: supplyRatio.toFixed(2) + 'x' 
+            function validateInput(value, fieldName, errorId) {
+                const input = document.getElementById(fieldName);
+                const error = document.getElementById(errorId);
+                
+                if (!value || value <= 0 || isNaN(value) || !isFinite(value)) {
+                    input.classList.add('error');
+                    error.classList.add('show');
+                    return false;
                 }
-            ];
+                
+                input.classList.remove('error');
+                error.classList.remove('show');
+                return true;
+            }
 
-            metrics.forEach(metric => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td class="metric-name">${metric.name}</td>
-                    <td>${metric.val1}</td>
-                    <td>${metric.val2}</td>
-                    <td><span class="ratio-badge">${metric.ratio}</span></td>
-                `;
+            window.compareCoins = function() {
+                const coin1 = {
+                    name: document.getElementById('coin1_name').value.trim() || 'Varlık 1',
+                    price: parseFloat(document.getElementById('coin1_price').value),
+                    mcap: parseFloat(document.getElementById('coin1_mcap').value),
+                    supply: parseFloat(document.getElementById('coin1_supply').value)
+                };
+
+                const coin2 = {
+                    name: document.getElementById('coin2_name').value.trim() || 'Varlık 2',
+                    price: parseFloat(document.getElementById('coin2_price').value),
+                    mcap: parseFloat(document.getElementById('coin2_mcap').value),
+                    supply: parseFloat(document.getElementById('coin2_supply').value)
+                };
+
+                let isValid = true;
+                isValid = validateInput(coin1.price, 'coin1_price', 'coin1_price_error') && isValid;
+                isValid = validateInput(coin1.mcap, 'coin1_mcap', 'coin1_mcap_error') && isValid;
+                isValid = validateInput(coin1.supply, 'coin1_supply', 'coin1_supply_error') && isValid;
+                isValid = validateInput(coin2.price, 'coin2_price', 'coin2_price_error') && isValid;
+                isValid = validateInput(coin2.mcap, 'coin2_mcap', 'coin2_mcap_error') && isValid;
+                isValid = validateInput(coin2.supply, 'coin2_supply', 'coin2_supply_error') && isValid;
+
+                if (!isValid) return;
+
+                if (coin2.supply <= 0 || coin1.supply <= 0 || coin2.price <= 0) {
+                    alert('Fiyat ve arz değerleri sıfırdan büyük olmalıdır!');
+                    return;
+                }
+
+                document.getElementById('th_coin1').textContent = coin1.name;
+                document.getElementById('th_coin2').textContent = coin2.name;
+
+                const tbody = document.getElementById('comparisonBody');
+                tbody.innerHTML = '';
+
+                const safeRatio = (a, b) => b > 0 ? (a / b).toFixed(2) + 'x' : '—';
+
+                const metrics = [
+                    { 
+                        name: 'Fiyat', 
+                        val1: formatPrice(coin1.price), 
+                        val2: formatPrice(coin2.price), 
+                        ratio: safeRatio(coin1.price, coin2.price)
+                    },
+                    { 
+                        name: 'Piyasa Değeri', 
+                        val1: formatNumber(coin1.mcap), 
+                        val2: formatNumber(coin2.mcap), 
+                        ratio: safeRatio(coin1.mcap, coin2.mcap)
+                    },
+                    { 
+                        name: 'Dolaşımdaki Arz', 
+                        val1: coin1.supply.toLocaleString('tr-TR'), 
+                        val2: coin2.supply.toLocaleString('tr-TR'), 
+                        ratio: safeRatio(coin1.supply, coin2.supply)
+                    },
+                    { 
+                        name: 'Fiyat/Arz Tutarlılığı', 
+                        val1: Math.abs(coin1.price * coin1.supply - coin1.mcap) / coin1.mcap < 0.05 ? '✅ Tutarlı' : '⚠️ Tutsuz',
+                        val2: Math.abs(coin2.price * coin2.supply - coin2.mcap) / coin2.mcap < 0.05 ? '✅ Tutarlı' : '⚠️ Tutsuz',
+                        ratio: '—'
+                    }
+                ];
+
+                metrics.forEach(metric => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td class="metric-name">${metric.name}</td>
+                        <td>${metric.val1}</td>
+                        <td>${metric.val2}</td>
+                        <td><span class="ratio-badge">${metric.ratio}</span></td>
+                    `;
+                });
+
+                const mcapBasedPrice = coin1.mcap / coin2.supply;
+                const supplyBasedPrice = coin1.price * (coin1.supply / coin2.supply);
+                const avgPrediction = mcapBasedPrice * 0.7 + supplyBasedPrice * 0.3;
+                const changePercent = ((avgPrediction - coin2.price) / coin2.price) * 100;
+
+                document.getElementById('predictionText').textContent = 
+                    `${coin2.name}, ${coin1.name} seviyesinde bir piyasa değeri kazanırsa potansiyel fiyatı:`;
+
+                document.getElementById('predictionValue').textContent = formatPrice(avgPrediction);
+                document.getElementById('mcapPrediction').textContent = formatPrice(mcapBasedPrice) + ' (Piyasa Değeri Bazlı)';
+                document.getElementById('supplyPrediction').textContent = formatPrice(supplyBasedPrice) + ' (Arz Oranı Bazlı)';
+
+                const changeColor = changePercent > 0 ? '#4ade80' : '#f87171';
+                const changeSymbol = changePercent >= 0 ? '+' : '';
+                document.getElementById('changePercent').innerHTML = 
+                    `<span style="color: ${changeColor}; font-weight: bold;">
+                        ${changeSymbol}${changePercent.toFixed(2)}% (${formatPrice(Math.abs(avgPrediction - coin2.price))})
+                    </span>`;
+
+                document.getElementById('results').classList.add('show');
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+
+            // Canlı isim güncellemeleri
+            document.getElementById('coin1_name').addEventListener('input', (e) => {
+                document.getElementById('coin1Name').textContent = e.target.value.trim() || 'Varlık 1';
             });
 
-            // Tahminleri hesapla
-            // Eğer Coin2, Coin1'in market cap'ine ulaşırsa fiyatı ne olur?
-            const targetMcap = coin1.mcap;
-            const mcapBasedPrice = targetMcap / coin2.supply;
-            
-            // Alternatif: Arz oranına göre tahmin
-            // Eğer arzlar eşit olsaydı fiyat ne olurdu mantığı
-            const supplyBasedPrice = coin1.price * (coin1.supply / coin2.supply);
+            document.getElementById('coin2_name').addEventListener('input', (e) => {
+                document.getElementById('coin2Name').textContent = e.target.value.trim() || 'Varlık 2';
+            });
 
-            // Ortalama tahmin (market cap bazlı daha güvenilir olduğu için ağırlıklı)
-            const avgPrediction = (mcapBasedPrice * 0.7 + supplyBasedPrice * 0.3);
-
-            // Değişim yüzdesi
-            const changePercent = ((avgPrediction - coin2.price) / coin2.price * 100);
-
-            // Sonuçları göster
-            document.getElementById('predictionText').textContent = 
-                `Eğer ${coin2.name} coin'i, ${coin1.name} coin'inin market cap seviyesine ulaşırsa:`;
-            
-            document.getElementById('predictionValue').textContent = formatPrice(avgPrediction);
-            document.getElementById('mcapPrediction').textContent = formatPrice(mcapBasedPrice);
-            document.getElementById('supplyPrediction').textContent = formatPrice(supplyBasedPrice);
-            
-            const changeColor = changePercent > 0 ? '#4ade80' : '#f87171';
-            const changeSymbol = changePercent > 0 ? '+' : '';
-            document.getElementById('changePercent').innerHTML = 
-                `<span style="color: ${changeColor}; font-weight: bold;">${changeSymbol}${changePercent.toFixed(2)}% (${formatPrice(Math.abs(avgPrediction - coin2.price))})</span>`;
-
-            // Sonuçları göster
-            document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // Input değişikliklerinde coin isimlerini güncelle
-        document.getElementById('coin1_name').addEventListener('input', (e) => {
-            document.getElementById('coin1Name').textContent = e.target.value.trim() || 'Varlık 1';
-        });
-
-        document.getElementById('coin2_name').addEventListener('input', (e) => {
-            document.getElementById('coin2Name').textContent = e.target.value.trim() || 'Varlık 2';
-        });
-
-        // Input'lara focus olunca hataları temizle
-        ['coin1_price', 'coin1_mcap', 'coin1_supply', 'coin2_price', 'coin2_mcap', 'coin2_supply'].forEach(id => {
-            document.getElementById(id).addEventListener('focus', function() {
-                this.classList.remove('error');
-                document.getElementById(id + '_error').classList.remove('show');
+            // Hata temizleme
+            ['coin1_price', 'coin1_mcap', 'coin1_supply', 'coin2_price', 'coin2_mcap', 'coin2_supply'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('focus', function() {
+                        this.classList.remove('error');
+                        const errorEl = document.getElementById(id + '_error');
+                        if (errorEl) errorEl.classList.remove('show');
+                    });
+                }
             });
         });
     </script>
