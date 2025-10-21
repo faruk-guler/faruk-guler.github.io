@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Best Client NTP Services Configuration
+title: Best Windows Client NTP Services Configuration
 date: 2023-09-04 13:54
 author: theguler
 comments: true
