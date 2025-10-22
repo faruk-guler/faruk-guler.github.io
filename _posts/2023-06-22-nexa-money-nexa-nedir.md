@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Nexa Coin (NEXA) Nedir?
+title: Nexa Money (NEXA) Nedir?
 date: 2023-06-22 19:55
 by: faruk-guler
 comments: true
