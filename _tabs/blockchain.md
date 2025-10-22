@@ -15,7 +15,7 @@ order: 2
   
   <a href="https://farukguler.com/categories/blockchain/" 
      style="display: inline-block; padding: 14px 36px; background: #0088ff; color: white; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: 500;">
-    Blockchain Dünyası →
+    Go to Blockchain →
   </a>
 
 </div>
