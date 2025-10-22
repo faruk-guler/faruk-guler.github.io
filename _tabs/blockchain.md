@@ -1,5 +1,5 @@
 ---
 layout: page
-icon: fa-solid fa-diagram-project
+icon: fa-regular fa-diagram-project
 order: 2
 ---
