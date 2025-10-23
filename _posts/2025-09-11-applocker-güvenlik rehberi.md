@@ -24,12 +24,12 @@ Geleneksel Yazılım Kısıtlama Politikaları (Software Restriction Policies - 
 
 AppLocker'ın çalışma mantığı, hangi dosyaların çalıştırılıp çalıştırılamayacağını tanımlayan kurallara dayanır. Bu kurallar beş ana dosya kategorisi için ayrı ayrı yapılandırılabilir:
 
-1.  **Yürütülebilir Dosyalar (.exe, .com):** Uygulamaların, programların ve bazı betiklerin çalışmasını kontrol eder.
-2.  **Betik Dosyaları (.ps1, .vbs, .js, .cmd, .bat):** PowerShell, VBScript, JavaScript ve komut istemi betiklerinin çalışmasını yönetir.
-3.  **Windows Installer Dosyaları (.msi, .msp):** Yazılım kurulumlarını, güncellemelerini ve yamalarını kontrol eder.
-4.  **Uygulama Paketi Dosyaları (.appx):** Windows 8 ve sonrası modern (Universal Windows Platform - UWP) uygulamaların çalışmasını yönetir.
-5.  **DLL Dosyaları (.dll, .ocx):** Uygulamaların ihtiyaç duyduğu dinamik bağlantı kütüphanelerinin (Dynamic Link Libraries) yüklenmesini kontrol eder.
-    **Not:** DLL kuralları, diğerlerine göre daha karmaşıktır ve sistem üzerinde ciddi bir performans etkisi yaratabilir. Genellikle varsayılan olarak devre dışıdır ve sadece çok yüksek güvenlik gerektiren senaryolarda dikkatlice yapılandırılmalıdır.
+1.  **Yürütülebilir Dosyalar (.exe, .com, .vb):** Uygulamaların, programların ve bazı betiklerin çalışmasını kontrol eder.
+2.  **Betik Dosyaları (.ps1, .vbs, .js, .cmd, .bat, .vb):** PowerShell, VBScript, JavaScript ve komut istemi betiklerinin çalışmasını yönetir.
+3.  **Windows Installer Dosyaları (.msi, .msp, .vb):** Yazılım kurulumlarını, güncellemelerini ve yamalarını kontrol eder.
+4.  **Uygulama Paketi Dosyaları (.appx, .vb):** Windows 8 ve sonrası modern (Universal Windows Platform - UWP) uygulamaların çalışmasını yönetir.
+5.  **DLL Dosyaları (.dll, .ocx, .vb):** Uygulamaların ihtiyaç duyduğu dinamik bağlantı kütüphanelerinin (Dynamic Link Libraries) yüklenmesini kontrol eder.
+    Not:** DLL kuralları, diğerlerine göre daha karmaşıktır ve sistem üzerinde ciddi bir performans etkisi yaratabilir. Genellikle varsayılan olarak devre dışıdır ve sadece çok yüksek güvenlik gerektiren senaryolarda dikkatlice yapılandırılmalıdır.
 
 ### Kural Türleri (Rule Types)
 
