@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 
-![Nexa Protocol Logosu](https://faruk-guler.com/assets/post_images/nexa.webp) Nexa (NEXA), küresel finans sisteminin tamamını destekleyebilecek düzeyde **Layer 1 (Katman 1)** ölçeklenebilirliği sunma iddiasıyla yola çıkan, Proof-of-Work (PoW) tabanlı bir blockchain projesidir. Proje, günde **10 milyardan fazla işlemi** (saniyede yaklaşık 100.000 işlem - TPS) doğrudan ana zincir üzerinde işlemeyi hedeflemektedir. Bu, Visa gibi geleneksel ödeme ağlarının kapasitesine eşdeğer bir hedeftir.
+![Nexa Protocol Logosu](https://farukguler.com/assets/post_images/nexa.webp) Nexa (NEXA), küresel finans sisteminin tamamını destekleyebilecek düzeyde **Layer 1 (Katman 1)** ölçeklenebilirliği sunma iddiasıyla yola çıkan, Proof-of-Work (PoW) tabanlı bir blockchain projesidir. Proje, günde **10 milyardan fazla işlemi** (saniyede yaklaşık 100.000 işlem - TPS) doğrudan ana zincir üzerinde işlemeyi hedeflemektedir. Bu, Visa gibi geleneksel ödeme ağlarının kapasitesine eşdeğer bir hedeftir.
 
 Nexa'nın geliştirilmesinin arkasındaki itici güç, Bitcoin'in ölçeklenmesi ve protokol geliştirilmesi konusunda uzun yıllara dayanan deneyime sahip olan **Bitcoin Unlimited** ekibidir. Bu nedenle Nexa, Bitcoin'in orijinal "Eşten Eşe Elektronik Nakit Sistemi" vizyonunu korurken, modern donanım ve ağ teknolojilerinden yararlanarak ölçeklenebilirlik sorununu temelden çözmeyi amaçlar.
 
