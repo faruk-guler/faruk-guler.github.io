@@ -60,10 +60,10 @@ AppLocker kuralları, her dosya kategorisi için iki farklı modda çalıştır�
 
 ![AppLocker Uygulama Modları - Enforce ve Audit](https://farukguler.com/assets/post_images/app-locker2.PNG)
 
-* **Denetim Modu (Audit Only):**
+* **1 Denetim Modu (Audit Only):**
     * Bu modda, kurallara uymayan uygulamalar **engellenmez**. Bunun yerine, tüm kural eşleşmeleri (izin verilen veya engellenecek olan) olay günlüğüne (Event Logs) kaydedilir.
     * **Kullanım Amacı:** Üretim ortamını etkilemeden önce oluşturduğunuz politikaların etkisini test etmek ve mevcut uygulama envanterini (kim ne kullanıyor?) analiz etmek için idealdir.
-* **Uygulama Modu (Enforce rules):**
+* **2 Uygulama Modu (Enforce rules):**
     * Kurallar aktif olarak uygulanır. Beyaz listede olmayan ve kurallara uymayan tüm uygulamalar **bloke edilir**. Bu mod, politikalarınızdan emin olduktan sonra üretim ortamında kullanılır.
 
 ---
