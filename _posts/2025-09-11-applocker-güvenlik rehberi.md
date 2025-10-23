@@ -144,3 +144,5 @@ Set-AppLockerPolicy -XmlPolicy C:\temp\AppLocker.xml
 Get-AppLockerPolicy -Xml | Select-Xml "//Rule[@Action='Deny']" | ForEach-Object {$_.Node}
 
 ```
+## Referanslar:
+https://en.wikipedia.org/wiki/AppLocker
