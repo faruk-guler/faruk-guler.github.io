@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Windows AppLocker: Kapsamlı Güvenlik Rehberi
+title: Windows AppLocker Kapsamlı Güvenlik Rehberi
 date: 2025-09-11 09:33
 by: faruk-guler
 comments: true
