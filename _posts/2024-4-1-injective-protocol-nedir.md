@@ -8,7 +8,7 @@ comments: true
 categories: [Blockchain]
 ---
 
-![Injective Protocol Logosu](https://faruk-guler.com/assets/post_images/injective.jpg) Injective (INJ), yeni nesil merkeziyetsiz finans (DeFi) uygulamaları oluşturmak için özel olarak tasarlanmış, açık ve birlikte çalışabilir bir Layer 1 (Katman 1) blockchain'dir. Temel amacı, geleneksel finansın (TradFi) hız ve verimliliğini, blockchain'in şeffaflık ve güvenliği ile birleştiren bir altyapı sunmaktır.
+![Injective Protocol Logosu](https://farukguler.com/assets/post_images/injective.jpg) Injective (INJ), yeni nesil merkeziyetsiz finans (DeFi) uygulamaları oluşturmak için özel olarak tasarlanmış, açık ve birlikte çalışabilir bir Layer 1 (Katman 1) blockchain'dir. Temel amacı, geleneksel finansın (TradFi) hız ve verimliliğini, blockchain'in şeffaflık ve güvenliği ile birleştiren bir altyapı sunmaktır.
 
 **Cosmos SDK** ve **Tendermint** konsensüs mekanizması üzerine inşa edilen Injective, saniyede binlerce işlemi (TPS) yönetebilen, son derece hızlı ve neredeyse sıfır gas ücreti sunan bir ağdır.
 
