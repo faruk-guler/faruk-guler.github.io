@@ -80,7 +80,6 @@ ENS token sahipleri, DAO aracılığıyla şunları yapabilirler:
 
 **Önemli Not:** `.eth` isimlerini kaydetmek veya yenilemek için **ENS token'ı kullanılmaz.** Bu ücretler **ETH** ile ödenir ve DAO hazinesine gider. ENS token'ı öncelikli olarak bir **yönetişim hakkı** temsil eder.
 
-## Sonuç
 
 Ethereum Name Service (ENS), sadece bir "isim hizmeti" olmanın ötesinde, **Web3'ün kullanıcı deneyimini (UX) iyileştiren** ve **merkeziyetsiz kimlik** kavramına temel oluşturan kritik bir altyapı katmanıdır.
 
