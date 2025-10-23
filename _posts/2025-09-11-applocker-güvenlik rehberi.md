@@ -143,6 +143,7 @@ Set-AppLockerPolicy -XmlPolicy C:\temp\AppLocker.xml
 
 # Policy içindeki tüm 'Engelleme' (Deny) kurallarını göster
 Get-AppLockerPolicy -Xml | Select-Xml "//Rule[@Action='Deny']" | ForEach-Object {$_.Node}
+----
 
 ```
 ## Referanslar:
