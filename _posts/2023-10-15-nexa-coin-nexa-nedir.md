@@ -7,7 +7,7 @@ comments: true
 categories: [Blockchain]
 ---
 
-![Nexa Protocol Logosu](https://faruk-guler.com/assets/post_images/nexa_banner.PNG) Nexa (NEXA), günde 10 milyardan fazla işlemi (yaklaşık 100.000 TPS) destekleyebileceğini iddia eden, yeni nesil bir Layer 1 (Katman 1) blockchain ve kripto para birimidir.
+![Nexa Protocol Logosu](https://farukguler.com/assets/post_images/nexa.webp) Nexa (NEXA), günde 10 milyardan fazla işlemi (yaklaşık 100.000 TPS) destekleyebileceğini iddia eden, yeni nesil bir Layer 1 (Katman 1) blockchain ve kripto para birimidir.
 
 Nexa'nın arkasındaki ekip, Bitcoin'in ölçeklenmesi tartışmalarında önemli bir rol oynayan **Bitcoin Unlimited** ekibidir. Bu proje, "dijital nakit" (P2P electronic cash) vizyonunu, Ethereum ve Layer 2'lerin benimsediği yoldan (Rollup'lar) farklı bir felsefeyle çözmeyi amaçlar.
 
