@@ -70,7 +70,7 @@ Nexa'nın tokenomiği, Bitcoin'den ilham alır ancak farklı bir ölçektedir:
 
 ---
 
-## Sonuç
+## Son Düşünceler;
 
 Nexa, "dijital nakit" vizyonunu ve küresel ölçeklenebilirliği, Ethereum'un öncülük ettiği Layer 2 Rollup dünyasından tamamen farklı bir yolla, yani **Layer 1'i donanımsal olarak ölçeklendirerek** çözmeye çalışan son derece iddialı bir projedir.
 
