@@ -90,7 +90,7 @@ Başarılı bir AppLocker dağıtımı için aşağıdaki en iyi uygulamalar tak
 * **Envanter Çıkarın:** `Audit Only` modunu kullanarak "Kullanıcılar hangi uygulamaları gerçekten kullanıyor?" sorusunun cevabını loglardan öğrenin. Bu envantere göre beyaz listenizi oluşturun.
 * **GPO ve Lokal Politikalar:** GPO ile dağıtılan AppLocker kuralları, ilgili bilgisayardaki lokal AppLocker kurallarını her zaman ezer (override eder).
 * **Beyaz Liste (Whitelist) Önceliği:** Önce çalışması gereken tüm uygulamalara (sistem, antivirüs, ofis yazılımları vb.) izin veren bir beyaz liste oluşturun. Daha sonra spesifik olarak engellemek istediğiniz (blacklist) uygulamalar için `Deny` kuralı yazabilirsiniz.
-
+* **DLL kuralları varsayılan olarak devre dışıdır, DLL kuralları: Performans maliyeti yüksektir, genellikle sadece yüksek güvenlik ihtiyacı olan senaryolarda kullanılır.
 ---
 
 ## Olay Günlüğü Yönetimi (Event Log Management)
@@ -102,7 +102,7 @@ AppLocker'ın ne yaptığını anlamak için olay günlükleri hayati önem taş
 
 ### Önemli Event ID'ler
 
-*Not: Applications and Services Logs → Microsoft → Windows → AppLocker*
+*Event Wiewer: Applications and Services Logs → Microsoft → Windows → AppLocker*
 
 | Event ID | Açıklama |
 | :--- | :--- |
