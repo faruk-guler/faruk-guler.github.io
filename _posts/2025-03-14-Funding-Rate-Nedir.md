@@ -2,7 +2,7 @@
 layout: post
 title: Funding Rate (Fonlama Oranı) Nedir?
 date: 2024-03-11 18:29
-author: theguler
+author: theguler.
 comments: true
 categories: [Blockchain]
 ---
