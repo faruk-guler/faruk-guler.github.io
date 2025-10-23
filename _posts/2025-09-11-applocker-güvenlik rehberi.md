@@ -8,7 +8,7 @@ categories: [Windows OS]
 ---
 
 
-# Windows AppLocker: Kapsamlı şekilde incelemesini yapalım...
+# Kapsamlı şekilde incelemesini yapalım...
 
 Windows AppLocker, Microsoft'un gelişmiş bir uygulama beyaz liste (whitelist) çözümüdür. Temel amacı, bir kuruluş içindeki bilgisayarlarda yalnızca yetkili ve onaylanmış yazılımların çalışmasına izin vermek; yetkisiz yazılımları, betikleri, yükleyicileri ve DLL'leri proaktif olarak engellemektir.
 
