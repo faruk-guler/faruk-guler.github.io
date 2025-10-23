@@ -56,7 +56,7 @@ Fonlama oranının var olma nedeni **arbitrajı** teşvik etmektir. Bu mekanizma
 |:--------|:-------------|:------------------------------------------------------------|
 | **CRV** | **-1.1268%** | **Aşırı Negatif** (Short pozisyonlar aşırı fazla)           |
 | **RVN** | **0.0100%**  | **Nötr / Hafif Pozitif** (Dengeli veya hafif long eğilimli) |
-| **BNX** | **2.3803%**  | **Aşırı Pozitif** (Long pozisyonlar aşırı fazla)            |
+| **PHA** | **2.3803%**  | **Aşırı Pozitif** (Long pozisyonlar aşırı fazla)            |
 
 ## Strateji: Fonlama Oranı ve Açık Faiz (Open Interest)
 
