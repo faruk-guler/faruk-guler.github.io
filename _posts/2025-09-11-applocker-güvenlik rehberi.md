@@ -102,6 +102,8 @@ AppLocker'ın ne yaptığını anlamak için olay günlükleri hayati önem taş
 
 ### Önemli Event ID'ler
 
+*Not: Applications and Services Logs → Microsoft → Windows → AppLocker*
+
 | Event ID | Açıklama |
 | :--- | :--- |
 | **8003** | Uygulamanın çalışmasına **izin verildi** (Denetim modunda). |
