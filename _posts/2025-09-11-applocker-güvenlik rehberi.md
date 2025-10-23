@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Windows AppLocker Kapsamlı Güvenlik Rehberi
+title: Windows AppLocker'i inceliyorum.
 date: 2025-09-11 09:33
 by: faruk-guler
 comments: true
@@ -8,7 +8,7 @@ categories: [Windows OS]
 ---
 
 
-# Windows AppLocker: Kapsamlı Kapsamlı şekilde incelemesini yapalım...
+# Windows AppLocker: Kapsamlı şekilde incelemesini yapalım...
 
 Windows AppLocker, Microsoft'un gelişmiş bir uygulama beyaz liste (whitelist) çözümüdür. Temel amacı, bir kuruluş içindeki bilgisayarlarda yalnızca yetkili ve onaylanmış yazılımların çalışmasına izin vermek; yetkisiz yazılımları, betikleri, yükleyicileri ve DLL'leri proaktif olarak engellemektir.
 
