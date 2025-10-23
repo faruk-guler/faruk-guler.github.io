@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Akash Network (AKT) Nedir? (DeCloud)
+title: Akash Network (AKT) Nedir?
 date: 2024-6-11 19:45
 by: faruk-guler
 comments: true
@@ -15,7 +15,7 @@ Projenin vizyonu, dünya çapında **kullanılmayan (underutilized)** devasa sun
 
 ---
 
-## Akash'ın Çözdüğü Problem: Merkezi Bulutun Kısıtlamaları
+## Akash'ın Çözdüğü Problem: Merkezi Bulutun Kısıtlamaları 
 
 Geleneksel bulut bilişim pazarı, birkaç dev teknoloji şirketi tarafından domine edilmektedir. Bu durum birkaç temel soruna yol açar:
 
@@ -49,7 +49,7 @@ Akash'ın kalbi, bulut kaynaklarına ihtiyaç duyanlar (Kiracılar) ile bu kayna
 
 ---
 
-## AKT Token'ı Ne İşe Yarar? (Ekonomik Motor)
+## AKT Token'ı Ne İşe Yarar? (Ekonomik Motor) (DeCloud)
 
 **AKT**, Akash Network'ün güvenliğini, yönetişimini ve ekonomik işleyişini sağlayan temel varlıktır. Maksimum arzı ~389 Milyon AKT ile sınırlandırılmıştır (enflasyon modeli zamanla azalır).
 
