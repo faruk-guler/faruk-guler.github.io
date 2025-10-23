@@ -85,6 +85,6 @@ Ancak 2019 yılında, Stellar Development Foundation (SDF) radikal bir kararla *
 
 Mevcut toplam arz **50 milyar XLM** ile sınırlandırılmıştır ve bu arz sabittir. Bu, zamanla token üzerinde deflasyonist bir etki yaratabilir.
 
-## Sonuç
+## Özetle:
 
 Stellar, "bankasızları bankalaştırma" vizyonuyla yola çıkan, teknik olarak kanıtlanmış bir projedir. Gerçek dünya varlıklarını (stablecoin'ler, CBDC'ler - Dijital Merkez Bankası Paraları) tokenize etmek ve bunları saniyeler içinde küresel olarak transfer etmek için tasarlanmış en verimli altyapılardan birini sunar. Hızı, ultra düşük maliyetleri ve Anchor sistemi, onu özellikle havale (remittance) ve mikro ödemeler için güçlü bir oyuncu yapmaktadır.
