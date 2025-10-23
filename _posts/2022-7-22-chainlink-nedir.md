@@ -69,8 +69,6 @@ Chainlink, DeFi ekosisteminin tamamını "Fiyat Akışları" (Price Feeds) ile a
     * Eğer bir düğüm operatörü kötü niyetli davranır veya yanlış veri sağlarsa ("yalan söylerse"), kilitlediği bu LINK token'ları **"slashing"** adı verilen bir mekanizma ile ceza olarak elinden alınır.
     * Bu, dürüst davranmayı kârlı, sahtekârlığı ise (kaybedilecek LINK'ler nedeniyle) ekonomik olarak felaketle sonuçlanan bir hale getirir.
 
-## Sonuç
-
 Chainlink, sadece "bir oracle projesi" değil, **endüstri standardı** haline gelmiş bir platformdur. DeFi'nin var olabilmesini sağlayan temel "altyapı" katmanıdır.
 
 Gerçek Dünya Varlıklarının (RWA - Real World Assets) tokenizasyonu, zincirler arası iletişim (CCIP) ve kanıtlanabilir rezervler (PoR) gibi blockchain'in en büyük anlatılarının (narratives) merkezinde yer alan Chainlink, blockchain ekonomisini gerçek dünya ekonomisine bağlayan en kritik ve yeri doldurulamaz "tesisat" borularından biri olarak kabul edilmektedir.
