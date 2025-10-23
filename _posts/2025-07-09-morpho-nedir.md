@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Morpho (MORPHO) Nedir? DeFi Verimliliğini Yeniden Tanımlayan Protokol
+title: Morpho (MORPHO) Nedir? DeFi Verimliliğini Tanımlayan Protokol
 date: 2025-07-09 13:43
 by: faruk-guler
 comments: true
