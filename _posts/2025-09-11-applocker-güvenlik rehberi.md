@@ -51,13 +51,13 @@ AppLocker politikalarını merkezi olarak dağıtmak için Grup İlkesi Yönetim
     * AppLocker kurallarının uygulanabilmesi için `Application Identity` (AppIDSvc) servisinin çalışıyor olması zorunludur. Bu hizmetin GPO üzerinden otomatik olarak başlatılması sağlanmalıdır:
     * `Computer Configuration` → `Policies` → `Windows Settings` → `Security Settings` → `System Services` → `Application Identity` (Başlangıç Türü: Otomatik)
 
-![Application Identity Servisini Etkinleştirme](https://farukguler.com/images/app-locker1.PNG)
+![Application Identity Servisini Etkinleştirme](https://farukguler.com/assets/post_images/app-locker1.PNG)
 
 ### Uygulama Modları (Enforcement Modes)
 
 AppLocker kuralları, her dosya kategorisi için iki farklı modda çalıştırılabilir:
 
-![AppLocker Uygulama Modları - Enforce ve Audit](https://farukguler.com/images/app-locker2.PNG)
+![AppLocker Uygulama Modları - Enforce ve Audit](https://farukguler.com/assets/post_images/app-locker2.PNG)
 
 * **Denetim Modu (Audit Only):**
     * Bu modda, kurallara uymayan uygulamalar **engellenmez**. Bunun yerine, tüm kural eşleşmeleri (izin verilen veya engellenecek olan) olay günlüğüne (Event Logs) kaydedilir.
