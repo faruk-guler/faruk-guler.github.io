@@ -89,7 +89,7 @@ BTC, ağın temel taşıdır. Hem madencileri ödüllendirmek hem de işlem ücr
 
 Bitcoin'in ölçeklenebilirlik sorununu çözmek için geliştirilen en önemli Layer 2 (Katman 2) çözümü **Lightning Network**'tür. Bu protokol, kullanıcıların Bitcoin ana zincirine dokunmadan, kendi aralarında anlık ve neredeyse sıfır maliyetli mikro ödemeler yapmasına olanak tanır.
 
-## Sonuç
+## Sonsöz;
 
 Bitcoin, sadece ilk kripto para birimi değil, aynı zamanda tamamen yeni bir varlık sınıfı ve finansal paradigmalar yaratan bir teknolojik devrimdir. Başlangıçtaki "dijital nakit" hedefinden, günümüzdeki "dijital altın" ve "değer saklama aracı" rolüne evrilmiş olsa da, temel ilkeleri olan **merkeziyetsizlik, kıtlık ve sansür direnci** onu finans dünyasında benzersiz bir konuma yerleştirmiştir.
 
