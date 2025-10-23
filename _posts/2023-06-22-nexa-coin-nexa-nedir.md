@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Nexa (NEXA) Nedir? Layer 1 Ölçeklenmesinde Yeni Bir Yaklaşım
-date: 2025-10-23 19:55
-tag: [Blockchain, Layer 1, NEXA, PoW, UTXO, Ölçeklenebilirlik, Bitcoin Unlimited]
+title: Nexa (NEXA) Nedir?
+date: 2023-06-22 19:55
 by: faruk-guler
 comments: true
 categories: [Blockchain]
