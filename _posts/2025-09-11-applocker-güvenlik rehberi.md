@@ -80,7 +80,7 @@ Bu nedenle, ilk yapılandırmada mutlaka "Default Rules" oluşturulmalıdır. Bu
 
 ---
 
-## En İyi Uygulamalar-Best Practices Şirket/Kurumsal Ortam için Öneriler
+## (Best Practices) Şirket/Kurumsal Ortam için Öneriler
 
 Başarılı bir AppLocker dağıtımı için aşağıdaki en iyi uygulamalar takip edilmelidir:
 
