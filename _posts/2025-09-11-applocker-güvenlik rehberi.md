@@ -89,10 +89,11 @@ Başarılı bir AppLocker dağıtımı için aşağıdaki en iyi uygulamalar tak
 * **Engelleme (Deny) Kurallarını Dikkatli Kullanın:** AppLocker bir beyaz liste çözümüdür. "Her şeyi engelle, sadece bunlara izin ver" mantığı daha güvenlidir. `Deny` (Engelle) kuralları, her zaman `Allow` (İzin Ver) kurallarından önce değerlendirilir ve kural çakışmalarına neden olabilir.
 * **Departman Bazlı (OU) Politikalar:** Tüm şirkete tek bir politika uygulamak yerine, Active Directory'deki Organizasyonel Birimlere (OU) göre ayrı politikalar oluşturun. (Örn: Finans, IT, Üretim departmanlarının uygulama ihtiyaçları farklıdır).
 * **SRP (Software Restriction Policies) ile karıştırma → AppLocker, SRP’nin gelişmiş versiyonudur (Win7’den sonra tavsiye edilen AppLocker’dır).
+* **DLL kuralları varsayılan olarak devre dışıdır, DLL kuralları: Performans maliyeti yüksektir, genellikle sadece yüksek güvenlik ihtiyacı olan senaryolarda kullanılır.
 * **Envanter Çıkarın:** `Audit Only` modunu kullanarak "Kullanıcılar hangi uygulamaları gerçekten kullanıyor?" sorusunun cevabını loglardan öğrenin. Bu envantere göre beyaz listenizi oluşturun.
 * **GPO ve Lokal Politikalar:** GPO ile dağıtılan AppLocker kuralları, ilgili bilgisayardaki lokal AppLocker kurallarını her zaman ezer (override eder).
 * **Beyaz Liste (Whitelist) Önceliği:** Önce çalışması gereken tüm uygulamalara (sistem, antivirüs, ofis yazılımları vb.) izin veren bir beyaz liste oluşturun. Daha sonra spesifik olarak engellemek istediğiniz (blacklist) uygulamalar için `Deny` kuralı yazabilirsiniz.
-* **DLL kuralları varsayılan olarak devre dışıdır, DLL kuralları: Performans maliyeti yüksektir, genellikle sadece yüksek güvenlik ihtiyacı olan senaryolarda kullanılır.
+
 ---
 
 ## Olay Günlüğü Yönetimi (Event Log Management)
