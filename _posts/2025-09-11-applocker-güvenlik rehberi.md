@@ -48,8 +48,9 @@ AppLocker politikalarını merkezi olarak dağıtmak için Grup İlkesi Yönetim
 1.  **AppLocker Politikaları:**
     * `Computer Configuration` → `Policies` → `Windows Settings` → `Security Settings` → `Application Control Policies` → `AppLocker`
 2.  **Gerekli Hizmet (Application Identity):**
-    * AppLocker kurallarının uygulanabilmesi için `Application Identity` (AppIDSvc) servisinin çalışıyor olması zorunludur. Bu hizmetin GPO üzerinden otomatik olarak başlatılması sağlanmalıdır:
     * `Computer Configuration` → `Policies` → `Windows Settings` → `Security Settings` → `System Services` → `Application Identity` (Başlangıç Türü: Otomatik)
+    * AppLocker kurallarının uygulanabilmesi için `Application Identity` (AppIDSvc) servisinin çalışıyor olması zorunludur. Bu hizmetin GPO üzerinden otomatik olarak başlatılması sağlanmalıdır:
+    
 
 ![Application Identity Servisini Etkinleştirme](https://farukguler.com/assets/post_images/app-locker1.PNG)
 
@@ -102,8 +103,6 @@ AppLocker'ın ne yaptığını anlamak için olay günlükleri hayati önem taş
 * Bu yolun altında her dosya tipi (EXE and DLL, MSI and Script, Packaged App) için ayrı alt günlükler bulunur.
 
 ### Önemli Event ID'ler
-
-*Event Wiewer: Applications and Services Logs → Microsoft → Windows → AppLocker*
 
 | Event ID | Açıklama |
 | :--- | :--- |
