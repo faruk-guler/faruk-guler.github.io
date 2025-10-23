@@ -30,6 +30,3 @@ categories: [Blockchain]
 <p>dYdX, merkezi olmayan bir türev platformu olarak, kripto para birimleri için vadeli işlemler ve opsiyonlar gibi çeşitli finansal ürünler sunarak, yatırımcıların risklerini azaltmalarına ve getirilerini artırmalarına yardımcı olur. Merkezi olmayan bir platform olarak, kullanıcıların fonlarının güvenliği ve kontrolü konusunda da avantajlar sunar.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p>Bugünkü fiyatı: <strong><strong><strong><strong>$1,57</strong></strong></strong>USDT</strong></p>
-<!-- /wp:paragraph -->

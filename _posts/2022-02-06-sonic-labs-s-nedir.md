@@ -23,6 +23,3 @@ categories: [Blockchain]
 <p>S ayrıca, DeFi (Decentralized Finance) uygulamaları, NFT'ler (Non-Fungible Tokens), akıllı sözleşmeler ve diğer merkezi olmayan uygulamaların geliştirilmesi için kullanılabilir. S, Ethereum sanal makinesi (EVM) uyumlu olduğu için Ethereum'da geliştirilen birçok uygulamanın S üzerinde de çalıştırılmasına olanak tanır. Bu da S'nin özellikle Ethereum geliştiricileri için ilgi çekici hale getirir.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p>Bugünkü fiyatı: <strong><strong>$0,26</strong> USDT</strong></p>
-<!-- /wp:paragraph -->

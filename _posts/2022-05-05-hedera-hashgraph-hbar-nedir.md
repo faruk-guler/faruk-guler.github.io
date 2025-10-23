@@ -30,6 +30,3 @@ categories: [Blockchain]
 <p>Sonuç olarak, Hedera Hashgraph (HBAR), merkezi olmayan bir blok zinciri platformudur ve hızlı ve güvenli bir değer transferi ve uygulama oluşturma için kullanılır. HBAR tokenleri, işlemlerin doğrulanması için kullanılır ve ölçeklenebilirlik sorunlarını çözmek için farklı düğümler kullanır. Hedera Hashgraph ayrıca, merkezi olmayan uygulamaların oluşturulmasına olanak tanır ve çeşitli özellikler ve araçlar sunar.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p><strong><strong>Bugünkü fiyatı:$0,061</strong>USDT</strong></p>
-<!-- /wp:paragraph -->

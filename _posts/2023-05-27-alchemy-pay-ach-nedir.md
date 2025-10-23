@@ -64,6 +64,3 @@ categories: [Blockchain]
 <p>ACH, Alchemy Pay platformunda kullanılan yerel token olduğu için platformdaki kullanıcılar arasında talep görmektedir. Alchemy Pay'in hedefi, ACH tokenını daha geniş bir kullanıcı kitlesine benimsetmek ve perakende ödemelerde kripto para birimlerinin kullanımını artırmaktır.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p>Bugünkü fiyatı:&nbsp;<strong><strong>$0.027</strong> USDT</strong></p>
-<!-- /wp:paragraph -->
