@@ -30,7 +30,3 @@ categories: [Blockchain]
 <!-- wp:paragraph -->
 <p>Düşük Gas Maliyetleri: Morpho, geleneksel DeFi protokollerinin kullandığı temsilci token'lar yerine "paylar" (shares) sistemiyle çalışır. Bu sistem, gas maliyetlerini azaltır ve kullanıcı deneyimini iyileştirir.</p>
 <!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>Bugünkü fiyatı: <strong><strong>$2,45</strong> USDT</strong></p>
-<!-- /wp:paragraph -->
