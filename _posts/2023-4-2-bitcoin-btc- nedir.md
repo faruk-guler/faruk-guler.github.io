@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Bitcoin (BTC) Nedir? Merkeziyetsiz Finansın Başlangıcı ve Dijital Altın
-date: 2025-10-23 19:40
+date: 2023-4-2 19:40
 by: faruk-guler
 comments: true
 categories: [Blockchain]
