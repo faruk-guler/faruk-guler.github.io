@@ -8,7 +8,7 @@ Dün akşam bir kahve alıp kısa bir yürüyüşe çıktım ve kendim hakkında
 işte o paha biçilmez.
 
 **Ben Faruk GÜLER**, BT. sunucu ve sanallaştırma yöneticisiyim. 10+ yıllık mesleki deneyime ve akreditasyona sahip, kendini işine adamış ve hevesli bir bilgi teknolojisi ve siber güvenlik araştırmacısıyım. 
-IT dünyası, Hacking ve Güvenlik, Yapay Zeka, Blockchain Projeleri ve Kripto Paralar üzerine araştırma ve çalışmalar yapıp, farklı teknolojiler ve hizmetler alanında blog yazıyorum. 
+IT dünyası, Hacking ve Güvenlik, Yapay Zeka, Blockchain Projeleri ve Kripto Paralar, Açıkkaynak teknolojiler ve Linux üzerine araştırma ve çalışmalar yapıp, farklı teknolojiler ve hizmetler alanında blog yazıyorum. 
 Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum. 
 - Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum. 
 Bu makaleyi okuduğunuzda, değerli bulduğum ve sizinle paylaştığım bu projeler çok değersiz hale gelmiş veya aşırı değer kazanmış olabilir. Daha fazlasına ihtiyacınız varsa benimle iletişime geçmekten çekinmeyin...
