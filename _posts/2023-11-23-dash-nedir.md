@@ -52,15 +52,13 @@ Kullanıcı bu özelliği etkinleştirdiğinde, Dash'leri Masternode'lar aracıl
 
 ## Dash DAO: Kendi Kendini Finanse Eden Hazine
 
-Dash'in en devrimci yönlerinden biri, sürdürülebilir bir geliştirme ve pazarlama bütçesi yaratmış olmasıdır.
+Dash'in en devrimci ve en kalıcı yönlerinden biri, sürdürülebilir bir geliştirme ve pazarlama bütçesi yaratmış olmasıdır.
 
-Bitcoin'de blok ödülünün %100'ü madencilere gider. Dash'te ise blok ödülü **üçe bölünür**:
+Bitcoin'de blok ödülünün %100'ü madencilere giderken, Dash'te blok ödülü **üçe bölünür**. (Not: Bu yüzdeler, Dash Core v19 güncellemesiyle 2023 yılında güncellenmiştir):
 
+* **%60 → Masternode'lar:** İkinci katman hizmetlerini sundukları ve 1.000 DASH teminat kilitledikleri için ödülün en büyük payını alırlar.
 * **%20 → Merkeziyetsiz Hazine (DAO):** Bu pay, doğrudan ağın kontrolündeki bir "hazine" fonuna aktarılır.
-* **%48 → Masternode'lar:** İkinci katman hizmetlerini sundukları ve teminat kilitledikleri için ödüllendirilirler.
-* **%32 → Madenciler:** Ağı güvence altına aldıkları için ödüllendirilirler.
-
-*(Not: Bu yüzdeler, ağın yönetişim kararlarıyla zaman içinde değişmiştir. Güncel model 20/48/32 şeklindedir.)*
+* **%20 → Madenciler:** Ağı güvence altına aldıkları için ödüllendirilirler.
 
 ### Hazine Nasıl Çalışır?
 
@@ -71,6 +69,32 @@ Her ay, topluluktan herkes (geliştiriciler, pazarlamacılar, araştırmacılar)
 
 Bu sistem, Dash'i dünyanın ilk **Merkeziyetsiz Otonom Organizasyonlarından (DAO)** biri yapar. Ağ, gelişimini ve büyümesini finanse etmek için dışarıdan bağışlara veya merkezi bir şirkete bağımlı değildir.
 
-## Son olarak;
+---
 
-Dash, basit bir Bitcoin kopyası olmanın çok ötesinde, iki katmanlı ağı (Masternode'lar) ve kendi kendini finanse eden hazine modeli (DAO) ile kripto para dünyasında pek çok yeniliğe öncülük etmiş bir projedir. Anlık transferler (InstantSend) ve isteğe bağlı gizlilik (CoinJoin) özellikleriyle, "dijital nakit" olma vizyonunu teknik olarak desteklemeyi amaçlamaktadır.
+## Tokenomisi, Arzı ve Pazardaki Mevcut Konumu
+
+### Token Arzı ve Ekonomisi
+
+* **Maksimum Arz:** Tıpkı Bitcoin gibi, Dash de sert bir arza sahiptir ancak bu sınır **~18.9 Milyon DASH** civarındadır.
+* **Emisyon Programı:** Dash, Bitcoin'in 4 yıllık "halving" (yarılanma) modelini kullanmaz. Bunun yerine, emisyon oranı her yıl **%7.14** oranında azaltılır. Bu, daha yumuşak ve daha öngörülebilir bir enflasyon düşüşü sağlar.
+* **Ekonomik Teşvik:** Blok ödüllerinin %60'ının 1.000 DASH kilitleyen Masternode'lara gitmesi, token üzerinde güçlü bir **staking (kilitleme) teşviki** yaratır. Bu, dolaşımdaki arzı azaltır ve ağın ikinci katmanını güvence altına alır.
+
+### Gelecek Beklentisi: Güçlü Miras, Zorlu Gerçekler
+
+Dash'in geleceği, onun öncü mirasını günümüzün rekabetçi pazarında nasıl konumlandırdığına bağlıdır.
+
+**1. Projenin Güçlü Yanları:**
+* **Kanıtlanmış DAO Modeli:** Dash Hazinesi, 10 yıla yakın bir süredir proje geliştirmeyi (Dash Core cüzdanı, DashPay vb.) başarıyla fonlayan, kripto dünyasının en eski ve en dayanıklı DAO modelidir.
+* **Güçlü Altyapı:** İki katmanlı Masternode ağı, on binlerce düğümle desteklenen, hızlı ve sağlam bir altyapı sunar.
+
+**2. Projenin Önündeki Engeller:**
+* **"Gizlilik Coini" Damgası ve Borsa Delistleri:** Dash'in *CoinJoin* özelliği, yenilikçi olmasına rağmen, regülatörlerin dikkatini çekmiştir. Bu durum, "gizlilik coini" olarak etiketlenmesine ve **Binance (Avrupa), OKX, Bittrex** gibi dünyanın en büyük borsalarının çoğundan **kaldırılmasına (delist edilmesine)** yol açmıştır. Bu, projenin likiditesini ve yeni yatırımcılara erişimini ciddi şekilde kısıtlayan en büyük engelidir.
+* **"Dijital Nakit" Pazarındaki Yoğun Rekabet:** 2014 yılında Dash "Bitcoin'den hızlı" olduğu için devrimciydi. Bugün ise bu değer önerisi büyük ölçüde aşınmış durumda. **Bitcoin'in Lightning Network'ü**, **Solana** gibi yüksek hızlı L1'ler, **Arbitrum/Optimism** gibi L2'ler ve özellikle **Stabilcoinler (USDC, USDT)**, "anlık ve ucuz ödemeler" konusunda Dash'ten çok daha hızlı, daha ucuz ve daha popüler çözümler sunmaktadır.
+
+---
+
+## Sonuç
+
+Dash, basit bir Bitcoin kopyası olmanın çok ötesinde, Masternode ağı ve kendi kendini finanse eden DAO modeli ile kripto para dünyasında pek çok yeniliğe öncülük etmiş tarihi bir projedir.
+
+Ancak, bir zamanlar onu benzersiz kılan "anlık transfer" ve "isteğe bağlı gizlilik" özellikleri, bugün sırasıyla **daha hızlı rakipler** ve **regülasyon baskıları** ile karşı karşıyadır. Dash'in gelecekteki başarısı, merkeziyetsiz hazinesinin, projeyi bu zorlu rekabet ortamında (L2'ler ve stabilcoinler dünyasında) yeniden ilgili kılacak ve borsa erişim sorununu aşacak stratejileri finanse edip edemeyeceğine bağlıdır.
