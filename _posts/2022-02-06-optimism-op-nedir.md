@@ -84,7 +84,7 @@ Optimism'in geleceği, onun açık kaynak felsefesinin, pazardaki yoğun rekabet
 
 ---
 
-## Sonuç
+## Özetlemek gerekirse;
 
 Optimism, sadece Ethereum'u ölçeklendiren bir L2 değildir; aynı zamanda **açık kaynaklı, modüler bir altyapı (OP Stack)** sunarak tüm bir "Süper Zincir" ekosistemini güçlendiren bir platformdur.
 
