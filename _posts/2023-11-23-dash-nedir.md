@@ -93,7 +93,7 @@ Dash'in geleceği, onun öncü mirasını günümüzün rekabetçi pazarında na
 
 ---
 
-## Sonuç
+## Sonsöz
 
 Dash, basit bir Bitcoin kopyası olmanın çok ötesinde, Masternode ağı ve kendi kendini finanse eden DAO modeli ile kripto para dünyasında pek çok yeniliğe öncülük etmiş tarihi bir projedir.
 
