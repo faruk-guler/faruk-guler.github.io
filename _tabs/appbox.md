@@ -5,8 +5,10 @@ order: 2
 ---
 
 |--------------------|--------------------|----------------------|
-| <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/" target="_blank">Portfolio Analyzer USD/TRY</a> | <a href="https://farukguler.com/app/futures-calc/" target="_blank">Futures Liquidation Calculator</a> | <a href="https://farukguler.com/app/spot-calc/" target="_blank">Spot Profit Calculator</a> |
-| <a href="https://farukguler.com/app/nobet/" target="_blank">Ücretsiz Nöbet Hazırlama Programı</a> | <a href="https://farukguler.com/app/base64/" target="_blank">Base64 Encoder/Decoder</a> | <a href="https://farukguler.com/app/whois-lookup/" target="_blank">WHOIS Domain Lookup</a> |
+| <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/" target="_blank">Portfolio Analyzer USD/TRY</a> | <a href="https://farukguler.com/app/futures-calc/" target="_blank">Futures Liquidation Calculator</a> 
+| <a href="https://farukguler.com/app/spot-calc/" target="_blank">Spot Profit Calculator</a> |
+| <a href="https://farukguler.com/app/nobet/" target="_blank">Ücretsiz Nöbet Hazırlama Programı</a> | <a href="https://farukguler.com/app/base64/" target="_blank">Base64 Encoder/Decoder</a> |
+| <a href="https://farukguler.com/app/whois-lookup/" target="_blank">WHOIS Domain Lookup</a> |
 | <a href="https://farukguler.com/app/cronjob-planner/" target="_blank">Cronjob Planner</a> | <a href="https://farukguler.com/app/parted/" target="_blank">Parted Jump Manual</a> |
 | <a href="https://farukguler.com/app/live-localhost/" target="_blank">Live Localhost</a> | <a href="https://farukguler.com/app/chmod-calculator/" target="_blank">Unix Permissions Calculator</a> |
 | <a href="https://farukguler.com/app/diff/" target="_blank">Diff Checker</a> | <a href="https://farukguler.com/app/text-editor/" target="_blank">Advanced Text Editor</a> |
