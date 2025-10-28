@@ -20,4 +20,3 @@ order: 2
 | <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/" target="_blank">Portfolio Analyzer USD/TRY</a> | <a href="https://farukguler.com/app/rise-comparison/" target="_blank">Spot Potential Rise Comparison</a> |
 | <a href="https://farukguler.com/app/open-draw/" target="_blank">OpenDraw WebUI</a> | <a href="https://github.com/faruk-guler/Neutron/" target="_blank">Neutron -Powerful automation</a> |
 
----
