@@ -4,7 +4,7 @@ icon: fa-solid fa-wrench
 order: 2
 ---
 
-|--------------------|--------------------------------------|
+|--------------------|--------------------|
 | <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/" target="_blank">Portfolio Analyzer USD/TRY</a> | <a href="https://farukguler.com/app/futures-calc/" target="_blank">Futures Liquidation Calculator</a> 
 | <a href="https://farukguler.com/app/spot-calc/" target="_blank">Spot Profit Calculator</a> |
 | <a href="https://farukguler.com/app/nobet/" target="_blank">Ücretsiz Nöbet Hazırlama Programı</a> | <a href="https://farukguler.com/app/base64/" target="_blank">Base64 Encoder/Decoder</a> |
