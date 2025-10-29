@@ -9,7 +9,7 @@ categories: [Blockchain]
 
 ## Benner Döngüsü, 150 yıldır piyasa hareketini nasıl doğru tahmin ediyor?
 
-Samuel Benner, 19. yüzyılın başlarında bir çiftçi olarak, ekonomideki piyasa döngülerinin nasıl çalıştığını merak etti. Bu merakı onu 1875 yılında 'Trends and Phases of Business' adlı bir kitap yazmaya itti. Kitapta, iş ve emtia fiyatlarının gelecekteki yönünü tahmin etmek için kullandığı yöntemi açıkladı. Benner, piyasa hareketlerinin bir dizi yıllık döngüde tekrarlandığını keşfetti ve bu döngülerin panik yılları, iyi zaman yıllarını ve zor zaman yıllarını içerdiğini belirledi. Örneğin, panik yılları genellikle ortalama ekonomik faaliyetin düşük olduğu yıllardır ve işsizlik oranları yükselirken, varlık fiyatları da düşer.
+Samuel Benner, 19. yüzyılın başlarında Ohio'lu bir çiftçi olarak, ekonomideki piyasa döngülerinin nasıl çalıştığını merak etti. Bu merakı onu 1875 yılında 'Trends and Phases of Business' adlı bir kitap yazmaya itti. Kitapta, iş ve emtia fiyatlarının gelecekteki yönünü tahmin etmek için kullandığı yöntemi açıkladı. Benner, piyasa hareketlerinin bir dizi yıllık döngüde tekrarlandığını keşfetti ve bu döngülerin panik yılları, iyi zaman yıllarını ve zor zaman yıllarını içerdiğini belirledi. Örneğin, panik yılları genellikle ortalama ekonomik faaliyetin düşük olduğu yıllardır ve işsizlik oranları yükselirken, varlık fiyatları da düşer.
 Benner Döngüsü ayrıca
 - 1929'daki Büyük Buhran,
 - 2000'lerdeki Dotcom Balonu
