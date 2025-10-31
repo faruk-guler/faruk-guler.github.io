@@ -91,7 +91,7 @@ Başarılı bir AppLocker dağıtımı için aşağıdaki en iyi uygulamalar tak
 * **SRP (Software Restriction Policies) ile karıştırılmamalı:** "AppLocker" SRP’nin gelişmiş versiyonudur (Win7’den sonra tavsiye edilen AppLocker’dır).
 * **DLL kuralları varsayılan olarak devre dışıdır:**  Performans maliyeti yüksektir, genellikle sadece yüksek güvenlik ihtiyacı olan senaryolarda kullanılır.
 * **Envanter Çıkarın:** `Audit Only` modunu kullanarak "Kullanıcılar hangi uygulamaları gerçekten kullanıyor?" sorusunun cevabını loglardan öğrenin. Bu envantere göre beyaz listenizi oluşturun.
-* **GPO ve Lokal Politikalar:** GPO ile dağıtılan AppLocker kuralları, ilgili bilgisayardaki lokal AppLocker kurallarını her zaman ezer (override eder).
+cGPO ve Lokal Politikalar:** GPO ile dağıtılan AppLocker kuralları, ilgili bilgisayardaki lokal AppLocker kurallarını her zaman ezer (override eder).
 * **Beyaz Liste (Whitelist) Önceliği:** Önce çalışması gereken tüm uygulamalara (sistem, antivirüs, ofis yazılımları vb.) izin veren bir beyaz liste oluşturun. Daha sonra spesifik olarak engellemek istediğiniz (blacklist) uygulamalar için `Deny` kuralı yazabilirsiniz.
 
 ---
@@ -129,6 +129,12 @@ AppLocker güçlü bir araç olsa da, Windows'un bazı yerleşik araçları (LOL
 * `PowerShell.exe` (Çeşitli kısıtlama atlatma teknikleri)
 
 ---
+
+## AppLocker Dezavantajları
+* Sadece Windows Enterprise ve Education sürümlerinde çalışır
+* User-mode çalıştığı için kernel driver'lar tarafından atlatılabilir
+* Dosyanın en ufak bir güncelleme alması (hash değerinin değişmesi) kuralın bozulmasına... neden olabilir.
+* ---
 
 ## PowerShell ile Yönetim
 
