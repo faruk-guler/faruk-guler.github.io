@@ -131,7 +131,7 @@ AppLocker güçlü bir araç olsa da, Windows'un bazı yerleşik araçları (LOL
 ---
 
 ## AppLocker Dezavantajları
-* Sadece Windows Enterprise ve Education sürümlerinde çalışır
+* Sadece Windows Enterprise ve Education sürümlerinde çalışır (2025)
 * User-mode çalıştığı için kernel driver'lar tarafından atlatılabilir
 * Dosyanın en ufak bir güncelleme alması (hash değerinin değişmesi) kuralın bozulmasına... neden olabilir.
 * ---
