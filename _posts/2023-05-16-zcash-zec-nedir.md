@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Zcash (ZEC) Nedir? zk-SNARKs ile Opsiyonel Gizliliğin Öncüsü
+title: Zcash (ZEC) Nedir? zk-SNARKs ile Opsiyonel Gizlilik
 date: 2023-05-16 13:10
 tag: [Privacy Coin]
 by: faruk-guler
