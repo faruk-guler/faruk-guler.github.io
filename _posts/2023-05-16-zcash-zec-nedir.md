@@ -2,13 +2,13 @@
 layout: post
 title: Zcash (ZEC) Nedir? zk-SNARKs ile Opsiyonel Gizlilik
 date: 2023-05-16 13:10
-tag: [Privacy Coin]
 by: faruk-guler
 comments: true
 categories: [Blockchain]
 ---
 
 ![Zcash (ZEC) Logosu](https://farukguler.com/assets/post_images/z-cash.jpg)
+
 Zcash (ZEC), 2016 yılında Bitcoin kod tabanından (fork) türetilmiş, merkeziyetsiz ve açık kaynaklı bir **gizlilik odaklı** kripto para birimidir. Projenin temel misyonu, Bitcoin'in (ve diğer tüm halka açık blockchain'lerin) doğasında bulunan **şeffaflık sorununu** çözmektir.
 
 Zcash'in devrimi, **"zk-SNARKs"** (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge) adı verilen, askeri düzeyde bir kriptografi teknolojisini kullanan ilk blockchain olmasıdır. Bu teknoloji, bir işlemin (örn. para transferi) **geçerli olduğunu**, işlemin kendisi hakkında (gönderen, alıcı, miktar) **hiçbir bilgiyi ifşa etmeden** kanıtlamaya olanak tanır.
