@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ücretsiz Nöbet Hazırlama Programı
+title: Ücretsiz Nöbet Hazırlama Programı (Mazeretli)
 date: 2023-03-28 16:00
 author: faruk-guler
 comments: true
@@ -19,7 +19,7 @@ image:
 
 ## 📌 Program Hakkında
 
-**Nöbet Hazırlama Programı**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş yardımcı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza kurmanıza gerek yoktur. İnternet erişimi olmayan bilgisayarlarda "html" olarak indirilip tarayıcı üzerinden kullanılabilir. Hiçbir şekilde verileriniz depolanmaz. (Proje açık kaynaklıdır.)
+**Nöbet Hazırlama Programı (Mazeretli)**, sağlık çalışanları, güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş yardımcı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza kurmanıza gerek yoktur. İnternet erişimi olmayan bilgisayarlarda "html" olarak indirilip tarayıcı üzerinden kullanılabilir. Hiçbir şekilde verileriniz depolanmaz. (Proje açık kaynaklıdır.)
 
 <a href="https://farukguler.com/app/nobet/" target="_blank">Nöbet Hazırlama Programı</a> Buradan veya APPBOX kısmından ulaşabilirsiniz!
 
