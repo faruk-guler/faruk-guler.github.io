@@ -438,5 +438,10 @@ Get-AdmpwdPassword -ComputerName  * #All Computers</strong></pre>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
+<p><strong>🛑 Microsoft'un 2016 yılında ayrı bir MSI paketi olarak indirmeye sunduğu ve Grup İlkesi İstemci Tarafı Uzantısı (CSE) olarak çalışan Eski Microsoft LAPS ürünü artık kullanımdan kaldırılmıştır (deprecated).</strong></p>
+
+- https://learn.microsoft.com/tr-tr/windows-server/identity/laps/laps-overview
+- https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-scenarios-migration#migration-scenarios-from-legacy-laps-to-windows-laps-on-existing-devices
+- https://learn.microsoft.com/en-us/windows-server/identity/laps/laps-management-policy-settings
 <p><strong>Faruk Güler Saygılarımla. – Best regards.</strong></p>
 <!-- /wp:paragraph -->
