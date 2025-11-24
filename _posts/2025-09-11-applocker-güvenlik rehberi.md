@@ -134,7 +134,7 @@ AppLocker güçlü bir araç olsa da, Windows'un bazı yerleşik araçları (LOL
 * Sadece Windows Enterprise ve Education sürümlerinde çalışır (2025)
 * User-mode çalıştığı için kernel driver'lar tarafından atlatılabilir
 * Dosyanın en ufak bir güncelleme alması (hash değerinin değişmesi) kuralın bozulmasına... neden olabilir.
-* Deny kuralı her zaman önce işlenir, bir grubun üyesi aynı zamanda Domain Users üyesi veya Everyone ise, Deny kuralı ezici olur ve engellenir. Çözüm olarak bir özel alt grup oluşturun. * Domain Users * ----> "guler-com-all-users"
+* Deny kuralı her zaman önce işlenir, bir grubun üyesi aynı zamanda Domain Users üyesi veya Everyone ise, Deny kuralı ezici olur ve engellenir. Çözüm olarak bir özel alt grup oluşturun. * Domain Users * ----> "guler-com-all-users" Ayrıca Exceptions (İstisnalar) eklemek bu sorunu çözecektir.
 
 ---
 
