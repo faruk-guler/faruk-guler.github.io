@@ -26,6 +26,7 @@ Bloğumda şu ana kadar **400’den fazla özgün makale** yayınladım. Bu maka
 - Active Directory
 - Sanallaştırma
 - Container Teknolojileri
+- Blockchain Projeleri
 - Open Source Projeler vb.
 
 
@@ -47,7 +48,7 @@ En son güncellemeleri almak için beni takip edebilirsiniz. Herhangi bir konuyl
 
 Son olarak; **kaynak göstermenin bilim ve sanat etiğinin bir gereği olduğunu** bilmenizi istiyorum. Hangi biçimde olursa olsun bilgi ileten kişi bilginin kaynağını gösterme sorumluluğunu taşımalıdır. 
 Bloğumda paylaşılan çoğu konunun kaynağı temel araştırmalarım ve kendi deneyimlerimden oluşmaktadır. 
-**“Mutlak doğruluk içermez”** Bu sebeple, @links kısmında yararlandığım kaynakları açıkça belirtmeyi borç bilirim.
+**“Mutlak doğruluk içermez”** Bu sebeple, @github/user/fast kısmında yararlandığım kaynakları açıkça belirtmeyi borç bilirim.
 - <span style="color:red">Paylaşımlarım tamamen açıktır. Kopyalanmasında ve Alıntı yapılmasında; **“Kaynak gösterilDİĞİ sürece”** hiçbir sakınca yoktur.</span> 
 
 **Saygılarımla**  
