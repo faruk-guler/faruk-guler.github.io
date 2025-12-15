@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kripto Hesaplayıcı Pro (Meme Coin Destekli)</title>
+    <title>Kripto Hesaplayıcı-Karşılaştırma</title>
     <style>
         :root {
             --bg-color: #0f172a;       /* Koyu Lacivert */
@@ -253,7 +253,7 @@
             </div>
             
             <div class="input-group">
-                <label>Coin Adı</label>
+                <label>Varlık Adı</label>
                 <input type="text" id="sName" placeholder="Örn: PEPE, SUI...">
             </div>
 
@@ -284,7 +284,7 @@
             </div>
 
             <div class="input-group">
-                <label>Coin Adı</label>
+                <label>Varlık Adı</label>
                 <input type="text" id="tName" placeholder="Örn: Solana, ETH...">
             </div>
 
@@ -372,7 +372,7 @@
     };
 
     function calculate() {
-        const sName = document.getElementById('sName').value || 'Coinin';
+        const sName = document.getElementById('sName').value || 'Varlığın';
         const tName = document.getElementById('tName').value || 'Rakip';
         
         const sPrice = parseFloat(document.getElementById('sPrice').value);
