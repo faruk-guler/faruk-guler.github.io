@@ -27,7 +27,7 @@ github:
   username: faruk-guler # change to your GitHub username
 
 linkedin:
-  username: gulerfaruk # change to your linkedin username
+  username: default # change to your linkedin username
 
 #twitter:
   #username: faruk-guler # change to your Twitter username
@@ -42,7 +42,7 @@ social:
     # - https://twitter.com/faruk-guler # change to your Twitter homepage
     # - https://www.facebook.com/username # change to your facebook username
      - https://github.com/faruk-guler # change to your GitHub homepage
-     - https://www.linkedin.com/in/gulerfaruk # change to your linkedin username
+     - https://www.linkedin.com/in/default # change to your linkedin username
     
     # Uncomment below to add more social links
 
