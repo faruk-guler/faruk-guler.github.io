@@ -1,413 +1,974 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best Cronjob Planner Tool</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap CSS (Local) -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .cron-input {
-            max-width: 120px;
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --input-bg: #f9fafb;
+            --cron-display-bg: #1e293b;
+            --cron-display-text: #e2e8f0;
         }
-        .cron-expression {
-            background-color: #f8f9fa;
+
+        /* Dark mode color scheme */
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #e2e8f0;
+            --border-color: #334155;
+            --input-bg: #334155;
+            --cron-display-bg: #0f172a;
+            --cron-display-text: #e2e8f0;
         }
-        .help-text {
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-top: 10px;
+
+        body {
+            /* System UI Font Stack for Offline Support */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 50px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .examples {
-            font-size: 0.9em;
-            margin-top: 15px;
+
+        .container {
+            max-width: 900px;
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: none;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        .card-header-custom {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid var(--border-color);
+            flex: 1;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6b7280;
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            transition: all 0.2s;
+            margin-bottom: -2px;
+        }
+
+        [data-theme="dark"] .nav-tabs .nav-link {
+            color: #94a3b8;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--text-color);
+            border-color: transparent;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            background: transparent;
+        }
+
+        /* Dark mode toggle button */
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--input-bg);
+        }
+
+        .form-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.625rem 0.875rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .cron-input-group {
+            background: var(--input-bg);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        .btn-outline-secondary {
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        .result-box {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cron-display {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: var(--cron-display-bg);
+            color: var(--cron-display-text);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e2e8f0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .next-run-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .human-readable {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-muted {
+            color: #6b7280 !important;
+        }
+
+        [data-theme="dark"] .text-muted {
+            color: #94a3b8 !important;
+        }
+
+        .text-secondary {
+            color: #6b7280 !important;
+        }
+
+        [data-theme="dark"] .text-secondary {
+            color: #94a3b8 !important;
+        }
+
+        .border-top {
+            border-top: 1px solid var(--border-color) !important;
+        }
+
+        .alert-danger {
+            background-color: #fee2e2;
+            border-color: #fecaca;
+            color: #991b1b;
+        }
+
+        [data-theme="dark"] .alert-danger {
+            background-color: #7f1d1d;
+            border-color: #991b1b;
+            color: #fecaca;
+        }
+
+
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .cron-input-group .col-md {
+                flex: 0 0 auto;
+                width: 50%;
+            }
+
+            .cron-input-group .col-md:last-child {
+                width: 100%;
+            }
+
+            .card-header-custom {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .theme-toggle {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="container mt-4">
-        <h2 class="mb-4">Best Cronjob Planner Tool -farukguler.com</h2>
+    <div class="container mt-5">
+        <h2 class="mb-4 fw-bold text-center">Cronjob Planner</h2>
 
-        <div class="card p-3">
-            <!-- Sekme Navigasyonu -->
-            <ul class="nav nav-tabs" id="cronTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="create-tab" data-bs-toggle="tab" data-bs-target="#create" type="button" role="tab" aria-controls="create" aria-selected="true">Create a Cron</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="validate-tab" data-bs-toggle="tab" data-bs-target="#validate" type="button" role="tab" aria-controls="validate" aria-selected="false">Verify a Cron</button>
-                </li>
-            </ul>
-
-            <!-- Sekme İçerikleri -->
-            <div class="tab-content" id="cronTabsContent">
-                <!-- Cron Oluştur Sekmesi -->
-                <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
-                    <h5 class="mt-3">Create Cron Expression</h5>
-                    <div class="row g-3">
-                        <div class="col">
-                            <label for="minute" class="form-label">Dakika (0-59)</label>
-                            <input type="text" class="form-control cron-input" id="minute" value="*">
-                        </div>
-                        <div class="col">
-                            <label for="hour" class="form-label">Saat (0-23)</label>
-                            <input type="text" class="form-control cron-input" id="hour" value="*">
-                        </div>
-                        <div class="col">
-                            <label for="day" class="form-label">Gün (1-31)</label>
-                            <input type="text" class="form-control cron-input" id="day" value="*">
-                        </div>
-                        <div class="col">
-                            <label for="month" class="form-label">Ay (1-12)</label>
-                            <input type="text" class="form-control cron-input" id="month" value="*">
-                        </div>
-                        <div class="col">
-                            <label for="weekday" class="form-label">Haftanın Günü (0-6)</label>
-                            <input type="text" class="form-control cron-input" id="weekday" value="*">
-                        </div>
-                    </div>
-
-                    <div class="help-text">
-                        * = her zaman, / = adım aralığı, - = değer aralığı, , = değer listesi
-                    </div>
-
-                    <div class="examples">
-                        <strong>Örnek Cron İfadeleri:</strong><br>
-                        - Her 15 dakikada: <code>*/15 * * * *</code><br>
-                        - Çalışma saatleri: <code>0 9-17/2 * * 1-5</code><br>
-                        - Aylık bakım: <code>0 3 1 */3 *</code>
-                    </div>
-
-                    <button class="btn btn-primary mt-3" id="generateCron">Create</button>
-
-                    <div class="mt-3">
-                        <h5>Cron İfadesi</h5>
-                        <input type="text" class="form-control cron-expression" id="cronExpression" readonly>
-                    </div>
-
-                    <div class="mt-3" id="createResult"></div>
+        <div class="main-card">
+            <div class="card-header-custom">
+                <ul class="nav nav-tabs" id="cronTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="create-tab" data-bs-toggle="tab" data-bs-target="#create"
+                            type="button" role="tab">Create Cron</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="validate-tab" data-bs-toggle="tab" data-bs-target="#validate"
+                            type="button" role="tab">Validate Cron</button>
+                    </li>
+                </ul>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">Dark</button>
                 </div>
+            </div>
 
-                <!-- Cron Doğrula Sekmesi -->
-                <div class="tab-pane fade" id="validate" role="tabpanel" aria-labelledby="validate-tab">
-                    <h5 class="mt-3">Validate Cron Expression</h5>
-                    <div class="mb-3">
-                        <label for="validateInput" class="form-label">Cron İfadesini Girin (5 parça, boşlukla ayrılmış)</label>
-                        <input type="text" class="form-control" id="validateInput" placeholder="*/15 * * * *">
+            <div class="card-body p-4">
+                <div class="tab-content" id="cronTabsContent">
+                    <!-- CREATE TAB -->
+                    <div class="tab-pane fade show active" id="create" role="tabpanel">
+
+                        <div class="quick-actions">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="preset('*/5 * * * *')">Every 5
+                                Min</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="preset('*/15 * * * *')">Every 15
+                                Min</button>
+                            <button class="btn btn-sm btn-outline-secondary"
+                                onclick="preset('0 * * * *')">Hourly</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="preset('0 0 * * *')">Daily at
+                                Midnight</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="preset('0 9 * * 1-5')">Weekdays at
+                                9 AM</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="preset('0 0 * * 1')">Every
+                                Monday</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="preset('0 0 1 * *')">1st of
+                                Month</button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="preset('0 0 1,15 * *')">1st &
+                                15th</button>
+                        </div>
+
+                        <div class="cron-input-group mb-4">
+                            <div class="row g-3">
+                                <div class="col-md">
+                                    <label class="form-label" title="0-59">Minute</label>
+                                    <input type="text" class="form-control text-center cron-field" id="minute" value="*"
+                                        placeholder="*">
+                                    <small class="text-muted d-block text-center mt-1">0-59</small>
+                                </div>
+                                <div class="col-md">
+                                    <label class="form-label" title="0-23">Hour</label>
+                                    <input type="text" class="form-control text-center cron-field" id="hour" value="*"
+                                        placeholder="*">
+                                    <small class="text-muted d-block text-center mt-1">0-23</small>
+                                </div>
+                                <div class="col-md">
+                                    <label class="form-label" title="1-31">Day of Month</label>
+                                    <input type="text" class="form-control text-center cron-field" id="day" value="*"
+                                        placeholder="*">
+                                    <small class="text-muted d-block text-center mt-1">1-31</small>
+                                </div>
+                                <div class="col-md">
+                                    <label class="form-label" title="1-12 or JAN-DEC">Month</label>
+                                    <input type="text" class="form-control text-center cron-field" id="month" value="*"
+                                        placeholder="*">
+                                    <small class="text-muted d-block text-center mt-1">1-12, JAN-DEC</small>
+                                </div>
+                                <div class="col-md">
+                                    <label class="form-label" title="0-6 (0=Sunday)">Day of Week</label>
+                                    <input type="text" class="form-control text-center cron-field" id="weekday"
+                                        value="*" placeholder="*">
+                                    <small class="text-muted d-block text-center mt-1">0-6 (0=Sun)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button class="btn btn-primary px-5 py-2" id="btnGenerate">Generate & Analyze</button>
+                        </div>
+
+                        <div id="createResult" class="d-none">
+                            <div class="result-box">
+                                <div class="cron-display">
+                                    <span id="displayCron"></span>
+                                    <button class="copy-btn" id="copyBtn" title="Copy">📋</button>
+                                </div>
+                                <div class="text-center mb-3">
+                                    <div class="human-readable" id="displayHuman"></div>
+                                </div>
+                                <div class="border-top pt-3 mt-3">
+                                    <h6 class="fw-bold mb-3 text-secondary">Next Run Times:</h6>
+                                    <ul class="list-unstyled mb-0" id="nextRunsList"></ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-primary" id="validateCronButton">Verify and Analyze</button>
-                    <div class="mt-3" id="validateResult"></div>
+
+                    <!-- VALIDATE TAB -->
+                    <div class="tab-pane fade" id="validate" role="tabpanel">
+                        <div class="mb-4">
+                            <label class="form-label">Cron Expression</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control font-monospace" id="validateInput"
+                                    placeholder="e.g: */5 * * * *">
+                                <button class="btn btn-primary" id="btnValidate">Validate</button>
+                            </div>
+                        </div>
+                        <div id="validateResult"></div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="text-center mt-4 text-muted small">
+            farukguler.com - Cronjob Planner Tool
+        </div>
     </div>
 
+    <!-- Bootstrap JS (Local) -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // Cron parçası doğrulama fonksiyonu
-        function validateCronField(value, min, max) {
-            if (!value || value.trim() === "") return false;
+        /**
+         * Cron Job Logic - Enhanced Version
+         */
+        const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const MONTHS = [null, 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const MONTH_NAMES = {
+            'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
+            'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12
+        };
 
-            const cronRegex = /^(\*|([0-9]+(-[0-9]+)?(,[0-9]+(-[0-9]+)?)*)|\*\/[0-9]+|[0-9]+)$/;
-            if (!cronRegex.test(value)) return false;
-
-            if (value === "*") return true;
-
-            if (value.includes("/")) {
-                const [base, step] = value.split("/");
-                if (parseInt(step) <= 0) return false;
-                if (base !== "*") {
-                    const baseValues = base.split(",");
-                    return baseValues.every(val => {
-                        if (val.includes("-")) {
-                            const [start, end] = val.split("-").map(Number);
-                            return start >= min && end <= max && start <= end;
-                        }
-                        const num = parseInt(val);
-                        return num >= min && num <= max;
-                    });
-                }
-                return true;
-            }
-
-            if (value.includes(",")) {
-                return value.split(",").every(val => {
-                    if (val.includes("-")) {
-                        const [start, end] = val.split("-").map(Number);
-                        return start >= min && end <= max && start <= end;
-                    }
-                    const num = parseInt(val);
-                    return num >= min && num <= max;
-                });
-            }
-
-            if (value.includes("-")) {
-                const [start, end] = value.split("-").map(Number);
-                return start >= min && end <= max && start <= end;
-            }
-
-            const num = parseInt(value);
-            return !isNaN(num) && num >= min && num <= max;
+        // Dark mode toggle
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
         }
 
-        // Cron parçası çözümleme fonksiyonu
-        function parseCronPart(part, min, max) {
-            if (part === '*') return { type: 'any' };
-            
-            const results = new Set();
-            const ranges = part.split(',');
-            
-            for (const range of ranges) {
-                let [start, end, step] = range.split(/(\-|\/)/);
-                step = parseInt(step) || 1;
-                
-                if (range.includes('/')) {
-                    const [base, step] = range.split('/');
-                    const baseValues = base === '*' ? 
-                        Array.from({length: max - min + 1}, (_, i) => min + i) :
-                        parseCronPart(base, min, max).values;
-                    
-                    for (let i = 0; i < baseValues.length; i += parseInt(step)) {
-                        results.add(baseValues[i]);
-                    }
-                } else if (range.includes('-')) {
-                    [start, end] = range.split('-').map(Number);
-                    start = Math.max(min, start);
-                    end = Math.min(max, end);
-                    for (let i = start; i <= end; i++) {
-                        results.add(i);
-                    }
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const btn = document.getElementById('themeToggle');
+            btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+        }
+
+        // Quick preset examples
+        function preset(expr) {
+            const parts = expr.split(' ');
+            document.getElementById('minute').value = parts[0];
+            document.getElementById('hour').value = parts[1];
+            document.getElementById('day').value = parts[2];
+            document.getElementById('month').value = parts[3];
+            document.getElementById('weekday').value = parts[4];
+            generateCron();
+        }
+
+        // XSS-safe HTML escape
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Month name to number converter
+        function parseMonthName(value) {
+            if (typeof value !== 'string') return value;
+            const upper = value.toUpperCase();
+            return MONTH_NAMES[upper] !== undefined ? MONTH_NAMES[upper] : value;
+        }
+
+        // Main Functions
+        function generateCron() {
+            const m = document.getElementById('minute').value.trim();
+            const h = document.getElementById('hour').value.trim();
+            const d = document.getElementById('day').value.trim();
+            let mo = document.getElementById('month').value.trim();
+            const wd = document.getElementById('weekday').value.trim();
+
+            if (!m || !h || !d || !mo || !wd) {
+                showError('createResult', 'Please fill in all fields.');
+                return;
+            }
+
+            // Convert month names
+            mo = convertMonthNames(mo);
+
+            const cronExpr = `${m} ${h} ${d} ${mo} ${wd}`;
+
+            try {
+                const nextRuns = calculateNextRuns(cronExpr, 5);
+                showResult('createResult', cronExpr, nextRuns);
+            } catch (e) {
+                console.error(e);
+                showError('createResult', 'Invalid Cron expression: ' + escapeHtml(e.message));
+            }
+        }
+
+        // Convert month names in a cron part (handles comma-separated and ranges)
+        function convertMonthNames(monthPart) {
+            if (monthPart === '*') return monthPart;
+
+            // Handle ranges and comma-separated values
+            return monthPart.split(',').map(seg => {
+                if (seg.includes('/')) {
+                    const [base, step] = seg.split('/');
+                    const converted = base.includes('-')
+                        ? base.split('-').map(v => parseMonthName(v)).join('-')
+                        : parseMonthName(base);
+                    return `${converted}/${step}`;
+                } else if (seg.includes('-')) {
+                    return seg.split('-').map(v => parseMonthName(v)).join('-');
                 } else {
-                    const value = parseInt(range);
-                    if (!isNaN(value) && value >= min && value <= max) {
-                        results.add(value);
-                    }
+                    return parseMonthName(seg);
                 }
-            }
-            
-            return results.size > 0 ? 
-                { type: 'values', values: [...results].sort((a, b) => a - b) } : 
-                { type: 'invalid' };
+            }).join(',');
         }
 
-        // Bir sonraki çalıştırma zamanını hesapla
-        function calculateNextRun(cronExpr) {
-            const cronParts = cronExpr.split(' ');
-            if (cronParts.length !== 5) throw new Error('Cron ifadesi 5 parça olmalı');
-            
-            const [minutePart, hourPart, dayPart, monthPart, weekdayPart] = cronParts;
+        function validateCron() {
+            const val = document.getElementById('validateInput').value.trim();
+            if (!val) return;
 
-            const specs = {
-                minute: parseCronPart(minutePart, 0, 59),
-                hour: parseCronPart(hourPart, 0, 23),
-                day: parseCronPart(dayPart, 1, 31),
-                month: parseCronPart(monthPart, 1, 12),
-                weekday: parseCronPart(weekdayPart, 0, 6)
+            try {
+                const parts = val.split(/\s+/);
+                if (parts.length !== 5) throw new Error("Expression must have 5 parts (minute hour day month weekday).");
+
+                // Convert month names if present
+                parts[3] = convertMonthNames(parts[3]);
+                const normalizedCron = parts.join(' ');
+
+                const nextRuns = calculateNextRuns(normalizedCron, 5);
+
+                // Create result (XSS-safe)
+                const resultDiv = document.getElementById('validateResult');
+                resultDiv.innerHTML = ''; // Clear first
+
+                const resultBox = document.createElement('div');
+                resultBox.className = 'result-box';
+
+                const badgeDiv = document.createElement('div');
+                badgeDiv.className = 'text-center mb-3';
+                const badge = document.createElement('span');
+                badge.className = 'next-run-badge bg-success text-white';
+                badge.textContent = 'VALID';
+                badgeDiv.appendChild(badge);
+
+                const humanDiv = document.createElement('div');
+                humanDiv.className = 'human-readable text-center mb-3';
+                humanDiv.textContent = describeCron(normalizedCron);
+
+                const divider = document.createElement('div');
+                divider.className = 'border-top pt-3 mt-3';
+
+                const title = document.createElement('h6');
+                title.className = 'fw-bold mb-3 text-secondary';
+                title.textContent = 'Next Run Times:';
+
+                const list = document.createElement('ul');
+                list.className = 'list-unstyled mb-0';
+
+                nextRuns.forEach(d => {
+                    const li = document.createElement('li');
+                    li.className = 'mb-2';
+
+                    const dateBadge = document.createElement('span');
+                    dateBadge.className = 'badge bg-light text-dark border me-2';
+                    dateBadge.textContent = formatDate(d);
+
+                    const timeInfo = document.createElement('small');
+                    timeInfo.className = 'text-muted';
+                    timeInfo.textContent = getTimeFromNow(d);
+
+                    li.appendChild(dateBadge);
+                    li.appendChild(timeInfo);
+                    list.appendChild(li);
+                });
+
+                divider.appendChild(title);
+                divider.appendChild(list);
+
+                resultBox.appendChild(badgeDiv);
+                resultBox.appendChild(humanDiv);
+                resultBox.appendChild(divider);
+
+                resultDiv.appendChild(resultBox);
+            } catch (e) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'alert alert-danger mt-3';
+                errorDiv.textContent = e.message;
+                document.getElementById('validateResult').innerHTML = '';
+                document.getElementById('validateResult').appendChild(errorDiv);
+            }
+        }
+
+        function showError(elementId, msg) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger mt-3';
+            errorDiv.textContent = msg;
+            container.appendChild(errorDiv);
+            container.classList.remove('d-none');
+        }
+
+        function showResult(elementId, expr, dates) {
+            const container = document.getElementById(elementId);
+            container.classList.remove('d-none');
+
+            // XSS-safe: use textContent
+            document.getElementById('displayCron').textContent = expr;
+            document.getElementById('displayHuman').textContent = describeCron(expr);
+
+            const list = document.getElementById('nextRunsList');
+            list.innerHTML = ''; // Clear first
+
+            dates.forEach(d => {
+                const li = document.createElement('li');
+                li.className = 'mb-2 d-flex align-items-center justify-content-center';
+
+                const dateBadge = document.createElement('span');
+                dateBadge.className = 'badge bg-white text-primary border me-2 py-2 px-3';
+                dateBadge.style.fontSize = '1rem';
+                dateBadge.textContent = formatDate(d);
+
+                const timeInfo = document.createElement('span');
+                timeInfo.className = 'text-muted small';
+                timeInfo.textContent = `(${getTimeFromNow(d)})`;
+
+                li.appendChild(dateBadge);
+                li.appendChild(timeInfo);
+                list.appendChild(li);
+            });
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const text = document.getElementById('displayCron').textContent;
+            const btn = document.getElementById('copyBtn');
+
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    btn.textContent = '✓';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.textContent = '📋';
+                        btn.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Copy error:', err);
+                });
+            } else {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                btn.textContent = '✓';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '📋';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }
+        }
+
+        // --- Cron Calculation Engine ---
+
+        function parsePart(part, min, max, isMonth = false) {
+            if (part === '*') return { type: 'any' };
+
+            const values = new Set();
+            const segments = part.split(',');
+
+            for (let seg of segments) {
+                // Step handling (e.g., */15 or 1-5/2)
+                let step = 1;
+                if (seg.includes('/')) {
+                    const [range, stepStr] = seg.split('/');
+                    step = parseInt(stepStr);
+
+                    // Validate step
+                    const rangeSize = max - min + 1;
+                    if (isNaN(step) || step <= 0 || step > rangeSize) {
+                        throw new Error(`Invalid step value: ${stepStr}. Step must be between 1 and ${rangeSize}.`);
+                    }
+
+                    seg = range;
+                }
+
+                if (seg === '*') {
+                    for (let i = min; i <= max; i += step) values.add(i);
+                } else if (seg.includes('-')) {
+                    const [start, end] = seg.split('-').map(Number);
+                    if (isNaN(start) || isNaN(end) || start > end) {
+                        throw new Error(`Invalid range: ${seg}. Format: start-end (e.g: 1-5)`);
+                    }
+                    if (start < min || end > max) {
+                        throw new Error(`Range values must be between ${min}-${max}. Got: ${start}-${end}`);
+                    }
+                    const actualStart = Math.max(min, start);
+                    const actualEnd = Math.min(max, end);
+                    for (let i = actualStart; i <= actualEnd; i += step) values.add(i);
+                } else {
+                    const val = parseInt(seg);
+                    if (isNaN(val) || val < min || val > max) {
+                        throw new Error(`Value out of range: ${seg}. Must be between ${min}-${max}. Example: *, ${min}, ${min}-${max}, */${step}`);
+                    }
+                    values.add(val);
+                }
+            }
+
+            if (values.size === 0) throw new Error(`Invalid expression part: ${part}`);
+            return { type: 'set', values: Array.from(values).sort((a, b) => a - b) };
+        }
+
+        function calculateNextRuns(cron, count = 5) {
+            const parts = cron.trim().split(/\s+/);
+            if (parts.length !== 5) throw new Error("Invalid cron format (5 parts expected)");
+
+            const constraints = {
+                minute: parsePart(parts[0], 0, 59),
+                hour: parsePart(parts[1], 0, 23),
+                dom: parsePart(parts[2], 1, 31),
+                month: parsePart(parts[3], 1, 12, true),
+                dow: parsePart(parts[4], 0, 6)
             };
 
-            if (Object.values(specs).some(s => s.type === 'invalid')) {
-                throw new Error('Geçersiz cron ifadesi');
-            }
+            // Standard Cron Logic:
+            // If both DOM and DOW are restricted (not *), then UNION (either matches).
+            // Otherwise INTERSECTION (both must match, effectively one is usually *).
+            const isDomRestricted = parts[2] !== '*';
+            const isDowRestricted = parts[4] !== '*';
+            // Use union?
+            const useUnion = isDomRestricted && isDowRestricted;
 
-            const now = new Date();
-            let date = new Date(now);
-            date.setSeconds(0, 0);
+            const results = [];
+            let date = new Date();
+            date.setSeconds(0);
+            date.setMilliseconds(0);
+            // Start from next minute
+            date.setMinutes(date.getMinutes() + 1);
 
-            const maxAttempts = 100000;
-            let attempts = 0;
+            // Safety limit: go forward 5 years but don't infinite loop
+            const maxDate = new Date();
+            maxDate.setFullYear(maxDate.getFullYear() + 5);
 
-            while (attempts++ < maxAttempts) {
-                if (specs.month.type !== 'any') {
-                    const currentMonth = date.getMonth() + 1;
-                    if (!specs.month.values.includes(currentMonth)) {
-                        date.setMonth(currentMonth);
-                        date.setDate(1);
-                        date.setHours(0, 0, 0);
-                        continue;
-                    }
-                }
-
-                let dayValid = true;
-                const currentDay = date.getDate();
-                const currentWeekday = date.getDay();
-
-                if (specs.day.type !== 'any' && !specs.day.values.includes(currentDay)) {
-                    dayValid = false;
-                }
-                if (specs.weekday.type !== 'any' && !specs.weekday.values.includes(currentWeekday)) {
-                    dayValid = false;
-                }
-
-                if (!dayValid) {
-                    date.setDate(date.getDate() + 1);
-                    date.setHours(0, 0, 0);
+            while (results.length < count && date < maxDate) {
+                // Month check
+                if (constraints.month.type !== 'any' && !constraints.month.values.includes(date.getMonth() + 1)) {
+                    date.setDate(1);
+                    date.setMonth(date.getMonth() + 1);
+                    date.setHours(0);
+                    date.setMinutes(0);
                     continue;
                 }
 
-                if (specs.hour.type !== 'any') {
-                    const currentHour = date.getHours();
-                    const validHours = specs.hour.values.filter(h => h >= currentHour);
-                    if (validHours.length === 0) {
-                        date.setDate(date.getDate() + 1);
-                        date.setHours(0, 0, 0);
+                // Day check
+                const currentDom = date.getDate();
+                const currentDow = date.getDay(); // 0 = Sunday
+
+                let dayMatches = false;
+                if (useUnion) {
+                    // Union: DOM match OR DOW match
+                    const domOk = constraints.dom.type === 'any' || constraints.dom.values.includes(currentDom);
+                    const dowOk = constraints.dow.type === 'any' || constraints.dow.values.includes(currentDow);
+                    dayMatches = domOk || dowOk;
+                } else {
+                    // Intersection: DOM match AND DOW match
+                    const domOk = constraints.dom.type === 'any' || constraints.dom.values.includes(currentDom);
+                    const dowOk = constraints.dow.type === 'any' || constraints.dow.values.includes(currentDow);
+                    dayMatches = domOk && dowOk;
+                }
+
+                if (!dayMatches) {
+                    date.setDate(date.getDate() + 1);
+                    date.setHours(0);
+                    date.setMinutes(0);
+                    continue;
+                }
+
+                // Hour check
+                if (constraints.hour.type !== 'any') {
+                    if (!constraints.hour.values.includes(date.getHours())) {
+                        const currentH = date.getHours();
+                        const nextH = constraints.hour.values.find(h => h > currentH);
+
+                        if (nextH !== undefined) {
+                            date.setHours(nextH);
+                            date.setMinutes(0);
+                        } else {
+                            // No more valid hours today, move to tomorrow
+                            date.setDate(date.getDate() + 1);
+                            date.setHours(0);
+                            date.setMinutes(0);
+                        }
                         continue;
                     }
-                    if (validHours[0] > currentHour) {
-                        date.setHours(validHours[0], 0, 0);
-                    }
                 }
 
-                if (specs.minute.type !== 'any') {
-                    const currentMinute = date.getMinutes();
-                    const validMinutes = specs.minute.values.filter(m => m >= currentMinute);
-                    if (validMinutes.length === 0) {
-                        date.setHours(date.getHours() + 1);
-                        date.setMinutes(0, 0, 0);
+                // Minute check
+                if (constraints.minute.type !== 'any') {
+                    if (!constraints.minute.values.includes(date.getMinutes())) {
+                        const currentM = date.getMinutes();
+                        const nextM = constraints.minute.values.find(m => m > currentM);
+
+                        if (nextM !== undefined) {
+                            date.setMinutes(nextM);
+                        } else {
+                            // No more valid minutes this hour, move to next hour
+                            date.setHours(date.getHours() + 1);
+                            date.setMinutes(0);
+                        }
                         continue;
                     }
-                    if (validMinutes[0] > currentMinute) {
-                        date.setMinutes(validMinutes[0], 0, 0);
-                    }
                 }
 
-                if (date > now) {
-                    return date;
-                }
-
+                // If we got here, all constraints are satisfied
+                results.push(new Date(date));
+                // Look for next one (add 1 minute)
                 date.setMinutes(date.getMinutes() + 1);
             }
 
-            throw new Error('Gelecek çalışma zamanı bulunamadı');
+            if (results.length === 0) throw new Error("No suitable date found within the next 5 years.");
+            return results;
         }
 
-        // Cron ifadesi oluşturma ve doğrulama
-        function generateCron() {
-            let minute = $("#minute").val().trim();
-            let hour = $("#hour").val().trim();
-            let day = $("#day").val().trim();
-            let month = $("#month").val().trim();
-            let weekday = $("#weekday").val().trim();
+        // --- Helper Functions ---
 
-            // Boş değer kontrolü
-            if (!minute || !hour || !day || !month || !weekday) {
-                $("#createResult").html('<div class="alert alert-danger">Hata: Tüm alanlar doldurulmalıdır.</div>');
-                $("#cronExpression").val("");
-                return;
+        function describeCron(cron) {
+            const parts = cron.split(' ');
+            const [m, h, d, mo, w] = parts;
+
+            // Special cases
+            if (cron === "* * * * *") return "Runs every minute";
+            if (cron === "0 * * * *") return "Runs every hour";
+            if (cron === "0 0 * * *") return "Runs daily at midnight";
+            if (cron === "0 0 * * 0") return "Runs every Sunday at midnight";
+            if (cron === "0 0 1 * *") return "Runs on the 1st of every month at midnight";
+
+            // Build description
+            let desc = [];
+
+            // Frequency (minute)
+            if (m === '*') {
+                desc.push("every minute");
+            } else if (m.startsWith('*/')) {
+                desc.push(`every ${m.substring(2)} minutes`);
+            } else if (m === '0') {
+                // Will be specified by hour
+            } else {
+                desc.push(`at minute ${m}`);
             }
 
-            // Doğrulama
-            let isValid = validateCronField(minute, 0, 59) &&
-                          validateCronField(hour, 0, 23) &&
-                          validateCronField(day, 1, 31) &&
-                          validateCronField(month, 1, 12) &&
-                          validateCronField(weekday, 0, 6);
-
-            if (!isValid) {
-                $("#createResult").html('<div class="alert alert-danger">Hata: Geçersiz cron ifadesi. Lütfen değerleri kontrol edin.</div>');
-                $("#cronExpression").val("");
-                return;
-            }
-
-            // Cron ifadesini oluştur
-            let cronExpr = `${minute} ${hour} ${day} ${month} ${weekday}`;
-            $("#cronExpression").val(cronExpr);
-
-            // Bir sonraki çalıştırma zamanını hesapla
-            try {
-                const nextRun = calculateNextRun(cronExpr);
-                const explanation = `
-                    <strong>Cron İfadesi:</strong> ${cronExpr}<br>
-                    <strong>Bir Sonraki Çalışma:</strong> ${nextRun.toLocaleString('tr-TR')}<br>
-                    <strong>Detaylar:</strong><br>
-                    - Dakika: ${explainPart(minute, '0-59')}<br>
-                    - Saat: ${explainPart(hour, '0-23')}<br>
-                    - Gün: ${explainPart(day, '1-31')}<br>
-                    - Ay: ${explainPart(month, '1-12')}<br>
-                    - Hafta Günü: ${explainWeekday(weekday)}
-                `;
-                $("#createResult").html(`<div class="alert alert-success">${explanation}</div>`);
-            } catch (error) {
-                $("#createResult").html(`<div class="alert alert-danger">Hata: ${error.message}</div>`);
-            }
-        }
-
-        // Cron ifadesi doğrulama
-        function validateCron() {
-            let cronExpr = $("#validateInput").val().trim();
-            let resultDiv = $("#validateResult");
-
-            // Boş giriş kontrolü
-            if (!cronExpr) {
-                resultDiv.html('<div class="alert alert-danger">Hata: Cron ifadesi boş olamaz.</div>');
-                return;
-            }
-
-            // 5 parça kontrolü
-            let parts = cronExpr.split(/\s+/);
-            if (parts.length !== 5) {
-                resultDiv.html('<div class="alert alert-danger">Hata: Cron ifadesi tam olarak 5 parça içermeli.</div>');
-                return;
-            }
-
-            // Her parçayı doğrulama
-            let [minute, hour, day, month, weekday] = parts;
-            let isValid = validateCronField(minute, 0, 59) &&
-                          validateCronField(hour, 0, 23) &&
-                          validateCronField(day, 1, 31) &&
-                          validateCronField(month, 1, 12) &&
-                          validateCronField(weekday, 0, 6);
-
-            if (!isValid) {
-                resultDiv.html('<div class="alert alert-danger">Hata: Geçersiz cron ifadesi. Lütfen değerleri kontrol edin.</div>');
-                return;
-            }
-
-            // Bir sonraki çalıştırma zamanını hesapla
-            try {
-                const nextRun = calculateNextRun(cronExpr);
-                const explanation = `
-                    <strong>Girilen Cron İfadesi:</strong> ${cronExpr}<br>
-                    <strong>Bir Sonraki Çalışma:</strong> ${nextRun.toLocaleString('tr-TR')}<br>
-                    <strong>Detaylar:</strong><br>
-                    - Dakika: ${explainPart(minute, '0-59')}<br>
-                    - Saat: ${explainPart(hour, '0-23')}<br>
-                    - Gün: ${explainPart(day, '1-31')}<br>
-                    - Ay: ${explainPart(month, '1-12')}<br>
-                    - Hafta Günü: ${explainWeekday(weekday)}
-                `;
-                resultDiv.html(`<div class="alert alert-success">${explanation}</div>`);
-            } catch (error) {
-                resultDiv.html(`<div class="alert alert-danger">Hata: ${error.message}</div>`);
-            }
-        }
-
-        // Açıklama oluşturma yardımcı fonksiyonları
-        function explainPart(part, range) {
-            if (part === '*') return `Her değer (${range})`;
-            if (part.includes('/')) return `Her ${part.split('/')[1]} değerde bir`;
-            if (part.includes('-')) return `${part.replace('-', ' ile ')} arası`;
-            if (part.includes(',')) return `Belirli değerler: ${part}`;
-            return `Sabit değer: ${part}`;
-        }
-
-        function explainWeekday(part) {
-            const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
-            if (part === '*') return 'Her gün';
-            return part.split(',').map(d => {
-                if (d.includes('-')) {
-                    const [s, e] = d.split('-');
-                    return `${days[s]} - ${days[e]}`;
+            // Hour
+            if (h !== '*' && h !== '0') {
+                if (h.includes('-')) {
+                    const [start, end] = h.split('-');
+                    desc.push(`between ${start}:00-${end}:00`);
+                } else if (h.includes('/')) {
+                    const [base, step] = h.split('/');
+                    desc.push(`every ${step} hours`);
+                } else if (h.includes(',')) {
+                    desc.push(`at hour ${h}`);
+                } else {
+                    desc.push(`at ${h}:00`);
                 }
-                return days[d];
-            }).join(', ');
+            } else if (h === '0' && m === '0') {
+                desc.push("at midnight");
+            }
+
+            // Day of month
+            if (d !== '*') {
+                if (d.includes(',')) {
+                    desc.push(`on days ${d} of month`);
+                } else if (d.includes('-')) {
+                    desc.push(`on days ${d} of month`);
+                } else {
+                    desc.push(`on day ${d} of month`);
+                }
+            }
+
+            // Month
+            if (mo !== '*') {
+                if (mo.includes('/')) {
+                    const step = mo.split('/')[1];
+                    desc.push(`every ${step} months`);
+                } else if (mo.includes(',')) {
+                    const monthNums = mo.split(',').map(n => parseInt(n));
+                    const monthNames = monthNums.map(n => MONTHS[n] || n).join(', ');
+                    desc.push(`only in ${monthNames}`);
+                } else {
+                    const monthNum = parseInt(mo);
+                    const monthName = MONTHS[monthNum] || mo;
+                    desc.push(`in ${monthName}`);
+                }
+            }
+
+            // Day of week
+            if (w !== '*') {
+                const dayNames = {
+                    '0': 'Sunday', '1': 'Monday', '2': 'Tuesday',
+                    '3': 'Wednesday', '4': 'Thursday', '5': 'Friday', '6': 'Saturday'
+                };
+                if (w.includes('-')) {
+                    const [start, end] = w.split('-');
+                    desc.push(`${dayNames[start]}-${dayNames[end]}`);
+                } else if (w.includes(',')) {
+                    const days = w.split(',').map(day => dayNames[day]).join(', ');
+                    desc.push(days);
+                } else {
+                    desc.push(`on ${dayNames[w]}`);
+                }
+            }
+
+            return desc.length > 0 ? 'Runs ' + desc.join(', ')
+                : `Minute: ${m}, Hour: ${h}, Day: ${d}, Month: ${mo}, Weekday: ${w}`;
         }
 
-        // Olay dinleyicileri
-        $("#generateCron").click(generateCron);
-        $("#validateCronButton").click(validateCron);
+        function formatDate(date) {
+            return new Intl.DateTimeFormat('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }).format(date);
+        }
+
+        function getTimeFromNow(date) {
+            const now = new Date();
+            const diffMs = date - now;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMins / 60);
+            const diffDays = Math.floor(diffHours / 24);
+
+            if (diffDays > 0) return `in ${diffDays} days`;
+            if (diffHours > 0) return `in ${diffHours} hours`;
+            if (diffMins > 0) return `in ${diffMins} minutes`;
+            return "Now";
+        }
+
+        // Event Listeners
+        document.getElementById('btnGenerate').addEventListener('click', generateCron);
+        document.getElementById('btnValidate').addEventListener('click', validateCron);
+        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+        // Enter key support
+        document.querySelectorAll('.cron-field').forEach(field => {
+            field.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    generateCron();
+                }
+            });
+        });
+
+        document.getElementById('validateInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                validateCron();
+            }
+        });
+
+        // Initialize theme on page load
+        initTheme();
+
     </script>
 </body>
+
 </html>
