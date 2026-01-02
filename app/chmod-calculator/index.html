@@ -4,355 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unix Permissions Calculator</title>
-    <style>
-        :root {
-            /* Light mode colors */
-            --bg-primary: #f5f5f5;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #f8f9fa;
-            --text-primary: #333;
-            --text-secondary: #2c3e50;
-            --border-color: #ddd;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --accent-primary: #2c3e50;
-            --accent-secondary: #27ae60;
-            --accent-info: #3498db;
-            --info-bg: #eef5ff;
-            --warning-bg: #f8d7da;
-            --warning-text: #721c24;
-            --warning-border: #dc3545;
-            --btn-bg: #ecf0f1;
-            --btn-border: #bdc3c7;
-            --btn-hover: #dce4e6;
-            --reset-btn-bg: #95a5a6;
-            --reset-btn-hover: #7f8c8d;
-        }
-
-        body.dark-mode {
-            /* Dark mode colors */
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --bg-tertiary: #3a3a3a;
-            --text-primary: #e0e0e0;
-            --text-secondary: #ffffff;
-            --border-color: #4a4a4a;
-            --shadow: rgba(0, 0, 0, 0.5);
-            --accent-primary: #4a9eff;
-            --accent-secondary: #4caf50;
-            --accent-info: #64b5f6;
-            --info-bg: #1e3a5f;
-            --warning-bg: #5c1a1a;
-            --warning-text: #ffcccb;
-            --warning-border: #ff6b6b;
-            --btn-bg: #3a3a3a;
-            --btn-border: #555;
-            --btn-hover: #4a4a4a;
-            --reset-btn-bg: #5a6a7a;
-            --reset-btn-hover: #4a5a6a;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 10px;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        .layout-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 900px) {
-            .layout-grid {
-                grid-template-columns: 1fr 350px;
-            }
-        }
-
-        .main-content {
-            background-color: var(--bg-secondary);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px var(--shadow);
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar {
-            background-color: var(--bg-secondary);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px var(--shadow);
-            transition: background-color 0.3s ease;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        h1 {
-            color: var(--text-secondary);
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .theme-toggle {
-            background: var(--btn-bg);
-            border: 1px solid var(--btn-border);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            padding: 0;
-        }
-
-        .theme-toggle:hover {
-            background: var(--btn-hover);
-            transform: rotate(20deg) scale(1.1);
-        }
-
-        .theme-toggle svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--text-primary);
-            transition: fill 0.3s ease;
-        }
-
-        .permission-grid {
-            display: grid;
-            grid-template-columns: 100px repeat(3, 1fr);
-            /* Permission | Owner | Group | Others */
-            gap: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .permission-header {
-            font-weight: bold;
-            text-align: center;
-            background-color: var(--accent-primary);
-            color: white;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .permission-label {
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding-left: 8px;
-            font-size: 12px;
-        }
-
-        .checkbox-container {
-            text-align: center;
-            background-color: var(--bg-tertiary);
-            padding: 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .checkbox-container:hover {
-            background-color: var(--btn-hover);
-        }
-
-        .checkbox-container input {
-            margin-right: 5px;
-            transform: scale(1.2);
-        }
-
-        .results-container {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: var(--bg-tertiary);
-            border-radius: 8px;
-            border-left: 5px solid var(--accent-primary);
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px dotted var(--border-color);
-            font-size: 14px;
-        }
-
-        .result-value {
-            font-family: monospace;
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--text-secondary);
-        }
-
-        #octalInput {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 4px 8px;
-            width: 80px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-family: monospace;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        #octalInput:focus {
-            outline: none;
-            border-color: var(--accent-info);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-            background-color: var(--bg-primary);
-        }
-
-        .file-type-container,
-        .special-perms-container {
-            margin: 15px 0;
-            padding: 10px;
-            background-color: var(--bg-tertiary);
-            border-radius: 8px;
-            border-left: 5px solid var(--accent-secondary);
-            font-size: 14px;
-        }
-
-        .file-type-title,
-        .special-perms-title {
-            margin-bottom: 8px;
-            color: var(--accent-secondary);
-            font-weight: bold;
-        }
-
-        .permission-info {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: var(--info-bg);
-            border-radius: 8px;
-            border-left: 5px solid var(--accent-info);
-            font-size: 14px;
-        }
-
-        .info-title {
-            color: var(--accent-info);
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .warning {
-            color: var(--warning-text);
-            background-color: var(--warning-bg);
-            border-left: 3px solid var(--warning-border);
-            padding: 8px;
-            border-radius: 4px;
-            margin: 8px 0;
-            display: none;
-            font-size: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .permission-grid {
-                grid-template-columns: 80px repeat(3, 1fr);
-                font-size: 12px;
-            }
-
-            .permission-label {
-                font-size: 10px;
-            }
-
-            .result-value {
-                font-size: 12px;
-            }
-
-            .file-type-container,
-            .special-perms-container,
-            .results-container,
-            .permission-info {
-                font-size: 12px;
-            }
-
-            h1 {
-                font-size: 18px;
-            }
-        }
-
-        /* Copy Button Styles */
-        .result-item {
-            align-items: center;
-        }
-
-        .copy-btn {
-            background-color: var(--btn-bg);
-            border: 1px solid var(--btn-border);
-            border-radius: 4px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 2px 8px;
-            font-size: 11px;
-            margin-left: 10px;
-            transition: all 0.2s;
-        }
-
-        .copy-btn:hover {
-            background-color: var(--btn-hover);
-            transform: translateY(-1px);
-        }
-
-        .copy-btn:active {
-            transform: translateY(0);
-        }
-
-        .copy-btn.copied {
-            background-color: #2ecc71;
-            color: white;
-            border-color: #27ae60;
-        }
-
-        /* Reset Button */
-        .btn-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .reset-btn {
-            background-color: #95a5a6;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-
-        .reset-btn:hover {
-            background-color: #7f8c8d;
-        }
-    </style>
+    <meta name="description"
+        content="Advanced Linux Permissions Management Tool. Calculate chmod, chown, ACL, and umask values with ease.">
+    <meta name="keywords" content="linux, permissions, chmod, chown, setfacl, umask, calculator, symbolic, octal">
+    <title>Linux Permissions Management Tool - Advanced Chmod Calculator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h1>Unix Permissions Calculator - farukguler.com</h1>
+            <h1>Linux Permissions Management - farukguler.com</h1>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
@@ -363,510 +25,712 @@
         <div class="layout-grid">
             <!-- Main Content -->
             <div class="main-content">
-                <!-- File Type Selection -->
-                <div class="file-type-container">
-                    <div class="file-type-title">File Type:</div>
-                    <label>
-                        <input type="radio" name="fileType" value="-" checked> File
-                    </label>
-                    &nbsp;&nbsp;
-                    <label>
-                        <input type="radio" name="fileType" value="d"> Directory
-                    </label>
-                    &nbsp;&nbsp;
-                    <label>
-                        <input type="radio" name="fileType" value="l"> Symbolic Link
-                    </label>
-                </div>
+                <!-- Tab Navigation -->
+                <nav class="tab-navigation">
+                    <button class="tab-btn active" data-tab="chmod">Permissions (chmod)</button>
+                    <button class="tab-btn" data-tab="ownership">Ownership (chown/chgrp)</button>
+                    <button class="tab-btn" data-tab="acl">ACL (setfacl/getfacl)</button>
+                    <button class="tab-btn" data-tab="umask">Umask</button>
+                    <button class="tab-btn" data-tab="reference">Reference</button>
+                </nav>
 
-                <!-- Special Permissions -->
-                <div class="special-perms-container">
-                    <div class="special-perms-title">Special Permissions:</div>
-                    <div class="special-perms-grid">
+                <!-- CHMOD SECTION (existing) -->
+                <div class="tab-content active" id="chmod-section">
+
+                    <!-- File Type Selection -->
+                    <div class="file-type-container">
+                        <div class="file-type-title">File Type:</div>
                         <label>
-                            <input type="checkbox" id="setuid"> SetUID (s)
+                            <input type="radio" name="fileType" value="-" checked aria-label="File type: Regular File">
+                            File
                         </label>
+                        &nbsp;&nbsp;
                         <label>
-                            <input type="checkbox" id="setgid"> SetGID (s)
+                            <input type="radio" name="fileType" value="d" aria-label="File type: Directory"> Directory
                         </label>
+                        &nbsp;&nbsp;
                         <label>
-                            <input type="checkbox" id="sticky"> Sticky Bit (t)
+                            <input type="radio" name="fileType" value="l" aria-label="File type: Symbolic Link">
+                            Symbolic Link
                         </label>
                     </div>
-                </div>
 
-                <!-- Permissions Table -->
-                <div class="permission-grid">
-                    <div class="permission-header">Permission</div>
-                    <div class="permission-header">Owner (u)</div>
-                    <div class="permission-header">Group (g)</div>
-                    <div class="permission-header">Others (o)</div>
-
-                    <div class="permission-label">Read (4)</div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="ur" checked>
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="gr" checked>
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="or">
-                    </div>
-
-                    <div class="permission-label">Write (2)</div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="uw" checked>
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="gw">
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="ow">
-                    </div>
-
-                    <div class="permission-label">Execute (1)</div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="ux">
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="gx">
-                    </div>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="ox">
-                    </div>
-                </div>
-
-                <div class="btn-container">
-                    <button class="reset-btn" id="resetBtn">Reset to Defaults</button>
-                </div>
-
-                <!-- Warnings -->
-                <div class="warning" id="dirWarning">
-                    ⚠️ Directories require execute (x) permissions to be accessible.
-                </div>
-                <div class="warning" id="setuidWarning">
-                    ⚠️ SetUID should only be used for executable files.
-                </div>
-                <div class="warning" id="setgidWarning">
-                    ⚠️ SetGID should only be used for executable files or directories.
-                </div>
-                <div class="warning" id="stickyWarning">
-                    ⚠️ Sticky Bit should only be used for directories.
-                </div>
-
-                <!-- Results -->
-                <div class="results-container">
-                    <div class="result-item">
-                        <div>Symbolic Notation:</div>
-                        <div style="display:flex; align-items:center;">
-                            <div class="result-value" id="symbolicDisplay">-rw-r-----</div>
-                            <button class="copy-btn" onclick="copyText('symbolicDisplay')">Copy</button>
+                    <!-- Special Permissions -->
+                    <div class="special-perms-container">
+                        <div class="special-perms-title">Special Permissions:</div>
+                        <div class="special-perms-grid">
+                            <label>
+                                <input type="checkbox" id="setuid" aria-label="SetUID special permission"> SetUID (s)
+                            </label>
+                            <label>
+                                <input type="checkbox" id="setgid" aria-label="SetGID special permission"> SetGID (s)
+                            </label>
+                            <label>
+                                <input type="checkbox" id="sticky" aria-label="Sticky Bit special permission"> Sticky
+                                Bit (t)
+                            </label>
                         </div>
                     </div>
-                    <div class="result-item">
-                        <div>Numeric (Octal) Notation:</div>
-                        <div style="display:flex; align-items:center;">
-                            <input type="text" id="octalInput" class="result-value" value="640" maxlength="4"
-                                aria-label="Octal Permission Value">
-                            <button class="copy-btn" onclick="copyText('octalInput')">Copy</button>
+
+                    <!-- Permissions Table -->
+                    <div class="permission-grid">
+                        <div class="permission-header">Permission</div>
+                        <div class="permission-header">Owner (u)</div>
+                        <div class="permission-header">Group (g)</div>
+                        <div class="permission-header">Others (o)</div>
+
+                        <div class="permission-label">Read (4)</div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="ur" checked>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="gr" checked>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="or">
+                        </div>
+
+                        <div class="permission-label">Write (2)</div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="uw" checked>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="gw">
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="ow">
+                        </div>
+
+                        <div class="permission-label">Execute (1)</div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="ux">
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="gx">
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="ox">
                         </div>
                     </div>
-                    <div class="result-item">
-                        <div>Chmod Command:</div>
-                        <div style="display:flex; align-items:center;">
-                            <div class="result-value" id="chmodCommand">chmod 640 file</div>
-                            <button class="copy-btn" onclick="copyText('chmodCommand')">Copy</button>
-                        </div>
+
+                    <div class="btn-container">
+                        <button class="reset-btn" id="resetBtn">Reset to Defaults</button>
                     </div>
-                    <div class="result-item">
-                        <div>Recursive Chmod Command:</div>
-                        <div style="display:flex; align-items:center;">
-                            <div class="result-value" id="recursiveCommand">chmod -R 640 directory</div>
-                            <button class="copy-btn" onclick="copyText('recursiveCommand')">Copy</button>
-                        </div>
+
+                    <!-- Warnings -->
+                    <div class="warning" id="dirWarning">
+                        ⚠️ Directories require execute (x) permissions to be accessible.
                     </div>
-                    <div class="result-item">
-                        <div>Symbolic Chmod Command:</div>
-                        <div style="display:flex; align-items:center;">
-                            <div class="result-value" id="symbolicCommand">chmod u=rw,g=r,o= file</div>
-                            <button class="copy-btn" onclick="copyText('symbolicCommand')">Copy</button>
+                    <div class="warning" id="setuidWarning">
+                        ⚠️ SetUID should only be used for executable files.
+                    </div>
+                    <div class="warning" id="setgidWarning">
+                        ⚠️ SetGID should only be used for executable files or directories.
+                    </div>
+                    <div class="warning" id="stickyWarning">
+                        ⚠️ Sticky Bit should only be used for directories.
+                    </div>
+                    <div class="warning" id="symlinkWarning">
+                        ⚠️ <strong>Note:</strong> Symbolic links in Linux always have 777 permissions (lrwxrwxrwx).
+                        Changing permissions on a symlink affects the <strong>target file</strong>, not the link itself.
+                    </div>
+                    <div class="warning warning-caution" id="recursiveWarning">
+                        ⚠️ <strong>Caution:</strong> Using <code>-R</code> (Recursive) with specific permissions like
+                        644/755 can be dangerous if not used carefully (e.g., removing execute from directories).
+                    </div>
+
+                    <!-- Results -->
+                    <div class="results-container">
+                        <div class="result-item">
+                            <div>Symbolic Notation:</div>
+                            <div style="display:flex; align-items:center;">
+                                <input type="text" class="result-value" id="symbolicDisplay" value="-rw-r-----"
+                                    maxlength="10" aria-label="Symbolic Permission Value" class="result-value w-120">
+                                <button class="copy-btn" data-copy-target="symbolicDisplay">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Numeric (Octal) Notation:</div>
+                            <div style="display:flex; flex-direction:column; align-items:flex-end;">
+                                <div style="display:flex; align-items:center;">
+                                    <input type="text" id="octalInput" class="result-value" value="640" maxlength="4"
+                                        aria-label="Octal Permission Value">
+                                    <button class="copy-btn" data-copy-target="octalInput">Copy</button>
+                                </div>
+                                <div class="octal-toggle-container">
+                                    <label>
+                                        <input type="checkbox" id="showLeadingZero"> Show 4-digit notation (0755)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Chmod Command:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="chmodCommand">chmod 640 file</div>
+                                <button class="copy-btn" data-copy-target="chmodCommand">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Recursive Chmod Command:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="recursiveCommand">chmod -R 640 directory</div>
+                                <button class="copy-btn" data-copy-target="recursiveCommand">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Symbolic Chmod Command:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="symbolicCommand">chmod u=rw,g=r,o= file</div>
+                                <button class="copy-btn" data-copy-target="symbolicCommand">Copy</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- End of chmod section -->
+
+                <!-- OWNERSHIP SECTION (chown/chgrp) -->
+                <div class="tab-content" id="ownership-section">
+                    <div class="input-group">
+                        <label for="ownerInput">Owner (username or UID):</label>
+                        <input type="text" id="ownerInput" placeholder="e.g., john or 1000">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="groupInput">Group (groupname or GID):</label>
+                        <input type="text" id="groupInput" placeholder="e.g., developers or 1000">
+                    </div>
+
+                    <div class="file-type-container">
+                        <div class="file-type-title">Command Type:</div>
+                        <label>
+                            <input type="radio" name="chownType" value="both" checked> Both (chown user:group)
+                        </label>
+                        &nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="chownType" value="user"> User Only (chown user)
+                        </label>
+                        &nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="chownType" value="group"> Group Only (chgrp group)
+                        </label>
+                    </div>
+
+                    <div class="special-perms-container">
+                        <label>
+                            <input type="checkbox" id="chownRecursive"> Recursive (-R flag)
+                        </label>
+                    </div>
+
+                    <div class="results-container">
+                        <div class="result-item">
+                            <div>Basic Command:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="chownBasic">chown john:developers file</div>
+                                <button class="copy-btn" data-copy-target="chownBasic">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Recursive Command:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="chownRecursiveCmd">chown -R john:developers directory
+                                </div>
+                                <button class="copy-btn" data-copy-target="chownRecursiveCmd">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of ownership section -->
+
+                <!-- ACL SECTION (setfacl/getfacl) -->
+                <div class="tab-content" id="acl-section">
+                    <div class="input-group">
+                        <label for="aclEntity">Entity Type:</label>
+                        <select id="aclEntity">
+                            <option value="u">User (u:)</option>
+                            <option value="g">Group (g:)</option>
+                            <option value="o">Other (o:)</option>
+                            <option value="m">Mask (m:)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="aclName">Entity Name (leave empty for owner/group/other):</label>
+                        <input type="text" id="aclName" placeholder="e.g., john, developers">
+                    </div>
+
+                    <div class="permission-grid acl-grid-template">
+                        <div class="permission-header">Permission</div>
+                        <div class="permission-header">Read</div>
+                        <div class="permission-header">Write</div>
+                        <div class="permission-header">Execute</div>
+
+                        <div class="permission-label">ACL Perms</div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="aclRead" checked>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="aclWrite">
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="aclExecute">
+                        </div>
+                    </div>
+
+                    <div class="special-perms-container">
+                        <label>
+                            <input type="checkbox" id="aclDefault"> Default ACL (for directories)
+                        </label>
+                        &nbsp;&nbsp;
+                        <label>
+                            <input type="checkbox" id="aclRecursive"> Recursive (-R flag)
+                        </label>
+                    </div>
+
+                    <div class="btn-container">
+                        <button class="preset-btn" id="btnAddAclRule">➕ Add ACL Rule</button>
+                        <button class="preset-btn" style="background-color: #e74c3c;" id="btnClearAclRules">🗑 Clear
+                            All Rules</button>
+                    </div>
+
+                    <div class="acl-rules-list" id="aclRulesList">
+                        <em style="color: var(--text-secondary);">No rules added yet. Add rules above.</em>
+                    </div>
+
+                    <div class="results-container">
+                        <div class="result-item">
+                            <div>setfacl Command:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="setfaclCmd">setfacl -m u:john:r file</div>
+                                <button class="copy-btn" data-copy-target="setfaclCmd">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>getfacl Command:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="getfaclCmd">getfacl file</div>
+                                <button class="copy-btn" data-copy-target="getfaclCmd">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Remove All ACLs:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="removeAclCmd">setfacl -b file</div>
+                                <button class="copy-btn" data-copy-target="removeAclCmd">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of ACL section -->
+
+                <!-- UMASK SECTION -->
+                <div class="tab-content" id="umask-section">
+                    <div class="permission-info" style="margin-bottom: 20px;">
+                        <div class="info-title">What is umask?</div>
+                        <p>Umask determines the default permissions for newly created files and directories by
+                            subtracting from the maximum permissions (666 for files, 777 for directories).</p>
+                    </div>
+
+                    <div class="preset-buttons">
+                        <button class="preset-btn" data-umask="0022">0022 (Default)</button>
+                        <button class="preset-btn" data-umask="0002">0002 (Group Writable)</button>
+                        <button class="preset-btn" data-umask="0077">0077 (Private)</button>
+                        <button class="preset-btn" data-umask="0027">0027 (Secure Group)</button>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="umaskInput">Umask Value (octal):</label>
+                        <input type="text" id="umaskInput" value="0022" maxlength="4" class="w-150">
+                    </div>
+
+                    <div class="results-container">
+                        <div class="result-item">
+                            <div>Current Umask:</div>
+                            <div class="result-value" id="currentUmask">0022</div>
+                        </div>
+                        <div class="result-item">
+                            <div>New Files (666 - umask):</div>
+                            <div class="result-value" id="umaskFiles">644 (rw-r--r--)</div>
+                        </div>
+                        <div class="result-item">
+                            <div>New Directories (777 - umask):</div>
+                            <div class="result-value" id="umaskDirs">755 (rwxr-xr-x)</div>
+                        </div>
+                    </div>
+
+                    <div class="results-container" style="margin-top: 20px;">
+                        <div class="result-item">
+                            <div>View Current Umask:</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="umaskViewCmd">umask</div>
+                                <button class="copy-btn" data-copy-target="umaskViewCmd">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Set Umask (session):</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="umaskSetCmd">umask 0022</div>
+                                <button class="copy-btn" data-copy-target="umaskSetCmd">Copy</button>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div>Make Permanent (~/.bashrc):</div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="result-value" id="umaskPermanent">echo "umask 0022" >> ~/.bashrc</div>
+                                <button class="copy-btn" data-copy-target="umaskPermanent">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of umask section -->
+
+                <!-- REFERENCE SECTION -->
+                <div class="tab-content" id="reference-section">
+                    <div class="reference-section">
+                        <h3>📖 Linux Permissions Quick Reference</h3>
+
+                        <h4>chmod - Change File Permissions</h4>
+                        <p><strong>Syntax:</strong> <code>chmod [options] mode file</code></p>
+                        <p><strong>Common Options:</strong></p>
+                        <ul>
+                            <li><code>-R</code> - Recursive (apply to directories and their contents)</li>
+                            <li><code>-v</code> - Verbose (show files being processed)</li>
+                            <li><code>--reference=FILE</code> - Use FILE's mode instead of MODE</li>
+                        </ul>
+                        <div class="command-example">
+                            <code>chmod 755 script.sh</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>chmod u+x,g-w file.txt</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>chown - Change File Owner</h4>
+                        <p><strong>Syntax:</strong> <code>chown [options] owner[:group] file</code></p>
+                        <div class="command-example">
+                            <code>chown john file.txt</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>chown john:developers /var/www</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>chown -R www-data:www-data /var/www/html</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>chgrp - Change Group Ownership</h4>
+                        <p><strong>Syntax:</strong> <code>chgrp [options] group file</code></p>
+                        <div class="command-example">
+                            <code>chgrp developers project/</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>setfacl - Set File Access Control Lists</h4>
+                        <p><strong>Syntax:</strong> <code>setfacl [options] acl_spec file</code></p>
+                        <p><strong>Common Options:</strong></p>
+                        <ul>
+                            <li><code>-m</code> - Modify ACL</li>
+                            <li><code>-x</code> - Remove ACL entry</li>
+                            <li><code>-b</code> - Remove all ACL entries</li>
+                            <li><code>-d</code> - Set default ACL (for directories)</li>
+                            <li><code>-R</code> - Recursive</li>
+                        </ul>
+                        <div class="command-example">
+                            <code>setfacl -m u:john:rwx file.txt</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>setfacl -m g:developers:rx directory/</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>setfacl -d -m u:john:rwx /shared/</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>getfacl - Display File ACLs</h4>
+                        <p><strong>Syntax:</strong> <code>getfacl file</code></p>
+                        <div class="command-example">
+                            <code>getfacl file.txt</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>umask - Set Default Permissions Mask</h4>
+                        <p><strong>Syntax:</strong> <code>umask [mask]</code></p>
+                        <div class="command-example">
+                            <code>umask</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>umask 0022</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="reference-section">
+                        <h3>📊 Permission Tables</h3>
+
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Numeric</th>
+                                        <th>Symbolic</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>0</td>
+                                        <td>---</td>
+                                        <td>No permissions</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>--x</td>
+                                        <td>Execute only</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>-w-</td>
+                                        <td>Write only</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>-wx</td>
+                                        <td>Write and execute</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>r--</td>
+                                        <td>Read only</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>r-x</td>
+                                        <td>Read and execute</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>rw-</td>
+                                        <td>Read and write</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>rwx</td>
+                                        <td>All permissions</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4>Common Permission Patterns</h4>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mode</th>
+                                        <th>Symbolic</th>
+                                        <th>Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>644</td>
+                                        <td>rw-r--r--</td>
+                                        <td>Regular files</td>
+                                    </tr>
+                                    <tr>
+                                        <td>755</td>
+                                        <td>rwxr-xr-x</td>
+                                        <td>Executables, directories</td>
+                                    </tr>
+                                    <tr>
+                                        <td>700</td>
+                                        <td>rwx------</td>
+                                        <td>Private files/dirs</td>
+                                    </tr>
+                                    <tr>
+                                        <td>600</td>
+                                        <td>rw-------</td>
+                                        <td>Private files (SSH keys)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>777</td>
+                                        <td>rwxrwxrwx</td>
+                                        <td>World writable (⚠ dangerous)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>775</td>
+                                        <td>rwxrwxr-x</td>
+                                        <td>Group collaborative dirs</td>
+                                    </tr>
+                                    <tr>
+                                        <td>664</td>
+                                        <td>rw-rw-r--</td>
+                                        <td>Group collaborative files</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="reference-section">
+                        <h3>💡 Real-World Examples</h3>
+
+                        <h4>Web Server Setup</h4>
+                        <div class="command-example">
+                            <code>chown -R www-data:www-data /var/www/html</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>find /var/www/html -type d -exec chmod 755 {} \;</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>find /var/www/html -type f -exec chmod 644 {} \;</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>Shared Directory with Group Access</h4>
+                        <div class="command-example">
+                            <code>mkdir /shared && chmod 2775 /shared</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>chgrp developers /shared</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>Secure SSH Key</h4>
+                        <div class="command-example">
+                            <code>chmod 600 ~/.ssh/id_rsa</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                        <div class="command-example">
+                            <code>chmod 644 ~/.ssh/id_rsa.pub</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+
+                        <h4>Make Script Executable</h4>
+                        <div class="command-example">
+                            <code>chmod +x script.sh</code>
+                            <button class="copy-btn copy-example-btn">Copy</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of reference section -->
+
             </div>
+            <!-- End of main-content -->
 
-            <!-- Sidebar -->
+            <!-- Sidebar with dynamic content based on active tab -->
             <div class="sidebar">
-                <!-- Permissions Information -->
-                <div class="permission-info">
-                    <div class="info-title">About Permissions:</div>
-                    <p><strong>r (read):</strong> View file content, list directory contents</p>
-                    <p><strong>w (write):</strong> Modify file content, create/delete files in a directory</p>
-                    <p><strong>x (execute):</strong> Execute a file, enter a directory</p>
-                    <p><strong>SetUID (s):</strong> Executes with the file owner's permissions</p>
-                    <p><strong>SetGID (s):</strong> Executes with the group's permissions, directories inherit the
-                        parent's
-                        group</p>
-                    <p><strong>Sticky Bit (t):</strong> Only the file owner or root can delete/rename files in the
-                        directory</p>
+                <!-- Permissions Help (chmod) -->
+                <div class="sidebar-content" id="sidebar-chmod">
+                    <div class="permission-info">
+                        <div class="info-title">About Permissions:</div>
+                        <p><strong>r (read):</strong> View file content, list directory contents</p>
+                        <p><strong>w (write):</strong> Modify file content, create/delete files in a directory</p>
+                        <p><strong>x (execute):</strong> Execute a file, enter a directory</p>
+                        <p><strong>SetUID (s):</strong> File runs with owner's privileges (not user who executes it)</p>
+                        <p><strong>SetGID (s):</strong> File runs with group's privileges; on directories, new files
+                            inherit the directory's group</p>
+                        <p><strong>Sticky Bit (t):</strong> On directories, only file owner, directory owner, or root
+                            can delete/rename files</p>
+                        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">
+                        <p style="font-size: 0.9em; opacity: 0.9;"><strong>Note on Case (s/S, t/T):</strong><br>
+                            <strong>Lowercase (s, t):</strong> Execute permission (x) is present.<br>
+                            <strong>Uppercase (S, T):</strong> Execute permission is missing (ineffective special bit).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ownership Help (chown/chgrp) -->
+                <div class="sidebar-content" id="sidebar-ownership" style="display: none;">
+                    <div class="permission-info">
+                        <div class="info-title">About Ownership:</div>
+                        <p><strong>chown:</strong> Changes the owner and/or group of files</p>
+                        <p><strong>chgrp:</strong> Changes only the group ownership</p>
+                        <p><strong>Syntax:</strong></p>
+                        <p
+                            style="font-family: monospace; background: var(--bg-tertiary); padding: 8px; border-radius: 4px; font-size: 12px;">
+                            chown user:group file<br>
+                            chown user file<br>
+                            chgrp group file
+                        </p>
+                        <p><strong>-R flag:</strong> Apply recursively to directories and their contents</p>
+                        <p><strong>Tip:</strong> You can use UIDs and GIDs instead of names (e.g., 1000:1000)</p>
+                    </div>
+                </div>
+
+                <!-- ACL Help -->
+                <div class="sidebar-content" id="sidebar-acl" style="display: none;">
+                    <div class="permission-info">
+                        <div class="info-title">About ACLs:</div>
+                        <p><strong>ACL (Access Control List):</strong> Extends standard permissions to grant specific
+                            access to additional users/groups</p>
+                        <p><strong>Entity Types:</strong></p>
+                        <ul style="margin: 8px 0; padding-left: 20px; font-size: 13px;">
+                            <li><strong>u:</strong> User permissions</li>
+                            <li><strong>g:</strong> Group permissions</li>
+                            <li><strong>o:</strong> Other permissions</li>
+                            <li><strong>m:</strong> Mask (limits effective permissions)</li>
+                        </ul>
+                        <p><strong>Default ACL:</strong> Applies to newly created files in a directory</p>
+                        <p><strong>Note:</strong> Requires ACL support on the filesystem (ext3/4, XFS, etc.)</p>
+                    </div>
+                </div>
+
+                <!-- Umask Help -->
+                <div class="sidebar-content" id="sidebar-umask" style="display: none;">
+                    <div class="permission-info">
+                        <div class="info-title">About Umask:</div>
+                        <p><strong>Umask:</strong> Determines default permissions for newly created files and
+                            directories</p>
+                        <p><strong>How it works:</strong></p>
+                        <ul style="margin: 8px 0; padding-left: 20px; font-size: 13px;">
+                            <li>Files: 666 - umask</li>
+                            <li>Directories: 777 - umask</li>
+                        </ul>
+                        <p><strong>Common Values:</strong></p>
+                        <ul style="margin: 8px 0; padding-left: 20px; font-size: 13px;">
+                            <li><strong>0022:</strong> Standard (644/755)</li>
+                            <li><strong>0002:</strong> Group-friendly (664/775)</li>
+                            <li><strong>0077:</strong> Private (600/700)</li>
+                        </ul>
+                        <p><strong>Persistence:</strong> Add to ~/.bashrc or ~/.profile to make permanent</p>
+                    </div>
+                </div>
+
+                <!-- Reference Help -->
+                <div class="sidebar-content" id="sidebar-reference" style="display: none;">
+                    <div class="permission-info">
+                        <div class="info-title">Quick Tips:</div>
+                        <p><strong>💡 Common Patterns:</strong></p>
+                        <ul style="margin: 8px 0; padding-left: 20px; font-size: 13px;">
+                            <li><strong>644:</strong> Regular files</li>
+                            <li><strong>755:</strong> Executables, directories</li>
+                            <li><strong>600:</strong> Private files (SSH keys)</li>
+                            <li><strong>700:</strong> Private directories</li>
+                        </ul>
+                        <p><strong>📌 Remember:</strong> Always test commands in a safe environment first!</p>
+                        <p><strong>🔍 Check Current:</strong></p>
+                        <p
+                            style="font-family: monospace; background: var(--bg-tertiary); padding: 8px; border-radius: 4px; font-size: 12px;">
+                            ls -la file<br>
+                            getfacl file<br>
+                            umask
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // Select all permission inputs
-        const allPermissionInputs = document.querySelectorAll('input[type="checkbox"]');
-        const fileTypeInputs = document.querySelectorAll('input[name="fileType"]');
-        const specialPermInputs = document.querySelectorAll('#setuid, #setgid, #sticky');
-
-        // Select display elements
-        const symbolicDisplay = document.getElementById('symbolicDisplay');
-        const octalInput = document.getElementById('octalInput');
-        const chmodCommand = document.getElementById('chmodCommand');
-        const recursiveCommand = document.getElementById('recursiveCommand');
-        const symbolicCommand = document.getElementById('symbolicCommand');
-
-        // Select warning elements
-        const dirWarning = document.getElementById('dirWarning');
-        const setuidWarning = document.getElementById('setuidWarning');
-        const setgidWarning = document.getElementById('setgidWarning');
-        const stickyWarning = document.getElementById('stickyWarning');
-
-        // Update permissions on any checkbox change
-        allPermissionInputs.forEach(input => {
-            input.addEventListener('change', updatePermissions);
-        });
-
-        // Update permissions on file type change
-        fileTypeInputs.forEach(input => {
-            input.addEventListener('change', updatePermissions);
-        });
-
-        // Update permissions on special permissions change
-        specialPermInputs.forEach(input => {
-            input.addEventListener('change', updatePermissions);
-        });
-
-        // Add click event for checkbox containers
-        document.querySelectorAll('.checkbox-container').forEach(container => {
-            container.addEventListener('click', function (e) {
-                // If the click is not directly on the checkbox
-                if (e.target.type !== 'checkbox') {
-                    const checkbox = this.querySelector('input[type="checkbox"]');
-                    checkbox.checked = !checkbox.checked;
-                    checkbox.dispatchEvent(new Event('change'));
-                }
-            });
-        });
-
-        // Add input event for Octal Input (Reverse Calculation)
-        octalInput.addEventListener('input', function () {
-            // Remove non-numeric characters
-            this.value = this.value.replace(/[^0-7]/g, '');
-
-            const val = this.value;
-            let valid = false;
-            let s = 0, u = 0, g = 0, o = 0;
-
-            if (val.length === 3) {
-                // Format: ugo (e.g., 755)
-                u = parseInt(val[0]);
-                g = parseInt(val[1]);
-                o = parseInt(val[2]);
-                valid = true;
-            } else if (val.length === 4) {
-                // Format: sugo (e.g., 1755)
-                s = parseInt(val[0]);
-                u = parseInt(val[1]);
-                g = parseInt(val[2]);
-                o = parseInt(val[3]);
-                valid = true;
-            }
-
-            if (valid) {
-                updateCheckboxesFromValue(s, u, g, o);
-                updatePermissions(true); // pass true to skip updating the input itself
-            }
-        });
-
-        function updateCheckboxesFromValue(s, u, g, o) {
-            // Set special permissions
-            document.getElementById('setuid').checked = (s & 4) !== 0;
-            document.getElementById('setgid').checked = (s & 2) !== 0;
-            document.getElementById('sticky').checked = (s & 1) !== 0;
-
-            // Helper to set rwx components
-            const setGroup = (prefix, val) => {
-                document.getElementById(`${prefix}r`).checked = (val & 4) !== 0;
-                document.getElementById(`${prefix}w`).checked = (val & 2) !== 0;
-                document.getElementById(`${prefix}x`).checked = (val & 1) !== 0;
-            };
-
-            setGroup('u', u);
-            setGroup('g', g);
-            setGroup('o', o);
-        }
-
-        // Function to calculate and update permissions
-        function updatePermissions() {
-            // Calculate basic permissions
-            const userPerms = getPermValue('u');
-            const groupPerms = getPermValue('g');
-            const otherPerms = getPermValue('o');
-
-            // Calculate special permissions
-            let specialPerms = 0;
-            if (document.getElementById('setuid').checked) specialPerms += 4;
-            if (document.getElementById('setgid').checked) specialPerms += 2;
-            if (document.getElementById('sticky').checked) specialPerms += 1;
-
-            // Update octal value (using string concatenation for proper octal representation)
-            const octalValue = specialPerms > 0 ? `${specialPerms}${userPerms}${groupPerms}${otherPerms}` : `${userPerms}${groupPerms}${otherPerms}`;
-
-            // Only update input if we aren't typing in it (prevent cursor jumping)
-            // Or if explicit flag is passed (though logic above handles 'skipInputUpdate' via argument)
-            // Let's modify function signature to accept skipUpdate flag
-            if (arguments.length === 0 || arguments[0] !== true) {
-                octalInput.value = octalValue;
-            }
-
-            // Update symbolic notation
-            const fileType = document.querySelector('input[name="fileType"]:checked').value;
-            const symbolic = getSymbolicDisplay(fileType, userPerms, groupPerms, otherPerms);
-            symbolicDisplay.textContent = symbolic;
-
-            // Update commands
-            chmodCommand.textContent = `chmod ${octalValue} file`;
-            // Fixed: removed leading slash from directory to be safer (relative path)
-            recursiveCommand.textContent = `chmod -R ${octalValue} directory`;
-            symbolicCommand.textContent = `chmod ${getSymbolicCommand()} file`;
-
-            // Check and display warnings
-            checkWarnings(fileType, userPerms, groupPerms, otherPerms);
-        }
-
-        // Calculate permission value for a category (0-7)
-        function getPermValue(category) {
-            let value = 0;
-            if (document.getElementById(`${category}r`).checked) value += 4;
-            if (document.getElementById(`${category}w`).checked) value += 2;
-            if (document.getElementById(`${category}x`).checked) value += 1;
-            return value;
-        }
-
-        // Generate symbolic notation (e.g., -rwxr-xr--)
-        function getSymbolicDisplay(fileType, user, group, other) {
-            const userSymbolic = getSymbolicForValue(user, 'u');
-            const groupSymbolic = getSymbolicForValue(group, 'g');
-            const otherSymbolic = getSymbolicForValue(other, 'o');
-
-            return `${fileType}${userSymbolic}${groupSymbolic}${otherSymbolic}`;
-        }
-
-        // Generate symbolic notation for a specific value (e.g., 7 -> rwx)
-        function getSymbolicForValue(value, category) {
-            let result = '';
-
-            // Add r, w, x
-            result += (value & 4) ? 'r' : '-';
-            result += (value & 2) ? 'w' : '-';
-
-            // Check for execute permission and special permissions
-            const hasExec = (value & 1) ? true : false;
-
-            if (category === 'u' && document.getElementById('setuid').checked) {
-                result += hasExec ? 's' : 'S';
-            }
-            else if (category === 'g' && document.getElementById('setgid').checked) {
-                result += hasExec ? 's' : 'S';
-            }
-            else if (category === 'o' && document.getElementById('sticky').checked) {
-                result += hasExec ? 't' : 'T';
-            }
-            else {
-                result += hasExec ? 'x' : '-';
-            }
-
-            return result;
-        }
-
-        // Generate symbolic command (e.g., u=rwx,g=rx,o=r)
-        function getSymbolicCommand() {
-            const parts = [];
-
-            // Generate permissions for user, group, and others
-            const userPerms = getSymbolicPart('u');
-            const groupPerms = getSymbolicPart('g');
-            const otherPerms = getSymbolicPart('o');
-
-            // Always include all categories (even if empty) to ensure permissions are properly set/cleared
-            parts.push(`u=${userPerms}`);
-            parts.push(`g=${groupPerms}`);
-            parts.push(`o=${otherPerms}`);
-
-            // Add special permissions
-            const specialParts = [];
-            if (document.getElementById('setuid').checked) specialParts.push('u+s');
-            if (document.getElementById('setgid').checked) specialParts.push('g+s');
-            if (document.getElementById('sticky').checked) specialParts.push('o+t');
-
-            // Combine all parts
-            return parts.join(',') + (specialParts.length > 0 ? ',' + specialParts.join(',') : '');
-        }
-
-        // Generate symbolic part for a category (e.g., rwx)
-        function getSymbolicPart(category) {
-            let part = '';
-            if (document.getElementById(`${category}r`).checked) part += 'r';
-            if (document.getElementById(`${category}w`).checked) part += 'w';
-            if (document.getElementById(`${category}x`).checked) part += 'x';
-            return part;
-        }
-
-        // Check and display warnings
-        function checkWarnings(fileType, userPerms, groupPerms, otherPerms) {
-            // Directory warning
-            if (fileType === 'd' && !(userPerms & 1) && !(groupPerms & 1) && !(otherPerms & 1)) {
-                dirWarning.style.display = 'block';
-            } else {
-                dirWarning.style.display = 'none';
-            }
-
-            // SetUID warning
-            if (document.getElementById('setuid').checked && fileType !== '-') {
-                setuidWarning.style.display = 'block';
-            } else {
-                setuidWarning.style.display = 'none';
-            }
-
-            // SetGID warning
-            if (document.getElementById('setgid').checked && fileType !== '-' && fileType !== 'd') {
-                setgidWarning.style.display = 'block';
-            } else {
-                setgidWarning.style.display = 'none';
-            }
-
-            // Sticky Bit warning
-            if (document.getElementById('sticky').checked && fileType !== 'd') {
-                stickyWarning.style.display = 'block';
-            } else {
-                stickyWarning.style.display = 'none';
-            }
-        }
-
-
-        // Reset permissions to default (644 for file)
-        document.getElementById('resetBtn').addEventListener('click', function () {
-            // Default file type
-            document.querySelector('input[name="fileType"][value="-"]').checked = true;
-
-            // Clear special bits
-            specialPermInputs.forEach(input => input.checked = false);
-
-            // Reset standard permissions (rw-r--r-- is standard 644)
-            // But let's reset to what was initial in the HTML: 640 (rw-r-----) for consistency with previous default
-
-            // User: rw
-            document.getElementById('ur').checked = true;
-            document.getElementById('uw').checked = true;
-            document.getElementById('ux').checked = false;
-
-            // Group: r
-            document.getElementById('gr').checked = true;
-            document.getElementById('gw').checked = false;
-            document.getElementById('gx').checked = false;
-
-            // Others: none
-            document.getElementById('or').checked = false;
-            document.getElementById('ow').checked = false;
-            document.getElementById('ox').checked = false;
-
-            // Update
-            updatePermissions();
-        });
-
-        // Copy functionality with fallback for non-HTTPS contexts
-        function copyText(elementId) {
-            const el = document.getElementById(elementId);
-            // Handle both input and div/span
-            const textToCopy = el.tagName === 'INPUT' ? el.value : el.textContent;
-            const btn = document.querySelector(`button[onclick="copyText('${elementId}')"]`);
-            const originalText = btn.textContent;
-
-            // Try modern Clipboard API first
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    showCopyFeedback(btn, originalText);
-                }).catch(err => {
-                    // Fallback to execCommand
-                    fallbackCopy(textToCopy, btn, originalText);
-                });
-            } else {
-                // Use fallback for older browsers or HTTP contexts
-                fallbackCopy(textToCopy, btn, originalText);
-            }
-        }
-
-        function showCopyFeedback(btn, originalText) {
-            btn.textContent = 'Copied!';
-            btn.classList.add('copied');
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('copied');
-            }, 1500);
-        }
-
-        function fallbackCopy(text, btn, originalText) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                showCopyFeedback(btn, originalText);
-            } catch (err) {
-                console.error('Copy failed:', err);
-                btn.textContent = 'Failed';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 1500);
-            }
-            document.body.removeChild(textarea);
-        }
-
-        // Dark mode toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-
-        // SVG icons
-        const moonIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-        const sunIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></svg>';
-
-        // Check for saved theme preference or default to light mode
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        if (currentTheme === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggle.innerHTML = sunIcon;
-        }
-
-        themeToggle.addEventListener('click', function () {
-            body.classList.toggle('dark-mode');
-
-            if (body.classList.contains('dark-mode')) {
-                themeToggle.innerHTML = sunIcon;
-                localStorage.setItem('theme', 'dark');
-            } else {
-                themeToggle.innerHTML = moonIcon;
-                localStorage.setItem('theme', 'light');
-            }
-        });
-
-        // Initialize permissions on page load
-        updatePermissions();
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
