@@ -54,7 +54,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 98%;
             margin: 0 auto;
             padding: 15px;
         }
@@ -390,7 +390,7 @@
         /* Tab Navigation Styles */
         .tab-navigation {
             display: flex;
-            gap: 8px;
+            gap: 4px;
             margin-bottom: 20px;
             border-bottom: 2px solid var(--border-color);
             overflow-x: auto;
@@ -403,7 +403,7 @@
             border-bottom: 3px solid transparent;
             color: var(--text-primary);
             cursor: pointer;
-            padding: 12px 20px;
+            padding: 12px 15px;
             font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -638,8 +638,66 @@
             width: 100%;
         }
 
-/* Utility Classes */
-.w-120 { width: 120px; text-align: center; }
-.w-150 { width: 150px; font-weight: bold; }
-.acl-grid-template { grid-template-columns: 100px 1fr 1fr 1fr; margin-bottom: 15px; }
-.warning-caution { display: block; background-color: #fff3cd; color: #856404; border-color: #ffeeba; }
+        /* Utility Classes */
+        .w-120 {
+            width: 120px;
+            text-align: center;
+        }
+
+        .w-150 {
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .acl-grid-template {
+            grid-template-columns: 100px 1fr 1fr 1fr;
+            margin-bottom: 15px;
+        }
+
+        /* Warning Caution - with dark mode support */
+        .warning-caution {
+            display: none;
+            /* Default hidden, show when needed */
+            background-color: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+        }
+
+        body.dark-mode .warning-caution {
+            background-color: #5a4a2a;
+            color: #ffd700;
+            border-color: #d4a017;
+        }
+
+        /* Chattr Attribute Labels */
+        .attr-label {
+            display: flex;
+            flex-direction: column;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .attr-label:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .attr-label strong {
+            color: var(--accent-primary);
+            margin-bottom: 2px;
+        }
+
+        .section-description {
+            padding: 10px 15px;
+            background-color: var(--info-bg);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .section-description code {
+            background-color: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }

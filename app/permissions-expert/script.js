@@ -78,8 +78,8 @@ octalInput.addEventListener('input', function () {
 
 // Add input event for Symbolic Display (Reverse Calculation)
 symbolicDisplay.addEventListener('input', function () {
-    // Sanitize input: allow only drwxsStT-l characters
-    this.value = this.value.replace(/[^drwxsStT-l]/g, '');
+    // Sanitize input: allow only drwxsStTl- characters (dash at end to avoid range interpretation)
+    this.value = this.value.replace(/[^drwxsStTl-]/g, '');
     let val = this.value;
 
     // Very basic validation/parsing
@@ -198,22 +198,29 @@ function updatePermissions() {
     const skipOctalUpdate = (arguments.length > 0 && arguments[0] === true);
     const skipSymbolicUpdate = (arguments.length > 1 && arguments[1] === true);
 
-    if (!skipOctalUpdate) {
-        octalInput.value = octalValue;
+    // Use fresh element reference to avoid stale cache issues
+    const octalInputEl = document.getElementById('octalInput');
+    if (!skipOctalUpdate && octalInputEl) {
+        octalInputEl.value = octalValue;
     }
 
     // Update symbolic notation
     const fileType = document.querySelector('input[name="fileType"]:checked').value;
     const symbolic = getSymbolicDisplay(fileType, userPerms, groupPerms, otherPerms);
 
-    if (!skipSymbolicUpdate) {
-        symbolicDisplay.value = symbolic; // Changed to .value for input
+    const symbolicDisplayEl = document.getElementById('symbolicDisplay');
+    if (!skipSymbolicUpdate && symbolicDisplayEl) {
+        symbolicDisplayEl.value = symbolic;
     }
 
     // Update commands
-    chmodCommand.textContent = `chmod ${octalValue} file`;
-    recursiveCommand.textContent = `chmod -R ${octalValue} directory`;
-    symbolicCommand.textContent = `chmod ${getSymbolicCommand()} file`;
+    const chmodCommandEl = document.getElementById('chmodCommand');
+    const recursiveCommandEl = document.getElementById('recursiveCommand');
+    const symbolicCommandEl = document.getElementById('symbolicCommand');
+
+    if (chmodCommandEl) chmodCommandEl.textContent = `chmod ${octalValue} file`;
+    if (recursiveCommandEl) recursiveCommandEl.textContent = `chmod -R ${octalValue} directory`;
+    if (symbolicCommandEl) symbolicCommandEl.textContent = `chmod ${getSymbolicCommand()} file`;
 
     // Check and display warnings
     checkWarnings(fileType, userPerms, groupPerms, otherPerms);
@@ -323,35 +330,18 @@ function checkWarnings(fileType, userPerms, groupPerms, otherPerms) {
     } else {
         stickyWarning.style.display = 'none';
     }
+
+    // FIX: Show recursive warning for directories
+    const recursiveWarning = document.getElementById('recursiveWarning');
+    if (recursiveWarning) {
+        if (fileType === 'd') {
+            recursiveWarning.style.display = 'block';
+        } else {
+            recursiveWarning.style.display = 'none';
+        }
+    }
 }
 
-// Reset permissions to default (644 for file)
-document.getElementById('resetBtn').addEventListener('click', function () {
-    // Default file type
-    document.querySelector('input[name="fileType"][value="-"]').checked = true;
-
-    // Clear special bits
-    specialPermInputs.forEach(input => input.checked = false);
-
-    // Reset standard permissions (rw-r--r-- is standard 644)
-    // User: rw
-    document.getElementById('ur').checked = true;
-    document.getElementById('uw').checked = true;
-    document.getElementById('ux').checked = false;
-
-    // Group: r
-    document.getElementById('gr').checked = true;
-    document.getElementById('gw').checked = false;
-    document.getElementById('gx').checked = false;
-
-    // Others: none
-    document.getElementById('or').checked = false;
-    document.getElementById('ow').checked = false;
-    document.getElementById('ox').checked = false;
-
-    // Update
-    updatePermissions();
-});
 
 // Copy functionality with fallback for non-HTTPS contexts
 function copyText(elementId) {
@@ -415,14 +405,16 @@ const themeToggle = document.getElementById('themeToggle');
 const body = document.body;
 
 // SVG icons
-const moonIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-const sunIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"/></svg>';
+const moonIcon = '\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"\u003e\u003cpath d=\"M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z\"/\u003e\u003c/svg\u003e';
+const sunIcon = '\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"\u003e\u003cpath d=\"M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z\"/\u003e\u003c/svg\u003e';
 
 // Check for saved theme preference or default to light mode
 const currentTheme = localStorage.getItem('theme') || 'light';
 if (currentTheme === 'dark') {
     body.classList.add('dark-mode');
-    themeToggle.innerHTML = sunIcon;
+    themeToggle.innerHTML = sunIcon; // Show sun icon to switch back to light mode
+} else {
+    themeToggle.innerHTML = moonIcon; // Show moon icon to switch to dark mode
 }
 
 themeToggle.addEventListener('click', function () {
@@ -490,8 +482,15 @@ chownTypeInputs.forEach(input => {
 });
 
 function updateChownCommands() {
-    const owner = ownerInput.value.trim() || 'user';
-    const group = groupInput.value.trim() || 'group';
+    const ownerRaw = ownerInput.value.trim() || 'user';
+    const groupRaw = groupInput.value.trim() || 'group';
+
+    // Helper to quote if contains spaces
+    const quoteIfNeeded = (str) => str.includes(' ') ? `"${str}"` : str;
+
+    const owner = quoteIfNeeded(ownerRaw);
+    const group = quoteIfNeeded(groupRaw);
+
     const type = document.querySelector('input[name="chownType"]:checked').value;
     const recursive = chownRecursive.checked;
 
@@ -584,7 +583,7 @@ function savePermState() {
         savedPermState[cb.id] = cb.checked;
     });
     // Save special permissions
-    document.querySelectorAll('.special-perms-grid input[type="checkbox"]').forEach(cb => {
+    document.querySelectorAll('.special-perms-container input[type="checkbox"]').forEach(cb => {
         savedPermState[cb.id] = cb.checked;
     });
 }
@@ -599,7 +598,7 @@ function restorePermState() {
         }
     });
     // Restore special permissions
-    document.querySelectorAll('.special-perms-grid input[type="checkbox"]').forEach(cb => {
+    document.querySelectorAll('.special-perms-container input[type="checkbox"]').forEach(cb => {
         if (savedPermState.hasOwnProperty(cb.id)) {
             cb.checked = savedPermState[cb.id];
         }
@@ -649,30 +648,34 @@ function clearAclRules() {
 
 function renderAclRules() {
     const container = document.getElementById('aclRulesList');
+    container.innerHTML = ''; // Clear current content
+
     if (aclRules.length === 0) {
         container.innerHTML = '<em style="color: var(--text-secondary);">No rules added yet. Add rules above.</em>';
         return;
     }
 
-    container.innerHTML = aclRules.map((rule, index) => {
+    // Create safe DOM elements instead of unsafe HTML string
+    aclRules.forEach((rule, index) => {
+        const div = document.createElement('div');
+        div.className = 'acl-rule-item';
+
         const defaultPrefix = rule.isDefault ? 'd:' : '';
         const nameStr = rule.name ? `:${rule.name}` : '';
         const ruleStr = `${defaultPrefix}${rule.entity}${nameStr}:${rule.perms}`;
 
-        return `
-            <div class="acl-rule-item">
-                <code>${ruleStr}</code>
-                <button class="acl-remove-btn" data-index="${index}">Remove</button>
-            </div>
-        `;
-    }).join('');
+        const code = document.createElement('code');
+        code.textContent = ruleStr; // Secure: treats content as text, preventing XSS
 
-    // Attach event listeners to dynamically created remove buttons
-    container.querySelectorAll('.acl-remove-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const idx = parseInt(this.getAttribute('data-index'));
-            removeAclRule(idx);
-        });
+        const btn = document.createElement('button');
+        btn.textContent = 'Remove';
+        btn.className = 'acl-remove-btn';
+        // Add listener directly, no need to delegate or parse data-index logic (though we can keep data attr for debug)
+        btn.onclick = () => removeAclRule(index);
+
+        div.appendChild(code);
+        div.appendChild(btn);
+        container.appendChild(div);
     });
 }
 
@@ -775,6 +778,90 @@ function octalToSymbolic(octal) {
     return perms.join('');
 }
 
+// ========== CHATTR (File Attributes) ==========
+const chattrAttributes = ['i', 'a', 'd', 's', 'u', 'A', 'S', 'c', 'j', 't', 'C', 'D'];
+
+function updateChattrCommands() {
+    const selectedAttrs = [];
+
+    chattrAttributes.forEach(attr => {
+        const checkbox = document.getElementById(`attr-${attr}`);
+        if (checkbox && checkbox.checked) {
+            selectedAttrs.push(attr);
+        }
+    });
+
+    const recursive = document.getElementById('chattrRecursive');
+    const recursiveFlag = (recursive && recursive.checked) ? '-R ' : '';
+
+    const attrString = selectedAttrs.join('');
+
+    // Update commands
+    const setCmd = document.getElementById('chattrSetCmd');
+    const removeCmd = document.getElementById('chattrRemoveCmd');
+    const lsattrCmd = document.getElementById('lsattrCmd');
+    const warning = document.getElementById('chattrWarning');
+
+    if (attrString) {
+        setCmd.textContent = `chattr ${recursiveFlag}+${attrString} file`;
+        removeCmd.textContent = `chattr ${recursiveFlag}-${attrString} file`;
+    } else {
+        setCmd.textContent = 'chattr +i file';
+        removeCmd.textContent = 'chattr -i file';
+    }
+
+    lsattrCmd.textContent = recursive && recursive.checked ? 'lsattr -R directory' : 'lsattr file';
+
+    // Show warning if immutable is selected
+    if (warning) {
+        if (selectedAttrs.includes('i')) {
+            warning.style.display = 'block';
+        } else {
+            warning.style.display = 'none';
+        }
+    }
+}
+
+// ========== SUDOERS ==========
+function updateSudoersRule() {
+    const user = document.getElementById('sudoUser').value.trim() || 'user';
+    const hosts = document.getElementById('sudoHosts').value.trim() || 'ALL';
+    const runAs = document.getElementById('sudoRunAs').value.trim() || 'ALL:ALL';
+    const commands = document.getElementById('sudoCommands').value.trim() || 'ALL';
+
+    const nopasswd = document.getElementById('sudo-nopasswd');
+    const setenv = document.getElementById('sudo-setenv');
+
+    // Build options string
+    const options = [];
+    if (nopasswd && nopasswd.checked) options.push('NOPASSWD');
+    if (setenv && setenv.checked) options.push('SETENV');
+
+    const optionsStr = options.length > 0 ? options.join(', ') + ': ' : '';
+
+    // Format run-as with parentheses
+    const runAsFormatted = runAs.includes(':') || runAs.includes('ALL') ? `(${runAs})` : `(${runAs})`;
+
+    // Build sudoers rule
+    const rule = `${user} ${hosts}=${runAsFormatted} ${optionsStr}${commands}`;
+
+    // Update displays
+    const ruleOutput = document.getElementById('sudoersRule');
+    if (ruleOutput) {
+        ruleOutput.textContent = rule;
+    }
+
+    // Show NOPASSWD warning
+    const warning = document.getElementById('sudoNopasswdWarning');
+    if (warning) {
+        if (nopasswd && nopasswd.checked) {
+            warning.style.display = 'block';
+        } else {
+            warning.style.display = 'none';
+        }
+    }
+}
+
 // ========== REFERENCE - Copy Examples ==========
 function copyExample(button) {
     const codeElement = button.previousElementSibling;
@@ -792,19 +879,28 @@ function copyExample(button) {
     }
 }
 
-// Initialize chown, ACL, and umask on page load
-updateChownCommands();
-updateAclCommands();
-calculateUmask();
-
-// Initialize permissions on page load
-updatePermissions();
-
-// Add event listener for Leading Zero toggle
-document.getElementById('showLeadingZero').addEventListener('change', updatePermissions);
-
-// ========== EVENT LISTENERS FOR BUTTONS (Strict Separation of Concerns) ==========
+// ========== INITIALIZATION ON PAGE LOAD ==========
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize all sections
+    updateChownCommands();
+    updateAclCommands();
+    calculateUmask();
+    updatePermissions();
+
+    // Initialize ACL entity state
+    const aclEntitySelect = document.getElementById('aclEntity');
+    const aclNameInput = document.getElementById('aclName');
+    if (aclEntitySelect && aclNameInput) {
+        const initialEntity = aclEntitySelect.value;
+        if (initialEntity === 'o' || initialEntity === 'm') {
+            aclNameInput.disabled = true;
+            aclNameInput.placeholder = 'Not applicable for ' + (initialEntity === 'o' ? 'Other' : 'Mask');
+        }
+    }
+
+    // Add event listener for Leading Zero toggle
+    document.getElementById('showLeadingZero').addEventListener('change', updatePermissions);
+
     // Copy Buttons with data-copy-target
     document.querySelectorAll('.copy-btn[data-copy-target]').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -838,4 +934,38 @@ document.addEventListener('DOMContentLoaded', () => {
             setUmask(val);
         });
     });
+
+    // Chattr Attribute Checkboxes
+    chattrAttributes.forEach(attr => {
+        const checkbox = document.getElementById(`attr-${attr}`);
+        if (checkbox) {
+            checkbox.addEventListener('change', updateChattrCommands);
+        }
+    });
+
+    // Chattr Recursive Checkbox
+    const chattrRecursive = document.getElementById('chattrRecursive');
+    if (chattrRecursive) {
+        chattrRecursive.addEventListener('change', updateChattrCommands);
+    }
+
+    // Initialize chattr commands
+    updateChattrCommands();
+
+    // Sudoers inputs and checkboxes
+    const sudoInputs = ['sudoUser', 'sudoHosts', 'sudoRunAs', 'sudoCommands'];
+    sudoInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.addEventListener('input', updateSudoersRule);
+        }
+    });
+
+    const sudoNopasswd = document.getElementById('sudo-nopasswd');
+    const sudoSetenv = document.getElementById('sudo-setenv');
+    if (sudoNopasswd) sudoNopasswd.addEventListener('change', updateSudoersRule);
+    if (sudoSetenv) sudoSetenv.addEventListener('change', updateSudoersRule);
+
+    // Initialize sudoers rule
+    updateSudoersRule();
 });
