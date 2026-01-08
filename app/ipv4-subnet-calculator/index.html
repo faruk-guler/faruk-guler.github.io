@@ -1,276 +1,467 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="stylesheet" href="network.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPv4 & IPv6 Subnet Calculator</title>
-
+  <meta charset="UTF-8">
+  <meta name="description" content="IP Subnet Calculator Pro">
+  <meta name="keywords"
+    content="IP Subnet Calculator, IP Subnet, Subnet Calculator, IP Calculator, Subnet Mask Calculator, CIDR Calculator, IP Address Calculator, Subnet Mask, CIDR, IP Address, Subnet, Broadcast Address, Total Hosts, Prefix Length, Network Address, Usable Hosts">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Subnet Calculator Pro</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div id="particles-js"></div>
-    <div class="background"></div>
-    <div class="floating-numbers">
-        <div class="number" style="left: 10%; animation-duration: 4s;">1</div>
-        <div class="number" style="left: 20%; animation-duration: 12s;">0</div>
-        <div class="number" style="left: 30%; animation-duration: 15s;">1</div>
-        <div class="number" style="left: 40%; animation-duration: 18s;">1</div>
-        <div class="number" style="left: 50%; animation-duration: 10s;">0</div>
-        <div class="number" style="left: 60%; animation-duration: 13s;">1</div>
-        <div class="number" style="left: 70%; animation-duration: 9s;">0</div>
-        <div class="number" style="left: 80%; animation-duration: 16s;">1</div>
-        <div class="number" style="left: 90%; animation-duration: 14s;">0</div>
-        <div class="number" style="left: 110%; animation-duration: 4s;">1</div>
-        <div class="number" style="left: 120%; animation-duration: 14s;">0</div>
-        <div class="number" style="left: 130%; animation-duration: 14s;">1</div>
-        <div class="number" style="left: 140%; animation-duration: 10s;">0</div>
-
-    </div>
-    <div class="container">
-        <h3>IPv4 Subnet Calculator www.farukguler.com</h3>
-        <h5>Extra IPv6 and All Length Subnet Calculator Tool /index2.html</h5>
-        <form id="subnetForm">
-            <label for="ipAddress">IP Address:</label>
-            <input type="text" id="ipAddress" name="ipAddress" placeholder="e.g., 192.168.1.1" required>
-
-            <label for="subnetMask">Subnet Mask:</label>
-            <select id="subnetMask" name="subnetMask">
-                <option value="255.255.255.255">/32</option>
-                <option value="255.255.255.254">/31</option>
-                <option value="255.255.255.252">/30</option>
-                <option value="255.255.255.248">/29</option>
-                <option value="255.255.255.240">/28</option>
-                <option value="255.255.255.224">/27</option>
-                <option value="255.255.255.192">/26</option>
-                <option value="255.255.255.128">/25</option>
-                <option value="255.255.255.0">/24</option>
-                <option value="255.255.254.0">/23</option>
-                <option value="255.255.252.0">/22</option>
-                <option value="255.255.248.0">/21</option>
-                <option value="255.255.240.0">/20</option>
-                <option value="255.255.224.0">/19</option>
-                <option value="255.255.192.0">/18</option>
-                <option value="255.255.128.0">/17</option>
-                <option value="255.255.0.0">/16</option>
-                <option value="255.254.0.0">/15</option>
-                <option value="255.252.0.0">/14</option>
-                <option value="255.248.0.0">/13</option>
-                <option value="255.240.0.0">/12</option>
-                <option value="255.224.0.0">/11</option>
-                <option value="255.192.0.0">/10</option>
-                <option value="255.128.0.0">/9</option>
-                <option value="255.0.0.0">/8</option>
-            </select>
-
-            <button type="button" onclick="calculateSubnet()">Calculate</button>
-        </form>
-
-        <div class="results" id="results">
-            <h3>Results:</h3>
-            <p id="cidr">CIDR Notation: </p>
-            <p id="networkAddress">Network Address: </p>
-            <p id="broadcastAddress">Broadcast Address: </p>
-            <p id="usableIPRange">Usable IP Range: </p>
-            <p id="totalHosts">Total Hosts: </p>
-            <p id="usableHosts">Usable Hosts: </p>
-            <p id="subnetMaskBinary">Binary Subnet Mask: </p>
-            <p id="ipClass">IP Class: </p>
-            <p id="wildcardMask">Wildcard Mask: </p>
-            <p id="ipType">IP Type: </p>
-        </div>
-    </div>
-
-    <!-- Subnet mask information table from the second page -->
-    <div class="container">
-        <h1>Network Prefixes and Subnet Information</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                  <th>Prefix size</th>
-                  <th>Network mask</th>
-                  <th>Usable hosts per subnet</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>/1</td>
-                  <td>128.0.0.0</td>
-                  <td>2,147,483,646</td>
-                </tr>
-                <tr>
-                  <td>/2</td>
-                  <td>192.0.0.0</td>
-                  <td>1,073,741,822</td>
-                </tr>
-                <tr>
-                  <td>/3</td>
-                  <td>224.0.0.0</td>
-                  <td>536,870,910</td>
-                </tr>
-                <tr>
-                  <td>/4</td>
-                  <td>240.0.0.0</td>
-                  <td>268,435,454</td>
-                </tr>
-                <tr>
-                  <td>/5</td>
-                  <td>248.0.0.0</td>
-                  <td>134,217,726</td>
-                </tr>
-                <tr>
-                  <td>/6</td>
-                  <td>252.0.0.0</td>
-                  <td>67,108,862</td>
-                </tr>
-                <tr>
-                  <td>/7</td>
-                  <td>254.0.0.0</td>
-                  <td>33,554,430</td>
-                </tr>
-                <tr>
-                  <td colspan="3"><strong>Class A</strong></td>
-                </tr>
-                <tr>
-                  <td>/8</td>
-                  <td>255.0.0.0</td>
-                  <td>16,777,214</td>
-                </tr>
-                <tr>
-                  <td>/9</td>
-                  <td>255.128.0.0</td>
-                  <td>8,388,606</td>
-                </tr>
-                <tr>
-                  <td>/10</td>
-                  <td>255.192.0.0</td>
-                  <td>4,194,302</td>
-                </tr>
-                <tr>
-                  <td>/11</td>
-                  <td>255.224.0.0</td>
-                  <td>2,097,150</td>
-                </tr>
-                <tr>
-                  <td>/12</td>
-                  <td>255.240.0.0</td>
-                  <td>1,048,574</td>
-                </tr>
-                <tr>
-                  <td>/13</td>
-                  <td>255.248.0.0</td>
-                  <td>524,286</td>
-                </tr>
-                <tr>
-                  <td>/14</td>
-                  <td>255.252.0.0</td>
-                  <td>262,142</td>
-                </tr>
-                <tr>
-                  <td>/15</td>
-                  <td>255.254.0.0</td>
-                  <td>131,070</td>
-                </tr>
-                <tr>
-                  <td colspan="3"><strong>Class B</strong></td>
-                </tr>
-                <tr>
-                  <td>/16</td>
-                  <td>255.255.0.0</td>
-                  <td>65,534</td>
-                </tr>
-                <tr>
-                  <td>/17</td>
-                  <td>255.255.128.0</td>
-                  <td>32,766</td>
-                </tr>
-                <tr>
-                  <td>/18</td>
-                  <td>255.255.192.0</td>
-                  <td>16,382</td>
-                </tr>
-                <tr>
-                  <td>/19</td>
-                  <td>255.255.224.0</td>
-                  <td>8,190</td>
-                </tr>
-                <tr>
-                  <td>/20</td>
-                  <td>255.255.240.0</td>
-                  <td>4,094</td>
-                </tr>
-                <tr>
-                  <td>/21</td>
-                  <td>255.255.248.0</td>
-                  <td>2,046</td>
-                </tr>
-                <tr>
-                  <td>/22</td>
-                  <td>255.255.252.0</td>
-                  <td>1,022</td>
-                </tr>
-                <tr>
-                  <td>/23</td>
-                  <td>255.255.254.0</td>
-                  <td>510</td>
-                </tr>
-                <tr>
-                  <td colspan="3"><strong>Class C</strong></td>
-                </tr>
-                <tr>
-                  <td>/24</td>
-                  <td>255.255.255.0</td>
-                  <td>254</td>
-                </tr>
-                <tr>
-                  <td>/25</td>
-                  <td>255.255.255.128</td>
-                  <td>126</td>
-                </tr>
-                <tr>
-                  <td>/26</td>
-                  <td>255.255.255.192</td>
-                  <td>62</td>
-                </tr>
-                <tr>
-                  <td>/27</td>
-                  <td>255.255.255.224</td>
-                  <td>30</td>
-                </tr>
-                <tr>
-                  <td>/28</td>
-                  <td>255.255.255.240</td>
-                  <td>14</td>
-                </tr>
-                <tr>
-                  <td>/29</td>
-                  <td>255.255.255.248</td>
-                  <td>6</td>
-                </tr>
-                <tr>
-                  <td>/30</td>
-                  <td>255.255.255.252</td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>/31</td>
-                  <td>255.255.255.254</td>
-                  <td>0</td>
-                </tr>
-                <tr>
-                  <td>/32</td>
-                  <td>255.255.255.255</td>
-                  <td>0</td>
-                </tr>
-              </tbody>
-        </table>
-    </div>
-
-<footer>
-  <div class="footer-links">
+  <div id="particles-js"></div>
+  <div class="floating-numbers">
+    <div class="number" style="left: 10%; animation-duration: 14s;">1</div>
+    <div class="number" style="left: 20%; animation-duration: 12s;">0</div>
+    <div class="number" style="left: 30%; animation-duration: 15s;">1</div>
+    <div class="number" style="left: 40%; animation-duration: 18s;">1</div>
+    <div class="number" style="left: 50%; animation-duration: 10s;">0</div>
+    <div class="number" style="left: 60%; animation-duration: 13s;">1</div>
+    <div class="number" style="left: 70%; animation-duration: 9s;">0</div>
+    <div class="number" style="left: 80%; animation-duration: 16s;">1</div>
+    <div class="number" style="left: 90%; animation-duration: 14s;">0</div>
   </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="animation.js"></script>
-<script src="script.js"></script>
+  <div class="container">
+    <div class="header">
+      <h1>IP Subnet Calculator Pro</h1>
+      <button class="theme-toggle" id="themeToggle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-container">
+      <button class="tab" data-tab="basic">Basic Calculator</button>
+      <button class="tab" data-tab="vlsm">VLSM Calculator</button>
+      <button class="tab" data-tab="cidr">Range to CIDR</button>
+      <button class="tab" data-tab="splitter">Subnet Splitter</button>
+      <button class="tab" data-tab="admin">Tools</button>
+      <button class="tab" data-tab="reference">Reference</button>
+      <button class="tab" data-tab="about">About</button>
+    </div>
+
+    <!-- Basic Calculator Tab -->
+    <div id="basic-tab" class="tab-content active">
+      <div class="version-toggle">
+        <button class="version-btn active" data-version="ipv4">IPv4</button>
+        <button class="version-btn" data-version="ipv6">IPv6</button>
+      </div>
+
+      <div class="input-group">
+        <input type="text" id="ipInput" placeholder="IP Address (e.g., 192.168.1.0)">
+        <input type="text" id="maskInput" placeholder="Subnet Mask or CIDR (e.g., 24 or 255.255.255.0)">
+        <button id="calculate">Calculate</button>
+      </div>
+
+      <div class="results" id="results">
+      </div>
+    </div>
+
+    <!-- VLSM Calculator Tab -->
+    <div id="vlsm-tab" class="tab-content">
+      <div class="input-group">
+        <input type="text" id="vlsmNetwork" placeholder="Major Network (e.g. 192.168.1.0/24)">
+      </div>
+
+      <div id="vlsmInputs" class="vlsm-inputs">
+        <div class="subnet-row">
+          <input type="text" placeholder="Name (e.g. LAN A)" class="subnet-name">
+          <input type="number" placeholder="Hosts Needed" class="subnet-hosts">
+          <div class="btn-icon btn-remove" onclick="this.parentElement.remove()">×</div>
+        </div>
+      </div>
+
+      <button class="btn-add" id="addSubnet">+ Add Subnet</button>
+      <button id="calcVLSM" style="margin-top: 1rem; width: 100%;">Calculate VLSM</button>
+
+      <div id="vlsmResults" class="results" style="margin-top: 2rem;"></div>
+    </div>
+
+    <!-- Range to CIDR Tab -->
+    <div id="cidr-tab" class="tab-content">
+      <div class="input-group">
+        <input type="text" id="startIP" placeholder="Start IP (e.g. 192.168.1.0)">
+        <input type="text" id="endIP" placeholder="End IP (e.g. 192.168.1.100)">
+        <button id="calcCIDR">Calculate CIDR</button>
+      </div>
+      <div id="cidrResults" class="results" style="margin-top: 2rem;"></div>
+    </div>
+
+    <!-- Subnet Splitter Tab -->
+    <div id="splitter-tab" class="tab-content">
+      <div class="input-group">
+        <input type="text" id="splitterNetwork" placeholder="Network (e.g. 192.168.0.0/24)">
+        <input type="number" id="splitterCount" placeholder="Number of Subnets (e.g. 4)" min="2" max="256">
+        <button id="calcSplitter">Split Network</button>
+      </div>
+      <div id="splitterResults" class="results" style="margin-top: 2rem;"></div>
+    </div>
+
+    <!-- Reference Tab (Moved Table) -->
+    <div id="reference-tab" class="tab-content">
+      <div class="table-container">
+        <h2>Network Prefixes and Subnet Information</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Prefix size</th>
+              <th>Network mask</th>
+              <th>Usable hosts per subnet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="3"><strong>CIDR / Supernets</strong></td>
+            </tr>
+            <tr>
+              <td>/0</td>
+              <td>0.0.0.0</td>
+              <td>4,294,967,294</td>
+            </tr>
+            <tr>
+              <td>/1</td>
+              <td>128.0.0.0</td>
+              <td>2,147,483,646</td>
+            </tr>
+            <tr>
+              <td>/2</td>
+              <td>192.0.0.0</td>
+              <td>1,073,741,822</td>
+            </tr>
+            <tr>
+              <td>/3</td>
+              <td>224.0.0.0</td>
+              <td>536,870,910</td>
+            </tr>
+            <tr>
+              <td>/4</td>
+              <td>240.0.0.0</td>
+              <td>268,435,454</td>
+            </tr>
+            <tr>
+              <td>/5</td>
+              <td>248.0.0.0</td>
+              <td>134,217,726</td>
+            </tr>
+            <tr>
+              <td>/6</td>
+              <td>252.0.0.0</td>
+              <td>67,108,862</td>
+            </tr>
+            <tr>
+              <td>/7</td>
+              <td>254.0.0.0</td>
+              <td>33,554,430</td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>Class A</strong></td>
+            </tr>
+            <tr>
+              <td>/8</td>
+              <td>255.0.0.0</td>
+              <td>16,777,214</td>
+            </tr>
+            <tr>
+              <td>/9</td>
+              <td>255.128.0.0</td>
+              <td>8,388,606</td>
+            </tr>
+            <tr>
+              <td>/10</td>
+              <td>255.192.0.0</td>
+              <td>4,194,302</td>
+            </tr>
+            <tr>
+              <td>/11</td>
+              <td>255.224.0.0</td>
+              <td>2,097,150</td>
+            </tr>
+            <tr>
+              <td>/12</td>
+              <td>255.240.0.0</td>
+              <td>1,048,574</td>
+            </tr>
+            <tr>
+              <td>/13</td>
+              <td>255.248.0.0</td>
+              <td>524,286</td>
+            </tr>
+            <tr>
+              <td>/14</td>
+              <td>255.252.0.0</td>
+              <td>262,142</td>
+            </tr>
+            <tr>
+              <td>/15</td>
+              <td>255.254.0.0</td>
+              <td>131,070</td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>Class B</strong></td>
+            </tr>
+            <tr>
+              <td>/16</td>
+              <td>255.255.0.0</td>
+              <td>65,534</td>
+            </tr>
+            <tr>
+              <td>/17</td>
+              <td>255.255.128.0</td>
+              <td>32,766</td>
+            </tr>
+            <tr>
+              <td>/18</td>
+              <td>255.255.192.0</td>
+              <td>16,382</td>
+            </tr>
+            <tr>
+              <td>/19</td>
+              <td>255.255.224.0</td>
+              <td>8,190</td>
+            </tr>
+            <tr>
+              <td>/20</td>
+              <td>255.255.240.0</td>
+              <td>4,094</td>
+            </tr>
+            <tr>
+              <td>/21</td>
+              <td>255.255.248.0</td>
+              <td>2,046</td>
+            </tr>
+            <tr>
+              <td>/22</td>
+              <td>255.255.252.0</td>
+              <td>1,022</td>
+            </tr>
+            <tr>
+              <td>/23</td>
+              <td>255.255.254.0</td>
+              <td>510</td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>Class C</strong></td>
+            </tr>
+            <tr>
+              <td>/24</td>
+              <td>255.255.255.0</td>
+              <td>254</td>
+            </tr>
+            <tr>
+              <td>/25</td>
+              <td>255.255.255.128</td>
+              <td>126</td>
+            </tr>
+            <tr>
+              <td>/26</td>
+              <td>255.255.255.192</td>
+              <td>62</td>
+            </tr>
+            <tr>
+              <td>/27</td>
+              <td>255.255.255.224</td>
+              <td>30</td>
+            </tr>
+            <tr>
+              <td>/28</td>
+              <td>255.255.255.240</td>
+              <td>14</td>
+            </tr>
+            <tr>
+              <td>/29</td>
+              <td>255.255.255.248</td>
+              <td>6</td>
+            </tr>
+            <tr>
+              <td>/30</td>
+              <td>255.255.255.252</td>
+              <td>2</td>
+            </tr>
+            <tr>
+              <td>/31</td>
+              <td>255.255.255.254</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>/32</td>
+              <td>255.255.255.255</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tools Tab -->
+    <div id="admin-tab" class="tab-content">
+      <!-- Bandwidth Calculator -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <h3>Bandwidth Calculator</h3>
+        <p style="color: var(--muted-foreground); margin-bottom: 1rem;">
+          Calculate transfer times and bandwidth conversions
+        </p>
+
+        <div class="form-group">
+          <label>Bandwidth</label>
+          <div class="input-wrapper">
+            <input type="number" id="bandwidth" placeholder="100" />
+            <select id="bandwidthUnit">
+              <option value="Gbps">Gbps</option>
+              <option value="Mbps" selected>Mbps</option>
+              <option value="Kbps">Kbps</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>File Size</label>
+          <div class="input-wrapper">
+            <input type="number" id="fileSize" placeholder="100" />
+            <select id="fileSizeUnit">
+              <option value="GB">GB</option>
+              <option value="MB">MB</option>
+              <option value="KB">KB</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="calcBandwidth" class="btn">Calculate</button>
+        <div id="bandwidthResults" class="results"></div>
+      </div>
+
+      <!-- Subnet Overlap Checker -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <h3>Subnet Overlap Checker</h3>
+        <p style="color: var(--muted-foreground); margin-bottom: 1rem;">
+          Check if two subnets overlap (useful for VPN planning, mergers, VLAN design)
+        </p>
+
+        <div class="form-group">
+          <label>Network 1 (CIDR)</label>
+          <input type="text" id="overlapNetwork1" placeholder="e.g., 192.168.1.0/24" />
+        </div>
+
+        <div class="form-group">
+          <label>Network 2 (CIDR)</label>
+          <input type="text" id="overlapNetwork2" placeholder="e.g., 192.168.2.0/24" />
+        </div>
+
+        <button id="checkOverlap" class="btn">Check Overlap</button>
+        <div id="overlapResults" class="results"></div>
+      </div>
+
+      <!-- Route Summarization Calculator -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <h3>Route Summarization Calculator</h3>
+        <p style="color: var(--muted-foreground); margin-bottom: 1rem;">
+          Aggregate multiple networks into a single summary route (for OSPF/BGP)
+        </p>
+
+        <div id="summaryInputs">
+          <div class="summary-row">
+            <input type="text" class="summary-network" placeholder="e.g., 10.1.1.0/24" />
+            <button class="btn-icon btn-remove">×</button>
+          </div>
+        </div>
+
+        <button id="addSummaryNetwork" class="btn-secondary" style="margin-bottom: 1rem;">+ Add Network</button>
+        <button id="calcSummary" class="btn">Calculate Summary Route</button>
+        <div id="summaryResults" class="results"></div>
+      </div>
+
+      <!-- MAC Address Converter -->
+      <div class="card" style="margin-bottom: 2rem;">
+        <h3>MAC Address Converter</h3>
+        <p style="color: var(--muted-foreground); margin-bottom: 1rem;">
+          Convert between different MAC address formats
+        </p>
+
+        <div class="form-group">
+          <label>MAC Address (any format)</label>
+          <input type="text" id="macInput" placeholder="e.g., AA:BB:CC:DD:EE:FF or aabb.ccdd.eeff" />
+        </div>
+
+        <button id="convertMAC" class="btn">Convert</button>
+        <div id="macResults" class="results"></div>
+      </div>
+
+      <!-- IP Address Planner -->
+      <div class="card">
+        <h3>IP Address Planner</h3>
+        <p style="color: var(--muted-foreground); margin-bottom: 1rem;">
+          Divide a subnet into logical allocation zones
+        </p>
+
+        <div class="form-group">
+          <label>Subnet (CIDR)</label>
+          <input type="text" id="plannerSubnet" placeholder="e.g., 192.168.1.0/24" />
+        </div>
+
+        <button id="planIPs" class="btn">Generate Plan</button>
+        <div id="plannerResults" class="results"></div>
+      </div>
+    </div>
+
+    <!-- About Tab -->
+    <div id="about-tab" class="tab-content">
+      <div style="text-align:center; padding:2rem 1rem;">
+        <div style="font-size:3rem; margin-bottom:1rem;">🌐</div>
+        <h2 style="margin-bottom:0.5rem; color:var(--primary);">IP Subnet Calculator</h2>
+        <p style="color:var(--muted-foreground); margin-bottom:2rem;">Ultimate Network Planning Tool</p>
+
+        <div
+          style="background:var(--card); border:1px solid var(--border); border-radius:12px; padding:2rem; max-width:400px; margin:0 auto;">
+          <div
+            style="width:80px; height:80px; background:linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center;">
+            <span style="font-size:2rem; color:white;">FG</span>
+          </div>
+
+          <h3 style="margin-bottom:0.25rem;">Faruk Guler</h3>
+          <p style="color:var(--muted-foreground); font-size:0.9rem; margin-bottom:1.5rem;">SysAdmin & Author</p>
+
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <a href="https://farukguler.com" target="_blank"
+              style="display:flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.75rem 1rem; background:var(--secondary); border-radius:8px; color:var(--foreground); text-decoration:none; transition:all 0.2s;">
+              🌍 farukguler.com
+            </a>
+            <a href="https://github.com/faruk-guler" target="_blank"
+              style="display:flex; align-items:center; justify-content:center; gap:0.5rem; padding:0.75rem 1rem; background:var(--secondary); border-radius:8px; color:var(--foreground); text-decoration:none; transition:all 0.2s;">
+              <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                </path>
+              </svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <p style="margin-top:2rem; font-size:0.85rem; color:var(--muted-foreground);">
+          Built with ❤️ for Network Engineers
+        </p>
+        <p style="font-size:0.75rem; color:var(--muted-foreground);">
+          Version 3.4 | © 2025
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="animation.js"></script>
 </body>
+
 </html>
