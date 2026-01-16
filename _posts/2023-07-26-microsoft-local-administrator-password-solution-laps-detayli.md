@@ -430,7 +430,7 @@ categories: [Windows OS]
 <pre class="wp-block-preformatted"><strong>Import-Module AdmPwd.PS
 Get-AdmPwdPassword -ComputerName MUHASEBE-03
 
-Get-AdmpwdPassword -ComputerName  * #All Computers</strong></pre>
+Get-ADComputer -Filter * | Get-AdmpwdPassword # All Computers</strong></pre>
 <!-- /wp:preformatted -->
 
 <!-- wp:image {"id":8002,"sizeSlug":"large","linkDestination":"none"} -->
