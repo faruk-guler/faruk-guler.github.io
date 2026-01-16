@@ -22,7 +22,7 @@ Linux’ta firewall mekanizması çekirdek (kernel) seviyesinde çalışan Netfi
 
 Güvenlikte altın kural **"Derinlemesine Savunma" (Defense in Depth)** ilkesidir. Tek bir koruma katmanına güvenmek modern mimaride intihardır. Güvenlik, **Ağ** ve **Sunucu** seviyesinde iki aşamalı olmalıdır.
 
-## A. 🏢 Donanım Firewall:
+## a. 🏢 Donanım Firewall:
 
 *(Örn: Fortinet, Palo Alto, Cisco)*
 
@@ -36,7 +36,7 @@ Donanımsal firewall, sunuculara yüklenen bir program değil, **kablo takılan 
 - **✅ Geniş Görüş Açısı:** Tüm binanın (Veri Merkezi) trafiğini görür, IPS/IDS ile imza tabanlı saldırıları durdurur.
 - **❌ İçeriye Kör:** Bir saldırgan kapıdan girdikten sonra (veya içeriden biri) daireler arası gezerken (**Lateral Movement**) donanım firewall bunu göremez.
 
-## B. 🐧 (Host) Firewall:
+## b. 🐧 (Host) Firewall:
 
 *(Örn: Netfilter, Iptables, Nftables)*
 
