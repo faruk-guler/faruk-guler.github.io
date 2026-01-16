@@ -563,3 +563,4 @@ ufw reset
 ```
 
 **Yazar:** [github/faruk-guler](https://github.com/faruk-guler)
+Saygılarımla – Best regards.
