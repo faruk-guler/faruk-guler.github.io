@@ -2,7 +2,7 @@
 layout: post
 title: Linux Firewall’ı detaylı inceliyorum
 date: 2026-01-12 21:47
-author: theguler
+author: faruk-guler
 comments: true
 categories: [Linux / Unix]
 ---
@@ -148,7 +148,6 @@ Paketin **gönderen (source)** IP adresini değiştirmek için kullanılır.
 
 ```bash
 iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 203.0.113.5
-
 ```
 
 ---
@@ -167,7 +166,6 @@ SNAT'ın özel ve dinamik bir türüdür.
 
 ```bash
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-
 ```
 
 ---
@@ -189,7 +187,6 @@ iptables -t nat -A PREROUTING -p tcp --dport 8080 -j DNAT --to-destination 192.1
 
 # 2. Kural: Trafiğin geçmesine izin ver (FORWARD zinciri kuralı)
 iptables -A FORWARD -p tcp -d 192.168.1.50 --dport 80 -j ACCEPT
-
 ```
 ### D. REDIRECT (Yerel Yönlendirme)
 
@@ -278,7 +275,6 @@ Docker trafiğini filtrelemek için kurallarınızı `INPUT` değil, **`DOCKER-U
 ```bash
 # ÖRNEK: Tüm Docker konteynerlerine dışarıdan erişimi kapat, sadece yerel ağa (192.168.1.0/24) izin ver.
 iptables -I DOCKER-USER -i eth0 ! -s 192.168.1.0/24 -j DROP
-
 ```
 
 > ⚠️
@@ -344,7 +340,6 @@ sysctl -w net.ipv4.ip_forward=1
 
 # Kalıcı yapmak için (/etc/sysctl.conf):
 net.ipv4.ip_forward = 1
-
 ```
 
 ### B. Trafik Kontrolü (FORWARD Zinciri)
@@ -368,7 +363,6 @@ iptables -A FORWARD -i eth0 -o eth1 -m conntrack --ctstate ESTABLISHED,RELATED -
 
 # Kural dışı kalan her şeyi DROP et
 iptables -A FORWARD -i eth0 -o eth1 -j DROP
-
 ```
 
 > [!TIP]
