@@ -18,11 +18,11 @@ Amacı:
 - Ağ trafiğini denetlemek ve loglamaktır.
 Linux’ta firewall mekanizması çekirdek (kernel) seviyesinde çalışan Netfilter altyapısıdır. Yani kullanıcı alanı (user space) değil, işletim sisteminin en temel katmanında çalışır.
 
-# 1. 🏗️ Mimari: Donanım (Network) vs Yazılım (Host) Firewall
+## 1. 🏗️ Mimari: Donanım (Network) vs Yazılım (Host) Firewall
 
 Güvenlikte altın kural **"Derinlemesine Savunma" (Defense in Depth)** ilkesidir. Tek bir koruma katmanına güvenmek modern mimaride intihardır. Güvenlik, **Ağ** ve **Sunucu** seviyesinde iki aşamalı olmalıdır.
 
-## 1. 🏢 Donanım Firewall:
+## A. 🏢 Donanım Firewall:
 
 *(Örn: Fortinet, Palo Alto, Cisco)*
 
@@ -36,7 +36,7 @@ Donanımsal firewall, sunuculara yüklenen bir program değil, **kablo takılan 
 - **✅ Geniş Görüş Açısı:** Tüm binanın (Veri Merkezi) trafiğini görür, IPS/IDS ile imza tabanlı saldırıları durdurur.
 - **❌ İçeriye Kör:** Bir saldırgan kapıdan girdikten sonra (veya içeriden biri) daireler arası gezerken (**Lateral Movement**) donanım firewall bunu göremez.
 
-## 2. 🐧 (Host) Firewall:
+## B. 🐧 (Host) Firewall:
 
 *(Örn: Netfilter, Iptables, Nftables)*
 
@@ -45,7 +45,7 @@ Donanımsal firewall, sunuculara yüklenen bir program değil, **kablo takılan 
 - ✅ **Konteyner Uyumu:** Docker/Kubernetes gibi dinamik ortamların ağ trafiğini yönetebilir.
 
 
-## 🟢 Default Policy **Whitelist (Her şeyi yasakla!)**
+## 2. 🟢 Default Policy **Whitelist (Her şeyi yasakla!)**
 (İzin Verilen Liste) - Temel Firewall mantığı budur ama bu aşağıdaki alan sadece `iptables` komutlarına odaklıdır.
 
 ```bash
@@ -67,7 +67,7 @@ ip6tables -P FORWARD DROP
 > Default policy'yi DROP yapmadan önce kritik kuralları (ssh etc.) eklemeyi unutmayın, yoksa sunucuya erişimi kaybedersiniz.!
 > Sıralama önemlidir: Kurallar yukarıdan aşağıya işlenir, ilk eşleşen kural kazanır
 
-# 2. 🚦 Trafikte yönünü bul (IN / OUT / FORWARD)
+## 3. 🚦 Trafikte yönünü bul (IN / OUT / FORWARD)
 Linux firewall’da IN/OUT gibi soyut bir yön kavramı yoktur.
 Bir paketin hangi yönde olduğu, **yazıldığı zincir (INPUT, OUTPUT, FORWARD) ile belirlenir**.
 
@@ -78,38 +78,38 @@ Bir paketin hangi yönde olduğu, **yazıldığı zincir (INPUT, OUTPUT, FORWARD
 > ⚠️
 > Bir kuralın hangi trafiği kontrol ettiğini belirleyen en temel unsur yazıldığı (INPUT, OUTPUT, FORWARD) Zincir'dir. Zincir, paketin yönünü tanımlar
 
-# Netfilter, Iptables ve Ötesi
+## Netfilter, Iptables ve Ötesi
 
 Linux'ta güvenlik duvarı (firewall), aslında bir "yazılım" değil, Linux çekirdeğinin (Kernel) ağ yığınına gömülü bir çerçevedir (framework). Bu çerçevenin adı Netfilter'dır. Kullandığımız `iptables`, `nftables`, `ufw` veya `firewalld` gibi araçlar, sadece bu çekirdek modülüyle konuşmamızı sağlayan arayüzlerdir.
 
 ---
 
-# 3. Temel Mimari: Netfilter ve Packet Flow (Paket Akışı)
+## 4. Temel Mimari: Netfilter ve Packet Flow (Paket Akışı)
 
 Bir Linux sunucusuna bir ağ paketi geldiğinde, rastgele hareket etmez. Belirli kontrol noktalarından (Hooks) geçer. Bu akışı anlamak, sorunu çözmenin %90'ıdır.
 
 ### Netfilter Hook  “Kanca” Noktaları (Paketin Yolculuğu)
 
 Bir paket ağ kartından (eth0) içeri girdiğinde şu sırayı izler: 
-1. **PREROUTING (Ön Yönlendirme):** Paket sisteme girer girmez buraya uğrar. Henüz yönlendirme kararı (routing decision) verilmemiştir.
+a. **PREROUTING (Ön Yönlendirme):** Paket sisteme girer girmez buraya uğrar. Henüz yönlendirme kararı (routing decision) verilmemiştir.
     * *Kullanım:* Genelde DNAT (Port yönlendirme) burada yapılır. "Bu paket bana mı geldi, başkasına mı gidecek?" sorusu henüz sorulmamıştır.
 
-2. **Routing Decision (Yönlendirme Kararı):** Çekirdek paketin hedef IP'sine bakar.
+b. **Routing Decision (Yönlendirme Kararı):** Çekirdek paketin hedef IP'sine bakar.
     * Hedef *bu sunucu* ise -> Adım 3'e (INPUT) gider.
     * Hedef *başka bir yer* ise (Router gibi davranıyorsa) -> Adım 4'e (FORWARD) gider.
 
-3. **INPUT (Giriş):** Paket doğrudan bu sunucudaki bir sürece (örn: Nginx, SSH) geliyorsa buraya girer.
+c. **INPUT (Giriş):** Paket doğrudan bu sunucudaki bir sürece (örn: Nginx, SSH) geliyorsa buraya girer.
     * *Kullanım:* Sunucuyu koruyan ana kurallar buraya yazılır (Port 80'i aç, 22'yi kısıtla vb.).
 
-4. **FORWARD (İletme):** Paket bu sunucuya gelmedi, bu sunucu üzerinden başka bir yere (örn: VPN arkasındaki bir makineye veya Docker konteynerine) gidiyor.
+d. **FORWARD (İletme):** Paket bu sunucuya gelmedi, bu sunucu üzerinden başka bir yere (örn: VPN arkasındaki bir makineye veya Docker konteynerine) gidiyor.
     * *Kullanım:* Router, Gateway veya Docker köprüleri için filtreleme burada yapılır.
 
-5. **OUTPUT (Çıkış):** Bu sunucunun kendisi (local process) bir paket oluşturup dışarı göndermek istiyorsa (örn: `curl google.com`), paket buradan başlar.
+e. **OUTPUT (Çıkış):** Bu sunucunun kendisi (local process) bir paket oluşturup dışarı göndermek istiyorsa (örn: `curl google.com`), paket buradan başlar.
 
-6. **POSTROUTING (Son Yönlendirme):** Paket (ister içeriden, ister dışarıdan gelsin) sunucuyu terk etmeden önceki son çıkış kapısıdır.
+f. **POSTROUTING (Son Yönlendirme):** Paket (ister içeriden, ister dışarıdan gelsin) sunucuyu terk etmeden önceki son çıkış kapısıdır.
     * *Kullanım:* Genelde SNAT veya Masquerading (İnternet paylaşımı) burada yapılır.
 
-# 4. Stateful Inspection -(conntrack) (Durum Denetimi) Nedir?
+## 5. Stateful Inspection -(conntrack) (Durum Denetimi) Nedir?
 
 Eski firewall'lar "Stateless" (Durumsuz) idi. Yani giden paketi bilirdi ama dönen cevabın o pakete ait olduğunu bilmezdi. Linux Netfilter Stateful'dur. Yani bağlantıları takip eder (Conntrack).
 
@@ -131,7 +131,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 sysctl -w net.netfilter.nf_conntrack_tcp_timeout_established=600   # saniye
 ```
 
-# 5. NAT Nedir?
+## 6. NAT Nedir?
 
 NAT, paketlerin üzerindeki "Gönderen" (Source) veya "Alıcı" (Destination) IP adreslerini değiştirme sanatıdır. Linux'ta bu işlem nat tablosunda yapılır.
 
@@ -205,7 +205,7 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 3128
 
 ---
 
-# 6. 🚧 Tablolar ve Öncelik Sırası (Tables Priority)
+## 7. 🚧 Tablolar ve Öncelik Sırası (Tables Priority)
 
 Netfilter sadece zincirlerden ibaret değildir; zincirler **tablolar** (tables) içinde organize edilir. Her tablo belirli bir amaç için kullanılır ve paketler **hook** noktalarında (PREROUTING, INPUT, FORWARD, OUTPUT, POSTROUTING) belirli bir **sırayla** tabloları dolaşır.
 
@@ -233,7 +233,7 @@ Netfilter sadece zincirlerden ibaret değildir; zincirler **tablolar** (tables) 
   
 > Sıralama: Bir paket geldiğinde işlem sırası şöyledir: RAW → MANGLE → NAT (PREROUTING) → ROUTING → FILTER (INPUT)
 
-# 7. ⟳  Loopback (lo) Arayüzü (Localhost)
+## 8. ⟳  Loopback (lo) Arayüzü (Localhost)
 Loopback (lo arayüzü), sunucunun kendi kendine konuşmasıdır (127.0.0.1). Sistem içindeki process’lerin (systemd-resolved, cups, docker, veritabanları, web uygulamaları vb.) kendi aralarında iletişim kurmasını sağlar. Fiziksel ağ donanımına bağlı değildir; tüm trafiği çekirdek içinde döner. Kapatılırsa Sistem servisleri birbirine ulaşamaz, hatalar oluşur, sistem kilitlenebilir.
 
 > ⚠️
@@ -260,7 +260,7 @@ iptables -A OUTPUT ! -o lo -s 127.0.0.0/8 -j DROP
 ip6tables -A INPUT -i lo -j ACCEPT
 ip6tables -A OUTPUT -o lo -j ACCEPT
 ```
-# 8. 🐳 Docker ve Firewall (Bypass Riski)
+## 9. 🐳 Docker ve Firewall (Bypass Riski)
 
 Docker, ağ trafiğini yönetmek için iptables kurallarını manipüle eder. Trafiği `PREROUTING` aşamasında yakalayıp doğrudan `FORWARD` zincirine yönlendirir.
 
@@ -280,7 +280,7 @@ iptables -I DOCKER-USER -i eth0 ! -s 192.168.1.0/24 -j DROP
 > ⚠️
 > `Bypass` sorunu mimari gereği genellikle sadece Docker Daemon (rootful) için geçerlidir. Podman, Containerd vb. varsayılan olarak `INPUT` kurallarına daha sadıktır.
 
-# 9. 💾 Kalıcılık (Persistence) - Kuralları Tutun
+## 10. 💾 Kalıcılık (Persistence) - Kuralları Tutun
 
 Linux çekirdeğinde (**Kernel**) güvenlik duvarı kuralları **RAM (Geçici Bellek)** üzerinde çalışır. Bu, performansı maksimize eder ancak büyük bir risk taşır: **Sunucu yeniden başlatıldığında (reboot) veya elektrik kesildiğinde tüm kurallar silinir!**
 
@@ -295,7 +295,7 @@ Linux dünyasında kullandığınız araca göre kalıcılık davranışı deği
 | **UFW** | ✅ **EVET** | Kural eklediğiniz anda sistem arka planda kuralları diske yazar. Reboot sonrası hatırlar. |
 | **Firewalld** | ⚠️ **KISMEN** | Kural eklerken `--permanent` parametresini kullanmazsanız kurallar geçicidir (Runtime). Kalıcı olması için parametre şarttır ve sonrasında `firewall-cmd --reload` gerekir. |
 
-# 10. 👻 Görünmez Tehlike: IPv6 (Arka Kapı)
+## 11. 👻 Görünmez Tehlike: IPv6 (Arka Kapı)
 
 Günümüzde modern Linux dağıtımları (Debian 13, Alma 10, Ubuntu 22.04+ vb.) varsayılan olarak **Dual Stack** (Çift Yığın) mimarisiyle gelir. Yani sistemde hem IPv4 hem de IPv6 aktiftir.
 
@@ -326,7 +326,7 @@ net.ipv6.conf.default.disable_ipv6 = 1
 
 IPv6 trafiğini de aynı titizlikle yapılandırmak için `ip6tables` komutunu kullanın. Kurallar iptables ile aynı syntax'a sahiptir.
 
-# 11. 🌐 Çoklu Ağ Kartları (Multi-NIC)
+## 12. 🌐 Çoklu Ağ Kartları (Multi-NIC)
 
 Eğer sunucunuzda birden fazla ağ kartı varsa (Örn: `eth0` WAN, `eth1` LAN), Linux bir **Router** gibi davranabilir. Bu durumda trafiği yönetmek için **Hangi karttan girip, hangi karttan çıktığına** bakmalısınız.
 
@@ -372,7 +372,7 @@ iptables -A FORWARD -i eth0 -o eth1 -j DROP
 > **rp_filter (Anti-Spoofing):** Çoklu kartlarda "IP Spoofing" riskini önlemek için `rp_filter` (Reverse Path Filter) ayarının açık olduğundan emin olun.
 
 ---
-# 12. 💡 Bağlam Dışına Çık! Cockpit GUI ile Firewald üzerinde (Zone)
+## 13. 💡 Bağlam Dışına Çık! Cockpit GUI ile Firewald üzerinde (Zone)
 
 Firewalld, klasik **iptables zincirlerinden** farklı olarak **Zone (Bölge)** tabanlı bir güvenlik modeli kullanır.  
 Bu model, ağ arayüzlerini (`eth0`, `eth1`, `wlan0` vb.) **güvendiğiniz veya güvenmediğiniz** bölgelere atamanızı sağlar.
@@ -421,7 +421,7 @@ Terminal komutlarıyla (`firewall-cmd`) uğraşmak yerine **Cockpit Web Konsolu*
 > **Interface Kuralı:** Bir ağ kartı (interface) aynı anda sadece bir zone'a üye olabilir. Ancak bir Zone, birden fazla interface'i kapsayabilir.
 
 
-# 13. 🛡️ Saldırı Önleme ve "Hardening" (Sertleştirme)
+## 14. 🛡️ Saldırı Önleme ve "Hardening" (Sertleştirme)
 
 Sadece portları açıp kapatmak yeterli değildir. Gerçek bir güvenlik duvarı, anormal paketleri ve saldırı girişimlerini de filtrelemelidir. Bu bölümde modern Linux çekirdeğinin standardı olan **Nftables** kullanılacaktır.
 
@@ -485,7 +485,7 @@ nft add rule inet filter input tcp dport 22 ct state new drop
 > 💡
 > **Meter Nedir?**: Nftables'ın dinamik IP izleme özelliğidir. Her kaynak IP için ayrı sayaç tutar ve dakikada 10 bağlantıyı geçenleri otomatik bloklar. Fail2Ban gibi harici araca gerek kalmaz.
 
-# 14. 🧾 Loglama: (Gözler ve Kulaklar)
+## 15. 🧾 Loglama: (Gözler ve Kulaklar)
 Linux firewall loglama, güvenlik duvarı kurallarının işlediği paketlerin kaydını tutma işlemidir. Amaç, ağ trafiğini izlemek, hatalı kuralları tespit etmek ve güvenlik olaylarını analiz etmektir.
 
 > ⚠️
@@ -499,7 +499,7 @@ Linux firewall loglama, güvenlik duvarı kurallarının işlediği paketlerin k
 - journalctl -k
 ```
 
-# 15. 🕷️ Debug ve Troubleshooting
+## 16. 🕷️ Debug ve Troubleshooting
 Firewall kuralları bazen beklenmedik şekilde çalışabilir: erişim kaybı, yanlış yönlendirme, performans düşüşü… Bu durumda sistematik bir debug yaklaşımı gerekir.
 
 ```bash
@@ -510,7 +510,7 @@ nft monitor trace
 bpftrace -e 'k:nf_hook_slow{@++;}i:s:1{printf("%d\n",@);clear(@);}'
 ```
 
-# 16. 🚨 Acil Durum: Fabrika Ayarlarına Dönüş
+## 17. 🚨 Acil Durum: Fabrika Ayarlarına Dönüş
 
 Firewall kurallarında hata yaptınız ve sunucuya erişimi kaybettiniz mi? Ya da baştan başlamak mı istiyorsunuz? Bu bölüm hayat kurtarıcınızdır.
 
