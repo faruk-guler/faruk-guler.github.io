@@ -365,10 +365,10 @@ iptables -A FORWARD -i eth0 -o eth1 -m conntrack --ctstate ESTABLISHED,RELATED -
 iptables -A FORWARD -i eth0 -o eth1 -j DROP
 ```
 
-> [!TIP]
+> ⚠️
 > **Router Modu:** Sunucunun tam bir router gibi çalışması için genellikle **NAT (Masquerade)** işleminin de yapılması gerekir (Bkz: Bölüm 3-B).
 
-> [!TIP]
+> ⚠️
 > **rp_filter (Anti-Spoofing):** Çoklu kartlarda "IP Spoofing" riskini önlemek için `rp_filter` (Reverse Path Filter) ayarının açık olduğundan emin olun.
 
 ---
@@ -412,7 +412,7 @@ Terminal komutlarıyla (`firewall-cmd`) uğraşmak yerine **Cockpit Web Konsolu*
 2.  **Active Zones** kısmında hangi arayüzün (örn: `eth0`) hangi Zone'a bağlı olduğunu görürsünüz.
 3.  **Add Services** butonuna tıkladığınızda, kuralı **hangi Zone için** eklediğinize dikkat edin.
 
-> [!TIP]
+> 💡
 > **Hangi Zone'dayım?**
 > Terminalden hızlıca aktif bölge ve arayüz eşleşmesini görmek için:
 > `firewall-cmd --get-active-zones`
@@ -482,7 +482,7 @@ nft add rule inet filter input tcp dport 22 ct state new \
 nft add rule inet filter input tcp dport 22 ct state new drop
 ```
 
-> [!TIP]
+> 💡
 > **Meter Nedir?**: Nftables'ın dinamik IP izleme özelliğidir. Her kaynak IP için ayrı sayaç tutar ve dakikada 10 bağlantıyı geçenleri otomatik bloklar. Fail2Ban gibi harici araca gerek kalmaz.
 
 # 14. 🧾 Loglama: (Gözler ve Kulaklar)
