@@ -63,7 +63,7 @@ ip6tables -P FORWARD DROP
 - **Güvenli:** Sadece açıkça izin verilenler geçer
 - **Önerilen:** Üretim sunucuları için
 
-> [⚠️]
+> ⚠️
 > Default policy'yi DROP yapmadan önce kritik kuralları (ssh etc.) eklemeyi unutmayın, yoksa sunucuya erişimi kaybedersiniz.!
 > Sıralama önemlidir: Kurallar yukarıdan aşağıya işlenir, ilk eşleşen kural kazanır
 
