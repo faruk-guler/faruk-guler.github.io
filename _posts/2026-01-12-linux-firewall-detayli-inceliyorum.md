@@ -78,7 +78,7 @@ Bir paketin hangi yönde olduğu, **yazıldığı zincir (INPUT, OUTPUT, FORWARD
 > ⚠️
 > Bir kuralın hangi trafiği kontrol ettiğini belirleyen en temel unsur yazıldığı (INPUT, OUTPUT, FORWARD) Zincir'dir. Zincir, paketin yönünü tanımlar
 
-## Netfilter, Iptables ve Ötesi
+### Netfilter, Iptables ve Ötesi
 
 Linux'ta güvenlik duvarı (firewall), aslında bir "yazılım" değil, Linux çekirdeğinin (Kernel) ağ yığınına gömülü bir çerçevedir (framework). Bu çerçevenin adı Netfilter'dır. Kullandığımız `iptables`, `nftables`, `ufw` veya `firewalld` gibi araçlar, sadece bu çekirdek modülüyle konuşmamızı sağlayan arayüzlerdir.
 
