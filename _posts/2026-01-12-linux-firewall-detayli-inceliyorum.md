@@ -75,7 +75,7 @@ Bir paketin hangi yönde olduğu, **yazıldığı zincir (INPUT, OUTPUT, FORWARD
 - **OUTPUT (OUT):** → giden trafik 
 - **FORWARD:** ↑ Bu makineye gelen ama bu makinede sonlanmayan başka bir hedefe yönlendirilen trafiktir.
 
-> [⚠️]
+> ⚠️
 > Bir kuralın hangi trafiği kontrol ettiğini belirleyen en temel unsur yazıldığı (INPUT, OUTPUT, FORWARD) Zincir'dir. Zincir, paketin yönünü tanımlar
 
 # Netfilter, Iptables ve Ötesi
@@ -239,7 +239,7 @@ Netfilter sadece zincirlerden ibaret değildir; zincirler **tablolar** (tables) 
 # 7. ⟳  Loopback (lo) Arayüzü (Localhost)
 Loopback (lo arayüzü), sunucunun kendi kendine konuşmasıdır (127.0.0.1). Sistem içindeki process’lerin (systemd-resolved, cups, docker, veritabanları, web uygulamaları vb.) kendi aralarında iletişim kurmasını sağlar. Fiziksel ağ donanımına bağlı değildir; tüm trafiği çekirdek içinde döner. Kapatılırsa Sistem servisleri birbirine ulaşamaz, hatalar oluşur, sistem kilitlenebilir.
 
-> [!WARNING]
+> ⚠️
 > Loopback her zaman açık olmalı, Loopback kuralları her zaman firewall kurallarının EN BAŞINDA olmalıdır!
 
 ### Loopback Önerilen Temel Sıralama ve Kural:
@@ -423,7 +423,7 @@ Terminal komutlarıyla (`firewall-cmd`) uğraşmak yerine **Cockpit Web Konsolu*
 > Terminalden hızlıca aktif bölge ve arayüz eşleşmesini görmek için:
 > `firewall-cmd --get-active-zones`
 
-> [!WARNING]
+> ⚠️
 > **Interface Kuralı:** Bir ağ kartı (interface) aynı anda sadece bir zone'a üye olabilir. Ancak bir Zone, birden fazla interface'i kapsayabilir.
 
 
@@ -494,14 +494,16 @@ nft add rule inet filter input tcp dport 22 ct state new drop
 # 14. 🧾 Loglama: (Gözler ve Kulaklar)
 Linux firewall loglama, güvenlik duvarı kurallarının işlediği paketlerin kaydını tutma işlemidir. Amaç, ağ trafiğini izlemek, hatalı kuralları tespit etmek ve güvenlik olaylarını analiz etmektir.
 
-> [!WARNING]
+> ⚠️
 > Loglama performans etkisi yaratır (özellikle yüksek trafik varsa), bu yüzden genelde sadece kritik paketler (DROP edilenler, NEW bağlantılar, şüpheli IP'ler) için kullanılması önerilir.
 
+```bash
 - Ubuntu/Debian: /var/log/syslog - /var/log/kern.log
 - RHEL/CentOS: /var/log/messages
 - dmesg | grep "SSH"
 - conntrack -L | grep SSH
 - journalctl -k
+```
 
 # 15. 🕷️ Debug ve Troubleshooting
 Firewall kuralları bazen beklenmedik şekilde çalışabilir: erişim kaybı, yanlış yönlendirme, performans düşüşü… Bu durumda sistematik bir debug yaklaşımı gerekir.
@@ -518,10 +520,10 @@ bpftrace -e 'k:nf_hook_slow{@++;}i:s:1{printf("%d\n",@);clear(@);}'
 
 Firewall kurallarında hata yaptınız ve sunucuya erişimi kaybettiniz mi? Ya da baştan başlamak mı istiyorsunuz? Bu bölüm hayat kurtarıcınızdır.
 
-> [!WARNING]
+> ⚠️
 > **Kritik Uyarı:** Bu işlemler sunucunuzu geçici olarak tamamen korumasız bırakır. Sadece güvenli bir ortamda (yerel ağ, fiziksel erişim) veya mutlaka gerektiğinde uygulayın!
 
-> [!WARNING]
+> ⚠️
 Bu işlemler sunucuya erişiminizi kesebilir. Lokal erişim veya KVM konsolu olmadan uzak sunucuda dikkatli kullanın!
 
 ```bash
