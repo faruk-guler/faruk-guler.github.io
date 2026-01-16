@@ -1,14 +1,12 @@
 ---
 layout: post
-title: Linux Firewall’ı detaylı inceliyorum
+title: Firewall Nedir? Linux Firewall’ı detaylı inceliyorum
 date: 2026-01-12 21:47
 by: faruk-guler
 comments: true
 categories: [Linux / Unix]
 ---
 ![Linux Firewall Logosu](https://farukguler.com/assets/post_images/linux-firewall-guide.png)
-
-## Firewall Nedir?
 Firewall (güvenlik duvarı), bir bilgisayar ağına veya sistemine gelen/çıkan ağ trafiğini önceden tanımlanmış kurallara göre denetleyen bir güvenlik mekanizmasıdır. 
 
 Amacı:
