@@ -63,7 +63,7 @@ ip6tables -P FORWARD DROP
 - **Güvenli:** Sadece açıkça izin verilenler geçer
 - **Önerilen:** Üretim sunucuları için
 
-> [!WARNING]
+> [⚠️]
 > Default policy'yi DROP yapmadan önce kritik kuralları (ssh etc.) eklemeyi unutmayın, yoksa sunucuya erişimi kaybedersiniz.!
 > Sıralama önemlidir: Kurallar yukarıdan aşağıya işlenir, ilk eşleşen kural kazanır
 
@@ -75,7 +75,7 @@ Bir paketin hangi yönde olduğu, **yazıldığı zincir (INPUT, OUTPUT, FORWARD
 - **OUTPUT (OUT):** → giden trafik 
 - **FORWARD:** ↑ Bu makineye gelen ama bu makinede sonlanmayan başka bir hedefe yönlendirilen trafiktir.
 
-> [!WARNING]
+> [⚠️]
 > Bir kuralın hangi trafiği kontrol ettiğini belirleyen en temel unsur yazıldığı (INPUT, OUTPUT, FORWARD) Zincir'dir. Zincir, paketin yönünü tanımlar
 
 # Netfilter, Iptables ve Ötesi
