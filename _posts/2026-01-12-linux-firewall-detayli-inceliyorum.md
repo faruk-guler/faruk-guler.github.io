@@ -282,7 +282,7 @@ iptables -I DOCKER-USER -i eth0 ! -s 192.168.1.0/24 -j DROP
 ```
 
 > ⚠️
-> ** Bypass ** sorunu mimari gereği genellikle sadece Docker Daemon (rootful) için geçerlidir. Podman, Containerd vb. varsayılan olarak `INPUT` kurallarına daha sadıktır.
+> `Bypass` sorunu mimari gereği genellikle sadece Docker Daemon (rootful) için geçerlidir. Podman, Containerd vb. varsayılan olarak `INPUT` kurallarına daha sadıktır.
 
 # 9. 💾 Kalıcılık (Persistence) - Kuralları Tutun
 
