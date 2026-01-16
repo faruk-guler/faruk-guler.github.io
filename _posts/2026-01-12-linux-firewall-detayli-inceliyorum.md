@@ -562,5 +562,4 @@ nft flush ruleset
 ufw reset
 ```
 
-**Yazar:** [github/faruk-guler](https://github.com/faruk-guler)  
-**Website:** [www.farukguler.com](https://www.farukguler.com)
+**Yazar:** [github/faruk-guler](https://github.com/faruk-guler)
