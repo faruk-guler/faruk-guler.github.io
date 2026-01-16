@@ -131,7 +131,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 sysctl -w net.netfilter.nf_conntrack_tcp_timeout_established=600   # saniye
 ```
 
-## 6. NAT Nedir?
+## 6. ➦ NAT Nedir?
 
 NAT, paketlerin üzerindeki "Gönderen" (Source) veya "Alıcı" (Destination) IP adreslerini değiştirme sanatıdır. Linux'ta bu işlem nat tablosunda yapılır.
 
