@@ -71,8 +71,8 @@ ip6tables -P FORWARD DROP
 Linux firewall’da IN/OUT gibi soyut bir yön kavramı yoktur.
 Bir paketin hangi yönde olduğu, **yazıldığı zincir (INPUT, OUTPUT, FORWARD) ile belirlenir**.
 
-- **INPUT (IN):** ← gelen trafik
-- **OUTPUT (OUT):** → giden trafik 
+- **INPUT (COMING):** ← gelen trafik
+- **OUTPUT (GOING):** → giden trafik 
 - **FORWARD:** ↑ Bu makineye gelen ama bu makinede sonlanmayan başka bir hedefe yönlendirilen trafiktir.
 
 > ⚠️
