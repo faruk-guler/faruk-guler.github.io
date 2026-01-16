@@ -1,10 +1,10 @@
 ---
 layout: post
 title: Linux Firewall’ı detaylı inceliyorum
-date: 2022-10-01 23:35
+date: 2026-01-12 21:47
 author: theguler
 comments: true
-categories: [Windows OS]
+categories: [Linux / Unix]
 ---
 
 # 🔥 Linux Firewall Master Guide:
