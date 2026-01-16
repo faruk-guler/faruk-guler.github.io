@@ -2,7 +2,7 @@
 layout: post
 title: Linux Firewall’ı detaylı inceliyorum
 date: 2026-01-12 21:47
-author: faruk-guler
+by: faruk-guler
 comments: true
 categories: [Linux / Unix]
 ---
