@@ -11,7 +11,7 @@ order: 2
 | <a href="https://farukguler.com/app/live-localhost/" target="_blank">Live Localhost</a> | <a href="https://farukguler.com/app/permissions-expert/" target="_blank">LPE-v1 Linux Permissions Expert</a> |
 | <a href="https://farukguler.com/app/diff/" target="_blank">Diff Checker</a> | <a href="https://farukguler.com/app/text-editor/" target="_blank">Advanced Text Editor</a> |
 | <a href="https://farukguler.com/app/random-pass-generator/" target="_blank">Advanced Password Generator</a> | <a href="https://farukguler.com/app/converter/" target="_blank">Byte Converter</a> |
-| <a href="https://farukguler.com/app/qr-generator/" target="_blank">QR Code Generator</a> | <a href="https://farukguler.com/app/ipv4-subnet-calculator/" target="_blank">IP Subnet Calculator Pro</a> |
+| <a href="https://farukguler.com/app/qr-generator/" target="_blank">QR Code Generator</a> | <a href="https://farukguler.com/app/ip-subnet-calculator/" target="_blank">IP Subnet Calculator Pro</a> |
 | <a href="https://farukguler.com/app/my-ip/" target="_blank">What Is My IP Address</a> | <a href="https://farukguler.com/app/tld-lookup/" target="_blank">Domain TLD Bulk Lookup</a> |
 | <a href="https://farukguler.com/app/reverse-ip/" target="_blank">Reverse IP Lookup</a> | <a href="https://farukguler.com/app/ssl-tls-checker/" target="_blank">SSL/TLS Checker</a> |
 | <a href="https://farukguler.com/app/speed-test/" target="_blank">NetSpeed Test</a> | <a href="https://farukguler.com/app/tiny-markdown-editor/" target="_blank">Tiny Markdown Editor</a> |
