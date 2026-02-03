@@ -17,7 +17,7 @@ categories: [Windows OS]
 2. [5N1K: CertUtil Nedir?](#2-5n1k-certutil-nedir)
 3. [Avantajlar ve Dezavantajlar](#3-avantajlar-ve-dezavantajlar)
 4. [Temel Komut Grupları](#4-temel-komut-grupları)
-5. [İleri Seviye Komutlar](#5-İleri-seviye-komutlar)
+5. [İleri Seviye Komutlar](#5-ileri-seviye-komutlar)
 6. [Kurumsal PKI Yönetimi](#6-kurumsal-pki-yönetimi)
 7. [Otomasyon ve Scripting](#7-otomasyon-ve-scripting)
 8. [Gerçek Hayat Senaryoları](#8-gerçek-hayat-senaryoları)
