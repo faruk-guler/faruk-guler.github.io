@@ -23,7 +23,7 @@ categories: [Windows OS]
 8. [Gerçek Hayat Senaryoları](#8-gerçek-hayat-senaryoları)
 9. [Sorun Giderme Karar Ağacı](#9-sorun-giderme-karar-ağacı)
 10. [Performans ve Optimizasyon](#10-performans-ve-optimizasyon)
-11. [Event Log ve İzleme](#11-event-log-ve-İzleme)
+11. [Event Log ve izleme](#11-event-log-ve-izleme)
 12. [Sık Yapılan Hatalar](#12-sık-yapılan-hatalar)
 13. [Karşılaştırma Tablosu](#13-karşılaştırma-tablosu)
 14. [Güvenlik ve Best Practices](#14-güvenlik-ve-best-practices)
