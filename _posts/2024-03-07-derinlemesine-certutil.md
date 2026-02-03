@@ -13,21 +13,35 @@ categories: [Windows OS]
 
 ## 📑 İçindekiler
 
-1. [Giriş ve Genel Bakış](#1-giriş-ve-genel-bakış)
-2. [5N1K: CertUtil Nedir?](#2-5n1k-certutil-nedir)
-3. [Avantajlar ve Dezavantajlar](#3-avantajlar-ve-dezavantajlar)
-4. [Temel Komut Grupları](#4-temel-komut-grupları)
-5. [İleri Seviye Komutlar](#5-ileri-seviye-komutlar)
-6. [Kurumsal PKI Yönetimi](#6-kurumsal-pki-yönetimi)
-7. [Otomasyon ve Scripting](#7-otomasyon-ve-scripting)
-8. [Gerçek Hayat Senaryoları](#8-gerçek-hayat-senaryoları)
-9. [Sorun Giderme Karar Ağacı](#9-sorun-giderme-karar-ağacı)
-10. [Performans ve Optimizasyon](#10-performans-ve-optimizasyon)
-11. [Event Log ve izleme](#11-event-log-ve-izleme)
-12. [Sık Yapılan Hatalar](#12-sık-yapılan-hatalar)
-13. [Karşılaştırma Tablosu](#13-karşılaştırma-tablosu)
-14. [Güvenlik ve Best Practices](#14-güvenlik-ve-best-practices)
-15. [Komut Referans Tablosu](#15-komut-referans-tablosu)
+[Giriş ve Genel Bakış](#1-giris-ve-genel-bakis)
+
+[5N1K: CertUtil Nedir?](#2-5n1k-certutil-nedir)
+
+[Avantajlar ve Dezavantajlar](#3-avantajlar-ve-dezavantajlar)
+
+[Temel Komut Grupları](#4-temel-komut-gruplari)
+
+[İleri Seviye Komutlar](#5-ileri-seviye-komutlar)
+
+[Kurumsal PKI Yönetimi](#6-kurumsal-pki-yonetimi)
+
+[Otomasyon ve Scripting](#7-otomasyon-ve-scripting)
+
+[Gerçek Hayat Senaryoları](#8-gercek-hayat-senaryolari)
+
+[Sorun Giderme Karar Ağacı](#9-sorun-giderme-karar-agaci)
+
+[Performans ve Optimizasyon](#10-performans-ve-optimizasyon)
+
+[Event Log ve İzleme](#11-event-log-ve-izleme)
+
+[Sık Yapılan Hatalar](#12-sik-yapilan-hatalar)
+
+[Karşılaştırma Tablosu](#13-karsilastirma-tablosu)
+
+[Güvenlik ve Best Practices](#14-guvenlik-ve-best-practices)
+
+[Komut Referans Tablosu](#15-komut-referans-tablosu)
 
 ---
 
