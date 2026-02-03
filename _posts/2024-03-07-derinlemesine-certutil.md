@@ -7,9 +7,7 @@ by: faruk-guler
 comments: true
 categories: [Windows OS]
 ---
-![CERT Logosu](https://farukguler.com/assets/post_images/verify_cert.PNG)
-
-# Derinlemesine CertUtil
+![CERT Logosu](https://farukguler.com/assets/post_images/cert-util-main.png)
 
 ## 1. Giriş ve Genel Bakış
 
@@ -995,4 +993,4 @@ certutil -verify -urlfetch yourcert.cer
 
 ---
 
-**Kaynak:** Tuğrul Kılıç (Medium) + Adam Bertram  <www.adamtheautomator.com>
+**Thnx:** Tuğrul Kılıç (Medium) - Adam Bertram www.adamtheautomator.com
