@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Derinlemesine CertUtil"
+title: "Derinlemesine CertUtil - In-depth CertUtil"
 date: 2024-03-02 09:34
 tag:
 by: faruk-guler
