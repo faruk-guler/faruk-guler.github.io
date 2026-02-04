@@ -288,3 +288,8 @@ mount /dev/rbd0 /mnt
 ```
 
 **Tebrikler!** Artık kendi kendine yeten, kendini iyileştirebilen (Self-healing), Enterprise seviyesinde bir depolama kümen var. Dashboard'a (`https://192.168.1.10:8443`) girip o meşhur Ceph grafiğini izleyebilirsiniz.
+
+### Sahara Projesi — CEPH Klasörü
+
+📁 **Tam  kapsamlı ürüme erişmek için:**  
+👉 [https://github.com/faruk-guler/Sahara/tree/main/CEPH](https://github.com/faruk-guler/Sahara/tree/main/CEPH)
