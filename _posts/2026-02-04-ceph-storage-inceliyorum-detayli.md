@@ -7,7 +7,7 @@ comments: true
 categories: [Storage]
 ---
 
-# 🐙 Ceph Storage Cluster: Uçtan Uca Kurulum Rehberi
+## Ceph Storage Cluster: Uçtan Uca Kurulum Rehberi
 
 Bu dokümanı, Ceph Reef (veya Quincy) sürümünü baz alarak, modern standart olan **cephadm (Containerized Deployment)** yöntemiyle hazırladım. Senin Docker ve Linux ağ bilgine güvenerek, sadece "kur geç" değil, "neden böyle yapıyoruz" detaylarına da gireceğim.
 
