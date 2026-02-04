@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "🐙 Ceph Storage Cluster Detaylı inceliyorum"
+title: "🐙 Ceph Storage Cluster Nedir? Detaylı inceliyorum"
 date: 2026-02-04 04:25
 by: faruk-guler
 comments: true
