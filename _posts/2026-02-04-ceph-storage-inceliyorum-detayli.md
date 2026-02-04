@@ -6,7 +6,7 @@ by: faruk-guler
 comments: true
 categories: [Storage]
 ---
-
+![Ceph Logosu](https://farukguler.com/assets/post_images/ceph-storage-clusters-ystems.webp)
 ## Ceph Storage Cluster: Uçtan Uca Kurulum Rehberi
 
 Bu dokümanı, Ceph Reef (veya Quincy) sürümünü baz alarak, modern standart olan **cephadm (Containerized Deployment)** yöntemiyle hazırladım. Senin Docker ve Linux ağ bilgine güvenerek, sadece "kur geç" değil, "neden böyle yapıyoruz" detaylarına da gireceğim.
