@@ -7,7 +7,7 @@ by: faruk-guler
 comments: true
 categories: [Windows OS]
 ---
-![CERT Logosu](https://farukguler.com/assets/post_images/cert-util-main.png)
+![CERT Logosu](https://farukguler.com/assets/post_images/cert-util.png)
 
 ## 1. Giriş ve Genel Bakış
 
