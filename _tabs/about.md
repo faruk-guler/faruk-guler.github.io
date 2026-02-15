@@ -52,7 +52,7 @@ Bloğumda paylaşılan çoğu konunun kaynağı temel araştırmalarım ve kendi
 - <span style="color:red">Paylaşımlarım tamamen açıktır. Kopyalanmasında ve Alıntı yapılmasında; **“Kaynak gösterilDİĞİ sürece”** hiçbir sakınca yoktur.</span> 
 
 **Saygılarımla**  
-©2010 – 2025 From Istanbul\Turkey
+©2010 – 2026 From Istanbul\Turkey
 
 ## Yazara Kahve Ismarla ☕
 Çalışmalarımı değerli buluyorsan bana bir kahve ısmarlayarak destek olabilirsin. 💕
