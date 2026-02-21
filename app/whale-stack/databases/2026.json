@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "21.02.2026 22:44",
+  "lastUpdated": "21/02/2026, 23:28",
   "assets": [
     {
       "id": "ETH",
@@ -8,8 +8,8 @@
       "category": "layer 1",
       "circulatingSupply": "121",
       "maxSupply": "121",
-      "lastEdit": "21.02.2026 22:44",
-      "risk": "High"
+      "lastEdit": "21/02/2026, 23:28",
+      "risk": "Mid"
     }
   ]
 }

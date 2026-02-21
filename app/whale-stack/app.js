@@ -6,6 +6,8 @@ let balanceChart = null;
 let isUpdating = false;
 let lastFileTimestamp = 0;
 let isSaving = false; // Flag to prevent self-triggering sync during app saves
+let isEditMode = false;
+let portfolioBackup = null;
 
 // DOM Elements
 const assetModal = document.getElementById('asset-modal');
@@ -174,15 +176,7 @@ window.showView = showView;
 
 window.onclick = (e) => { if (e.target == assetModal) assetModal.style.display = 'none'; };
 
-// --- Search Handler ---
-sidebarSearch.addEventListener('input', (e) => {
-    searchTerm = e.target.value.toLowerCase().trim();
-    updateUI();
-});
 
-// --- Persistence ---
-let isEditMode = false;
-let portfolioBackup = null;
 
 async function initDBPersistence() {
     const savedHandle = await getHandle();
@@ -495,7 +489,7 @@ function formatS(v) {
 }
 
 function formatDate(d) {
-    return d.toLocaleString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return d.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
 function updateAllocationList(l, v, total) {
