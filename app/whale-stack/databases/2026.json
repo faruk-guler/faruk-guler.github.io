@@ -1,0 +1,15 @@
+{
+  "lastUpdated": "21.02.2026 22:44",
+  "assets": [
+    {
+      "id": "ETH",
+      "amount": 100,
+      "cost": 2000,
+      "category": "layer 1",
+      "circulatingSupply": "121",
+      "maxSupply": "121",
+      "lastEdit": "21.02.2026 22:44",
+      "risk": "High"
+    }
+  ]
+}
