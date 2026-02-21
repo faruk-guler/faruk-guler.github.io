@@ -1,5 +1,5 @@
-// WhaleStack Standalone Script
-// Combined from data.js, ui.js, and app.js to support file:/// protocol
+// WhaleStack - Professional Asset Tracker System
+// Optimized for Standalone Performance
 
 // --- DATA MODULE ---
 const data = {
@@ -321,7 +321,7 @@ const ui = {
 
         assetsBody.innerHTML = rows;
         if (totalBalanceEl) totalBalanceEl.innerText = `$${totalVal.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
-        if (totalChangeEl) totalChangeEl.innerHTML = `<span class="percent" style="color:var(--text-muted); font-weight:400">Local Inventory View (Cost-based Val)</span>`;
+        if (totalChangeEl) totalChangeEl.innerHTML = `<span class="percent" style="color:var(--text-muted); font-weight:400; font-size:0.75rem;">Local Inventory View (Cost-based Val)</span>`;
 
         this.updateAllocationUI(chartLabels, chartValues, totalVal);
         return totalVal;
@@ -380,7 +380,7 @@ const ui = {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '75%',
+                    cutout: '60%',
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -427,6 +427,26 @@ const ui = {
 let isEditMode = false;
 let portfolioBackup = null;
 let draggedId = null;
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('whale-theme') || 'dark';
+    const iconEl = document.getElementById('theme-icon');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        if (iconEl) iconEl.src = 'images/moon_icon.png';
+    } else {
+        if (iconEl) iconEl.src = 'images/sun_icon.png';
+    }
+}
+
+function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-theme');
+    localStorage.setItem('whale-theme', isLight ? 'light' : 'dark');
+    const iconEl = document.getElementById('theme-icon');
+    if (iconEl) {
+        iconEl.src = isLight ? 'images/moon_icon.png' : 'images/sun_icon.png';
+    }
+}
 
 async function initApp() {
     try {
@@ -506,6 +526,18 @@ function setupEventListeners() {
             });
         }
     });
+
+    // Brand Logo Click -> Dashboard
+    const brandLogo = document.getElementById('brand-logo-area');
+    if (brandLogo) {
+        brandLogo.addEventListener('click', () => ui.showView('dashboard'));
+    }
+
+    // Theme Toggle
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', toggleTheme);
+    }
 
     if (elements.aboutNavBtn) {
         elements.aboutNavBtn.addEventListener('click', (e) => {
@@ -711,6 +743,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    initTheme();
     await initApp();
     setupEventListeners();
 
@@ -728,23 +761,90 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Live Prices Update (Every 10 seconds)
     fetchLivePrices();
     setInterval(fetchLivePrices, 10000);
+
+    // Initial Sentiment & Funding Fetch
+    fetchMarketSentiment();
+    fetchFundingRate();
+    setInterval(fetchFundingRate, 30000); // Funding usually changes slowly (every 8h but rate updates more often)
 });
+
+async function fetchFundingRate() {
+    try {
+        const response = await fetch('https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT');
+        const data = await response.json();
+        const rate = parseFloat(data.lastFundingRate);
+        const ratePct = (rate * 100).toFixed(4);
+        const nextTime = parseInt(data.nextFundingTime);
+
+        const el = document.getElementById('btc-funding');
+        const countdownEl = document.getElementById('funding-countdown');
+
+        if (el) {
+            el.innerText = `${ratePct > 0 ? '+' : ''}${ratePct}%`;
+            el.classList.remove('up', 'down');
+            el.classList.add(rate >= 0 ? 'up' : 'down');
+        }
+
+        if (countdownEl && nextTime) {
+            const now = Date.now();
+            const diff = nextTime - now;
+            if (diff > 0) {
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                countdownEl.innerText = `${hours}h ${mins}m left`;
+            } else {
+                countdownEl.innerText = "Settling...";
+            }
+        }
+    } catch (err) {
+        console.warn('Funding fetch failed');
+        const el = document.getElementById('btc-funding');
+        if (el) el.innerText = '---';
+    }
+}
+
+async function fetchMarketSentiment() {
+    try {
+        const response = await fetch('https://api.alternative.me/fng/');
+        const data = await response.json();
+        const fng = data.data[0];
+
+        const needle = document.getElementById('fng-needle');
+        const valueEl = document.getElementById('fng-value');
+        const labelEl = document.getElementById('fng-classification');
+
+        if (needle && valueEl && labelEl) {
+            const val = parseInt(fng.value);
+            // Map 0-100 to -90deg to +90deg
+            const rotation = (val * 1.8) - 0; // 0 is -90, 100 is 90
+            needle.style.transform = `rotate(${rotation - 90}deg)`;
+            valueEl.innerText = val;
+            labelEl.innerText = fng.value_classification;
+
+            // Dynamic Label Color
+            if (val < 40) labelEl.style.color = '#e74c3c';
+            else if (val < 60) labelEl.style.color = '#f1c40f';
+            else labelEl.style.color = '#2ecc71';
+        }
+    } catch (err) {
+        console.warn('Sentiment fetch failed');
+    }
+}
 
 async function fetchLivePrices() {
     // 1. Fetch Crypto (Binance)
-    const cryptoSymbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'];
+    const cryptoSymbols = ['BTCUSDT', 'ETHUSDT'];
     try {
         const response = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbols=${JSON.stringify(cryptoSymbols)}`);
         const bData = await response.json();
         bData.forEach(ticker => {
             let prefix = 'btc';
             if (ticker.symbol === 'ETHUSDT') prefix = 'eth';
-            if (ticker.symbol === 'SOLUSDT') prefix = 'sol';
             updateMarketRow(prefix, ticker.lastPrice, ticker.priceChangePercent, 'USD');
         });
     } catch (err) {
         console.warn('Crypto fetch failed');
-        ['btc', 'eth', 'sol'].forEach(id => setErrorRow(id));
+        ['btc', 'eth'].forEach(id => setErrorRow(id));
     }
 
     // 2. Fetch Gold (Gold-API)
@@ -779,6 +879,7 @@ async function fetchLivePrices() {
 
             updateMarketRow(index.id, price, change, 'USD');
         } catch (err) {
+            console.error(`Fetch failed for ${index.id}:`, err);
             setErrorRow(index.id);
         }
     });

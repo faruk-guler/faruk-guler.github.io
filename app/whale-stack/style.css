@@ -1,20 +1,30 @@
 :root {
     --bg-main: #020617;
-    /* Deep Sea Dark */
     --bg-sidebar: #0f172a;
-    --text-main: #1a1c23;
+    --text-main: #f1f5f9;
     --text-muted: #94a3b8;
     --primary: #00d1ff;
-    /* Whale Blue */
     --primary-glow: rgba(0, 209, 255, 0.4);
-    --hover: #f1f3f9;
+    --hover: rgba(255, 255, 255, 0.05);
     --border: rgba(51, 65, 85, 0.5);
+    --card-bg: #111827;
     --up: #00ca96;
     --down: #ff3b5e;
     --white: #ffffff;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --glass: rgba(15, 23, 42, 0.8);
-    --text: #f1f5f9;
+    --header-bg: #0f172a;
+}
+
+body.light-theme {
+    --bg-main: #f8fafc;
+    --bg-sidebar: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --primary: #0284c7;
+    --primary-glow: rgba(2, 132, 199, 0.2);
+    --hover: #f1f5f9;
+    --border: #e2e8f0;
+    --card-bg: #ffffff;
+    --header-bg: #ffffff;
 }
 
 * {
@@ -47,10 +57,17 @@ body {
 }
 
 .brand {
-    padding: 32px 24px;
+    padding: 30px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 15px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.brand:hover {
+    background: var(--hover);
 }
 
 .brand-logo-img {
@@ -129,15 +146,48 @@ body {
 
 .top-bar {
     height: 80px;
-    background: var(--bg-sidebar);
+    background: var(--header-bg);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    /* Added for toggle button */
     padding: 0 40px;
     position: sticky;
     top: 0;
     z-index: 10;
 }
+
+.theme-switch-btn {
+    background: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.theme-switch-btn img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.theme-switch-btn:hover img {
+    transform: scale(1.15);
+}
+
+body.light-theme .theme-switch-btn img {
+    filter: brightness(0.2);
+    /* Darken icon in light mode */
+}
+
+/* Removed old hover/theme specific styles for non-existent border */
 
 .status-info {
     display: flex;
@@ -234,18 +284,19 @@ body {
 }
 
 .card {
-    background: var(--white);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 32px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    color: var(--text-main);
 }
 
 .balance-main h2 {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
     font-weight: 800;
-    letter-spacing: -1.5px;
-    margin-bottom: 8px;
+    letter-spacing: -1.2px;
+    margin-bottom: 2px;
 }
 
 .change-info {
@@ -991,14 +1042,44 @@ table {
     grid-column: 1 / -1;
     display: flex;
     gap: 25px;
-    margin-bottom: 30px;
-    align-items: flex-start;
+    margin-bottom: 15px;
+    align-items: stretch;
 }
 
 .summary-card {
     flex: 1.4;
-    margin-bottom: 0 !important;
-    min-height: 400px;
+    min-height: 220px !important;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 32px !important;
+}
+
+.summary-flex-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    gap: 20px;
+}
+
+.balance-main {
+    flex: 1;
+}
+
+.chart-area {
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    position: relative;
+    min-height: 0;
+}
+
+#balanceChart {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 200px;
 }
 
 .live-market-panel {
@@ -1010,6 +1091,7 @@ table {
     flex-direction: column;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    min-height: 250px;
 }
 
 .panel-inner {
@@ -1044,7 +1126,9 @@ table {
     justify-content: space-between;
     align-items: center;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Reduced from 10-12px for compactness */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: background 0.2s;
 }
 
 .market-item:last-child {
@@ -1054,24 +1138,40 @@ table {
 .m-coin {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
-.m-icon {
+.coin-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.1rem;
-    width: 20px;
-    text-align: center;
+    font-weight: 800;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
-.m-icon-img {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
+.btc-bg {
+    background: #f7931a;
+    color: #fff;
 }
+
+.eth-bg {
+    background: #627eea;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+/* ETF Specific Icons */
+
+/* Ethereum ETF Generic */
 
 .m-name {
-    font-size: 0.85rem;
     font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
     color: #fff;
 }
 
@@ -1093,6 +1193,128 @@ table {
     font-size: 0.75rem;
     font-weight: 700;
     min-width: 55px;
+}
+
+/* Sentiment Widget Styles */
+.sentiment-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    gap: 15px;
+}
+
+.fng-gauge {
+    width: 200px;
+    height: 100px;
+    background: linear-gradient(to right, #e74c3c 0%, #f1c40f 50%, #2ecc71 100%);
+    border-radius: 100px 100px 0 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.fng-gauge::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 70px;
+    background: #1a1d23;
+    border-radius: 70px 70px 0 0;
+}
+
+.needle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    height: 80px;
+    background: #fff;
+    transform-origin: bottom center;
+    transform: rotate(-90deg);
+    /* 0 strength */
+    transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.gauge-labels {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    z-index: 3;
+}
+
+#fng-value {
+    font-size: 1.2rem;
+    color: #fff;
+    transform: translateY(-5px);
+}
+
+.sentiment-label {
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #ffd700;
+}
+
+/* Analytics Layout Simplification */
+.analytics-row {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.analytics-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Funding Widget V2 Adjustments */
+.funding-widget-v2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.funding-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 0.95rem;
+}
+
+.f-label {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.f-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+}
+
+.f-value.up {
+    color: #2ecc71;
+}
+
+.f-value.down {
+    color: #e74c3c;
 }
 
 .m-pct.up {
