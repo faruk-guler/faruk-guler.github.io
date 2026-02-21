@@ -20,3 +20,8 @@ order: 2
 | <a href="https://farukguler.com/app/open-draw/" target="_blank">OpenDraw WebUI</a> | <a href="https://farukguler.com/app/cronjob-planner/" target="_blank">Cronjob Planner</a> |
 
 ---
+|--------------------|--------------------|----------------------|
+|--------------------|--------------------|----------------------|
+| <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/" target="_blank">Portfolio Analyzer USD/TRY</a> | <a 
+
+---
