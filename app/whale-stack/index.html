@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhaleStack | Advanced Asset Tracker</title>
+    <title>WhaleStack | Asset Tracker</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="lib/fonts.css">
+    <link rel="manifest" href="manifest.json">
     <script src="lib/chart.js"></script>
 </head>
 
-<body class="light-theme">
+<body class="dark-theme">
     <div class="app-layout">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -60,26 +61,135 @@
 
             <!-- View: Dashboard -->
             <section class="dashboard-grid" id="dashboard-view">
-                <!-- Big Stats Card -->
-                <div class="card summary-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
-                        <span
-                            style="color:var(--text-muted); font-size: 0.8rem; font-weight:800; letter-spacing:1px;">PORTFOLIO
-                            SUMMARY</span>
+                <div class="dashboard-top-section">
+                    <!-- Big Stats Card -->
+                    <div class="card summary-card">
                         <div
-                            style="background:var(--bg-main); padding: 4px; border-radius: 8px; display:flex; gap:4px;">
+                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
                             <span
-                                style="font-size:0.7rem; font-weight:800; padding:4px 10px; background:white; border-radius:6px; color:var(--primary); box-shadow:0 1px 3px rgba(0,0,0,0.1)">LOCAL</span>
+                                style="color:var(--text-muted); font-size: 0.8rem; font-weight:800; letter-spacing:1px;">PORTFOLIO
+                                SUMMARY</span>
+                            <div
+                                style="background:var(--bg-main); padding: 4px; border-radius: 8px; display:flex; gap:4px;">
+                                <span
+                                    style="font-size:0.7rem; font-weight:800; padding:4px 10px; background:white; border-radius:6px; color:var(--primary); box-shadow:0 1px 3px rgba(0,0,0,0.1)">LOCAL</span>
+                            </div>
+                        </div>
+                        <div class="balance-main">
+                            <h2 id="total-balance">$0.00</h2>
+                            <div id="total-change" class="change-info">
+                                <span class="percent">0.00%</span>
+                            </div>
+                        </div>
+                        <div class="chart-area">
+                            <canvas id="balanceChart"></canvas>
                         </div>
                     </div>
-                    <div class="balance-main">
-                        <h2 id="total-balance">$0.00</h2>
-                        <div id="total-change" class="change-info">
-                            <span class="percent">0.00%</span>
+
+                    <!-- Global Market Panel -->
+                    <div class="live-market-panel">
+                        <!-- Panel Content -->
+                        <div class="panel-inner">
+                            <!-- Cryptocurrencies Section -->
+                            <div class="market-section">
+                                <div class="section-header">
+                                    <span class="header-icon">🌐</span>
+                                    <span class="header-title">Digital Asset Monitor</span>
+                                </div>
+                                <div class="market-list">
+                                    <div class="market-item" id="btc-row">
+                                        <div class="m-coin">
+                                            <span class="m-icon" style="color:#f7931a;">₿</span>
+                                            <span class="m-name">BTC</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="btc-price">Loading...</span>
+                                            <span class="m-pct" id="btc-badge">0.00%</span>
+                                        </div>
+                                    </div>
+                                    <div class="market-item" id="eth-row">
+                                        <div class="m-coin">
+                                            <span class="m-icon" style="color:#627eea;">Ξ</span>
+                                            <span class="m-name">ETH</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="eth-price">Loading...</span>
+                                            <span class="m-pct" id="eth-badge">0.00%</span>
+                                        </div>
+                                    </div>
+                                    <div class="market-item" id="sol-row">
+                                        <div class="m-coin">
+                                            <span class="m-icon" style="color:#14f195;">◎</span>
+                                            <span class="m-name">SOL</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="sol-price">Loading...</span>
+                                            <span class="m-pct" id="sol-badge">0.00%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Markets & Commodities Section -->
+                            <div class="market-section" style="margin-top: 25px;">
+                                <div class="section-header">
+                                    <span class="header-icon">📉</span>
+                                    <span class="header-title">World Market Indices</span>
+                                </div>
+                                <div class="market-list">
+                                    <div class="market-item">
+                                        <div class="m-coin">
+                                            <span class="m-icon">📈</span>
+                                            <span class="m-name">S&P 500</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="sp500-price">6909.51 USD</span>
+                                            <span class="m-pct" id="sp500-badge" style="color:var(--up)">(0.69%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="market-item">
+                                        <div class="m-coin">
+                                            <span class="m-icon">💻</span>
+                                            <span class="m-name">Nasdaq</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="nasdaq-price">22886.068 USD</span>
+                                            <span class="m-pct" id="nasdaq-badge" style="color:var(--up)">(0.90%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="market-item">
+                                        <div class="m-coin">
+                                            <span class="m-icon">🏛️</span>
+                                            <span class="m-name">Dow Jones</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="dow-price">49625.97 USD</span>
+                                            <span class="m-pct" id="dow-badge" style="color:var(--up)">(0.47%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="market-item">
+                                        <div class="m-coin">
+                                            <span class="m-icon">💰</span>
+                                            <span class="m-name">Gold</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="gold-price">5080.9 USD</span>
+                                            <span class="m-pct" id="gold-badge" style="color:var(--up)">(1.67%)</span>
+                                        </div>
+                                    </div>
+                                    <div class="market-item">
+                                        <div class="m-coin">
+                                            <span class="m-icon">🛢️</span>
+                                            <span class="m-name">Brent</span>
+                                        </div>
+                                        <div class="m-stats">
+                                            <span class="m-price" id="brent-price">71.3 USD</span>
+                                            <span class="m-pct" id="brent-badge" style="color:var(--up)">(0.04%)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="chart-area" style="display: none;">
-                        <canvas id="balanceChart"></canvas>
                     </div>
                 </div>
 
@@ -114,12 +224,11 @@
                     <div class="table-header-row">
                         <h3>Asset Inventory Management</h3>
                         <div class="table-actions">
-                            <button id="edit-mode-btn" class="btn-secondary" onclick="toggleEditMode(true)">Edit
+                            <button id="edit-mode-btn" class="btn-secondary">Edit
                                 Portfolio</button>
                             <div id="edit-controls" style="display: none; gap: 12px;">
-                                <button id="cancel-edit-btn" class="btn-text"
-                                    onclick="toggleEditMode(false)">Cancel</button>
-                                <button id="save-changes-btn" class="btn-primary" onclick="saveChanges()">Save
+                                <button id="cancel-edit-btn" class="btn-text">Cancel</button>
+                                <button id="save-changes-btn" class="btn-primary">Save
                                     Changes</button>
                             </div>
                             <button id="add-asset-btn" class="btn-primary" disabled>+ Add Asset</button>
@@ -279,7 +388,7 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

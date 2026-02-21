@@ -1,0 +1,21 @@
+{
+  "name": "WhaleStack Asset Tracker",
+  "short_name": "WhaleStack",
+  "description": "Advanced Local Asset Tracker",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#00d1ff",
+  "icons": [
+    {
+      "src": "images/whale_logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "images/whale_logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

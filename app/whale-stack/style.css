@@ -932,3 +932,202 @@ table {
         height: 120px;
     }
 }
+
+/* Database View Custom Layout */
+.db-view-flex {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.db-manager-card {
+    flex: 1.2;
+    max-width: 700px;
+}
+
+.db-slogan-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+    top: 120px;
+}
+
+.db-side-slogan {
+    width: 100%;
+    max-width: 550px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.db-side-slogan:hover {
+    transform: scale(1.15) rotate(-5deg) translateY(-20px);
+}
+
+@media (max-width: 1100px) {
+    .db-view-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .db-slogan-panel {
+        position: static;
+        width: 100%;
+    }
+
+    .db-side-slogan {
+        max-width: 100%;
+    }
+}
+
+/* --- Global Market Panel (Terminal Style) --- */
+.dashboard-top-section {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 25px;
+    margin-bottom: 30px;
+    align-items: flex-start;
+}
+
+.summary-card {
+    flex: 1.4;
+    margin-bottom: 0 !important;
+    min-height: 400px;
+}
+
+.live-market-panel {
+    flex: 0.6;
+    background: #121519;
+    border: 1px solid #2d333b;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.panel-inner {
+    padding: 16px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    color: #ffd700;
+}
+
+.header-icon {
+    font-size: 1rem;
+}
+
+.header-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+
+.market-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.market-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.market-item:last-child {
+    border-bottom: none;
+}
+
+.m-coin {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.m-icon {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.m-icon-img {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.m-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.m-stats {
+    text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.m-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: monospace;
+}
+
+.m-pct {
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 55px;
+}
+
+.m-pct.up {
+    color: var(--up);
+}
+
+.m-pct.down {
+    color: var(--down);
+}
+
+/* Price Flash Animation */
+.price-flash {
+    animation: flash-yellow 0.8s ease-out;
+}
+
+@keyframes flash-yellow {
+    0% {
+        color: #ffd700;
+        text-shadow: 0 0 10px #ffd700;
+    }
+
+    100% {
+        color: #fff;
+        text-shadow: none;
+    }
+}
+
+@media (max-width: 1200px) {
+    .dashboard-top-section {
+        flex-direction: column;
+    }
+
+    .summary-card,
+    .live-market-panel {
+        flex: 1;
+        width: 100%;
+    }
+}
