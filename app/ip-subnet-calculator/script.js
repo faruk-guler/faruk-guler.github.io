@@ -141,7 +141,18 @@ function calculateIPv4Subnet(ip, mask) {
         broadcastAddress.push(parseInt(broadcastBits.substr(i, 8), 2));
     }
 
-    const totalHosts = Math.pow(2, 32 - maskBits) - 2;
+    const totalHosts = Math.pow(2, 32 - maskBits);
+    let usableHosts;
+
+    // RFC 3021 Support for /31 P2P links
+    if (maskBits === 31) {
+        usableHosts = 2; // Point-to-Point
+    } else if (maskBits === 32) {
+        usableHosts = 1; // Single Host
+    } else {
+        usableHosts = totalHosts - 2;
+    }
+
     const networkAddressStr = networkAddress.join('.');
     const broadcastAddressStr = broadcastAddress.join('.');
 
@@ -149,7 +160,7 @@ function calculateIPv4Subnet(ip, mask) {
         ipClass: getIPClass(ip),
         networkAddress: networkAddressStr,
         broadcastAddress: broadcastAddressStr,
-        totalHosts: totalHosts > 0 ? totalHosts : 0,
+        totalHosts: usableHosts > 0 ? usableHosts : 0,
         maskBits,
         subnetMask: new Array(4).fill(0).map((_, i) => {
             const pos = i * 8;
@@ -160,8 +171,8 @@ function calculateIPv4Subnet(ip, mask) {
             const maskByte = parseInt(maskArray.slice(pos, pos + 8).join(''), 2);
             return 255 - maskByte;
         }).join('.'),
-        firstHost: totalHosts > 0 ? incrementIP(networkAddressStr) : networkAddressStr,
-        lastHost: totalHosts > 0 ? decrementIP(broadcastAddressStr) : broadcastAddressStr
+        firstHost: (maskBits === 31 || maskBits === 32) ? networkAddressStr : incrementIP(networkAddressStr),
+        lastHost: (maskBits === 31 || maskBits === 32) ? broadcastAddressStr : decrementIP(broadcastAddressStr)
     };
 }
 
@@ -206,7 +217,7 @@ function calculateIPv6Subnet(ip, prefixLength) {
     const prefix = parseInt(prefixLength);
 
     // Validate prefix length
-    if (prefix < 0 || prefix > 128) {
+    if (isNaN(prefix) || prefix < 0 || prefix > 128) {
         alert('Invalid prefix length. Must be between 0 and 128.');
         return null;
     }
@@ -958,9 +969,15 @@ function calculateRouteSummary(networks) {
     // Sort networks by address
     parsed.sort((a, b) => a.long - b.long);
 
-    // Find common prefix length
+    // Find common prefix length by comparing all networks
     let minNet = parsed[0].long;
-    let maxNet = parsed[parsed.length - 1].long + Math.pow(2, 32 - parsed[parsed.length - 1].cidr) - 1;
+    let maxNet = 0;
+
+    // Find the actual end of the range covered by ALL networks
+    for (const p of parsed) {
+        const netEnd = p.long + Math.pow(2, 32 - p.cidr) - 1;
+        if (netEnd > maxNet) maxNet = netEnd;
+    }
 
     // Calculate summary by finding common bits
     let summaryPrefix = 0;
@@ -1394,4 +1411,64 @@ calcBandwidthBtn.addEventListener('click', () => {
             💡 Actual speeds may vary due to network conditions, latency, and protocol overhead
         </div>
     `;
+});
+
+// === REFERENCE TABLE DYNAMIC POPULATION ===
+document.addEventListener('DOMContentLoaded', () => {
+    const tableBody = document.getElementById('referenceTableBody');
+    if (!tableBody) return;
+
+    const referenceData = [
+        { type: 'header', label: 'CIDR / Supernets' },
+        { prefix: '/0', mask: '0.0.0.0', hosts: '4,294,967,294' },
+        { prefix: '/1', mask: '128.0.0.0', hosts: '2,147,483,646' },
+        { prefix: '/2', mask: '192.0.0.0', hosts: '1,073,741,822' },
+        { prefix: '/3', mask: '224.0.0.0', hosts: '536,870,910' },
+        { prefix: '/4', mask: '240.0.0.0', hosts: '268,435,454' },
+        { prefix: '/5', mask: '248.0.0.0', hosts: '134,217,726' },
+        { prefix: '/6', mask: '252.0.0.0', hosts: '67,108,862' },
+        { prefix: '/7', mask: '254.0.0.0', hosts: '33,554,430' },
+        { type: 'header', label: 'Class A' },
+        { prefix: '/8', mask: '255.0.0.0', hosts: '16,777,214' },
+        { prefix: '/9', mask: '255.128.0.0', hosts: '8,388,606' },
+        { prefix: '/10', mask: '255.192.0.0', hosts: '4,194,302' },
+        { prefix: '/11', mask: '255.224.0.0', hosts: '2,097,150' },
+        { prefix: '/12', mask: '255.240.0.0', hosts: '1,048,574' },
+        { prefix: '/13', mask: '255.248.0.0', hosts: '524,286' },
+        { prefix: '/14', mask: '255.252.0.0', hosts: '262,142' },
+        { prefix: '/15', mask: '255.254.0.0', hosts: '131,070' },
+        { type: 'header', label: 'Class B' },
+        { prefix: '/16', mask: '255.255.0.0', hosts: '65,534' },
+        { prefix: '/17', mask: '255.255.128.0', hosts: '32,766' },
+        { prefix: '/18', mask: '255.255.192.0', hosts: '16,382' },
+        { prefix: '/19', mask: '255.255.224.0', hosts: '8,190' },
+        { prefix: '/20', mask: '255.255.240.0', hosts: '4,094' },
+        { prefix: '/21', mask: '255.255.248.0', hosts: '2,046' },
+        { prefix: '/22', mask: '255.255.252.0', hosts: '1,022' },
+        { prefix: '/23', mask: '255.255.254.0', hosts: '510' },
+        { type: 'header', label: 'Class C' },
+        { prefix: '/24', mask: '255.255.255.0', hosts: '254' },
+        { prefix: '/25', mask: '255.255.255.128', hosts: '126' },
+        { prefix: '/26', mask: '255.255.255.192', hosts: '62' },
+        { prefix: '/27', mask: '255.255.255.224', hosts: '30' },
+        { prefix: '/28', mask: '255.255.255.240', hosts: '14' },
+        { prefix: '/29', mask: '255.255.255.248', hosts: '6' },
+        { prefix: '/30', mask: '255.255.255.252', hosts: '2' },
+        { prefix: '/31', mask: '255.255.255.254', hosts: '2' },
+        { prefix: '/32', mask: '255.255.255.255', hosts: '1' }
+    ];
+
+    referenceData.forEach(item => {
+        const tr = document.createElement('tr');
+        if (item.type === 'header') {
+            tr.innerHTML = `<td colspan="3"><strong>${item.label}</strong></td>`;
+        } else {
+            tr.innerHTML = `
+                <td>${item.prefix}</td>
+                <td>${item.mask}</td>
+                <td>${item.hosts}</td>
+            `;
+        }
+        tableBody.appendChild(tr);
+    });
 });
