@@ -3,7 +3,10 @@ layout: page
 icon: fa-solid fa-wrench
 order: 2
 ---
-
+|--------------------|--------------------|----------------------|
+|--------------------|--------------------|----------------------|
+| <a href="https://farukguler.com/app/whale-stack/" target="_blank">WhaleStack</a> |
+---
 |--------------------|--------------------|----------------------|
 |--------------------|--------------------|----------------------|
 | <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/" target="_blank">Portfolio Analyzer USD/TRY</a> | <a href="https://farukguler.com/app/futures-calc/" target="_blank">Futures Liquidation Calculator</a> | <a href="https://farukguler.com/app/spot-calc/" target="_blank">Spot Profit Calculator</a> |
@@ -18,11 +21,5 @@ order: 2
 | <a href="https://farukguler.com/app/subdomain-finder/" target="_blank">Subdomain Finder</a> | <a href="https://farukguler.com/app/domain-ip-analyzer/" target="_blank">Domain IP Analyzer</a> |
 | <a href="https://farukguler.com/app/rise-comparison/" target="_blank">Spot Rise Comparison</a> | <a href="https://github.com/faruk-guler/Neutron/" target="_blank">Neutron Powerful automation</a> |
 | <a href="https://farukguler.com/app/open-draw/" target="_blank">OpenDraw WebUI</a> | <a href="https://farukguler.com/app/cronjob-planner/" target="_blank">Cronjob Planner</a> |
-
----
-
-|--------------------|--------------------|----------------------|
-|--------------------|--------------------|----------------------|
-| <a href="https://farukguler.com/app/whale-stack/" target="_blank">WhaleStack</a> |
 
 ---
