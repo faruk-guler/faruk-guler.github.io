@@ -7,6 +7,7 @@ order: 2
 |--------------------|--------------------|----------------------|
 | <a href="https://farukguler.com/app/whale-stack/" target="_blank">WhaleStack</a> |
 ---
+
 |--------------------|--------------------|----------------------|
 |--------------------|--------------------|----------------------|
 | <a href="https://farukguler.com/app/portfolio-analyzer-usd-try/" target="_blank">Portfolio Analyzer USD/TRY</a> | <a href="https://farukguler.com/app/futures-calc/" target="_blank">Futures Liquidation Calculator</a> | <a href="https://farukguler.com/app/spot-calc/" target="_blank">Spot Profit Calculator</a> |
