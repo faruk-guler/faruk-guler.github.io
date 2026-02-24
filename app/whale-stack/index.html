@@ -4,410 +4,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhaleStack | Asset Tracker</title>
+    <title>WhaleStack Asset Tracker</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="lib/fonts.css">
-    <link rel="manifest" href="manifest.json">
-    <script src="lib/chart.js"></script>
 </head>
 
-<body class="dark-theme">
-    <div class="app-layout">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="brand" id="brand-logo-area">
-                <img src="images/whale_logo.jpg" alt="WhaleStack Logo" class="brand-logo-img">
-                <div class="brand-info">
-                    <span class="brand-name">WhaleStack</span>
-                    <span class="brand-version">ver. 5.4</span>
-                </div>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="logo">
+                <img src="img/whale_logo.jpg" alt="WhaleStack Logo" class="app-logo">
+                <h1>WhaleStack</h1>
             </div>
-
-
-            <nav class="side-nav">
-                <a href="#" class="nav-item active" id="dashboard-nav">
-                    <span class="icon">📊</span> Dashboard
-                </a>
-                <a href="#" class="nav-item" id="portfolio-nav">
-                    <span class="icon">💼</span> Portfolio
-                </a>
-                <a href="#" class="nav-item" id="db-nav">
-                    <span class="icon">📁</span> Database
-                </a>
-                <a href="#" class="nav-item" id="about-nav">
-                    <span class="icon">ℹ️</span> About
-                </a>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-bar">
-                <div class="status-info">
-                    <div class="status-line">
-                        <span id="db-status" class="status-badge disconnect" title="File system status">No DB
-                            Connected</span>
-                        <div id="active-filename" class="active-file-info" style="display: none;">
-                            <span class="label">Active DB:</span>
-                            <span class="file-label"></span>
-                        </div>
-                    </div>
-                    <div id="last-updated-container" class="update-info" style="display: none;">
-                        <span class="label">LastUpdate:</span>
-                        <span id="global-last-updated">-</span>
-                    </div>
+            <div class="header-actions">
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-header">
+                    <i class="fa-solid fa-moon theme-icon"></i>
+                    <label class="theme-switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <i class="fa-solid fa-sun theme-icon"></i>
                 </div>
-                <button id="theme-toggle" class="theme-switch-btn" title="Toggle Light/Dark Mode">
-                    <img id="theme-icon" src="images/sun_icon.png" alt="Theme Icon">
+
+                <button id="aboutBtn" class="action-btn outline">
+                    <i class="fa-solid fa-circle-info"></i> About
                 </button>
-            </header>
 
-            <!-- View: Dashboard -->
-            <section class="dashboard-grid" id="dashboard-view">
-                <div class="dashboard-top-section">
-                    <!-- Big Stats Card -->
-                    <div class="card summary-card">
-                        <div
-                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
-                            <span
-                                style="color:var(--text-muted); font-size: 0.8rem; font-weight:800; letter-spacing:1px;">PORTFOLIO
-                                SUMMARY</span>
-                            <div
-                                style="background:var(--bg-main); padding: 4px; border-radius: 8px; display:flex; gap:4px;">
-                                <span
-                                    style="font-size:0.7rem; font-weight:800; padding:4px 10px; background:white; border-radius:6px; color:var(--primary); box-shadow:0 1px 3px rgba(0,0,0,0.1)">LOCAL</span>
-                            </div>
+                <!-- Import Button (JSON/CSV combined in JS) -->
+                <button id="importBtn" class="action-btn outline">
+                    <i class="fa-solid fa-file-import"></i> Import
+                </button>
+                <input type="file" id="fileInput" accept=".json, .csv" style="display: none;">
+
+                <!-- Export Buttons -->
+                <button id="exportJsonBtn" class="action-btn highlight">
+                    <i class="fa-solid fa-file-export"></i> Export JSON
+                </button>
+                <button id="exportCsvBtn" class="action-btn highlight">
+                    <i class="fa-solid fa-file-csv"></i> Export CSV
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Table Section -->
+            <section class="table-section glass-panel">
+                <div class="table-header">
+                    <div class="table-header-title">
+                        <h2><i class="fa-solid fa-list"></i> My Portfolio</h2>
+                        <div class="total-balance-inline">
+                            <span class="balance-label">Total Balance:</span>
+                            <span id="summaryTotalValue" class="balance-value">$0.00</span>
                         </div>
-                        <div class="summary-flex-container">
-                            <div class="balance-main">
-                                <h2 id="total-balance">$0.00</h2>
-                                <div id="total-change" class="change-info">
-                                    <span class="percent">0.00%</span>
-                                </div>
-                            </div>
-                            <div class="chart-area">
-                                <canvas id="balanceChart"></canvas>
-                            </div>
-                        </div>
+                        <button id="convertTRYBtn" class="tl-rate-btn" title="Convert portfolio value to TRY on Google">
+                            <i class="fa-solid fa-turkish-lira-sign"></i> TRY
+                        </button>
+                        <button class="action-btn highlight" id="openAddAssetModalBtn">
+                            <i class="fa-solid fa-plus"></i> Add Asset
+                        </button>
                     </div>
-
-                    <!-- Global Market Panel -->
-                    <div class="live-market-panel">
-                        <!-- Panel Content -->
-                        <div class="panel-inner">
-                            <!-- Cryptocurrencies Section -->
-                            <div class="market-section">
-                                <div class="section-header">
-                                    <span class="header-icon">🌐</span>
-                                    <span class="header-title">Digital Asset Monitor</span>
-                                </div>
-                                <div class="market-list">
-                                    <div class="market-item" id="btc-row">
-                                        <div class="m-coin">
-                                            <div class="coin-icon btc-bg">₿</div>
-                                            <span class="m-name">BTC</span>
-                                        </div>
-                                        <div class="m-stats">
-                                            <span class="m-price" id="btc-price">Loading...</span>
-                                            <span class="m-pct" id="btc-badge">0.00%</span>
-                                        </div>
-                                    </div>
-                                    <div class="market-item" id="eth-row">
-                                        <div class="m-coin">
-                                            <div class="coin-icon eth-bg">⟠</div>
-                                            <span class="m-name">ETH</span>
-                                        </div>
-                                        <div class="m-stats">
-                                            <span class="m-price" id="eth-price">Loading...</span>
-                                            <span class="m-pct" id="eth-badge">0.00%</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!-- Markets & Commodities Section -->
-                            <div class="market-section" style="margin-top: 25px;">
-                                <div class="section-header">
-                                    <span class="header-icon">📉</span>
-                                    <span class="header-title">World Market Indices</span>
-                                </div>
-                                <div class="market-list">
-                                    <div class="market-item">
-                                        <div class="m-coin">
-                                            <span class="m-icon">📈</span>
-                                            <span class="m-name">S&P 500</span>
-                                        </div>
-                                        <div class="m-stats">
-                                            <span class="m-price" id="sp500-price">Loading...</span>
-                                            <span class="m-pct" id="sp500-badge">0.00%</span>
-                                        </div>
-                                    </div>
-                                    <div class="market-item">
-                                        <div class="m-coin">
-                                            <span class="m-icon">💻</span>
-                                            <span class="m-name">Nasdaq</span>
-                                        </div>
-                                        <div class="m-stats">
-                                            <span class="m-price" id="nasdaq-price">Loading...</span>
-                                            <span class="m-pct" id="nasdaq-badge">0.00%</span>
-                                        </div>
-                                    </div>
-                                    <div class="market-item">
-                                        <div class="m-coin">
-                                            <span class="m-icon">🏛️</span>
-                                            <span class="m-name">Dow Jones</span>
-                                        </div>
-                                        <div class="m-stats">
-                                            <span class="m-price" id="dow-price">Loading...</span>
-                                            <span class="m-pct" id="dow-badge">0.00%</span>
-                                        </div>
-                                    </div>
-                                    <div class="market-item">
-                                        <div class="m-coin">
-                                            <span class="m-icon">💰</span>
-                                            <span class="m-name">Gold</span>
-                                        </div>
-                                        <div class="m-stats">
-                                            <span class="m-price" id="gold-price">Loading...</span>
-                                            <span class="m-pct" id="gold-badge">0.00%</span>
-                                        </div>
-                                    </div>
-                                    <div class="market-item">
-                                        <div class="m-coin">
-                                            <span class="m-icon">🛢️</span>
-                                            <span class="m-name">Brent</span>
-                                        </div>
-                                        <div class="m-stats">
-                                            <span class="m-price" id="brent-price">Loading...</span>
-                                            <span class="m-pct" id="brent-badge">0.00%</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search asset or category...">
                     </div>
                 </div>
 
-                <div class="distribution-row">
-                    <div class="card" style="flex: 2;">
-                        <h3>Allocations</h3>
-                        <div class="mini-list-container" id="allocation-list">
-                            <!-- List items will be injected here via JS -->
-                        </div>
-                    </div>
-                    <div class="card" style="flex: 2.2;">
-                        <h3
-                            style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">
-                            Market Pulse</h3>
-                        <div class="analytics-row">
-                            <!-- Left: Sentiment -->
-                            <div class="analytics-col">
-                                <div id="sentiment-container" class="sentiment-widget">
-                                    <div class="fng-gauge">
-                                        <div id="fng-needle" class="needle"></div>
-                                        <div class="gauge-labels">
-                                            <span>FEAR</span>
-                                            <span id="fng-value">--</span>
-                                            <span>GREED</span>
-                                        </div>
-                                    </div>
-                                    <div id="fng-classification" class="sentiment-label">Loading...</div>
-                                </div>
-                            </div>
-
-                            <!-- Right: Funding -->
-                            <div class="analytics-col" style="align-items: flex-start; padding-left: 20px;">
-                                <h4 style="color: #ffd700; font-size: 1.1rem; margin-bottom: 15px; font-weight: 800;">
-                                    Binance BTC Funding</h4>
-                                <div class="funding-widget-v2">
-                                    <div class="funding-row">
-                                        <span class="f-label">Current rate:</span>
-                                        <span id="btc-funding" class="f-value">--%</span>
-                                    </div>
-                                    <div class="funding-row" style="margin-top: 2px;">
-                                        <span class="f-label">⏳</span>
-                                        <span id="funding-countdown" class="f-value"
-                                            style="color: #aaa; font-size: 0.9rem;">--h --m left</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="table-responsive">
+                    <table id="portfolioTable">
+                        <thead>
+                            <tr>
+                                <th>Assets</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Avg Cost ($)</th>
+                                <th>Circulating Supply</th>
+                                <th>Max Supply</th>
+                                <th>Risk Level</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Rows will be injected here via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <p>No assets in your portfolio yet. Start adding now!</p>
                 </div>
             </section>
 
-            <!-- View: Portfolio -->
-            <section id="portfolio-view" style="display: none; padding: 32px 40px;">
-                <div class="card table-card">
-                    <div class="table-header-row">
-                        <h3>Asset Inventory Management</h3>
-                        <div class="table-actions">
-                            <button id="edit-mode-btn" class="btn-secondary">Edit
-                                Portfolio</button>
-                            <div id="edit-controls" style="display: none; gap: 12px;">
-                                <button id="cancel-edit-btn" class="btn-text">Cancel</button>
-                                <button id="save-changes-btn" class="btn-primary">Save
-                                    Changes</button>
-                            </div>
-                            <button id="add-asset-btn" class="btn-primary" disabled>+ Add Asset</button>
-                        </div>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="edit-only" style="width: 40px;"></th>
-                                    <th>Assets</th>
-                                    <th>Category</th>
-                                    <th>Amount</th>
-                                    <th>Avg Cost ($)</th>
-                                    <th>Circulating Supply</th>
-                                    <th>Max Supply</th>
-                                    <th>Risk Level</th>
-                                    <th class="edit-only"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="assets-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- View: Database Manager -->
-            <section class="db-view-flex" id="db-view" style="display: none;">
-                <div class="card db-manager-card">
-                    <div class="db-header-content">
-                        <h2 style="margin-top: 10px; font-size: 2.2rem; font-weight:800;">Database Manager</h2>
-                        <p style="color:var(--text-muted); margin-top:12px;">Manage your local JSON portfolio storage
-                            securely</p>
-                    </div>
-
-                    <div class="db-options-grid">
-                        <div class="db-option-card" id="btn-create-new">
-                            <span class="opt-icon">🆕</span>
-                            <h4>Create New</h4>
-                            <p>Start a fresh portfolio file</p>
-                        </div>
-                        <div class="db-option-card" id="btn-connect-existing">
-                            <span class="opt-icon">📁</span>
-                            <h4>Connect Existing</h4>
-                            <p>Link your database.json file</p>
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px;">
-                        <div
-                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                            <span style="color:var(--text-muted); font-weight:600;">Connection Status:</span>
-                            <span id="db-manager-status" class="status-badge disconnect">Not Connected</span>
-                        </div>
-                        <div id="db-mgr-file-row"
-                            style="display:none; justify-content:space-between; align-items:center;">
-                            <span style="color:var(--text-muted); font-weight:600;">Active File:</span>
-                            <span id="db-mgr-filename"
-                                style="color:var(--primary); font-weight:800;">database.json</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slogan Panel -->
-                <div class="db-slogan-panel">
-                    <img src="images/cz-publish.jpg" alt="CZ Slogan" class="db-side-slogan">
-                </div>
-            </section>
+            <!-- Slogan Banner -->
+            <footer class="slogan-footer glass-panel">
+                <img src="img/cz-publish.jpg" alt="CZ Publish Slogan" class="slogan-banner" title="Keep Building!">
+            </footer>
         </main>
     </div>
 
-    <!-- Modals -->
-    <div id="about-modal" class="modal">
-        <div class="modal-content about-sleek-compact">
-            <button id="close-about-btn" class="close-x-btn">×</button>
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-check-circle" id="toastIcon"></i>
+        <span id="toastMessage">Action successful.</span>
+    </div>
 
-            <div class="about-main-layout">
-                <div class="about-left">
-                    <img src="images/whale_logo.jpg" alt="User Avatar" class="sleek-avatar-img">
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content new-about-modal">
+            <span class="close-btn">&times;</span>
+
+            <div class="about-flex-container">
+                <div class="about-image-col">
+                    <img src="img/whale_logo.jpg" alt="WhaleStack Logo" class="modal-whale-logo">
                 </div>
-                <div class="about-right">
-                    <h2 class="brand-title">WhaleStack</h2>
-                    <p class="brand-tagline">Deep Sea Asset Tracker</p>
 
-                    <h3 class="name-display">faruk-guler</h3>
-                    <p class="role-display">SysAdmin & Developer</p>
+                <div class="about-info-col">
+                    <h2>WhaleStack</h2>
+                    <p class="subtitle">Deep Sea Asset Tracker</p>
 
-                    <div class="compact-links">
-                        <a href="https://www.farukguler.com" target="_blank" class="mini-link">🌐 Website</a>
-                        <a href="https://github.com/faruk-guler" target="_blank" class="mini-link">🐙 GitHub</a>
+                    <div class="author-info">
+                        <h3>faruk-guler</h3>
+                        <p>SysAdmin & Developer</p>
+                    </div>
+
+                    <div class="about-links">
+                        <a href="https://www.farukguler.com" target="_blank" class="about-btn website-btn">
+                            <i class="fa-solid fa-globe"></i> Website
+                        </a>
+                        <a href="https://github.com/faruk-guler" target="_blank" class="about-btn github-btn">
+                            <i class="fa-brands fa-github"></i> GitHub
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <div class="compact-footer">
-                <span>Built for Whales</span>
-                <span class="dot-sep">•</span>
-                <div class="logo">
-                    <span class="logo-icon">🐋</span>
-                    <span class="logo-text">WhaleStack</span>
-                </div>
-                <span>v5.4</span>
-                <span class="dot-sep">•</span>
-                <span>© 2026</span>
+            <div class="about-footer">
+                Built for Whales <span class="dot">&bull;</span> <img src="img/whale_logo.jpg" class="footer-icon"
+                    alt="icon"> WhaleStack v5.4 <span class="dot">&bull;</span> &copy; 2026
             </div>
         </div>
     </div>
 
-    <div id="asset-modal" class="modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom:32px;">Add Asset</h2>
-            <form id="add-asset-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Asset Name / Symbol</label>
-                        <input type="text" id="asset-id" placeholder="BTC, ETH, Gold..." required>
+    <!-- Add Asset Modal -->
+    <div id="addAssetModal" class="modal">
+        <div class="modal-content add-asset-modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-plus-circle"></i> Add New Asset</h2>
+                <span class="close-modal" id="closeAddAssetModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="assetForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="assetName">Asset</label>
+                            <input type="text" id="assetName" placeholder="e.g. ETH, BTC" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <input type="text" id="category" placeholder="e.g. layer 1, defi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount (Owned)</label>
+                            <input type="number" id="amount" step="any" min="0" placeholder="e.g. 5.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Avg Buy Price ($)</label>
+                            <input type="number" id="price" step="any" min="0" placeholder="e.g. 3500.50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="circSupply">Circulating Supply</label>
+                            <input type="number" id="circSupply" step="any" min="0" placeholder="e.g. 120700000">
+                        </div>
+                        <div class="form-group">
+                            <label for="maxSupply">Max Supply (Leave blank if infinite)</label>
+                            <input type="number" id="maxSupply" step="any" min="0" placeholder="e.g. 21000000">
+                        </div>
+                        <div class="form-group">
+                            <label for="rowColor">Risk Level</label>
+                            <select id="rowColor">
+                                <option value="low">LOW (Safe)</option>
+                                <option value="medium">MEDIUM (Watch)</option>
+                                <option value="high">HIGH (Risky)</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <input type="text" id="asset-category" placeholder="Altcoin, L1, Commodity...">
+                    <!-- Form Actions moved out of grid for a cleaner modal look -->
+                    <div class="form-actions-modal">
+                        <button type="submit" class="submit-btn" id="submitBtn">Add Asset</button>
+                        <button type="button" class="cancel-btn" id="cancelEditBtn"
+                            style="display: none;">Cancel</button>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Amount</label>
-                        <input type="number" id="asset-amount" step="any" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Avg Cost ($)</label>
-                        <input type="number" id="asset-cost" step="any" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Circulating Supply</label>
-                        <input type="text" id="asset-circulating" placeholder="e.g. 19M, 1.2B">
-                    </div>
-                    <div class="form-group">
-                        <label>Max Supply</label>
-                        <input type="text" id="asset-max" placeholder="e.g. 21M, ∞">
-                    </div>
-                    <div class="form-group">
-                        <label>Risk Level</label>
-                        <select id="asset-risk"
-                            style="width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 12px; font-size: 1rem;">
-                            <option value="Low">Low</option>
-                            <option value="Mid">Mid</option>
-                            <option value="High">High</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button type="button" id="close-modal" class="btn-text">Cancel</button>
-                    <button type="submit" class="btn-primary">Add Asset</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>
