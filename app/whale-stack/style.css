@@ -402,6 +402,41 @@ td {
     font-size: 1.05rem;
 }
 
+/* Last Edit Tooltip */
+.has-tooltip {
+    position: relative;
+    cursor: default;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    padding-bottom: 1px;
+}
+
+.has-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: rgba(15, 20, 30, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(88, 166, 255, 0.25);
+    color: #8b949e;
+    font-size: 0.75rem;
+    font-weight: 400;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 999;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.has-tooltip:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
 .amount-bold {
     font-weight: 700;
 }

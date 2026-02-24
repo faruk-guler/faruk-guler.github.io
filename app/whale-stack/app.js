@@ -171,6 +171,7 @@ function renderTable(filterText = '') {
                 <td>${asset.circSupply ? Number(asset.circSupply).toLocaleString('en-US') : '∞'}</td>
                 <td>${asset.maxSupply ? Number(asset.maxSupply).toLocaleString('en-US') : '∞'}</td>
                 <td>${riskBadgeHtml}</td>
+                <td class="date-text">${asset.lastEdit || '-'}</td>
                 <td>
                     <div class="row-actions">
                         <button class="icon-btn edit" onclick="editAsset('${asset.id}')" title="Edit">
