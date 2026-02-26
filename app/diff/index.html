@@ -1,26 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./src/styles.css">
-  <title>Diff Checker Tool</title>
+  <title>Code Diff Checker</title>
 </head>
-<body>
-  <div class="container">
-    <div class="input-section">
-      <h2>Code Diff Checker -farukguler.com</h2>
-      <textarea id="oldText" rows="10" cols="50" placeholder="Old Version"></textarea>
-      <textarea id="newText" rows="10" cols="50" placeholder="New Version"></textarea>
-      <button id="compareBtn">Compare</button>
-    </div>
 
-    <div class="output-section">
-      <h2>Diff Output: Look Parameters [ - or + ] </h2>
-      <pre id="diffOutput" class="diff-output"></pre>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-logo">
+      <span class="logo-icon">D</span>
+      <span class="logo-text">diffchecker</span>
+    </div>
+    <nav class="topbar-nav">
+      <a class="nav-tab active">Text</a>
+      <button id="compareBtn">Find difference</button>
+    </nav>
+    <div class="topbar-right">
+      <label class="option-label">
+        <input type="checkbox" id="ignoreWhitespace"> Ignore Whitespace
+      </label>
+      <button class="icon-btn" id="themeToggle" title="Toggle light/dark mode" aria-label="Toggle Theme"></button>
+      <button class="icon-btn" id="aboutBtn" title="About" aria-label="About">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="editor-area">
+    <div class="editor-panel">
+      <div class="panel-header">Original text</div>
+      <textarea id="oldText" spellcheck="false" placeholder="Paste original text here..."></textarea>
+    </div>
+    <div class="editor-panel">
+      <div class="panel-header">Changed text</div>
+      <textarea id="newText" spellcheck="false" placeholder="Paste changed text here..."></textarea>
+    </div>
+  </main>
+
+  <div class="stats-bar" id="statsBar" style="display:none;">
+    <div class="stats-left" id="statsRemoved"></div>
+    <div class="stats-center" id="statsLines"></div>
+    <div class="stats-right" id="statsAdded"></div>
+  </div>
+
+  <div class="output-wrapper" id="outputWrapper" style="display:none;">
+    <div class="toolbar">
+      <div class="mode-group">
+        <button class="mode-btn active" data-mode="split">⧉ Split</button>
+        <button class="mode-btn" data-mode="unified">≡ Unified</button>
+      </div>
+      <div class="toolbar-spacer"></div>
+      <button class="toolbar-btn" id="copyBtn" title="Copy original text">⎘ Copy</button>
+      <button class="toolbar-btn" id="exportBtn" title="Export as .diff file">↑ Export</button>
+      <button class="toolbar-btn danger" id="clearBtn">✕ Clear</button>
+    </div>
+    <div class="diff-output" id="diffOutput"></div>
+  </div>
+
+  <!-- About Modal -->
+  <div class="modal-overlay" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close Modal">✕</button>
+      <div class="modal-header">
+        <div class="modal-logo">
+          <span class="logo-icon">D</span>
+          <span class="logo-text">diffchecker</span>
+        </div>
+        <h2 id="modalTitle">About Code Diff Checker</h2>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">A lightweight browser extension and standalone web tool for comparing two blocks of text
+          or code, inspired by diffchecker.com.</p>
+        <div class="modal-features">
+          <div class="feature-item">⧉ <strong>Split view</strong> — Side-by-side with independent line numbers</div>
+          <div class="feature-item">≡ <strong>Unified view</strong> — Single column with +/− prefixes</div>
+          <div class="feature-item">⎘ <strong>Copy</strong> — Copy original text to clipboard</div>
+          <div class="feature-item">↑ <strong>Export</strong> — Download as standard <code>.diff</code> file</div>
+          <div class="feature-item">🔲 <strong>Ignore Whitespace</strong> — Skip indentation differences</div>
+          <div class="feature-item">🌙 <strong>Dark / Light mode</strong></div>
+        </div>
+        <div class="modal-meta">
+          <span>Version 1.0</span>
+          <span>·</span>
+          <span>Pure HTML / CSS / JS — no build step</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <script src="./dist/bundle.js"></script>
+  <script src="./src/diff.min.js"></script>
+  <script src="./src/index.js"></script>
 </body>
+
 </html>

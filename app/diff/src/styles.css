@@ -1,70 +1,716 @@
+/* ── Reset ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #141414;
+  --bg-panel: #1a1a1a;
+  --bg-input: #121212;
+  --border: #333333;
+  --border-focus: #00d38a;
+  --accent: #00d38a;
+  --accent-hover: #00b978;
+  --text: #e0e0e0;
+  --text-dim: #999999;
+  --header-bg: #1e1e1e;
+  --toolbar-bg: #1a1a1a;
+  --added-bg: #00331f;
+  --added-text: #00d38a;
+  --removed-bg: #3a0d13;
+  --removed-text: #ff5555;
+  --added-gutter: #002214;
+  --removed-gutter: #2a080d;
+  --ctx-gutter: #1a1a1a;
+  --ln-color: #666666;
+  --modal-bg: #1a1a1a;
+  --modal-border: #333333;
+}
+
+/* ── Light tema ───────────────────────────────────────── */
+[data-theme="light"] {
+  --bg: #f4f5f7;
+  --bg-panel: #ffffff;
+  --bg-input: #ffffff;
+  --border: #e0e0e0;
+  --border-focus: #00bd7b;
+  --accent: #00bd7b;
+  --accent-hover: #00a469;
+  --text: #2c2c2c;
+  --text-dim: #777777;
+  --header-bg: #ffffff;
+  --toolbar-bg: #f8f9fa;
+  --added-bg: #e5fdf4;
+  --added-text: #00935e;
+  --removed-bg: #feeceb;
+  --removed-text: #d93d3d;
+  --added-gutter: #ccf8e5;
+  --removed-gutter: #fadddb;
+  --ctx-gutter: #f8f9fa;
+  --ln-color: #a0a0a0;
+  --modal-bg: #ffffff;
+  --modal-border: #e0e0e0;
+}
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-  .container {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 20px;
-    padding-right: 20px;
-    gap: 20px;
-  }
- 
-  .input-section {
-    flex: 1;
-    display: flex;
+/* ── Custom Scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.3);
+  border-radius: 5px;
+  border: 2px solid var(--bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.6);
+}
+
+/* ── Focus Visibility ────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ── Top bar ─────────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 20px;
+  height: 52px;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 26px;
+  height: 26px;
+  background: var(--accent);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 15px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 2px;
+  height: 100%;
+}
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.12s, border-color 0.12s;
+  user-select: none;
+}
+
+.nav-tab.active,
+.nav-tab:hover {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  background: var(--toolbar-bg);
+  color: var(--text);
+}
+
+/* ── Ignore whitespace ───────────────────────────────────── */
+.option-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+.option-label input {
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+/* ── Editor area ─────────────────────────────────────────── */
+.editor-area {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 0;
+  flex: 1;
+  min-height: 0;
+}
+
+.editor-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-panel);
+}
+
+.panel-header {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 240px;
+  background: var(--bg-input);
+  color: var(--text);
+  border: none;
+  font-family: 'SFMono-Regular', 'Consolas', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  resize: vertical;
+  outline: none;
+  transition: box-shadow 0.15s;
+}
+
+textarea:focus {
+  box-shadow: inset 0 0 0 2px var(--border-focus);
+}
+
+/* ── Compare button (topbar) ─────────────────────────────── */
+#compareBtn {
+  padding: 6px 18px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, transform 0.08s;
+  letter-spacing: 0.2px;
+  align-self: center;
+}
+
+#compareBtn:hover {
+  background: var(--accent-hover);
+}
+
+#compareBtn:active {
+  transform: scale(0.97);
+}
+
+/* ── Output wrapper ──────────────────────────────────────── */
+.output-wrapper {
+  margin: 0 16px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* ── Stats bar ───────────────────────────────────────────── */
+.stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  margin: 10px 16px 0;
+  background: var(--toolbar-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stats-left {
+  color: var(--removed-text);
+}
+
+.stats-right {
+  color: var(--added-text);
+}
+
+.stats-center {
+  color: var(--text-dim);
+}
+
+.stat-rem {
+  color: var(--removed-text);
+}
+
+.stat-add {
+  color: var(--added-text);
+}
+
+.stat-lines {
+  color: var(--text-dim);
+}
+
+/* ── Toolbar ─────────────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  background: var(--toolbar-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.mode-group {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mode-btn {
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--toolbar-bg);
+  color: var(--text-dim);
+  border: none;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.mode-btn+.mode-btn {
+  border-left: 1px solid var(--border);
+}
+
+.mode-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.mode-btn:not(.active):hover {
+  background: var(--bg-input);
+  color: var(--text);
+}
+
+.toolbar-btn {
+  padding: 5px 14px;
+  background: var(--bg-panel);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.toolbar-btn:hover {
+  background: var(--bg-input);
+  color: var(--text);
+}
+
+.toolbar-btn.danger {
+  background: var(--removed-gutter);
+  color: var(--removed-text);
+  border-color: var(--removed-text);
+}
+
+.toolbar-btn.danger:hover {
+  opacity: 0.85;
+}
+
+/* Stat badges — tek tanım, CSS değişken bazlı */
+.stat-add {
+  color: var(--added-text);
+  font-weight: 700;
+}
+
+.stat-rem {
+  color: var(--removed-text);
+  font-weight: 700;
+}
+
+/* ── Diff output ─────────────────────────────────────────── */
+.diff-output {
+  overflow-x: auto;
+  max-height: 55vh;
+  overflow-y: auto;
+  background: var(--bg-panel);
+}
+
+/* ── Diff table ──────────────────────────────────────────── */
+.diff-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'SFMono-Regular', 'Consolas', 'Courier New', monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.diff-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--toolbar-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 5px 10px;
+  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.diff-table thead th.ln-head {
+  width: 50px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.diff-table tbody td {
+  padding: 0 10px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  vertical-align: top;
+}
+
+/* Orta dikey çizgi (split modda) */
+.diff-table tbody td:nth-child(2) {
+  border-right: 1px solid var(--border);
+}
+
+/* ── Satır numarası ───────────────────────────────────────── */
+.ln {
+  width: 50px !important;
+  min-width: 50px;
+  text-align: right;
+  padding: 0 8px 0 4px !important;
+  user-select: none;
+  font-size: 11.5px;
+  color: var(--ln-color);
+}
+
+.sign {
+  width: 20px !important;
+  min-width: 20px;
+  text-align: center;
+  padding: 0 3px !important;
+  user-select: none;
+  font-weight: bold;
+}
+
+/* ── Gutter renkleri ─────────────────────────────────────── */
+.removed-gutter {
+  background: var(--removed-gutter) !important;
+  color: var(--removed-text) !important;
+}
+
+.added-gutter {
+  background: var(--added-gutter) !important;
+  color: var(--added-text) !important;
+}
+
+.context-gutter {
+  background: var(--ctx-gutter) !important;
+  color: var(--ln-color) !important;
+}
+
+/* ── Satır renkleri ──────────────────────────────────────── */
+.removed {
+  background: var(--removed-bg);
+  color: var(--text);
+}
+
+.added {
+  background: var(--added-bg);
+  color: var(--text);
+}
+
+.context {
+  background: var(--bg-panel);
+  color: var(--text);
+}
+
+.empty {
+  background: var(--bg-input);
+  opacity: 0.6;
+}
+
+/* ── Mesaj kutuları ──────────────────────────────────────── */
+.no-diff {
+  padding: 14px 18px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #e3b341;
+  background: #272115;
+  border-left: 3px solid #e3b341;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .editor-area {
     flex-direction: column;
-    gap: 10px;
   }
-  
+}
 
-  .output-section {
-    margin-top: 20px;
-    flex: 1;
-  }
-  
+/* ── Compact mode (diff gösterilince editörler küçülür) ───── */
+.editor-panel {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .diff-output {
-    background-color: #f6f8fa;
-    border: 1px solid #e1e4e8;
-    padding: 10px;
-    white-space: pre-wrap; 
-    font-family: 'Courier New', monospace;
-    max-height: 500px;
-    overflow-y: auto;
-  }
-  
+.panel-header {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
 
-  .added {
-    background-color: #e6ffed;
-    color: #22863a;
-  }
-  
+textarea {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .removed {
-    background-color: #ffeef0;
-    color: #d73a49;
-  }
-  
+body.compact .editor-area {
+  padding: 8px 16px 0;
+  gap: 6px;
+}
 
-  .diff-output div {
-    padding: 5px;
-    white-space: pre-wrap; 
+body.compact .panel-header {
+  height: 0;
+  padding: 0 14px;
+  opacity: 0;
+  border-bottom: none;
+}
+
+body.compact textarea {
+  min-height: 46px;
+  height: 46px;
+  padding: 8px 14px;
+  resize: none;
+  font-size: 12px;
+}
+
+body.compact .diff-output {
+  max-height: calc(100vh - 230px);
+}
+
+/* ── Light tema no-diff override ─────────────────────────── */
+[data-theme="light"] .no-diff {
+  color: #735c0f;
+  background: #fff8c5;
+  border-left-color: #d4a72c;
+}
+
+/* ── Modal overlay ───────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: var(--modal-bg);
+  border: 1px solid var(--modal-border);
+  border-radius: 10px;
+  width: 480px;
+  max-width: 90vw;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: modalIn 0.18s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
   }
-  
- 
-  button {
-    padding: 10px 15px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
+
+  to {
+    opacity: 1;
+    transform: none;
   }
-  
-  button:hover {
-    background-color: #218838;
-  }  
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--modal-border);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+
+.modal-close:hover {
+  background: var(--toolbar-bg);
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.modal-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feature-item {
+  font-size: 13px;
+  color: var(--text);
+  padding: 6px 10px;
+  background: var(--toolbar-bg);
+  border-radius: 5px;
+  border-left: 3px solid var(--accent);
+}
+
+.feature-item code {
+  font-family: 'Courier New', monospace;
+  background: var(--bg-input);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.modal-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  padding-top: 8px;
+  border-top: 1px solid var(--modal-border);
+}
+
+/* ── Inline Character Diff Highlight ─────────────────────── */
+mark.char-add {
+  background: rgba(0, 211, 138, 0.4);
+  /* Accent yeşili transparan */
+  color: #fff;
+  border-radius: 2px;
+  white-space: pre-wrap;
+  padding: 0 1px;
+}
+
+mark.char-rem {
+  background: rgba(255, 85, 85, 0.4);
+  /* Kırmızı transparan */
+  color: #fff;
+  border-radius: 2px;
+  white-space: pre-wrap;
+  padding: 0 1px;
+}
+
+[data-theme="light"] mark.char-add {
+  background: rgba(0, 189, 123, 0.35);
+  color: #000;
+}
+
+[data-theme="light"] mark.char-rem {
+  background: rgba(217, 61, 61, 0.35);
+  color: #000;
+}
+
+/* ── Görünür Boşluk Karakteri ────────────────────────────── */
+.space-char {
+  opacity: 0.5;
+  user-select: none;
+  font-family: monospace;
+}
