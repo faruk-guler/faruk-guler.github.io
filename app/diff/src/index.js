@@ -118,12 +118,12 @@ function createSplitDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(0, -3).forEach(line => {
-            const e = escapeHtml(line);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            const e = escapeHtml(line);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
@@ -138,14 +138,14 @@ function createSplitDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3).forEach(line => {
-            const e = escapeHtml(line);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
         // Eğer ortada bir bloksa (standart), hem üst 3 hem alt 3 gösterilir
         else {
           lines.slice(0, 3).forEach(line => {
-            const e = escapeHtml(line);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
 
@@ -153,18 +153,18 @@ function createSplitDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3, -3).forEach(line => {
-            const e = escapeHtml(line);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            const e = escapeHtml(line);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
       } else {
         lines.forEach(line => {
-          const e = escapeHtml(line);
+          const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
           rows.push(`<tr>
             <td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td>
             <td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td>
@@ -251,48 +251,56 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(0, -3).forEach(line => {
-            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
         }
         else if (isLastBlock) {
           lines.slice(0, 3).forEach(line => {
-            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
           const hiddenCount = lines.length - 3;
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3).forEach(line => {
-            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
         }
         else {
           lines.slice(0, 3).forEach(line => {
-            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
           const hiddenCount = lines.length - 6;
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3, -3).forEach(line => {
-            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
         }
       } else {
         lines.forEach(line => {
+          const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
           rows.push(`<tr>
             <td class="ln context-gutter">${oldLine++}</td>
             <td class="ln context-gutter">${newLine++}</td>
             <td class="sign context-gutter"></td>
-            <td class="context">${escapeHtml(line)}</td>
+            <td class="context">${e}</td>
           </tr>`);
         });
       }
@@ -348,9 +356,21 @@ function applySearch() {
     row.classList.remove('search-match');
     if (query.trim() === '') return;
 
-    // Sadece tablo html'sinde değil, string değerinde harf araması.
     if (row.textContent.toLowerCase().includes(query)) {
       row.classList.add('search-match');
+
+      // Auto-expand if hidden
+      if (row.classList.contains('hidden-line')) {
+        let prev = row.previousElementSibling;
+        while (prev) {
+          if (prev.classList.contains('folded-row')) {
+            prev.click(); // Trigger the click handler to expand
+            break;
+          }
+          if (!prev.classList.contains('hidden-line')) break;
+          prev = prev.previousElementSibling;
+        }
+      }
     }
   });
 }
