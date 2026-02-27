@@ -13,13 +13,16 @@
   <header class="topbar">
     <div class="topbar-logo">
       <span class="logo-icon">D</span>
-      <span class="logo-text">diffchecker github/faruk-guler</span>
+      <span class="logo-text">diffchecker v2.2 github/faruk-guler</span>
     </div>
     <nav class="topbar-nav">
       <a href="#" class="nav-tab active">Text</a>
-      <button id="compareBtn">Find difference</button>
+      <button id="compareBtn">Find difference!</button>
     </nav>
     <div class="topbar-right">
+      <label class="option-label">
+        <input type="checkbox" id="hideUnchanged"> Hide Unchanged Lines
+      </label>
       <label class="option-label">
         <input type="checkbox" id="ignoreWhitespace"> Ignore Whitespace
       </label>
@@ -40,6 +43,15 @@
       <div class="panel-header">Original text</div>
       <textarea id="oldText" spellcheck="false" placeholder="Paste original text here..."></textarea>
     </div>
+    <button class="swap-btn" id="swapBtn" title="Swap panels" aria-label="Swap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 10v12"></path>
+        <path d="M11 18l-4 4-4-4"></path>
+        <path d="M17 14V2"></path>
+        <path d="M13 6l4-4 4 4"></path>
+      </svg>
+    </button>
     <div class="editor-panel">
       <div class="panel-header">Changed text</div>
       <textarea id="newText" spellcheck="false" placeholder="Paste changed text here..."></textarea>
@@ -59,6 +71,16 @@
         <button class="mode-btn" data-mode="unified">≡ Unified</button>
       </div>
       <div class="toolbar-spacer"></div>
+
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchDiff" placeholder="Search in diff..." class="search-input">
+      </div>
+
       <button class="toolbar-btn" id="copyBtn" title="Copy original text">⎘ Copy</button>
       <button class="toolbar-btn" id="exportBtn" title="Export as .diff file">↑ Export</button>
       <button class="toolbar-btn danger" id="clearBtn">✕ Clear</button>
@@ -78,8 +100,8 @@
         <h2 id="modalTitle">About Code Diff Checker</h2>
       </div>
       <div class="modal-body">
-        <p class="modal-desc">A lightweight browser extension and standalone web tool for comparing two blocks of text
-          or code, inspired by diffchecker.com.</p>
+        <p class="modal-desc">A lightweight browser extension and standalone web tool used to compare two blocks of text
+          or code.</p>
         <div class="modal-features">
           <div class="feature-item">⧉ <strong>Split view</strong> — Side-by-side with independent line numbers</div>
           <div class="feature-item">≡ <strong>Unified view</strong> — Single column with +/− prefixes</div>
@@ -89,7 +111,7 @@
           <div class="feature-item">🌙 <strong>Dark / Light mode</strong></div>
         </div>
         <div class="modal-meta">
-          <span>Version 1.0</span>
+          <span>Version 2.2</span>
           <span>·</span>
           <span>Pure HTML / CSS / JS — no build step</span>
         </div>

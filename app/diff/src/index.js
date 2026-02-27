@@ -56,15 +56,16 @@ function diffTable(rows, heads) {
 
 function createSplitDiff(oldText, newText, ignoreWS) {
   const changes = Diff.diffLines(oldText, newText, { ignoreWhitespace: ignoreWS });
-  let rows = '', addCount = 0, removeCount = 0, oldLine = 1, newLine = 1, i = 0;
+  let addCount = 0, removeCount = 0, oldLine = 1, newLine = 1, i = 0;
+  const rows = [];
 
   while (i < changes.length) {
     const c = changes[i];
     if (c.removed) {
-      removeCount++;
+      removeCount += c.count || 1;
       const next = changes[i + 1];
       if (next?.added) {
-        addCount++;
+        addCount += next.count || 1;
         const L = c.value.replace(/\n$/, '').split('\n');
         const R = next.value.replace(/\n$/, '').split('\n');
         for (let j = 0; j < Math.max(L.length, R.length); j++) {
@@ -76,42 +77,69 @@ function createSplitDiff(oldText, newText, ignoreWS) {
             leftContent = il.oldHtml;
             rightContent = il.newHtml;
           }
-          rows += `<tr>
+          rows.push(`<tr>
             <td class="ln removed-gutter">${hasL ? oldLine++ : ''}</td>
             <td class="${hasL ? 'removed' : 'empty'}">${leftContent}</td>
             <td class="ln added-gutter">${hasR ? newLine++ : ''}</td>
             <td class="${hasR ? 'added' : 'empty'}">${rightContent}</td>
-          </tr>`;
+          </tr>`);
         }
         i += 2;
       } else {
         c.value.replace(/\n$/, '').split('\n').forEach(line => {
-          rows += `<tr>
+          rows.push(`<tr>
             <td class="ln removed-gutter">${oldLine++}</td>
             <td class="removed">${escapeHtml(line)}</td>
             <td class="ln"></td><td class="empty"></td>
-          </tr>`;
+          </tr>`);
         });
         i++;
       }
     } else if (c.added) {
-      addCount++;
+      addCount += c.count || 1;
       c.value.replace(/\n$/, '').split('\n').forEach(line => {
-        rows += `<tr>
+        rows.push(`<tr>
           <td class="ln"></td><td class="empty"></td>
           <td class="ln added-gutter">${newLine++}</td>
           <td class="added">${escapeHtml(line)}</td>
-        </tr>`;
+        </tr>`);
       });
       i++;
     } else {
-      c.value.replace(/\n$/, '').split('\n').forEach(line => {
-        const e = escapeHtml(line);
-        rows += `<tr>
-          <td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td>
-          <td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td>
-        </tr>`;
-      });
+      const isHide = document.getElementById('hideUnchanged').checked;
+      const lines = c.value.replace(/\n$/, '').split('\n');
+
+      if (isHide && lines.length > 6) {
+        // Render top 3 context
+        lines.slice(0, 3).forEach(line => {
+          const e = escapeHtml(line);
+          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+        });
+
+        // Render Folded Row Switch
+        const hiddenCount = lines.length - 6;
+        rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+
+        // Render hidden mid lines
+        lines.slice(3, -3).forEach(line => {
+          const e = escapeHtml(line);
+          rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+        });
+
+        // Render bottom 3 context
+        lines.slice(-3).forEach(line => {
+          const e = escapeHtml(line);
+          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+        });
+      } else {
+        lines.forEach(line => {
+          const e = escapeHtml(line);
+          rows.push(`<tr>
+            <td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td>
+            <td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td>
+          </tr>`);
+        });
+      }
       i++;
     }
   }
@@ -120,74 +148,95 @@ function createSplitDiff(oldText, newText, ignoreWS) {
   if (!addCount && !removeCount)
     return `<div class="no-diff">✅ No differences found. Both texts are identical.</div>`;
 
-  return diffTable(rows, [['ln-head', ''], ['', 'Original Text'], ['ln-head', ''], ['', 'Changed Text']]);
+  return diffTable(rows.join(''), [['ln-head', ''], ['', 'Original Text'], ['ln-head', ''], ['', 'Changed Text']]);
 }
 
 function createUnifiedDiff(oldText, newText, ignoreWS) {
   const changes = Diff.diffLines(oldText, newText, { ignoreWhitespace: ignoreWS });
-  let rows = '', addCount = 0, removeCount = 0, oldLine = 1, newLine = 1, i = 0;
+  let addCount = 0, removeCount = 0, oldLine = 1, newLine = 1, i = 0;
+  const rows = [];
 
   while (i < changes.length) {
     const c = changes[i];
     if (c.removed) {
-      removeCount++;
+      removeCount += c.count || 1;
       const next = changes[i + 1];
       const remLines = c.value.replace(/\n$/, '').split('\n');
       if (next?.added) {
-        addCount++;
+        addCount += next.count || 1;
         const addLines = next.value.replace(/\n$/, '').split('\n');
         remLines.forEach((line, idx) => {
           const paired = addLines[idx];
           const html = paired !== undefined ? inlineDiff(line, paired).oldHtml : escapeHtml(line);
-          rows += `<tr>
+          rows.push(`<tr>
             <td class="ln removed-gutter">${oldLine++}</td>
             <td class="ln removed-gutter"></td>
             <td class="sign removed-gutter">−</td>
             <td class="removed">${html}</td>
-          </tr>`;
+          </tr>`);
         });
         addLines.forEach((line, idx) => {
           const paired = remLines[idx];
           const html = paired !== undefined ? inlineDiff(paired, line).newHtml : escapeHtml(line);
-          rows += `<tr>
+          rows.push(`<tr>
             <td class="ln added-gutter"></td>
             <td class="ln added-gutter">${newLine++}</td>
             <td class="sign added-gutter">+</td>
             <td class="added">${html}</td>
-          </tr>`;
+          </tr>`);
         });
         i += 2;
       } else {
         remLines.forEach(line => {
-          rows += `<tr>
+          rows.push(`<tr>
             <td class="ln removed-gutter">${oldLine++}</td>
             <td class="ln removed-gutter"></td>
             <td class="sign removed-gutter">−</td>
             <td class="removed">${escapeHtml(line)}</td>
-          </tr>`;
+          </tr>`);
         });
         i++;
       }
     } else if (c.added) {
-      addCount++;
+      addCount += c.count || 1;
       c.value.replace(/\n$/, '').split('\n').forEach(line => {
-        rows += `<tr>
+        rows.push(`<tr>
           <td class="ln added-gutter"></td>
           <td class="ln added-gutter">${newLine++}</td>
           <td class="sign added-gutter">+</td>
           <td class="added">${escapeHtml(line)}</td>
-        </tr>`;
+        </tr>`);
       });
       i++;
     } else {
-      c.value.replace(/\n$/, '').split('\n').forEach(line => {
-        rows += `<tr>
-          <td class="ln context-gutter">${oldLine++}</td>
-          <td class="ln context-gutter">${newLine++}</td>
-          <td class="sign context-gutter"></td>
-          <td class="context">${escapeHtml(line)}</td>
-        </tr>`;
-      });
+      const isHide = document.getElementById('hideUnchanged').checked;
+      const lines = c.value.replace(/\n$/, '').split('\n');
+
+      if (isHide && lines.length > 6) {
+        lines.slice(0, 3).forEach(line => {
+          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+        });
+
+        const hiddenCount = lines.length - 6;
+        rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+
+        lines.slice(3, -3).forEach(line => {
+          rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+        });
+
+        lines.slice(-3).forEach(line => {
+          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+        });
+      } else {
+        lines.forEach(line => {
+          rows.push(`<tr>
+            <td class="ln context-gutter">${oldLine++}</td>
+            <td class="ln context-gutter">${newLine++}</td>
+            <td class="sign context-gutter"></td>
+            <td class="context">${escapeHtml(line)}</td>
+          </tr>`);
+        });
+      }
       i++;
     }
   }
@@ -196,7 +245,7 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
   if (!addCount && !removeCount)
     return `<div class="no-diff">✅ No differences found. Both texts are identical.</div>`;
 
-  return diffTable(rows, [['ln-head', 'Old'], ['ln-head', 'New'], ['ln-head', ''], ['', 'Unified View']]);
+  return diffTable(rows.join(''), [['ln-head', 'Old'], ['ln-head', 'New'], ['ln-head', ''], ['', 'Unified View']]);
 }
 
 function runDiff() {
@@ -221,11 +270,30 @@ function runDiff() {
       : createUnifiedDiff(oldText, newText, ignoreWS);
 
     document.body.classList.add('compact');
+
+    // YENİ EKLENTİ: Eğer halihazırda bir arama kelimesi varsa, HTML yeniden çizildiğinde onu tekrar uygula.
+    applySearch();
   } catch (err) {
     wrapper.style.display = 'block';
     output.innerHTML = `<div class="no-diff" style="color:var(--removed-text);background:var(--removed-bg);border-color:var(--removed-text);">❌ An error occurred while computing the diff. The text might be too large or complex.</div>`;
     console.error('Diff error:', err);
   }
+}
+
+// YENİ EKLENTİ: Arama fonksiyonunu hem "input" anında hem de tablo yeniden oluşturulduğunda kullanmak için dışarı çıkardık.
+function applySearch() {
+  const query = document.getElementById('searchDiff').value.toLowerCase();
+  const rows = document.querySelectorAll('.diff-table tbody tr:not(.folded-row)');
+
+  rows.forEach(row => {
+    row.classList.remove('search-match');
+    if (query.trim() === '') return;
+
+    // Sadece tablo html'sinde değil, string değerinde harf araması.
+    if (row.textContent.toLowerCase().includes(query)) {
+      row.classList.add('search-match');
+    }
+  });
 }
 
 document.querySelectorAll('.mode-btn').forEach(btn => {
@@ -237,6 +305,10 @@ document.querySelectorAll('.mode-btn').forEach(btn => {
 });
 
 document.getElementById('ignoreWhitespace').addEventListener('change', () => {
+  if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
+});
+
+document.getElementById('hideUnchanged').addEventListener('change', () => {
   if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
 });
 
@@ -259,6 +331,9 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     btn.innerHTML = '✔ Copied!';
     btn.style.color = 'var(--added-text)';
     setTimeout(() => { btn.innerHTML = origHTML; btn.style.color = ''; }, 1500);
+  }).catch(err => {
+    console.error('Clipboard error:', err);
+    alert('Kopyalama başarısız oldu: Panoya erişim engellendi.');
   });
 });
 
@@ -268,13 +343,9 @@ document.getElementById('exportBtn').addEventListener('click', () => {
   const ignoreWS = document.getElementById('ignoreWhitespace').checked;
   if (!oldText.trim() && !newText.trim()) return;
 
-  const changes = Diff.diffLines(oldText, newText, { ignoreWhitespace: ignoreWS });
-  const lines = changes.map(c => {
-    const prefix = c.added ? '+' : c.removed ? '-' : ' ';
-    return c.value.trimEnd().split('\n').map(l => prefix + l).join('\n');
-  }).join('\n');
+  const changes = Diff.createTwoFilesPatch("original.txt", "changed.txt", oldText, newText, "", "", { ignoreWhitespace: ignoreWS });
 
-  const blob = new Blob([lines], { type: 'text/plain' });
+  const blob = new Blob([changes], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -312,3 +383,55 @@ const modalClose = document.getElementById('modalClose');
 aboutBtn.addEventListener('click', () => modal.classList.add('open'));
 modalClose.addEventListener('click', () => modal.classList.remove('open'));
 modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+// Sync scroll between oldText and newText areas
+const oldPanel = document.getElementById('oldText');
+const newPanel = document.getElementById('newText');
+let isSyncingLeft = false;
+let isSyncingRight = false;
+
+oldPanel.addEventListener('scroll', function () {
+  if (!isSyncingLeft) {
+    isSyncingRight = true;
+    newPanel.scrollTop = this.scrollTop;
+  }
+  isSyncingLeft = false;
+});
+
+newPanel.addEventListener('scroll', function () {
+  if (!isSyncingRight) {
+    isSyncingLeft = true;
+    oldPanel.scrollTop = this.scrollTop;
+  }
+  isSyncingRight = false;
+});
+
+// Swap panels logic
+document.getElementById('swapBtn').addEventListener('click', () => {
+  const oldText = document.getElementById('oldText');
+  const newText = document.getElementById('newText');
+
+  const temp = oldText.value;
+  oldText.value = newText.value;
+  newText.value = temp;
+
+  // Re-run diff if properties exist
+  if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
+});
+
+// Run existing UI functionalities including expanding rows and search
+document.getElementById('diffOutput').addEventListener('click', (e) => {
+  const foldedRow = e.target.closest('.folded-row');
+  if (!foldedRow) return;
+
+  // Find all subsequent .hidden-line elements until next .folded-row or valid row
+  let next = foldedRow.nextElementSibling;
+  while (next && next.classList.contains('hidden-line')) {
+    next.classList.remove('hidden-line');
+    next = next.nextElementSibling;
+  }
+  foldedRow.remove();
+});
+
+// Search functionality
+document.getElementById('searchDiff').addEventListener('input', applySearch);
