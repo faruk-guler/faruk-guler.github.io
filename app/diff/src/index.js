@@ -108,29 +108,60 @@ function createSplitDiff(oldText, newText, ignoreWS) {
     } else {
       const isHide = document.getElementById('hideUnchanged').checked;
       const lines = c.value.replace(/\n$/, '').split('\n');
+      const isFirstBlock = i === 0;
+      const isLastBlock = i === changes.length - 1;
 
       if (isHide && lines.length > 6) {
-        // Render top 3 context
-        lines.slice(0, 3).forEach(line => {
-          const e = escapeHtml(line);
-          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
-        });
+        // Eğer ilk bloksa, sadece "alt" (bottom) 3 satır context olarak gösterilmeli, üst taraf gizlenmeli
+        if (isFirstBlock) {
+          const hiddenCount = lines.length - 3;
+          rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
-        // Render Folded Row Switch
-        const hiddenCount = lines.length - 6;
-        rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+          lines.slice(0, -3).forEach(line => {
+            const e = escapeHtml(line);
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+          });
 
-        // Render hidden mid lines
-        lines.slice(3, -3).forEach(line => {
-          const e = escapeHtml(line);
-          rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
-        });
+          lines.slice(-3).forEach(line => {
+            const e = escapeHtml(line);
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+          });
+        }
+        // Eğer son bloksa, sadece "üst" (top) 3 satır context olarak gösterilmeli, alt taraf tamamen gizlenmeli
+        else if (isLastBlock) {
+          lines.slice(0, 3).forEach(line => {
+            const e = escapeHtml(line);
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+          });
 
-        // Render bottom 3 context
-        lines.slice(-3).forEach(line => {
-          const e = escapeHtml(line);
-          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
-        });
+          const hiddenCount = lines.length - 3;
+          rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+
+          lines.slice(3).forEach(line => {
+            const e = escapeHtml(line);
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+          });
+        }
+        // Eğer ortada bir bloksa (standart), hem üst 3 hem alt 3 gösterilir
+        else {
+          lines.slice(0, 3).forEach(line => {
+            const e = escapeHtml(line);
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+          });
+
+          const hiddenCount = lines.length - 6;
+          rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+
+          lines.slice(3, -3).forEach(line => {
+            const e = escapeHtml(line);
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+          });
+
+          lines.slice(-3).forEach(line => {
+            const e = escapeHtml(line);
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
+          });
+        }
       } else {
         lines.forEach(line => {
           const e = escapeHtml(line);
@@ -211,22 +242,50 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
     } else {
       const isHide = document.getElementById('hideUnchanged').checked;
       const lines = c.value.replace(/\n$/, '').split('\n');
+      const isFirstBlock = i === 0;
+      const isLastBlock = i === changes.length - 1;
 
       if (isHide && lines.length > 6) {
-        lines.slice(0, 3).forEach(line => {
-          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
-        });
+        if (isFirstBlock) {
+          const hiddenCount = lines.length - 3;
+          rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
-        const hiddenCount = lines.length - 6;
-        rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+          lines.slice(0, -3).forEach(line => {
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+          });
 
-        lines.slice(3, -3).forEach(line => {
-          rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
-        });
+          lines.slice(-3).forEach(line => {
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+          });
+        }
+        else if (isLastBlock) {
+          lines.slice(0, 3).forEach(line => {
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+          });
 
-        lines.slice(-3).forEach(line => {
-          rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
-        });
+          const hiddenCount = lines.length - 3;
+          rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+
+          lines.slice(3).forEach(line => {
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+          });
+        }
+        else {
+          lines.slice(0, 3).forEach(line => {
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+          });
+
+          const hiddenCount = lines.length - 6;
+          rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
+
+          lines.slice(3, -3).forEach(line => {
+            rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+          });
+
+          lines.slice(-3).forEach(line => {
+            rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${escapeHtml(line)}</td></tr>`);
+          });
+        }
       } else {
         lines.forEach(line => {
           rows.push(`<tr>
