@@ -89,6 +89,14 @@ header {
     letter-spacing: -0.5px;
 }
 
+.last-update-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-left: 0.5rem;
+    opacity: 0.8;
+}
+
 .header-actions {
     display: flex;
     gap: 1rem;
@@ -267,7 +275,7 @@ button {
 }
 
 .total-balance-inline {
-    background: rgba(88, 166, 255, 0.1);
+    background: rgba(88, 166, 166, 0.05);
     border: 1px solid var(--accent-color);
     padding: 0.4rem 1.2rem;
     border-radius: 30px;
@@ -277,6 +285,19 @@ button {
     gap: 0.6rem;
     white-space: nowrap;
     box-shadow: 0 0 15px rgba(88, 166, 255, 0.1);
+}
+
+.total-pl-inline {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.4rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    white-space: nowrap;
+    transition: var(--transition);
 }
 
 .balance-label {
@@ -361,9 +382,9 @@ table {
 
 th,
 td {
-    padding: 1.2rem 1rem;
+    padding: 1rem 0.8rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    /* Subtle inner borders */
+    min-width: 120px;
 }
 
 th {
@@ -496,6 +517,14 @@ td {
     background: rgba(248, 81, 73, 0.1);
     color: #f85149;
     border: 1px solid rgba(248, 81, 73, 0.3);
+}
+
+.profit-text {
+    color: #2ea043 !important;
+}
+
+.loss-text {
+    color: #f85149 !important;
 }
 
 /* Action Icons */

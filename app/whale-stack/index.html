@@ -42,14 +42,11 @@
                 <button id="importBtn" class="action-btn outline">
                     <i class="fa-solid fa-file-import"></i> Import
                 </button>
-                <input type="file" id="fileInput" accept=".json, .csv" style="display: none;">
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
 
                 <!-- Export Buttons -->
                 <button id="exportJsonBtn" class="action-btn highlight">
                     <i class="fa-solid fa-file-export"></i> Export JSON
-                </button>
-                <button id="exportCsvBtn" class="action-btn highlight">
-                    <i class="fa-solid fa-file-csv"></i> Export CSV
                 </button>
             </div>
         </header>
@@ -59,10 +56,15 @@
             <section class="table-section glass-panel">
                 <div class="table-header">
                     <div class="table-header-title">
-                        <h2><i class="fa-solid fa-list"></i> My Portfolio</h2>
+                        <h2><i class="fa-solid fa-list"></i> My Portfolio <small id="lastUpdatedGlobal"
+                                class="last-update-text"></small></h2>
                         <div class="total-balance-inline">
                             <span class="balance-label">Total Balance:</span>
                             <span id="summaryTotalValue" class="balance-value">$0.00</span>
+                        </div>
+                        <div id="totalPLContainer" class="total-pl-inline hidden">
+                            <span class="balance-label">Total P/L:</span>
+                            <span id="summaryTotalPL" class="balance-value">$0.00</span>
                         </div>
                         <button id="convertTRYBtn" class="tl-rate-btn" title="Convert portfolio value to TRY on Google">
                             <i class="fa-solid fa-turkish-lira-sign"></i> TRY
@@ -73,7 +75,7 @@
                     </div>
                     <div class="search-box">
                         <i class="fa-solid fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search asset or category...">
+                        <input type="text" id="searchInput" placeholder="Search asset...">
                     </div>
                 </div>
 
@@ -82,13 +84,13 @@
                         <thead>
                             <tr>
                                 <th>Assets</th>
-                                <th>Category</th>
                                 <th>Amount</th>
                                 <th>Avg Cost ($)</th>
+                                <th>Current Price ($)</th>
                                 <th>Circulating Supply</th>
                                 <th>Max Supply</th>
-                                <th>Risk Level</th>
-                                <th>Last Edit</th>
+                                <th>Profit/Loss (%)</th>
+                                <th>Risk</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -169,16 +171,17 @@
                             <input type="text" id="assetName" placeholder="e.g. ETH, BTC" required>
                         </div>
                         <div class="form-group">
-                            <label for="category">Category</label>
-                            <input type="text" id="category" placeholder="e.g. layer 1, defi" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="amount">Amount (Owned)</label>
+                            <label for="amount">Amount</label>
                             <input type="number" id="amount" step="any" min="0" placeholder="e.g. 5.5" required>
                         </div>
                         <div class="form-group">
                             <label for="price">Avg Buy Price ($)</label>
                             <input type="number" id="price" step="any" min="0" placeholder="e.g. 3500.50" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="currentPrice">Current Price ($)</label>
+                            <input type="number" id="currentPrice" step="any" min="0" placeholder="e.g. 4200.75"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="circSupply">Circulating Supply</label>
@@ -189,7 +192,7 @@
                             <input type="number" id="maxSupply" step="any" min="0" placeholder="e.g. 21000000">
                         </div>
                         <div class="form-group">
-                            <label for="rowColor">Risk Level</label>
+                            <label for="rowColor">Risk</label>
                             <select id="rowColor">
                                 <option value="low">LOW (Safe)</option>
                                 <option value="medium">MEDIUM (Watch)</option>

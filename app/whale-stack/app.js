@@ -5,9 +5,9 @@ let editingId = null;
 // DOM Elements
 const assetForm = document.getElementById('assetForm');
 const assetNameInput = document.getElementById('assetName');
-const categoryInput = document.getElementById('category');
 const amountInput = document.getElementById('amount');
 const priceInput = document.getElementById('price');
+const currentPriceInput = document.getElementById('currentPrice');
 const circSupplyInput = document.getElementById('circSupply');
 const maxSupplyInput = document.getElementById('maxSupply');
 const rowColorInput = document.getElementById('rowColor');
@@ -19,12 +19,13 @@ const searchInput = document.getElementById('searchInput');
 
 // Summary Element DOMs
 const summaryTotalValue = document.getElementById('summaryTotalValue');
+const summaryTotalPL = document.getElementById('summaryTotalPL');
+const totalPLContainer = document.getElementById('totalPLContainer');
 
 // Dropdown Action Elements
 const importBtn = document.getElementById('importBtn');
 const fileInput = document.getElementById('fileInput');
 const exportJsonBtn = document.getElementById('exportJsonBtn');
-const exportCsvBtn = document.getElementById('exportCsvBtn');
 
 // Modal Elements
 const aboutBtn = document.getElementById('aboutBtn');
@@ -85,8 +86,7 @@ function renderTable(filterText = '') {
     // Filter assets
     const filteredAssets = mappedAssets.filter(asset => {
         const text = filterText.toLowerCase();
-        return asset.name.toLowerCase().includes(text) ||
-            asset.category.toLowerCase().includes(text);
+        return asset.name.toLowerCase().includes(text);
     });
 
     if (filteredAssets.length === 0) {
@@ -95,27 +95,43 @@ function renderTable(filterText = '') {
 
         // Reset Summaries
         if (summaryTotalValue) summaryTotalValue.textContent = '$0.00';
+        if (summaryTotalPL) summaryTotalPL.textContent = '$0.00';
+        if (totalPLContainer) totalPLContainer.classList.add('hidden');
 
     } else {
         emptyState.classList.add('hidden');
         document.querySelector('.table-responsive').classList.remove('hidden');
 
         let absoluteTotalVal = 0;
+        let absoluteBuyVal = 0;
 
         // Identify max 'totalValue' for progress bar and metrics
         // We include originalIndex to support dragging without mixing up state
         const processedAssets = filteredAssets.map(a => {
             const amt = parseFloat(a.amount) || 0;
             const prc = parseFloat(a.price) || 0;
-            const tVal = amt * prc;
+            const curPrc = parseFloat(a.currentPrice) || 0;
+            const tVal = amt * curPrc; // Total value should be based on current price
+            const buyVal = amt * prc; // Original buy value
 
             absoluteTotalVal += tVal;
+            absoluteBuyVal += buyVal;
+
+            let profitLoss = 0;
+            let profitLossPercent = 0;
+            if (prc > 0) {
+                profitLoss = (curPrc - prc) * amt;
+                profitLossPercent = ((curPrc - prc) / prc) * 100;
+            }
 
             return {
                 ...a,
                 totalValue: tVal,
                 amtStr: amt,
-                prcStr: prc
+                prcStr: prc,
+                curPrcStr: curPrc,
+                profitLoss: profitLoss,
+                profitLossPercent: profitLossPercent
             };
         });
 
@@ -127,57 +143,68 @@ function renderTable(filterText = '') {
         // Update Summaries
         if (summaryTotalValue) summaryTotalValue.textContent = absoluteTotalVal.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
+        // Total Portfolio P/L Calculation
+        if (summaryTotalPL && totalPLContainer) {
+            const totalPLAmount = absoluteTotalVal - absoluteBuyVal;
+            const totalPLPercent = absoluteBuyVal > 0 ? (totalPLAmount / absoluteBuyVal) * 100 : 0;
+
+            const plFormatted = totalPLAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD', signDisplay: 'always' });
+            const plPercentFormatted = totalPLPercent.toFixed(2) + '%';
+
+            summaryTotalPL.textContent = `${plFormatted} (${plPercentFormatted})`;
+            totalPLContainer.classList.remove('hidden');
+
+            // Color coding for total P/L
+            if (totalPLAmount >= 0) {
+                summaryTotalPL.className = 'balance-value profit-text';
+            } else {
+                summaryTotalPL.className = 'balance-value loss-text';
+            }
+        }
+
         processedAssets.forEach(asset => {
             const tr = document.createElement('tr');
 
             const percentage = maxTotalValue > 0 ? (asset.totalValue / maxTotalValue) * 100 : 0;
 
-            // Format to reasonable decimals
             const valFormatted = asset.totalValue.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
             const priceFormatted = asset.prcStr.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+            const currentPriceFormatted = asset.curPrcStr.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
-            // Risk Badge HTML
+            const plFormatted = asset.profitLoss.toLocaleString('en-US', { style: 'currency', currency: 'USD', signDisplay: 'always' });
+            const plPercentFormatted = asset.profitLossPercent.toFixed(2) + '%';
+            const plClass = asset.profitLoss >= 0 ? 'profit-text' : 'loss-text';
+
             let riskClass = '';
             let riskText = '';
+            if (asset.color === 'low') { riskClass = 'risk-low'; riskText = 'LOW'; }
+            else if (asset.color === 'medium') { riskClass = 'risk-medium'; riskText = 'MED'; }
+            else if (asset.color === 'high') { riskClass = 'risk-high'; riskText = 'HIGH'; }
+            else { riskClass = 'risk-low'; riskText = 'LOW'; }
 
-            if (asset.color === 'low') {
-                riskClass = 'risk-low';
-                riskText = 'LOW';
-            } else if (asset.color === 'medium') {
-                riskClass = 'risk-medium';
-                riskText = 'MED';
-            } else if (asset.color === 'high') {
-                riskClass = 'risk-high';
-                riskText = 'HIGH';
-            } else {
-                riskClass = 'risk-low';
-                riskText = 'LOW';
-            }
-
-            const riskBadgeHtml = `<span class="risk-badge ${riskClass}">${riskText}</span>`;
-
+            // XSS Safe Column Rendering
             tr.innerHTML = `
-                <td class="asset-name-bold">${asset.name.toUpperCase()}</td>
-                <td>${asset.category}</td>
+                <td class="asset-name-bold">${escapeHTML(asset.name.toUpperCase())}</td>
                 <td class="amount-bold">
                     <div class="amount-container">
-                        <span class="amount-text">${asset.amount || '0'}</span>
+                        <span class="amount-text">${escapeHTML(String(asset.amount || '0'))}</span>
                         <div class="amount-bar-bg">
                             <div class="amount-bar-fill" title="Valued at: ${valFormatted}" style="width: ${percentage}%"></div>
                         </div>
                     </div>
                 </td>
                 <td>${priceFormatted}</td>
+                <td>${currentPriceFormatted}</td>
                 <td>${asset.circSupply ? Number(asset.circSupply).toLocaleString('en-US') : '∞'}</td>
                 <td>${asset.maxSupply ? Number(asset.maxSupply).toLocaleString('en-US') : '∞'}</td>
-                <td>${riskBadgeHtml}</td>
-                <td class="date-text">${asset.lastEdit || '-'}</td>
+                <td class="${plClass} amount-bold">${plFormatted} (${plPercentFormatted})</td>
+                <td><span class="risk-badge ${riskClass}">${riskText}</span></td>
                 <td>
                     <div class="row-actions">
-                        <button class="icon-btn edit" onclick="editAsset('${asset.id}')" title="Edit">
+                        <button class="icon-btn edit" onclick="editAsset('${asset.id}')" title="Edit" aria-label="Edit ${escapeHTML(asset.name)}">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
-                        <button class="icon-btn delete" onclick="deleteAsset('${asset.id}')" title="Delete">
+                        <button class="icon-btn delete" onclick="deleteAsset('${asset.id}')" title="Delete" aria-label="Delete ${escapeHTML(asset.name)}">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -269,11 +296,20 @@ function setupEventListeners() {
         if (file.name.toLowerCase().endsWith('.json')) {
             reader.onload = function (e) {
                 try {
-                    const importedData = JSON.parse(e.target.result);
+                    let importedData = JSON.parse(e.target.result);
+                    // Handle new format { assets: [], portfolioLastEdit: ... } or old format [ ... ]
+                    if (!Array.isArray(importedData) && importedData.assets) {
+                        if (importedData.portfolioLastEdit) {
+                            localStorage.setItem('portfolioLastUpdated', importedData.portfolioLastEdit);
+                        }
+                        importedData = importedData.assets;
+                    }
+
                     if (Array.isArray(importedData)) {
                         assets = importedData;
                         saveAssets();
                         renderTable(searchInput.value);
+                        updateGlobalTimestamp(localStorage.getItem('portfolioLastUpdated')); // Refresh UI timestamp
                         showToast('JSON Portfolio imported successfully.');
                     } else {
                         showToast('Invalid JSON file format.', true);
@@ -282,26 +318,8 @@ function setupEventListeners() {
                     showToast('JSON File read error.', true);
                 }
             };
-        } else if (file.name.toLowerCase().endsWith('.csv')) {
-            reader.onload = function (e) {
-                try {
-                    const csvText = e.target.result;
-                    const importedData = parseCSV(csvText);
-
-                    if (importedData && importedData.length > 0) {
-                        assets = importedData;
-                        saveAssets();
-                        renderTable(searchInput.value);
-                        showToast('CSV Portfolio imported successfully.');
-                    } else {
-                        showToast('Invalid or empty CSV file.', true);
-                    }
-                } catch (err) {
-                    showToast('CSV File read error.', true);
-                }
-            };
         } else {
-            showToast('Unsupported file type.', true);
+            showToast('Only JSON files are supported.', true);
             fileInput.value = ''; // Reset
             return;
         }
@@ -317,27 +335,34 @@ function setupEventListeners() {
             return;
         }
 
-        const dataStr = JSON.stringify(assets, null, 2);
+        // Create export object with global timestamp
+        const exportObj = {
+            assets: assets,
+            portfolioLastEdit: localStorage.getItem('portfolioLastUpdated') || getCurrentDateFormatted()
+        };
+        const dataStr = JSON.stringify(exportObj, null, 2);
         const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
 
         triggerDownload(dataUri, 'crypto_portfolio.json');
         showToast('JSON backup file is downloading.');
     });
 
-    // Action Events - CSV Export
-    exportCsvBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (assets.length === 0) {
-            showToast('No assets found to export!', true);
-            return;
-        }
+    // Global Last Updated DOM
+    const lastUpdatedGlobal = document.getElementById('lastUpdatedGlobal');
+    if (lastUpdatedGlobal) {
+        const savedTime = localStorage.getItem('portfolioLastUpdated');
+        if (savedTime) lastUpdatedGlobal.textContent = `(Last update: ${savedTime})`;
+    }
+}
 
-        const csvContent = convertToCSV(assets);
-        const dataUri = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csvContent);
-
-        triggerDownload(dataUri, 'crypto_portfolio.csv');
-        showToast('CSV backup file is downloading.');
-    });
+// Update Global Timestamp
+function updateGlobalTimestamp(specificTime = null) {
+    const formattedDate = specificTime || getCurrentDateFormatted();
+    localStorage.setItem('portfolioLastUpdated', formattedDate);
+    const lastUpdatedGlobal = document.getElementById('lastUpdatedGlobal');
+    if (lastUpdatedGlobal) {
+        lastUpdatedGlobal.textContent = `(Last update: ${formattedDate})`;
+    }
 }
 
 // Utility Function for Download
@@ -351,99 +376,34 @@ function triggerDownload(dataUri, filename) {
     document.body.removeChild(linkElement);
 }
 
-// CSV Conversion Utilities
-function convertToCSV(dataArr) {
-    const headers = ['ID', 'Asset', 'Category', 'Amount', 'Price', 'Circulating Supply', 'Max Supply', 'Color', 'Last Edit'];
-    let csvRows = [];
-
-    // Add headers
-    csvRows.push(headers.join(','));
-
-    // Add data
-    for (const asset of dataArr) {
-        const row = [
-            escapeCSV(asset.id),
-            escapeCSV(asset.name),
-            escapeCSV(asset.category),
-            escapeCSV(asset.amount || '0'),
-            escapeCSV(asset.price || '0'),
-            escapeCSV(asset.circSupply || ''),
-            escapeCSV(asset.maxSupply || ''),
-            escapeCSV(asset.color || 'default'),
-            escapeCSV(asset.lastEdit)
-        ];
-        csvRows.push(row.join(','));
-    }
-
-    return csvRows.join('\n');
-}
-
-function escapeCSV(str) {
-    if (str === null || str === undefined) return '';
-    const stringVal = String(str);
-    if (stringVal.includes(',') || stringVal.includes('"') || stringVal.includes('\n')) {
-        return `"${stringVal.replace(/"/g, '""')}"`;
-    }
-    return stringVal;
-}
-
-function parseCSV(csvText) {
-    const lines = csvText.split('\n');
-    if (lines.length < 2) return []; // Needs at least header and 1 data row
-
-    const result = [];
-    // Assuming identical header order to convertToCSV:
-    // ['ID', 'Asset', 'Category', 'Amount', 'Price', 'Circulating Supply', 'Max Supply', 'Color', 'Last Edit']
-
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (!line) continue;
-
-        // Basic regex for CSV splitting (handles quotes)
-        // Note: For complex CSVs, a dedicated library like Papaparse is better, 
-        // but this regex works for standard cases.
-        const values = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-
-        if (values && values.length >= 2) {
-            // Clean quotes from values
-            const cleanVals = values.map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
-
-            result.push({
-                id: cleanVals[0] || Date.now().toString() + i,
-                name: cleanVals[1] || 'Unknown',
-                category: cleanVals[2] || 'Uncategorized',
-                amount: cleanVals[3] || '0',
-                price: cleanVals[4] || '0',
-                circSupply: cleanVals[5] || '',
-                maxSupply: cleanVals[6] || '',
-                color: cleanVals[7] || 'default',
-                lastEdit: cleanVals[8] || getCurrentDateFormatted()
-            });
-        }
-    }
-    return result;
+// XSS Prevention Utility
+function escapeHTML(str) {
+    const p = document.createElement('p');
+    p.textContent = str;
+    return p.innerHTML;
 }
 
 // Save Asset (Add new or Update existing)
 function saveFormAsset() {
     const nameStr = assetNameInput.value.trim().toUpperCase();
-    const catStr = categoryInput.value.trim();
     const amtStr = amountInput.value.trim();
     const priceStr = priceInput.value.trim();
+    const currentPriceStr = currentPriceInput.value.trim();
     const circStr = circSupplyInput.value.trim();
     const maxStr = maxSupplyInput.value.trim();
 
     // Strict Validation
-    if (!nameStr || !catStr || !amtStr || !priceStr) {
+    if (!nameStr || !amtStr || !priceStr || !currentPriceStr) {
         showToast('Please fill all required fields.', true);
         return;
     }
 
     const amtNum = parseFloat(amtStr);
     const priceNum = parseFloat(priceStr);
+    const currentPriceNum = parseFloat(currentPriceStr);
 
-    if (isNaN(amtNum) || amtNum < 0 || isNaN(priceNum) || priceNum < 0) {
-        showToast('Amount and Price must be valid positive numbers.', true);
+    if (isNaN(amtNum) || amtNum < 0 || isNaN(priceNum) || priceNum < 0 || isNaN(currentPriceNum) || currentPriceNum < 0) {
+        showToast('Amount, Price and Current Price must be valid positive numbers.', true);
         return;
     }
 
@@ -459,9 +419,9 @@ function saveFormAsset() {
 
     const newAsset = {
         name: nameStr,
-        category: catStr,
         amount: amtStr,
         price: priceStr,
+        currentPrice: currentPriceStr,
         circSupply: circStr,
         maxSupply: maxStr,
         color: rowColorInput.value,
@@ -483,6 +443,7 @@ function saveFormAsset() {
         showToast(`${newAsset.name} added to portfolio.`);
     }
 
+    updateGlobalTimestamp();
     saveAssets();
     renderTable(searchInput.value);
     resetForm();
@@ -497,9 +458,9 @@ window.editAsset = function (id) {
     editingId = id;
 
     assetNameInput.value = asset.name;
-    categoryInput.value = asset.category;
     amountInput.value = asset.amount || '';
     priceInput.value = asset.price || '';
+    currentPriceInput.value = asset.currentPrice || '';
     circSupplyInput.value = asset.circSupply || '';
     maxSupplyInput.value = asset.maxSupply || '';
     rowColorInput.value = asset.color || 'low';
@@ -524,6 +485,7 @@ window.deleteAsset = function (id) {
     }
     if (confirm(`Are you sure you want to delete '${asset.name}'?`)) {
         assets = assets.filter(a => a.id !== id);
+        updateGlobalTimestamp();
         saveAssets();
         renderTable(searchInput.value);
         showToast('Asset deleted.');
