@@ -1094,14 +1094,14 @@ body.light-mode .slogan-banner {
 /* Tools Modal & Grid Styles */
 .tools-modal-content {
     background: var(--modal-bg);
-    max-width: 800px;
+    max-width: 850px; /* Increased for 2 columns */
     padding: 2.5rem;
     border-radius: 20px;
 }
 
 .tools-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
     gap: 1.5rem;
     margin-top: 1.5rem;
 }
