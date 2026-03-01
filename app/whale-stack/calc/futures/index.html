@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futures Liquidation Calculator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-color: #0d1117;
+      --panel-bg: rgba(22, 27, 34, 0.7);
+      --border-color: rgba(48, 54, 61, 0.8);
+      --text-primary: #f0f6fc;
+      --text-secondary: #8b949e;
+      --accent-color: #58a6ff;
+      --accent-hover: #3182ce;
+      --accent-glow: rgba(88, 166, 255, 0.3);
+      --row-green: rgba(46, 160, 67, 0.15);
+      --row-green-border: rgba(46, 160, 67, 0.4);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    body.light-mode {
+      --bg-color: #f0f2f5;
+      --panel-bg: rgba(255, 255, 255, 0.85);
+      --border-color: rgba(209, 213, 219, 0.8);
+      --text-primary: #1f2937;
+      --text-secondary: #6b7280;
+      --accent-color: #2563eb;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      background-image: radial-gradient(circle at top right, rgba(88, 166, 255, 0.05), transparent 40%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px 40px;
+      margin: 0;
+      transition: var(--transition);
+    }
+
+    /* Unified Header */
+    .unified-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1001;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      color: var(--accent-color);
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-btn:hover {
+      background: var(--accent-color);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    .container {
+      max-width: 650px;
+      width: 100%;
+      background: var(--panel-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 0.8s ease;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    input,
+    select {
+      background: #111111;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      outline: none;
+      width: 100%;
+    }
+
+    body.light-mode input,
+    body.light-mode select {
+      background: #f9fafb;
+      border-color: #d1d5db;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    button {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border: none;
+    }
+
+    .calc-btn {
+      background: var(--accent-color);
+      color: white;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .calc-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px var(--accent-glow);
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .clear-btn:hover {
+      background: rgba(248, 81, 73, 0.1);
+      color: #f85149;
+      border-color: #f85149;
+    }
+
+    .result {
+      margin-top: 2.5rem;
+      background: var(--row-green);
+      border: 1px solid var(--row-green-border);
+      border-radius: 16px;
+      padding: 25px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    body.light-mode .result-row {
+      border-bottom-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .liq-price {
+      color: #ff5252;
+      font-size: 1.2rem;
+    }
+
+    .warning {
+      color: #ff9800;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      text-align: center;
+      font-style: italic;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="unified-header">
+    <a href="../../index.html" class="back-btn"><i class="fa-solid fa-house"></i> Home</a>
+  </div>
+
+  <div class="container">
+    <h1><i class="fa-solid fa-chart-line"></i> Futures Liquidation Calculator</h1>
+    <form id="futuresForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="investmentAmount">Investment Amount (USDT)</label>
+          <input type="number" id="investmentAmount" placeholder="e.g. 500" required step="0.01">
+        </div>
+        <div class="form-group">
+          <label for="entryPrice">Entry Price (USD)</label>
+          <input type="number" id="entryPrice" placeholder="e.g. 1.45" required step="0.01">
+        </div>
+        <div class="form-group">
+          <label for="leverage">Leverage (1-125x)</label>
+          <input type="number" id="leverage" placeholder="e.g. 10" required min="1" max="125">
+        </div>
+        <div class="form-group">
+          <label for="positionType">Position Type</label>
+          <select id="positionType" required>
+            <option value="long">LONG</option>
+            <option value="short">SHORT</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="calc-btn" onclick="calculateFutures()">
+          <i class="fa-solid fa-calculator"></i> Calculate
+        </button>
+        <button type="button" class="clear-btn" onclick="clearForm()">
+          <i class="fa-solid fa-rotate-left"></i> Clear
+        </button>
+      </div>
+    </form>
+
+    <div class="result" id="result" style="display:none;">
+      <div class="result-row">
+        <span class="result-label">Investment Amount</span>
+        <span class="result-value"><span id="resultInvestment"></span> USDT</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Entry Price</span>
+        <span class="result-value"><span id="resultEntryPrice"></span> USD</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Leverage</span>
+        <span class="result-value"><span id="resultLeverage"></span> x</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Liquidation Price</span>
+        <span class="result-value liq-price">$<span id="resultLiquidationPrice"></span></span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Initial Margin</span>
+        <span class="result-value"><span id="resultInitialMargin"></span> USDT</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Position Type</span>
+        <span class="result-value" id="resultPositionType"></span>
+      </div>
+      <p id="warningMessage" class="warning"></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateFutures() {
+      // Get input values
+      var investment = parseFloat(document.getElementById('investmentAmount').value);
+      var entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      var leverage = parseFloat(document.getElementById('leverage').value);
+      var positionType = document.getElementById('positionType').value;
+
+      // Validation
+      if (isNaN(investment) || isNaN(entryPrice) || isNaN(leverage) || investment <= 0 || entryPrice <= 0 || leverage <= 0) {
+        alert("Please enter valid positive values!");
+        document.getElementById('warningMessage').textContent = "";
+        return;
+      }
+
+      // Max leverage validation
+      if (leverage > 125) {
+        alert("Leverage cannot exceed 125!");
+        document.getElementById('warningMessage').textContent = "";
+        return;
+      }
+
+      // High leverage warning
+      if (leverage > 50) {
+        alert("High leverage is risky! Please be careful.");
+      }
+
+      // Liquidation price calculation
+      var liquidationPrice;
+      var priceChangePercentage = Math.abs((1 / leverage) * 100);
+
+      if (positionType === "short") {
+        liquidationPrice = entryPrice * (1 + 1 / leverage);
+      } else { // long
+        liquidationPrice = entryPrice * (1 - 1 / leverage);
+      }
+
+      // Initial margin calculation
+      var initialMargin = investment / leverage;
+
+      // Update results
+      document.getElementById('resultInvestment').textContent = investment.toFixed(2);
+      document.getElementById('resultEntryPrice').textContent = entryPrice.toFixed(2);
+      document.getElementById('resultLeverage').textContent = leverage.toFixed(0);
+      document.getElementById('resultLiquidationPrice').textContent = liquidationPrice.toFixed(2);
+      document.getElementById('resultInitialMargin').textContent = initialMargin.toFixed(2);
+      document.getElementById('resultPositionType').textContent = positionType === "short" ? "SHORT" : "LONG";
+
+      // Warning message
+      var warningMessage = "";
+      if (positionType === "short") {
+        warningMessage = "You will be liquidated when price rises by " + priceChangePercentage.toFixed(2) + "% !";
+      } else {
+        warningMessage = "You will be liquidated when price drops by " + priceChangePercentage.toFixed(2) + "% !";
+      }
+      document.getElementById('warningMessage').textContent = warningMessage;
+
+      // Show results
+      document.getElementById('result').style.display = 'block';
+    }
+
+    function clearForm() {
+      document.getElementById('futuresForm').reset();
+      document.getElementById('result').style.display = 'none';
+    }
+
+    function loadThemePreference() {
+      const savedTheme = localStorage.getItem('whalestack-theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+      } else {
+        document.body.classList.remove('light-mode');
+      }
+    }
+
+    loadThemePreference();
+  </script>
+</body>
+
+</html>

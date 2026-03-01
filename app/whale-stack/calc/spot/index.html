@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spot Profit and Loss Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: rgba(22, 27, 34, 0.7);
+            --border-color: rgba(48, 54, 61, 0.8);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-color: #58a6ff;
+            --accent-hover: #3182ce;
+            --accent-glow: rgba(88, 166, 255, 0.3);
+            --row-green: rgba(46, 160, 67, 0.15);
+            --row-green-border: rgba(46, 160, 67, 0.4);
+            --row-red: rgba(248, 81, 73, 0.15);
+            --row-red-border: rgba(248, 81, 73, 0.4);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body.light-mode {
+            --bg-color: #f0f2f5;
+            --panel-bg: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(209, 213, 219, 0.8);
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --accent-color: #2563eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at top right, rgba(88, 166, 255, 0.05), transparent 40%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 40px;
+            margin: 0;
+            transition: var(--transition);
+        }
+
+        /* Unified Header */
+        .unified-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        input {
+            background: #111111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            outline: none;
+            width: 100%;
+        }
+
+        body.light-mode input {
+            background: #f9fafb;
+            border-color: #d1d5db;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+        }
+
+        .calculate-btn {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .calculate-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px var(--accent-glow);
+        }
+
+        .clear-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .clear-btn:hover {
+            background: rgba(248, 81, 73, 0.1);
+            color: #f85149;
+            border-color: #f85149;
+        }
+
+        .result {
+            margin-top: 2.5rem;
+            padding: 0;
+            background: transparent;
+            border: none;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        body.light-mode .result-card {
+            background: #ffffff;
+            border-color: #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-card strong {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .result-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profit-result .result-card {
+            border-color: var(--row-green-border);
+            background: var(--row-green);
+        }
+
+        .loss-result .result-card {
+            border-color: var(--row-red-border);
+            background: var(--row-red);
+        }
+
+        .profit {
+            color: #2ea043;
+        }
+
+        .loss {
+            color: #f85149;
+        }
+
+        .neutral {
+            color: #ff9800;
+        }
+
+        .error-message,
+        .success-message {
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .error-message {
+            background: rgba(248, 81, 73, 0.1);
+            color: #f85149;
+            border: 1px solid rgba(248, 81, 73, 0.2);
+        }
+
+        .success-message {
+            background: rgba(46, 160, 67, 0.1);
+            color: #2ea043;
+            border: 1px solid rgba(46, 160, 67, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="unified-header">
+        <a href="../../index.html" class="back-btn"><i class="fa-solid fa-house"></i> Home</a>
+    </div>
+
+    <div class="container">
+        <h1>Spot Profit and Loss Calculator</h1>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="calcForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="coinName">Asset Symbol</label>
+                    <input type="text" id="coinName" name="coinName" placeholder="e.g. BTC, ETH, SOL" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="buyPrice">Buy Price (USD)</label>
+                    <input type="number" id="buyPrice" name="buyPrice" placeholder="0.00" step="0.00000001" min="0"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="investmentAmount">Investment Amount (USD)</label>
+                    <input type="number" id="investmentAmount" name="investmentAmount" placeholder="0.00" step="0.01"
+                        min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="sellPrice">Sell Price (USD)</label>
+                    <input type="number" id="sellPrice" name="sellPrice" placeholder="0.00" step="0.00000001" min="0"
+                        required>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="submit" class="calculate-btn">
+                    <i class="fa-solid fa-chart-pie"></i> Calculate
+                </button>
+                <button type="button" class="clear-btn" onclick="clearForm()">
+                    <i class="fa-solid fa-rotate-left"></i> Clear
+                </button>
+            </div>
+        </form>
+
+        <div class="result" id="result">
+            <div class="result-grid">
+                <div class="result-card">
+                    <strong>Asset</strong>
+                    <div class="result-value" id="resultCoinName">-</div>
+                </div>
+                <div class="result-card">
+                    <strong>Profit/Loss (USD)</strong>
+                    <div class="result-value" id="resultProfitLoss">-</div>
+                </div>
+                <div class="result-card">
+                    <strong>Profit/Loss (%)</strong>
+                    <div class="result-value" id="resultProfitLossPercentage">-</div>
+                </div>
+                <div class="result-card">
+                    <strong>Multiplier (X)</strong>
+                    <div class="result-value" id="resultMultiplier">-</div>
+                </div>
+                <div class="result-card">
+                    <strong>Investment Amount</strong>
+                    <div class="result-value">$<span id="resultInvestmentAmount">-</span></div>
+                </div>
+                <div class="result-card">
+                    <strong>Final Value</strong>
+                    <div class="result-value">$<span id="resultExitAmount">-</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('calcForm');
+        form.addEventListener('submit', calculateProfit);
+
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = '❌ ' + message;
+            errorEl.style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 4000);
+        }
+
+        function showSuccess(message) {
+            const successEl = document.getElementById('successMessage');
+            successEl.textContent = '✅ ' + message;
+            successEl.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            setTimeout(() => {
+                successEl.style.display = 'none';
+            }, 3000);
+        }
+
+        function calculateProfit(event) {
+            event.preventDefault();
+
+            const coinName = document.getElementById('coinName').value.trim();
+            const buyPrice = parseFloat(document.getElementById('buyPrice').value);
+            const investmentAmount = parseFloat(document.getElementById('investmentAmount').value);
+            const sellPrice = parseFloat(document.getElementById('sellPrice').value);
+
+            if (!coinName) {
+                showError('Please enter an asset symbol!');
+                return;
+            }
+
+            if (isNaN(buyPrice) || isNaN(investmentAmount) || isNaN(sellPrice)) {
+                showError('Please enter valid numbers!');
+                return;
+            }
+
+            if (buyPrice <= 0) {
+                showError('Buy price must be greater than 0!');
+                return;
+            }
+
+            if (sellPrice <= 0) {
+                showError('Sell price must be greater than 0!');
+                return;
+            }
+
+            if (investmentAmount <= 0) {
+                showError('Investment amount must be greater than 0!');
+                return;
+            }
+
+            const quantity = investmentAmount / buyPrice;
+            const exitAmount = quantity * sellPrice;
+            const profitLoss = exitAmount - investmentAmount;
+            const profitLossPercentage = (profitLoss / investmentAmount) * 100;
+            const multiplier = (exitAmount / investmentAmount);
+
+            document.getElementById('resultCoinName').textContent = coinName.toUpperCase();
+
+            const profitLossElement = document.getElementById('resultProfitLoss');
+            profitLossElement.textContent = (profitLoss >= 0 ? '+' : '') + profitLoss.toFixed(2) + ' USD';
+            profitLossElement.className = profitLoss > 0 ? 'profit' : (profitLoss < 0 ? 'loss' : 'neutral');
+
+            const percentageElement = document.getElementById('resultProfitLossPercentage');
+            percentageElement.textContent = (profitLossPercentage >= 0 ? '+' : '') + profitLossPercentage.toFixed(2) + '%';
+            percentageElement.className = profitLossPercentage > 0 ? 'profit' : (profitLossPercentage < 0 ? 'loss' : 'neutral');
+
+            const multiplierElement = document.getElementById('resultMultiplier');
+            multiplierElement.textContent = (multiplier >= 1 ? '+' : '') + multiplier.toFixed(2) + 'x';
+            multiplierElement.className = multiplier > 1 ? 'profit' : (multiplier < 1 ? 'loss' : 'neutral');
+
+            document.getElementById('resultInvestmentAmount').textContent = investmentAmount.toFixed(2);
+            document.getElementById('resultExitAmount').textContent = exitAmount.toFixed(2);
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('profit-result', 'loss-result', 'neutral-result');
+
+            if (profitLoss > 0) {
+                resultDiv.classList.add('profit-result');
+            } else if (profitLoss < 0) {
+                resultDiv.classList.add('loss-result');
+            } else {
+                resultDiv.classList.add('neutral-result');
+            }
+
+            resultDiv.style.display = 'block';
+            showSuccess('Calculation completed successfully!');
+        }
+
+        function clearForm() {
+            document.getElementById('calcForm').reset();
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('coinName').focus();
+        }
+
+        document.getElementById('calcForm').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                calculateProfit(e);
+            }
+        });
+
+        function loadThemePreference() {
+            const savedTheme = localStorage.getItem('whalestack-theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            } else {
+                document.body.classList.remove('light-mode');
+            }
+        }
+
+        loadThemePreference();
+    </script>
+</body>
+
+</html>

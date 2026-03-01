@@ -34,6 +34,10 @@
                     <i class="fa-solid fa-sun theme-icon"></i>
                 </div>
 
+                <button id="toolsBtn" class="action-btn outline">
+                    <i class="fa-solid fa-toolbox"></i> Tools
+                </button>
+
                 <button id="aboutBtn" class="action-btn outline">
                     <i class="fa-solid fa-circle-info"></i> About
                 </button>
@@ -207,6 +211,39 @@
                             style="display: none;">Cancel</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools Modal -->
+    <div id="toolsModal" class="modal">
+        <div class="modal-content tools-modal-content">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-toolbox"></i> Financial Tools</h2>
+                <span class="close-modal" id="closeToolsModal">&times;</span>
+            </div>
+            <div class="modal-body tools-grid">
+                <a href="calc/futures/index.html" class="tool-card" target="_blank">
+                    <div class="tool-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="tool-info">
+                        <h3>Futures Calculator</h3>
+                        <p>Calculate liquidation prices and leverage risks.</p>
+                    </div>
+                </a>
+                <a href="calc/spot/index.html" class="tool-card" target="_blank">
+                    <div class="tool-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div class="tool-info">
+                        <h3>Spot P&L Calculator</h3>
+                        <p>Track your spot trade profits and losses easily.</p>
+                    </div>
+                </a>
+                <a href="calc/analyzer/index.html" class="tool-card" target="_blank">
+                    <div class="tool-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div class="tool-info">
+                        <h3>USD/TRY Analyzer</h3>
+                        <p>Analyze your portfolio with currency rate impacts.</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

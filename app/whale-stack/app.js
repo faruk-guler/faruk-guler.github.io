@@ -36,9 +36,11 @@ const addAssetModal = document.getElementById('addAssetModal');
 const openAddAssetModalBtn = document.getElementById('openAddAssetModalBtn');
 const closeAddAssetModal = document.getElementById('closeAddAssetModal');
 
-const toast = document.getElementById('toast');
-const toastMessage = document.getElementById('toastMessage');
 const toastIcon = document.getElementById('toastIcon');
+
+const toolsBtn = document.getElementById('toolsBtn');
+const toolsModal = document.getElementById('toolsModal');
+const closeToolsModal = document.getElementById('closeToolsModal');
 
 // Init
 function init() {
@@ -201,10 +203,10 @@ function renderTable(filterText = '') {
                 <td><span class="risk-badge ${riskClass}">${riskText}</span></td>
                 <td>
                     <div class="row-actions">
-                        <button class="icon-btn edit" onclick="editAsset('${asset.id}')" title="Edit" aria-label="Edit ${escapeHTML(asset.name)}">
+                        <button class="icon-btn edit" onclick="editAsset('${escapeHTML(asset.id)}')" title="Edit" aria-label="Edit ${escapeHTML(asset.name)}">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
-                        <button class="icon-btn delete" onclick="deleteAsset('${asset.id}')" title="Delete" aria-label="Delete ${escapeHTML(asset.name)}">
+                        <button class="icon-btn delete" onclick="deleteAsset('${escapeHTML(asset.id)}')" title="Delete" aria-label="Delete ${escapeHTML(asset.name)}">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -279,7 +281,23 @@ function setupEventListeners() {
             addAssetModal.style.display = 'none';
             resetForm();
         }
+        if (e.target === toolsModal) {
+            toolsModal.style.display = 'none';
+        }
     });
+
+    // Tools Modal
+    if (toolsBtn) {
+        toolsBtn.addEventListener('click', () => {
+            toolsModal.style.display = 'flex';
+        });
+    }
+
+    if (closeToolsModal) {
+        closeToolsModal.addEventListener('click', () => {
+            toolsModal.style.display = 'none';
+        });
+    }
 
     // Action Events - Unified Import
     importBtn.addEventListener('click', (e) => {
@@ -351,7 +369,7 @@ function setupEventListeners() {
     const lastUpdatedGlobal = document.getElementById('lastUpdatedGlobal');
     if (lastUpdatedGlobal) {
         const savedTime = localStorage.getItem('portfolioLastUpdated');
-        if (savedTime) lastUpdatedGlobal.textContent = `(Last update: ${savedTime})`;
+        if (savedTime) lastUpdatedGlobal.textContent = `Last update: ${savedTime}`;
     }
 }
 
@@ -361,7 +379,7 @@ function updateGlobalTimestamp(specificTime = null) {
     localStorage.setItem('portfolioLastUpdated', formattedDate);
     const lastUpdatedGlobal = document.getElementById('lastUpdatedGlobal');
     if (lastUpdatedGlobal) {
-        lastUpdatedGlobal.textContent = `(Last update: ${formattedDate})`;
+        lastUpdatedGlobal.textContent = `Last update: ${formattedDate}`;
     }
 }
 
