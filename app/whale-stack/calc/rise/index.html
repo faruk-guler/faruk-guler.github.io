@@ -7,6 +7,13 @@
     <title>Rise & Potential MC Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
         :root {
             --bg-color: #0d1117;
             --panel-bg: rgba(22, 27, 34, 0.7);
@@ -113,14 +120,14 @@
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6rem;
+            gap: 4rem;
             margin-bottom: 2rem;
             position: relative;
         }
 
         @media (max-width: 992px) {
             .grid {
-                gap: 3rem;
+                gap: 2rem;
             }
         }
 
@@ -211,6 +218,7 @@
             transition: var(--transition);
             width: 100%;
             position: relative;
+            min-width: 0;
         }
 
         .card:hover {
@@ -266,6 +274,8 @@
             font-size: 0.95rem;
             outline: none;
             transition: var(--transition);
+            min-width: 0;
+            width: 100%;
         }
 
         body.light-mode input,

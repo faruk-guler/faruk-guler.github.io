@@ -42,6 +42,9 @@ const toolsBtn = document.getElementById('toolsBtn');
 const toolsModal = document.getElementById('toolsModal');
 const closeToolsModal = document.getElementById('closeToolsModal');
 
+const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
+
 // Init
 function init() {
     loadAssets();
@@ -65,7 +68,12 @@ function loadAssets() {
 
 // Save data to localStorage
 function saveAssets() {
-    localStorage.setItem('cryptoPortfolio', JSON.stringify(assets));
+    try {
+        localStorage.setItem('cryptoPortfolio', JSON.stringify(assets));
+    } catch (e) {
+        console.error('Storage quota exceeded or unavailable:', e);
+        showToast('Warning: LocalStorage might be full or blocked.', true);
+    }
 }
 
 // Format current date
@@ -121,9 +129,13 @@ function renderTable(filterText = '') {
 
             let profitLoss = 0;
             let profitLossPercent = 0;
-            if (prc > 0) {
+            if (prc >= 0) {
                 profitLoss = (curPrc - prc) * amt;
-                profitLossPercent = ((curPrc - prc) / prc) * 100;
+                if (prc === 0 && curPrc > 0) {
+                    profitLossPercent = Infinity;
+                } else if (prc > 0) {
+                    profitLossPercent = ((curPrc - prc) / prc) * 100;
+                }
             }
 
             return {
@@ -174,7 +186,12 @@ function renderTable(filterText = '') {
             const currentPriceFormatted = asset.curPrcStr.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
             const plFormatted = asset.profitLoss.toLocaleString('en-US', { style: 'currency', currency: 'USD', signDisplay: 'always' });
-            const plPercentFormatted = asset.profitLossPercent.toFixed(2) + '%';
+            let plPercentFormatted = '0.00%';
+            if (asset.profitLossPercent === Infinity) {
+                plPercentFormatted = '∞% (Airdrop)';
+            } else {
+                plPercentFormatted = asset.profitLossPercent.toFixed(2) + '%';
+            }
             const plClass = asset.profitLoss >= 0 ? 'profit-text' : 'loss-text';
 
             let riskClass = '';
@@ -376,7 +393,11 @@ function setupEventListeners() {
 // Update Global Timestamp
 function updateGlobalTimestamp(specificTime = null) {
     const formattedDate = specificTime || getCurrentDateFormatted();
-    localStorage.setItem('portfolioLastUpdated', formattedDate);
+    try {
+        localStorage.setItem('portfolioLastUpdated', formattedDate);
+    } catch (e) {
+        console.error('Failed to save timestamp:', e);
+    }
     const lastUpdatedGlobal = document.getElementById('lastUpdatedGlobal');
     if (lastUpdatedGlobal) {
         lastUpdatedGlobal.textContent = `Last update: ${formattedDate}`;
@@ -568,12 +589,16 @@ function setupThemeToggle() {
     if (!themeToggle) return;
 
     themeToggle.addEventListener('change', () => {
-        if (themeToggle.checked) {
-            document.body.classList.add('light-mode');
-            localStorage.setItem('whalestack-theme', 'light');
-        } else {
-            document.body.classList.remove('light-mode');
-            localStorage.setItem('whalestack-theme', 'dark');
+        try {
+            if (themeToggle.checked) {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('whalestack-theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('whalestack-theme', 'dark');
+            }
+        } catch (e) {
+            console.error("Local storage error:", e);
         }
     });
 }

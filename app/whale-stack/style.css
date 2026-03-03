@@ -147,6 +147,9 @@ button {
 .add-asset-modal-content {
     max-width: 900px;
     padding: 2.5rem;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 .add-asset-modal-content h2 {
@@ -604,6 +607,9 @@ td {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     color: #fff;
     font-family: 'Inter', sans-serif;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 .close-btn,
