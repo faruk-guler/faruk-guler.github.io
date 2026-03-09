@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self'; frame-src 'none'; object-src 'none';">
+    <title>PKI Dev Studio | Offline Certificate Generation</title>
+    <!-- Local Fonts -->
+    <link href="./assets/fonts.css" rel="stylesheet">
+    <!-- Local Node-Forge -->
+    <script src="./assets/forge.min.js"></script>
+    <!-- Local JSZip -->
+    <script src="./assets/jszip.min.js"></script>
+    <!-- Local CSS (Inline for self-containment) -->
+    <!-- Local Moduler CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="switchTab('about')">About</button>
+                <button class="theme-toggle" id="theme_toggle_btn" onclick="toggleTheme()">Dark / Light</button>
+            </div>
+            <h1>PKI Dev Studio</h1>
+            <p class="subtitle">Browser-Based Enterprise Root Certificate (PKI) Platform</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('selfSigned')">Self-Signed</button>
+            <button class="tab-btn" onclick="switchTab('rootCa')">Generate Root CA</button>
+            <button class="tab-btn" onclick="switchTab('signCa')">Sign with CA</button>
+            <button class="tab-btn" onclick="switchTab('signCsr')">Sign CSR</button>
+            <button class="tab-btn" onclick="switchTab('decodeCert')">Decode Cert</button>
+            <button class="tab-btn" onclick="switchTab('crlGen')">Revoke (CRL)</button>
+            <button class="tab-btn" onclick="switchTab('formatConvert')">Format Converter</button>
+            <button class="tab-btn" onclick="switchTab('codeSigning')">Code Signing</button>
+            <button class="tab-btn" onclick="switchTab('dhParams')">DH Params</button>
+        </div>
+
+        <!-- TAB 1: SELF SIGNED -->
+        <div id="selfSigned" class="tab-pane active glass-card">
+            <div class="section-title">
+                Self-Signed Certificate Generation
+            </div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Quickly generates an independent Private Key and Certificate for testing and internal development
+                environments.
+            </p>
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Common Name (CN / Domain)</label>
+                    <input type="text" id="ss_cn" value="server.local.lan" placeholder="e.g. localhost">
+                </div>
+                <div class="input-group">
+                    <label>Organization (O)</label>
+                    <input type="text" id="ss_org" value="My Company" placeholder="e.g. My Company">
+                </div>
+                <div class="input-group">
+                    <label>Country Code (C)</label>
+                    <input type="text" id="ss_country" value="US" maxlength="2">
+                </div>
+                <div class="input-group">
+                    <label>Validity (Years)</label>
+                    <input type="number" id="ss_years" value="1">
+                </div>
+                <div class="input-group">
+                    <label>Key Algorithm & Strength</label>
+                    <select id="ss_keysize">
+                        <option value="rsa2048">RSA 2048 (Fast)</option>
+                        <option value="rsa4096" selected>RSA 4096 (Secure)</option>
+                        <option value="rsa8192">RSA 8192 (Ultra - Very Slow!)</option>
+                        <option value="ec256">ECDSA P-256 (Modern/Fast)</option>
+                        <option value="ec384">ECDSA P-384 (Ultra/Modern)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Keys & Export Passwords</label>
+                    <div style="display:flex; gap:0.5rem">
+                        <input type="password" id="ss_pass" placeholder="Private Key Passphrase" style="flex:1">
+                        <input type="password" id="ss_pfx_pass" placeholder="PFX ZIP Password (Optional)"
+                            style="flex:1">
+                    </div>
+                </div>
+                <div class="input-group full-width">
+                    <label>Subject Alternative Names (SAN)</label>
+                    <input type="text" id="ss_san" value="DNS:server.local.lan,IP:127.0.0.1"
+                        placeholder="DNS:xxx,IP:yyy (Comma separated)">
+                </div>
+            </div>
+
+            <div class="section-title" style="font-size: 1.1rem; border:none; margin-bottom:1rem;">Target Usage
+                (Extensions)</div>
+            <div class="checkbox-group mb-2" style="margin-bottom: 1.5rem;">
+                <label class="checkbox-label"><input type="checkbox" id="ku_digitalsignature" checked> Digital
+                    Signature</label>
+                <label class="checkbox-label"><input type="checkbox" id="ku_keyencipherment" checked> Key
+                    Encipherment</label>
+                <label class="checkbox-label"><input type="checkbox" id="ku_serverauth" checked> Server Authentication
+                    (Web Server)</label>
+                <label class="checkbox-label"><input type="checkbox" id="ku_clientauth"> Client Authentication
+                    (VPN/Client)</label>
+            </div>
+
+            <details
+                style="margin-bottom: 2rem; background: var(--checkbox-bg); border-radius: 12px; border: 1px solid var(--glass-border); padding: 1.5rem;">
+                <summary
+                    style="color: var(--primary); font-weight: 600; cursor: pointer; outline: none; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
+                    ⚙️ Advanced Certificate Extensions (OCSP & CDP)
+                </summary>
+                <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>OCSP Endpoint (AIA)</label>
+                        <input type="text" id="ss_ocsp" placeholder="http://ocsp.mycompany.com">
+                    </div>
+                    <div class="input-group">
+                        <label>CRL Distribution Point (CDP)</label>
+                        <input type="text" id="ss_cdp" placeholder="http://crl.mycompany.com/ca.crl">
+                    </div>
+                </div>
+            </details>
+
+            <div id="ss_status" class="status-msg"></div>
+
+            <button class="btn-primary" id="btn_ss_generate" onclick="generateSelfSigned()">
+                <div class="loader" id="ss_loader"></div>
+                Generate & Download (ZIP)
+            </button>
+
+            <div class="preview-box" id="ss_preview">
+                <div class="preview-header">✅ Success! Output Preview:</div>
+                <div class="code-block" id="ss_preview_text"></div>
+            </div>
+        </div>
+
+
+        <!-- TAB 2: ROOT CA -->
+        <div id="rootCa" class="tab-pane glass-card">
+            <div class="section-title">
+                Root Certificate Authority (CA) Generation
+            </div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Creates the main identity (Root CA) for your organization. Once installed in browsers, all certificates
+                signed by this CA will be automatically trusted. (Valid for 10 years).
+            </p>
+
+            <div class="form-grid">
+                <div class="input-group full-width">
+                    <label>CA Common Name (CN)</label>
+                    <input type="text" id="ca_cn" value="My Company Enterprise Root CA"
+                        placeholder="Root Certificate Name">
+                </div>
+                <div class="input-group">
+                    <label>Organization (O)</label>
+                    <input type="text" id="ca_org" value="My Company">
+                </div>
+                <div class="input-group">
+                    <label>Country (C)</label>
+                    <input type="text" id="ca_country" value="US" maxlength="2">
+                </div>
+                <div class="input-group">
+                    <label>CA Key Algorithm</label>
+                    <select id="ca_keysize">
+                        <option value="rsa4096" selected>RSA 4096 (Standard CA)</option>
+                        <option value="rsa8192">RSA 8192 (Ultra Secure CA)</option>
+                        <option value="ec256">ECDSA P-256 (Modern CA)</option>
+                        <option value="ec384">ECDSA P-384 (Modern Ultra CA)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Passphrase (Highly Critical)</label>
+                    <input type="password" id="ca_pass" placeholder="Encrypt CA Key (Strongly Recommended)">
+                </div>
+            </div>
+
+            <details
+                style="margin-bottom: 2rem; background: var(--checkbox-bg); border-radius: 12px; border: 1px solid var(--glass-border); padding: 1.5rem;">
+                <summary
+                    style="color: var(--primary); font-weight: 600; cursor: pointer; outline: none; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
+                    ⚙️ Advanced Certificate Extensions (OCSP & CDP)
+                </summary>
+                <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>OCSP Endpoint (AIA)</label>
+                        <input type="text" id="ca_ocsp" placeholder="http://ocsp.root.local">
+                    </div>
+                    <div class="input-group">
+                        <label>CRL Distribution Point (CDP)</label>
+                        <input type="text" id="ca_cdp" placeholder="http://crl.root.local/root.crl">
+                    </div>
+                </div>
+            </details>
+
+            <div id="ca_status" class="status-msg"></div>
+
+            <button class="btn-primary" id="btn_ca_generate" onclick="generateRootCA()"
+                style="background: linear-gradient(135deg, var(--secondary), #ff0077);">
+                <div class="loader" id="ca_loader"></div>
+                GENERATE ROOT CA & DOWNLOAD (ZIP)
+            </button>
+
+            <div class="preview-box" id="ca_preview">
+                <div class="preview-header">🏛️ CA Setup Complete! Keep your key safe.</div>
+                <div class="code-block" id="ca_preview_text"></div>
+            </div>
+        </div>
+
+
+        <!-- TAB 3: SIGN WITH CA -->
+        <div id="signCa" class="tab-pane glass-card">
+            <div class="section-title">Certificate Signing via CA</div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Present your existing Root CA certificate and private key to allocate a new trusted certificate for a
+                child domain (Server/Client).
+            </p>
+
+            <div class="form-grid"
+                style="background: rgba(157, 0, 255, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(157, 0, 255, 0.3);">
+                <div class="input-group">
+                    <label style="color:var(--secondary)">Existing Root CA Certificate (.crt/.pem)</label>
+                    <textarea id="import_ca_crt" placeholder="-----BEGIN CERTIFICATE-----..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label style="color:var(--secondary)">Existing Root CA Key (.key)</label>
+                    <textarea id="import_ca_key"
+                        placeholder="-----BEGIN PRIVATE KEY----- OR -----BEGIN ENCRYPTED PRIVATE KEY-----"></textarea>
+                    <input type="password" id="import_ca_pass" placeholder="CA Passphrase (If encrypted)"
+                        style="margin-top:0.5rem">
+                </div>
+            </div>
+
+            <div class="section-title" style="font-size: 1.1rem; border:none; margin-top: 1rem;">Target Certificate
+                Configuration</div>
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Target Domain (CN)</label>
+                    <input type="text" id="sub_cn" value="intranet.mycompany.com">
+                </div>
+                <div class="input-group">
+                    <label>Organization (O)</label>
+                    <input type="text" id="sub_org" value="My Company" readonly
+                        style="opacity: 0.7; cursor:not-allowed">
+                </div>
+                <div class="input-group">
+                    <label>Country (C)</label>
+                    <input type="text" id="sub_country" value="US" readonly style="opacity: 0.7; cursor:not-allowed">
+                </div>
+                <div class="input-group">
+                    <label>Validity (Years)</label>
+                    <input type="number" id="sub_years" value="1">
+                </div>
+                <div class="input-group">
+                    <label>Key Algorithm & PFX Pass</label>
+                    <div style="display:flex; gap:0.5rem">
+                        <select id="sub_keysize" style="flex:1">
+                            <option value="rsa2048" selected>RSA 2048</option>
+                            <option value="rsa4096">RSA 4096</option>
+                            <option value="ec256">ECDSA P-256</option>
+                            <option value="ec384">ECDSA P-384</option>
+                        </select>
+                        <input type="password" id="sub_pfx_pass" placeholder="PFX ZIP Pass (Opt)" style="flex:1">
+                    </div>
+                </div>
+                <div class="input-group full-width">
+                    <label>Subject Alternative Names (SAN)</label>
+                    <input type="text" id="sub_san" value="DNS:intranet.mycompany.com,DNS:*.mycompany.com">
+                </div>
+            </div>
+
+            <details
+                style="margin-bottom: 2rem; background: var(--checkbox-bg); border-radius: 12px; border: 1px solid var(--glass-border); padding: 1.5rem;">
+                <summary
+                    style="color: var(--primary); font-weight: 600; cursor: pointer; outline: none; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
+                    ⚙️ Advanced Certificate Extensions (OCSP & CDP)
+                </summary>
+                <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>OCSP Endpoint (AIA)</label>
+                        <input type="text" id="sub_ocsp" placeholder="http://ocsp.mycompany.com">
+                    </div>
+                    <div class="input-group">
+                        <label>CRL Distribution Point (CDP)</label>
+                        <input type="text" id="sub_cdp" placeholder="http://crl.mycompany.com/ca.crl">
+                    </div>
+                </div>
+            </details>
+
+            <div id="sub_status" class="status-msg"></div>
+
+            <button class="btn-primary" id="btn_sub_generate" onclick="generateSubCert()">
+                <div class="loader" id="sub_loader"></div>
+                SIGN & DOWNLOAD (ZIP)
+            </button>
+
+            <div class="preview-box" id="sub_preview">
+                <div class="preview-header">✒️ Object Digitally Sealed by CA!</div>
+                <div class="code-block" id="sub_preview_text"></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SIGN CSR -->
+        <div id="signCsr" class="tab-pane glass-card">
+            <div class="section-title">
+                Sign CSR (Certificate Signing Request)
+            </div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Sign an external CSR using your Root CA. The requester's private key remains hidden from you.
+            </p>
+
+            <div class="form-grid"
+                style="background: rgba(0, 229, 255, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(0, 229, 255, 0.2);">
+                <div class="input-group">
+                    <label style="color:var(--primary)">Root CA Certificate</label>
+                    <textarea id="csr_ca_crt" placeholder="-----BEGIN CERTIFICATE-----..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label style="color:var(--primary)">Root CA Private Key</label>
+                    <textarea id="csr_ca_key" placeholder="-----BEGIN PRIVATE KEY-----..."></textarea>
+                    <input type="password" id="csr_ca_pass" placeholder="CA Passphrase" style="margin-top:0.5rem">
+                </div>
+            </div>
+
+            <div class="form-grid" style="margin-top:1.5rem;">
+                <div class="input-group full-width">
+                    <label>Certificate Signing Request (CSR) / .pem</label>
+                    <textarea id="csr_input" placeholder="-----BEGIN CERTIFICATE REQUEST-----..."
+                        style="min-height:120px;"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Validity (Years)</label>
+                    <input type="number" id="csr_years" value="1">
+                </div>
+                <div class="input-group">
+                    <label>Override Subject Alternative Names (Opt)</label>
+                    <input type="text" id="csr_san" placeholder="DNS:new.local,IP:10.0.0.1">
+                </div>
+            </div>
+
+            <details
+                style="margin-bottom: 2rem; background: var(--checkbox-bg); border-radius: 12px; border: 1px solid var(--glass-border); padding: 1.5rem;">
+                <summary
+                    style="color: var(--primary); font-weight: 600; cursor: pointer; outline: none; list-style: none; display: flex; align-items: center; gap: 0.5rem;">
+                    ⚙️ Advanced Certificate Extensions (OCSP & CDP)
+                </summary>
+                <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>OCSP Endpoint (AIA)</label>
+                        <input type="text" id="csr_ocsp" placeholder="http://ocsp.mycompany.com">
+                    </div>
+                    <div class="input-group">
+                        <label>CRL Distribution Point (CDP)</label>
+                        <input type="text" id="csr_cdp" placeholder="http://crl.mycompany.com/ca.crl">
+                    </div>
+                </div>
+            </details>
+
+            <div id="csr_status" class="status-msg"></div>
+
+            <button class="btn-primary" id="btn_csr_generate" onclick="signCsrWithCA()">
+                <div class="loader" id="csr_loader"></div>
+                SIGN CSR & DOWNLOAD (CRT)
+            </button>
+
+            <div class="preview-box" id="csr_preview">
+                <div class="preview-header">✅ CSR Successfully Signed!</div>
+                <div class="code-block" id="csr_preview_text"></div>
+            </div>
+        </div>
+
+        <!-- TAB 5: DECODE CERT -->
+        <div id="decodeCert" class="tab-pane glass-card">
+            <div class="section-title">Certificate Decoder / Inspector</div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Instantly inspect any PEM certificate, CSR or Private Key metadata without internet access.
+            </p>
+
+            <div class="form-grid">
+                <div class="input-group full-width">
+                    <label>Paste X.509 Object (.pem / .crt / .csr)</label>
+                    <textarea id="decode_input" placeholder="-----BEGIN CERTIFICATE-----..."
+                        style="min-height: 200px;"></textarea>
+                </div>
+            </div>
+
+            <button class="btn-primary" style="background: linear-gradient(135deg, #ff0077, var(--secondary));"
+                onclick="decodeX509Object()">
+                DECODE & INSPECT
+            </button>
+
+            <div class="preview-box" id="decode_preview" style="margin-top: 2rem;">
+                <div class="preview-header" style="color:#ffb700;">🔍 Decoded Object Details:</div>
+                <div class="code-block" id="decode_preview_text"
+                    style="color:var(--primary); font-size:0.9rem; line-height: 1.6;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 6: CRL GENERATOR -->
+        <div id="crlGen" class="tab-pane glass-card">
+            <div class="section-title">Certificate Revocation List (CRL) Generator</div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Revoke compromised or expired certificates by generating a signed CRL using your Root CA.
+            </p>
+
+            <div class="form-grid"
+                style="background: rgba(255, 0, 119, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px dashed rgba(255, 0, 119, 0.3);">
+                <div class="input-group">
+                    <label style="color:#ff0077">Root CA Certificate (PEM)</label>
+                    <textarea id="crl_ca_crt" placeholder="-----BEGIN CERTIFICATE-----..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label style="color:#ff0077">Root CA Private Key (PEM)</label>
+                    <textarea id="crl_ca_key" placeholder="-----BEGIN PRIVATE KEY-----..."></textarea>
+                    <input type="password" id="crl_ca_pass" placeholder="CA Passphrase" style="margin-top:0.5rem">
+                </div>
+            </div>
+
+            <div class="form-grid" style="margin-top:1.5rem;">
+                <div class="input-group full-width">
+                    <label>Revoked Cert Serial Numbers (Comma Separated)</label>
+                    <input type="text" id="crl_serials" placeholder="e.g. 0123456789ABCDEF, FEDCBA9876543210">
+                </div>
+                <div class="input-group full-width">
+                    <label>CRL Output Format</label>
+                    <select id="crl_format">
+                        <option value="pem">PEM Format (.crl / .pem)</option>
+                        <option value="der" selected>DER Format (.crl - Default for Windows/IIS)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="crl_status" class="status-msg"></div>
+
+            <button class="btn-primary" id="btn_crl_generate"
+                style="background: linear-gradient(135deg, #ff0077, #aa00ff);" onclick="generateCRL()">
+                <div class="loader" id="crl_loader"></div>
+                REVOKE & DOWNLOAD CRL
+            </button>
+            <div class="preview-box" id="crl_preview">
+                <div class="preview-header" style="color:#ff0077">🚨 Certificate Revocation List Created!</div>
+                <div class="code-block" id="crl_preview_text"></div>
+            </div>
+        </div>
+
+        <!-- TAB 7: FORMAT CONVERTER -->
+        <div id="formatConvert" class="tab-pane glass-card">
+            <div class="section-title">Format Converter</div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Convert between Base64 (PEM) and Binary (DER) representations of X.509 objects.
+            </p>
+
+            <div class="form-grid">
+                <div class="input-group full-width">
+                    <label>Input Object (PEM only for now)</label>
+                    <textarea id="conv_input" placeholder="-----BEGIN CERTIFICATE-----..."
+                        style="min-height: 200px;"></textarea>
+                </div>
+                <div class="input-group full-width">
+                    <label>Convert To</label>
+                    <select id="conv_mode">
+                        <option value="pem_to_der">PEM to DER (Binary)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="conv_status" class="status-msg"></div>
+
+            <button class="btn-primary" style="background: linear-gradient(135deg, var(--secondary), var(--primary));"
+                onclick="convertFormat()">
+                CONVERT FORMAT & DOWNLOAD
+            </button>
+        </div>
+
+        <!-- TAB 8: CODE SIGNING -->
+        <div id="codeSigning" class="tab-pane glass-card">
+            <div class="section-title">Code Signing Certificate Generation</div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Generate a specialized certificate with the Code Signing Key Usage extension (1.3.6.1.5.5.7.3.3) to
+                locally sign your executables, scripts, and libraries.
+            </p>
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Common Name (CN)</label>
+                    <input type="text" id="cs_cn" value="My Company Dev Team" placeholder="e.g. Developer Name">
+                </div>
+                <div class="input-group">
+                    <label>Organization (O)</label>
+                    <input type="text" id="cs_org" value="My Company" placeholder="e.g. My Company">
+                </div>
+                <div class="input-group">
+                    <label>Country (C)</label>
+                    <input type="text" id="cs_country" value="US" maxlength="2">
+                </div>
+                <div class="input-group">
+                    <label>Validity (Years)</label>
+                    <input type="number" id="cs_years" value="1">
+                </div>
+                <div class="input-group">
+                    <label>Key Algorithm</label>
+                    <select id="cs_keysize">
+                        <option value="rsa2048">RSA 2048 (Legacy Code)</option>
+                        <option value="rsa4096" selected>RSA 4096 (Standard CodeSigning)</option>
+                        <option value="ec256">ECDSA P-256 (Modern Signatures)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>ZIP/PFX Password (Opt)</label>
+                    <input type="password" id="cs_pass" placeholder="Password for exported bundle">
+                </div>
+            </div>
+
+            <div id="cs_status" class="status-msg"></div>
+
+            <button class="btn-primary" id="btn_cs_generate"
+                style="background: linear-gradient(135deg, #00d2ff, #3a7bd5);" onclick="generateCodeSigning()">
+                <div class="loader" id="cs_loader"></div>
+                GENERATE CODE SIGNER BUNDLE
+            </button>
+
+            <div class="preview-box" id="cs_preview">
+                <div class="preview-header">💻 Code Signing Keypair & Certificate Created!</div>
+                <div class="code-block" id="cs_preview_text"></div>
+            </div>
+        </div>
+
+        <!-- TAB 9: DH PARAMS -->
+        <div id="dhParams" class="tab-pane glass-card">
+            <div class="section-title">Diffie-Hellman Parameters (PFS)</div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Export highly secure, standard RFC-3526 MODP groups for use with web servers (Nginx/Apache) to achieve
+                Perfect Forward Secrecy.
+            </p>
+
+            <div class="form-grid">
+                <div class="input-group full-width">
+                    <label>Select Standard DH Group (RFC 3526)</label>
+                    <select id="dh_group">
+                        <option value="14">2048-bit MODP Group 14 (Standard Security)</option>
+                        <option value="15" selected>3072-bit MODP Group 15 (High Security)</option>
+                        <option value="16">4096-bit MODP Group 16 (Ultra Security)</option>
+                        <option value="17">6144-bit MODP Group 17 (Paranoid Security)</option>
+                        <option value="18">8192-bit MODP Group 18 (Future-Proof Security)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="dh_status" class="status-msg"></div>
+
+            <button class="btn-primary" onclick="exportDHParams()"
+                style="background: linear-gradient(135deg, #ff9966, #ff5e62);">
+                GENERATE DHPARAM.PEM
+            </button>
+        </div>
+
+        <!-- TAB 10: ABOUT -->
+        <div id="about" class="tab-pane glass-card">
+            <div class="section-title">About PKI Dev Studio</div>
+            <div style="line-height: 1.8; color: var(--text-main);">
+                <p style="margin-bottom: 1rem;">
+                    Welcome! <strong>PKI Dev Studio</strong> is a personal project I developed to provide a 100%
+                    offline (Air-Gapped) Enterprise Public Key Infrastructure
+                    management platform for high-security environments.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    I built this tool to solve the complex problem of generating secure <strong
+                        style="color:var(--primary)">X.509 Certificates</strong> without having to rely on third-party
+                    backend servers
+                    or the cumbersome OpenSSL CLI. Every cryptographic operation you see here is processed entirely
+                    inside your local browser.
+                </p>
+
+                <h3 style="color:var(--secondary); margin: 2rem 0 1rem 0;">Key Capabilities</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.5rem">🛡️ <strong>Zero-Backend (Air-Gapped):</strong> I designed the
+                        system with a
+                        strict Content-Security-Policy that blocks all external network traffic. Your private
+                        keys never leave your device.</li>
+                    <li style="margin-bottom: 0.5rem">🔐 <strong>Modern Crypto Engine:</strong> Support for RSA (up to
+                        8192-bit) and ECDSA (P-256/384) with AES-256 PKCS#8 encrypted payload exports.</li>
+                    <li style="margin-bottom: 0.5rem">📦 <strong>PFX / PKCS#12 Bundling:</strong> Seamlessly injects
+                        generated keypairs and certificates into a unified password-protected vault for Windows/IIS
+                        endpoints.</li>
+                    <li style="margin-bottom: 0.5rem">🔗 <strong>Full Chain Support:</strong> Generates Authority Key
+                        Identifiers, Subject Key Identifiers, and bundles `fullchain.pem` outputs natively.</li>
+                </ul>
+
+                <h3 style="color:var(--secondary); margin: 2rem 0 1rem 0;">Privacy & Usage</h3>
+                <p style="margin-bottom: 1rem;">
+                    I made sure this tool requires absolutely no external dependencies beyond the bundled
+                    <code>forge.min.js</code>. You can completely
+                    disconnect your internet connection and continue generating advanced Wildcard infrastructure
+                    certificates
+                    safely.
+                </p>
+
+                <hr style="border: none; border-top: 1px solid var(--glass-border); margin: 2rem 0 1.5rem 0;">
+
+                <h3 style="color:var(--primary); margin-bottom: 1rem; font-size: 1.1rem;">Developer</h3>
+                <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+                    <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-main);">
+                        👤 <strong>Faruk Guler</strong>
+                    </span>
+                    <a href="https://github.com/faruk-guler" target="_blank"
+                        style="display: flex; align-items: center; gap: 0.5rem; color: var(--primary); text-decoration: none; transition: opacity 0.2s;"
+                        onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                        🐙 github.com/faruk-guler
+                    </a>
+                    <a href="https://www.farukguler.com" target="_blank"
+                        style="display: flex; align-items: center; gap: 0.5rem; color: var(--primary); text-decoration: none; transition: opacity 0.2s;"
+                        onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+                        🌐 www.farukguler.com
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+     CORE JAVASCRIPT & MODULE LOGIC
+=========================================== -->
+    <script src="./js/core.js"></script>
+    <script src="./js/modules/self-signed.js"></script>
+    <script src="./js/modules/root-ca.js"></script>
+    <script src="./js/modules/sign-ca.js"></script>
+    <script src="./js/modules/sign-csr.js"></script>
+    <script src="./js/modules/decode-cert.js"></script>
+    <script src="./js/modules/crl-gen.js"></script>
+    <script src="./js/modules/format-convert.js"></script>
+    <script src="./js/modules/code-signing.js"></script>
+    <script src="./js/modules/dh-params.js"></script>
+</body>
+
+</html>

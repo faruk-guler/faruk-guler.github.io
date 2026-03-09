@@ -1,0 +1,78 @@
+// ==========================================
+// MODULE 2: ROOT CA GENERATION
+// ==========================================
+async function generateRootCA() {
+    const btn = document.getElementById('btn_ca_generate');
+    const loader = document.getElementById('ca_loader');
+    const status = document.getElementById('ca_status');
+    const previewBox = document.getElementById('ca_preview');
+    const previewTxt = document.getElementById('ca_preview_text');
+
+    try {
+        btn.disabled = true; loader.style.display = 'block'; previewBox.style.display = 'none';
+
+        const bitSize = document.getElementById('ca_keysize').value;
+        const pass = document.getElementById('ca_pass').value;
+
+        status.innerText = 'Generating Enterprise Grade RSA Key-Pair... (May take several seconds)';
+        await new Promise(r => setTimeout(r, 100));
+
+        const keys = await generateKeyPairAsync(bitSize);
+
+        status.innerText = 'Enforcing CA Constraints... Signing Authority Certificate...';
+        const cert = forge.pki.createCertificate();
+        cert.publicKey = keys.publicKey;
+        cert.serialNumber = generateSerialNumber();
+        cert.validity.notBefore = new Date();
+        cert.validity.notAfter = new Date();
+        cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 10);
+
+        const attrs = [
+            { name: 'commonName', value: document.getElementById('ca_cn').value },
+            { name: 'countryName', value: document.getElementById('ca_country').value },
+            { name: 'organizationName', value: document.getElementById('ca_org').value }
+        ];
+
+        cert.setSubject(attrs);
+        cert.setIssuer(attrs);
+
+        const exts = [
+            { name: 'basicConstraints', cA: true, critical: true },
+            { name: 'keyUsage', keyCertSign: true, cRLSign: true, critical: true },
+            { name: 'subjectKeyIdentifier' },
+            { name: 'authorityKeyIdentifier' }
+        ];
+        const ocspUrl = document.getElementById('ca_ocsp').value.trim();
+        const cdpUrl = document.getElementById('ca_cdp').value.trim();
+        injectAdvancedExtensions(exts, ocspUrl, cdpUrl);
+
+        cert.setExtensions(exts);
+
+        cert.sign(keys.privateKey, forge.md.sha256.create());
+
+        const pemCert = forge.pki.certificateToPem(cert);
+        const pemKey = exportPrivateKey(keys.privateKey, pass);
+
+        const zip = new JSZip();
+        zip.file("Root_CA" + (pass ? "_Encrypted.key" : ".key"), pemKey);
+        zip.file("Root_CA.crt", pemCert);
+        const blob = await zip.generateAsync({ type: "blob" });
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Enterprise_Root_CA.zip`;
+        link.click();
+
+        document.getElementById('import_ca_crt').value = pemCert;
+        triggerExtraction(pemCert);
+
+        previewTxt.textContent = `=== ROOT CA DEPLOYED ===\nIssuer: ${document.getElementById('ca_cn').value}\nSerial: ${cert.serialNumber}\nKey: ${bitSize} Bit RSA\n\n${pemCert}`;
+        previewBox.style.display = 'block';
+        status.innerText = '';
+
+    } catch (err) {
+        status.innerHTML = `<span style="color:red">Error: ${err.message}</span>`;
+    } finally {
+        btn.disabled = false; loader.style.display = 'none';
+    }
+}
