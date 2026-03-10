@@ -6,9 +6,11 @@ function generateCRL() {
     const status = document.getElementById('crl_status');
     const previewBox = document.getElementById('crl_preview');
     const previewTxt = document.getElementById('crl_preview_text');
+    const loader = document.getElementById('crl_loader');
 
     try {
         btn.disabled = true; status.innerText = 'Initializing...';
+        if (loader) loader.style.display = 'block';
         previewBox.style.display = 'none';
         const caCrtPem = document.getElementById('crl_ca_crt').value.trim();
         const caKeyPem = document.getElementById('crl_ca_key').value.trim();
@@ -31,6 +33,9 @@ function generateCRL() {
         status.innerText = 'Drafting CRL...';
         const crl = forge.pki.createCertificateRevocationList();
         crl.setIssuer(caCert.subject.attributes);
+        crl.thisUpdate = new Date();
+        crl.nextUpdate = new Date();
+        crl.nextUpdate.setFullYear(crl.thisUpdate.getFullYear() + 1);
 
         const serials = serialsRaw.split(',').map(s => s.trim().toUpperCase());
         let addedCount = 0;
@@ -89,5 +94,6 @@ function generateCRL() {
         status.innerHTML = `<span style="color:red">Error: ${err.message}</span>`;
     } finally {
         btn.disabled = false;
+        if (loader) loader.style.display = 'none';
     }
 }

@@ -27,26 +27,32 @@ async function generateCodeSigning() {
         cert.validity.notAfter = new Date();
         cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + years);
 
-        const attrs = [
-            { name: 'commonName', value: document.getElementById('cs_cn').value },
-            { name: 'countryName', value: document.getElementById('cs_country').value },
-            { name: 'organizationName', value: document.getElementById('cs_org').value }
-        ];
-        cert.setSubject(attrs);
-        cert.setIssuer(attrs);
+        cert.setSubject(getSubjectFromUI('cs'));
+        cert.setIssuer(getSubjectFromUI('cs'));
 
         cert.setExtensions([
             { name: 'basicConstraints', cA: false },
             { name: 'keyUsage', digitalSignature: true, critical: true },
-            { name: 'extendedKeyUsage', codeSigning: true, critical: true },
+            { name: 'extKeyUsage', codeSigning: true, critical: false },
             { name: 'subjectKeyIdentifier' }
         ]);
 
         status.innerText = 'Digitally signing certificate...';
-        cert.sign(keys.privateKey, forge.md.sha256.create());
+        const csMdObj = getMdFromUI('cs');
+        if (csMdObj.pss) {
+            const pss = forge.pss.create({
+                md: forge.md.sha256.create(),
+                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
+                saltLength: 20
+            });
+            cert.sign(keys.privateKey, csMdObj.md, pss);
+        } else {
+            cert.sign(keys.privateKey, csMdObj);
+        }
 
         const pemCert = forge.pki.certificateToPem(cert);
-        const pemKey = exportPrivateKey(keys.privateKey, pass);
+        const csFormat = document.getElementById('cs_format').value;
+        const pemKey = exportPrivateKey(keys.privateKey, pass, csFormat);
 
         status.innerText = 'Compressing and packaging archive...';
         const zip = new JSZip();

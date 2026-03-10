@@ -27,11 +27,7 @@ async function generateRootCA() {
         cert.validity.notAfter = new Date();
         cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 10);
 
-        const attrs = [
-            { name: 'commonName', value: document.getElementById('ca_cn').value },
-            { name: 'countryName', value: document.getElementById('ca_country').value },
-            { name: 'organizationName', value: document.getElementById('ca_org').value }
-        ];
+        const attrs = getSubjectFromUI('ca');
 
         cert.setSubject(attrs);
         cert.setIssuer(attrs);
@@ -48,10 +44,21 @@ async function generateRootCA() {
 
         cert.setExtensions(exts);
 
-        cert.sign(keys.privateKey, forge.md.sha256.create());
+        const caMdObj = getMdFromUI('ca');
+        if (caMdObj.pss) {
+            const pss = forge.pss.create({
+                md: forge.md.sha256.create(),
+                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
+                saltLength: 20
+            });
+            cert.sign(keys.privateKey, caMdObj.md, pss);
+        } else {
+            cert.sign(keys.privateKey, caMdObj);
+        }
 
         const pemCert = forge.pki.certificateToPem(cert);
-        const pemKey = exportPrivateKey(keys.privateKey, pass);
+        const caFormat = document.getElementById('ca_format').value;
+        const pemKey = exportPrivateKey(keys.privateKey, pass, caFormat);
 
         const zip = new JSZip();
         zip.file("Root_CA" + (pass ? "_Encrypted.key" : ".key"), pemKey);

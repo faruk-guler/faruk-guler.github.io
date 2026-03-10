@@ -13,7 +13,7 @@ function decodeX509Object() {
         if (input.includes('CERTIFICATE REQUEST')) {
             const csr = forge.pki.certificationRequestFromPem(input);
             out += "Type: Certificate Signing Request (CSR)\n";
-            out += "Subject: " + csr.subject.attributes.map(a => `${a.shortName}=${a.value}`).join(', ') + "\n";
+            out += "Subject: " + csr.subject.attributes.map(a => `${a.shortName || a.name || a.type || 'Unknown'}=${a.value}`).join(', ') + "\n";
             out += "Signature Verified: " + (csr.verify() ? "YES Valid ✅" : "NO Invalid ❌") + "\n";
             const reqExt = csr.getAttribute({ name: 'extensionRequest' });
             if (reqExt && reqExt.extensions) {
@@ -32,8 +32,8 @@ function decodeX509Object() {
         } else if (input.includes('CERTIFICATE')) {
             const cert = forge.pki.certificateFromPem(input);
             out += "Type: X.509 Digital Certificate\n";
-            out += "Subject: " + cert.subject.attributes.map(a => `${a.shortName}=${a.value}`).join(', ') + "\n";
-            out += "Issuer: " + cert.issuer.attributes.map(a => `${a.shortName}=${a.value}`).join(', ') + "\n";
+            out += "Subject: " + cert.subject.attributes.map(a => `${a.shortName || a.name || a.type || 'Unknown'}=${a.value}`).join(', ') + "\n";
+            out += "Issuer: " + cert.issuer.attributes.map(a => `${a.shortName || a.name || a.type || 'Unknown'}=${a.value}`).join(', ') + "\n";
             out += "Serial Number: " + cert.serialNumber + "\n\n";
             out += "Valid From: " + cert.validity.notBefore.toUTCString() + "\n";
             out += "Valid To:   " + cert.validity.notAfter.toUTCString() + "\n";

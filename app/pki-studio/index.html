@@ -27,7 +27,9 @@
                 <button class="theme-toggle" id="theme_toggle_btn" onclick="toggleTheme()">Dark / Light</button>
             </div>
             <h1>PKI Studio</h1>
-            <p class="subtitle">Browser-Based Enterprise Root Certificate (PKI) Platform</p>
+            <p class="subtitle">
+                Open-Source Enterprise Root Certificate (PKI) Platform
+            </p>
         </header>
 
         <div class="tabs">
@@ -59,15 +61,48 @@
                 </div>
                 <div class="input-group">
                     <label>Organization (O)</label>
-                    <input type="text" id="ss_org" value="My Company" placeholder="e.g. My Company">
+                    <input type="text" id="ss_org" value="My Company">
+                </div>
+                <div class="input-group">
+                    <label>Org. Unit (OU) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="ss_ou" placeholder="e.g. IT Department">
+                </div>
+                <div class="input-group">
+                    <label>Locality / City (L) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="ss_locality" placeholder="e.g. New York">
+                </div>
+                <div class="input-group">
+                    <label>State / Province (ST) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="ss_state" placeholder="e.g. California">
                 </div>
                 <div class="input-group">
                     <label>Country Code (C)</label>
                     <input type="text" id="ss_country" value="US" maxlength="2">
                 </div>
                 <div class="input-group">
+                    <label>Email Address (E) <span class="optional">(Opt)</span></label>
+                    <input type="email" id="ss_email" placeholder="admin@example.com">
+                </div>
+                <div class="input-group">
                     <label>Validity (Years)</label>
                     <input type="number" id="ss_years" value="1">
+                </div>
+                <div class="input-group">
+                    <label>Signature Algorithm</label>
+                    <select id="ss_hash">
+                        <option value="sha256" selected>SHA-256 (Recommended)</option>
+                        <option value="sha1">SHA-1 (Legacy)</option>
+                        <option value="sha384">SHA-384 (High Security)</option>
+                        <option value="sha512">SHA-512 (Ultra Security)</option>
+                        <option value="sha256-pss">SHA-256 with RSA-PSS (Modern)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Key Format (Private Key)</label>
+                    <select id="ss_format">
+                        <option value="pkcs8" selected>PKCS#8 (Modern - Required for Java/Go)</option>
+                        <option value="pkcs1">PKCS#1 (Traditional RSA - Apache/Nginx)</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label>Key Algorithm & Strength</label>
@@ -75,8 +110,8 @@
                         <option value="rsa2048">RSA 2048 (Fast)</option>
                         <option value="rsa4096" selected>RSA 4096 (Secure)</option>
                         <option value="rsa8192">RSA 8192 (Ultra - Very Slow!)</option>
-                        <option value="ec256">ECDSA P-256 (Modern/Fast)</option>
-                        <option value="ec384">ECDSA P-384 (Ultra/Modern)</option>
+                        <option value="ec256" disabled>ECDSA P-256 (Offline Unsupported)</option>
+                        <option value="ec384" disabled>ECDSA P-384 (Offline Unsupported)</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -90,7 +125,7 @@
                 <div class="input-group full-width">
                     <label>Subject Alternative Names (SAN)</label>
                     <input type="text" id="ss_san" value="DNS:server.local.lan,IP:127.0.0.1"
-                        placeholder="DNS:xxx,IP:yyy (Comma separated)">
+                        placeholder="DNS:xxx,IP:yyy,URI:zzz,EMAIL:eee (Comma separated)">
                 </div>
             </div>
 
@@ -115,8 +150,8 @@
                 </summary>
                 <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
                     <div class="input-group">
-                        <label>OCSP Endpoint (AIA)</label>
-                        <input type="text" id="ss_ocsp" placeholder="http://ocsp.mycompany.com">
+                        <label>OCSP Responder URL (AIA)</label>
+                        <input type="text" id="ss_ocsp" placeholder="http://ocsp.company.com">
                     </div>
                     <div class="input-group">
                         <label>CRL Distribution Point (CDP)</label>
@@ -127,13 +162,22 @@
 
             <div id="ss_status" class="status-msg"></div>
 
-            <button class="btn-primary" id="btn_ss_generate" onclick="generateSelfSigned()">
-                <div class="loader" id="ss_loader"></div>
-                Generate & Download (ZIP)
-            </button>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn-primary" id="btn_ss_generate" onclick="generateSelfSigned()" style="flex: 2;">
+                    <div class="loader" id="ss_loader"></div>
+                    Generate & Download (ZIP)
+                </button>
+                <button class="btn-secondary" onclick="resetForm('ss')"
+                    style="flex: 1; background: rgba(255,255,255,0.05);">
+                    Reset Form
+                </button>
+            </div>
 
-            <div class="preview-box" id="ss_preview">
-                <div class="preview-header">✅ Success! Output Preview:</div>
+            <div class="preview-box full-width" id="ss_preview">
+                <div class="preview-header">
+                    <span>✅ Success! Output Preview:</span>
+                    <button class="btn-copy" onclick="copyToClipboard('ss_preview_text')">Copy to Clipboard</button>
+                </div>
                 <div class="code-block" id="ss_preview_text"></div>
             </div>
         </div>
@@ -160,16 +204,48 @@
                     <input type="text" id="ca_org" value="My Company">
                 </div>
                 <div class="input-group">
+                    <label>Org. Unit (OU) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="ca_ou" placeholder="Certificate Authority Division">
+                </div>
+                <div class="input-group">
+                    <label>Locality (L) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="ca_locality" placeholder="City">
+                </div>
+                <div class="input-group">
+                    <label>State (ST) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="ca_state" placeholder="State">
+                </div>
+                <div class="input-group">
                     <label>Country (C)</label>
                     <input type="text" id="ca_country" value="US" maxlength="2">
+                </div>
+                <div class="input-group">
+                    <label>Email Address (E) <span class="optional">(Opt)</span></label>
+                    <input type="email" id="ca_email" placeholder="ca-admin@example.com">
                 </div>
                 <div class="input-group">
                     <label>CA Key Algorithm</label>
                     <select id="ca_keysize">
                         <option value="rsa4096" selected>RSA 4096 (Standard CA)</option>
                         <option value="rsa8192">RSA 8192 (Ultra Secure CA)</option>
-                        <option value="ec256">ECDSA P-256 (Modern CA)</option>
-                        <option value="ec384">ECDSA P-384 (Modern Ultra CA)</option>
+                        <option value="ec256" disabled>ECDSA P-256 (Offline Unsupported)</option>
+                        <option value="ec384" disabled>ECDSA P-384 (Offline Unsupported)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Signature Algorithm</label>
+                    <select id="ca_hash">
+                        <option value="sha256" selected>SHA-256 (Standard)</option>
+                        <option value="sha384">SHA-384 (Secure)</option>
+                        <option value="sha512">SHA-512 (Paranoid)</option>
+                        <option value="sha256-pss">SHA-256 with RSA-PSS</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Key Format</label>
+                    <select id="ca_format">
+                        <option value="pkcs8" selected>PKCS#8 (Standard)</option>
+                        <option value="pkcs1">PKCS#1 (Legacy)</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -186,7 +262,7 @@
                 </summary>
                 <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
                     <div class="input-group">
-                        <label>OCSP Endpoint (AIA)</label>
+                        <label>OCSP Responder URL (AIA)</label>
                         <input type="text" id="ca_ocsp" placeholder="http://ocsp.root.local">
                     </div>
                     <div class="input-group">
@@ -198,14 +274,23 @@
 
             <div id="ca_status" class="status-msg"></div>
 
-            <button class="btn-primary" id="btn_ca_generate" onclick="generateRootCA()"
-                style="background: linear-gradient(135deg, var(--secondary), #ff0077);">
-                <div class="loader" id="ca_loader"></div>
-                GENERATE ROOT CA & DOWNLOAD (ZIP)
-            </button>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn-primary" id="btn_ca_generate" onclick="generateRootCA()"
+                    style="flex: 2; background: linear-gradient(135deg, var(--secondary), #ff0077);">
+                    <div class="loader" id="ca_loader"></div>
+                    Establish PKI Root CA
+                </button>
+                <button class="btn-secondary" onclick="resetForm('ca')"
+                    style="flex: 1; background: rgba(255,255,255,0.05);">
+                    Reset Form
+                </button>
+            </div>
 
-            <div class="preview-box" id="ca_preview">
-                <div class="preview-header">🏛️ CA Setup Complete! Keep your key safe.</div>
+            <div class="preview-box full-width" id="ca_preview">
+                <div class="preview-header">
+                    <span>🏛️ CA Setup Complete! Keep your key safe.</span>
+                    <button class="btn-copy" onclick="copyToClipboard('ca_preview_text')">Copy to Clipboard</button>
+                </div>
                 <div class="code-block" id="ca_preview_text"></div>
             </div>
         </div>
@@ -231,6 +316,9 @@
                         placeholder="-----BEGIN PRIVATE KEY----- OR -----BEGIN ENCRYPTED PRIVATE KEY-----"></textarea>
                     <input type="password" id="import_ca_pass" placeholder="CA Passphrase (If encrypted)"
                         style="margin-top:0.5rem">
+                    <button class="btn-clear"
+                        onclick="document.getElementById('import_ca_crt').value=''; document.getElementById('import_ca_key').value=''; document.getElementById('import_ca_pass').value='';">Clear
+                        CA Data</button>
                 </div>
             </div>
 
@@ -248,12 +336,45 @@
                         style="opacity: 0.7; cursor:not-allowed">
                 </div>
                 <div class="input-group">
+                    <label>Org. Unit (OU) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="sub_ou" placeholder="e.g. IT Department">
+                </div>
+                <div class="input-group">
+                    <label>Locality (L) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="sub_locality" placeholder="e.g. New York">
+                </div>
+                <div class="input-group">
+                    <label>State (ST) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="sub_state" placeholder="e.g. California">
+                </div>
+                <div class="input-group">
                     <label>Country (C)</label>
                     <input type="text" id="sub_country" value="US" readonly style="opacity: 0.7; cursor:not-allowed">
                 </div>
                 <div class="input-group">
+                    <label>Email Address (E) <span class="optional">(Opt)</span></label>
+                    <input type="email" id="sub_email" placeholder="admin@example.com">
+                </div>
+                <div class="input-group">
                     <label>Validity (Years)</label>
                     <input type="number" id="sub_years" value="1">
+                </div>
+                <div class="input-group">
+                    <label>Signature Algorithm</label>
+                    <select id="sub_hash">
+                        <option value="sha256" selected>SHA-256</option>
+                        <option value="sha1">SHA-1</option>
+                        <option value="sha384">SHA-384</option>
+                        <option value="sha512">SHA-512</option>
+                        <option value="sha256-pss">SHA-256 with RSA-PSS</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Key Format</label>
+                    <select id="sub_format">
+                        <option value="pkcs8" selected>PKCS#8</option>
+                        <option value="pkcs1">PKCS#1</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label>Key Algorithm & PFX Pass</label>
@@ -261,16 +382,30 @@
                         <select id="sub_keysize" style="flex:1">
                             <option value="rsa2048" selected>RSA 2048</option>
                             <option value="rsa4096">RSA 4096</option>
-                            <option value="ec256">ECDSA P-256</option>
-                            <option value="ec384">ECDSA P-384</option>
+                            <option value="ec256" disabled>ECDSA P-256 (Offline Unsupported)</option>
+                            <option value="ec384" disabled>ECDSA P-384 (Offline Unsupported)</option>
                         </select>
                         <input type="password" id="sub_pfx_pass" placeholder="PFX ZIP Pass (Opt)" style="flex:1">
                     </div>
                 </div>
                 <div class="input-group full-width">
                     <label>Subject Alternative Names (SAN)</label>
-                    <input type="text" id="sub_san" value="DNS:intranet.mycompany.com,DNS:*.mycompany.com">
+                    <input type="text" id="sub_san" value="DNS:intranet.mycompany.com,DNS:*.mycompany.com"
+                        placeholder="DNS:xxx,IP:yyy,URI:zzz,EMAIL:eee">
                 </div>
+            </div>
+
+            <div class="section-title" style="font-size: 1.1rem; border:none; margin-top: 1rem;">Target Usage
+                (Extensions)</div>
+            <div class="checkbox-group mb-2" style="margin-bottom: 1.5rem;">
+                <label class="checkbox-label"><input type="checkbox" id="sub_ku_digitalsignature" checked> Digital
+                    Signature</label>
+                <label class="checkbox-label"><input type="checkbox" id="sub_ku_keyencipherment" checked> Key
+                    Encipherment</label>
+                <label class="checkbox-label"><input type="checkbox" id="sub_ku_serverauth" checked> Server
+                    Authentication</label>
+                <label class="checkbox-label"><input type="checkbox" id="sub_ku_clientauth"> Client
+                    Authentication</label>
             </div>
 
             <details
@@ -281,7 +416,7 @@
                 </summary>
                 <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
                     <div class="input-group">
-                        <label>OCSP Endpoint (AIA)</label>
+                        <label>OCSP Responder URL (AIA)</label>
                         <input type="text" id="sub_ocsp" placeholder="http://ocsp.mycompany.com">
                     </div>
                     <div class="input-group">
@@ -293,13 +428,22 @@
 
             <div id="sub_status" class="status-msg"></div>
 
-            <button class="btn-primary" id="btn_sub_generate" onclick="generateSubCert()">
-                <div class="loader" id="sub_loader"></div>
-                SIGN & DOWNLOAD (ZIP)
-            </button>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn-primary" id="btn_sub_generate" onclick="generateSubCert()" style="flex: 2;">
+                    <div class="loader" id="sub_loader"></div>
+                    Sign & Download (ZIP)
+                </button>
+                <button class="btn-secondary" onclick="resetForm('sub')"
+                    style="flex: 1; background: rgba(255,255,255,0.05);">
+                    Reset Form
+                </button>
+            </div>
 
-            <div class="preview-box" id="sub_preview">
-                <div class="preview-header">✒️ Object Digitally Sealed by CA!</div>
+            <div class="preview-box full-width" id="sub_preview">
+                <div class="preview-header">
+                    <span>✒️ Object Digitally Sealed by CA!</span>
+                    <button class="btn-copy" onclick="copyToClipboard('sub_preview_text')">Copy to Clipboard</button>
+                </div>
                 <div class="code-block" id="sub_preview_text"></div>
             </div>
         </div>
@@ -323,6 +467,9 @@
                     <label style="color:var(--primary)">Root CA Private Key</label>
                     <textarea id="csr_ca_key" placeholder="-----BEGIN PRIVATE KEY-----..."></textarea>
                     <input type="password" id="csr_ca_pass" placeholder="CA Passphrase" style="margin-top:0.5rem">
+                    <button class="btn-clear"
+                        onclick="document.getElementById('csr_ca_crt').value=''; document.getElementById('csr_ca_key').value=''; document.getElementById('csr_ca_pass').value=''; document.getElementById('csr_input').value='';">Clear
+                        CA Data</button>
                 </div>
             </div>
 
@@ -337,9 +484,32 @@
                     <input type="number" id="csr_years" value="1">
                 </div>
                 <div class="input-group">
-                    <label>Override Subject Alternative Names (Opt)</label>
-                    <input type="text" id="csr_san" placeholder="DNS:new.local,IP:10.0.0.1">
+                    <label>Signature Algorithm</label>
+                    <select id="csr_hash">
+                        <option value="sha256" selected>SHA-256 (Default)</option>
+                        <option value="sha1">SHA-1 (Legacy)</option>
+                        <option value="sha384">SHA-384</option>
+                        <option value="sha512">SHA-512</option>
+                        <option value="sha256-pss">SHA-256 with RSA-PSS</option>
+                    </select>
                 </div>
+                <div class="input-group">
+                    <label>Override Subject Alternative Names (Opt)</label>
+                    <input type="text" id="csr_san" placeholder="DNS:new.local,IP:10.0.0.1,URI:http://..,EMAIL:..">
+                </div>
+            </div>
+
+            <div class="section-title" style="font-size: 1.1rem; border:none; margin-top: 1rem;">Target Usage
+                (Extensions)</div>
+            <div class="checkbox-group mb-2" style="margin-bottom: 1.5rem;">
+                <label class="checkbox-label"><input type="checkbox" id="csr_ku_digitalsignature" checked> Digital
+                    Signature</label>
+                <label class="checkbox-label"><input type="checkbox" id="csr_ku_keyencipherment" checked> Key
+                    Encipherment</label>
+                <label class="checkbox-label"><input type="checkbox" id="csr_ku_serverauth" checked> Server
+                    Authentication</label>
+                <label class="checkbox-label"><input type="checkbox" id="csr_ku_clientauth"> Client
+                    Authentication</label>
             </div>
 
             <details
@@ -350,7 +520,7 @@
                 </summary>
                 <div class="form-grid" style="margin-top: 1.5rem; margin-bottom: 0;">
                     <div class="input-group">
-                        <label>OCSP Endpoint (AIA)</label>
+                        <label>OCSP Responder URL (AIA)</label>
                         <input type="text" id="csr_ocsp" placeholder="http://ocsp.mycompany.com">
                     </div>
                     <div class="input-group">
@@ -362,13 +532,22 @@
 
             <div id="csr_status" class="status-msg"></div>
 
-            <button class="btn-primary" id="btn_csr_generate" onclick="signCsrWithCA()">
-                <div class="loader" id="csr_loader"></div>
-                SIGN CSR & DOWNLOAD (CRT)
-            </button>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn-primary" id="btn_csr_generate" onclick="signCsrWithCA()" style="flex: 2;">
+                    <div class="loader" id="csr_loader"></div>
+                    SIGN CSR & DOWNLOAD (CRT)
+                </button>
+                <button class="btn-secondary" onclick="resetForm('csr')"
+                    style="flex: 1; background: rgba(255,255,255,0.05);">
+                    Reset Form
+                </button>
+            </div>
 
-            <div class="preview-box" id="csr_preview">
-                <div class="preview-header">✅ CSR Successfully Signed!</div>
+            <div class="preview-box full-width" id="csr_preview">
+                <div class="preview-header">
+                    <span>✅ CSR Successfully Signed!</span>
+                    <button class="btn-copy" onclick="copyToClipboard('csr_preview_text')">Copy to Clipboard</button>
+                </div>
                 <div class="code-block" id="csr_preview_text"></div>
             </div>
         </div>
@@ -394,7 +573,10 @@
             </button>
 
             <div class="preview-box" id="decode_preview" style="margin-top: 2rem;">
-                <div class="preview-header" style="color:#ffb700;">🔍 Decoded Object Details:</div>
+                <div class="preview-header">
+                    <span style="color:#ffb700;">🔍 Decoded Object Details:</span>
+                    <button class="btn-copy" onclick="copyToClipboard('decode_preview_text')">Copy Report</button>
+                </div>
                 <div class="code-block" id="decode_preview_text"
                     style="color:var(--primary); font-size:0.9rem; line-height: 1.6;"></div>
             </div>
@@ -455,15 +637,25 @@
             </p>
 
             <div class="form-grid">
-                <div class="input-group full-width">
-                    <label>Input Object (PEM only for now)</label>
-                    <textarea id="conv_input" placeholder="-----BEGIN CERTIFICATE-----..."
-                        style="min-height: 200px;"></textarea>
+                <div class="input-group full-width" style="position: relative;">
+                    <label>Input Object (Paste PEM OR Load DER File)</label>
+                    <textarea id="conv_input"
+                        placeholder="-----BEGIN CERTIFICATE-----... OR load a binary .der/.cer file via button ->"
+                        style="min-height: 200px; padding-bottom: 3rem;"></textarea>
+
+                    <input type="file" id="conv_der_file" accept=".der,.cer,.crl" style="display:none;"
+                        onchange="handleDerFileSelect(event)">
+                    <button class="btn-small" onclick="triggerDerFileLoad()"
+                        style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 229, 255, 0.1); border-color: var(--primary);">
+                        📁 Load DER Binary File
+                    </button>
                 </div>
                 <div class="input-group full-width">
                     <label>Convert To</label>
-                    <select id="conv_mode">
-                        <option value="pem_to_der">PEM to DER (Binary)</option>
+                    <select id="conv_mode"
+                        onchange="const inp = document.getElementById('conv_input'); if(this.value === 'pem_to_der') { inp.placeholder = '-----BEGIN CERTIFICATE-----...'; } else { inp.placeholder = 'Please use the [Load DER Binary File] button to load your binary certificate...'; inp.value = ''; }">
+                        <option value="pem_to_der" selected>PEM to DER (Binary)</option>
+                        <option value="der_to_pem">DER (Binary) to PEM (Base64)</option>
                     </select>
                 </div>
             </div>
@@ -494,8 +686,24 @@
                     <input type="text" id="cs_org" value="My Company" placeholder="e.g. My Company">
                 </div>
                 <div class="input-group">
+                    <label>Org. Unit (OU) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="cs_ou" placeholder="Dev Team">
+                </div>
+                <div class="input-group">
+                    <label>Locality (L) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="cs_locality" placeholder="City">
+                </div>
+                <div class="input-group">
+                    <label>State (ST) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="cs_state" placeholder="State">
+                </div>
+                <div class="input-group">
                     <label>Country (C)</label>
                     <input type="text" id="cs_country" value="US" maxlength="2">
+                </div>
+                <div class="input-group">
+                    <label>Email Address (E) <span class="optional">(Opt)</span></label>
+                    <input type="email" id="cs_email" placeholder="dev@example.com">
                 </div>
                 <div class="input-group">
                     <label>Validity (Years)</label>
@@ -506,25 +714,47 @@
                     <select id="cs_keysize">
                         <option value="rsa2048">RSA 2048 (Legacy Code)</option>
                         <option value="rsa4096" selected>RSA 4096 (Standard CodeSigning)</option>
-                        <option value="ec256">ECDSA P-256 (Modern Signatures)</option>
+                        <option value="ec256" disabled>ECDSA P-256 (Offline Unsupported)</option>
                     </select>
                 </div>
                 <div class="input-group">
-                    <label>ZIP/PFX Password (Opt)</label>
-                    <input type="password" id="cs_pass" placeholder="Password for exported bundle">
+                    <label>Signature Algorithm</label>
+                    <select id="cs_hash">
+                        <option value="sha256" selected>SHA-256</option>
+                        <option value="sha384">SHA-384</option>
+                        <option value="sha512">SHA-512</option>
+                        <option value="sha256-pss">SHA-256 with RSA-PSS</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Key Format</label>
+                    <select id="cs_format">
+                        <option value="pkcs8" selected>PKCS#8</option>
+                        <option value="pkcs1">PKCS#1</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Key Passphrase</label>
+                    <input type="password" id="cs_pass" placeholder="Private Key Passphrase (Opt)">
                 </div>
             </div>
 
             <div id="cs_status" class="status-msg"></div>
 
-            <button class="btn-primary" id="btn_cs_generate"
-                style="background: linear-gradient(135deg, #00d2ff, #3a7bd5);" onclick="generateCodeSigning()">
-                <div class="loader" id="cs_loader"></div>
-                GENERATE CODE SIGNER BUNDLE
-            </button>
+            <div class="form-actions" style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button class="btn-primary" id="btn_cs_generate" onclick="generateCodeSigning()" style="flex: 2;">
+                    <div class="loader" id="cs_loader"></div>
+                    GENERATE CODE SIGNING CERT
+                </button>
+                <button class="btn-secondary" onclick="resetForm('cs')" style="flex: 1;">Reset Form</button>
+            </div>
 
-            <div class="preview-box" id="cs_preview">
-                <div class="preview-header">💻 Code Signing Keypair & Certificate Created!</div>
+            <div class="preview-box full-width" id="cs_preview">
+                <div class="preview-header">
+                    <span>💻 Code Signing Keypair & Certificate Created!</span>
+                    <button class="btn-copy" onclick="copyToClipboard('cs_preview_text')">Copy to
+                        Clipboard</button>
+                </div>
                 <div class="code-block" id="cs_preview_text"></div>
             </div>
         </div>
@@ -533,8 +763,8 @@
         <div id="dhParams" class="tab-pane glass-card">
             <div class="section-title">Diffie-Hellman Parameters (PFS)</div>
             <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
-                Export highly secure, standard RFC-3526 MODP groups for use with web servers (Nginx/Apache) to achieve
-                Perfect Forward Secrecy.
+                Export highly secure, standard RFC-3526 MODP groups for use with web servers (Nginx/Apache) to
+                achieve Perfect Forward Secrecy.
             </p>
 
             <div class="form-grid">
@@ -552,16 +782,17 @@
 
             <div id="dh_status" class="status-msg"></div>
 
-            <button class="btn-primary" onclick="exportDHParams()"
-                style="background: linear-gradient(135deg, #ff9966, #ff5e62);">
-                GENERATE DHPARAM.PEM
-            </button>
+            <div class="form-actions" style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button class="btn-primary" onclick="exportDHParams()"
+                    style="flex: 2; background: linear-gradient(135deg, #ff9966, #ff5e62);">GENERATE
+                    DHPARAM.PEM</button>
+            </div>
         </div>
 
         <!-- TAB 10: ABOUT -->
         <div id="about" class="tab-pane glass-card">
             <div class="section-title">About PKI Studio</div>
-            <div style="line-height: 1.8; color: var(--text-main);">
+            <div style="line-height: 1.8; color: var(--text-main); position: relative;">
                 <p style="margin-bottom: 1rem;">
                     Welcome! <strong>PKI Studio</strong> is a personal project I developed to provide a 100%
                     offline (Air-Gapped) Enterprise Public Key Infrastructure
@@ -569,34 +800,37 @@
                 </p>
                 <p style="margin-bottom: 1rem;">
                     I built this tool to solve the complex problem of generating secure <strong
-                        style="color:var(--primary)">X.509 Certificates</strong> without having to rely on third-party
-                    backend servers
-                    or the cumbersome OpenSSL CLI. Every cryptographic operation you see here is processed entirely
-                    inside your local browser.
+                        style="color:var(--primary)">X.509 Certificates</strong> without having to rely on
+                    third-party backend servers or the cumbersome OpenSSL CLI. Every cryptographic operation you see
+                    here is processed
+                    entirely inside your local browser.
                 </p>
 
                 <h3 style="color:var(--secondary); margin: 2rem 0 1rem 0;">Key Capabilities</h3>
                 <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 0.5rem">🛡️ <strong>Zero-Backend (Air-Gapped):</strong> I designed the
-                        system with a
-                        strict Content-Security-Policy that blocks all external network traffic. Your private
+                    <li style="margin-bottom: 0.5rem">❤️ <strong>100% Free & Open-Source:</strong> PKI Studio is
+                        completely open-source. Anyone can audit the code, fork it, and host it internally.
+                        There are no paywalls or hidden trackers.</li>
+                    <li style="margin-bottom: 0.5rem">🛡️ <strong>Zero-Backend (Air-Gapped):</strong> I designed
+                        the system with a strict Content-Security-Policy that blocks all external network traffic.
+                        Your private
                         keys never leave your device.</li>
-                    <li style="margin-bottom: 0.5rem">🔐 <strong>Modern Crypto Engine:</strong> Support for RSA (up to
+                    <li style="margin-bottom: 0.5rem">🔐 <strong>Modern Crypto Engine:</strong> Support for RSA (up
+                        to
                         8192-bit) and ECDSA (P-256/384) with AES-256 PKCS#8 encrypted payload exports.</li>
                     <li style="margin-bottom: 0.5rem">📦 <strong>PFX / PKCS#12 Bundling:</strong> Seamlessly injects
                         generated keypairs and certificates into a unified password-protected vault for Windows/IIS
                         endpoints.</li>
-                    <li style="margin-bottom: 0.5rem">🔗 <strong>Full Chain Support:</strong> Generates Authority Key
+                    <li style="margin-bottom: 0.5rem">🔗 <strong>Full Chain Support:</strong> Generates Authority
+                        Key
                         Identifiers, Subject Key Identifiers, and bundles `fullchain.pem` outputs natively.</li>
                 </ul>
 
                 <h3 style="color:var(--secondary); margin: 2rem 0 1rem 0;">Privacy & Usage</h3>
                 <p style="margin-bottom: 1rem;">
                     I made sure this tool requires absolutely no external dependencies beyond the bundled
-                    <code>forge.min.js</code>. You can completely
-                    disconnect your internet connection and continue generating advanced Wildcard infrastructure
-                    certificates
-                    safely.
+                    <code>forge.min.js</code>. You can completely disconnect your internet connection and continue
+                    generating advanced Wildcard infrastructure certificates safely.
                 </p>
 
                 <hr style="border: none; border-top: 1px solid var(--glass-border); margin: 2rem 0 1.5rem 0;">
@@ -619,11 +853,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> <!-- End of Main Container -->
 
     <!-- ==========================================
-     CORE JAVASCRIPT & MODULE LOGIC
-=========================================== -->
+         CORE JAVASCRIPT & MODULE LOGIC
+    =========================================== -->
     <script src="./js/core.js"></script>
     <script src="./js/modules/self-signed.js"></script>
     <script src="./js/modules/root-ca.js"></script>

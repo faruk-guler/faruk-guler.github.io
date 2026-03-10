@@ -48,11 +48,25 @@ async function signCsrWithCA() {
 
         const exts = [
             { name: 'basicConstraints', cA: false },
-            { name: 'keyUsage', digitalSignature: true, keyEncipherment: true, critical: true },
-            { name: 'extendedKeyUsage', serverAuth: true, clientAuth: true },
             { name: 'subjectKeyIdentifier' },
             { name: 'authorityKeyIdentifier', keyIdentifier: forge.pki.getPublicKeyFingerprint(caCert.publicKey) }
         ];
+
+        let keyUsage = [];
+        if (document.getElementById('csr_ku_digitalsignature').checked) keyUsage.push('digitalSignature');
+        if (document.getElementById('csr_ku_keyencipherment').checked) keyUsage.push('keyEncipherment');
+        if (keyUsage.length > 0) {
+            exts.push({ name: 'keyUsage', digitalSignature: keyUsage.includes('digitalSignature'), keyEncipherment: keyUsage.includes('keyEncipherment'), critical: true });
+        }
+
+        let extKeyUsage = [];
+        if (document.getElementById('csr_ku_serverauth').checked) extKeyUsage.push('serverAuth');
+        if (document.getElementById('csr_ku_clientauth').checked) extKeyUsage.push('clientAuth');
+        if (extKeyUsage.length > 0) {
+            let ekuObj = { name: 'extKeyUsage' };
+            extKeyUsage.forEach(val => ekuObj[val] = true);
+            exts.push(ekuObj);
+        }
 
         const sanList = parseSan(document.getElementById('csr_san').value);
         if (sanList.length > 0) {
@@ -70,7 +84,17 @@ async function signCsrWithCA() {
         injectAdvancedExtensions(exts, ocspUrl, cdpUrl);
 
         cert.setExtensions(exts);
-        cert.sign(caPrivateKey, forge.md.sha256.create());
+        const csrMdObj = getMdFromUI('csr');
+        if (csrMdObj.pss) {
+            const pss = forge.pss.create({
+                md: forge.md.sha256.create(),
+                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
+                saltLength: 20
+            });
+            cert.sign(caPrivateKey, csrMdObj.md, pss);
+        } else {
+            cert.sign(caPrivateKey, csrMdObj);
+        }
 
         const pemCert = forge.pki.certificateToPem(cert);
 
