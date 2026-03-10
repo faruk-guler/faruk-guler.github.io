@@ -21,14 +21,7 @@ function generateCRL() {
         if (!caCrtPem || !caKeyPem || !serialsRaw) throw new Error("Please provide CA details and at least one Serial Number.");
 
         const caCert = forge.pki.certificateFromPem(caCrtPem);
-        let caPrivateKey;
-        if (caKeyPem.includes('ENCRYPTED')) {
-            if (!caPass) throw new Error("CA Key is encrypted. Passphrase required.");
-            caPrivateKey = forge.pki.decryptRsaPrivateKey(caKeyPem, caPass);
-            if (!caPrivateKey) throw new Error("Incorrect CA Passphrase!");
-        } else {
-            caPrivateKey = forge.pki.privateKeyFromPem(caKeyPem);
-        }
+        const caPrivateKey = decryptCaKey(caKeyPem, caPass);
 
         status.innerText = 'Drafting CRL...';
         const crl = forge.pki.createCertificateRevocationList();
@@ -49,9 +42,10 @@ function generateCRL() {
         }
         if (addedCount === 0) throw new Error("No valid serial numbers parsed.");
 
-        // Add CRL extensions
+        // Add CRL extensions – CRL Number as proper hex string
+        const crlNumberHex = forge.util.bytesToHex(forge.random.getBytesSync(4));
         crl.setExtensions([
-            { name: 'cRLNumber', value: forge.util.bytesToHex(forge.random.getBytesSync(4)) }
+            { name: 'cRLNumber', value: crlNumberHex }
         ]);
 
         status.innerText = 'Signing CRL...';
@@ -62,6 +56,7 @@ function generateCRL() {
             fileData = forge.pki.crlToPem(crl);
             fileName = 'list.crl.pem';
             previewTxt.textContent = `CRL successfully exported as PEM.\nTotal Revoked: ${addedCount}\n\n${fileData.substring(0, 300)}...`;
+            downloadTextFile(fileData, fileName, 'application/x-pem-file');
         } else {
             const asn1 = forge.pki.crlToAsn1(crl);
             const der = forge.asn1.toDer(asn1).getBytes();
@@ -77,16 +72,8 @@ function generateCRL() {
             fileData = new Blob(byteArrays, { type: 'application/pkix-crl' });
             fileName = 'root.crl';
             previewTxt.textContent = `CRL encoded in Binary DER format.\nSize: ${der.length} bytes\nTotal Revoked: ${addedCount}`;
+            downloadBlob(fileData, fileName);
         }
-
-        const link = document.createElement('a');
-        if (format === 'pem') {
-            link.href = 'data:application/x-pem-file;charset=utf-8,' + encodeURIComponent(fileData);
-        } else {
-            link.href = URL.createObjectURL(fileData);
-        }
-        link.download = fileName;
-        link.click();
 
         previewBox.style.display = 'block';
         status.innerText = '';

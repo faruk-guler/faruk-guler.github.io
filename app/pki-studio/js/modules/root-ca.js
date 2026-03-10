@@ -11,6 +11,8 @@ async function generateRootCA() {
     try {
         btn.disabled = true; loader.style.display = 'block'; previewBox.style.display = 'none';
 
+        validateCommonInputs('ca');
+
         const bitSize = document.getElementById('ca_keysize').value;
         const pass = document.getElementById('ca_pass').value;
 
@@ -36,7 +38,7 @@ async function generateRootCA() {
             { name: 'basicConstraints', cA: true, critical: true },
             { name: 'keyUsage', keyCertSign: true, cRLSign: true, critical: true },
             { name: 'subjectKeyIdentifier' },
-            { name: 'authorityKeyIdentifier' }
+            { name: 'authorityKeyIdentifier', keyIdentifier: true }
         ];
         const ocspUrl = document.getElementById('ca_ocsp').value.trim();
         const cdpUrl = document.getElementById('ca_cdp').value.trim();
@@ -44,17 +46,7 @@ async function generateRootCA() {
 
         cert.setExtensions(exts);
 
-        const caMdObj = getMdFromUI('ca');
-        if (caMdObj.pss) {
-            const pss = forge.pss.create({
-                md: forge.md.sha256.create(),
-                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
-                saltLength: 20
-            });
-            cert.sign(keys.privateKey, caMdObj.md, pss);
-        } else {
-            cert.sign(keys.privateKey, caMdObj);
-        }
+        signWithMd(cert, keys.privateKey, getMdFromUI('ca'));
 
         const pemCert = forge.pki.certificateToPem(cert);
         const caFormat = document.getElementById('ca_format').value;
@@ -65,10 +57,7 @@ async function generateRootCA() {
         zip.file("Root_CA.crt", pemCert);
         const blob = await zip.generateAsync({ type: "blob" });
 
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `Enterprise_Root_CA.zip`;
-        link.click();
+        downloadBlob(blob, `Enterprise_Root_CA.zip`);
 
         document.getElementById('import_ca_crt').value = pemCert;
         triggerExtraction(pemCert);

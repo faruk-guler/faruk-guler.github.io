@@ -27,6 +27,8 @@ async function generateSubCert() {
     try {
         btn.disabled = true; loader.style.display = 'block'; previewBox.style.display = 'none';
 
+        validateCommonInputs('sub');
+
         const caCrtPem = document.getElementById('import_ca_crt').value.trim();
         const caKeyPem = document.getElementById('import_ca_key').value.trim();
         const caPass = document.getElementById('import_ca_pass').value;
@@ -38,15 +40,7 @@ async function generateSubCert() {
         await new Promise(r => setTimeout(r, 100));
 
         const caCert = forge.pki.certificateFromPem(caCrtPem);
-
-        let caPrivateKey;
-        if (caKeyPem.includes('ENCRYPTED')) {
-            if (!caPass) throw new Error("Private Key is encrypted. Passphrase is required.");
-            caPrivateKey = forge.pki.decryptRsaPrivateKey(caKeyPem, caPass);
-            if (!caPrivateKey) throw new Error("Decryption failed. Verify your CA Passphrase.");
-        } else {
-            caPrivateKey = forge.pki.privateKeyFromPem(caKeyPem);
-        }
+        const caPrivateKey = decryptCaKey(caKeyPem, caPass);
 
         status.innerText = 'Issuing Cryptographic Parameters for Subscriber...';
         const bitSize = document.getElementById('sub_keysize').value;
@@ -61,30 +55,15 @@ async function generateSubCert() {
         cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + years);
 
         cert.setSubject(getSubjectFromUI('sub'));
-
         cert.setIssuer(caCert.subject.attributes);
 
         const exts = [
             { name: 'basicConstraints', cA: false },
             { name: 'subjectKeyIdentifier' },
-            { name: 'authorityKeyIdentifier', keyIdentifier: forge.pki.getPublicKeyFingerprint(caCert.publicKey) }
+            { name: 'authorityKeyIdentifier', keyIdentifier: forge.pki.getPublicKeyFingerprint(caCert.publicKey, { encoding: 'binary' }) }
         ];
 
-        let keyUsage = [];
-        if (document.getElementById('sub_ku_digitalsignature').checked) keyUsage.push('digitalSignature');
-        if (document.getElementById('sub_ku_keyencipherment').checked) keyUsage.push('keyEncipherment');
-        if (keyUsage.length > 0) {
-            exts.push({ name: 'keyUsage', digitalSignature: keyUsage.includes('digitalSignature'), keyEncipherment: keyUsage.includes('keyEncipherment'), critical: true });
-        }
-
-        let extKeyUsage = [];
-        if (document.getElementById('sub_ku_serverauth').checked) extKeyUsage.push('serverAuth');
-        if (document.getElementById('sub_ku_clientauth').checked) extKeyUsage.push('clientAuth');
-        if (extKeyUsage.length > 0) {
-            let ekuObj = { name: 'extKeyUsage' };
-            extKeyUsage.forEach(val => ekuObj[val] = true);
-            exts.push(ekuObj);
-        }
+        buildKeyUsageExtensions(exts, 'sub');
 
         const sanList = parseSan(document.getElementById('sub_san').value);
         if (sanList.length > 0) exts.push({ name: 'subjectAltName', altNames: sanList });
@@ -94,17 +73,7 @@ async function generateSubCert() {
         injectAdvancedExtensions(exts, ocspUrl, cdpUrl);
 
         cert.setExtensions(exts);
-        const subMdObj = getMdFromUI('sub');
-        if (subMdObj.pss) {
-            const pss = forge.pss.create({
-                md: forge.md.sha256.create(),
-                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
-                saltLength: 20
-            });
-            cert.sign(caPrivateKey, subMdObj.md, pss);
-        } else {
-            cert.sign(caPrivateKey, subMdObj);
-        }
+        signWithMd(cert, caPrivateKey, getMdFromUI('sub'));
 
         const pemCert = forge.pki.certificateToPem(cert);
         const subFormat = document.getElementById('sub_format').value;
@@ -126,11 +95,7 @@ async function generateSubCert() {
         }
 
         const blob = await zip.generateAsync({ type: "blob" });
-
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `${document.getElementById('sub_cn').value}_bundle.zip`;
-        link.click();
+        downloadBlob(blob, `${document.getElementById('sub_cn').value}_bundle.zip`);
 
         previewTxt.textContent = `=== SERVER CERTIFICATE ISSUED ===\nCA Issuer: ${caCert.subject.getField('CN').value}\nSubject: ${cert.subject.getField('CN').value}\nSerial: ${cert.serialNumber}\n\nZIP archive contains the FullTrust Chain file (fullchain.pem) for immediate server deployment.`;
         previewBox.style.display = 'block';

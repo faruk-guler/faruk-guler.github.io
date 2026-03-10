@@ -11,6 +11,8 @@ async function generateSelfSigned() {
     try {
         btn.disabled = true; loader.style.display = 'block'; previewBox.style.display = 'none';
 
+        validateCommonInputs('ss');
+
         const bitSize = document.getElementById('ss_keysize').value;
         const pass = document.getElementById('ss_pass').value;
         const years = parseInt(document.getElementById('ss_years').value);
@@ -32,21 +34,11 @@ async function generateSelfSigned() {
         cert.setSubject(attrs);
         cert.setIssuer(attrs);
 
-        // Also create a CSR (as requested to match SamlTool)
+        // Also create a CSR
         const csr = forge.pki.createCertificationRequest();
         csr.publicKey = keys.publicKey;
         csr.setSubject(attrs);
-        const ssMd = getMdFromUI('ss');
-        if (ssMd.pss) {
-            const pss = forge.pss.create({
-                md: forge.md.sha256.create(),
-                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
-                saltLength: 20
-            });
-            csr.sign(keys.privateKey, ssMd.md, pss);
-        } else {
-            csr.sign(keys.privateKey, ssMd);
-        }
+        signWithMd(csr, keys.privateKey, getMdFromUI('ss'));
         const pemCsr = forge.pki.certificationRequestToPem(csr);
 
         const exts = [
@@ -54,21 +46,7 @@ async function generateSelfSigned() {
             { name: 'subjectKeyIdentifier' }
         ];
 
-        let keyUsage = [];
-        if (document.getElementById('ku_digitalsignature').checked) keyUsage.push('digitalSignature');
-        if (document.getElementById('ku_keyencipherment').checked) keyUsage.push('keyEncipherment');
-        if (keyUsage.length > 0) {
-            exts.push({ name: 'keyUsage', digitalSignature: keyUsage.includes('digitalSignature'), keyEncipherment: keyUsage.includes('keyEncipherment'), critical: true });
-        }
-
-        let extKeyUsage = [];
-        if (document.getElementById('ku_serverauth').checked) extKeyUsage.push('serverAuth');
-        if (document.getElementById('ku_clientauth').checked) extKeyUsage.push('clientAuth');
-        if (extKeyUsage.length > 0) {
-            let ekuObj = { name: 'extKeyUsage' };
-            extKeyUsage.forEach(val => ekuObj[val] = true);
-            exts.push(ekuObj);
-        }
+        buildKeyUsageExtensions(exts, 'ss');
 
         const sanList = parseSan(document.getElementById('ss_san').value);
         if (sanList.length > 0) exts.push({ name: 'subjectAltName', altNames: sanList });
@@ -80,17 +58,7 @@ async function generateSelfSigned() {
         cert.setExtensions(exts);
 
         status.innerText = 'Calculating Hash & Signing Certificate...';
-        const ssMdObj = getMdFromUI('ss');
-        if (ssMdObj.pss) {
-            const pss = forge.pss.create({
-                md: forge.md.sha256.create(),
-                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
-                saltLength: 20
-            });
-            cert.sign(keys.privateKey, ssMdObj.md, pss);
-        } else {
-            cert.sign(keys.privateKey, ssMdObj);
-        }
+        signWithMd(cert, keys.privateKey, getMdFromUI('ss'));
 
         const pemCert = forge.pki.certificateToPem(cert);
         const ssFormat = document.getElementById('ss_format').value;
@@ -112,11 +80,7 @@ async function generateSelfSigned() {
         }
 
         const blob = await zip.generateAsync({ type: "blob" });
-
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `self_signed_${document.getElementById('ss_cn').value}.zip`;
-        link.click();
+        downloadBlob(blob, `self_signed_${document.getElementById('ss_cn').value}.zip`);
 
         previewTxt.textContent = `=== Private Key ===\n${pemKey.substring(0, 180)}...\n\n=== Certificate (X.509 v3) ===\nSN: ${cert.serialNumber}\n${pemCert.substring(0, 300)}...`;
         previewBox.style.display = 'block';

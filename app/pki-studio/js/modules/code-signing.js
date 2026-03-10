@@ -11,6 +11,8 @@ async function generateCodeSigning() {
     try {
         btn.disabled = true; loader.style.display = 'block'; previewBox.style.display = 'none';
 
+        validateCommonInputs('cs');
+
         const bitSize = document.getElementById('cs_keysize').value;
         const pass = document.getElementById('cs_pass').value;
         const years = parseInt(document.getElementById('cs_years').value);
@@ -38,17 +40,7 @@ async function generateCodeSigning() {
         ]);
 
         status.innerText = 'Digitally signing certificate...';
-        const csMdObj = getMdFromUI('cs');
-        if (csMdObj.pss) {
-            const pss = forge.pss.create({
-                md: forge.md.sha256.create(),
-                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
-                saltLength: 20
-            });
-            cert.sign(keys.privateKey, csMdObj.md, pss);
-        } else {
-            cert.sign(keys.privateKey, csMdObj);
-        }
+        signWithMd(cert, keys.privateKey, getMdFromUI('cs'));
 
         const pemCert = forge.pki.certificateToPem(cert);
         const csFormat = document.getElementById('cs_format').value;
@@ -68,11 +60,7 @@ async function generateCodeSigning() {
         }
 
         const blob = await zip.generateAsync({ type: "blob" });
-
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `codesign_${document.getElementById('cs_cn').value.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.zip`;
-        link.click();
+        downloadBlob(blob, `codesign_${document.getElementById('cs_cn').value.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.zip`);
 
         previewTxt.textContent = `=== Code Signing Certificate ===\n${pemCert.substring(0, 300)}...`;
         previewBox.style.display = 'block';

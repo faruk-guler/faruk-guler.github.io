@@ -64,15 +64,7 @@
             --code-color: #1a1a1a;
         }
 
-        /* Preview Header Styles */
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+
 
         .btn-copy {
             background: var(--primary);
@@ -99,7 +91,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-sans);
         }
 
         body {
@@ -311,7 +303,7 @@
         textarea {
             resize: vertical;
             min-height: 100px;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.85rem;
         }
 
@@ -454,7 +446,7 @@
         }
 
         .code-block {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.85rem;
             color: var(--code-color);
             white-space: pre-wrap;

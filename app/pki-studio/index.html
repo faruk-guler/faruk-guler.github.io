@@ -23,7 +23,7 @@
     <div class="container">
         <header>
             <div class="header-actions">
-                <button class="theme-toggle" onclick="switchTab('about')">About</button>
+                <button class="theme-toggle" onclick="switchTab('about', event)">About</button>
                 <button class="theme-toggle" id="theme_toggle_btn" onclick="toggleTheme()">Dark / Light</button>
             </div>
             <h1>PKI Studio</h1>
@@ -33,15 +33,16 @@
         </header>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('selfSigned')">Self-Signed</button>
-            <button class="tab-btn" onclick="switchTab('rootCa')">Generate Root CA</button>
-            <button class="tab-btn" onclick="switchTab('signCa')">Sign with CA</button>
-            <button class="tab-btn" onclick="switchTab('signCsr')">Sign CSR</button>
-            <button class="tab-btn" onclick="switchTab('decodeCert')">Decode Cert</button>
-            <button class="tab-btn" onclick="switchTab('crlGen')">Revoke (CRL)</button>
-            <button class="tab-btn" onclick="switchTab('formatConvert')">Format Converter</button>
-            <button class="tab-btn" onclick="switchTab('codeSigning')">Code Signing</button>
-            <button class="tab-btn" onclick="switchTab('dhParams')">DH Params</button>
+            <button class="tab-btn active" onclick="switchTab('selfSigned', event)">Self-Signed</button>
+            <button class="tab-btn" onclick="switchTab('rootCa', event)">Generate Root CA</button>
+            <button class="tab-btn" onclick="switchTab('signCa', event)">Sign with CA</button>
+            <button class="tab-btn" onclick="switchTab('signCsr', event)">Sign CSR</button>
+            <button class="tab-btn" onclick="switchTab('csrGen', event)">CSR Generator</button>
+            <button class="tab-btn" onclick="switchTab('decodeCert', event)">Decode Cert</button>
+            <button class="tab-btn" onclick="switchTab('crlGen', event)">Revoke (CRL)</button>
+            <button class="tab-btn" onclick="switchTab('formatConvert', event)">Format Converter</button>
+            <button class="tab-btn" onclick="switchTab('codeSigning', event)">Code Signing</button>
+            <button class="tab-btn" onclick="switchTab('dhParams', event)">DH Params</button>
         </div>
 
         <!-- TAB 1: SELF SIGNED -->
@@ -176,7 +177,8 @@
             <div class="preview-box full-width" id="ss_preview">
                 <div class="preview-header">
                     <span>✅ Success! Output Preview:</span>
-                    <button class="btn-copy" onclick="copyToClipboard('ss_preview_text')">Copy to Clipboard</button>
+                    <button class="btn-copy" onclick="copyToClipboard('ss_preview_text', event)">Copy to
+                        Clipboard</button>
                 </div>
                 <div class="code-block" id="ss_preview_text"></div>
             </div>
@@ -289,7 +291,8 @@
             <div class="preview-box full-width" id="ca_preview">
                 <div class="preview-header">
                     <span>🏛️ CA Setup Complete! Keep your key safe.</span>
-                    <button class="btn-copy" onclick="copyToClipboard('ca_preview_text')">Copy to Clipboard</button>
+                    <button class="btn-copy" onclick="copyToClipboard('ca_preview_text', event)">Copy to
+                        Clipboard</button>
                 </div>
                 <div class="code-block" id="ca_preview_text"></div>
             </div>
@@ -442,7 +445,8 @@
             <div class="preview-box full-width" id="sub_preview">
                 <div class="preview-header">
                     <span>✒️ Object Digitally Sealed by CA!</span>
-                    <button class="btn-copy" onclick="copyToClipboard('sub_preview_text')">Copy to Clipboard</button>
+                    <button class="btn-copy" onclick="copyToClipboard('sub_preview_text', event)">Copy to
+                        Clipboard</button>
                 </div>
                 <div class="code-block" id="sub_preview_text"></div>
             </div>
@@ -546,9 +550,130 @@
             <div class="preview-box full-width" id="csr_preview">
                 <div class="preview-header">
                     <span>✅ CSR Successfully Signed!</span>
-                    <button class="btn-copy" onclick="copyToClipboard('csr_preview_text')">Copy to Clipboard</button>
+                    <button class="btn-copy" onclick="copyToClipboard('csr_preview_text', event)">Copy to
+                        Clipboard</button>
                 </div>
                 <div class="code-block" id="csr_preview_text"></div>
+            </div>
+        </div>
+
+        <!-- TAB: CSR GENERATOR -->
+        <div id="csrGen" class="tab-pane glass-card">
+            <div class="section-title">
+                Standalone CSR Generator
+            </div>
+            <p style="color:var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                Generate a Certificate Signing Request (CSR) and Private Key pair. Send the CSR to your Certificate
+                Authority for signing – your private key never leaves your device.
+            </p>
+
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Common Name (CN / Domain)</label>
+                    <input type="text" id="csrgen_cn" value="www.mycompany.com" placeholder="e.g. www.example.com">
+                </div>
+                <div class="input-group">
+                    <label>Organization (O)</label>
+                    <input type="text" id="csrgen_org" value="My Company" placeholder="e.g. Acme Corp">
+                </div>
+                <div class="input-group">
+                    <label>Org. Unit (OU) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="csrgen_ou" placeholder="e.g. IT Department">
+                </div>
+                <div class="input-group">
+                    <label>Locality / City (L) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="csrgen_locality" placeholder="e.g. San Francisco">
+                </div>
+                <div class="input-group">
+                    <label>State / Province (ST) <span class="optional">(Opt)</span></label>
+                    <input type="text" id="csrgen_state" placeholder="e.g. California">
+                </div>
+                <div class="input-group">
+                    <label>Country Code (C)</label>
+                    <input type="text" id="csrgen_country" value="US" maxlength="2">
+                </div>
+                <div class="input-group">
+                    <label>Email Address (E) <span class="optional">(Opt)</span></label>
+                    <input type="email" id="csrgen_email" placeholder="admin@mycompany.com">
+                </div>
+                <div class="input-group">
+                    <label>Suggested Validity (Years)</label>
+                    <input type="number" id="csrgen_years" value="1"
+                        title="The CA decides the actual validity. This is stored in README.">
+                </div>
+                <div class="input-group">
+                    <label>Signature Algorithm</label>
+                    <select id="csrgen_hash">
+                        <option value="sha256" selected>SHA-256 (Recommended)</option>
+                        <option value="sha384">SHA-384</option>
+                        <option value="sha512">SHA-512</option>
+                        <option value="sha256-pss">SHA-256 with RSA-PSS</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Key Algorithm & Strength</label>
+                    <select id="csrgen_keysize">
+                        <option value="rsa2048">RSA 2048 (Fast)</option>
+                        <option value="rsa4096" selected>RSA 4096 (Secure)</option>
+                        <option value="rsa8192">RSA 8192 (Ultra - Very Slow!)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Key Format (Private Key)</label>
+                    <select id="csrgen_format">
+                        <option value="pkcs8" selected>PKCS#8 (Modern)</option>
+                        <option value="pkcs1">PKCS#1 (Traditional RSA)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Private Key Passphrase <span class="optional">(Opt)</span></label>
+                    <input type="password" id="csrgen_pass" placeholder="Encrypt Private Key (Recommended)">
+                </div>
+                <div class="input-group full-width">
+                    <label>Subject Alternative Names (SAN)</label>
+                    <input type="text" id="csrgen_san" value="DNS:www.mycompany.com,DNS:mycompany.com"
+                        placeholder="DNS:xxx,IP:yyy,URI:zzz,EMAIL:eee (Comma separated)">
+                </div>
+            </div>
+
+            <div class="section-title" style="font-size: 1.1rem; border:none; margin-bottom:1rem;">Requested Usage
+                (Extensions)</div>
+            <div class="checkbox-group mb-2" style="margin-bottom: 1.5rem;">
+                <label class="checkbox-label"><input type="checkbox" id="csrgen_ku_digitalsignature" checked> Digital
+                    Signature</label>
+                <label class="checkbox-label"><input type="checkbox" id="csrgen_ku_keyencipherment" checked> Key
+                    Encipherment</label>
+                <label class="checkbox-label"><input type="checkbox" id="csrgen_ku_serverauth" checked> Server
+                    Authentication</label>
+                <label class="checkbox-label"><input type="checkbox" id="csrgen_ku_clientauth"> Client
+                    Authentication</label>
+                <label class="checkbox-label"><input type="checkbox" id="csrgen_ku_codesigning"> Code
+                    Signing</label>
+                <label class="checkbox-label"><input type="checkbox" id="csrgen_ku_emailprotection"> Email
+                    Protection (S/MIME)</label>
+            </div>
+
+            <div id="csrgen_status" class="status-msg"></div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn-primary" id="btn_csrgen_generate" onclick="generateCSR()"
+                    style="flex: 2; background: linear-gradient(135deg, #00b4d8, var(--primary));">
+                    <div class="loader" id="csrgen_loader"></div>
+                    GENERATE CSR & DOWNLOAD (ZIP)
+                </button>
+                <button class="btn-secondary" onclick="resetForm('csrgen')"
+                    style="flex: 1; background: rgba(255,255,255,0.05);">
+                    Reset Form
+                </button>
+            </div>
+
+            <div class="preview-box full-width" id="csrgen_preview">
+                <div class="preview-header">
+                    <span>📋 CSR Generated! Send to your CA for signing.</span>
+                    <button class="btn-copy" onclick="copyToClipboard('csrgen_preview_text', event)">Copy to
+                        Clipboard</button>
+                </div>
+                <div class="code-block" id="csrgen_preview_text"></div>
             </div>
         </div>
 
@@ -575,7 +700,8 @@
             <div class="preview-box" id="decode_preview" style="margin-top: 2rem;">
                 <div class="preview-header">
                     <span style="color:#ffb700;">🔍 Decoded Object Details:</span>
-                    <button class="btn-copy" onclick="copyToClipboard('decode_preview_text')">Copy Report</button>
+                    <button class="btn-copy" onclick="copyToClipboard('decode_preview_text', event)">Copy
+                        Report</button>
                 </div>
                 <div class="code-block" id="decode_preview_text"
                     style="color:var(--primary); font-size:0.9rem; line-height: 1.6;"></div>
@@ -752,7 +878,7 @@
             <div class="preview-box full-width" id="cs_preview">
                 <div class="preview-header">
                     <span>💻 Code Signing Keypair & Certificate Created!</span>
-                    <button class="btn-copy" onclick="copyToClipboard('cs_preview_text')">Copy to
+                    <button class="btn-copy" onclick="copyToClipboard('cs_preview_text', event)">Copy to
                         Clipboard</button>
                 </div>
                 <div class="code-block" id="cs_preview_text"></div>
@@ -867,6 +993,7 @@
     <script src="./js/modules/crl-gen.js"></script>
     <script src="./js/modules/format-convert.js"></script>
     <script src="./js/modules/code-signing.js"></script>
+    <script src="./js/modules/csr-gen.js"></script>
     <script src="./js/modules/dh-params.js"></script>
 </body>
 

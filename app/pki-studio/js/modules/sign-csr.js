@@ -18,6 +18,7 @@ async function signCsrWithCA() {
         const years = parseInt(document.getElementById('csr_years').value);
 
         if (!caCrtPem || !caKeyPem || !csrPem) throw new Error("CA files and CSR are mandatory.");
+        if (isNaN(years) || years < 1 || years > 100) throw new Error("Validity period must be between 1 and 100 years.");
 
         status.innerText = 'Verifying CSR Signature...';
         await new Promise(r => setTimeout(r, 100));
@@ -26,14 +27,7 @@ async function signCsrWithCA() {
         if (!csr.verify()) throw new Error("CSR Signature is invalid or missing.");
 
         const caCert = forge.pki.certificateFromPem(caCrtPem);
-        let caPrivateKey;
-        if (caKeyPem.includes('ENCRYPTED')) {
-            if (!caPass) throw new Error("Private Key is encrypted. Passphrase is required.");
-            caPrivateKey = forge.pki.decryptRsaPrivateKey(caKeyPem, caPass);
-            if (!caPrivateKey) throw new Error("Decryption failed. Verify your CA Passphrase.");
-        } else {
-            caPrivateKey = forge.pki.privateKeyFromPem(caKeyPem);
-        }
+        const caPrivateKey = decryptCaKey(caKeyPem, caPass);
 
         status.innerText = 'Signing Certificate from CSR...';
         const cert = forge.pki.createCertificate();
@@ -49,24 +43,10 @@ async function signCsrWithCA() {
         const exts = [
             { name: 'basicConstraints', cA: false },
             { name: 'subjectKeyIdentifier' },
-            { name: 'authorityKeyIdentifier', keyIdentifier: forge.pki.getPublicKeyFingerprint(caCert.publicKey) }
+            { name: 'authorityKeyIdentifier', keyIdentifier: forge.pki.getPublicKeyFingerprint(caCert.publicKey, { encoding: 'binary' }) }
         ];
 
-        let keyUsage = [];
-        if (document.getElementById('csr_ku_digitalsignature').checked) keyUsage.push('digitalSignature');
-        if (document.getElementById('csr_ku_keyencipherment').checked) keyUsage.push('keyEncipherment');
-        if (keyUsage.length > 0) {
-            exts.push({ name: 'keyUsage', digitalSignature: keyUsage.includes('digitalSignature'), keyEncipherment: keyUsage.includes('keyEncipherment'), critical: true });
-        }
-
-        let extKeyUsage = [];
-        if (document.getElementById('csr_ku_serverauth').checked) extKeyUsage.push('serverAuth');
-        if (document.getElementById('csr_ku_clientauth').checked) extKeyUsage.push('clientAuth');
-        if (extKeyUsage.length > 0) {
-            let ekuObj = { name: 'extKeyUsage' };
-            extKeyUsage.forEach(val => ekuObj[val] = true);
-            exts.push(ekuObj);
-        }
+        buildKeyUsageExtensions(exts, 'csr');
 
         const sanList = parseSan(document.getElementById('csr_san').value);
         if (sanList.length > 0) {
@@ -84,27 +64,14 @@ async function signCsrWithCA() {
         injectAdvancedExtensions(exts, ocspUrl, cdpUrl);
 
         cert.setExtensions(exts);
-        const csrMdObj = getMdFromUI('csr');
-        if (csrMdObj.pss) {
-            const pss = forge.pss.create({
-                md: forge.md.sha256.create(),
-                mgf: forge.mgf.mgf1.create(forge.md.sha256.create()),
-                saltLength: 20
-            });
-            cert.sign(caPrivateKey, csrMdObj.md, pss);
-        } else {
-            cert.sign(caPrivateKey, csrMdObj);
-        }
+        signWithMd(cert, caPrivateKey, getMdFromUI('csr'));
 
         const pemCert = forge.pki.certificateToPem(cert);
 
         const cnAttr = csr.subject.getField('CN');
         const cnOut = cnAttr ? cnAttr.value : 'signed_cert';
 
-        const link = document.createElement('a');
-        link.href = 'data:application/x-pem-file;charset=utf-8,' + encodeURIComponent(pemCert);
-        link.download = `${cnOut}.crt`;
-        link.click();
+        downloadTextFile(pemCert, `${cnOut}.crt`, 'application/x-pem-file');
 
         previewTxt.textContent = `=== TARGET CERTIFICATE GENERATED FROM CSR ===\nIssuer: ${caCert.subject.getField('CN').value}\nSubject: ${cnOut}\nSerial: ${cert.serialNumber}\n\n${pemCert}`;
         previewBox.style.display = 'block';
