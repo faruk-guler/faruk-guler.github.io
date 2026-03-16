@@ -1,8 +1,0 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.farukguler.twa",
-        "sha256_cert_fingerprints": ["9F:A9:4C:18:CA:78:FB:01:44:DD:F3:E1:6B:66:55:C7:DA:F6:2C:EE:9F:BF:E1:32:6A:82:47:9A:7D:AC:54:9C"]
-      }
-    }]
