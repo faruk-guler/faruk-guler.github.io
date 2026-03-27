@@ -17,7 +17,7 @@ Bu ihtiyaca yönelik geliştirdiğim **[moodle-bbb-stack](https://github.com/far
 
 ---
 
-## 🏛️ Neden Bu Stack? (Üniversite ve BT Vizyonu)
+## 🏛️ Neden Stack?
 
 Piyasada çok sayıda genel geçer doküman olsa da, **moodle-bbb-stack** doğrudan akademik ve kurumsal ihtiyaçların yarattığı darboğazlara (bottleneck) çözüm odaklıdır.
 
