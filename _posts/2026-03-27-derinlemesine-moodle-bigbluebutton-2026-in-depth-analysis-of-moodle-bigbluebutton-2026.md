@@ -27,7 +27,7 @@ Bu ihtiyaca yönelik geliştirdiğim **[moodle-bbb-stack](https://github.com/far
 
 ---
 
-## 🏛️ Neden Stack?
+## 🏛️ Neden 🎓 Moodle & BigBlueButton — Kurumsal BT Altyapı ve Mimari?
 
 Piyasada çok sayıda genel geçer doküman olsa da, **moodle-bbb-stack** doğrudan akademik ve kurumsal ihtiyaçların yarattığı darboğazlara (bottleneck) çözüm odaklıdır.
 
