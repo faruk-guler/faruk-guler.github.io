@@ -11,6 +11,16 @@ tags: [Moodle, BigBlueButton, IT-Admin, Greenlight, Pilos, Kurumsal, Altyapı]
 
 ![BBB-moodle Logosu](https://farukguler.com/assets/post_images/bbb-moodle-logo.png)
 
+---
+
+## 📌 Bu Proje Nedir?
+
+Bu depo, **Moodle** (LMS) ve **BigBlueButton** (Video Konferans) platformlarını kurumsal seviyede kurmak, yönetmek ve ölçeklendirmek isteyen **sistem yöneticileri**, **DevOps mühendisleri** ve **sunucu yöneticileri** için hazırlanmış eksiksiz bir Türkçe teknik dokümantasyon setidir.
+
+> Geleneksel "next-next" kurulum kılavuzlarından farklı olarak, bu rehber gerçek dünya senaryolarına (sınav haftası darboğazları, NAT arkası sorunları, SSL kriz yönetimi) odaklanır.
+
+---
+
 Üniversite bilgi işlem daire başkanlıkları ve kurumsal eğitim departmanları için sınav haftaları, binlerce eşzamanlı kullanıcı ve "1007 WebRTC" hataları bir kabusa dönüşebilir. 2026 standartlarında, bu karmaşayı yönetmek artık bir seçenek değil, zorunluluktur.
 
 Bu ihtiyaca yönelik geliştirdiğim **[moodle-bbb-stack](https://github.com/faruk-guler/moodle-bbb-stack)** reposu, sadece bir kurulum betiği değil; kurumsal seviyede bir **BT Altyapı ve Mimari Rehberi**'dir.
