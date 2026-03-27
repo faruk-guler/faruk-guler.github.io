@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 📚🎓 Derinlemesine Moodle & BigBlueButton 2026 - Deep Dive analysis of Moodle & BigBlueButton 2026
+title: 📚🎓 Derinlemesine Moodle & BigBlueButton 2026 Deep Dive analysis of Moodle & BigBlueButton 2026
 subtitle: "Üniversiteler ve BT Yöneticileri İçin Ölçeklenebilir ve Yerli Dokümantasyon ve Daha Fazlası"
 date: 2026-03-27 20:45:00 +0300
 by: faruk-guler
