@@ -11,3 +11,4 @@ metamask.io
 yildiz.edu.tr
 ibb.istanbul
 grok.com
+uzem.icisleri.gov.tr
