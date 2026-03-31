@@ -37,7 +37,7 @@
             "domain_name": "technopat.net",
             "domain": {
                 "expiry": "2034-05-25T22:59:36",
-                "days_left": 2977
+                "days_left": 2976
             },
             "ssl": {
                 "expiry": "2026-05-25T08:50:52",
@@ -58,7 +58,7 @@
         {
             "domain_name": "visitizmir.org",
             "domain": {
-                "expiry": "2026-09-17T13:48:00",
+                "expiry": "2026-09-17T13:48:02.895000",
                 "days_left": 169
             },
             "ssl": {
@@ -73,8 +73,8 @@
                 "days_left": 320
             },
             "ssl": {
-                "expiry": "2026-06-08T08:36:40",
-                "days_left": 68
+                "expiry": "2026-06-01T08:36:14",
+                "days_left": 61
             }
         },
         {
@@ -144,5 +144,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T22:29:32.894349+00:00"
+    "last_updated": "2026-03-31T23:29:43.426950+00:00"
 }
