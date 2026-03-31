@@ -1,0 +1,170 @@
+{
+    "items": [
+        {
+            "domain_name": "golinuxcloud.com",
+            "domain": {
+                "expiry": "2028-09-01T12:58:03",
+                "days_left": 885
+            },
+            "ssl": {
+                "expiry": "2026-05-07T11:31:09",
+                "days_left": 37
+            }
+        },
+        {
+            "domain_name": "farukguler.com",
+            "domain": {
+                "expiry": "2026-05-06T20:23:07",
+                "days_left": 36
+            },
+            "ssl": {
+                "expiry": "2026-05-05T04:46:02",
+                "days_left": 34
+            }
+        },
+        {
+            "domain_name": "phoenixnap.com",
+            "domain": {
+                "expiry": "2027-02-26T18:04:14",
+                "days_left": 332
+            },
+            "ssl": {
+                "expiry": "2026-05-28T23:59:59",
+                "days_left": 58
+            }
+        },
+        {
+            "domain_name": "mardin.gov.tr",
+            "domain": {
+                "expiry": "2026-10-14T00:00:00",
+                "days_left": 196
+            },
+            "ssl": {
+                "expiry": "2026-12-15T23:59:59",
+                "days_left": 259
+            }
+        },
+        {
+            "domain_name": "mardin.gov.tr",
+            "domain": {
+                "expiry": "2026-10-14T00:00:00",
+                "days_left": 196
+            },
+            "ssl": {
+                "expiry": "2026-12-15T23:59:59",
+                "days_left": 259
+            }
+        },
+        {
+            "domain_name": "technopat.net",
+            "domain": {
+                "expiry": "2034-05-25T22:59:36",
+                "days_left": 2977
+            },
+            "ssl": {
+                "expiry": "2026-05-25T08:50:52",
+                "days_left": 54
+            }
+        },
+        {
+            "domain_name": "cozumpark.com",
+            "domain": {
+                "expiry": "2028-12-28T15:16:22",
+                "days_left": 1003
+            },
+            "ssl": {
+                "expiry": "2026-06-22T08:53:46",
+                "days_left": 82
+            }
+        },
+        {
+            "domain_name": "visitizmir.org",
+            "domain": {
+                "expiry": "2026-09-17T13:48:02.895000",
+                "days_left": 170
+            },
+            "ssl": {
+                "expiry": "2026-06-02T09:29:46",
+                "days_left": 62
+            }
+        },
+        {
+            "domain_name": "youtube.com",
+            "domain": {
+                "expiry": "2027-02-15T05:13:12",
+                "days_left": 320
+            },
+            "ssl": {
+                "expiry": "2026-06-01T08:36:14",
+                "days_left": 61
+            }
+        },
+        {
+            "domain_name": "konya.net.tr",
+            "domain": {
+                "expiry": "2027-03-03T00:00:00",
+                "days_left": 336
+            },
+            "ssl": {
+                "expiry": "2026-06-16T10:02:27",
+                "days_left": 76
+            }
+        },
+        {
+            "domain_name": "cisa.gov",
+            "domain": {
+                "expiry": "2026-11-04T15:22:13.599000",
+                "days_left": 218
+            },
+            "ssl": {
+                "expiry": "2026-09-22T23:59:59",
+                "days_left": 175
+            }
+        },
+        {
+            "domain_name": "metamask.io",
+            "domain": {
+                "expiry": "2026-07-02T20:22:27",
+                "days_left": 93
+            },
+            "ssl": {
+                "expiry": "2026-05-02T02:39:08",
+                "days_left": 31
+            }
+        },
+        {
+            "domain_name": "yildiz.edu.tr",
+            "domain": {
+                "expiry": "2026-12-25T00:00:00",
+                "days_left": 268
+            },
+            "ssl": {
+                "expiry": "2026-11-27T23:59:59",
+                "days_left": 241
+            }
+        },
+        {
+            "domain_name": "ibb.istanbul",
+            "domain": {
+                "expiry": "2027-01-26T18:42:39.192000",
+                "days_left": 301
+            },
+            "ssl": {
+                "expiry": "2026-09-25T23:59:59",
+                "days_left": 178
+            }
+        },
+        {
+            "domain_name": "grok.com",
+            "domain": {
+                "expiry": "2034-05-20T04:00:00",
+                "days_left": 2971
+            },
+            "ssl": {
+                "expiry": "2026-06-19T21:00:13",
+                "days_left": 80
+            }
+        }
+    ],
+    "last_updated": "2026-03-31T11:01:34.562331"
+}
