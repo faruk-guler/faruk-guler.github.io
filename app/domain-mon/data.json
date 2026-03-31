@@ -34,6 +34,17 @@
             }
         },
         {
+            "domain_name": "uzem.icisleri.gov.tr",
+            "domain": {
+                "expiry": "2027-02-24T00:00:00",
+                "days_left": 329
+            },
+            "ssl": {
+                "expiry": null,
+                "days_left": "Error"
+            }
+        },
+        {
             "domain_name": "technopat.net",
             "domain": {
                 "expiry": "2034-05-25T22:59:36",
@@ -142,18 +153,7 @@
                 "expiry": "2026-06-19T21:00:13",
                 "days_left": 80
             }
-        },
-        {
-            "domain_name": "uzem.icisleri.gov.tr",
-            "domain": {
-                "expiry": "2027-02-24T00:00:00",
-                "days_left": 329
-            },
-            "ssl": {
-                "expiry": null,
-                "days_left": "Error"
-            }
         }
     ],
-    "last_updated": "2026-03-31T11:49:47.510740"
+    "last_updated": "2026-03-31T11:52:05.825596"
 }
