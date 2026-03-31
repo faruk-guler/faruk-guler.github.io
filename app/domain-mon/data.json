@@ -67,20 +67,9 @@
             }
         },
         {
-            "domain_name": "mardin.gov.tr",
-            "domain": {
-                "expiry": "2026-10-14T00:00:00",
-                "days_left": 196
-            },
-            "ssl": {
-                "expiry": "2026-12-15T23:59:59",
-                "days_left": 259
-            }
-        },
-        {
             "domain_name": "visitizmir.org",
             "domain": {
-                "expiry": "2026-09-17T13:48:02.895000",
+                "expiry": "2026-09-17T13:48:00",
                 "days_left": 170
             },
             "ssl": {
@@ -91,7 +80,7 @@
         {
             "domain_name": "youtube.com",
             "domain": {
-                "expiry": "2027-02-15T05:13:12",
+                "expiry": "2027-02-15T00:00:00",
                 "days_left": 320
             },
             "ssl": {
@@ -113,7 +102,7 @@
         {
             "domain_name": "cisa.gov",
             "domain": {
-                "expiry": "2026-11-04T15:22:13.599000",
+                "expiry": "2026-11-04T15:22:13",
                 "days_left": 218
             },
             "ssl": {
@@ -146,7 +135,7 @@
         {
             "domain_name": "ibb.istanbul",
             "domain": {
-                "expiry": "2027-01-26T18:42:39.192000",
+                "expiry": "2027-01-26T18:42:39",
                 "days_left": 301
             },
             "ssl": {
@@ -166,5 +155,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T11:06:30.396415"
+    "last_updated": "2026-03-31T11:09:00.943980"
 }
