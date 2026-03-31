@@ -1,6 +1,7 @@
 golinuxcloud.com
 farukguler.com
 phoenixnap.com
+uzem.icisleri.gov.tr
 technopat.net
 cozumpark.com
 visitizmir.org
@@ -11,4 +12,3 @@ metamask.io
 yildiz.edu.tr
 ibb.istanbul
 grok.com
-uzem.icisleri.gov.tr
