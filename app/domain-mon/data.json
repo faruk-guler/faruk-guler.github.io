@@ -26,7 +26,7 @@
             "domain_name": "phoenixnap.com",
             "domain": {
                 "expiry": "2027-02-26T18:04:14",
-                "days_left": 332
+                "days_left": 331
             },
             "ssl": {
                 "expiry": "2026-05-28T23:59:59",
@@ -136,7 +136,7 @@
             "domain_name": "ibb.istanbul",
             "domain": {
                 "expiry": "2027-01-26T18:42:39.192000",
-                "days_left": 301
+                "days_left": 300
             },
             "ssl": {
                 "expiry": "2026-09-25T23:59:59",
@@ -144,5 +144,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T17:52:22.918914+00:00"
+    "last_updated": "2026-03-31T18:54:14.874329+00:00"
 }
