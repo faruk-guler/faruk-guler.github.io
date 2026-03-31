@@ -21,6 +21,11 @@ function render() {
         return;
     }
 
+    if (currentData.items.length === 0) {
+        contentContainer.innerHTML = '<div class="loader">No domains currently configured. Please add domains to domains.txt</div>';
+        return;
+    }
+
     // Using en-GB for consistent date format
     lastUpdatedEl.textContent = currentData.last_updated ? new Date(currentData.last_updated).toLocaleString('en-GB') : '--';
     renderTable(currentData.items);
@@ -44,8 +49,8 @@ function renderTable(items) {
                         const dColor = getColorClass(item.domain.days_left);
                         const sColor = getColorClass(item.ssl.days_left);
                         
-                        const domainText = item.domain.days_left >= 0 ? item.domain.days_left + ' Days' : 'Protected';
-                        const sslText = item.ssl.days_left >= 0 ? item.ssl.days_left + ' Days' : 'Protected';
+                        const domainText = item.domain.days_left === 'Error' ? 'Error' : (item.domain.days_left >= 0 ? item.domain.days_left + ' Days' : 'Expired');
+                        const sslText = item.ssl.days_left === 'Error' ? 'Error' : (item.ssl.days_left >= 0 ? item.ssl.days_left + ' Days' : 'Expired');
                         
                         return `
                             <tr>
@@ -64,7 +69,7 @@ function renderTable(items) {
 }
 
 function getColorClass(days) {
-    if (days < 0) return 'color-critical';
+    if (days === 'Error' || days < 0) return 'color-critical';
     if (days < 15) return 'color-critical';
     if (days < 30) return 'color-warning';
     return 'color-ok';

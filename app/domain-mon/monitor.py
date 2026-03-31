@@ -16,11 +16,14 @@ def get_domain_expiration_whois(domain):
         w = whois.whois(domain)
         expiration_date = w.expiration_date
         
-        # In case of multiple dates, pick the first one
+        # In case of multiple dates, find the first valid datetime
         if isinstance(expiration_date, list):
-            expiration_date = expiration_date[0]
+            for d in expiration_date:
+                if isinstance(d, datetime.datetime):
+                    return d
+            return None
             
-        if expiration_date:
+        if isinstance(expiration_date, datetime.datetime):
             return expiration_date
     except Exception as e:
         # Silently fail, it's a fallback
@@ -28,25 +31,26 @@ def get_domain_expiration_whois(domain):
     return None
 
 def get_domain_expiration(domain):
-    # 1. Try RDAP first (Fast and reliable for supported registries)
-    rdap_url = f"https://rdap.verisign.com/com/v1/domain/{domain}"
-    attempts = 2
-    for i in range(attempts):
-        try:
-            response = requests.get(rdap_url, timeout=5)
-            if response.status_code == 200:
-                data = response.json()
-                events = data.get("events", [])
-                for event in events:
-                    if event.get("eventAction") == "expiration":
-                        date_str = event.get("eventDate")
-                        expiration_date = datetime.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
-                        return expiration_date
-        except Exception:
-            if i < attempts - 1:
-                time.sleep(1)
+    # 1. Try RDAP first (Fast and reliable) for .com and .net
+    if domain.endswith(".com") or domain.endswith(".net"):
+        rdap_url = f"https://rdap.verisign.com/com/v1/domain/{domain}"
+        attempts = 2
+        for i in range(attempts):
+            try:
+                response = requests.get(rdap_url, timeout=5)
+                if response.status_code == 200:
+                    data = response.json()
+                    events = data.get("events", [])
+                    for event in events:
+                        if event.get("eventAction") == "expiration":
+                            date_str = event.get("eventDate")
+                            expiration_date = datetime.datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
+                            return expiration_date
+            except Exception:
+                if i < attempts - 1:
+                    time.sleep(1)
 
-    # 2. Fallback to WHOIS if RDAP failed or returned 404 (common for .eu, .gov, .tr)
+    # 2. Fallback to WHOIS if RDAP failed or unsupported extension
     return get_domain_expiration_whois(domain)
 
 def get_ssl_expiration(domain):
@@ -63,20 +67,35 @@ def get_ssl_expiration(domain):
 
 def process_domain(domain):
     print(f"Checking: {domain}...")
-    domain_expiry = get_domain_expiration(domain)
-    ssl_expiry = get_ssl_expiration(domain)
     
-    now = datetime.datetime.now()
+    domain_expiry = None
+    ssl_expiry = None
+    
+    try:
+        domain_expiry = get_domain_expiration(domain)
+        if not isinstance(domain_expiry, datetime.datetime):
+            domain_expiry = None
+    except Exception:
+        pass
+        
+    try:
+        ssl_expiry = get_ssl_expiration(domain)
+        if not isinstance(ssl_expiry, datetime.datetime):
+            ssl_expiry = None
+    except Exception:
+        pass
+        
+    now = datetime.datetime.utcnow()
     
     return {
         "domain_name": domain,
         "domain": {
             "expiry": domain_expiry.isoformat() if domain_expiry else None,
-            "days_left": (domain_expiry - now).days if domain_expiry else -1
+            "days_left": (domain_expiry - now).days if domain_expiry else "Error"
         },
         "ssl": {
             "expiry": ssl_expiry.isoformat() if ssl_expiry else None,
-            "days_left": (ssl_expiry - now).days if ssl_expiry else -1
+            "days_left": (ssl_expiry - now).days if ssl_expiry else "Error"
         }
     }
 
