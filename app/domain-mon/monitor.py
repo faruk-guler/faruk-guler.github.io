@@ -98,7 +98,7 @@ def process_domain(domain):
     except Exception:
         pass
         
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
     
     return {
         "domain_name": domain,
@@ -145,7 +145,7 @@ def main():
 
     data = {
         "items": results,
-        "last_updated": datetime.datetime.now().isoformat()
+        "last_updated": datetime.datetime.now(datetime.timezone.utc).isoformat()
     }
     
     with open(DATA_FILE, "w") as f:
