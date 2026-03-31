@@ -20,12 +20,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # <-- DOĞRU YER BURASI: Repo geçmişinin tamamını çeker
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          fetch-depth: 0 # Tüm geçmişi çek
-          python-version: '3.x'
+          python-version: '3.x' # <-- fetch-depth buradan kaldırıldı
 
       - name: Install dependencies
         working-directory: app/domain-mon
@@ -36,6 +37,10 @@ jobs:
       - name: Run monitor script
         working-directory: app/domain-mon
         run: python monitor.py
+
+      - name: Pull remote changes
+        # Çakışmaları önlemek için commit öncesi uzak sunucuyu yerelle birleştirir
+        run: git pull origin ${{ github.ref_name }} --rebase
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
