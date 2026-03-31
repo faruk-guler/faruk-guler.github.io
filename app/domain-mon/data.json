@@ -73,15 +73,15 @@
                 "days_left": 320
             },
             "ssl": {
-                "expiry": "2026-06-01T08:36:26",
+                "expiry": "2026-06-01T08:36:14",
                 "days_left": 61
             }
         },
         {
             "domain_name": "konya.net.tr",
             "domain": {
-                "expiry": null,
-                "days_left": "Error"
+                "expiry": "2027-03-03T00:00:00",
+                "days_left": 336
             },
             "ssl": {
                 "expiry": "2026-06-16T10:02:27",
@@ -106,15 +106,15 @@
                 "days_left": 93
             },
             "ssl": {
-                "expiry": null,
-                "days_left": "Error"
+                "expiry": "2026-05-02T02:39:08",
+                "days_left": 31
             }
         },
         {
             "domain_name": "yildiz.edu.tr",
             "domain": {
-                "expiry": null,
-                "days_left": "Error"
+                "expiry": "2026-12-25T00:00:00",
+                "days_left": 268
             },
             "ssl": {
                 "expiry": "2026-11-27T23:59:59",
@@ -133,5 +133,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T12:18:36.921462+00:00"
+    "last_updated": "2026-03-31T12:21:39.750992+00:00"
 }
