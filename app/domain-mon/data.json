@@ -48,7 +48,7 @@
             "domain_name": "cozumpark.com",
             "domain": {
                 "expiry": "2028-12-28T15:16:22",
-                "days_left": 1003
+                "days_left": 1002
             },
             "ssl": {
                 "expiry": "2026-06-22T08:53:46",
@@ -92,7 +92,7 @@
             "domain_name": "cisa.gov",
             "domain": {
                 "expiry": "2026-11-04T15:22:13.599000",
-                "days_left": 218
+                "days_left": 217
             },
             "ssl": {
                 "expiry": "2026-09-22T23:59:59",
@@ -103,7 +103,7 @@
             "domain_name": "cisa.gov",
             "domain": {
                 "expiry": "2026-11-04T15:22:13.599000",
-                "days_left": 218
+                "days_left": 217
             },
             "ssl": {
                 "expiry": "2026-09-22T23:59:59",
@@ -144,5 +144,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T14:57:08.874338+00:00"
+    "last_updated": "2026-03-31T16:05:28.820603+00:00"
 }
