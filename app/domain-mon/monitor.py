@@ -13,6 +13,7 @@ DOMAINS_FILE = "domains.txt"
 DATA_FILE = "data.json"
 
 def get_domain_expiration(domain):
+    # Try RDAP first (Standard)
     try:
         r = requests.get(f"https://rdap.org/domain/{domain}", timeout=5)
         if r.status_code == 200:
@@ -24,6 +25,7 @@ def get_domain_expiration(domain):
     except Exception:
         pass
 
+    # Try Backup WHOIS API
     try:
         r = requests.get(f"https://networkcalc.com/api/dns/whois/{domain}", timeout=5)
         if r.status_code == 200:
@@ -36,6 +38,19 @@ def get_domain_expiration(domain):
     except Exception:
         pass
 
+    # Try .tr Specific Fallback
+    try:
+        if domain.endswith('.tr'):
+            r = requests.get(f"https://whois.enis.org.tr/whois?domain={domain}", timeout=10)
+            if r.status_code == 200:
+                import re
+                match = re.search(r"Expires on\.+:\s*([0-9]{4}-[0-9]{2}-[0-9]{2})", r.text)
+                if match:
+                    return parser.parse(match.group(1)).replace(tzinfo=None)
+    except Exception:
+        pass
+
+    # Try Standard whois library (Port 43)
     try:
         w = whois.whois(domain)
         d = w.expiration_date

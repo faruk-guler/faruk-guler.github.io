@@ -2,16 +2,26 @@ let currentData = null;
 
 const contentContainer = document.getElementById('monitor-content');
 const lastUpdatedEl = document.getElementById('last-updated');
+const refreshBtn = document.getElementById('refresh-btn');
 
 async function fetchData() {
+    refreshBtn.textContent = 'Refreshing...';
+    refreshBtn.disabled = true;
+    
     try {
-        const response = await fetch('data.json');
+        // Cache busting with timestamp
+        const response = await fetch(`data.json?t=${Date.now()}`);
         if (!response.ok) throw new Error('Could not load data template');
         currentData = await response.json();
         render();
     } catch (error) {
         console.error('Error:', error);
         contentContainer.innerHTML = `<div class="error">Error loading data: ${error.message}</div>`;
+    } finally {
+        setTimeout(() => {
+            refreshBtn.textContent = 'Refresh Data';
+            refreshBtn.disabled = false;
+        }, 500);
     }
 }
 
@@ -78,3 +88,5 @@ function getColorClass(days) {
 // Initial Load
 fetchData();
 setInterval(fetchData, 300000); // 5 mins
+
+refreshBtn.addEventListener('click', fetchData);

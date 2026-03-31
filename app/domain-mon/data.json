@@ -23,6 +23,17 @@
             }
         },
         {
+            "domain_name": "farukguler.net",
+            "domain": {
+                "expiry": "2026-08-02T17:19:39",
+                "days_left": 124
+            },
+            "ssl": {
+                "expiry": "2026-05-14T22:38:17",
+                "days_left": 44
+            }
+        },
+        {
             "domain_name": "phoenixnap.com",
             "domain": {
                 "expiry": "2027-02-26T18:04:14",
@@ -41,7 +52,7 @@
             },
             "ssl": {
                 "expiry": "2026-05-25T08:50:52",
-                "days_left": 55
+                "days_left": 54
             }
         },
         {
@@ -52,7 +63,7 @@
             },
             "ssl": {
                 "expiry": "2026-06-22T08:53:46",
-                "days_left": 83
+                "days_left": 82
             }
         },
         {
@@ -63,7 +74,7 @@
             },
             "ssl": {
                 "expiry": "2026-06-02T09:29:46",
-                "days_left": 63
+                "days_left": 62
             }
         },
         {
@@ -74,7 +85,7 @@
             },
             "ssl": {
                 "expiry": "2026-06-01T08:36:26",
-                "days_left": 62
+                "days_left": 61
             }
         },
         {
@@ -133,5 +144,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T11:29:38.217031"
+    "last_updated": "2026-03-31T12:30:01.805062"
 }
