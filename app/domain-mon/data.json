@@ -34,21 +34,10 @@
             }
         },
         {
-            "domain_name": "mardin.gov.tr",
+            "domain_name": "izmir.gov.tr",
             "domain": {
-                "expiry": "2026-10-14T00:00:00",
-                "days_left": 196
-            },
-            "ssl": {
-                "expiry": "2026-12-15T23:59:59",
-                "days_left": 259
-            }
-        },
-        {
-            "domain_name": "mardin.gov.tr",
-            "domain": {
-                "expiry": "2026-10-14T00:00:00",
-                "days_left": 196
+                "expiry": "2026-05-27T00:00:00",
+                "days_left": 56
             },
             "ssl": {
                 "expiry": "2026-12-15T23:59:59",
@@ -75,6 +64,17 @@
             "ssl": {
                 "expiry": "2026-06-22T08:53:46",
                 "days_left": 82
+            }
+        },
+        {
+            "domain_name": "mardin.gov.tr",
+            "domain": {
+                "expiry": "2026-10-14T00:00:00",
+                "days_left": 196
+            },
+            "ssl": {
+                "expiry": "2026-12-15T23:59:59",
+                "days_left": 259
             }
         },
         {
@@ -166,5 +166,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T11:01:34.562331"
+    "last_updated": "2026-03-31T11:06:30.396415"
 }
