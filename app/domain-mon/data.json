@@ -8,7 +8,7 @@
             },
             "ssl": {
                 "expiry": "2026-05-07T11:31:09",
-                "days_left": 37
+                "days_left": 36
             }
         },
         {
@@ -31,17 +31,6 @@
             "ssl": {
                 "expiry": "2026-05-28T23:59:59",
                 "days_left": 58
-            }
-        },
-        {
-            "domain_name": "akkaleasm.gov.tr",
-            "domain": {
-                "expiry": "2027-03-17T00:00:00",
-                "days_left": 350
-            },
-            "ssl": {
-                "expiry": "2026-05-21T17:23:16",
-                "days_left": 51
             }
         },
         {
@@ -84,8 +73,8 @@
                 "days_left": 320
             },
             "ssl": {
-                "expiry": "2026-06-01T08:36:14",
-                "days_left": 61
+                "expiry": "2026-06-08T08:36:40",
+                "days_left": 68
             }
         },
         {
@@ -155,5 +144,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T11:30:21.791397"
+    "last_updated": "2026-03-31T11:36:05.968485"
 }
