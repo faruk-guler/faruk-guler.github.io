@@ -4,7 +4,7 @@
             "domain_name": "golinuxcloud.com",
             "domain": {
                 "expiry": "2028-09-01T12:58:03",
-                "days_left": 885
+                "days_left": 884
             },
             "ssl": {
                 "expiry": "2026-05-07T11:31:09",
@@ -133,5 +133,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T12:21:39.750992+00:00"
+    "last_updated": "2026-03-31T13:04:58.942256+00:00"
 }
