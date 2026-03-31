@@ -10,4 +10,3 @@ cisa.gov
 metamask.io
 yildiz.edu.tr
 ibb.istanbul
-grok.com
