@@ -24,6 +24,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
+          fetch-depth: 0 # Tüm geçmişi çek
           python-version: '3.x'
 
       - name: Install dependencies
