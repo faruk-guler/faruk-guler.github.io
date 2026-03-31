@@ -56,17 +56,6 @@
             }
         },
         {
-            "domain_name": "jsga.edu.tr",
-            "domain": {
-                "expiry": "2026-10-27T00:00:00",
-                "days_left": 209
-            },
-            "ssl": {
-                "expiry": "2026-11-30T23:59:59",
-                "days_left": 244
-            }
-        },
-        {
             "domain_name": "visitizmir.org",
             "domain": {
                 "expiry": "2026-09-17T13:48:02.895000",
@@ -155,5 +144,5 @@
             }
         }
     ],
-    "last_updated": "2026-03-31T13:25:35.342356+00:00"
+    "last_updated": "2026-03-31T13:31:33.910453+00:00"
 }
