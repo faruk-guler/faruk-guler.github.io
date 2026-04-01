@@ -37,7 +37,7 @@
             "domain_name": "cozumpark.com",
             "domain": {
                 "expiry": "2028-12-28T15:16:22",
-                "days_left": 1002
+                "days_left": 1001
             },
             "ssl": {
                 "expiry": "2026-06-22T08:53:46",
@@ -103,7 +103,7 @@
             "domain_name": "cisa.gov",
             "domain": {
                 "expiry": "2026-11-04T15:22:13.599000",
-                "days_left": 217
+                "days_left": 216
             },
             "ssl": {
                 "expiry": "2026-09-22T23:59:59",
@@ -122,5 +122,5 @@
             }
         }
     ],
-    "last_updated": "2026-04-01T14:59:51.661560+00:00"
+    "last_updated": "2026-04-01T16:10:11.630367+00:00"
 }
