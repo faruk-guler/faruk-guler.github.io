@@ -34,17 +34,6 @@
             }
         },
         {
-            "domain_name": "technopat.net",
-            "domain": {
-                "expiry": "2034-05-25T22:59:36",
-                "days_left": 2976
-            },
-            "ssl": {
-                "expiry": "2026-05-25T08:50:52",
-                "days_left": 54
-            }
-        },
-        {
             "domain_name": "cozumpark.com",
             "domain": {
                 "expiry": "2028-12-28T15:16:22",
@@ -73,8 +62,8 @@
                 "days_left": 319
             },
             "ssl": {
-                "expiry": "2026-06-08T08:36:40",
-                "days_left": 68
+                "expiry": "2026-06-01T08:36:14",
+                "days_left": 61
             }
         },
         {
@@ -86,17 +75,6 @@
             "ssl": {
                 "expiry": "2026-06-16T10:02:27",
                 "days_left": 76
-            }
-        },
-        {
-            "domain_name": "cisa.gov",
-            "domain": {
-                "expiry": "2026-11-04T15:22:13.599000",
-                "days_left": 217
-            },
-            "ssl": {
-                "expiry": "2026-09-22T23:59:59",
-                "days_left": 174
             }
         },
         {
@@ -144,5 +122,5 @@
             }
         }
     ],
-    "last_updated": "2026-04-01T05:19:52.329206+00:00"
+    "last_updated": "2026-04-01T05:52:52.273019+00:00"
 }
