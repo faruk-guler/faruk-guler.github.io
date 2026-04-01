@@ -26,7 +26,7 @@
             "domain_name": "ibb.istanbul",
             "domain": {
                 "expiry": "2027-01-26T18:42:39.192000",
-                "days_left": 300
+                "days_left": 299
             },
             "ssl": {
                 "expiry": "2026-09-25T23:59:59",
@@ -59,7 +59,7 @@
             "domain_name": "phoenixnap.com",
             "domain": {
                 "expiry": "2027-02-26T18:04:14",
-                "days_left": 331
+                "days_left": 330
             },
             "ssl": {
                 "expiry": "2026-05-28T23:59:59",
@@ -95,8 +95,8 @@
                 "days_left": 319
             },
             "ssl": {
-                "expiry": "2026-06-08T08:36:40",
-                "days_left": 67
+                "expiry": "2026-06-01T08:36:14",
+                "days_left": 60
             }
         },
         {
@@ -122,5 +122,5 @@
             }
         }
     ],
-    "last_updated": "2026-04-01T17:44:55.868337+00:00"
+    "last_updated": "2026-04-01T18:44:28.913443+00:00"
 }
