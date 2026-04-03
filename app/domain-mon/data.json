@@ -4,123 +4,123 @@
             "domain_name": "farukguler.com",
             "domain": {
                 "expiry": "2026-05-06T20:23:07",
-                "days_left": 34
+                "days_left": 33
             },
             "ssl": {
                 "expiry": "2026-05-05T04:46:02",
-                "days_left": 33
+                "days_left": 32
             }
         },
         {
             "domain_name": "yildiz.edu.tr",
             "domain": {
                 "expiry": "2026-12-25T00:00:00",
-                "days_left": 266
+                "days_left": 265
             },
             "ssl": {
                 "expiry": "2026-11-27T23:59:59",
-                "days_left": 239
+                "days_left": 238
             }
         },
         {
             "domain_name": "ibb.istanbul",
             "domain": {
-                "expiry": "2027-01-26T18:42:39.192000",
-                "days_left": 299
+                "expiry": "2027-01-26T18:42:39",
+                "days_left": 298
             },
             "ssl": {
                 "expiry": "2026-09-25T23:59:59",
-                "days_left": 176
+                "days_left": 175
             }
         },
         {
             "domain_name": "cozumpark.com",
             "domain": {
                 "expiry": "2028-12-28T15:16:22",
-                "days_left": 1001
+                "days_left": 1000
             },
             "ssl": {
                 "expiry": "2026-06-22T08:53:46",
-                "days_left": 81
+                "days_left": 80
             }
         },
         {
             "domain_name": "golinuxcloud.com",
             "domain": {
                 "expiry": "2028-09-01T12:58:03",
-                "days_left": 883
+                "days_left": 882
             },
             "ssl": {
                 "expiry": "2026-06-01T06:42:29",
-                "days_left": 60
+                "days_left": 59
             }
         },
         {
             "domain_name": "phoenixnap.com",
             "domain": {
                 "expiry": "2027-02-26T18:04:14",
-                "days_left": 330
+                "days_left": 329
             },
             "ssl": {
                 "expiry": "2026-05-28T23:59:59",
-                "days_left": 56
+                "days_left": 55
             }
         },
         {
             "domain_name": "konya.net.tr",
             "domain": {
                 "expiry": "2027-03-03T00:00:00",
-                "days_left": 334
+                "days_left": 333
             },
             "ssl": {
                 "expiry": "2026-06-16T10:02:27",
-                "days_left": 75
+                "days_left": 74
             }
         },
         {
             "domain_name": "visitizmir.org",
             "domain": {
                 "expiry": "2026-09-17T13:48:02.895000",
-                "days_left": 168
+                "days_left": 167
             },
             "ssl": {
                 "expiry": "2026-06-02T09:29:46",
-                "days_left": 61
+                "days_left": 60
             }
         },
         {
             "domain_name": "youtube.com",
             "domain": {
                 "expiry": "2027-02-15T05:13:12",
-                "days_left": 319
+                "days_left": 318
             },
             "ssl": {
-                "expiry": "2026-06-01T08:36:14",
-                "days_left": 60
+                "expiry": "2026-06-08T08:36:31",
+                "days_left": 66
             }
         },
         {
             "domain_name": "cisa.gov",
             "domain": {
                 "expiry": "2026-11-04T15:22:13.599000",
-                "days_left": 216
+                "days_left": 215
             },
             "ssl": {
                 "expiry": "2026-09-22T23:59:59",
-                "days_left": 173
+                "days_left": 172
             }
         },
         {
             "domain_name": "metamask.io",
             "domain": {
                 "expiry": "2026-07-02T20:22:27",
-                "days_left": 91
+                "days_left": 90
             },
             "ssl": {
                 "expiry": "2026-06-30T03:34:59",
-                "days_left": 89
+                "days_left": 88
             }
         }
     ],
-    "last_updated": "2026-04-02T00:25:07.456980+00:00"
+    "last_updated": "2026-04-03T02:09:16.056471+00:00"
 }
