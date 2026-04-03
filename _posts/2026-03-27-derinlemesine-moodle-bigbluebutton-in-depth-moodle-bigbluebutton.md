@@ -6,7 +6,7 @@ date: 2026-03-27 20:45:00 +0300
 by: faruk-guler
 comments: true
 categories: [Hybride]
-tags: [Moodle, BigBlueButton, IT-Admin, Greenlight, Pilos, Kurumsal, Altyapı]
+tags: [Moodle, BigBlueButton, IT-Admin, Greenlight, Pilos, Kurumsal, Altyapı, LMS]
 ---
 
 ![BBB-moodle Logosu](https://farukguler.com/assets/post_images/bbb-moodle-logo.png)
