@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 🎓 Derinlemesine Moodle ve BigBlueButton Kurulumu 2026 🎓 Deep Dive analysis of Moodle and BigBlueButton Install 2026
+title: 🎓 Derinlemesine Moodle ve BigBlueButton Kurulumu 2026 🎓 In-depth Moodle and BigBlueButton Installation 2026
 subtitle: "Üniversiteler ve BT Yöneticileri İçin Ölçeklenebilir ve Yerli Dokümantasyon ve Daha Fazlası"
 date: 2026-03-27 20:45:00 +0300
 by: faruk-guler
@@ -15,7 +15,7 @@ tags: [Moodle, BigBlueButton, IT-Admin, Greenlight, Pilos, Kurumsal, Altyapı]
 
 ## 📌 Bu Proje Nedir?
 
-Bu depo, **Moodle** (LMS) ve **BigBlueButton** (Video Konferans) platformlarını kurumsal seviyede kurmak, yönetmek ve ölçeklendirmek isteyen **sistem yöneticileri**, **DevOps mühendisleri** ve **sunucu yöneticileri** için hazırlanmış 2026 eksiksiz bir Türkçe teknik dokümantasyon setidir.
+Bu depo, **Moodle** (LMS) ve **BigBlueButton** (Video Konferans) platformlarını kurumsal seviyede kurmak, yönetmek ve ölçeklendirmek isteyen **sistem yöneticileri**, **DevOps mühendisleri** ve **sunucu yöneticileri** için hazırlanmış 2026 detaylı bir Türkçe teknik dokümantasyon setidir.
 
 > Geleneksel "next-next" kurulum kılavuzlarından farklı olarak, bu rehber gerçek dünya senaryolarına (sınav haftası darboğazları, NAT arkası sorunları, SSL kriz yönetimi) odaklanır.
 
@@ -51,7 +51,7 @@ Bu depo, bir sistem yöneticisinin el kitabı niteliğindedir:
 
 ---
 
-## 🚀 BT Ekipleri İçin Çağrı: Bu Kaynağı Neden Okumalısınız?
+## Bu Kaynak Neden İncelenmeli?
 
 Eğer bir üniversitede veya büyük bir eğitim kurumunda BT sistemlerinden sorumluysanız;
 * Sınav haftalarında sistemin kilitlenmesini istemiyorsanız,
@@ -66,7 +66,7 @@ Bu depo sizin için hazırlandı.
 
 ## 📢 Katkıda Bulunun ve Geliştirin
 
-Bu proje, açık kaynak topluluğunun gücüyle büyüyor. Siz de kendi kurumunuzda uyguladığınız "best practice" yöntemlerini repoya katkı (Pull Request) olarak sunabilir, BT camiasındaki bu Türkçe kaynak birikimine destek olabilirsiniz.
+Siz de kendi kurumunuzda uyguladığınız "best practice" yöntemlerini repoya katkı (Pull Request) olarak sunabilir, BT camiasındaki bu Türkçe kaynak birikimine destek olabilirsiniz.
 
 ---
 *Yazar: faruk-guler - IT Server and Virtualization Management Computer Science* *[farukguler.com](https://www.farukguler.com)*
