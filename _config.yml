@@ -219,7 +219,6 @@ compress_html:
     envs: [development]
 
 exclude:
-  - app/domain-mon/data.json
   - "*.gem"
   - "*.gemspec"
   - docs
