@@ -1,164 +1,633 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byte Çevirici - Bytes, KB, MB, GB, TB</title>
+    <title>Byte Converter Pro</title>
+
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a;
+                --card-bg: rgba(30, 41, 59, 0.7);
+                --text-main: #f1f5f9;
+                --text-muted: #94a3b8;
+                --border: #334155;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            margin: auto;
-        }
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 5px 0;
-            font-size: 16px;
-        }
-        button {
+
+        .app-wrapper {
+            display: flex;
+            gap: 12px;
             width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 16px;
-            background: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
+            max-width: 1100px;
+            align-items: stretch;
+            animation: fadeIn 0.5s ease-out;
         }
-        button:hover {
-            background: #0056b3;
+
+        .sidebar {
+            flex: 0 0 180px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            flex: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .toggle-container {
+            display: flex;
+            background: var(--border);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        .toggle-btn.active {
+            color: var(--primary);
+            background: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            position: relative;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input {
+            padding-right: 48px;
+            width: 100%;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.6;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+            background: var(--border);
+            color: var(--primary);
+        }
+
+        .copy-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        input:focus + .copy-btn {
+            opacity: 1;
+        }
+
+        /* Toast Notification */
+        #toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-main);
+            color: var(--bg);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            margin-left: 4px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .active-field input {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .active-field label {
+            color: var(--primary);
+        }
+
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        button.reset {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+        }
+
+        button.reset:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        button.reset:active {
+            transform: translateY(0);
+        }
+
+        .info-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 16px;
+            color: var(--text-main);
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 11px;
+            color: var(--text-muted);
+            display: grid;
+            gap: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-item span:first-child {
+            font-family: monospace;
+            background: var(--border);
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            width: fit-content;
+            font-size: 10px;
+            color: var(--primary);
+        }
+
+        .info-item span:last-child {
+            font-weight: 500;
+            padding-left: 4px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Improvements */
+        @media (max-width: 850px) {
+            .app-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .sidebar {
+                width: 100%;
+                flex: none;
+                order: 2; /* Sidebar bottom on small mobile */
+            }
+            .container {
+                width: 100%;
+                order: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .converter-grid {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Data Conversion -farukguler.com</h2>
-    <label>Bit</label>
-    <input type="number" id="bit" oninput="convertFromBit()">
+<div class="app-wrapper">
+    <!-- LEFT SIDE: Reference Rates -->
+    <aside class="sidebar">
+        <div class="info-title">Reference Rates</div>
+        <div class="info-list" id="infoList">
+            <!-- Will be filled dynamically -->
+        </div>
+    </aside>
 
-    <label>Byte</label>
-    <input type="number" id="byte" oninput="convertFromByte()">
+    <!-- RIGHT SIDE: Main Calculator -->
+    <main class="container">
+        <h1>Byte Converter Pro</h1>
+        <p class="subtitle">farukguler.com - Precision Data Converter</p>
 
-    <label>Kilobyte (KB)</label>
-    <input type="number" id="kb" oninput="convertFromKB()">
+        <div class="toggle-container">
+            <button class="toggle-btn active" onclick="setMode(1024, this)" id="modeBinary">Binary (1024)</button>
+            <button class="toggle-btn" onclick="setMode(1000, this)" id="modeDecimal">Decimal (1000)</button>
+        </div>
 
-    <label>Megabyte (MB)</label>
-    <input type="number" id="mb" oninput="convertFromMB()">
+        <div class="converter-grid">
+            <div class="input-group">
+                <label>Bit (b)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="bit" placeholder="0" oninput="calculate('bit')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('bit')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Byte (B)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="byte" placeholder="0" oninput="calculate('byte')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('byte')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Kilobyte (KB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="kb" placeholder="0" oninput="calculate('kb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('kb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Megabyte (MB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="mb" placeholder="0" oninput="calculate('mb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('mb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Gigabyte (GB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="gb" placeholder="0" oninput="calculate('gb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('gb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Terabyte (TB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="tb" placeholder="0" oninput="calculate('tb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('tb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Petabyte (PB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="pb" placeholder="0" oninput="calculate('pb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('pb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Exabyte (EB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="eb" placeholder="0" oninput="calculate('eb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('eb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Zettabyte (ZB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="zb" placeholder="0" oninput="calculate('zb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('zb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Yottabyte (YB)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="yb" placeholder="0" oninput="calculate('yb')" inputmode="decimal">
+                    <button class="copy-btn" onclick="copyValue('yb')" title="Copy value">
+                        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    <label>Gigabyte (GB)</label>
-    <input type="number" id="gb" oninput="convertFromGB()">
-
-    <label>Terabyte (TB)</label>
-    <input type="number" id="tb" oninput="convertFromTB()">
-
-    <button onclick="resetFields()">Sıfırla</button>
+        <div class="actions">
+            <button class="reset" onclick="reset()">Reset / Clear</button>
+        </div>
+    </main>
 </div>
 
 <script>
-    function convertFromBit() {
-        let bit = parseFloat(document.getElementById("bit").value) || 0;
-        document.getElementById("byte").value = formatNumber(bit / 8);
-        document.getElementById("kb").value = formatNumber(bit / 8192);
-        document.getElementById("mb").value = formatNumber(bit / 8388608);
-        document.getElementById("gb").value = formatNumber(bit / 8589934592);
-        document.getElementById("tb").value = formatNumber(bit / 8796093022208);
+    let baseValue = 1024;
+    const units = ['bit', 'byte', 'kb', 'mb', 'gb', 'tb', 'pb', 'eb', 'zb', 'yb'];
+    let lastActiveField = 'bit';
+    
+    // Unit multipliers relative to Byte
+    function getMultipliers() {
+        return {
+            'bit': 1 / 8,
+            'byte': 1,
+            'kb': baseValue,
+            'mb': Math.pow(baseValue, 2),
+            'gb': Math.pow(baseValue, 3),
+            'tb': Math.pow(baseValue, 4),
+            'pb': Math.pow(baseValue, 5),
+            'eb': Math.pow(baseValue, 6),
+            'zb': Math.pow(baseValue, 7),
+            'yb': Math.pow(baseValue, 8)
+        };
     }
 
-    function convertFromByte() {
-        let byte = parseFloat(document.getElementById("byte").value) || 0;
-        document.getElementById("bit").value = formatNumber(byte * 8);
-        document.getElementById("kb").value = formatNumber(byte / 1024);
-        document.getElementById("mb").value = formatNumber(byte / 1048576);
-        document.getElementById("gb").value = formatNumber(byte / 1073741824);
-        document.getElementById("tb").value = formatNumber(byte / 1099511627776);
+    function calculate(sourceUnit) {
+        lastActiveField = sourceUnit;
+        const input = document.getElementById(sourceUnit);
+        
+        // Strip out anything that isn't a digit, dot, or comma
+        let cleanVal = input.value.replace(/[^0-9.,]/g, '');
+        
+        // Ensure only the first dot or comma is kept as the decimal separator
+        let firstSeparatorIndex = cleanVal.search(/[.,]/);
+        if (firstSeparatorIndex !== -1) {
+            let before = cleanVal.substring(0, firstSeparatorIndex + 1);
+            let after = cleanVal.substring(firstSeparatorIndex + 1).replace(/[.,]/g, '');
+            cleanVal = before + after;
+        }
+        
+        // Update the input field with the cleaned value to prevent letters/symbols
+        if (input.value !== cleanVal) {
+            input.value = cleanVal;
+        }
+
+        // Normalize: Replace comma with dot for calculation
+        let normalizedVal = cleanVal.replace(',', '.');
+        
+        // Remove active class from all groups
+        document.querySelectorAll('.input-group').forEach(g => g.classList.remove('active-field'));
+        // Add to current
+        document.getElementById(sourceUnit).closest('.input-group').classList.add('active-field');
+
+        // If empty or invalid, just stop calculation
+        if (normalizedVal === "" || isNaN(parseFloat(normalizedVal))) {
+            return;
+        }
+
+        const multipliers = getMultipliers();
+        const valueInBytes = parseFloat(normalizedVal) * multipliers[sourceUnit];
+
+        units.forEach(unit => {
+            if (unit !== sourceUnit) {
+                const converted = valueInBytes / multipliers[unit];
+                document.getElementById(unit).value = formatNumberForInput(converted);
+            }
+        });
     }
 
-    function convertFromKB() {
-        let kb = parseFloat(document.getElementById("kb").value) || 0;
-        document.getElementById("bit").value = formatNumber(kb * 8192);
-        document.getElementById("byte").value = formatNumber(kb * 1024);
-        document.getElementById("mb").value = formatNumber(kb / 1024);
-        document.getElementById("gb").value = formatNumber(kb / 1048576);
-        document.getElementById("tb").value = formatNumber(kb / 1073741824);
+    // Formatter for visible input values (avoids scientific notation for small numbers)
+    function formatNumberForInput(num) {
+        if (isNaN(num)) return "";
+        if (num === 0) return "0";
+        
+        // For very large numbers, keep scientific notation to avoid layout breaking
+        if (num > 1e20) {
+            return num.toExponential(6).replace(/\.?0+e/, 'e');
+        }
+        
+        // For small numbers, we provide full decimal expansion up to 25 digits
+        // This avoids rounding the last digits of exact binary values
+        let fixed = num.toFixed(25);
+        // Remove trailing zeros and possible trailing dot
+        return fixed.replace(/\.?0+$/, "");
     }
 
-    function convertFromMB() {
-        let mb = parseFloat(document.getElementById("mb").value) || 0;
-        document.getElementById("bit").value = formatNumber(mb * 8388608);
-        document.getElementById("byte").value = formatNumber(mb * 1048576);
-        document.getElementById("kb").value = formatNumber(mb * 1024);
-        document.getElementById("gb").value = formatNumber(mb / 1024);
-        document.getElementById("tb").value = formatNumber(mb / 1048576);
+    // Professional formatter with separators for display/copy
+    const displayFormatter = new Intl.NumberFormat('en-US', {
+        maximumFractionDigits: 4,
+        minimumFractionDigits: 0
+    });
+
+    function copyValue(id) {
+        const input = document.getElementById(id);
+        const val = input.value;
+        if (!val) return;
+
+        // Copy raw value to clipboard
+        navigator.clipboard.writeText(val).then(() => {
+            showToast(`Copied: ${val}`);
+        });
     }
 
-    function convertFromGB() {
-        let gb = parseFloat(document.getElementById("gb").value) || 0;
-        document.getElementById("bit").value = formatNumber(gb * 8589934592);
-        document.getElementById("byte").value = formatNumber(gb * 1073741824);
-        document.getElementById("kb").value = formatNumber(gb * 1048576);
-        document.getElementById("mb").value = formatNumber(gb * 1024);
-        document.getElementById("tb").value = formatNumber(gb / 1024);
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
     }
 
-    function convertFromTB() {
-        let tb = parseFloat(document.getElementById("tb").value) || 0;
-        document.getElementById("bit").value = formatNumber(tb * 8796093022208);
-        document.getElementById("byte").value = formatNumber(tb * 1099511627776);
-        document.getElementById("kb").value = formatNumber(tb * 1073741824);
-        document.getElementById("mb").value = formatNumber(tb * 1048576);
-        document.getElementById("gb").value = formatNumber(tb * 1024);
+    function setMode(mode, btn) {
+        baseValue = mode;
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // If there's an existing value, recalculate
+        if (lastActiveField && document.getElementById(lastActiveField).value !== "") {
+            calculate(lastActiveField);
+        }
+        
+        updateInfoList();
     }
 
-    function formatNumber(num) {
-        return num >= 1 ? Math.round(num) : num.toFixed(2);
+    function clearAll() {
+        units.forEach(u => document.getElementById(u).value = "");
     }
 
-    function resetFields() {
-        document.getElementById("bit").value = "";
-        document.getElementById("byte").value = "";
-        document.getElementById("kb").value = "";
-        document.getElementById("mb").value = "";
-        document.getElementById("gb").value = "";
-        document.getElementById("tb").value = "";
+    function reset() {
+        clearAll();
+        document.querySelectorAll('.input-group').forEach(g => g.classList.remove('active-field'));
+        document.getElementById("bit").focus();
     }
+
+    function updateInfoList() {
+        const list = document.getElementById('infoList');
+        const b = baseValue;
+        const items = [
+            { label: '1 Byte', val: '8 Bits' },
+            { label: `1 KB`, val: `${displayFormatter.format(b)} Bytes` },
+            { label: `1 MB`, val: `${displayFormatter.format(b)} KB` },
+            { label: `1 GB`, val: `${displayFormatter.format(b)} MB` },
+            { label: `1 TB`, val: `${displayFormatter.format(b)} GB` },
+            { label: `1 PB`, val: `${displayFormatter.format(b)} TB` }
+        ];
+        
+        list.innerHTML = items.map(i => `
+            <div class="info-item">
+                <span>${i.label}</span>
+                <span>${i.val}</span>
+            </div>
+        `).join('');
+    }
+
+    // Initialization
+    updateInfoList();
 </script>
 
-<style>
-    ul {
-      padding-left: 0;
-      list-style-position: inside;
-    }
-    li {
-      text-align: left;
-    }
-</style>
-
-<ul>
-    <li>1 Bit = 1 Bit</li>
-    <li>1 Byte = 8 Bit</li>
-    <li>1 Kilobyte (KB) = 8192 Bit</li>
-    <li>1 Megabyte (MB) = 8388608 Bit</li>
-    <li>1 Gigabyte (GB) = 8589934592 Bit</li>
-    <li>1 Terabyte (TB) = 8796093022208 Bit</li>
-<li> Others:
--Petabyte (PB)
--Exabyte (EB)
--Zettabyte (ZB)
--Yottabyte (YB)
-</li>
-</ul>
-
+    <div id="toast">Value Copied!</div>
 </body>
 </html>
+
