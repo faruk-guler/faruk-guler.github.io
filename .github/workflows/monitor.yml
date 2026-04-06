@@ -10,7 +10,7 @@ on:
       - '.github/workflows/monitor.yml'
       - 'monitor.py'
   schedule:
-    - cron: '0 * * * *' 
+    - cron: '0 * * * *' # hergun
   workflow_dispatch:
 
 jobs:
