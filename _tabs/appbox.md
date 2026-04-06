@@ -22,4 +22,4 @@ order: 2
 | [NetSpeed Test](./app/speed-test/){:target="_blank"} | [Tiny Markdown Editor](./app/tiny-markdown-editor/){:target="_blank"} | |
 | [Subdomain Finder](./app/subdomain-finder/){:target="_blank"} | [Domain IP Analyzer](./app/domain-ip-analyzer/){:target="_blank"} | |
 | [Neutron Powerful Automation](https://github.com/faruk-guler/Neutron/){:target="_blank"} | [OpenDraw WebUI](./app/open-draw/){:target="_blank"} | |
-| [WHOIS Domain Lookup](./app/whois-lookup/){:target="_blank"} | |
+| [WHOIS Domain Lookup](./app/whois-lookup/){:target="_blank"} | | |
