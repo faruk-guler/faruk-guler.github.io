@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Byte Converter Pro</title>
+    <meta name="description" content="Precision data storage unit converter supporting bits, bytes, KB/KiB to YB/YiB in both decimal and binary modes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -497,18 +501,10 @@
         lastActiveField = sourceUnit;
         const input = document.getElementById(sourceUnit);
         
-        // Strip out anything that isn't a digit, dot, or comma
-        let cleanVal = input.value.replace(/[^0-9.,]/g, '');
+        // Strip out anything that isn't a digit, dot, comma, e, E, +, -
+        let cleanVal = input.value.replace(/[^0-9.,eE+-]/g, '');
         
-        // Ensure only the first dot or comma is kept as the decimal separator
-        let firstSeparatorIndex = cleanVal.search(/[.,]/);
-        if (firstSeparatorIndex !== -1) {
-            let before = cleanVal.substring(0, firstSeparatorIndex + 1);
-            let after = cleanVal.substring(firstSeparatorIndex + 1).replace(/[.,]/g, '');
-            cleanVal = before + after;
-        }
-        
-        // Update the input field with the cleaned value to prevent letters/symbols
+        // Update the input field with the cleaned value to prevent unexpected symbols
         if (input.value !== cleanVal) {
             input.value = cleanVal;
         }
@@ -521,8 +517,13 @@
         // Add to current
         document.getElementById(sourceUnit).closest('.input-group').classList.add('active-field');
 
-        // If empty or invalid, just stop calculation
+        // If empty or invalid, clear all other boxes and stop calculation
         if (normalizedVal === "" || isNaN(parseFloat(normalizedVal))) {
+            units.forEach(unit => {
+                if (unit !== sourceUnit) {
+                    document.getElementById(unit).value = "";
+                }
+            });
             return;
         }
 
@@ -571,11 +572,13 @@
         });
     }
 
+    let toastTimeout;
     function showToast(message) {
         const toast = document.getElementById('toast');
+        clearTimeout(toastTimeout);
         toast.textContent = message;
         toast.classList.add('show');
-        setTimeout(() => {
+        toastTimeout = setTimeout(() => {
             toast.classList.remove('show');
         }, 2000);
     }
@@ -585,12 +588,26 @@
         document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
+        updateLabels(mode);
+        
         // If there's an existing value, recalculate
         if (lastActiveField && document.getElementById(lastActiveField).value !== "") {
             calculate(lastActiveField);
         }
         
         updateInfoList();
+    }
+
+    function updateLabels(mode) {
+        const labelsMap = {
+            1000: { kb: 'Kilobyte (KB)', mb: 'Megabyte (MB)', gb: 'Gigabyte (GB)', tb: 'Terabyte (TB)', pb: 'Petabyte (PB)', eb: 'Exabyte (EB)', zb: 'Zettabyte (ZB)', yb: 'Yottabyte (YB)' },
+            1024: { kb: 'Kilobyte (KB)', mb: 'Megabyte (MB)', gb: 'Gigabyte (GB)', tb: 'Terabyte (TB)', pb: 'Petabyte (PB)', eb: 'Exabyte (EB)', zb: 'Zettabyte (ZB)', yb: 'Yottabyte (YB)' }
+        };
+        const currentLabels = labelsMap[mode];
+        Object.keys(currentLabels).forEach(id => {
+            const labelEl = document.getElementById(id).closest('.input-group').querySelector('label');
+            if(labelEl) labelEl.textContent = currentLabels[id];
+        });
     }
 
     function clearAll() {
@@ -606,13 +623,15 @@
     function updateInfoList() {
         const list = document.getElementById('infoList');
         const b = baseValue;
+        const u = ['KB', 'MB', 'GB', 'TB', 'PB'];
+        
         const items = [
             { label: '1 Byte', val: '8 Bits' },
-            { label: `1 KB`, val: `${displayFormatter.format(b)} Bytes` },
-            { label: `1 MB`, val: `${displayFormatter.format(b)} KB` },
-            { label: `1 GB`, val: `${displayFormatter.format(b)} MB` },
-            { label: `1 TB`, val: `${displayFormatter.format(b)} GB` },
-            { label: `1 PB`, val: `${displayFormatter.format(b)} TB` }
+            { label: `1 ${u[0]}`, val: `${displayFormatter.format(b)} Bytes` },
+            { label: `1 ${u[1]}`, val: `${displayFormatter.format(b)} ${u[0]}` },
+            { label: `1 ${u[2]}`, val: `${displayFormatter.format(b)} ${u[1]}` },
+            { label: `1 ${u[3]}`, val: `${displayFormatter.format(b)} ${u[2]}` },
+            { label: `1 ${u[4]}`, val: `${displayFormatter.format(b)} ${u[3]}` }
         ];
         
         list.innerHTML = items.map(i => `
@@ -625,6 +644,12 @@
 
     // Initialization
     updateInfoList();
+    updateLabels(1024);
+    
+    // Auto-select on click
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('click', function() { this.select(); });
+    });
 </script>
 
     <div id="toast">Value Copied!</div>
