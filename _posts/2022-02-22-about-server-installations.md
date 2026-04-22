@@ -2,7 +2,7 @@
 layout: post
 title: Fiziksel Sunucu (Bare-Metal) Kurulum ve Yönetim Rehberi 
 date: 2022-02-22 15:59
-author: faruk-guler
+by: faruk-guler
 comments: true
 categories: [Hybride]
 ---
