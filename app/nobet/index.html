@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nöbet Hazırlama Programı (Mazeretli)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Drawer (Side Panel) */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+            z-index: 100;
+            display: flex;
+            justify-content: flex-end;
+            transition: all 0.3s ease;
+        }
+
+        .drawer-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .drawer-content {
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -10px 0 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateX(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark .drawer-content {
+            background-color: #0f172a;
+            border-left: 1px solid #1e293b;
+        }
+
+        .drawer-overlay.hidden .drawer-content {
+            transform: translateX(100%);
+        }
+
+        .drawer-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark .drawer-header {
+            border-color: #1e293b;
+        }
+
+        .drawer-body {
+            padding: 1.5rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-800 antialiased transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100">
+    <div id="toast" class="toast hidden"></div>
+
+    <div class="container mx-auto p-4 md:p-6 max-w-5xl">
+        <div
+            class="bg-white shadow-xl rounded-2xl overflow-hidden dark:bg-slate-800 border border-slate-100 dark:border-slate-700 transition-colors">
+            <!-- Başlık -->
+            <div
+                class="bg-blue-600 dark:bg-blue-700 text-white p-5 flex justify-between items-center bg-gradient-to-r from-blue-600 to-blue-800">
+                <div class="flex items-center gap-3">
+                    <button onclick="window.location.reload()"
+                        class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors backdrop-blur-sm"
+                        title="Ana Ekrana Dön">
+                        <i class="ri-home-4-line text-xl"></i>
+                    </button>
+                    <h1 class="text-xl md:text-2xl font-bold flex items-center">
+                        <i class="ri-calendar-todo-fill mr-3 text-3xl"></i>
+                        <div>
+                            <div class="leading-tight">Nöbet Hazırlama Programı</div>
+                            <div class="text-xs font-normal opacity-80">v3.0 - Sürekli İyileştirilecek Sürüm</div>
+                        </div>
+                    </h1>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="themeToggle"
+                        class="bg-white/10 hover:bg-white/20 p-2.5 rounded-full transition-colors backdrop-blur-sm">
+                        <i class="ri-moon-line text-xl" id="themeIcon"></i>
+                    </button>
+                    <button id="yardimBtn"
+                        class="bg-white/10 hover:bg-white/20 p-2.5 rounded-full transition-colors backdrop-blur-sm">
+                        <i class="ri-question-line text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Adım Göstergesi -->
+            <div class="p-6 md:p-8">
+                <div class="flex mb-8 relative">
+                    <div
+                        class="absolute top-1/2 left-0 w-full h-1 bg-slate-100 dark:bg-slate-700 -z-10 -mt-0.5 rounded">
+                    </div>
+                    <div class="flex-1 flex flex-col items-center">
+                        <div id="adim1"
+                            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all adim-aktif step-circle bg-white dark:bg-slate-800">
+                            1</div>
+                        <div class="mt-2 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                            Ayarlar</div>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center">
+                        <div id="adim2"
+                            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all adim-pasif step-circle bg-white dark:bg-slate-800">
+                            2</div>
+                        <div class="mt-2 text-xs font-bold uppercase tracking-wider text-slate-400">Personel</div>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center">
+                        <div id="adim3"
+                            class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all adim-pasif step-circle bg-white dark:bg-slate-800">
+                            3</div>
+                        <div class="mt-2 text-xs font-bold uppercase tracking-wider text-slate-400">Sonuç</div>
+                    </div>
+                </div>
+
+                <!-- Navigasyon (Üst) -->
+                <div
+                    class="mb-6 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50 p-2 md:p-3 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <button id="geriBtn" class="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg font-medium hidden flex items-center gap-2 text-sm transition-all">
+                        <i class="ri-arrow-left-line"></i><span>Geri</span>
+                    </button>
+                    <div class="flex-1"></div>
+                    <button id="devamBtn"
+                        class="btn-primary flex items-center gap-2 px-6 py-2 shadow-lg shadow-blue-500/20 text-sm md:text-base">
+                        <span>İleri</span> <i class="ri-arrow-right-line"></i>
+                    </button>
+                </div>
+
+                <!-- Adım 1: Ayarlar -->
+                <div id="girisAdimi" class="space-y-6 fade-in">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-4">
+                        <h2 class="text-xl font-bold flex items-center text-slate-700 dark:text-white">
+                            <i class="ri-settings-2-line mr-2 text-blue-500"></i> Planlama Ayarları
+                        </h2>
+                    </div>
+
+                    <div class="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-xl border border-blue-100 dark:border-blue-900/20">
+                        <label class="block mb-2 text-sm font-semibold text-blue-700 dark:text-blue-300">Liste Başlığı (Resmi İsim)</label>
+                        <input type="text" id="listeBasligi" placeholder=".......... Birimi Nöbet Çizelgesi" class="input-field" maxlength="150">
+                        <p class="text-[10px] text-blue-500/70 mt-1 italic">Bu başlık PDF ve Excel çıktılarının en üstünde kurumsal kimlik olarak görünecektir.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300">Başlangıç
+                                Tarihi</label>
+                            <input type="date" id="baslangicTarihi" class="input-field">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300">Bitiş
+                                Tarihi</label>
+                            <input type="date" id="bitisTarihi" class="input-field">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300">Vardiya
+                                Başına Kişi</label>
+                            <input type="number" id="nobetciSayisi" min="1" value="1" class="input-field">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300">Maks. Peş
+                                Peşe Gün</label>
+                            <input type="number" id="ustUsteNobetSayisi" min="1" value="2" class="input-field">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300">Min.
+                                Dinlenme (Gün)</label>
+                            <input type="number" id="nobetArasiGun" min="0" value="3" class="input-field">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-300">Maks. Toplam Nöbet</label>
+                            <input type="number" id="maxShifts" min="0" value="0" class="input-field" title="0: Sınırsız">
+                            <p class="text-[10px] text-slate-400 mt-1">Her bir personele verilecek maksimum nöbet sınırı. (0: Sınırsız)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 cursor-pointer group">
+                        <div class="relative">
+                            <input type="checkbox" id="haftaSonuAyri" class="peer sr-only" checked>
+                            <div
+                                class="w-10 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                            </div>
+                        </div>
+                        <span
+                            class="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 transition-colors">Hafta
+                            Sonu Ayrı Dağıt</span>
+                    </div>
+                </div>
+
+                <!-- Adım 2: Personel -->
+                <div id="personelAdimi" class="space-y-6 hidden fade-in">
+                    <div
+                        class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 dark:border-slate-700 pb-4 gap-4">
+                        <h2 class="text-xl font-bold flex items-center text-slate-700 dark:text-white">
+                            <i class="ri-team-line mr-2 text-blue-500"></i> Personel Yönetimi
+                        </h2>
+
+                        <div class="flex items-center gap-3 text-sm">
+                            <span class="text-slate-500 dark:text-slate-400">Toplam:</span>
+                            <span id="toplamPersonelSayisi"
+                                class="font-bold text-blue-600 px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 rounded-full">0</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-slate-50 p-4 rounded-xl dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+                        <div class="flex flex-wrap justify-end gap-2 mb-4">
+                            <button id="personelEkleBtn" class="btn-primary flex items-center gap-2">
+                                <i class="ri-user-add-line"></i><span>Ekle</span>
+                            </button>
+                            <button id="sablonIndirBtn" class="btn-secondary flex items-center gap-2" title="Örnek Excel Şablonu">
+                                <i class="ri-file-download-line"></i><span>Şablon</span>
+                            </button>
+                            <button id="personelIcerikAktarBtn" class="btn-secondary flex items-center gap-2">
+                                <i class="ri-upload-line"></i><span>İçe Aktar</span>
+                            </button>
+                            <button id="personelDisariAktarBtn" class="btn-secondary flex items-center gap-2">
+                                <i class="ri-download-line"></i><span>Dışa Aktar</span>
+                            </button>
+                            <button id="tumunuSilBtn"
+                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+                                <i class="ri-delete-bin-line"></i><span>Tümünü Sil</span>
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700">
+                            <table class="w-full">
+                                <thead
+                                    class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs uppercase font-bold tracking-wider">
+                                    <tr>
+                                        <th class="p-3 text-left">İsim</th>
+                                        <th class="p-3 text-center">Nöbet</th>
+                                        <th class="p-3 text-center">H.Sonu</th>
+                                        <th class="p-3 text-center">Mazeret</th>
+                                        <th class="p-3 text-center">İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="personelListesi"
+                                    class="bg-white dark:bg-slate-900 divide-y divide-slate-100 dark:divide-slate-800">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div
+                            class="p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-semibold text-slate-600 dark:text-slate-400">Toplam
+                                    Görev</span>
+                                <span id="nobetDurumu" class="font-bold text-slate-800 dark:text-white">0</span>
+                            </div>
+                        </div>
+                        <div
+                            class="p-4 rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-semibold text-slate-600 dark:text-slate-400">Hafta Sonu
+                                    Yükü</span>
+                                <span id="haftaSonuNobetDurumu"
+                                    class="font-bold text-slate-800 dark:text-white">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adım 3: Sonuçlar -->
+                <div id="sonucAdimi" class="space-y-6 hidden fade-in">
+                    <div id="sonucButonlari" class="flex flex-wrap gap-2 mb-6 hidden">
+                        <button id="yenidenOlusturBtn" class="btn-primary flex items-center gap-2">
+                            <i class="ri-refresh-line"></i><span>Yeniden Oluştur</span>
+                        </button>
+                        <button id="excelAktarBtn" class="btn-secondary flex items-center gap-2">
+                            <i class="ri-file-excel-2-line"></i><span>Excel</span>
+                        </button>
+                        <button id="pdfAktarBtn" class="btn-secondary flex items-center gap-2">
+                            <i class="ri-file-pdf-line"></i><span>PDF</span>
+                        </button>
+                        <button id="analizBtn" class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+                            <i class="ri-bar-chart-line"></i><span>Yük Analizi</span>
+                        </button>
+                    </div>
+
+                    <div id="sonucOzet" class="grid grid-cols-1 md:grid-cols-4 gap-4 hidden">
+                        <!-- Summary cards will be injected here -->
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <table class="w-full">
+                            <thead
+                                class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs uppercase font-bold tracking-wider">
+                                <tr>
+                                    <th class="p-3 text-left">Tarih</th>
+                                    <th class="p-3 text-left">Gün</th>
+                                    <th class="p-3 text-left">Nöbetçiler</th>
+                                    <th class="p-3 text-left">Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sonucListesi"
+                                class="bg-white dark:bg-slate-900 divide-y divide-slate-100 dark:divide-slate-800">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="mt-8 text-center text-slate-400 text-xs space-y-1">
+            <p>Sağlık çalışanları ve güvenlik güçlerine ithaf edilmiştir.</p>
+            <p>Bu yazılım hakkında istekler, hatalar ve önerileriniz için mail adresim: fguler962@ gmail.com</p>
+            <p>Yaşamak bir ağaç gibi tek ve hür ve bir orman gibi kardeşçesine ❤️😊</p>
+            <p>2026 farukguler.com - @github.com/faruk-guler</p>
+        </div>
+       </div>
+
+    <!-- Modaller -->
+    <div id="personelModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-lg font-bold text-slate-800 dark:text-white" id="personelModalBaslik">Personel Ekle</h2>
+                <button onclick="kapatModal('personelModal')"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-400">Ad Soyad</label>
+                <input type="text" id="personelAdi" placeholder="Örn: John Doe" class="input-field"
+                    onkeydown="if(event.key === 'Enter') personelKaydet()">
+            </div>
+            <div class="modal-footer">
+                <button onclick="kapatModal('personelModal')" class="btn-secondary">İptal</button>
+                <button onclick="personelKaydet()" class="btn-primary">Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mazeretModal" class="modal-overlay hidden">
+        <div class="modal-content max-w-2xl">
+            <div class="modal-header">
+                <div class="flex items-center gap-2">
+                    <i class="ri-calendar-event-line text-yellow-500 text-xl"></i>
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800 dark:text-white">Mazeret Takvimi</h2>
+                        <p class="text-xs text-slate-500 font-normal" id="mazeretPersonelAdi">...</p>
+                    </div>
+                </div>
+                <button onclick="kapatModal('mazeretModal')"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Two Column Layout: Calendar Left, List Right -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Left: Calendar -->
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-3 flex items-center gap-2">
+                            <i class="ri-calendar-line text-blue-500"></i>
+                            Takvim
+                        </h3>
+                        <div id="takvim" class="takvim-grid gap-2 select-none"></div>
+                        <div class="mt-3 text-xs text-slate-500 dark:text-slate-400 space-y-1">
+                            <div>• <span class="text-red-400">Kırmızı</span> = Hafta sonu</div>
+                            <div>• <span class="text-yellow-500">Sarı</span> = Seçili mazeret</div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Excuse List -->
+                    <div class="flex flex-col">
+                        <h3 class="text-sm font-bold text-slate-600 dark:text-slate-300 mb-3 flex items-center gap-2">
+                            <i class="ri-file-list-3-line text-blue-500"></i>
+                            Seçili Mazeret Günleri
+                        </h3>
+
+                        <div
+                            class="bg-slate-50 dark:bg-slate-900 border-2 border-slate-300 dark:border-slate-600 rounded-xl p-4 flex-1 overflow-y-auto max-h-[450px]">
+                            <div id="mazeretListesi" class="space-y-3">
+                                <div class="text-center text-slate-400 py-8 italic text-sm">
+                                    Henüz mazeret seçilmedi.<br>
+                                    Takvimden gün seçin.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-between">
+                <button onclick="mazeretleriTemizle()" class="text-red-500 hover:text-red-600 text-sm font-medium px-2">
+                    <i class="ri-delete-bin-line"></i> Temizle
+                </button>
+                <div class="flex space-x-2">
+                    <button onclick="kapatModal('mazeretModal')" class="btn-secondary">Kapat</button>
+                    <button onclick="mazeretKaydet()" class="btn-primary">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="degistirModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="text-lg font-bold text-slate-800 dark:text-white">Nöbetçi Değiştir</h2>
+                <button onclick="kapatModal('degistirModal')"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-sm text-slate-500 mb-4" id="degistirBilgi">...</p>
+                <div id="mazeretUyari" class="hidden text-xs text-red-600 dark:text-red-400 mb-4 bg-red-50 dark:bg-red-900/10 p-2 rounded-lg border border-red-100 dark:border-red-900/20 flex items-center gap-2"></div>
+                <label class="block mb-2 text-sm font-semibold text-slate-600 dark:text-slate-400">Yeni Nöbetçi Seç</label>
+                <select id="yeniNobetciSelect" class="input-field">
+                    <!-- Candidates will be listed here -->
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="kapatModal('degistirModal')" class="btn-secondary">İptal</button>
+                <button id="degistirOnayBtn" class="btn-primary">Değiştir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="analizModal" class="modal-overlay hidden">
+        <div class="modal-content max-w-4xl">
+            <div class="modal-header">
+                <h2 class="text-lg font-bold text-slate-800 dark:text-white">Personel Yük Analizi</h2>
+                <button onclick="kapatModal('analizModal')"
+                    class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-inner min-h-[400px]">
+                    <canvas id="loadChart"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="kapatModal('analizModal')" class="btn-primary">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/storage.js"></script>
+    <script src="js/ui-helpers.js"></script>
+    <script src="js/scheduler.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Help Drawer -->
+    <div id="helpDrawer" class="drawer-overlay hidden" onclick="if(event.target === this) uiHelpers.closeHelp()">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h2 class="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                    <i class="ri-information-line text-blue-500"></i> Hakkında & Yardım
+                </h2>
+                <button onclick="uiHelpers.closeHelp()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+            <div class="drawer-body space-y-6">
+                <section>
+                    <h3 class="font-bold text-slate-700 dark:text-slate-200 mb-2">Nasıl Kullanılır?</h3>
+                    <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex gap-2">
+                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0">1</span>
+                            <span><b>Ayarlar:</b> Nöbet dönemini ve kurallarınızı belirleyin.</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0">2</span>
+                            <span><b>Personel:</b> Ekibinizi ekleyin veya Excel'den aktarın.</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0">3</span>
+                            <span><b>Mazeretler:</b> Personel listesindeki takvim ikonuna tıklayarak izin günlerini seçin.</span>
+                        </li>
+                        <li class="flex gap-2">
+                            <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0">4</span>
+                            <span><b>Sonuç:</b> "İleri" butonuna basarak listeyi oluşturun.</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                    <h3 class="font-bold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2">
+                        <i class="ri-lightbulb-line text-yellow-500"></i> İpucu
+                    </h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Nöbet listesi oluştuktan sonra isimlerin üzerine tıklayarak manuel değişiklik yapabilirsiniz.
+                    </p>
+                </section>
+
+                <div class="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                    <div class="text-xs text-slate-400">Yazılım Sürümü</div>
+                    <div class="text-sm font-bold text-slate-700 dark:text-slate-300">v3.0 - Sürekli İyileştirilecek Sürüm</div>
+                    
+                    <div class="pt-4 flex flex-col gap-2">
+                        <a href="https://farukguler.com" target="_blank" class="text-xs text-blue-500 hover:underline flex items-center gap-1">
+                            <i class="ri-global-line"></i> farukguler.com
+                        </a>
+                        <a href="https://github.com/faruk-guler" target="_blank" class="text-xs text-slate-500 dark:text-slate-400 hover:underline flex items-center gap-1">
+                            <i class="ri-github-line"></i> @github.com/faruk-guler
+                        </a>
+                    </div>
+                    <div class="text-[10px] text-slate-400 pt-4">2026 - Açık Kaynak Nöbet Planlama Projesi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
