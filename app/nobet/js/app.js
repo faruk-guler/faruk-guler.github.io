@@ -963,7 +963,7 @@ function sablonIndir() {
     const ws2 = XLSX.utils.json_to_sheet(mazeretData);
     XLSX.utils.book_append_sheet(wb, ws2, "Mazeretler");
 
-    XLSX.writeFile(wb, "antigravity_nobet_sablonu.xlsx");
+    XLSX.writeFile(wb, "genel_nobet_sablonu.xlsx");
     uiHelpers.showToast("Örnek şablon (2 Sayfalı) indirildi", "success");
 }
 
