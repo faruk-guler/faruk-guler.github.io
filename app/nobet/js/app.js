@@ -523,16 +523,16 @@ function mazeretCakismaKontrol() {
                 month: 'long'
             });
 
-            const toplamPersonel = personeller.length;
-            const mazeretliSayisi = mazeretliPersoneller.length + 1; // +1 for current person
+            const nobetciSayisi = Math.max(1, parseInt(document.getElementById('nobetciSayisi').value) || 1);
+            const kalanPersonel = toplamPersonel - mazeretliSayisi;
 
-            // Determine warning type
-            const type = mazeretliSayisi >= toplamPersonel ? 'critical' : 'info';
-            const icon = mazeretliSayisi >= toplamPersonel ? '🚫' : 'ℹ️';
+            // Determine warning type: Critical if not enough people available for the shift
+            const type = kalanPersonel < nobetciSayisi ? 'critical' : 'info';
+            const icon = kalanPersonel < nobetciSayisi ? '🚫' : 'ℹ️';
 
             uyarilar.push({
                 type: type,
-                message: `${icon} <b>${formatted}:</b> ${mazeretliPersoneller.join(', ')} (${mazeretliSayisi}/${toplamPersonel} personel mazeretli)`
+                message: `${icon} <b>${formatted}:</b> ${mazeretliPersoneller.join(', ')} (${mazeretliSayisi}/${toplamPersonel} personel mazeretli) ${type === 'critical' ? '<b> - Yetersiz Personel!</b>' : ''}`
             });
         }
     });
@@ -601,7 +601,7 @@ function nobetListesiOlustur() {
     setTimeout(() => {
         const ayarlar = {
             nobetciSayisi: Math.max(1, parseInt(document.getElementById('nobetciSayisi').value) || 1),
-            maxConsec: Math.max(0, parseInt(document.getElementById('ustUsteNobetSayisi').value) || 2),
+            maxConsec: Math.max(1, parseInt(document.getElementById('ustUsteNobetSayisi').value) || 2), // Floor to 1
             minDaysBetween: Math.max(0, parseInt(document.getElementById('nobetArasiGun').value) || 0),
             haftaSonuAyri: document.getElementById('haftaSonuAyri').checked,
             maxShifts: Math.max(0, parseInt(document.getElementById('maxShifts').value) || 0)

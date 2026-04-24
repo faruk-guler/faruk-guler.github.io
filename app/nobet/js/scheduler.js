@@ -45,12 +45,10 @@ const scheduler = {
             totalAssigned: 0,
             currentStreak: 0,
             history: [],
-            mazeretler: new Set((p.mazeretler || []).map(m => {
+            mazeretler: new Map((p.mazeretler || []).map(m => {
                 // Normalize date to YYYY-MM-DD
-                if (m.tarih.includes('.')) {
-                    return m.tarih.split('.').reverse().join('-');
-                }
-                return m.tarih;
+                const dateStr = m.tarih.includes('.') ? m.tarih.split('.').reverse().join('-') : m.tarih;
+                return [dateStr, m.aciklama || ""];
             })),
             lastAssignedTime: p.sonNobet ? new Date(p.sonNobet).getTime() : null
         }));
@@ -59,7 +57,7 @@ const scheduler = {
         const failurePoints = {};
 
         const startTime = performance.now();
-        const timeout = 5000; // 5 seconds safety limit
+        const timeout = 10000; // 10 seconds safety limit
 
         // 3. Backtracking Solver
         const solve = (dayIndex) => {
@@ -80,13 +78,11 @@ const scheduler = {
             // Find candidates
             let candidates = personState.filter(p => {
                 // Check excuses
-                const matchedExcuse = p.mazeretler && p.mazeretler.find(m => {
-                    const mDate = m.tarih.includes('.') ? m.tarih.split('.').reverse().join('-') : m.tarih;
-                    return mDate === currentDay.dateStr;
-                });
+                const matchedExcuse = p.mazeretler.get(currentDay.dateStr);
 
-                if (matchedExcuse) {
-                    excusedToday.push({ id: p.id, name: p.ad, aciklama: matchedExcuse.aciklama || "" });
+                if (matchedExcuse !== undefined) {
+                    excusedToday.push({ id: p.id, name: p.ad, aciklama: matchedExcuse });
+                    this.logFailure(failurePoints, currentDay.dateStr, "Mazeretli");
                     return false;
                 }
 
@@ -118,18 +114,23 @@ const scheduler = {
                 return true;
             });
 
-            // 1. Random shuffle to break ties completely
-            candidates.sort(() => Math.random() - 0.5);
+            // 1. Better random shuffle (Fisher-Yates) for complete tie-breaking
+            for (let i = candidates.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+            }
 
             // 2. Sort candidates by Fairness
             candidates.sort((a, b) => {
                 let scoreA, scoreB;
                 if (haftaSonuAyri) {
-                    scoreA = (a.initialScore + a.currentScore) + (currentDay.isWeekend ? a.weekendCount * 5 : a.weekdayCount);
-                    scoreB = (b.initialScore + b.currentScore) + (currentDay.isWeekend ? b.weekendCount * 5 : b.weekdayCount);
+                    // Separated Fairness: Primary sort by specific category count, secondary by total weighted score
+                    scoreA = (currentDay.isWeekend ? a.weekendCount : a.weekdayCount) * 100 + (a.initialScore + a.currentScore);
+                    scoreB = (currentDay.isWeekend ? b.weekendCount : b.weekdayCount) * 100 + (b.initialScore + b.currentScore);
                 } else {
-                    scoreA = a.initialScore + a.currentScore + a.totalAssigned;
-                    scoreB = b.initialScore + b.currentScore + b.totalAssigned;
+                    // Combined Fairness: Just use total assigned count and weighted score
+                    scoreA = (a.initialScore + a.currentScore) + a.totalAssigned;
+                    scoreB = (b.initialScore + b.currentScore) + b.totalAssigned;
                 }
                 return scoreA - scoreB;
             });
@@ -141,7 +142,7 @@ const scheduler = {
             }
 
             // Optimization: Only try top candidates to prevent exponential explosion
-            const searchLimit = Math.min(candidates.length, 10);
+            const searchLimit = Math.min(candidates.length, 15);
             const limitedCandidates = candidates.slice(0, searchLimit);
 
             // Combination generation
@@ -199,19 +200,23 @@ const scheduler = {
 
     analyzeFailures(points) {
         const dates = Object.keys(points);
-        if (dates.length === 0) return "Genel personel yetersizliği.";
+        if (dates.length === 0) return "Sistem genelinde personel yetersizliği tespit edildi veya kısıtlamalar çok katı.";
 
-        const criticalDate = dates.sort((a, b) => {
+        // Sort dates by number of failures to find the bottleneck
+        const criticalDates = dates.sort((a, b) => {
             const sumA = Object.values(points[a]).reduce((s, v) => s + v, 0);
             const sumB = Object.values(points[b]).reduce((s, v) => s + v, 0);
             return sumB - sumA;
-        })[0];
+        });
 
+        const criticalDate = criticalDates[0];
         const reasons = Object.entries(points[criticalDate])
-            .map(([r, c]) => `${r} (${c})`)
+            .map(([r, c]) => `${r}: ${c} kez`)
             .join(", ");
 
-        return `${criticalDate} tarihinde kilitlenme: ${reasons}. Kriterleri esnetmeyi deneyin.`;
+        const formattedDate = new Date(criticalDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        return `${formattedDate} tarihinde planlama kilitlendi. Sebepler: ${reasons}. Çözüm için 'Nöbet Arası Gün' sayısını azaltmayı veya 'Maks. Toplam Nöbet' sınırını artırmayı deneyin.`;
     },
 
     getCombinations(arr, k) {
