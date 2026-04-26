@@ -7,8 +7,6 @@ comments: true
 categories: [Hybride]
 ---
 
-# Fiziksel Sunucu (Bare-Metal) Kurulum ve Yönetim Rehberi
-
 <!-- wp:image {"id":1924,"sizeSlug":"large","linkDestination":"none"} -->
 ![Sunucu Kurulum Görseli](https://farukguler.com/assets/post_images/pic_server_install-1.jpg?w=980)
 <!-- /wp:image -->
