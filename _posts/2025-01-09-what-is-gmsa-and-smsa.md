@@ -1,13 +1,12 @@
 ---
 layout: post
-title: What is gMSA and sMSA?
+title: Yönetilen Hizmet Hesapları (MSA ve gMSA) Kullanımı Hakkında
+
 date: 2025-01-09 01:07
 By: faruk-guler
 comments: true
 categories: [Windows OS]
 ---
-
-# Yönetilen Hizmet Hesapları (MSA ve gMSA) Kullanımı Hakkında
 
 Yönetilen Hizmet Hesapları (Managed Service Accounts - MSA), sistem yöneticilerinin Active Directory ortamında servisler ve uygulamalar için daha güvenli bir altyapı sağlamalarına yardımcı olan özel domain hesaplarıdır.
 
