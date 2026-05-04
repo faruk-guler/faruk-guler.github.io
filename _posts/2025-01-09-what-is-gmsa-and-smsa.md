@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Yönetilen Hizmet Hesapları (MSA ve gMSA) Kullanımı Hakkında
+title: Yönetilen Hizmet Hesapları (sMSA ve gMSA) Kullanımı Hakkında
 
 date: 2025-01-09 01:07
 By: faruk-guler
