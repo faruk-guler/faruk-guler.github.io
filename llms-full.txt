@@ -1,0 +1,247 @@
+# Guler Open IT Platform — Full Article Index
+
+> Complete index of all technical articles published on farukguler.com.
+> Author: Faruk Güler — IT System Administrator, DevOps Engineer & Developer.
+> Topics: Linux, Windows, Active Directory, Networking, Security, Virtualization, Cloud, Docker, Kubernetes, Blockchain.
+
+---
+
+## Linux & Unix Administration
+
+- [🎓 Derinlemesine Moodle ve BigBlueButton Kurulumu 2026](https://farukguler.com/posts/derinlemesine-moodle-bigbluebutton-in-depth-moodle-bigbluebutton/) — LMS, Moodle 5.x, BigBlueButton 3.x, Scalelite, Pilos (2026)
+- [Firewall Nedir? Linux Firewall'ı detaylı inceliyorum](https://farukguler.com/posts/linux-firewall-detayli-inceliyorum/) — iptables, nftables, firewalld (2026)
+- [Apache Virtual Hosts Configuration CentOS Stream 9](https://farukguler.com/posts/apache-virtual-hosts-configuration-centos-stream-9/) (2025)
+- [LVM Logical Volume Management Part-2](https://farukguler.com/posts/lvm-logical-volume-management-install-configure-manage/) (2025)
+- [Debian Linux Cheat Sheet I — Get Started](https://farukguler.com/posts/Debian-Get-Started-Cheat-Sheet-I/) (2023)
+- [Debian Linux Cheat Sheet II — Setup & Configuration](https://farukguler.com/posts/debian-linux-setup-conf-cheat-sheet-ii/) (2023)
+- [Debian Linux Cheat Sheet III — Active Directory Integration](https://farukguler.com/posts/debian-linux-cheat-sheet-active-directory-integration/) (2023)
+- [Debian Linux Cheat Sheet IV — RSYSLOG](https://farukguler.com/posts/debian-linux-cheat-sheet-iv-rsyslog/) (2024)
+- [Debian Linux Cheat Sheet V — System Information](https://farukguler.com/posts/debian-linux-cheat-sheet-v-system-information/) (2024)
+- [Linux Package and Archive Management](https://farukguler.com/posts/linux-package-and-archive-management/) (2024)
+- [Linux Permissions Management — File and Directory](https://farukguler.com/posts/linux-permissions/) (2024)
+- [Linux Sudo & Sudoers Yetkilendirmesi](https://farukguler.com/posts/linux-sudo-sudoers-yetkilendirmesi-hakkinda/) (2023)
+- [Linux Dizin/Dosya Sistemi Şeması](https://farukguler.com/posts/linux-file-directory-system-schema/) (2023)
+- [Linux KVM — Kernel-based Virtual Machine](https://farukguler.com/posts/linux-kvm-for-kernel-based-virtual-machine/) (2024)
+- [Linux Remote Desktop (RDP)](https://farukguler.com/posts/linux-rdp-uzak-masaustu-baglantisi/) (2023)
+- [Static IP and DHCP Configuration in Ubuntu](https://farukguler.com/posts/ubuntu-server-statik-ip-dhcp-konfigurasyonu/) (2023)
+- [Linux Desktop Environments](https://farukguler.com/posts/linux-desktop-environments/) (2023)
+- [APT Sources List Configuration](https://farukguler.com/posts/what-is-a-source-list-sources-list-configuring-apt/) (2023)
+- [Debian Alias Kullanımı](https://farukguler.com/posts/debian-alias/) (2023)
+- [Standard Partitions Install, Configure, Manage Part-1](https://farukguler.com/posts/standard-partitions-install-configure-manage/) (2024)
+- [About BTRFS](https://farukguler.com/posts/about-btrfs/) (2024)
+- [Sconfig Kullanımı](https://farukguler.com/posts/sconfig-kullanimi/) (2023)
+- [Root Kullanıcısına SSH Yetkisi](https://farukguler.com/posts/root-kullanicisina-ssh-yetkisi-verin-grant-root-user-ssh-privilege/) (2022)
+- [Uninstall MySQL on Ubuntu](https://farukguler.com/posts/mysqli-uninstall/) (2022)
+- [CentOS 8 User & Groups Operations](https://farukguler.com/posts/centos-8-user-groups-operations/) (2023)
+- [CentOS 8 Network Configuration](https://farukguler.com/posts/centos-8-server-ag-ayarlari/) (2023)
+- [Installing Cockpit for CentOS 7+](https://farukguler.com/posts/installing-cockpit-for-centos-7-and-later/) (2023)
+- [Raspberry Pi Nedir?](https://farukguler.com/posts/raspberry-pi-nedir/) (2023)
+
+---
+
+## Storage & Distributed Systems
+
+- [🐙 Ceph Storage Cluster — Uçtan Uca Kurulum Rehberi](https://farukguler.com/posts/ceph-storage-detailed-detayli-inceliyorum/) — Ceph Reef, Quincy, cephadm (2026)
+- [LVM Logical Volume Management Part-2](https://farukguler.com/posts/lvm-logical-volume-management-install-configure-manage/) (2025)
+- [Standard Partitions Install, Configure, Manage Part-1](https://farukguler.com/posts/standard-partitions-install-configure-manage/) (2024)
+- [About BTRFS](https://farukguler.com/posts/about-btrfs/) (2024)
+- [PostgreSQL WAL Backup & Restore](https://farukguler.com/posts/PostgreSQL-WAL-Backup-Restore/) (2024)
+- [PostgreSQL Tutorial](https://farukguler.com/posts/PostgreSQL-Tutorial/) (2023)
+- [FATAL no pg_hba.conf entry for host](https://farukguler.com/posts/fatal-no-pg_hba-conf-entry-for-host/) (2023)
+- [ElasticSearch Nedir?](https://farukguler.com/posts/elasticsearch/) (2022)
+
+---
+
+## Network Security & Firewalls
+
+- [Web Application Firewall (WAF) Nedir?](https://farukguler.com/posts/waf-nedir/) (2026)
+- [Firewall Nedir? Linux Firewall'ı detaylı inceliyorum](https://farukguler.com/posts/linux-firewall-detayli-inceliyorum/) (2026)
+- [Uncomplicated Firewall — UFW](https://farukguler.com/posts/ufw-uncomplicated-firewall/) (2024)
+- [Pfsense Nedir?](https://farukguler.com/posts/pfsense-nedir-what-is-pfsense/) (2023)
+- [SSL Inspection Nedir?](https://farukguler.com/posts/ssl-inspection/) (2022)
+- [What is SSL and TLS? and Security Fix](https://farukguler.com/posts/what-is-ssl-and-tls-and-security-fix/) (2024)
+- [SMB v1/v2/v3 Security Fix and Manage](https://farukguler.com/posts/smb-v-1-2-3-security-fix-and-manage/) (2022)
+- [OpenSSL v3 Yüksek Zafiyet Uyarısı](https://farukguler.com/posts/vulnerability-for-openssl-v3/) (2022)
+- [What is OpenSSL?](https://farukguler.com/posts/what-is-openssl-and-how-is-it-used-interview-with-olaf/) (2023)
+- [ERR_SSL_KEY_USAGE_INCOMPATIBLE](https://farukguler.com/posts/err_ssl_key_usage_incompatible/) (2022)
+- [CVE Nedir ve Nasıl Okunur?](https://farukguler.com/posts/cve-nedir-ve-nasil-okunur/) (2023)
+- [CVE: Sudo Chroot CVE-2025-32463](https://farukguler.com/posts/sudo-chwoot-cve-2025-32463/) (2025)
+- [CIDR and IP Subnetting](https://farukguler.com/posts/cidr-and-ip-subnetting/) (2024)
+- [Port Nedir? Port Operations](https://farukguler.com/posts/port-nedir-bazi-port-operasyonlari/) (2023)
+- [SNMP Protokolü Nedir?](https://farukguler.com/posts/snmp-protokolu-nedir/) (2024)
+- [Tcpdump Nedir?](https://farukguler.com/posts/tcpdump-nedir-kullanimi-hakkinda/) (2023)
+- [WHAT IS NMAP? EXAMINATION](https://farukguler.com/posts/nmap-nedir-inceleme/) (2023)
+- [Unicast, Multicast, Broadcast](https://farukguler.com/posts/unicast-multicast-broadcast-nedir/) (2023)
+- [MTU Değerini Nasıl Değiştirirsiniz?](https://farukguler.com/posts/isletim-sistemlerinde-mtu/) (2022)
+- [DNS and DNS Query Types](https://farukguler.com/posts/dns-sorgu-turleri/) (2022)
+- [DNS Kayıt Tipleri Detaylı](https://farukguler.com/posts/dns-kayit-tipleri/) (2023)
+- [DNS TTL Configuration](https://farukguler.com/posts/configuration-of-dns-ttl-time-to-live/) (2023)
+- [DNS Recursion Nedir?](https://farukguler.com/posts/dns-recursion/) (2023)
+- [What's DNS Scavenging?](https://farukguler.com/posts/dns-scavenging/) (2023)
+- [Netstat Kullanımı — Linux & Windows](https://farukguler.com/posts/using-netstat/) (2023)
+- [Round Robin DNS Load Balancer](https://farukguler.com/posts/microsoft-round-robin-load-balancer/) (2024)
+- [Mass Port Scanner by PowerShell](https://farukguler.com/posts/mass-port-scanner-by-powershell/) (2023)
+- [Private IP Adresleri Hakkında](https://farukguler.com/posts/private-ip-address/) (2023)
+
+---
+
+## Security & Threat Hunting
+
+- [Windows AppLocker Güvenlik Rehberi](https://farukguler.com/posts/applocker-g%C3%BCvenlik-rehberi/) (2025)
+- [Ghidra — NSA'nın Tersine Mühendislik Araç Seti](https://farukguler.com/posts/ghidra-nedir/) (2024)
+- [CyberThreat Hunting with Sysmon](https://farukguler.com/posts/cyberthreat-hunting-with-sysmon/) (2023)
+- [Wazuh Nedir? Wazuh Kurulumu](https://farukguler.com/posts/wazuh-nedir/) (2023)
+- [SIEM DHCP-DNS and More Integration](https://farukguler.com/posts/siem-dhcp-dns-and-more-integration/) (2022)
+- [Deep Dive Exploring Event Viewer with PowerShell](https://farukguler.com/posts/deep-dive-exploring-event-viewer-with-powershell/) (2023)
+- [Searchsploit Nedir?](https://farukguler.com/posts/searchsploit-nedir/) (2023)
+- [EFS — Şifreleme Dosya Sistemi Nedir?](https://farukguler.com/posts/efs-encrypted-file-system/) (2022)
+- [Zero-Knowledge Proof's Nedir?](https://farukguler.com/posts/zero-knowledge-proofs-nedir/) (2022)
+- [Let's Encrypt Nedir?](https://farukguler.com/posts/let-s-encrypt-nedir/) (2022)
+- [Generate a Self-Signed Digital Certificate with PowerShell](https://farukguler.com/posts/generate-a-self-signed-digital-certificate-powershell/) (2022)
+- [Derinlemesine CertUtil](https://farukguler.com/posts/derinlemesine-certutil-in-depth-certutil/) (2024)
+- [Google Authenticator Hesap Kurtarma](https://farukguler.com/posts/google-authenticator-hesap-kurtarma/) (2022)
+- [Windows Defender Group Policy and Infected LOGS Inspection](https://farukguler.com/posts/windows-defender-group-policy-and-logs/) (2022)
+
+---
+
+## Active Directory & Windows Server
+
+- [Yönetilen Hizmet Hesapları — sMSA ve gMSA](https://farukguler.com/posts/what-is-gmsa-and-smsa/) (2025)
+- [Fiziksel Sunucu (Bare-Metal) Kurulum ve Yönetim](https://farukguler.com/posts/about-server-installations/) (2025)
+- [Domainden Düşen Bilgisayarlar — Secure Channel Issues](https://farukguler.com/posts/domainden-dusen-bilgisayarlar/) (2025)
+- [Active Directory in Depth Cheat Sheet](https://farukguler.com/posts/active-directory-in-depth-cheat-sheet-live/) (2022)
+- [Active Directory Tiering Model Nedir?](https://farukguler.com/posts/active-directory-tiering-model-nedir-ornek-yapi/) (2024)
+- [Active Directory Delegations Overview](https://farukguler.com/posts/active-directory-some-important-delegations-overview/) (2024)
+- [Active Directory Advanced Audit Policy GPO Configuration](https://farukguler.com/posts/advanced-audit-policy-gpo-configuration/) (2023)
+- [Active Directory "Protected Users" Güvenlik Grubu](https://farukguler.com/posts/active-directory-protected-users/) (2023)
+- [AD KRBTGT Account Password Reset](https://farukguler.com/posts/ad-krbtgt-account-password-reset/) (2023)
+- [AD Domain Affiliation Check PowerShell](https://farukguler.com/posts/domain-affiliation-check-powershell/) (2024)
+- [Detecting the Source of Locked AD Accounts](https://farukguler.com/posts/detecting-the-source-of-locked-ad-accounts/) (2024)
+- [User Last Logon in 90 Days — Active Directory](https://farukguler.com/posts/user-last-logon-on-in-90-days-in-active-directory/) (2024)
+- [Bulk Change AD User Login Name with PowerShell](https://farukguler.com/posts/Bulk-Change-User-LogonName-in-AD/) (2024)
+- [AD Mass Department+Division+Description Changer](https://farukguler.com/posts/ad-mass-department-division-description-and-more-changer/) (2023)
+- [Mass AD Security and Folder ACL-ACE Reporter](https://farukguler.com/posts/ad-security-and-any-folder-acl-ace-reporter/) (2023)
+- [Disabling Inactive Computers in Active Directory (180 days)](https://farukguler.com/posts/disabling-inactive-computer-in-active-directory-180-days/) (2023)
+- [Get Sub OU All User Numbers](https://farukguler.com/posts/Get-Sub-OU-All-User-Numbers/) (2023)
+- [Listing Updates of Servers Under a Certain OU](https://farukguler.com/posts/listing-the-updates-of-the-servers/) (2023)
+- [Active Directory Database NTDS.DIT Nedir?](https://farukguler.com/posts/ntds-dit-nedir/) (2022)
+- [Active Directory Database CORRUPTED! Fixed](https://farukguler.com/posts/active-directory-data-is-corrupted/) (2022)
+- [AD Domain Rename](https://farukguler.com/posts/windows-server-active-directory-domain-rename/) (2023)
+- [Some Information about SYSVOL and NETLOGON](https://farukguler.com/posts/information-about-sysvol-and-netlogon/) (2023)
+- [Microsoft LAPS — Local Administrator Password Solution](https://farukguler.com/posts/microsoft-local-administrator-password-solution-laps-detayli/) (2023)
+- [How to Reset User Passwords on Windows Server & Client](https://farukguler.com/posts/how-to-reset-users-passwords-on-windows-server-client/) (2023)
+- [Best Windows Client NTP Services Configuration](https://farukguler.com/posts/best-windows-client-ntp-services-configuration/) (2023)
+- [ADMX Templates for Microsoft Edge (GPO)](https://farukguler.com/posts/admx-templates-for-microsoft-edge-gpo/) (2023)
+- [Disabled Windows Server RDP Limit Connections (GPO)](https://farukguler.com/posts/disabled-windows-server-rdp-limit-number-of-connections-gpo/) (2023)
+- [IIS Server Backup and Restore](https://farukguler.com/posts/iis-backup-amp-restore/) (2024)
+- [Cannot Extend C Drive in Windows Server 2022](https://farukguler.com/posts/cannot-extend-c-drive-in-windows-server-2022/) (2024)
+- [Register Key Management Service (KMS) Add In DNS Server](https://farukguler.com/posts/register-key-management-servicekms/) (2023)
+- [SCOM Agent Proxy Not Enabled Error Fixed](https://farukguler.com/posts/scom-agent-proxy-not-enabled-error-fixed/) (2023)
+- [Oturumunuz Geçici Profille Açıldı Hatası](https://farukguler.com/posts/oturumunuz-gecici-profille-acildi/) (2023)
+- [Disk Temizleme Aracı — Windows Update Cleanup](https://farukguler.com/posts/disk-temizleme-araci/) (2023)
+- [Windows Yanlış Parola Sonrası Oturum Bekleme](https://farukguler.com/posts/why-does-windows-wait-to-log-in-after-an-incorrect-password-is-entered/) (2023)
+- [Fixing Windows 10 Searchbox Error using PowerShell](https://farukguler.com/posts/fixing-windows-10-searchbox-error/) (2023)
+- [Preventing Server Manager From Opening Automatically](https://farukguler.com/posts/server-manager-automatically-on-every-logon/) (2023)
+- [Let's Run Your Files with Admin Permissions](https://farukguler.com/posts/lets-run-your-files-with-admin-permissions/) (2023)
+- [Whoami Commands for Windows](https://farukguler.com/posts/whoami-commands-for-windows/) (2023)
+- [Triggering Client Scan — Configuration Manager](https://farukguler.com/posts/configuration-manager-wmi-powershell/) (2022)
+- [Exchange Server Health Checking with PowerShell](https://farukguler.com/posts/exchange-health-check/) (2022)
+- [Exchange Dağıtım Grupları](https://farukguler.com/posts/distribution-groups/) (2022)
+- [SLA (Service Level Agreement) Nedir?](https://farukguler.com/posts/sla-service-level-agreement/) (2022)
+
+---
+
+## PowerShell
+
+- [PowerShell Execution Policy Nedir?](https://farukguler.com/posts/powershell-execution-policy-nedir-gpo-and-reg/) (2023)
+- [PowerShell WMI, CIM, GWMI, WinRM, PsRemoting, RPC, WS-Management](https://farukguler.com/posts/powershell-wmi-cim-gwmi-winrm-rpc-psremoting-ws-management/) (2023)
+- [Windows WMI Sorguları](https://farukguler.com/posts/windows-yonetim-araclari-wmi-sorgular/) (2023)
+- [SMTP Server Kullanımı PowerShell](https://farukguler.com/posts/powershell-smtp-server-mailer/) (2023)
+- [Connecting to Azure Portal with PowerShell](https://farukguler.com/posts/connecting-to-azure-portal/) (2023)
+
+---
+
+## Virtualization & Cloud
+
+- [VMware to Proxmox VM Migration Import](https://farukguler.com/posts/vmware-to-proxmox-vm-migration-import/) (2025)
+- [Microsoft Hyper-V Failover Cluster](https://farukguler.com/posts/microsoft-hyper-v-failover-cluster/) (2024)
+- [Proxmox VE 8.2.2 Bookworm Healthy Sources Lists](https://farukguler.com/posts/proxmox-ve-8-2-2-bookworm-healthy-sources-lists/) (2024)
+- [Proxmox Bridge and Tagging — Network Configuration](https://farukguler.com/posts/proxmox-bridge-and-tagging/) (2023)
+- [Recovering an Accidentally Deleted VMFS Datastore](https://farukguler.com/posts/recovering-deleted-vmfs-datastore-in-vmware/) (2024)
+- [VMware PowerCLI — Detailed Information](https://farukguler.com/posts/vmware-powercli-nedir-detayli-bilgilendirme/) (2023)
+- [VMware Tools Kurulumu ve Update](https://farukguler.com/posts/vmware-tools-install-update/) (2023)
+- [VMware Snapshot Mail Notifications, ESXI Mismatch Check](https://farukguler.com/posts/vmware-powercli/) (2022)
+- [VMware Product Interoperability Matrix](https://farukguler.com/posts/vmware-product-interoperability-matrix/) (2023)
+- [vSAN — VMware Virtual SAN Nedir?](https://farukguler.com/posts/vsan-vmware-virtual-san-nedir/) (2023)
+- [What is Azure Bastion?](https://farukguler.com/posts/azure-bastion/) (2023)
+- [What is Microsoft Azure?](https://farukguler.com/posts/microsoft-azure-nedir/) (2022)
+- [Dell EMC Repository Manager (DRM) Nedir?](https://farukguler.com/posts/dell-emc-repository-manager-drm/) (2022)
+
+---
+
+## Docker & Containers
+
+- [Docker Install on Linux](https://farukguler.com/posts/docker-install-on-linux/) (2023)
+- [What is Docker Compose?](https://farukguler.com/posts/docker-compose-nedir/) (2023)
+- [What is docker-compose.yml File?](https://farukguler.com/posts/what-is-docker-compose-yml-file/) (2023)
+- [Docker File Nedir?](https://farukguler.com/posts/what-is-docker-file/) (2023)
+- [Docker Swarm Nedir?](https://farukguler.com/posts/docker-swarm-nedir/) (2023)
+- [Docker Terms — Docker Terimleri](https://farukguler.com/posts/docker-terimleri-docker-terms/) (2023)
+- [Docker Community (CE) vs Docker Enterprise (EE)](https://farukguler.com/posts/docker-community-ce-vs-docker-enterprise-ee/) (2023)
+- [How to Uninstall Docker on Linux?](https://farukguler.com/posts/how-to-uninstall-docker-on-linux/) (2022)
+- [Portainer Nedir? Nasıl Kurulur?](https://farukguler.com/posts/portainer-nedir/) (2023)
+- [What is Rancher?](https://farukguler.com/posts/what-is-rancher-rancher-nedir/) (2023)
+- [Kubernetes Nedir?](https://farukguler.com/posts/kubernetes-nedir/) (2023)
+- [Imperative and Declarative Method on Kubernetes](https://farukguler.com/posts/imperative-and-declarative-method-on-kubernetes/) (2023)
+- [OpenLiteSpeed Nedir?](https://farukguler.com/posts/openlitespeed-nedir/) (2024)
+
+---
+
+## Blockchain, DeFi & Crypto
+
+- [Lighter (LIT) — ZK-Rollup Tabanlı Kurumsal Perp DEX](https://farukguler.com/posts/lighter-lit-nedir/) (2026)
+- [Midnight Coin (NIGHT) — Rasyonel Gizlilik](https://farukguler.com/posts/midnight-coin-night-nedir/) (2025)
+- [Morpho (MORPHO) — DeFi Borç Verme Piyasasının Evrimi](https://farukguler.com/posts/morpho-nedir/) (2025)
+- [Funding Rate (Fonlama Oranı) Nedir?](https://farukguler.com/posts/funding-rate-nedir/) (2025)
+- [Sui (SUI) — Paralel İşlemle Nesne Odaklı Blockchain](https://farukguler.com/posts/sui-nedir/) (2024)
+- [Bittensor (TAO) Nedir?](https://farukguler.com/posts/bittensor-tao-nedir/) (2024)
+- [ENS — Ethereum Name Service](https://farukguler.com/posts/ens-ethereum-name-service/) (2024)
+- [Injective (INJ) — Finans için Optimize Edilmiş Blockchain](https://farukguler.com/posts/injective-protocol-nedir/) (2024)
+- [Kaspa (KAS) — BlockDAG ile Blockchain Trilemmasını Çözme](https://farukguler.com/posts/kaspa-kas-nedir/) (2024)
+- [Neutron (NTRN) — Cosmos Akıllı Sözleşme Merkezi](https://farukguler.com/posts/neutron-ntrn-nedir/) (2024)
+- [Mantle (MNT) — Hazine Destekli Modüler L2](https://farukguler.com/posts/mantle-mnt-nedir/) (2024)
+- [Akash Network (AKT) Nedir?](https://farukguler.com/posts/akash-network-akt-nedir/) (2024)
+- [Turbo (TURBO) — Yapay Zeka Memecoin](https://farukguler.com/posts/turbo-coin-nedir/) (2023)
+- [Ripple XRP — Bankacılık için Dijital Varlık](https://farukguler.com/posts/xrp-ripple.nedir/) (2023)
+- [Dash — Masternode ve DAO ile Dijital Nakit](https://farukguler.com/posts/dash-nedir/) (2023)
+- [Stellar (XLM) — Sınır Tanımayan Finansal Köprü](https://farukguler.com/posts/stellar-lumens-nedir/) (2023)
+- [Arweave (AR) — İnternet'in Kalıcı Hafızası](https://farukguler.com/posts/arweave-ar-nedir/) (2023)
+- [Raydium (RAY) — Solana'nın Likidite Omurgası](https://farukguler.com/posts/raydium-ray-nedir/) (2023)
+- [Nexa Money (NEXA) Nedir?](https://farukguler.com/posts/nexa-money-nexa-nedir/) (2023)
+- [Horizen (ZEN) — Gizlilik ve Ölçeklenebilirlik](https://farukguler.com/posts/horizen-zen-nedir/) (2023)
+- [Alchemy Pay (ACH) — Kripto ve Fiat Köprüsü](https://farukguler.com/posts/alchemy-pay-ach-nedir/) (2023)
+- [Zcash (ZEC) — zk-SNARKs ile Opsiyonel Gizlilik](https://farukguler.com/posts/zcash-zec-nedir/) (2023)
+- [Bitcoin (BTC) — Merkeziyetsiz Finansın Başlangıcı](https://farukguler.com/posts/bitcoin-btc-nedir/) (2023)
+- [Uniswap (UNI) — DeFi'nin Temel Taşı](https://farukguler.com/posts/uniswap-uni-nedir/) (2022)
+- [Monero (XMR) — Gerçek Gizlilik için Kripto Para](https://farukguler.com/posts/monero-xmr-nedir/) (2022)
+- [Quant (QNT) — Blockchain'lerin İşletim Sistemi Overledger](https://farukguler.com/posts/quant-qnt-nedir/) (2022)
+- [Periods When to Make Money — Samuel Benner](https://farukguler.com/posts/Periods-When-to-Make-Money/) (2024)
+
+---
+
+## Development & DevOps
+
+- [YAML Nedir?](https://farukguler.com/posts/yaml-nedir/) (2022)
+- [GO (Golang) Nedir?](https://farukguler.com/posts/golang-nedir/) (2023)
+- [CRISPR-CAS9 Nedir?](https://farukguler.com/posts/crispr-cas9-nedir/) (2023)
+- [Richard Matthew Stallman Kimdir?](https://farukguler.com/posts/richard-matthew-stallman/) (2023)
+
+---
+
+## Content Access
+
+- [RSS Feed](https://farukguler.com/feed.xml): Machine-readable XML feed for latest updates.
+- [llms.txt](https://farukguler.com/llms.txt): Curated priority index for AI discovery.
+- [Archives](https://farukguler.com/archives/): Full chronological archive.
+- [Categories](https://farukguler.com/categories/): Content organized by technology stack.
+- [Tags](https://farukguler.com/tags/): Full topic tag index.
