@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 🎓 Derinlemesine Moodle ve BigBlueButton Kurulumu 2026 🎓 In-depth Moodle and BigBlueButton Installation 2026
+title: 🎓 BigBlueButton ve Moodle Kurulumu 2026 Derinlemesine 🎓 BigBlueButton and Moodle Installation 2026 In-depth
 subtitle: "Üniversiteler ve BT Yöneticileri İçin Ölçeklenebilir ve Yerli Dokümantasyon ve Daha Fazlası"
 date: 2026-03-27 20:45:00 +0300
 by: faruk-guler
 comments: true
 categories: [Hybride]
-tags: [Moodle, BigBlueButton, IT-Admin, Greenlight, Pilos, Kurumsal, Altyapı, LMS]
+tags: [BigBlueButton, Moodle, IT-Admin, Greenlight, Pilos, Kurumsal, Altyapı, LMS]
 ---
 
 ![BBB-moodle Logosu](https://farukguler.com/assets/post_images/bbb-moodle-logo.png)
