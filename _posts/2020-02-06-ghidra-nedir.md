@@ -1,5 +1,5 @@
 ---
-title: "Ghidra NSA'nın Tersine Mühendislik Araç Seti"
+title: "Ghidra NSA'nın Tersine Mühendislik Araç Setixxxx"
 author: faruk-guler
 date: 2024-10-31 00:48:00 +09:00
 categories: [Reverse Engineering]
