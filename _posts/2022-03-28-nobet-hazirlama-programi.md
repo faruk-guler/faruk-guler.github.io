@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ücretsiz Nöbet Hazırlama Programıxx (Mazeretli)
+title: Ücretsiz Nöbet Hazırlama Programı (Mazeretli)
 date: 2023-03-28 16:00
 author: faruk-guler
 comments: true
