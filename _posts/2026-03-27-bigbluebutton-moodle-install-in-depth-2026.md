@@ -27,7 +27,7 @@ Bu ihtiyaca yönelik geliştirdiğim **[moodle-bbb-stack](https://github.com/far
 
 ---
 
-## 🎓 Moodle & BigBlueButton — Kurumsal BT Altyapı ve Mimari
+## 🎓 BigBlueButton & Moodle — Kurumsal BT Altyapı ve Mimari
 
 Piyasada çok sayıda genel geçer doküman olsa da, **moodle-bbb-stack** doğrudan akademik ve kurumsal ihtiyaçların yarattığı darboğazlara (bottleneck) çözüm odaklıdır.
 
@@ -46,8 +46,6 @@ Bu depo, bir sistem yöneticisinin el kitabı niteliğindedir:
 1.  **Moodle SysAdmin Rehberi (15 Bölüm):** PHP 8.4 optimizasyonu, Redis session yönetimi ve güvenli vhost yapılandırmaları.
 2.  **BBB v3.0 Master Class (17 Bölüm):** Kurento'dan Mediasoup'a geçiş, Coturn (TURN/STUN) sunucu kurulumu ve ağ topolojisi.
 3.  **Altyapı ve Güvenlik:** Merkezi log yönetimi, DMARC destekli e-posta altyapısı ve kurumsal güvenlik sıkılaştırmaları.
-
-
 
 ---
 
