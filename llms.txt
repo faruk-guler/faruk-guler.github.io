@@ -4,10 +4,13 @@ permalink: /llms.txt
 ---
 # {{ site.title }}
 
-> {{ site.description }}
+> {{ site.tagline }}
 
 ## Navigasyon
-{% for link in site.navigation %}- [{{ link.title }}]({{ site.url }}{{ link.url }})
+- [Home]({{ site.url }}/)
+{% assign tabs = site.tabs | sort: "order" %}
+{% for tab in tabs %}
+- [{{ tab.title }}]({{ site.url }}{{ tab.url | relative_url }})
 {% endfor %}
 
 ## İçerik Erişimi

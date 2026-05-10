@@ -7,5 +7,5 @@ permalink: /llms-full.txt
 ## {{ post.title }}
 Link: {{ site.url }}{{ post.url }}
 
-{{ post.content | strip_html | normalize_whitespace }}
+{{ post.content | strip_html }}
 {% endfor %}
