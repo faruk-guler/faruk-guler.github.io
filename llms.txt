@@ -1,6 +1,8 @@
 # Guler Open IT Platform
 
-> A high-authority technical blog focused on System Administration, Networking, Cloud Infrastructure, Virtualization, and Cybersecurity. Curated and written by Faruk Güler.
+> A high-authority technical blog focused on System Administration, Networking,
+> Cloud Infrastructure, Virtualization, and Cybersecurity.
+> Curated and written by Faruk Güler.
 
 ## Main Sections
 
@@ -14,31 +16,40 @@
 
 ## Primary Projects & Tools
 
-- [Neutron](https://github.com/faruk-guler/neutron): A lightweight multi-server management and automation tool for Linux/Unix environments.
-- [Lagrange](https://farukguler.com/projects/lagrange): Python-based security auditing and system hardening framework for Windows/Linux.
+- [Neutron](https://github.com/faruk-guler/neutron): Lightweight multi-server management and automation tool for Linux/Unix.
+- [Lagrange](https://farukguler.com/projects/lagrange): Python-based security auditing and system hardening framework.
 - [Keepser](https://farukguler.com/projects/keepser): Privacy-focused, cross-platform note-taking application.
 
 ## Core Technical Domains
 
-- **Linux Infrastructure:** Expertise in Debian, Ubuntu, AlmaLinux, and Alpine server hardening.
-- **Windows Ecosystem:** Advanced configurations for Active Directory, gMSA (Group Managed Service Accounts), and PKI.
-- **Network & Security:** Comprehensive guides on WAF, Firewall management, and CVE remediation.
-- **DevOps & Cloud:** Infrastructure as Code (Ansible, Terraform) and Container Orchestration (Kubernetes, RKE2).
-- **Storage:** Distributed storage systems including Ceph (Reef/Quincy) with cephadm.
-- **Educational Tech:** Scaling LMS platforms (Moodle 5.x, BigBlueButton 3.x) with Scalelite and Pilos.
+- **Linux Infrastructure:** Debian, Ubuntu, AlmaLinux, and Alpine server hardening.
+- **Windows Ecosystem:** Active Directory, gMSA, PKI, and advanced GPO configurations.
+- **Network & Security:** WAF, Firewall management, CVE remediation, threat hunting.
+- **DevOps & Cloud:** Ansible, Terraform, Kubernetes (RKE2), container orchestration.
+- **Storage:** Distributed systems including Ceph (Reef/Quincy) with cephadm.
+- **Educational Tech:** Moodle 5.x, BigBlueButton 3.x, Scalelite, Pilos.
 
 ## Recent Articles
 
-- [Derinlemesine Moodle ve BigBlueButton Kurulumu 2026](https://farukguler.com/posts/derinlemesine-moodle-bigbluebutton-in-depth-moodle-bigbluebutton/) — LMS, DevOps
-- [Ceph Storage Cluster: Uçtan Uca Kurulum Rehberi](https://farukguler.com/posts/ceph-storage-detailed-detayli-inceliyorum/) — Storage, Cloud
-- [Web Application Firewall (WAF) Nedir?](https://farukguler.com/posts/waf-nedir/) — Security, Networking
-- [Linux Firewall Detaylı İnceleme](https://farukguler.com/posts/linux-firewall-detayli-inceliyorum/) — Linux, Security
-- [Derinlemesine CertUtil](https://farukguler.com/posts/derinlemesine-certutil-in-depth-certutil/) — PKI, Windows
-- [Yönetilen Hizmet Hesapları (sMSA ve gMSA)](https://farukguler.com/posts/what-is-gmsa-and-smsa/) — Active Directory, Windows
-- [Fiziksel Sunucu (Bare-Metal) Kurulum ve Yönetim](https://farukguler.com/posts/about-server-installations/) — Infrastructure
-- [Domainden Düşen Bilgisayarlar İçin Çözümler](https://farukguler.com/posts/domainden-dusen-bilgisayarlar/) — Active Directory, Windows
+<!-- Auto-generated on 2026-05-10 — do not edit manually -->
+
+- [🎓 Derinlemesine Moodle ve BigBlueButton Kurulumu 2026 🎓 In-depth Moodle and BigBlueButton Installation 2026](https://farukguler.com/posts/derinlemesine-moodle-bigbluebutton-in-depth-moodle-bigbluebutton/) — Hybride (2026)
+- [🐙 Ceph Storage Cluster Detailed Detaylı inceliyorum](https://farukguler.com/posts/ceph-storage-detailed-detayli-inceliyorum/) — Storage (2026)
+- [Web Application Firewall (WAF) Nedir?](https://farukguler.com/posts/waf-nedir/) — UTM (Unified Threat Management) (2026)
+- [Firewall Nedir? Linux Firewall’ı detaylı inceliyorum](https://farukguler.com/posts/linux-firewall-detayli-inceliyorum/) — Linux / Unix (2026)
+- [Lighter (LIT) Nedir? ZK-Rollup Tabanlı Kurumsal Düzeyde Perp DEX](https://farukguler.com/posts/2026-2-11-lighter-lit-nedir/) — Blockchain (2026)
+- [Midnight Coin (NIGHT) Nedir? Rasyonel Gizlilik ve Kurumsal Veri Kalkanı](https://farukguler.com/posts/midnight-coin-night-nedir/) — Blockchain (2025)
+- [Windows AppLocker'i inceliyorum.](https://farukguler.com/posts/applocker-güvenlik rehberi/) — Windows OS (2025)
+- [Morpho (MORPHO) Nedir? DeFi Borç Verme Piyasasının Evrimi](https://farukguler.com/posts/morpho-nedir/) — Blockchain (2025)
+- [CVE: Sudo Chroot CVE-2025-32463](https://farukguler.com/posts/sudo-chwoot-cve-2025-32463/) — Hacking - Security (2025)
+- [Funding Rate (Fonlama Oranı) Nedir?](https://farukguler.com/posts/funding-rate-nedir/) — Blockchain (2025)
+- [Periods When to Make Money by Samuel Benner](https://farukguler.com/posts/Periods-When-to-Make-Money/) — Blockchain (2025)
+- [Yönetilen Hizmet Hesapları (sMSA ve gMSA) Kullanımı Hakkında](https://farukguler.com/posts/what-is-gmsa-and-smsa/) — Windows OS (2025)
+- [ENS (Ethereum Name Service) Nedir? Blockchain'in Alan Adı Sistemi](https://farukguler.com/posts/2024-9-19-ens-ethereum-name-service/) — Blockchain (2024)
+- [Akash Network (AKT) Nedir?](https://farukguler.com/posts/2024-6-11-akash- network-akt-nedir/) — Blockchain (2024)
+- [Mantle (MNT) Nedir? Hazine Destekli Modüler L2](https://farukguler.com/posts/2024-5-18-mantle-mnt- nedir/) — Blockchain (2024)
 
 ## Content Access
 
-- [RSS Feed](https://farukguler.com/feed.xml): Machine-readable XML feed for the latest technical updates.
+- [RSS Feed](https://farukguler.com/feed.xml): Machine-readable XML feed for the latest updates.
 - [Full Directory](https://farukguler.com/llms-full.txt): Detailed index of all articles for deep crawling.
