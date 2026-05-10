@@ -1,55 +1,15 @@
-# Guler Open IT Platform
+---
+layout: null
+permalink: /llms.txt
+---
+# {{ site.title }}
 
-> A high-authority technical blog focused on System Administration, Networking,
-> Cloud Infrastructure, Virtualization, and Cybersecurity.
-> Curated and written by Faruk Güler.
+> {{ site.description }}
 
-## Main Sections
+## Navigasyon
+{% for link in site.navigation %}- [{{ link.title }}]({{ site.url }}{{ link.url }})
+{% endfor %}
 
-- [Home](https://farukguler.com/): Latest technical articles and infrastructure guides.
-- [About](https://farukguler.com/about/): Profile of Faruk Güler, IT System Administrator & Developer.
-- [Categories](https://farukguler.com/categories/): Organized content by technology stack.
-- [Tags](https://farukguler.com/tags/): Full topic index across all articles.
-- [Archives](https://farukguler.com/archives/): Complete chronological post archive.
-- [AppBox](https://farukguler.com/appbox/): Documentation for custom applications and tools.
-- [Blockchain](https://farukguler.com/blockchain/): In-depth analysis of Layer 1 protocols and DeFi.
-
-## Primary Projects & Tools
-
-- [Neutron](https://github.com/faruk-guler/neutron): Lightweight multi-server management and automation tool for Linux/Unix.
-- [Lagrange](https://farukguler.com/projects/lagrange): Python-based security auditing and system hardening framework.
-- [Keepser](https://farukguler.com/projects/keepser): Privacy-focused, cross-platform note-taking application.
-
-## Core Technical Domains
-
-- **Linux Infrastructure:** Debian, Ubuntu, AlmaLinux, and Alpine server hardening.
-- **Windows Ecosystem:** Active Directory, gMSA, PKI, and advanced GPO configurations.
-- **Network & Security:** WAF, Firewall management, CVE remediation, threat hunting.
-- **DevOps & Cloud:** Ansible, Terraform, Kubernetes (RKE2), container orchestration.
-- **Storage:** Distributed systems including Ceph (Reef/Quincy) with cephadm.
-- **Educational Tech:** Moodle 5.x, BigBlueButton 3.x, Scalelite, Pilos.
-
-## Recent Articles
-
-<!-- Auto-generated on 2026-05-10 — do not edit manually -->
-
-- [🎓 Derinlemesine Moodle ve BigBlueButton Kurulumu 2026 🎓 In-depth Moodle and BigBlueButton Installation 2026](https://farukguler.com/posts/derinlemesine-moodle-bigbluebutton-in-depth-moodle-bigbluebutton/) — Hybride (2026)
-- [🐙 Ceph Storage Cluster Detailed Detaylı inceliyorum](https://farukguler.com/posts/ceph-storage-detailed-detayli-inceliyorum/) — Storage (2026)
-- [Web Application Firewall (WAF) Nedir?](https://farukguler.com/posts/waf-nedir/) — UTM (Unified Threat Management) (2026)
-- [Firewall Nedir? Linux Firewall’ı detaylı inceliyorum](https://farukguler.com/posts/linux-firewall-detayli-inceliyorum/) — Linux / Unix (2026)
-- [Lighter (LIT) Nedir? ZK-Rollup Tabanlı Kurumsal Düzeyde Perp DEX](https://farukguler.com/posts/2026-2-11-lighter-lit-nedir/) — Blockchain (2026)
-- [Midnight Coin (NIGHT) Nedir? Rasyonel Gizlilik ve Kurumsal Veri Kalkanı](https://farukguler.com/posts/midnight-coin-night-nedir/) — Blockchain (2025)
-- [Windows AppLocker'i inceliyorum.](https://farukguler.com/posts/applocker-güvenlik rehberi/) — Windows OS (2025)
-- [Morpho (MORPHO) Nedir? DeFi Borç Verme Piyasasının Evrimi](https://farukguler.com/posts/morpho-nedir/) — Blockchain (2025)
-- [CVE: Sudo Chroot CVE-2025-32463](https://farukguler.com/posts/sudo-chwoot-cve-2025-32463/) — Hacking - Security (2025)
-- [Funding Rate (Fonlama Oranı) Nedir?](https://farukguler.com/posts/funding-rate-nedir/) — Blockchain (2025)
-- [Periods When to Make Money by Samuel Benner](https://farukguler.com/posts/Periods-When-to-Make-Money/) — Blockchain (2025)
-- [Yönetilen Hizmet Hesapları (sMSA ve gMSA) Kullanımı Hakkında](https://farukguler.com/posts/what-is-gmsa-and-smsa/) — Windows OS (2025)
-- [ENS (Ethereum Name Service) Nedir? Blockchain'in Alan Adı Sistemi](https://farukguler.com/posts/2024-9-19-ens-ethereum-name-service/) — Blockchain (2024)
-- [Akash Network (AKT) Nedir?](https://farukguler.com/posts/2024-6-11-akash- network-akt-nedir/) — Blockchain (2024)
-- [Mantle (MNT) Nedir? Hazine Destekli Modüler L2](https://farukguler.com/posts/2024-5-18-mantle-mnt- nedir/) — Blockchain (2024)
-
-## Content Access
-
-- [RSS Feed](https://farukguler.com/feed.xml): Machine-readable XML feed for the latest updates.
-- [Full Directory](https://farukguler.com/llms-full.txt): Detailed index of all articles for deep crawling.
+## İçerik Erişimi
+- [Tam Arşiv (LLM-Full)]({{ site.url }}/llms-full.txt)
+- [RSS Beslemesi]({{ site.url }}/feed.xml)

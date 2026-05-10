@@ -1,0 +1,40 @@
+name: Auto Update LLMS Files
+
+on:
+  push:
+    branches:
+      - main  # veya master
+    paths:
+      - '_posts/**'
+      - '_pages/**'
+
+jobs:
+  build-llms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+
+      - name: Build Jekyll Site
+        run: |
+          bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Move LLMS files to root
+        run: |
+          cp _site/llms.txt .
+          cp _site/llms-full.txt .
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add llms.txt llms-full.txt
+          git commit -m "chore: update llms files [skip ci]" || exit 0
+          git push
