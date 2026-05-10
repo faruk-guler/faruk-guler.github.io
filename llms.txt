@@ -1,18 +1,24 @@
----
-layout: null
-permalink: /llms.txt
----
-# {{ site.title }}
+# Guler Open IT Platform
 
-> {{ site.tagline }}
+> ⬡ System ⬢ Network ⬡ Cloud ⬢ Virtualization ⬡ Security ⬢
 
 ## Navigasyon
-- [Home]({{ site.url }}/)
-{% assign tabs = site.tabs | sort: "order" %}
-{% for tab in tabs %}
-- [{{ tab.title }}]({{ site.url }}{{ tab.url | relative_url }})
-{% endfor %}
+- [Home](https://farukguler.com/)
+
+
+- [Categories](https://farukguler.com/categories/)
+
+- [Appbox](https://farukguler.com/appbox/)
+
+- [Blockchain](https://farukguler.com/blockchain/)
+
+- [Tags](https://farukguler.com/tags/)
+
+- [Archives](https://farukguler.com/archives/)
+
+- [About](https://farukguler.com/about/)
+
 
 ## İçerik Erişimi
-- [Tam Arşiv (LLM-Full)]({{ site.url }}/llms-full.txt)
-- [RSS Beslemesi]({{ site.url }}/feed.xml)
+- [Tam Arşiv (LLM-Full)](https://farukguler.com/llms-full.txt)
+- [RSS Beslemesi](https://farukguler.com/feed.xml)
