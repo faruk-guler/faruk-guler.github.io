@@ -13,8 +13,6 @@ tags: [BigBlueButton, Moodle, IT-Admin, Greenlight, Pilos, Kurumsal, Altyapı, L
 
 ---
 
-## 📌 Bu Proje Nedir?
-
 Bu depo, **Moodle** (LMS) ve **BigBlueButton** (Video Konferans) platformlarını kurumsal seviyede kurmak, yönetmek ve ölçeklendirmek isteyen **sistem yöneticileri**, **DevOps mühendisleri** ve **sunucu yöneticileri** için hazırlanmış 2026 detaylı bir Türkçe teknik dokümantasyon setidir.
 
 > Geleneksel "next-next" kurulum kılavuzlarından farklı olarak, bu rehber gerçek dünya senaryolarına (sınav haftası darboğazları, NAT arkası sorunları, SSL kriz yönetimi) odaklanır.
