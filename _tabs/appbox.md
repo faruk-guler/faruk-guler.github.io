@@ -18,4 +18,4 @@ order: 2
 | [Subdomain Finder](/app/subdomain-finder/){:target="_blank"} | [Domain IP Analyzer](/app/domain-ip-analyzer/){:target="_blank"} | |
 | [Neutron Powerful Automation](https://github.com/faruk-guler/Neutron/){:target="_blank"} | [OpenDraw WebUI](/app/open-draw/){:target="_blank"} | |
 | [WHOIS Domain Lookup](/app/whois-lookup/){:target="_blank"} | [Morse Code Converter](/app/morse/){:target="_blank"} | |
-| [Midnight | Threat Intelligence](https://farukguler.com/midnight/){:target="_blank"} | 
+| [Midnight | Threat Intelligence](https://farukguler.com/midnight/){:target="_blank"} | |
