@@ -19,7 +19,7 @@ image:
 
 ## 📌 Program Hakkında
 
-**Nöbet Hazırlama Programı (Mazeretli)**, Tüm sektörlere uygun, saniyeler içinde otomatik ve hatasız vardiya listeleri oluşturan ücretsiz bir web platformudur. Sağlık çalışanları, Güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş yardımcı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza kurmanıza gerek yoktur. İnternet erişimi olmayan bilgisayarlarda "html" olarak indirilip tarayıcı üzerinden kullanılabilir. Hiçbir şekilde verileriniz depolanmaz. (Proje açık kaynaklıdır.)
+**Nöbet Hazırlama Programı (Mazeretli)**, Tüm sektörlere uygun, saniyeler içinde otomatik ve hatasız vardiya listeleri oluşturan ücretsiz bir web platformudur. Sağlık çalışanları, Güvenlik ekipleri ve nöbet sistemiyle çalışan kurumlar için geliştirilmiş yardımcı bir çözümdür. Program, nöbet dağıtımını adil ve otomatik şekilde yapmaya çalışır, mazeret yönetimi ve raporlama özellikleri sunar. Bilgisayarınıza kurmanıza gerek yoktur. İnternet erişimi olmayan bilgisayarlarda "yerel" olarak indirilip tarayıcı üzerinden kullanılabilir. Hiçbir şekilde verileriniz depolanmaz. (Proje açık kaynaklıdır.)
 
 <a href="https://farukguler.com/app/nobet/" target="_blank">Nöbet Hazırlama Programı</a> Buradan veya APPBOX kısmından ulaşabilirsiniz!
 
