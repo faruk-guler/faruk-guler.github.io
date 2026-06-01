@@ -1,550 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Morse Code Converter | farukguler.com</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #050a0e;
-      --surface: #0c1419;
-      --surface2: #111d24;
-      --border: #1e3340;
-      --accent: #00e5ff;
-      --accent2: #ff6b35;
-      --dot: #00e5ff;
-      --dash: #ff6b35;
-      --text: #c8dde8;
-      --muted: #4a6875;
-      --glow: 0 0 20px rgba(0, 229, 255, 0.3);
-      --glow2: 0 0 20px rgba(255, 107, 53, 0.3);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Rajdhani', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-      overflow-x: hidden;
-    }
-
-    /* Grid background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Radial glow center */
-    body::after {
-      content: '';
-      position: fixed;
-      top: -20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(ellipse, rgba(0,229,255,0.06) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 780px;
-    }
-
-    /* Header */
-    header {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-
-    .signal-bar {
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-      margin-bottom: 20px;
-      align-items: flex-end;
-      height: 28px;
-    }
-
-    .signal-bar span {
-      display: block;
-      width: 4px;
-      background: var(--accent);
-      border-radius: 2px;
-      animation: signal-pulse 1.4s ease-in-out infinite;
-    }
-
-    .signal-bar span:nth-child(1) { height: 8px;  animation-delay: 0s; }
-    .signal-bar span:nth-child(2) { height: 16px; animation-delay: 0.15s; }
-    .signal-bar span:nth-child(3) { height: 24px; animation-delay: 0.3s; background: var(--accent2); }
-    .signal-bar span:nth-child(4) { height: 28px; animation-delay: 0.45s; background: var(--accent2); }
-    .signal-bar span:nth-child(5) { height: 24px; animation-delay: 0.6s; background: var(--accent2); }
-    .signal-bar span:nth-child(6) { height: 16px; animation-delay: 0.75s; }
-    .signal-bar span:nth-child(7) { height: 8px;  animation-delay: 0.9s; }
-
-    @keyframes signal-pulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-      50% { opacity: 1; transform: scaleY(1); }
-    }
-
-    header h1 {
-      font-size: clamp(28px, 5vw, 46px);
-      font-weight: 700;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: #fff;
-      line-height: 1;
-    }
-
-    header h1 span {
-      color: var(--accent);
-      text-shadow: var(--glow);
-    }
-
-    header p {
-      margin-top: 10px;
-      font-size: 14px;
-      letter-spacing: 3px;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    /* Panels */
-    .panels {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 3px;
-    }
-
-    @media (max-width: 600px) {
-      .panels { grid-template-columns: 1fr; }
-    }
-
-    .panel {
-      background: var(--surface);
-      padding: 20px;
-      position: relative;
-    }
-
-    .panel-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .panel-label .dot-indicator {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      animation: blink 2s ease-in-out infinite;
-    }
-
-    .panel:last-child .panel-label .dot-indicator {
-      background: var(--accent2);
-      box-shadow: 0 0 8px var(--accent2);
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 160px;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #fff;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 16px;
-      line-height: 1.7;
-      resize: none;
-      caret-color: var(--accent);
-    }
-
-    textarea::placeholder {
-      color: var(--muted);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 14px;
-      letter-spacing: 1px;
-    }
-
-    #morseOutput {
-      color: var(--accent);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 18px;
-      line-height: 1.9;
-      letter-spacing: 2px;
-      word-break: break-all;
-      min-height: 160px;
-      white-space: pre-wrap;
-    }
-
-    #morseOutput .morse-dot { color: var(--dot); }
-    #morseOutput .morse-dash { color: var(--dash); }
-    #morseOutput .morse-space { opacity: 0.3; }
-
-    /* Toolbar */
-    .toolbar {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-radius: 0 0 4px 4px;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 8px 18px;
-      cursor: pointer;
-      border-radius: 2px;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--accent);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .btn:hover::before { opacity: 0.08; }
-
-    .btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .btn.primary {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: inset 0 0 0 0 var(--accent);
-    }
-
-    .btn.primary:hover {
-      background: rgba(0,229,255,0.1);
-      box-shadow: var(--glow);
-    }
-
-    .btn.danger:hover {
-      border-color: #ff4444;
-      color: #ff4444;
-    }
-
-    .btn.play-btn {
-      border-color: var(--accent2);
-      color: var(--accent2);
-    }
-
-    .btn.play-btn:hover {
-      background: rgba(255,107,53,0.1);
-      box-shadow: var(--glow2);
-    }
-
-    .btn.play-btn:hover::before { background: var(--accent2); opacity: 0.08; }
-
-    .btn-icon { font-size: 14px; }
-
-    .spacer { flex: 1; }
-
-    /* Stats bar */
-    .stats {
-      display: flex;
-      gap: 24px;
-      padding: 14px 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-bottom: 3px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .stat-item span {
-      color: var(--accent);
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 13px;
-    }
-
-    /* Visual morse display */
-    .visual-morse {
-      margin-top: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 20px;
-      min-height: 80px;
-      overflow-x: auto;
-    }
-
-    .visual-morse-label {
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-
-    .morse-visual-track {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-wrap: wrap;
-      min-height: 32px;
-    }
-
-    .mv-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--dot);
-      box-shadow: 0 0 8px var(--dot);
-      flex-shrink: 0;
-    }
-
-    .mv-dash {
-      width: 28px;
-      height: 10px;
-      border-radius: 5px;
-      background: var(--dash);
-      box-shadow: 0 0 8px var(--dash);
-      flex-shrink: 0;
-    }
-
-    .mv-char-gap {
-      width: 14px;
-      flex-shrink: 0;
-    }
-
-    .mv-word-gap {
-      width: 30px;
-      flex-shrink: 0;
-      height: 1px;
-      background: var(--border);
-      opacity: 0.5;
-    }
-
-    /* Reference table */
-    .reference-toggle {
-      margin-top: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .ref-header {
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-      transition: color 0.2s;
-    }
-
-    .ref-header:hover { color: var(--accent); }
-
-    .ref-header .chevron {
-      transition: transform 0.3s;
-      font-size: 10px;
-    }
-
-    .ref-header.open .chevron { transform: rotate(180deg); }
-
-    .ref-body {
-      display: none;
-      padding: 16px 20px 20px;
-      border-top: 1px solid var(--border);
-    }
-
-    .ref-body.open { display: block; }
-
-    .ref-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-      gap: 6px;
-    }
-
-    .ref-item {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 6px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      transition: border-color 0.2s;
-    }
-
-    .ref-item:hover { border-color: var(--accent); }
-
-    .ref-char {
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      color: #fff;
-    }
-
-    .ref-code {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 1px;
-    }
-
-    /* Notification */
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: var(--surface2);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      padding: 12px 20px;
-      font-size: 12px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      border-radius: 2px;
-      box-shadow: var(--glow);
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.3s;
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Playing animation */
-    @keyframes playing {
-      0%, 100% { box-shadow: 0 0 10px var(--accent2); }
-      50% { box-shadow: 0 0 30px var(--accent2), 0 0 60px rgba(255,107,53,0.3); }
-    }
-
-    .is-playing {
-      animation: playing 0.5s ease-in-out infinite;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 30px;
-      text-align: center;
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-  </style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📻</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="wrapper">
     <header>
-      <div class="signal-bar">
-        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <div class="header-top">
+        <div class="signal-bar">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="lang-selector">
+          <button class="lang-btn active" id="langTr" onclick="changeLang('tr')">TR</button>
+          <button class="lang-btn" id="langEn" onclick="changeLang('en')">EN</button>
+        </div>
       </div>
-      <h1>MOR<span>SE</span> CODE</h1>
-      <p>Text → Morse Code Converter</p>
+      <h1 id="appTitle">MOR<span>SE</span> KODU</h1>
+      <p id="appSubtitle">Metin → Mors Kodu Dönüştürücü</p>
     </header>
 
     <div class="panels">
       <div class="panel">
-        <div class="panel-label"><div class="dot-indicator"></div> Text Input</div>
-        <textarea id="textInput" placeholder="Type your message here..." spellcheck="false" autocomplete="off"></textarea>
+        <div class="panel-label" id="textInputLabel"><div class="dot-indicator"></div> Metin Girişi</div>
+        <textarea id="textInput" aria-label="Input area for text or morse code" placeholder="Mesajınızı buraya yazın..." spellcheck="false" autocomplete="off"></textarea>
       </div>
       <div class="panel">
-        <div class="panel-label"><div class="dot-indicator"></div> Morse Output</div>
+        <div class="panel-label" id="morseOutputLabel"><div class="dot-indicator"></div> Mors Çıktısı</div>
         <div id="morseOutput">—</div>
       </div>
     </div>
 
+    <!-- Ayarlar Kontrol Paneli -->
+    <div class="settings-panel">
+      <div class="setting-item">
+        <span class="setting-label" id="lblWpm">Hız (WPM): 15</span>
+        <input type="range" id="wpmSlider" min="5" max="40" value="15" oninput="updateWpm(this.value)">
+      </div>
+      <div class="setting-item">
+        <span class="setting-label" id="lblFreq">Ton (Hz): 700</span>
+        <input type="range" id="freqSlider" min="400" max="1000" step="50" value="700" oninput="updateFreq(this.value)">
+      </div>
+      <div class="setting-item checkbox-item" id="normalizeContainer">
+        <label class="checkbox-container">
+          <input type="checkbox" id="normalizeCheck" onchange="toggleNormalize(this.checked)">
+          <span class="checkmark"></span>
+          <span id="lblNormalize">Türkçe karakterleri dönüştür (Ç->C, Ş->S vb.)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Sanal Morse Klavyesi -->
+    <div class="mors-keyboard" id="morsKeyboard" style="display: none;">
+      <button class="k-btn" onclick="insertMorse('.')">·</button>
+      <button class="k-btn" onclick="insertMorse('-')">—</button>
+      <button class="k-btn wide" id="kBtnSpace" onclick="insertMorse(' ')">Boşluk (Karakter Arası)</button>
+      <button class="k-btn wide" id="kBtnWord" onclick="insertMorse(' / ')">/ (Kelime Arası)</button>
+      <button class="k-btn danger-btn" onclick="backspaceMorse()">⌫</button>
+    </div>
+
     <div class="toolbar">
-      <button class="btn primary" onclick="copyMorse()"><span class="btn-icon">⊕</span> Copy</button>
-      <button class="btn play-btn" id="playBtn" onclick="playMorse()"><span class="btn-icon">▶</span> Listen</button>
-      <button class="btn" onclick="swapMode()"><span class="btn-icon">⇄</span> Swap</button>
+      <button class="btn primary" id="copyBtn" onclick="copyMorse()"><span class="btn-icon">⊕</span> Mors Kopyala</button>
+      <button class="btn play-btn" id="playBtn" onclick="playMorse()"><span class="btn-icon">▶</span> Dinle</button>
+      <button class="btn" id="swapBtn" onclick="swapMode()"><span class="btn-icon">⇄</span> Değiştir</button>
       <div class="spacer"></div>
-      <button class="btn danger" onclick="clearAll()">✕ Clear</button>
+      <button class="btn danger" id="clearBtn" onclick="clearAll()">✕ Temizle</button>
     </div>
 
     <div class="stats">
-      <div class="stat-item">Characters: <span id="charCount">0</span></div>
-      <div class="stat-item">Words: <span id="wordCount">0</span></div>
-      <div class="stat-item">Morse Symbols: <span id="symbolCount">0</span></div>
-      <div class="stat-item">Signal Time: <span id="signalTime">0s</span></div>
+      <div class="stat-item"><span id="lblStatChar">Karakter</span>: <span id="charCount">0</span></div>
+      <div class="stat-item"><span id="lblStatWord">Kelime</span>: <span id="wordCount">0</span></div>
+      <div class="stat-item"><span id="lblStatSymbols">Mors Sembolü</span>: <span id="symbolCount">0</span></div>
+      <div class="stat-item"><span id="lblStatTime">Sinyal Süresi</span>: <span id="signalTime">0s</span></div>
     </div>
 
     <div class="visual-morse">
-      <div class="visual-morse-label">⬡ Visual Signal Representation</div>
+      <div class="visual-morse-label" id="visualLabel">⬡ Görsel Sinyal Gösterimi</div>
       <div class="morse-visual-track" id="visualTrack"></div>
     </div>
 
     <div class="reference-toggle">
       <div class="ref-header" id="refHeader" onclick="toggleRef()">
-        ⊞ Morse Code Reference Table
+        <span id="refTitle">⊞ Mors Kodu Referans Tablosu</span>
         <span class="chevron">▼</span>
       </div>
       <div class="ref-body" id="refBody">
@@ -559,241 +99,10 @@
 
   <div class="toast" id="toast"></div>
 
-  <script>
-    const MORSE = {
-      'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---',
-      'K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-',
-      'U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..',
-      '0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.',
-      '.':'.-.-.-',',':'--..--','?':'..--..','!':'-.-.--','/':'-..-.','(':'-.--.',')':'-.--.-','&':'.-...',
-      ':':'---...','=':'-...-','+':'.-.-.','@':'.--.-.','_':'..--.-','"':'.-..-.','$':'...-..-',
-      'Ç':'-.-..','Ğ':'--.-.','İ':'..-..','Ö':'---.','Ş':'----','Ü':'..--'
-    };
-
-    const MORSE_REVERSE = Object.fromEntries(Object.entries(MORSE).map(([k,v]) => [v,k]));
-
-    let isReversed = false;
-    let audioCtx = null;
-    let isPlaying = false;
-    let stopPlayback = false;
-
-    function textToMorse(text) {
-      return text.toUpperCase().split('').map(ch => {
-        if (ch === ' ') return '/';
-        return MORSE[ch] || '?';
-      }).join(' ');
-    }
-
-    function morseToText(morse) {
-      return morse.trim().split(' / ').map(word =>
-        word.split(' ').map(code => MORSE_REVERSE[code] || '?').join('')
-      ).join(' ');
-    }
-
-    function renderColoredMorse(morse) {
-      return morse.split('').map(ch => {
-        if (ch === '.') return `<span class="morse-dot">.</span>`;
-        if (ch === '-') return `<span class="morse-dash">-</span>`;
-        if (ch === '/') return `<span class="morse-space"> / </span>`;
-        return ch;
-      }).join('');
-    }
-
-    function updateStats(text, morse) {
-      const chars = text.replace(/\s/g,'').length;
-      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-      const symbols = (morse.match(/[.\-]/g) || []).length;
-      const dotDur = 0.08, dashDur = 0.24;
-      let time = 0;
-      for (const ch of morse) {
-        if (ch === '.') time += dotDur + 0.08;
-        else if (ch === '-') time += dashDur + 0.08;
-      }
-      document.getElementById('charCount').textContent = chars;
-      document.getElementById('wordCount').textContent = words;
-      document.getElementById('symbolCount').textContent = symbols;
-      document.getElementById('signalTime').textContent = time.toFixed(1) + 's';
-    }
-
-    function renderVisual(morse) {
-      const track = document.getElementById('visualTrack');
-      track.innerHTML = '';
-      if (!morse || morse === '—') return;
-
-      const words = morse.split(' / ');
-      words.forEach((word, wi) => {
-        const chars = word.split(' ');
-        chars.forEach((code, ci) => {
-          code.split('').forEach(sym => {
-            const el = document.createElement('div');
-            el.className = sym === '.' ? 'mv-dot' : 'mv-dash';
-            track.appendChild(el);
-          });
-          if (ci < chars.length - 1) {
-            const gap = document.createElement('div');
-            gap.className = 'mv-char-gap';
-            track.appendChild(gap);
-          }
-        });
-        if (wi < words.length - 1) {
-          const wg = document.createElement('div');
-          wg.className = 'mv-word-gap';
-          track.appendChild(wg);
-        }
-      });
-    }
-
-    document.getElementById('textInput').addEventListener('input', function() {
-      const val = this.value;
-      if (!isReversed) {
-        const morse = val ? textToMorse(val) : '—';
-        document.getElementById('morseOutput').innerHTML = val ? renderColoredMorse(morse) : '—';
-        updateStats(val, morse);
-        renderVisual(val ? morse : '');
-      }
-    });
-
-    function swapMode() {
-      isReversed = !isReversed;
-      const input = document.getElementById('textInput');
-      const output = document.getElementById('morseOutput');
-
-      if (isReversed) {
-        input.placeholder = '· · · — — — · · · Type morse code here...';
-        output.style.color = 'var(--text)';
-        input.style.color = 'var(--accent)';
-        showToast('MORSE → TEXT MODE');
-      } else {
-        input.placeholder = 'Type your message here...';
-        output.style.color = 'var(--accent)';
-        input.style.color = '#fff';
-        showToast('TEXT → MORSE MODE');
-      }
-
-      input.value = '';
-      output.innerHTML = '—';
-      document.getElementById('visualTrack').innerHTML = '';
-      updateStats('', '');
-    }
-
-    document.getElementById('textInput').addEventListener('input', function() {
-      const val = this.value;
-      if (isReversed) {
-        const text = val ? morseToText(val) : '—';
-        document.getElementById('morseOutput').innerHTML = text;
-        updateStats(text === '—' ? '' : text, val);
-        renderVisual('');
-      } else {
-        const morse = val ? textToMorse(val) : '—';
-        document.getElementById('morseOutput').innerHTML = val ? renderColoredMorse(morse) : '—';
-        updateStats(val, morse);
-        renderVisual(val ? morse : '');
-      }
-    });
-
-    function copyMorse() {
-      const output = document.getElementById('morseOutput').textContent;
-      if (!output || output === '—') { showToast('Type something first!'); return; }
-      navigator.clipboard.writeText(output).then(() => showToast('COPIED TO CLIPBOARD ✓'));
-    }
-
-    function clearAll() {
-      document.getElementById('textInput').value = '';
-      document.getElementById('morseOutput').innerHTML = '—';
-      document.getElementById('visualTrack').innerHTML = '';
-      updateStats('', '');
-      stopPlayback = true;
-    }
-
-    async function playMorse() {
-      if (isPlaying) {
-        stopPlayback = true;
-        return;
-      }
-
-      const morse = document.getElementById('morseOutput').textContent;
-      if (!morse || morse === '—') { showToast('Type something first!'); return; }
-
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-      isPlaying = true;
-      stopPlayback = false;
-      const btn = document.getElementById('playBtn');
-      btn.textContent = '■ Stop';
-      btn.classList.add('is-playing');
-
-      const dot = 80, dash = 240, gap = 80, charGap = 240, wordGap = 560;
-      const freq = 700;
-
-      for (const ch of morse) {
-        if (stopPlayback) break;
-        if (ch === '.') { await beep(dot, freq); await sleep(gap); }
-        else if (ch === '-') { await beep(dash, freq); await sleep(gap); }
-        else if (ch === ' ') { await sleep(charGap); }
-        else if (ch === '/') { await sleep(wordGap); }
-      }
-
-      isPlaying = false;
-      btn.innerHTML = '<span class="btn-icon">▶</span> Listen';
-      btn.classList.remove('is-playing');
-    }
-
-    function beep(duration, freq) {
-      return new Promise(resolve => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.frequency.value = freq;
-        osc.type = 'sine';
-        gain.gain.setValueAtTime(0, audioCtx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.005);
-        gain.gain.setValueAtTime(0.4, audioCtx.currentTime + duration/1000 - 0.005);
-        gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + duration/1000);
-        osc.start(audioCtx.currentTime);
-        osc.stop(audioCtx.currentTime + duration/1000);
-        osc.onended = resolve;
-      });
-    }
-
-    function sleep(ms) {
-      return new Promise(r => setTimeout(r, ms));
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
-    }
-
-    function toggleRef() {
-      const header = document.getElementById('refHeader');
-      const body = document.getElementById('refBody');
-      header.classList.toggle('open');
-      body.classList.toggle('open');
-    }
-
-    // Build reference table
-    function buildRef() {
-      const grid = document.getElementById('refGrid');
-      Object.entries(MORSE).forEach(([ch, code]) => {
-        const item = document.createElement('div');
-        item.className = 'ref-item';
-        item.innerHTML = `<span class="ref-char">${ch}</span><span class="ref-code">${code}</span>`;
-        item.onclick = () => {
-          if (!isReversed) {
-            const ta = document.getElementById('textInput');
-            ta.value += ch;
-            ta.dispatchEvent(new Event('input'));
-          }
-        };
-        item.title = `${ch} = ${code} (click to insert)`;
-        grid.appendChild(item);
-      });
-    }
-
-    buildRef();
-  </script>
+  <script src="js/dictionary.js"></script>
+  <script src="js/translator.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
