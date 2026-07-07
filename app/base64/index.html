@@ -1,25 +1,176 @@
-<title>Base64 Decode/Encode Tool</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base64 Encode/Decode Tool</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+  }
+  #base64-tool {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.3em;
+  }
+  textarea {
+    width: calc(100% - 22px);
+    min-height: 100px;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: monospace;
+  }
+  .buttons {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+  }
+  button {
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  button.secondary {
+    background-color: #6c757d;
+  }
+  button.secondary:hover {
+    background-color: #545b62;
+  }
+  pre {
+    background-color: #f1f1f1;
+    padding: 12px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: monospace;
+    min-height: 20px;
+  }
+  .error {
+    color: #c0392b;
+  }
+</style>
+</head>
+<body>
+
 <div id="base64-tool">
-  <h2>Base64 Decode/Encode Tool -farukguler.com</h2>
-  <textarea id="textInput" placeholder="Metni girin"></textarea>
-  <br>
-  <button onclick="encodeBase64()">Encode</button>
-  <button onclick="decodeBase64()">Decode</button>
+  <h2>Base64 Encode/Decode Tool - farukguler.com</h2>
+  <textarea id="textInput" placeholder="Enter your text here"></textarea>
+  <div class="buttons">
+    <button onclick="encodeBase64()">Encode</button>
+    <button onclick="decodeBase64()">Decode</button>
+    <button class="secondary" onclick="copyOutput()">Copy</button>
+    <button class="secondary" onclick="clearAll()">Clear</button>
+  </div>
   <pre id="output"></pre>
 </div>
 
 <script>
+  // btoa/atob only support the Latin1 character set; non-Latin1 characters
+  // (accented letters, emoji, etc.) will throw an error or produce corrupted
+  // output. So UTF-8 <-> Base64 conversion is done safely via TextEncoder/TextDecoder.
+
+  function toBase64Utf8(str) {
+    const bytes = new TextEncoder().encode(str);
+    let binary = "";
+    bytes.forEach(b => binary += String.fromCharCode(b));
+    return btoa(binary);
+  }
+
+  function fromBase64Utf8(base64) {
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  }
+
   function encodeBase64() {
-    let input = document.getElementById('textInput').value;
-    document.getElementById('output').textContent = btoa(input);
+    const input = document.getElementById('textInput').value;
+    const output = document.getElementById('output');
+    output.classList.remove('error');
+
+    if (!input) {
+      output.textContent = "Please enter some text.";
+      output.classList.add('error');
+      return;
+    }
+
+    try {
+      output.textContent = toBase64Utf8(input);
+    } catch (e) {
+      output.textContent = "An error occurred while encoding: " + e.message;
+      output.classList.add('error');
+    }
   }
 
   function decodeBase64() {
-    let input = document.getElementById('textInput').value;
+    const input = document.getElementById('textInput').value.trim();
+    const output = document.getElementById('output');
+    output.classList.remove('error');
+
+    if (!input) {
+      output.textContent = "Please enter a Base64 string.";
+      output.classList.add('error');
+      return;
+    }
+
+    // Validate Base64 character set and length (after stripping whitespace)
+    const cleaned = input.replace(/\s/g, '');
+    if (!/^[A-Za-z0-9+/]*={0,2}$/.test(cleaned) || cleaned.length % 4 !== 0) {
+      output.textContent = "Invalid Base64 format!";
+      output.classList.add('error');
+      return;
+    }
+
     try {
-      document.getElementById('output').textContent = atob(input);
-    } catch {
-      document.getElementById('output').textContent = "Geçersiz Base64 formatı!";
+      output.textContent = fromBase64Utf8(cleaned);
+    } catch (e) {
+      output.textContent = "Invalid Base64 format!";
+      output.classList.add('error');
     }
   }
+
+  function copyOutput() {
+    const output = document.getElementById('output');
+    if (!output.textContent) return;
+    navigator.clipboard.writeText(output.textContent).then(() => {
+      const original = output.textContent;
+      output.textContent = "Copied ✓";
+      setTimeout(() => { output.textContent = original; }, 800);
+    }).catch(() => {
+      output.textContent = "Copy failed.";
+    });
+  }
+
+  function clearAll() {
+    document.getElementById('textInput').value = "";
+    const output = document.getElementById('output');
+    output.textContent = "";
+    output.classList.remove('error');
+  }
 </script>
+
+</body>
+</html>
