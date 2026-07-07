@@ -43,6 +43,10 @@
         button:hover {
             background-color: #0056b3;
         }
+        button:disabled {
+            background-color: #99c2ff;
+            cursor: not-allowed;
+        }
         .result {
             margin-top: 20px;
             padding: 15px;
@@ -51,6 +55,7 @@
             background-color: #f1f1f1;
             white-space: pre-wrap;
             font-family: monospace;
+            display: none;
         }
         .error {
             color: red;
@@ -63,56 +68,96 @@
 <div class="container">
     <h1>WHOIS Domain Lookup</h1>
     <input type="text" id="domainInput" placeholder="Alan adını girin (örnek: farukguler.com)">
-    <button onclick="whoisLookup()">Sorgula</button>
+    <button id="lookupBtn" onclick="whoisLookup()">Sorgula</button>
     <div class="result" id="result"></div>
     <div class="error" id="error"></div>
 </div>
 
 <script>
+    // basit alan adı format kontrolü
+    const domainPattern = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+    function formatDate(unixSeconds) {
+        if (!unixSeconds || isNaN(unixSeconds)) return "Bilinmiyor";
+        const d = new Date(unixSeconds * 1000);
+        if (isNaN(d.getTime())) return "Bilinmiyor";
+        return d.toLocaleDateString('tr-TR');
+    }
+
     async function whoisLookup() {
-        const domain = document.getElementById('domainInput').value.trim();
+        const input = document.getElementById('domainInput');
         const resultDiv = document.getElementById('result');
         const errorDiv = document.getElementById('error');
+        const btn = document.getElementById('lookupBtn');
+        const domain = input.value.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
 
-        // Giriş alanını kontrol et
+        resultDiv.style.display = "none";
+        errorDiv.textContent = "";
+
         if (!domain) {
             errorDiv.textContent = "Lütfen bir alan adı girin.";
-            resultDiv.textContent = "";
             return;
         }
 
-        // WHOIS sorgusu için API endpoint'i
-        const apiUrl = `https://api.whois.vu/?q=${domain}`;
+        if (!domainPattern.test(domain)) {
+            errorDiv.textContent = "Geçersiz alan adı formatı (örnek: farukguler.com).";
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Sorgulanıyor...";
+
+        // 10 saniyelik zaman aşımı, donmuş isteği engellemek için
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
 
         try {
-            // API'den veri çek
-            const response = await fetch(apiUrl);
+            const response = await fetch(`https://api.whois.vu/?q=${encodeURIComponent(domain)}`, {
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
             if (!response.ok) {
-                throw new Error("WHOIS sorgusu başarısız oldu.");
+                throw new Error(`Sunucu hatası (HTTP ${response.status})`);
             }
 
             const data = await response.json();
 
-            // Sonuçları göster
             if (data.available === "yes") {
                 resultDiv.textContent = `Alan adı: ${domain}\nDurum: Kayıtlı değil (Müsait)`;
-            } else {
-                resultDiv.textContent = `Alan adı: ${domain}\n
+            } else if (data.available === "no" || data.registrar || data.whois) {
+                resultDiv.textContent =
+`Alan adı: ${domain}
 Durum: Kayıtlı
-Kayıt Şirketi: ${data.registrar}
-Oluşturulma Tarihi: ${new Date(data.created * 1000).toLocaleDateString()}
-Son Güncelleme Tarihi: ${new Date(data.updated * 1000).toLocaleDateString()}
-❌-----> Domain Expire Tarihi: ${new Date(data.expires * 1000).toLocaleDateString()}
-WHOIS Verileri: ${data.whois}`;
+Kayıt Şirketi: ${data.registrar || "Bilinmiyor"}
+Oluşturulma Tarihi: ${formatDate(data.created)}
+Son Güncelleme Tarihi: ${formatDate(data.updated)}
+Expire Tarihi: ${formatDate(data.expires)}
+
+WHOIS Verileri:
+${data.whois || "Detay bulunamadı."}`;
+            } else {
+                resultDiv.textContent = "Sonuç anlaşılamadı, ham veri:\n" + JSON.stringify(data, null, 2);
             }
-            errorDiv.textContent = "";
+
+            resultDiv.style.display = "block";
         } catch (error) {
-            // Hata durumunda kullanıcıya bilgi ver
-            errorDiv.textContent = "WHOIS sorgusu sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
-            resultDiv.textContent = "";
+            if (error.name === "AbortError") {
+                errorDiv.textContent = "İstek zaman aşımına uğradı. Lütfen tekrar deneyin.";
+            } else {
+                errorDiv.textContent = "WHOIS sorgusu sırasında bir hata oluştu: " + error.message;
+            }
             console.error("WHOIS sorgu hatası:", error);
+        } finally {
+            clearTimeout(timeoutId);
+            btn.disabled = false;
+            btn.textContent = "Sorgula";
         }
     }
+
+    document.getElementById('domainInput').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') whoisLookup();
+    });
 </script>
 
 </body>
