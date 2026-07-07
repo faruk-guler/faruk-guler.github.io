@@ -10,7 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background: linear-gradient(to bottom, #2196F3, #E3F2FD);
         }
@@ -41,6 +41,10 @@
         button:hover {
             background-color: #1976D2;
         }
+        button:disabled {
+            background-color: #90caf9;
+            cursor: not-allowed;
+        }
         pre {
             background-color: #f1f1f1;
             padding: 10px;
@@ -49,8 +53,12 @@
             font-size: 0.9em;
             text-align: left;
             overflow: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
         a {
+            display: inline-block;
+            margin-top: 10px;
             color: #1a73e8;
             text-decoration: none;
         }
@@ -62,50 +70,88 @@
 <body>
     <div class="container">
         <h1>IP and Browser Information</h1>
-        <button onclick="getBrowserInfo()">Show My Information</button>
-        <pre id="infoOutput">Click the button to access the information...</pre>
+        <button id="infoBtn" onclick="getBrowserInfo()">Show My Information</button>
+        <pre id="infoOutput">Bilgilerinizi görmek için butona tıklayın...</pre>
+        <div id="mapLinkContainer"></div>
     </div>
 
     <script>
-        function getBrowserInfo() {
+        async function getBrowserInfo() {
             const output = document.getElementById('infoOutput');
+            const btn = document.getElementById('infoBtn');
+            const mapContainer = document.getElementById('mapLinkContainer');
+
+            mapContainer.innerHTML = "";
             output.textContent = "Bilgiler yükleniyor...";
+            btn.disabled = true;
 
-            // Kullanıcının IP adresini ve detaylı bilgilerini al
-            fetch('https://ipapi.co/json/')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`API Hatası: ${response.status}`);
+            try {
+                // Not: AbortController/signal bazı sandbox ortamlarında (postMessage
+                // üzerinden fetch aktaran iframe'ler) "DataCloneError" verdiği için
+                // timeout'u Promise.race ile, signal kullanmadan yapıyoruz.
+                const response = await Promise.race([
+                    fetch('https://ipapi.co/json/'),
+                    new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error("TIMEOUT")), 10000)
+                    )
+                ]);
+
+                if (!response.ok) {
+                    if (response.status === 429) {
+                        throw new Error("Günlük sorgu limitine ulaşıldı. Lütfen daha sonra tekrar deneyin.");
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    const userAgent = navigator.userAgent;
-                    const platform = navigator.platform;
-                    const language = navigator.language;
-                    const screenSize = `${screen.width}x${screen.height}`;
-                    const mapLink = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
+                    throw new Error(`API Hatası: ${response.status}`);
+                }
 
-                    output.textContent = 
-                        `IP Adresiniz: ${data.ip}\n` +
-                        `İşletim Sistemi: ${platform}\n` +
-                        `Tarayıcı Bilgisi: ${userAgent}\n` +
-                        `Dil: ${language}\n` +
-                        `Ekran Çözünürlüğü: ${screenSize}\n` +
-                        `Şehir: ${data.city || 'Bilinmiyor'}\n` +
-                        `Bölge: ${data.region || 'Bilinmiyor'}\n` +
-                        `Ülke: ${data.country_name || 'Bilinmiyor'}\n` +
-                        `ISP: ${data.org || 'Bilinmiyor'}\n` +
-                        `Koordinatlar: ${data.latitude}, ${data.longitude}\n` +
-                        `Harita: ${mapLink}`;
+                const data = await response.json();
 
-                    // Harita bağlantısını kullanıcıya kolayca tıklanabilir hale getir
-                    output.innerHTML += `\n\n<a href="${mapLink}" target="_blank">Konumu Haritada Gör</a>`;
-                })
-                .catch(error => {
-                    output.textContent = "Bilgiler alınamadı.";
-                    console.error('Hata:', error);
-                });
+                if (data.error) {
+                    throw new Error(data.reason || "Sağlayıcı bir hata döndürdü.");
+                }
+
+                const userAgent = navigator.userAgent;
+                const platform = navigator.platform || "Bilinmiyor";
+                const language = navigator.language;
+                const screenSize = `${screen.width}x${screen.height}`;
+
+                const lines = [
+                    `IP Adresiniz: ${data.ip || "Bilinmiyor"}`,
+                    `İşletim Sistemi: ${platform}`,
+                    `Tarayıcı Bilgisi: ${userAgent}`,
+                    `Dil: ${language}`,
+                    `Ekran Çözünürlüğü: ${screenSize}`,
+                    `Şehir: ${data.city || 'Bilinmiyor'}`,
+                    `Bölge: ${data.region || 'Bilinmiyor'}`,
+                    `Ülke: ${data.country_name || 'Bilinmiyor'}`,
+                    `ISP: ${data.org || 'Bilinmiyor'}`
+                ];
+
+                const hasCoords = typeof data.latitude === 'number' && typeof data.longitude === 'number';
+                if (hasCoords) {
+                    lines.push(`Koordinatlar: ${data.latitude}, ${data.longitude}`);
+                }
+
+                output.textContent = lines.join('\n');
+
+                // Harita linkini güvenli şekilde (innerHTML kullanmadan) ekle
+                if (hasCoords) {
+                    const link = document.createElement('a');
+                    link.href = `https://www.google.com/maps?q=${data.latitude},${data.longitude}`;
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.textContent = "Konumu Haritada Gör";
+                    mapContainer.appendChild(link);
+                }
+            } catch (error) {
+                if (error.message === "TIMEOUT") {
+                    output.textContent = "İstek zaman aşımına uğradı. Lütfen tekrar deneyin.";
+                } else {
+                    output.textContent = "Bilgiler alınamadı: " + error.message;
+                }
+                console.error('Hata:', error);
+            } finally {
+                btn.disabled = false;
+            }
         }
     </script>
 </body>
