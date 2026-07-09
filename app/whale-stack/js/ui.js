@@ -586,7 +586,7 @@ function handleRouting() {
     document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
 
     // Show active page
-    const targetPage = document.getElementById('page-' + pageId);
+    const targetPage = document.getElementById(pageId);
     if (targetPage) {
         targetPage.classList.add('active');
     }
