@@ -5,25 +5,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhaleStack Asset Tracker</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpeg" href="img/whale_logo.jpg">
+    <!-- Local Fonts -->
+    <link rel="stylesheet" href="assets/fonts/inter.css">
+    <!-- Local FontAwesome for Icons -->
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/theme.css">
 </head>
 
 <body>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('whalestack-theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
+    </script>
     <div class="app-container">
         <!-- Header -->
         <header class="glass-header">
-            <div class="logo">
+            <a href="#watchlist" class="logo" style="text-decoration: none; color: inherit;">
                 <img src="img/whale_logo.jpg" alt="WhaleStack Logo" class="app-logo">
                 <h1>WhaleStack</h1>
-            </div>
+            </a>
             <div class="header-actions">
+                <a href="#watchlist" class="action-btn outline nav-link active" data-page="watchlist">
+                    <i class="fa-solid fa-eye"></i> Watchlist
+                </a>
+
+                <a href="#tools" class="action-btn outline nav-link" data-page="tools">
+                    <i class="fa-solid fa-toolbox"></i> Tools
+                </a>
+
+
+                <a href="#about" class="action-btn outline nav-link" data-page="about">
+                    <i class="fa-solid fa-circle-info"></i> About
+                </a>
+
+                <!-- Data Dropdown -->
+                <div class="dropdown" id="dataDropdownContainer">
+                    <button class="action-btn outline dropdown-toggle" id="dataMenuBtn">
+                        <i class="fa-solid fa-database"></i> Data <i class="fa-solid fa-chevron-down" style="font-size: 0.8em; margin-left: 5px;"></i>
+                    </button>
+                    <div class="dropdown-menu" id="dataDropdownMenu">
+                        <button id="importBtn" class="dropdown-item">
+                            <i class="fa-solid fa-file-import"></i> Import Portfolio
+                        </button>
+                        <button id="exportJsonBtn" class="dropdown-item">
+                            <i class="fa-solid fa-file-export fa-flip-horizontal"></i> Export JSON
+                        </button>
+                    </div>
+                </div>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+
+
                 <!-- Theme Toggle -->
                 <div class="theme-toggle-header">
                     <i class="fa-solid fa-moon theme-icon"></i>
@@ -33,31 +75,13 @@
                     </label>
                     <i class="fa-solid fa-sun theme-icon"></i>
                 </div>
-
-                <button id="toolsBtn" class="action-btn outline">
-                    <i class="fa-solid fa-toolbox"></i> Tools
-                </button>
-
-                <button id="aboutBtn" class="action-btn outline">
-                    <i class="fa-solid fa-circle-info"></i> About
-                </button>
-
-                <!-- Import Button (JSON/CSV combined in JS) -->
-                <button id="importBtn" class="action-btn outline">
-                    <i class="fa-solid fa-file-import"></i> Import
-                </button>
-                <input type="file" id="fileInput" accept=".json" style="display: none;">
-
-                <!-- Export Buttons -->
-                <button id="exportJsonBtn" class="action-btn highlight">
-                    <i class="fa-solid fa-file-export"></i> Export JSON
-                </button>
             </div>
         </header>
 
-        <main>
-            <!-- Table Section -->
-            <section class="table-section glass-panel">
+        <main id="app-main">
+            <!-- PAGE: Watchlist / Portfolio -->
+            <div id="page-watchlist" class="page-section active">
+                <section class="table-section glass-panel">
                 <div class="table-header">
                     <div class="table-header-title">
                         <h2><i class="fa-solid fa-list"></i> My Portfolio <small id="lastUpdatedGlobal"
@@ -70,16 +94,35 @@
                             <span class="balance-label">Total P/L:</span>
                             <span id="summaryTotalPL" class="balance-value">$0.00</span>
                         </div>
-                        <button id="convertTRYBtn" class="tl-rate-btn" title="Convert portfolio value to TRY on Google">
-                            <i class="fa-solid fa-turkish-lira-sign"></i> TRY
-                        </button>
+
+                    </div>
+                    <div class="table-header-right" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: flex-end;">
+                        <!-- Live BTC & ETH Prices Widget -->
+                        <div class="live-ticker-container" id="liveTickerContainer">
+                            <div class="ticker-item">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="tickerBtcLogo" class="ticker-logo" alt="BTC" onerror="handleLogoError(this)">
+                                <span class="ticker-symbol">BTC</span>
+                                <span class="ticker-price" id="tickerBtcPrice">Loading...</span>
+                            </div>
+                            <div class="ticker-item">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="tickerEthLogo" class="ticker-logo" alt="ETH" onerror="handleLogoError(this)">
+                                <span class="ticker-symbol">ETH</span>
+                                <span class="ticker-price" id="tickerEthPrice">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="search-box">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search asset...">
+                        </div>
+
                         <button class="action-btn highlight" id="openAddAssetModalBtn">
                             <i class="fa-solid fa-plus"></i> Add Asset
                         </button>
-                    </div>
-                    <div class="search-box">
-                        <i class="fa-solid fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search asset...">
+
+                        <button id="refreshPricesBtn" class="tl-rate-btn" title="Sync live prices from CoinGecko">
+                            <i class="fa-solid fa-sync-alt" id="refreshIcon"></i> Sync
+                        </button>
                     </div>
                 </div>
 
@@ -88,12 +131,11 @@
                         <thead>
                             <tr>
                                 <th>Assets</th>
-                                <th>Amount</th>
-                                <th>Avg Cost ($)</th>
                                 <th>Current Price ($)</th>
-                                <th>Circulating Supply</th>
-                                <th>Max Supply</th>
-                                <th>Profit/Loss (%)</th>
+                                <th>Avg Cost ($)</th>
+                                <th>Amount</th>
+                                <th>Total Value</th>
+                                <th>Profit/Loss (x)</th>
                                 <th>Risk</th>
                                 <th>Actions</th>
                             </tr>
@@ -108,12 +150,142 @@
                     <i class="fa-solid fa-folder-open"></i>
                     <p>No assets in your portfolio yet. Start adding now!</p>
                 </div>
-            </section>
+                <!-- Divider -->
+                <div class="section-divider"></div>
 
-            <!-- Slogan Banner -->
-            <footer class="slogan-footer glass-panel">
-                <img src="img/cz-publish.jpg" alt="CZ Publish Slogan" class="slogan-banner" title="Keep Building!">
-            </footer>
+                <!-- Watchlist Section inside same glass panel -->
+                <div class="table-header">
+                    <div class="table-header-title">
+                        <h2><i class="fa-solid fa-eye"></i> My Radar</h2>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="watchlistTable">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Current Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="watchlistTableBody">
+                            <!-- Watchlist rows will be injected here via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Watchlist Empty State -->
+                <div id="watchlistEmptyState" class="empty-state">
+                    <i class="fa-solid fa-eye-slash"></i>
+                    <p>No assets in My Radar yet. Click Add Asset to add one!</p>
+                </div>
+            </section>
+            </div> <!-- Close page-watchlist -->
+
+            <!-- PAGE: Tools -->
+            <div id="page-tools" class="page-section">
+                <!-- Tool Grid View -->
+                <div class="tools-container" id="toolsGrid">
+                  <div class="tools-header">
+                    <h1><i class="fa-solid fa-toolbox"></i> Financial Tools</h1>
+                    <p>Select a calculator to open it directly here — no new tabs.</p>
+                  </div>
+                  <div class="tools-grid">
+                    <div class="tool-card" onclick="openTool('calc/futures/index.html', 'Futures Calculator')">
+                      <div class="tool-icon"><i class="fa-solid fa-chart-line"></i></div>
+                      <div class="tool-info">
+                        <h3>Futures Calculator</h3>
+                        <p>Calculate liquidation prices, leverage risks, and warning ranges for long or short positions.</p>
+                      </div>
+                    </div>
+                    <div class="tool-card" onclick="openTool('calc/spot/index.html', 'Spot P&amp;L Calculator')">
+                      <div class="tool-icon"><i class="fa-solid fa-coins"></i></div>
+                      <div class="tool-info">
+                        <h3>Spot P&amp;L Calculator</h3>
+                        <p>Track your spot trading investment, asset quantity, profit/loss margins, and multipliers.</p>
+                      </div>
+                    </div>
+
+                    <div class="tool-card" onclick="openTool('calc/rise/index.html', 'Rise Calculator')">
+                      <div class="tool-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                      <div class="tool-info">
+                        <h3>Rise Calculator</h3>
+                        <p>Compare assets with target competitors to check potential price targets and market caps.</p>
+                      </div>
+                    </div>
+
+                    <div class="tool-card" onclick="openTool('calc/analyzer/index.html', 'Portfolio Analyzer')">
+                      <div class="tool-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                      <div class="tool-info">
+                        <h3>Portfolio Analyzer</h3>
+                        <p>Analyze your overall portfolio balance, asset breakdown, and performance.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Inline Tool Viewer (iframe) -->
+                <div class="tool-viewer hidden" id="toolViewer">
+                  <div class="tool-viewer-header">
+                    <button class="tool-back-btn" onclick="closeTool()">
+                      <i class="fa-solid fa-arrow-left"></i> Back to Tools
+                    </button>
+                    <span class="tool-viewer-title" id="toolViewerTitle"></span>
+                  </div>
+                  <iframe id="toolIframe" class="tool-iframe" src="" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- PAGE: About -->
+            <div id="page-about" class="page-section">
+                <div class="about-container">
+                  <div class="about-logo-wrapper">
+                    <img src="img/whale_logo.jpg" alt="WhaleStack Logo" class="about-logo">
+                  </div>
+                  <div class="about-details">
+                    <h1>WhaleStack</h1>
+                    <div class="subtitle">Deep Sea Asset Tracker</div>
+                  </div>
+                  <div class="about-author">
+                    <h3>faruk-guler</h3>
+                    <p>SysAdmin & Developer</p>
+                  </div>
+
+                  <div class="about-apis">
+                    <h4 style="margin-bottom:0.5rem;color:var(--text-primary);font-size:0.95rem;">
+                        <i class="fa-solid fa-database" style="color:var(--accent-color);"></i> Data Sources
+                    </h4>
+                    <ul style="list-style-type:none;padding:0;margin:0;font-size:0.85rem;color:var(--text-secondary);text-align:left;display:inline-block;">
+                        <li style="margin-bottom:0.4rem;">
+                            <i class="fa-solid fa-circle-check" style="color:#2ea043;margin-right:5px;font-size:0.7rem;"></i> 
+                            <a href="https://pyth.network" target="_blank" style="color:var(--accent-color);text-decoration:none;font-weight:bold;">Pyth Network:</a> Real-time crypto & FX (USD/TRY) price feeds
+                        </li>
+                        <li style="margin-bottom:0.4rem;">
+                            <i class="fa-solid fa-circle-check" style="color:#2ea043;margin-right:5px;font-size:0.7rem;"></i> 
+                            <a href="https://www.coingecko.com/en/api" target="_blank" style="color:var(--accent-color);text-decoration:none;font-weight:bold;">CoinGecko:</a> Coin lists, market data & logos
+                        </li>
+                    </ul>
+                  </div>
+
+                  <div class="about-links">
+                    <a href="https://www.farukguler.com" target="_blank" class="about-btn website-btn">
+                      <i class="fa-solid fa-globe"></i> Website
+                    </a>
+                    <a href="https://github.com/faruk-guler" target="_blank" class="about-btn github-btn">
+                      <i class="fa-brands fa-github"></i> GitHub
+                    </a>
+                  </div>
+                  <div class="about-footer">
+                    Built for Whales <span>&bull;</span> 
+                    <img src="img/whale_logo.jpg" class="about-footer-icon" alt="icon"> 
+                    WhaleStack v5.5 <span>&bull;</span> &copy; 2026
+                  </div>
+                </div>
+            </div>
+    <!-- Floating Slogan Badge -->
+    <div class="floating-slogan-badge">
+        <img src="img/cz-publish.jpg" class="badge-logo" alt="CZ Image" title="Keep Building!">
+        <img src="img/cz-publish.jpg" class="badge-slogan" alt="CZ Slogan: If you can't hold, you won't be rich.">
+    </div>
         </main>
     </div>
 
@@ -121,43 +293,6 @@
     <div id="toast" class="toast hidden">
         <i class="fa-solid fa-check-circle" id="toastIcon"></i>
         <span id="toastMessage">Action successful.</span>
-    </div>
-
-    <!-- About Modal -->
-    <div id="aboutModal" class="modal">
-        <div class="modal-content new-about-modal">
-            <span class="close-btn">&times;</span>
-
-            <div class="about-flex-container">
-                <div class="about-image-col">
-                    <img src="img/whale_logo.jpg" alt="WhaleStack Logo" class="modal-whale-logo">
-                </div>
-
-                <div class="about-info-col">
-                    <h2>WhaleStack</h2>
-                    <p class="subtitle">Deep Sea Asset Tracker</p>
-
-                    <div class="author-info">
-                        <h3>faruk-guler</h3>
-                        <p>SysAdmin & Developer</p>
-                    </div>
-
-                    <div class="about-links">
-                        <a href="https://www.farukguler.com" target="_blank" class="about-btn website-btn">
-                            <i class="fa-solid fa-globe"></i> Website
-                        </a>
-                        <a href="https://github.com/faruk-guler" target="_blank" class="about-btn github-btn">
-                            <i class="fa-brands fa-github"></i> GitHub
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-footer">
-                Built for Whales <span class="dot">&bull;</span> <img src="img/whale_logo.jpg" class="footer-icon"
-                    alt="icon"> WhaleStack v5.5 <span class="dot">&bull;</span> &copy; 2026
-            </div>
-        </div>
     </div>
 
     <!-- Add Asset Modal -->
@@ -168,40 +303,61 @@
                 <span class="close-modal" id="closeAddAssetModal">&times;</span>
             </div>
             <div class="modal-body">
-                <form id="assetForm">
+                <form id="assetForm" novalidate>
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;">Destination</label>
+                        <div class="destination-toggle-container">
+                            <label class="dest-toggle-label active" id="destLabelPortfolio">
+                                <input type="radio" name="assetDestination" id="destPortfolio" value="portfolio" checked style="display: none;">
+                                <span><i class="fa-solid fa-briefcase"></i> Portfolio</span>
+                            </label>
+                            <label class="dest-toggle-label" id="destLabelWatchlist">
+                                <input type="radio" name="assetDestination" id="destWatchlist" value="watchlist" style="display: none;">
+                                <span><i class="fa-solid fa-eye"></i> My Radar</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="assetName">Asset</label>
-                            <input type="text" id="assetName" placeholder="e.g. ETH, BTC" required>
+                            <label for="assetName">Asset Symbol</label>
+                            <div class="asset-input-wrapper">
+                                <input type="text" id="assetName" placeholder="e.g. BTC, ETH, SOL" autocomplete="off" required>
+                                <div id="coinSuggestList" class="suggest-dropdown hidden"></div>
+                                <div id="coinApiInfo" class="coin-api-info-box hidden">
+                                    <img src="" alt="logo" id="infoCoinLogo" class="info-coin-logo" onerror="handleLogoError(this)">
+                                    <span id="infoCoinText">BTC - Bitcoin (Live: $0.00)</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="amountGroup">
                             <label for="amount">Amount</label>
-                            <input type="number" id="amount" step="any" min="0" placeholder="e.g. 5.5" required>
+                            <input type="number" id="amount" step="any" min="0" placeholder="e.g. 5.5">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="priceGroup">
                             <label for="price">Avg Buy Price ($)</label>
-                            <input type="number" id="price" step="any" min="0" placeholder="e.g. 3500.50" required>
+                            <input type="number" id="price" step="any" min="0" placeholder="e.g. 3500.50">
                         </div>
-                        <div class="form-group">
-                            <label for="currentPrice">Current Price ($)</label>
-                            <input type="number" id="currentPrice" step="any" min="0" placeholder="e.g. 4200.75"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="circSupply">Circulating Supply</label>
-                            <input type="number" id="circSupply" step="any" min="0" placeholder="e.g. 120700000">
-                        </div>
-                        <div class="form-group">
-                            <label for="maxSupply">Max Supply (Leave blank if infinite)</label>
-                            <input type="number" id="maxSupply" step="any" min="0" placeholder="e.g. 21000000">
-                        </div>
-                        <div class="form-group">
+                        <div class="form-group" id="riskGroup">
                             <label for="rowColor">Risk</label>
                             <select id="rowColor">
                                 <option value="low">LOW (Safe)</option>
                                 <option value="medium">MEDIUM (Watch)</option>
                                 <option value="high">HIGH (Risky)</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <!-- Manual Fallback Fields -->
+                    <div id="manualFields" class="manual-fields-section hidden">
+                        <div class="manual-fields-title">
+                            <span><i class="fa-solid fa-circle-info"></i> Coin not found in API. Enter details manually:</span>
+                        </div>
+                        <div class="form-row form-row-manual">
+                            <div class="form-group">
+                                <label for="currentPrice">Current Price ($)</label>
+                                <input type="number" id="currentPrice" step="any" min="0" placeholder="e.g. 4200.75">
+                            </div>
                         </div>
                     </div>
                     <!-- Form Actions moved out of grid for a cleaner modal look -->
@@ -215,47 +371,12 @@
         </div>
     </div>
 
-    <!-- Tools Modal -->
-    <div id="toolsModal" class="modal">
-        <div class="modal-content tools-modal-content">
-            <div class="modal-header">
-                <h2><i class="fa-solid fa-toolbox"></i> Financial Tools</h2>
-                <span class="close-modal" id="closeToolsModal">&times;</span>
-            </div>
-            <div class="modal-body tools-grid">
-                <a href="calc/futures/index.html" class="tool-card" target="_blank">
-                    <div class="tool-icon"><i class="fa-solid fa-chart-line"></i></div>
-                    <div class="tool-info">
-                        <h3>Futures Calculator</h3>
-                        <p>Calculate liquidation prices and leverage risks.</p>
-                    </div>
-                </a>
-                <a href="calc/spot/index.html" class="tool-card" target="_blank">
-                    <div class="tool-icon"><i class="fa-solid fa-coins"></i></div>
-                    <div class="tool-info">
-                        <h3>Spot P&L Calculator</h3>
-                        <p>Track your spot trade profits and losses easily.</p>
-                    </div>
-                </a>
-                <a href="calc/analyzer/index.html" class="tool-card" target="_blank">
-                    <div class="tool-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-                    <div class="tool-info">
-                        <h3>USD/TRY Analyzer</h3>
-                        <p>Analyze your portfolio with currency rate impacts.</p>
-                    </div>
-                </a>
-                <a href="calc/rise/index.html" class="tool-card" target="_blank">
-                    <div class="tool-icon"><i class="fa-solid fa-chart-pie"></i></div>
-                    <div class="tool-info">
-                        <h3>Rise Calculator</h3>
-                        <p>Evaluate target market cap and potential price growth.</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
+    <!-- Modular JS -->
+    <script src="js/state.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

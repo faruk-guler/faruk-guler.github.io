@@ -5,7 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Futures Liquidation Calculator</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/jpeg" href="../../img/whale_logo.jpg">
+  <!-- Local Fonts & Icons -->
+  <link rel="stylesheet" href="../../assets/fonts/inter.css">
+  <link rel="stylesheet" href="../../assets/fontawesome/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -47,7 +50,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 80px 20px 40px;
+      padding: 20px 20px 40px;
       margin: 0;
       transition: var(--transition);
     }
@@ -63,6 +66,66 @@
       justify-content: space-between;
       align-items: center;
       z-index: 1001;
+    }
+
+    /* ===== Theme Toggle Switch ===== */
+    .theme-toggle-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .theme-icon {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        transition: var(--transition);
+    }
+
+    .theme-switch {
+        position: relative;
+        display: inline-block;
+        width: 52px;
+        height: 28px;
+    }
+
+    .theme-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .theme-switch .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #374151;
+        border-radius: 28px;
+        transition: 0.4s;
+    }
+
+    .theme-switch .slider::before {
+        content: '';
+        position: absolute;
+        height: 22px;
+        width: 22px;
+        left: 3px;
+        bottom: 3px;
+        background: #f0f6fc;
+        border-radius: 50%;
+        transition: 0.4s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-switch input:checked+.slider {
+        background: var(--accent-color);
+    }
+
+    .theme-switch input:checked+.slider::before {
+        transform: translateX(24px);
+        background: #ffffff;
     }
 
     .back-btn {
@@ -257,6 +320,30 @@
       font-style: italic;
     }
 
+    /* Message Boxes */
+    .error-message,
+    .success-message {
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .error-message {
+      background: rgba(248, 81, 73, 0.1);
+      color: #f85149;
+      border: 1px solid rgba(248, 81, 73, 0.2);
+    }
+
+    .success-message {
+      background: rgba(46, 160, 67, 0.1);
+      color: #2ea043;
+      border: 1px solid rgba(46, 160, 67, 0.2);
+    }
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -282,21 +369,30 @@
 </head>
 
 <body>
-  <div class="unified-header">
-    <a href="../../index.html" class="back-btn"><i class="fa-solid fa-house"></i> Home</a>
-  </div>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('whalestack-theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+      }
+    })();
+  </script>
 
   <div class="container">
     <h1><i class="fa-solid fa-chart-line"></i> Futures Liquidation Calculator</h1>
-    <form id="futuresForm">
+    
+    <div class="error-message" id="errorMessage"></div>
+    <div class="success-message" id="successMessage"></div>
+
+    <form id="futuresForm" novalidate>
       <div class="form-grid">
         <div class="form-group">
           <label for="investmentAmount">Investment Amount (USDT)</label>
-          <input type="number" id="investmentAmount" placeholder="e.g. 500" required step="0.01">
+          <input type="number" id="investmentAmount" placeholder="e.g. 500" required step="any">
         </div>
         <div class="form-group">
           <label for="entryPrice">Entry Price (USD)</label>
-          <input type="number" id="entryPrice" placeholder="e.g. 1.45" required step="0.01">
+          <input type="number" id="entryPrice" placeholder="e.g. 1.45" required step="any">
         </div>
         <div class="form-group">
           <label for="leverage">Leverage (1-125x)</label>
@@ -308,6 +404,14 @@
             <option value="long">LONG</option>
             <option value="short">SHORT</option>
           </select>
+        </div>
+        <div class="form-group">
+          <label for="coinName">Asset Symbol <span class="muted">(optional)</span></label>
+          <input type="text" id="coinName" placeholder="e.g. BTC, PEPE">
+        </div>
+        <div class="form-group">
+          <label for="mmr">Maintenance Margin Rate (%)</label>
+          <input type="number" id="mmr" placeholder="e.g. 0.4" step="any" min="0" value="0.4">
         </div>
       </div>
 
@@ -322,9 +426,17 @@
     </form>
 
     <div class="result" id="result" style="display:none;">
+      <div class="result-row" id="resultAssetRow" style="display:none;">
+        <span class="result-label">Asset</span>
+        <span class="result-value" id="resultCoinName">-</span>
+      </div>
       <div class="result-row">
-        <span class="result-label">Investment Amount</span>
-        <span class="result-value"><span id="resultInvestment"></span> USDT</span>
+        <span class="result-label">Position Size</span>
+        <span class="result-value"><span id="resultPositionSize"></span> USDT</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Required Margin (Collateral)</span>
+        <span class="result-value"><span id="resultInitialMargin"></span> USDT</span>
       </div>
       <div class="result-row">
         <span class="result-label">Entry Price</span>
@@ -339,10 +451,6 @@
         <span class="result-value liq-price">$<span id="resultLiquidationPrice"></span></span>
       </div>
       <div class="result-row">
-        <span class="result-label">Initial Margin</span>
-        <span class="result-value"><span id="resultInitialMargin"></span> USDT</span>
-      </div>
-      <div class="result-row">
         <span class="result-label">Position Type</span>
         <span class="result-value" id="resultPositionType"></span>
       </div>
@@ -350,83 +458,7 @@
     </div>
   </div>
 
-  <script>
-    function calculateFutures() {
-      // Get input values
-      var investment = parseFloat(document.getElementById('investmentAmount').value);
-      var entryPrice = parseFloat(document.getElementById('entryPrice').value);
-      var leverage = parseFloat(document.getElementById('leverage').value);
-      var positionType = document.getElementById('positionType').value;
-
-      // Validation
-      if (isNaN(investment) || isNaN(entryPrice) || isNaN(leverage) || investment <= 0 || entryPrice <= 0 || leverage <= 0) {
-        alert("Please enter valid positive values!");
-        document.getElementById('warningMessage').textContent = "";
-        return;
-      }
-
-      // Max leverage validation
-      if (leverage > 125) {
-        alert("Leverage cannot exceed 125!");
-        document.getElementById('warningMessage').textContent = "";
-        return;
-      }
-
-      // High leverage warning
-      if (leverage > 50) {
-        alert("High leverage is risky! Please be careful.");
-      }
-
-      // Liquidation price calculation
-      var liquidationPrice;
-      var priceChangePercentage = Math.abs((1 / leverage) * 100);
-
-      if (positionType === "short") {
-        liquidationPrice = entryPrice * (1 + 1 / leverage);
-      } else { // long
-        liquidationPrice = entryPrice * (1 - 1 / leverage);
-      }
-
-      // Initial margin calculation
-      var initialMargin = investment / leverage;
-
-      // Update results
-      document.getElementById('resultInvestment').textContent = investment.toFixed(2);
-      document.getElementById('resultEntryPrice').textContent = entryPrice.toFixed(2);
-      document.getElementById('resultLeverage').textContent = leverage.toFixed(0);
-      document.getElementById('resultLiquidationPrice').textContent = liquidationPrice.toFixed(2);
-      document.getElementById('resultInitialMargin').textContent = initialMargin.toFixed(2);
-      document.getElementById('resultPositionType').textContent = positionType === "short" ? "SHORT" : "LONG";
-
-      // Warning message
-      var warningMessage = "";
-      if (positionType === "short") {
-        warningMessage = "You will be liquidated when price rises by " + priceChangePercentage.toFixed(2) + "% !";
-      } else {
-        warningMessage = "You will be liquidated when price drops by " + priceChangePercentage.toFixed(2) + "% !";
-      }
-      document.getElementById('warningMessage').textContent = warningMessage;
-
-      // Show results
-      document.getElementById('result').style.display = 'block';
-    }
-
-    function clearForm() {
-      document.getElementById('futuresForm').reset();
-      document.getElementById('result').style.display = 'none';
-    }
-
-    function loadThemePreference() {
-      const savedTheme = localStorage.getItem('whalestack-theme');
-      if (savedTheme === 'light') {
-        document.body.classList.add('light-mode');
-      } else {
-        document.body.classList.remove('light-mode');
-      }
-    }
-
-    loadThemePreference();
-  </script>
+  <script src="futures.js"></script>
 </body>
 
 </html>

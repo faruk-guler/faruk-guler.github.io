@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rise & Potential MC Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="../../img/whale_logo.jpg">
+    <!-- Local Fonts & Icons -->
+    <link rel="stylesheet" href="../../assets/fonts/inter.css">
+    <link rel="stylesheet" href="../../assets/fontawesome/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -46,7 +49,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 80px 20px 40px;
+            padding: 20px 20px 40px;
             margin: 0;
             transition: var(--transition);
         }
@@ -61,6 +64,66 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1001;
+        }
+
+        /* ===== Theme Toggle Switch ===== */
+        .theme-toggle-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-icon {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-switch .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #374151;
+            border-radius: 28px;
+            transition: 0.4s;
+        }
+
+        .theme-switch .slider::before {
+            content: '';
+            position: absolute;
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background: #f0f6fc;
+            border-radius: 50%;
+            transition: 0.4s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-switch input:checked+.slider {
+            background: var(--accent-color);
+        }
+
+        .theme-switch input:checked+.slider::before {
+            transform: translateX(24px);
+            background: #ffffff;
         }
 
         .back-btn {
@@ -284,6 +347,25 @@
             border-color: #d1d5db;
         }
 
+        body.light-mode .card {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .stat-box {
+            background: #f9fafb;
+        }
+
+        body.light-mode .swap-btn {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .result-area {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(255, 255, 255, 0.95) 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
         input {
             flex: 2;
         }
@@ -425,13 +507,17 @@
 </head>
 
 <body>
-
-    <div class="unified-header">
-        <a href="../../index.html" class="back-btn"><i class="fa-solid fa-house"></i> Home</a>
-    </div>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('whalestack-theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
+    </script>
 
     <div class="container">
-        <h1><i class="fa-solid fa-chart-pie"></i> Price & Potential MC Calculator</h1>
+        <h1><i class="fa-solid fa-arrow-trend-up"></i> Price & Potential MC Calculator</h1>
         <div class="subtitle">Billion, trillion, quadrillion... Compatible with all coins.</div>
 
         <div style="position: relative; margin-bottom: 2rem;">
@@ -537,125 +623,7 @@
         </div>
     </div>
 
-    <script>
-        const formatUSD = (num) => {
-            if (typeof num !== 'number' || isNaN(num) || num < 0) return '$0';
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                notation: "compact",
-                maximumFractionDigits: 2
-            }).format(num);
-        };
-
-        const formatPrice = (num) => {
-            if (typeof num !== 'number' || isNaN(num)) return '---';
-            if (num === 0) return '$0.00';
-            if (num < 0.01 && num > 0) {
-                let str = num.toFixed(10).replace(/0+$/, '').replace(/\.$/, '');
-                if (str.includes('.')) {
-                    const [int, dec] = str.split('.');
-                    return '$' + int + '.' + (dec.length > 8 ? dec.substring(0, 8) : dec);
-                }
-                return '$' + str;
-            }
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 6
-            }).format(num);
-        };
-
-        function calculate() {
-            const sName = document.getElementById('sName').value || 'Asset';
-            const tName = document.getElementById('tName').value || 'Competitor';
-
-            const sPrice = parseFloat(document.getElementById('sPrice').value);
-            const sInputVal = parseFloat(document.getElementById('sSupplyInput').value);
-            const sMultiplier = parseFloat(document.getElementById('sUnit').value);
-            const sSupply = sInputVal * sMultiplier;
-
-            const tPrice = parseFloat(document.getElementById('tPrice').value);
-            const tInputVal = parseFloat(document.getElementById('tSupplyInput').value);
-            const tMultiplier = parseFloat(document.getElementById('tUnit').value);
-            const tSupply = tInputVal * tMultiplier;
-
-            if (
-                isNaN(sPrice) || isNaN(sSupply) || isNaN(tPrice) || isNaN(tSupply) ||
-                sPrice <= 0 || sSupply <= 0 || tPrice <= 0 || tSupply <= 0
-            ) {
-                document.getElementById('resultArea').style.display = 'none';
-                document.getElementById('sMC').innerText = 'Market Cap: $0';
-                document.getElementById('tMC').innerText = 'Target Market Cap: $0';
-                return;
-            }
-
-            const sMC = sPrice * sSupply;
-            const tMC = tPrice * tSupply;
-
-            document.getElementById('sMC').innerText = `Market Cap: ${formatUSD(sMC)}`;
-            document.getElementById('tMC').innerText = `Target Market Cap: ${formatUSD(tMC)}`;
-
-            const targetPrice = tMC / sSupply;
-            const multiplier = targetPrice / sPrice;
-            const percent = (multiplier - 1) * 100;
-
-            const resultArea = document.getElementById('resultArea');
-            resultArea.style.display = 'block';
-            resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-            document.getElementById('resName').innerText = sName;
-            document.getElementById('resTargetName').innerText = tName;
-            document.getElementById('resPrice').innerText = formatPrice(targetPrice);
-            document.getElementById('resX').innerText = multiplier.toFixed(2) + 'x';
-            document.getElementById('resPercent').innerText = (percent >= 0 ? '+' : '') + percent.toLocaleString('en-US', { maximumFractionDigits: 0 }) + '%';
-            document.getElementById('resTargetMC').innerText = formatUSD(tMC);
-        }
-
-        function clearForm() {
-            document.getElementById('sName').value = '';
-            document.getElementById('sPrice').value = '';
-            document.getElementById('sSupplyInput').value = '';
-            document.getElementById('tName').value = '';
-            document.getElementById('tPrice').value = '';
-            document.getElementById('tSupplyInput').value = '';
-            document.getElementById('resultArea').style.display = 'none';
-            document.getElementById('sMC').innerText = 'Market Cap: $0';
-            document.getElementById('tMC').innerText = 'Target Market Cap: $0';
-        }
-
-        function swapAssets() {
-            const IDs = ['Name', 'Price', 'SupplyInput', 'Unit'];
-
-            IDs.forEach(id => {
-                const sourceEl = document.getElementById('s' + id);
-                const targetEl = document.getElementById('t' + id);
-
-                const temp = sourceEl.value;
-                sourceEl.value = targetEl.value;
-                targetEl.value = temp;
-            });
-
-            calculate();
-        }
-
-        document.querySelectorAll('input, select').forEach(el => {
-            el.addEventListener('input', calculate);
-        });
-
-        function loadThemePreference() {
-            const savedTheme = localStorage.getItem('whalestack-theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-            } else {
-                document.body.classList.remove('light-mode');
-            }
-        }
-
-        loadThemePreference();
-    </script>
-
+    <script src="rise.js"></script>
 </body>
 
 </html>
