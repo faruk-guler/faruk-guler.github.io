@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 🎓 BigBlueButton ve Moodle Kurulumu 2026 Derinlemesine 🎓 BigBlueButton and Moodle Installation 2026 In-depth
-subtitle: "Üniversiteler ve BT Yöneticileri İçin Ölçeklenebilir ve Yerli Dokümantasyon ve Daha Fazlası"
+title: BigBlueButton ve Moodle Kurulumu 2026 Derinlemesine 🎓 BigBlueButton and Moodle Installation 2026 In-depth 🎓
+subtitle: "Üniversiteler ve BT Yöneticileri İçin Ölçeklenebilir ve Yerli Dokümantasyon ve Daha Fazlası..."
 date: 2026-03-27 20:45:00 +0300
 by: faruk-guler
 comments: true
