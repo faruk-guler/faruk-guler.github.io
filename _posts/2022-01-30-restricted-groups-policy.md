@@ -48,7 +48,7 @@ Right-click **Restricted Groups** and select **Add Group**. You can directly typ
 
 ---
 
-### 1. Members of this group (Strict / Overwrite Mode)
+### 1. Members of this group: (Strict / Overwrite Mode)
 
 In this section, you add **the user accounts or groups** that you explicitly want to be members of the target group.
 
@@ -66,7 +66,7 @@ In this section, you add **the user accounts or groups** that you explicitly wan
 
 ---
 
-### 2. This group is a member of (Additive Mode)
+### 2. This group is a member of: (Additive Mode)
 
 This section allows you to make the target group a member of another parent group (e.g., nesting a domain group like `ITHelpdesk` into the local `Administrators` group).
 
