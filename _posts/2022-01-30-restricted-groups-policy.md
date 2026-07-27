@@ -7,7 +7,7 @@ comments: true
 categories: [Windows Group Policy GPO]
 ---
 
-![Windows GPO Logo](https://farukguler.com/assets/post_images/gpo_logo.jpg?w=260)
+![Windows GPO Logo](https://farukguler.com/assets/post_images/gpo_logo.jpg?w=180)
 
 Specifying and limiting which accounts on domain-joined computers can be members of local groups is a crucial security practice in Active Directory environments.
 
@@ -60,7 +60,7 @@ In this section, you add **the user accounts or groups** that you explicitly wan
 >
 > **Note:** Restricted Groups is designed to manage **local** group membership only. Microsoft does not support using it to directly target a domain group (e.g., configuring `Domain Admins` itself as the restricted group)—that scenario should be managed through standard AD tools (ADUC, PowerShell, etc.) instead.
 
-![Restricted Groups Members Configuration](https://farukguler.com/assets/post_images/rest_2-2.png?w=400)
+![Restricted Groups Members Configuration](https://farukguler.com/assets/post_images/rest_2-2.png?w=300)
 
 ---
 
@@ -71,7 +71,7 @@ This section allows you to make the target group a member of another parent grou
 - **Behavior:** This section is **additive** and **non-destructive**. It enforces **inclusion only** (guaranteeing the specified group is added to the target parent group) without deleting pre-existing members.
 - **Trade-off:** This mode is not strict. It does not enforce exclusion or purge unauthorized members added manually by local client administrators. Additionally, because it only governs group-to-group inclusion, it does not manage or restore the internal members of the target group itself.
 
-![Restricted Groups Member Of Configuration](https://farukguler.com/assets/post_images/rest_2-1.png?w=440)
+![Restricted Groups Member Of Configuration](https://farukguler.com/assets/post_images/rest_2-1.png?w=330)
 
 ---
 
