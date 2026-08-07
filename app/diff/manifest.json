@@ -1,9 +1,14 @@
 {
   "manifest_version": 3,
-  "name": "Code Diff Checker",
-  "version": "1.0",
-  "description": "A simple diff checker that highlights differences between two blocks of text.",
-  "action": {},
+  "name": "Diff Drill 2.3",
+  "version": "2.3",
+  "description": "A powerful diff checker that highlights differences between two blocks of text.",
+  "action": {
+    "default_icon": "src/images/drill-logo.jpg"
+  },
+  "icons": {
+    "128": "src/images/drill-logo.jpg"
+  },
   "background": {
     "service_worker": "background.js"
   },

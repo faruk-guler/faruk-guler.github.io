@@ -3,15 +3,18 @@ function escapeHtml(text) {
   return text.replace(/[&<>"']/g, m => map[m]);
 }
 
+function formatContent(text) {
+  return escapeHtml(text)
+    .replace(/ /g, '<span class="space-char">·</span>')
+    .replace(/\t/g, '<span class="space-char">→   </span>');
+}
+
 function inlineDiff(oldStr, newStr) {
   const parts = Diff.diffChars(oldStr, newStr);
   let oldHtml = '', newHtml = '';
 
   const processPart = (p, className) => {
-    let text = escapeHtml(p.value);
-    // Boşlukları görünür karakterlere dönüştürerek yutulmasını engelliyoruz
-    text = text.replace(/ /g, '<span class="space-char">·</span>');
-    text = text.replace(/\t/g, '<span class="space-char">→   </span>');
+    let text = formatContent(p.value);
     return `<mark class="${className}">${text}</mark>`;
   };
 
@@ -21,7 +24,7 @@ function inlineDiff(oldStr, newStr) {
     } else if (p.removed) {
       oldHtml += processPart(p, 'char-rem');
     } else {
-      const esc = escapeHtml(p.value);
+      const esc = formatContent(p.value);
       oldHtml += esc;
       newHtml += esc;
     }
@@ -70,8 +73,8 @@ function createSplitDiff(oldText, newText, ignoreWS) {
         const R = next.value.replace(/\n$/, '').split('\n');
         for (let j = 0; j < Math.max(L.length, R.length); j++) {
           const hasL = L[j] !== undefined, hasR = R[j] !== undefined;
-          let leftContent = hasL ? escapeHtml(L[j]) : '';
-          let rightContent = hasR ? escapeHtml(R[j]) : '';
+          let leftContent = hasL ? formatContent(L[j]) : '';
+          let rightContent = hasR ? formatContent(R[j]) : '';
           if (hasL && hasR) {
             const il = inlineDiff(L[j], R[j]);
             leftContent = il.oldHtml;
@@ -89,7 +92,7 @@ function createSplitDiff(oldText, newText, ignoreWS) {
         c.value.replace(/\n$/, '').split('\n').forEach(line => {
           rows.push(`<tr>
             <td class="ln removed-gutter">${oldLine++}</td>
-            <td class="removed">${escapeHtml(line)}</td>
+            <td class="removed">${formatContent(line)}</td>
             <td class="ln"></td><td class="empty"></td>
           </tr>`);
         });
@@ -101,7 +104,7 @@ function createSplitDiff(oldText, newText, ignoreWS) {
         rows.push(`<tr>
           <td class="ln"></td><td class="empty"></td>
           <td class="ln added-gutter">${newLine++}</td>
-          <td class="added">${escapeHtml(line)}</td>
+          <td class="added">${formatContent(line)}</td>
         </tr>`);
       });
       i++;
@@ -118,19 +121,19 @@ function createSplitDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(0, -3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
         // Eğer son bloksa, sadece "üst" (top) 3 satır context olarak gösterilmeli, alt taraf tamamen gizlenmeli
         else if (isLastBlock) {
           lines.slice(0, 3).forEach(line => {
-            const e = escapeHtml(line);
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
 
@@ -138,14 +141,14 @@ function createSplitDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
         // Eğer ortada bir bloksa (standart), hem üst 3 hem alt 3 gösterilir
         else {
           lines.slice(0, 3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
 
@@ -153,18 +156,18 @@ function createSplitDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3, -3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
       } else {
         lines.forEach(line => {
-          const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+          const e = formatContent(line);
           rows.push(`<tr>
             <td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td>
             <td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td>
@@ -198,7 +201,7 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
         const addLines = next.value.replace(/\n$/, '').split('\n');
         remLines.forEach((line, idx) => {
           const paired = addLines[idx];
-          const html = paired !== undefined ? inlineDiff(line, paired).oldHtml : escapeHtml(line);
+          const html = paired !== undefined ? inlineDiff(line, paired).oldHtml : formatContent(line);
           rows.push(`<tr>
             <td class="ln removed-gutter">${oldLine++}</td>
             <td class="ln removed-gutter"></td>
@@ -208,7 +211,7 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
         });
         addLines.forEach((line, idx) => {
           const paired = remLines[idx];
-          const html = paired !== undefined ? inlineDiff(paired, line).newHtml : escapeHtml(line);
+          const html = paired !== undefined ? inlineDiff(paired, line).newHtml : formatContent(line);
           rows.push(`<tr>
             <td class="ln added-gutter"></td>
             <td class="ln added-gutter">${newLine++}</td>
@@ -223,7 +226,7 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
             <td class="ln removed-gutter">${oldLine++}</td>
             <td class="ln removed-gutter"></td>
             <td class="sign removed-gutter">−</td>
-            <td class="removed">${escapeHtml(line)}</td>
+            <td class="removed">${formatContent(line)}</td>
           </tr>`);
         });
         i++;
@@ -235,7 +238,7 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
           <td class="ln added-gutter"></td>
           <td class="ln added-gutter">${newLine++}</td>
           <td class="sign added-gutter">+</td>
-          <td class="added">${escapeHtml(line)}</td>
+          <td class="added">${formatContent(line)}</td>
         </tr>`);
       });
       i++;
@@ -251,18 +254,18 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(0, -3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
         }
         else if (isLastBlock) {
           lines.slice(0, 3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
@@ -270,13 +273,13 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
         }
         else {
           lines.slice(0, 3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
@@ -284,18 +287,18 @@ function createUnifiedDiff(oldText, newText, ignoreWS) {
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
 
           lines.slice(3, -3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
 
           lines.slice(-3).forEach(line => {
-            const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+            const e = formatContent(line);
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="ln context-gutter">${newLine++}</td><td class="sign context-gutter"></td><td class="context">${e}</td></tr>`);
           });
         }
       } else {
         lines.forEach(line => {
-          const e = escapeHtml(line).replace(/ /g, '<span class="space-char">·</span>').replace(/\t/g, '<span class="space-char">→   </span>');
+          const e = formatContent(line);
           rows.push(`<tr>
             <td class="ln context-gutter">${oldLine++}</td>
             <td class="ln context-gutter">${newLine++}</td>
@@ -329,22 +332,26 @@ function runDiff() {
     return;
   }
 
-  try {
-    const mode = document.querySelector('.mode-btn.active').dataset.mode;
-    wrapper.style.display = 'block';
-    output.innerHTML = mode === 'split'
-      ? createSplitDiff(oldText, newText, ignoreWS)
-      : createUnifiedDiff(oldText, newText, ignoreWS);
+  const mode = document.querySelector('.mode-btn.active').dataset.mode;
+  wrapper.style.display = 'block';
+  output.innerHTML = `<div class="no-diff" style="color:var(--text);border-color:var(--border-focus);">⏳ Computing differences...</div>`;
 
-    document.body.classList.add('compact');
+  setTimeout(() => {
+    try {
+      output.innerHTML = mode === 'split'
+        ? createSplitDiff(oldText, newText, ignoreWS)
+        : createUnifiedDiff(oldText, newText, ignoreWS);
 
-    // YENİ EKLENTİ: Eğer halihazırda bir arama kelimesi varsa, HTML yeniden çizildiğinde onu tekrar uygula.
-    applySearch();
-  } catch (err) {
-    wrapper.style.display = 'block';
-    output.innerHTML = `<div class="no-diff" style="color:var(--removed-text);background:var(--removed-bg);border-color:var(--removed-text);">❌ An error occurred while computing the diff. The text might be too large or complex.</div>`;
-    console.error('Diff error:', err);
-  }
+      document.body.classList.add('compact');
+
+      // YENİ EKLENTİ: Eğer halihazırda bir arama kelimesi varsa, HTML yeniden çizildiğinde onu tekrar uygula.
+      applySearch();
+    } catch (err) {
+      wrapper.style.display = 'block';
+      output.innerHTML = `<div class="no-diff" style="color:var(--removed-text);background:var(--removed-bg);border-color:var(--removed-text);">❌ An error occurred while computing the diff. The text might be too large or complex.</div>`;
+      console.error('Diff error:', err);
+    }
+  }, 10);
 }
 
 // YENİ EKLENTİ: Arama fonksiyonunu hem "input" anında hem de tablo yeniden oluşturulduğunda kullanmak için dışarı çıkardık.
@@ -356,7 +363,10 @@ function applySearch() {
     row.classList.remove('search-match');
     if (query.trim() === '') return;
 
-    if (row.textContent.toLowerCase().includes(query)) {
+    const textCells = row.querySelectorAll('td.added, td.removed, td.context');
+    const textContent = Array.from(textCells).map(td => td.textContent).join(' ');
+
+    if (textContent.toLowerCase().includes(query)) {
       row.classList.add('search-match');
 
       // Auto-expand if hidden
@@ -375,26 +385,37 @@ function applySearch() {
   });
 }
 
+// Persist diff mode (split/unified)
+const savedMode = localStorage.getItem('dc-mode') || 'split';
 document.querySelectorAll('.mode-btn').forEach(btn => {
+  if (btn.dataset.mode === savedMode) {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
   btn.addEventListener('click', () => {
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    localStorage.setItem('dc-mode', btn.dataset.mode);
     if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
   });
 });
 
-document.getElementById('ignoreWhitespace').addEventListener('change', () => {
-  if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
-});
-
-document.getElementById('hideUnchanged').addEventListener('change', () => {
-  if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
+// Persist checkbox states
+['ignoreWhitespace', 'hideUnchanged'].forEach(id => {
+  const el = document.getElementById(id);
+  const saved = localStorage.getItem('dc-' + id);
+  if (saved !== null) el.checked = saved === 'true';
+  el.addEventListener('change', () => {
+    localStorage.setItem('dc-' + id, el.checked);
+    if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
+  });
 });
 
 document.getElementById('compareBtn').addEventListener('click', runDiff);
 
 document.getElementById('clearBtn').addEventListener('click', () => {
   ['oldText', 'newText'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('searchDiff').value = ''; // Clear search query as well
   document.getElementById('diffOutput').innerHTML = '';
   document.getElementById('outputWrapper').style.display = 'none';
   document.getElementById('statsBar').style.display = 'none';
@@ -463,6 +484,17 @@ aboutBtn.addEventListener('click', () => modal.classList.add('open'));
 modalClose.addEventListener('click', () => modal.classList.remove('open'));
 modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
 
+// Keyboard shortcuts: Escape to close modal, Ctrl+Enter / Cmd+Enter to run diff
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('open')) {
+    modal.classList.remove('open');
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    runDiff();
+  }
+});
+
 // Sync scroll between oldText and newText areas
 const oldPanel = document.getElementById('oldText');
 const newPanel = document.getElementById('newText');
@@ -473,6 +505,7 @@ oldPanel.addEventListener('scroll', function () {
   if (!isSyncingLeft) {
     isSyncingRight = true;
     newPanel.scrollTop = this.scrollTop;
+    newPanel.scrollLeft = this.scrollLeft;
   }
   isSyncingLeft = false;
 });
@@ -481,6 +514,7 @@ newPanel.addEventListener('scroll', function () {
   if (!isSyncingRight) {
     isSyncingLeft = true;
     oldPanel.scrollTop = this.scrollTop;
+    oldPanel.scrollLeft = this.scrollLeft;
   }
   isSyncingRight = false;
 });
@@ -512,5 +546,37 @@ document.getElementById('diffOutput').addEventListener('click', (e) => {
   foldedRow.remove();
 });
 
-// Search functionality
-document.getElementById('searchDiff').addEventListener('input', applySearch);
+// Search functionality with debounce for performance
+let searchTimeout;
+document.getElementById('searchDiff').addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(applySearch, 250);
+});
+
+// Drag and drop file loading into textareas with size limits
+['oldText', 'newText'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('dragover', e => {
+    e.preventDefault();
+    el.classList.add('drag-over');
+  });
+  el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+  el.addEventListener('drop', e => {
+    e.preventDefault();
+    el.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        alert('Seçilen dosya çok büyük! Lütfen 5MB\'dan küçük bir dosya yükleyin.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = ev => {
+        el.value = ev.target.result;
+        if (document.getElementById('diffOutput').innerHTML.trim()) runDiff();
+      };
+      reader.readAsText(file);
+    }
+  });
+});

@@ -4,20 +4,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/jpeg" href="./src/images/drill-logo.jpg">
   <link rel="stylesheet" href="./src/styles.css">
-  <title>Diff Checker</title>
+  <title>Diff Drill 2.3</title>
+  <script>
+    (function() {
+      let savedTheme = localStorage.getItem('dc-theme');
+      if (!savedTheme) {
+        savedTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
 </head>
 
 <body>
 
   <header class="topbar">
     <div class="topbar-logo">
-      <span class="logo-icon">D</span>
-      <span class="logo-text">diffchecker v2.2 github/faruk-guler</span>
+      <img src="./src/images/drill-logo.jpg" alt="Diff Drill Logo" class="logo-icon-img">
+      <span class="logo-text">Diff Drill v2.3</span>
     </div>
     <nav class="topbar-nav">
-      <a href="#" class="nav-tab active">Text</a>
-      <button id="compareBtn">Find difference!</button>
+      <button id="compareBtn" title="Find difference (Ctrl + Enter)">Find difference!</button>
     </nav>
     <div class="topbar-right">
       <label class="option-label">
@@ -91,29 +100,27 @@
   <!-- About Modal -->
   <div class="modal-overlay" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
-      <button class="modal-close" id="modalClose" aria-label="Close Modal">✕</button>
       <div class="modal-header">
-        <div class="modal-logo">
-          <span class="logo-icon">D</span>
-          <span class="logo-text">diffchecker</span>
+        <div class="header-spacer"></div>
+        <div class="modal-title-group">
+          <img src="./src/images/drill-logo.jpg" alt="Diff Drill Logo" class="modal-logo-img">
+          <h2 id="modalTitle">About Diff Drill</h2>
         </div>
-        <h2 id="modalTitle">About Code Diff Checker</h2>
+        <button class="modal-close" id="modalClose" aria-label="Close Modal">✕</button>
       </div>
       <div class="modal-body">
-        <p class="modal-desc">A lightweight browser extension and standalone web tool used to compare two blocks of text
-          or code.</p>
-        <div class="modal-features">
-          <div class="feature-item">⧉ <strong>Split view</strong> — Side-by-side with independent line numbers</div>
-          <div class="feature-item">≡ <strong>Unified view</strong> — Single column with +/− prefixes</div>
-          <div class="feature-item">⎘ <strong>Copy</strong> — Copy original text to clipboard</div>
-          <div class="feature-item">↑ <strong>Export</strong> — Download as standard <code>.diff</code> file</div>
-          <div class="feature-item">🔲 <strong>Ignore Whitespace</strong> — Skip indentation differences</div>
-          <div class="feature-item">🌙 <strong>Dark / Light mode</strong></div>
+        <p class="modal-desc">A lightweight, fast, and simple code & text difference checker.</p>
+        <div class="modal-author">
+          <div class="author-links">
+            <a href="https://github.com/faruk-guler" target="_blank" rel="noopener">github.com/faruk-guler</a>
+            <span>·</span>
+            <a href="https://www.farukguler.com" target="_blank" rel="noopener">www.farukguler.com</a>
+          </div>
         </div>
         <div class="modal-meta">
-          <span>Version 2.2</span>
+          <span>Version 2.3</span>
           <span>·</span>
-          <span>Pure HTML / CSS / JS — no build step</span>
+          <span>Pure HTML / CSS / JS</span>
         </div>
       </div>
     </div>
