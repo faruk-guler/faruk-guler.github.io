@@ -218,7 +218,7 @@ body {
 /* ── Editor area ─────────────────────────────────────────── */
 .editor-area {
   display: flex;
-  gap: 8px;
+  gap: 16px;
   padding: 12px 16px 0;
   flex: 1;
   min-height: 0;
@@ -278,7 +278,7 @@ textarea:focus {
   justify-content: center;
   cursor: pointer;
   align-self: center;
-  margin: 0 -4px;
+  margin: 0;
   z-index: 10;
   transition: all 0.15s ease;
   flex-shrink: 0;
@@ -298,7 +298,7 @@ textarea:focus {
 @media (max-width: 700px) {
   .swap-btn {
     transform: rotate(90deg);
-    margin: -4px 0;
+    margin: 0;
   }
 
   .swap-btn:hover {
@@ -341,9 +341,9 @@ textarea:focus {
 
 /* ── Stats bar ───────────────────────────────────────────── */
 .stats-bar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   padding: 8px 16px;
   margin: 10px 16px 0;
   background: var(--toolbar-bg);
@@ -359,10 +359,13 @@ textarea:focus {
 
 .stats-right {
   color: var(--added-text);
+  text-align: right;
 }
 
 .stats-center {
   color: var(--text-dim);
+  text-align: center;
+  padding: 0 24px;
 }
 
 .stat-rem {
