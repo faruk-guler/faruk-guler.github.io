@@ -68,7 +68,8 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -681,6 +682,7 @@ textarea {
 }
 
 body.compact .editor-area {
+  flex: 0 0 auto;
   padding: 8px 16px 0;
   gap: 6px;
 }
@@ -693,6 +695,7 @@ body.compact .panel-header {
 }
 
 body.compact textarea {
+  flex: 0 0 46px;
   min-height: 46px;
   height: 46px;
   padding: 8px 14px;
@@ -700,8 +703,17 @@ body.compact textarea {
   font-size: 12px;
 }
 
+body.compact .output-wrapper {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 body.compact .diff-output {
-  max-height: calc(100vh - 230px);
+  flex: 1;
+  min-height: 0;
+  max-height: none;
 }
 
 /* ── Light tema no-diff override ─────────────────────────── */
