@@ -41,11 +41,11 @@ function updateStats(added, removed, totalLines) {
   if (!bar) return;
 
   if (added === 0 && removed === 0) {
-    bar.style.display = 'none';
+    bar.classList.add('hidden');
     return;
   }
 
-  bar.style.display = '';
+  bar.classList.remove('hidden');
   elRem.innerHTML = `<span class="stat-rem">− ${removed} removal${removed !== 1 ? 's' : ''}</span>`;
   elLines.innerHTML = `<span class="stat-lines">${totalLines} lines</span>`;
   elAdd.innerHTML = `<span class="stat-add">+ ${added} addition${added !== 1 ? 's' : ''}</span>`;
@@ -326,14 +326,14 @@ function runDiff() {
   const wrapper = document.getElementById('outputWrapper');
 
   if (!oldText.trim() && !newText.trim()) {
-    wrapper.style.display = 'block';
+    wrapper.classList.remove('hidden');
     output.innerHTML = `<div class="no-diff">⚠️ Please paste text into both panels before comparing.</div>`;
     updateStats(0, 0, 0);
     return;
   }
 
   const mode = document.querySelector('.mode-btn.active').dataset.mode;
-  wrapper.style.display = 'block';
+  wrapper.classList.remove('hidden');
   output.innerHTML = `<div class="no-diff" style="color:var(--text);border-color:var(--border-focus);">⏳ Computing differences...</div>`;
 
   setTimeout(() => {
@@ -347,7 +347,7 @@ function runDiff() {
       // YENİ EKLENTİ: Eğer halihazırda bir arama kelimesi varsa, HTML yeniden çizildiğinde onu tekrar uygula.
       applySearch();
     } catch (err) {
-      wrapper.style.display = 'block';
+      wrapper.classList.remove('hidden');
       output.innerHTML = `<div class="no-diff" style="color:var(--removed-text);background:var(--removed-bg);border-color:var(--removed-text);">❌ An error occurred while computing the diff. The text might be too large or complex.</div>`;
       console.error('Diff error:', err);
     }
@@ -423,8 +423,8 @@ document.getElementById('clearBtn').addEventListener('click', () => {
   ['oldText', 'newText'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('searchDiff').value = ''; // Clear search query as well
   document.getElementById('diffOutput').innerHTML = '';
-  document.getElementById('outputWrapper').style.display = 'none';
-  document.getElementById('statsBar').style.display = 'none';
+  document.getElementById('outputWrapper').classList.add('hidden');
+  document.getElementById('statsBar').classList.add('hidden');
   document.body.classList.remove('compact');
 });
 
