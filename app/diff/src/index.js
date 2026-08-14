@@ -115,7 +115,7 @@ function createSplitDiff(oldText, newText, ignoreWS) {
       const isLastBlock = i === changes.length - 1;
 
       if (isHide && lines.length > 6) {
-        // Eğer ilk bloksa, sadece "alt" (bottom) 3 satır context olarak gösterilmeli, üst taraf gizlenmeli
+        // If it is the first block, only show the bottom 3 lines as context, hide the upper lines
         if (isFirstBlock) {
           const hiddenCount = lines.length - 3;
           rows.push(`<tr class="folded-row" data-lines="${hiddenCount}"><td colspan="4">... ${hiddenCount} unchanged lines hidden ...</td></tr>`);
@@ -130,7 +130,7 @@ function createSplitDiff(oldText, newText, ignoreWS) {
             rows.push(`<tr><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
-        // Eğer son bloksa, sadece "üst" (top) 3 satır context olarak gösterilmeli, alt taraf tamamen gizlenmeli
+        // If it is the last block, only show the top 3 lines as context, hide the lower lines
         else if (isLastBlock) {
           lines.slice(0, 3).forEach(line => {
             const e = formatContent(line);
@@ -145,7 +145,7 @@ function createSplitDiff(oldText, newText, ignoreWS) {
             rows.push(`<tr class="hidden-line"><td class="ln context-gutter">${oldLine++}</td><td class="context">${e}</td><td class="ln context-gutter">${newLine++}</td><td class="context">${e}</td></tr>`);
           });
         }
-        // Eğer ortada bir bloksa (standart), hem üst 3 hem alt 3 gösterilir
+        // If it is an intermediate block (standard), show both top 3 and bottom 3 lines
         else {
           lines.slice(0, 3).forEach(line => {
             const e = formatContent(line);
@@ -344,7 +344,7 @@ function runDiff() {
 
       document.body.classList.add('compact');
 
-      // YENİ EKLENTİ: Eğer halihazırda bir arama kelimesi varsa, HTML yeniden çizildiğinde onu tekrar uygula.
+      // Re-apply existing search query when diff table is re-rendered
       applySearch();
     } catch (err) {
       wrapper.classList.remove('hidden');
@@ -354,7 +354,7 @@ function runDiff() {
   }, 10);
 }
 
-// YENİ EKLENTİ: Arama fonksiyonunu hem "input" anında hem de tablo yeniden oluşturulduğunda kullanmak için dışarı çıkardık.
+// Search function extracted for use on both input event and table re-render
 function applySearch() {
   const query = document.getElementById('searchDiff').value.toLowerCase();
   const rows = document.querySelectorAll('.diff-table tbody tr:not(.folded-row)');
@@ -464,7 +464,7 @@ document.getElementById('exportBtn').addEventListener('click', () => {
 const themeBtn = document.getElementById('themeToggle');
 let savedTheme = localStorage.getItem('dc-theme');
 if (!savedTheme) {
-  // Sistem temasını kontrol et
+  // Check system theme preference
   savedTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
 }
 

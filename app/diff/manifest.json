@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Diff Drill 2.3",
-  "version": "2.3",
-  "description": "A powerful diff checker that highlights differences between two blocks of text.",
+  "name": "Open Diff Checker v3",
+  "version": "3.0",
+  "description": "A fast, privacy-first, 100% open-source diff checker running entirely offline in your browser with zero data storage.",
   "action": {
     "default_icon": "src/images/drill-logo.jpg"
   },

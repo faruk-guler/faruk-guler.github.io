@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/jpeg" href="./src/images/drill-logo.jpg">
   <link rel="stylesheet" href="./src/styles.css">
-  <title>Diff Drill 2.3</title>
+  <title>Open Diff Checker v3</title>
   <script>
     (function() {
       let savedTheme = localStorage.getItem('dc-theme');
@@ -22,8 +22,8 @@
 
   <header class="topbar">
     <div class="topbar-logo">
-      <img src="./src/images/drill-logo.jpg" alt="Diff Drill Logo" class="logo-icon-img">
-      <span class="logo-text">Diff Drill v2.3</span>
+      <img src="./src/images/drill-logo.jpg" alt="Open Diff Checker Logo" class="logo-icon-img">
+      <span class="logo-text">Open Diff Checker v3</span>
     </div>
     <nav class="topbar-nav">
       <button id="compareBtn" title="Find difference (Ctrl + Enter)">Find difference!</button>
@@ -103,13 +103,31 @@
       <div class="modal-header">
         <div class="header-spacer"></div>
         <div class="modal-title-group">
-          <img src="./src/images/drill-logo.jpg" alt="Diff Drill Logo" class="modal-logo-img">
-          <h2 id="modalTitle">About Diff Drill</h2>
+          <img src="./src/images/drill-logo.jpg" alt="Open Diff Checker Logo" class="modal-logo-img">
+          <h2 id="modalTitle">About Open Diff Checker</h2>
         </div>
         <button class="modal-close" id="modalClose" aria-label="Close Modal">✕</button>
       </div>
       <div class="modal-body">
-        <p class="modal-desc">A lightweight, fast, and simple code & text difference checker.</p>
+        <p class="modal-desc">A lightweight, fast, and secure code & text difference checker built with modern web technologies.</p>
+        
+        <div class="modal-features">
+          <div class="feature-item">
+            <span class="feature-icon">🛡️</span>
+            <div>
+              <strong>Privacy-First & Zero Data Storage</strong>
+              <p>All text and code comparisons are executed 100% locally in your browser. Your data is never sent to or stored on any remote server.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🔓</span>
+            <div>
+              <strong>100% Open Source</strong>
+              <p>Completely transparent, independent, and open source for the community.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="modal-author">
           <div class="author-links">
             <a href="https://github.com/faruk-guler" target="_blank" rel="noopener">github.com/faruk-guler</a>
@@ -118,7 +136,9 @@
           </div>
         </div>
         <div class="modal-meta">
-          <span>Version 2.3</span>
+          <span>Version 3.0</span>
+          <span>·</span>
+          <span>100% Client-Side</span>
           <span>·</span>
           <span>Pure HTML / CSS / JS</span>
         </div>
