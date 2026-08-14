@@ -9,7 +9,7 @@ order: 2
 | [WhaleStack](/app/whale-stack/){:target="_blank"} | [PKI Studio](/app/pki-studio/){:target="_blank"} | |
 | [Nöbet Hazırlama Programı](/app/nobet/){:target="_blank"} | [Base64 Encoder/Decoder](/app/base64/){:target="_blank"} | |
 | [Live Localhost](/app/live-localhost/){:target="_blank"} | [LPE-v1 Linux Permissions Expert](/app/permissions-expert/){:target="_blank"} | |
-| [Open Diff Checker](/app/diff/){:target="_blank"} | [Advanced Text Editor](/app/text-editor/){:target="_blank"} | |
+| [Open Diff Checker](/app/open-diff-checker/){:target="_blank"} | [Advanced Text Editor](/app/text-editor/){:target="_blank"} | |
 | [Advanced Password Generator](/app/random-pass-generator/){:target="_blank"} | [Byte Converter](/app/converter/){:target="_blank"} | |
 | [QR Code Generator](/app/qr-generator/){:target="_blank"} | [Network Simulator Tool](/app/network-simulator/){:target="_blank"} | |
 | [What Is My IP Address](/app/my-ip/){:target="_blank"} | [Domain TLD Bulk Lookup](/app/tld-lookup/){:target="_blank"} | |
