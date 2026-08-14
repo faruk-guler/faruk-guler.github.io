@@ -45,7 +45,7 @@ function updateStats(added, removed, totalLines) {
     return;
   }
 
-  bar.style.display = 'flex';
+  bar.style.display = '';
   elRem.innerHTML = `<span class="stat-rem">− ${removed} removal${removed !== 1 ? 's' : ''}</span>`;
   elLines.innerHTML = `<span class="stat-lines">${totalLines} lines</span>`;
   elAdd.innerHTML = `<span class="stat-add">+ ${added} addition${added !== 1 ? 's' : ''}</span>`;
@@ -369,12 +369,18 @@ function applySearch() {
     if (textContent.toLowerCase().includes(query)) {
       row.classList.add('search-match');
 
-      // Auto-expand if hidden
+      // Auto-expand if hidden: directly show the row and its siblings, then remove the folded-row
       if (row.classList.contains('hidden-line')) {
         let prev = row.previousElementSibling;
         while (prev) {
           if (prev.classList.contains('folded-row')) {
-            prev.click(); // Trigger the click handler to expand
+            // Expand all hidden lines associated with this folded-row
+            let sibling = prev.nextElementSibling;
+            while (sibling && sibling.classList.contains('hidden-line')) {
+              sibling.classList.remove('hidden-line');
+              sibling = sibling.nextElementSibling;
+            }
+            prev.remove();
             break;
           }
           if (!prev.classList.contains('hidden-line')) break;
@@ -433,7 +439,7 @@ document.getElementById('copyBtn').addEventListener('click', () => {
     setTimeout(() => { btn.innerHTML = origHTML; btn.style.color = ''; }, 1500);
   }).catch(err => {
     console.error('Clipboard error:', err);
-    alert('Kopyalama başarısız oldu: Panoya erişim engellendi.');
+    alert('Copy failed: Clipboard access was denied.');
   });
 });
 
@@ -568,7 +574,7 @@ document.getElementById('searchDiff').addEventListener('input', () => {
     const file = e.dataTransfer.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        alert('Seçilen dosya çok büyük! Lütfen 5MB\'dan küçük bir dosya yükleyin.');
+        alert('The selected file is too large! Please upload a file smaller than 5MB.');
         return;
       }
       const reader = new FileReader();
