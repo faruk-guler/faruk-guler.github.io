@@ -695,11 +695,11 @@ body.compact .panel-header {
 }
 
 body.compact textarea {
-  flex: 0 0 46px;
-  min-height: 46px;
-  height: 46px;
+  flex: 0 0 150px;
+  min-height: 150px;
+  height: 150px;
   padding: 8px 14px;
-  resize: none;
+  resize: vertical;
   font-size: 12px;
 }
 
