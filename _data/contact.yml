@@ -1,6 +1,6 @@
 #  The contact options.
 
-- type: githubn
+- type: github
   icon: "fab fa-github"
 
 # - type: twitter
