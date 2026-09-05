@@ -57,101 +57,12 @@
             transition: var(--transition);
         }
 
-        /* Unified Header */
-        .unified-header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1001;
-        }
-
-        /* ===== Theme Toggle Switch ===== */
-        .theme-toggle-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .theme-icon {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            transition: var(--transition);
-        }
-
-        .theme-switch {
-            position: relative;
-            display: inline-block;
-            width: 52px;
-            height: 28px;
-        }
-
-        .theme-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .theme-switch .slider {
-            position: absolute;
+        .result-card.clickable {
             cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #374151;
-            border-radius: 28px;
-            transition: 0.4s;
+            position: relative;
         }
-
-        .theme-switch .slider::before {
-            content: '';
-            position: absolute;
-            height: 22px;
-            width: 22px;
-            left: 3px;
-            bottom: 3px;
-            background: #f0f6fc;
-            border-radius: 50%;
-            transition: 0.4s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .theme-switch input:checked+.slider {
-            background: var(--accent-color);
-        }
-
-        .theme-switch input:checked+.slider::before {
-            transform: translateX(24px);
-            background: #ffffff;
-        }
-
-        .back-btn {
-            padding: 10px 20px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            color: var(--accent-color);
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .back-btn:hover {
-            background: var(--accent-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--accent-glow);
+        .result-card.clickable:hover {
+            border-color: var(--accent-color);
         }
 
         .container {
@@ -408,8 +319,8 @@
         <form id="calcForm" novalidate>
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="coinName">Asset Symbol</label>
-                    <input type="text" id="coinName" name="coinName" placeholder="e.g. BTC, ETH, SOL" required>
+                    <label for="coinName">Asset Symbol <span class="muted">(optional)</span></label>
+                    <input type="text" id="coinName" name="coinName" placeholder="e.g. BTC, ETH, SOL">
                 </div>
 
                 <div class="form-group">
@@ -448,7 +359,11 @@
                     <div class="result-value" id="resultCoinName">-</div>
                 </div>
                 <div class="result-card">
-                    <strong>Profit/Loss (USD)</strong>
+                    <strong>Purchased Quantity</strong>
+                    <div class="result-value" id="resultQuantity">-</div>
+                </div>
+                <div class="result-card clickable" onclick="copyProfitLoss()" title="Click to copy Profit/Loss">
+                    <strong>Profit/Loss (USD) <i class="fa-regular fa-copy" id="copyPlIcon" style="font-size:0.75rem; margin-left:4px; opacity:0.6;"></i></strong>
                     <div class="result-value" id="resultProfitLoss">-</div>
                 </div>
                 <div class="result-card">

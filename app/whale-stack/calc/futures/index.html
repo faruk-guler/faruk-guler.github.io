@@ -55,101 +55,29 @@
       transition: var(--transition);
     }
 
-    /* Unified Header */
-    .unified-header {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 20px 30px;
-      display: flex;
-      justify-content: space-between;
+    .liq-price {
+      color: #ff5252;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
-      z-index: 1001;
-    }
-
-    /* ===== Theme Toggle Switch ===== */
-    .theme-toggle-header {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .theme-icon {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        transition: var(--transition);
-    }
-
-    .theme-switch {
-        position: relative;
-        display: inline-block;
-        width: 52px;
-        height: 28px;
-    }
-
-    .theme-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .theme-switch .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: #374151;
-        border-radius: 28px;
-        transition: 0.4s;
-    }
-
-    .theme-switch .slider::before {
-        content: '';
-        position: absolute;
-        height: 22px;
-        width: 22px;
-        left: 3px;
-        bottom: 3px;
-        background: #f0f6fc;
-        border-radius: 50%;
-        transition: 0.4s;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .theme-switch input:checked+.slider {
-        background: var(--accent-color);
-    }
-
-    .theme-switch input:checked+.slider::before {
-        transform: translateX(24px);
-        background: #ffffff;
-    }
-
-    .back-btn {
-      padding: 10px 20px;
-      background: var(--panel-bg);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-color);
-      color: var(--accent-color);
-      text-decoration: none;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      gap: 6px;
       transition: var(--transition);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
-    .back-btn:hover {
-      background: var(--accent-color);
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--accent-glow);
+    .liq-price:hover {
+      color: #ff7b7b;
+    }
+
+    .copy-icon {
+      font-size: 0.85rem;
+      opacity: 0.6;
+      transition: var(--transition);
+    }
+
+    .liq-price:hover .copy-icon {
+      opacity: 1;
+      transform: scale(1.15);
     }
 
     .container {
@@ -448,7 +376,10 @@
       </div>
       <div class="result-row">
         <span class="result-label">Liquidation Price</span>
-        <span class="result-value liq-price">$<span id="resultLiquidationPrice"></span></span>
+        <span class="result-value liq-price" id="copyLiqBtn" onclick="copyLiquidationPrice()" title="Click to copy liquidation price">
+          $<span id="resultLiquidationPrice"></span>
+          <i class="fa-regular fa-copy copy-icon" id="liqCopyIcon"></i>
+        </span>
       </div>
       <div class="result-row">
         <span class="result-label">Position Type</span>
