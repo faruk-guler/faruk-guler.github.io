@@ -95,25 +95,6 @@ header {
     flex-shrink: 0;
 }
 
-/* Chainlink Badge & Indicators */
-.chainlink-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    color: #375bd2;
-    background: rgba(55, 91, 210, 0.12);
-    border: 1px solid rgba(55, 91, 210, 0.25);
-    padding: 2px 8px;
-    border-radius: 12px;
-}
-
-body.light-mode .chainlink-badge {
-    color: #264bb5;
-    background: rgba(55, 91, 210, 0.1);
-}
 
 .chainlink-refresh-btn {
     background: transparent;
@@ -215,37 +196,6 @@ body.light-mode .market-source-tag {
     background: rgba(0, 0, 0, 0.04);
 }
 
-.market-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-}
-
-.market-icon-btn {
-    width: 30px;
-    height: 30px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 7px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 0.82rem;
-    transition: var(--transition);
-}
-
-.market-icon-btn:hover {
-    color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.05);
-}
-
-body.light-mode .market-icon-btn:hover {
-    border-color: rgba(0, 0, 0, 0.2);
-    background: rgba(0, 0, 0, 0.05);
-}
 
 /* Coins List */
 .market-coins-list {

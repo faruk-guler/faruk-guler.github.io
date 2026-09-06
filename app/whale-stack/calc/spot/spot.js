@@ -23,19 +23,6 @@ function showError(message) {
     }, 4000);
 }
 
-function showSuccess(message) {
-    const successEl = document.getElementById('successMessage');
-    if (!successEl) return;
-    successEl.textContent = '✅ ' + message;
-    successEl.style.display = 'block';
-    const errorEl = document.getElementById('errorMessage');
-    if (errorEl) errorEl.style.display = 'none';
-    setTimeout(() => {
-        if (successEl.textContent.includes(message)) {
-            successEl.style.display = 'none';
-        }
-    }, 3000);
-}
 
 function formatPrice(num) {
     if (typeof num !== 'number' || isNaN(num)) return '0.00';
@@ -130,14 +117,12 @@ function calculateProfit(event) {
 
     resultDiv.style.display = 'block';
     resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    showSuccess('Calculation completed successfully!');
 }
 
 function clearForm() {
     document.getElementById('calcForm').reset();
     document.getElementById('result').style.display = 'none';
     document.getElementById('errorMessage').style.display = 'none';
-    document.getElementById('successMessage').style.display = 'none';
     document.getElementById('buyPrice').focus();
 }
 

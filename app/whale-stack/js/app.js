@@ -20,7 +20,7 @@ const PUBLIC_RPCS = [
 
 // Price Formatter
 function formatPrice(num) {
-    if (typeof num !== 'number' || isNaN(num) || num <= 0) return '$0.00';
+    if (typeof num !== 'number' || isNaN(num) || num <= 0) return '—';
     if (num < 0.01) {
         return '$' + num.toFixed(6);
     }
@@ -72,7 +72,8 @@ function renderWatchlistItems() {
 
     // 1. Render Fixed Feeds (BTC & ETH - Sleek and Minimal)
     FIXED_FEEDS.forEach(coin => {
-        const price = cachedPrices[coin.symbol] || (coin.symbol === 'BTC' ? 79640 : 2458);
+        const price = cachedPrices[coin.symbol];
+        const priceDisplay = price ? formatPrice(price) : '—';
         html += `
             <div class="watchlist-row fixed-row">
                 <div class="watchlist-coin-info">
@@ -83,7 +84,7 @@ function renderWatchlistItems() {
                     </div>
                 </div>
                 <div class="watchlist-coin-right">
-                    <span class="watchlist-coin-price" id="dropPrice_${coin.symbol}">${formatPrice(price)}</span>
+                    <span class="watchlist-coin-price" id="dropPrice_${coin.symbol}">${priceDisplay}</span>
                 </div>
             </div>
         `;
@@ -339,21 +340,23 @@ async function fetchChainlinkPrices() {
         }
     }
 
-    // Default fallbacks for BTC & ETH if offline
-    prices.BTC = prices.BTC || 79640.00;
-    prices.ETH = prices.ETH || 2458.00;
+    // Fallback: sadece hic onceden fiyat alinamadiysaa uygula (yaniltici 'live' gosterimini onle)
+    if (!prices.BTC) prices.BTC = 0;
+    if (!prices.ETH) prices.ETH = 0;
 
     localStorage.setItem('whalestack_chainlink_prices', JSON.stringify(prices));
 
         // Update prices in Market list
         allFeeds.forEach(feed => {
             const el = document.getElementById(`dropPrice_${feed.symbol}`);
-            if (el && prices[feed.symbol]) {
-                const formatted = formatPrice(prices[feed.symbol]);
+            if (el) {
+                const formatted = formatPrice(prices[feed.symbol] || 0);
                 if (el.textContent !== formatted) {
                     el.textContent = formatted;
-                    el.classList.add('price-updated');
-                    setTimeout(() => el.classList.remove('price-updated'), 1000);
+                    if (prices[feed.symbol] > 0) {
+                        el.classList.add('price-updated');
+                        setTimeout(() => el.classList.remove('price-updated'), 1000);
+                    }
                 }
             }
         });
@@ -364,7 +367,7 @@ async function fetchChainlinkPrices() {
 
 // User-triggered manual refresh
 window.refreshChainlinkPrices = function() {
-    if (isRefreshing) return;
+    if (isRefreshing || isFetching) return;
     isRefreshing = true;
     const btn = document.getElementById('chainlinkRefreshBtn');
     if (btn) btn.classList.add('spinning');
@@ -496,6 +499,13 @@ function init() {
     handleRouting();
     renderWatchlistItems();
     fetchChainlinkPrices();
+
+    // Dinamik link sayacı
+    const linkTiles = document.querySelectorAll('.link-tile');
+    const linksCountEl = document.getElementById('linksCount');
+    if (linksCountEl && linkTiles.length > 0) {
+        linksCountEl.textContent = linkTiles.length + ' Tools';
+    }
 
     // Automatically refresh Chainlink oracle prices every 5s in background
     priceInterval = setInterval(() => {

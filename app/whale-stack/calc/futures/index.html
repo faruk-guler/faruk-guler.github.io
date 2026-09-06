@@ -58,11 +58,13 @@
     .liq-price {
       color: #ff5252;
       font-size: 1.2rem;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       transition: var(--transition);
+      user-select: none;
     }
 
     .liq-price:hover {
@@ -78,6 +80,19 @@
     .liq-price:hover .copy-icon {
       opacity: 1;
       transform: scale(1.15);
+    }
+
+    .clear-btn {
+      background: transparent !important;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text-primary) !important;
+      box-shadow: none !important;
+    }
+
+    .clear-btn:hover {
+      background: rgba(248, 81, 73, 0.1) !important;
+      color: #f85149 !important;
+      border-color: #f85149 !important;
     }
 
     .container {
@@ -235,10 +250,7 @@
       color: var(--text-primary);
     }
 
-    .liq-price {
-      color: #ff5252;
-      font-size: 1.2rem;
-    }
+    /* .liq-price tanımı yukarıda tek yerde yapıldı — buradaki kaldırıldı */
 
     .warning {
       color: #ff9800;
