@@ -2,7 +2,7 @@
 layout: post
 title: DNS Kayıt Tipleri Detaylı - DNS Record Types in Detailed
 date: 2023-05-13 22:16
-author: faruk-guler
+by: faruk-guler
 comments: true
 categories: [Hybride]
 ---
