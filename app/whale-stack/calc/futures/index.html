@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futures Liquidation Calculator</title>
+  <link rel="icon" type="image/jpeg" href="../../img/whale_logo.jpg">
+  <link rel="stylesheet" href="../../assets/fonts/inter.css">
+  <link rel="stylesheet" href="../../assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../shared.css">
+  <style>
+    /* Futures-specific styles */
+    .liq-price {
+      color: #ff5252;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .liq-price:hover { color: #ff7b7b; }
+
+    .copy-icon {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      transition: var(--transition);
+    }
+
+    .liq-price:hover .copy-icon {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    .result-green {
+      background: var(--row-green);
+      border-color: var(--row-green-border);
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    (function () {
+      if (localStorage.getItem('whalestack-theme') === 'light')
+        document.body.classList.add('light-mode');
+    })();
+  </script>
+
+  <div class="container">
+    <h1><i class="fa-solid fa-chart-line"></i> Futures Liquidation Calculator</h1>
+
+    <div class="error-message" id="errorMessage"></div>
+    <div class="success-message" id="successMessage"></div>
+
+    <form id="futuresForm" novalidate>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="investmentAmount">Investment Amount (USDT)</label>
+          <input type="number" id="investmentAmount" placeholder="e.g. 500" required step="any">
+        </div>
+        <div class="form-group">
+          <label for="entryPrice">Entry Price (USD)</label>
+          <input type="number" id="entryPrice" placeholder="e.g. 1.45" required step="any">
+        </div>
+        <div class="form-group">
+          <label for="leverage">Leverage (1–125x)</label>
+          <input type="number" id="leverage" placeholder="e.g. 10" required min="1" max="125">
+        </div>
+        <div class="form-group">
+          <label for="positionType">Position Type</label>
+          <select id="positionType" required>
+            <option value="long">LONG</option>
+            <option value="short">SHORT</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="coinName">Asset Symbol <span class="muted">(optional)</span></label>
+          <input type="text" id="coinName" placeholder="e.g. BTC, PEPE">
+        </div>
+        <div class="form-group">
+          <label for="mmr">Maintenance Margin Rate (%)</label>
+          <input type="number" id="mmr" placeholder="e.g. 0.4" step="any" min="0" value="0.4">
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="button" class="calc-btn" onclick="calculateFutures()">
+          <i class="fa-solid fa-calculator"></i> Calculate
+        </button>
+        <button type="button" class="clear-btn" onclick="clearForm()">
+          <i class="fa-solid fa-rotate-left"></i> Clear
+        </button>
+      </div>
+    </form>
+
+    <div class="result result-green" id="result" style="display:none;">
+      <div class="result-row" id="resultAssetRow" style="display:none;">
+        <span class="result-label">Asset</span>
+        <span class="result-value" id="resultCoinName">-</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Position Size</span>
+        <span class="result-value"><span id="resultPositionSize"></span> USDT</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Required Margin (Collateral)</span>
+        <span class="result-value"><span id="resultInitialMargin"></span> USDT</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Entry Price</span>
+        <span class="result-value"><span id="resultEntryPrice"></span> USD</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Leverage</span>
+        <span class="result-value"><span id="resultLeverage"></span>x</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Liquidation Price</span>
+        <span class="result-value liq-price" id="copyLiqBtn" onclick="copyLiquidationPrice()" title="Click to copy">
+          $<span id="resultLiquidationPrice"></span>
+          <i class="fa-regular fa-copy copy-icon" id="liqCopyIcon"></i>
+        </span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Position Type</span>
+        <span class="result-value" id="resultPositionType"></span>
+      </div>
+      <p id="warningMessage" class="warning"></p>
+    </div>
+  </div>
+
+  <script src="futures.js"></script>
+</body>
+
+</html>

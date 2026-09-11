@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spot Profit and Loss Calculator</title>
+  <link rel="icon" type="image/jpeg" href="../../img/whale_logo.jpg">
+  <link rel="stylesheet" href="../../assets/fonts/inter.css">
+  <link rel="stylesheet" href="../../assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../shared.css">
+  <style>
+    /* Spot-specific styles */
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1rem;
+    }
+
+    .result-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      transition: var(--transition);
+    }
+
+    body.light-mode .result-card {
+      background: #ffffff;
+      border-color: #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .result-card strong {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+    }
+
+    .result-card .result-value {
+      font-size: 1.35rem;
+    }
+
+    .result-card.clickable {
+      cursor: pointer;
+    }
+
+    .result-card.clickable:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .profit-result .result-card {
+      border-color: var(--row-green-border);
+      background: var(--row-green);
+    }
+
+    .loss-result .result-card {
+      border-color: var(--row-red-border);
+      background: var(--row-red);
+    }
+
+    /* Override result panel for card grid layout */
+    .result {
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    (function () {
+      if (localStorage.getItem('whalestack-theme') === 'light')
+        document.body.classList.add('light-mode');
+    })();
+  </script>
+
+  <div class="container">
+    <h1><i class="fa-solid fa-coins"></i> Spot P&amp;L Calculator</h1>
+
+    <div class="error-message" id="errorMessage"></div>
+
+    <form id="calcForm" novalidate>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="coinName">Asset Symbol <span class="muted">(optional)</span></label>
+          <input type="text" id="coinName" name="coinName" placeholder="e.g. BTC, ETH, SOL">
+        </div>
+        <div class="form-group">
+          <label for="buyPrice">Buy Price (USD)</label>
+          <input type="number" id="buyPrice" name="buyPrice" placeholder="0.00" step="any" min="0" required>
+        </div>
+        <div class="form-group">
+          <label for="investmentAmount">Investment Amount (USD)</label>
+          <input type="number" id="investmentAmount" name="investmentAmount" placeholder="0.00" step="any" min="0">
+        </div>
+        <div class="form-group">
+          <label for="coinQuantity">Purchased Quantity <span class="muted">(auto-sync)</span></label>
+          <input type="number" id="coinQuantity" name="coinQuantity" placeholder="e.g. 1.25" step="any" min="0">
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="sellPrice">Sell Price (USD)</label>
+          <input type="number" id="sellPrice" name="sellPrice" placeholder="0.00" step="any" min="0" required>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="calc-btn">
+          <i class="fa-solid fa-chart-pie"></i> Calculate
+        </button>
+        <button type="button" class="clear-btn" onclick="clearForm()">
+          <i class="fa-solid fa-rotate-left"></i> Clear
+        </button>
+      </div>
+    </form>
+
+    <div class="result" id="result" style="display:none; margin-top: 2rem;">
+      <div class="result-grid">
+        <div class="result-card">
+          <strong>Asset</strong>
+          <div class="result-value" id="resultCoinName">-</div>
+        </div>
+        <div class="result-card">
+          <strong>Purchased Quantity</strong>
+          <div class="result-value" id="resultQuantity">-</div>
+        </div>
+        <div class="result-card clickable" onclick="copyProfitLoss()" title="Click to copy Profit/Loss">
+          <strong>Profit/Loss (USD) <i class="fa-regular fa-copy" id="copyPlIcon" style="font-size:0.7rem; margin-left:3px; opacity:0.6;"></i></strong>
+          <div class="result-value" id="resultProfitLoss">-</div>
+        </div>
+        <div class="result-card">
+          <strong>Profit/Loss (%)</strong>
+          <div class="result-value" id="resultProfitLossPercentage">-</div>
+        </div>
+        <div class="result-card">
+          <strong>Multiplier (X)</strong>
+          <div class="result-value" id="resultMultiplier">-</div>
+        </div>
+        <div class="result-card">
+          <strong>Investment Amount</strong>
+          <div class="result-value">$<span id="resultInvestmentAmount">-</span></div>
+        </div>
+        <div class="result-card">
+          <strong>Final Value</strong>
+          <div class="result-value">$<span id="resultExitAmount">-</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="spot.js"></script>
+</body>
+
+</html>

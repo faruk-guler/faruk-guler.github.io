@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rise &amp; Potential MC Calculator</title>
+  <link rel="icon" type="image/jpeg" href="../../img/whale_logo.jpg">
+  <link rel="stylesheet" href="../../assets/fonts/inter.css">
+  <link rel="stylesheet" href="../../assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../shared.css">
+  <style>
+    /* Rise-specific: compact 2-column layout that fits inside iframe */
+    :root { --container-max: 840px; }
+
+    /* Two-column input grid with swap button */
+    .dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 992px) { .dual-grid { gap: 2rem; } }
+    @media (max-width: 768px) { .dual-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+    .card {
+      background: rgba(255,255,255,0.02);
+      padding: 1.25rem 1.4rem;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+      width: 100%;
+      position: relative;
+      min-width: 0;
+    }
+
+    .card:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 28px rgba(88,166,255,0.1);
+    }
+
+    body.light-mode .card {
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+      color: var(--text-primary);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .input-group { margin-bottom: 0.85rem; }
+    .input-group:last-child { margin-bottom: 0; }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-row input { flex: 2; }
+    .input-row select { flex: 1.2; }
+
+    .mc-preview {
+      font-size: 0.78rem;
+      text-align: right;
+      color: var(--success);
+      margin-top: 6px;
+      font-weight: 600;
+      min-height: 1.1em;
+    }
+
+    /* Swap button */
+    .swap-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .swap-container::before {
+      content: '';
+      position: absolute;
+      height: 160px;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border-color), transparent);
+      z-index: -1;
+    }
+
+    .swap-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      border: 2px solid var(--border-color);
+      color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      padding: 0;
+      pointer-events: auto;
+      flex: none;
+    }
+
+    .swap-btn:hover {
+      background: var(--accent-color);
+      color: #ffffff;
+      border-color: var(--accent-color);
+      transform: scale(1.1) rotate(180deg);
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+
+    body.light-mode .swap-btn {
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+      .swap-container {
+        position: relative;
+        left: auto; top: auto;
+        transform: none;
+        margin: 8px 0;
+      }
+      .swap-container::before {
+        height: 1px; width: 80%;
+        background: linear-gradient(to right, transparent, var(--border-color), transparent);
+      }
+      .swap-btn { transform: rotate(90deg); }
+      .swap-btn:hover { transform: scale(1.1) rotate(270deg); }
+    }
+
+    /* Result area */
+    .result-area {
+      background: linear-gradient(135deg, rgba(88,166,255,0.1) 0%, rgba(13,17,23,0.8) 100%);
+      margin-top: 1rem;
+      padding: 1.25rem 1.5rem;
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    body.light-mode .result-area {
+      background: linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(255,255,255,0.95) 100%);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .result-title {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .result-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0;
+      line-height: 1.1;
+      text-shadow: 0 0 24px var(--accent-glow);
+      cursor: pointer;
+      user-select: all;
+      transition: var(--transition);
+    }
+
+    .result-price:hover { transform: scale(1.02); }
+
+    .copy-hint {
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .result-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.03);
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    body.light-mode .stat-box { background: #f9fafb; }
+
+    .stat-label {
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      display: block;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    .stat-val {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--success);
+    }
+
+    /* btn-group uses flex centering, not stretch */
+    .btn-group {
+      display: flex;
+      gap: 0.85rem;
+      justify-content: center;
+      margin-top: 0.85rem;
+    }
+
+    .btn-group button { flex: 0 1 200px; }
+
+    @media (max-width: 480px) {
+      .result-price { font-size: 2.4rem; }
+      .btn-group { flex-direction: column; }
+      .btn-group button { flex: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    (function () {
+      if (localStorage.getItem('whalestack-theme') === 'light')
+        document.body.classList.add('light-mode');
+    })();
+  </script>
+
+  <div class="container">
+    <h1><i class="fa-solid fa-arrow-trend-up"></i> Price &amp; Potential MC Calculator</h1>
+    <div class="subtitle">Billion, trillion, quadrillion... Compatible with all coins.</div>
+
+    <div class="error-message" id="errorMessage"></div>
+
+    <div style="position: relative; margin-bottom: 2rem;">
+      <div class="dual-grid">
+        <div class="card">
+          <div class="card-header">
+            <span class="badge">Source</span>
+          </div>
+          <div class="input-group">
+            <label>Asset Symbol</label>
+            <input type="text" id="sName" placeholder="e.g. PEPE, SUI...">
+          </div>
+          <div class="input-group">
+            <label>Current Price ($)</label>
+            <input type="number" id="sPrice" placeholder="e.g. 0.0000012" step="any">
+          </div>
+          <div class="input-group">
+            <label>Circulating Supply</label>
+            <div class="input-row">
+              <input type="number" id="sSupplyInput" placeholder="e.g. 420.69" step="any">
+              <select id="sUnit">
+                <option value="1000000000000000">Quadrillion</option>
+                <option value="1000000000000">Trillion</option>
+                <option value="1000000000">Billion</option>
+                <option value="1000000" selected>Million</option>
+                <option value="1">Unit (Full)</option>
+              </select>
+            </div>
+            <div id="sMC" class="mc-preview">Market Cap: $0</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="badge" style="background: var(--success);">Target</span>
+          </div>
+          <div class="input-group">
+            <label>Target Asset Symbol</label>
+            <input type="text" id="tName" placeholder="e.g. Solana, ETH...">
+          </div>
+          <div class="input-group">
+            <label>Competitor Price ($)</label>
+            <input type="number" id="tPrice" placeholder="e.g. 135" step="any">
+          </div>
+          <div class="input-group">
+            <label>Competitor Supply</label>
+            <div class="input-row">
+              <input type="number" id="tSupplyInput" placeholder="e.g. 562" step="any">
+              <select id="tUnit">
+                <option value="1000000000000000">Quadrillion</option>
+                <option value="1000000000000">Trillion</option>
+                <option value="1000000000">Billion</option>
+                <option value="1000000" selected>Million</option>
+                <option value="1">Unit (Full)</option>
+              </select>
+            </div>
+            <div id="tMC" class="mc-preview">Target Market Cap: $0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swap-container">
+        <button class="swap-btn" onclick="swapAssets()" title="Swap Source and Target">
+          <i class="fa-solid fa-right-left"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="calc-btn" onclick="calculate(true)">
+        <i class="fa-solid fa-calculator"></i> Calculate
+      </button>
+      <button type="button" class="clear-btn" onclick="clearForm()">
+        <i class="fa-solid fa-rotate-left"></i> Clear
+      </button>
+    </div>
+
+    <div class="result-area" id="resultArea">
+      <div class="result-title">
+        If <span id="resName" style="color: var(--text-primary); font-weight: bold;">---</span>
+        reaches the Market Cap of <span id="resTargetName">---</span>:
+      </div>
+      <div class="result-price" id="resPrice" onclick="copyResultPrice()" title="Click to copy price">--- $</div>
+      <div class="copy-hint" id="copyHint"><i class="fa-regular fa-copy"></i> Click price to copy</div>
+
+      <div class="result-stats">
+        <div class="stat-box">
+          <span class="stat-label">Potential Growth (X)</span>
+          <span class="stat-val" id="resX">---</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Percentage Gain</span>
+          <span class="stat-val" id="resPercent">---</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px; font-size: 0.83rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); padding-top: 10px;">
+        Target Market Cap: <span id="resTargetMC" style="color: var(--text-primary);">---</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="rise.js"></script>
+</body>
+
+</html>

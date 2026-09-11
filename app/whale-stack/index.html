@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhaleStack</title>
+    <meta name="description" content="WhaleStack — A free, privacy-first crypto trading toolkit with futures liquidation, spot P&L, rise potential calculators, and live market data.">
+    <link rel="icon" type="image/jpeg" href="img/whale_logo.jpg">
+    <!-- Local Fonts & Icons -->
+    <link rel="stylesheet" href="assets/fonts/inter.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <!-- Unified Clean CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <script>
+        (function () {
+            if (localStorage.getItem('whalestack-theme') === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        })();
+    </script>
+
+    <div class="app-container">
+        <!-- Clean Header -->
+        <header>
+            <a href="#tools" class="logo" onclick="if(activeTool) closeTool()">
+                <img src="img/whale_logo.jpg" alt="WhaleStack Logo" class="app-logo">
+                <h1>WhaleStack</h1>
+            </a>
+
+            <!-- Actions: Nav Buttons & Theme Toggle -->
+            <div class="header-actions">
+                <a href="#tools" class="nav-btn active" data-page="tools" onclick="if(activeTool) closeTool()">
+                    <i class="fa-solid fa-toolbox"></i> Tools
+                </a>
+
+                <a href="#links" class="nav-btn" data-page="links" onclick="if(activeTool) closeTool()">
+                    <i class="fa-solid fa-compass"></i> Links
+                </a>
+
+                <a href="#about" class="nav-btn" data-page="about">
+                    <i class="fa-solid fa-circle-info"></i> About
+                </a>
+
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-header">
+                    <i class="fa-solid fa-moon theme-icon"></i>
+                    <label class="theme-switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider"></span>
+                    </label>
+                    <i class="fa-solid fa-sun theme-icon"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main>
+            <!-- PAGE: Tools (Default View) -->
+            <div id="tools" class="page-section active">
+                <div class="tools-layout" id="toolsGrid">
+                    <!-- Left: 4 Tool Cards (2x2 Grid) -->
+                    <div class="tools-grid">
+                        <div class="tool-card" onclick="openTool('calc/futures/index.html', 'Futures Calculator')">
+                            <div class="tool-icon"><i class="fa-solid fa-chart-line"></i></div>
+                            <div class="tool-info">
+                                <h3>Futures Calculator</h3>
+                                <p>Calculate liquidation prices, leverage risks, and warning ranges for long or short
+                                    positions.</p>
+                            </div>
+                        </div>
+
+                        <div class="tool-card" onclick="openTool('calc/spot/index.html', 'Spot P&amp;L Calculator')">
+                            <div class="tool-icon"><i class="fa-solid fa-coins"></i></div>
+                            <div class="tool-info">
+                                <h3>Spot P&amp;L Calculator</h3>
+                                <p>Track your spot trading investment, asset quantity, profit/loss margins, and
+                                    multipliers.</p>
+                            </div>
+                        </div>
+
+                        <div class="tool-card" onclick="openTool('calc/rise/index.html', 'Rise Calculator')">
+                            <div class="tool-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                            <div class="tool-info">
+                                <h3>Rise Calculator</h3>
+                                <p>Compare assets with target competitors to check potential price targets and market
+                                    caps.</p>
+                            </div>
+                        </div>
+
+                        <div class="tool-card" onclick="openTool('calc/analyzer/index.html', 'Portfolio Analyzer')">
+                            <div class="tool-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                            <div class="tool-info">
+                                <h3>Portfolio Analyzer</h3>
+                                <p>Analyze your overall portfolio balance, asset breakdown, and performance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Coins Sidebar Panel (Sleek & Minimalist Design) -->
+                    <aside class="market-sidebar" id="marketSidebar">
+                        <div class="market-sidebar-card">
+                            <div class="market-header">
+                                <div class="market-header-title">
+                                    <span class="live-indicator-dot"></span>
+                                    <h3>Live Market</h3>
+                                </div>
+                                <span class="market-source-tag" id="marketSourceTag">Binance Live</span>
+                            </div>
+
+
+                            <!-- Coins list (BTC & ETH always fixed at the top, custom coins below) -->
+                            <div class="market-coins-list" id="watchlistItems">
+                                <!-- Populated dynamically by JS -->
+                            </div>
+
+                            <!-- Minimalist Add Coin Button -->
+                            <button type="button" class="add-coin-trigger-btn" onclick="openAddCoinModal()">
+                                <i class="fa-solid fa-plus"></i> Add Asset
+                            </button>
+                        </div>
+                    </aside>
+                </div>
+
+                <!-- Inline Tool Viewer -->
+                <div class="tool-viewer hidden" id="toolViewer">
+                    <div class="tool-viewer-header">
+                        <button class="tool-back-btn" onclick="closeTool()">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Tools
+                        </button>
+                        <span class="tool-viewer-title" id="toolViewerTitle"></span>
+                    </div>
+                    <iframe id="toolIframe" class="tool-iframe" src="" frameborder="0" allowfullscreen title="Financial Tool Workspace"></iframe>
+                </div>
+            </div>
+
+            <!-- PAGE: Links (Minimal Web3 & Trading Directory) -->
+            <div id="links" class="page-section">
+                <div class="links-minimal-container">
+                    <!-- Clean Minimal Header with Search -->
+                    <div class="links-header-row">
+                        <div class="links-header-text">
+                            <h2 class="links-title"><i class="fa-solid fa-compass"></i> Ecosystem Links</h2>
+                            <span class="links-count" id="linksCount">14 Tools</span>
+                        </div>
+                        <div class="links-quick-search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="linksSearchInput" placeholder="Quick search..."
+                                oninput="filterMinimalLinks(this.value)">
+                            <button type="button" class="links-clear-search hidden" id="linksClearBtn"
+                                onclick="clearMinimalLinksSearch()" title="Clear">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Minimal Compact Grid -->
+                    <div class="links-compact-grid" id="linksCompactGrid">
+                        <a href="https://www.tradingview.com" target="_blank" rel="noopener noreferrer"
+                            class="link-tile" data-keywords="tradingview charts ta candles pine technical analysis">
+                            <div class="tile-icon"><i class="fa-solid fa-chart-line"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">TradingView</span>
+                                <span class="tile-desc">Live Charts &amp; TA</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://www.coingecko.com" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="coingecko prices market cap supply tokens">
+                            <div class="tile-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">CoinGecko</span>
+                                <span class="tile-desc">Prices &amp; Market Cap</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://cryptorank.io" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="cryptorank analytics ido ico funding tokenomics roi">
+                            <div class="tile-icon"><i class="fa-solid fa-ranking-star"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">CryptoRank</span>
+                                <span class="tile-desc">Analytics &amp; IDO/ICO</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://farside.co.uk/btc/" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="farside btc etf spot inflows institutional net outflows">
+                            <div class="tile-icon"><i class="fa-solid fa-building-columns"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Farside BTC ETF</span>
+                                <span class="tile-desc">Spot ETF Net Inflows</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://cryptobubbles.net" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="crypto bubbles visual performance heatmap screener">
+                            <div class="tile-icon"><i class="fa-solid fa-circle-dot"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Crypto Bubbles</span>
+                                <span class="tile-desc">Visual Performance</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://cryptopanic.com" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="cryptopanic news terminal media sentiment breaking signals">
+                            <div class="tile-icon"><i class="fa-solid fa-newspaper"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">CryptoPanic</span>
+                                <span class="tile-desc">Live News Terminal</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://www.coinglass.com" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="coinglass derivatives liquidation heatmaps open interest funding rates">
+                            <div class="tile-icon"><i class="fa-solid fa-fire"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Coinglass</span>
+                                <span class="tile-desc">Liquidation Heatmaps</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://token.unlocks.app" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="token unlocks vesting tokenomics dilution schedules cliff">
+                            <div class="tile-icon"><i class="fa-solid fa-lock-open"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Token Unlocks</span>
+                                <span class="tile-desc">Vesting Schedules</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://dexscreener.com" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="dexscreener dex pairs uniswap raydium swaps liquidity memecoins">
+                            <div class="tile-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">DEXScreener</span>
+                                <span class="tile-desc">Real-Time DEX Pairs</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://defillama.com" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="defillama defi tvl yields stablecoins fees revenue pools">
+                            <div class="tile-icon"><i class="fa-solid fa-water"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">DeFiLlama</span>
+                                <span class="tile-desc">DeFi TVL &amp; Yields</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://etherscan.io" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="etherscan ethereum explorer tx smart contract gas">
+                            <div class="tile-icon"><i class="fa-brands fa-ethereum"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Etherscan</span>
+                                <span class="tile-desc">Ethereum Explorer</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://data.chain.link" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="chainlink data oracle price feeds contracts proxies decentralized">
+                            <div class="tile-icon"><i class="fa-solid fa-link"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Chainlink Data</span>
+                                <span class="tile-desc">Oracle Price Feeds</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://platform.arkhamintelligence.com" target="_blank" rel="noopener noreferrer"
+                            class="link-tile"
+                            data-keywords="arkham intelligence on-chain whale tracking smart money entities wallets fund flows">
+                            <div class="tile-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Arkham</span>
+                                <span class="tile-desc">Whale &amp; Entity Intel</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+
+                        <a href="https://ultrasound.money" target="_blank" rel="noopener noreferrer" class="link-tile"
+                            data-keywords="ultrasound money eth burn ethereum supply deflation gas inflation ultra sound">
+                            <div class="tile-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+                            <div class="tile-content">
+                                <span class="tile-name">Ultra Sound Money</span>
+                                <span class="tile-desc">ETH Burn &amp; Supply</span>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square tile-external"></i>
+                        </a>
+                    </div>
+
+                    <div class="links-empty hidden" id="linksEmpty">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>No platforms match your search.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE: About -->
+            <div id="about" class="page-section">
+                <div class="about-card">
+
+                    <!-- Brand Header -->
+                    <div class="about-header">
+                        <img src="img/whale_logo.jpg" alt="WhaleStack Logo" class="about-brand-logo">
+                        <div class="about-brand-info">
+                            <h2 class="about-brand-title">WhaleStack</h2>
+                            <p class="about-brand-desc">
+                                A free, privacy-first toolkit for crypto traders. No ads, no tracking, no server — runs entirely in your browser.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Balanced 2-Column Dashboard Layout -->
+                    <div class="about-dashboard-layout">
+
+                        <!-- Left Column: Data Sources + Developer -->
+                        <div class="about-col-left">
+
+                            <!-- Data Sources -->
+                            <div class="about-info-block">
+                                <div class="about-info-heading">
+                                    <i class="fa-solid fa-database"></i>
+                                    <h3>Data Sources &amp; Privacy</h3>
+                                </div>
+                                <ul class="about-tool-list">
+                                    <li>
+                                        <i class="fa-solid fa-circle-dot" style="color:#f0b90b"></i>
+                                        <a href="https://www.binance.com" target="_blank" rel="noopener noreferrer">Binance WebSocket</a>
+                                        <span class="about-tag">Real-Time Prices</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa-solid fa-circle-dot" style="color:#8dc647"></i>
+                                        <a href="https://www.coingecko.com" target="_blank" rel="noopener noreferrer">CoinGecko API</a>
+                                        <span class="about-tag">Search &amp; Logos</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa-solid fa-circle-dot" style="color:#375bd2"></i>
+                                        Local Browser Storage
+                                        <span class="about-tag">Watchlist</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa-solid fa-circle-dot" style="color:#10b981"></i>
+                                        100% Client-Side &amp; No Tracking
+                                        <span class="about-tag">Private</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Developer -->
+                            <div class="about-info-block">
+                                <div class="about-info-heading">
+                                    <i class="fa-solid fa-user"></i>
+                                    <h3>Developer</h3>
+                                </div>
+                                <div class="dev-profile-row">
+                                    <div class="dev-avatar"><i class="fa-solid fa-terminal"></i></div>
+                                    <div class="dev-info">
+                                        <h4 class="dev-name">Faruk Guler</h4>
+                                        <span class="dev-role">Sysadmin &amp; Web Developer</span>
+                                    </div>
+                                </div>
+                                <div class="dev-links">
+                                    <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer" class="dev-btn dev-btn-primary">
+                                        <i class="fa-solid fa-globe"></i> farukguler.com
+                                    </a>
+                                    <a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer" class="dev-btn dev-btn-secondary">
+                                        <i class="fa-brands fa-github"></i> GitHub
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Right Column: Market Philosophy -->
+                        <div class="about-col-right">
+                            <div class="about-info-block about-motto-block">
+                                <div class="about-info-heading">
+                                    <i class="fa-solid fa-quote-left"></i>
+                                    <h3>Market Philosophy</h3>
+                                </div>
+                                <div class="about-motto-wrapper">
+                                    <img src="img/cz-publish.jpg" alt="CZ Binance - Market Philosophy" class="about-motto-img">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="about-footer">
+                        <span>Open source &amp; ad-free</span>
+                        <span class="footer-bullet">&bull;</span>
+                        <span>Faruk Guler &copy; 2026 WhaleStack</span>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Asset Modal — CoinGecko Search -->
+    <div id="addCoinModal" class="modal-overlay hidden" onclick="if(event.target===this) closeAddCoinModal()">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h3>Add Asset</h3>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeAddCoinModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Search Input -->
+                <div class="coin-search-wrapper">
+                    <div class="coin-search-box">
+                        <i class="fa-solid fa-magnifying-glass coin-search-icon"></i>
+                        <input
+                            type="text"
+                            id="coinSearchInput"
+                            class="coin-search-input"
+                            placeholder="Search by name or symbol... (e.g. SOL, Avalanche)"
+                            oninput="handleCoinSearch(this.value)"
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+                    </div>
+
+                    <!-- Search Results Dropdown -->
+                    <div class="coin-search-dropdown hidden" id="coinSearchDropdown"></div>
+
+                    <!-- Status message -->
+                    <div class="feed-form-msg" id="feedFormMsg"></div>
+                </div>
+
+                <!-- Hint -->
+                <p class="search-hint"><i class="fa-solid fa-circle-info"></i> Powered by CoinGecko — 15,000+ assets available.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unified Clean JS -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>

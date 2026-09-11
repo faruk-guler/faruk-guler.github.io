@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Analyzer</title>
+  <link rel="icon" type="image/jpeg" href="../../img/whale_logo.jpg">
+  <link rel="stylesheet" href="../../assets/fonts/inter.css">
+  <link rel="stylesheet" href="../../assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../shared.css">
+  <style>
+    /* Analyzer-specific: section badge */
+    .section-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--accent-color);
+      color: #ffffff;
+      margin-bottom: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Result rows in analyzer use full display (not hidden by default) */
+    .result { display: none; }
+  </style>
+</head>
+
+<body>
+  <script>
+    (function () {
+      if (localStorage.getItem('whalestack-theme') === 'light')
+        document.body.classList.add('light-mode');
+    })();
+  </script>
+
+  <div class="container">
+    <h1><i class="fa-solid fa-magnifying-glass-chart"></i> Portfolio Analyzer</h1>
+
+    <div class="error-box" id="errorBox"></div>
+    <div class="info-box" id="infoBox"></div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Asset <span class="muted">(optional)</span></label>
+        <input id="coin" placeholder="BTC, ETH, XMR...">
+      </div>
+      <div class="form-group">
+        <label>Buy Price (USD)</label>
+        <input id="buyPrice" type="number" step="any" placeholder="e.g. 10.30">
+      </div>
+      <div class="form-group">
+        <label>Current Price (USD)</label>
+        <input id="currentPrice" type="number" step="any" placeholder="e.g. 1100">
+      </div>
+      <div class="form-group">
+        <label>Buy USD/TRY Rate <span class="muted">(optional)</span></label>
+        <input id="buyRate" type="number" step="0.0001" placeholder="e.g. 8">
+      </div>
+      <div class="form-group">
+        <label>Current USD/TRY Rate <span class="muted">(optional)</span></label>
+        <input id="currentRate" type="number" step="0.0001" placeholder="e.g. 43">
+      </div>
+      <div class="form-group">
+        <label>Amount (Quantity)</label>
+        <input id="amount" type="number" step="0.0001" placeholder="e.g. 1">
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="calcBtn" class="calc-btn"><i class="fa-solid fa-bolt"></i> Calculate</button>
+      <button id="clearBtn" class="clear-btn"><i class="fa-solid fa-rotate-left"></i> Clear</button>
+    </div>
+
+    <div class="result" id="result" aria-live="polite"></div>
+  </div>
+
+  <script src="analyzer.js"></script>
+</body>
+
+</html>
