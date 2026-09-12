@@ -118,12 +118,20 @@ function calculate(isExplicit = false) {
         resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
+    const isPositive = percent >= 0;
+    const resXEl = document.getElementById('resX');
+    const resPercentEl = document.getElementById('resPercent');
+
     document.getElementById('resName').innerText = sName;
     document.getElementById('resTargetName').innerText = tName;
     document.getElementById('resPrice').innerText = formatPrice(targetPrice);
     document.getElementById('resPrice').setAttribute('data-raw', targetPrice);
-    document.getElementById('resX').innerText = multiplier.toFixed(2) + 'x';
-    document.getElementById('resPercent').innerText = (percent >= 0 ? '+' : '') + percent.toLocaleString('en-US', { maximumFractionDigits: 0 }) + '%';
+    resXEl.innerText = multiplier.toFixed(2) + 'x';
+    resPercentEl.innerText = (isPositive ? '+' : '') + percent.toLocaleString('en-US', { maximumFractionDigits: 0 }) + '%';
+    
+    resXEl.style.color = isPositive ? 'var(--success)' : 'var(--danger)';
+    resPercentEl.style.color = isPositive ? 'var(--success)' : 'var(--danger)';
+    
     document.getElementById('resTargetMC').innerText = formatUSD(tMC);
 }
 
@@ -137,6 +145,10 @@ function clearForm() {
     document.getElementById('resultArea').style.display = 'none';
     document.getElementById('sMC').innerText = 'Market Cap: $0';
     document.getElementById('tMC').innerText = 'Target Market Cap: $0';
+    const resXEl = document.getElementById('resX');
+    const resPercentEl = document.getElementById('resPercent');
+    if (resXEl) resXEl.style.color = '';
+    if (resPercentEl) resPercentEl.style.color = '';
     hideError();
     document.getElementById('sName').focus();
 }

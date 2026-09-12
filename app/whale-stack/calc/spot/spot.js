@@ -14,8 +14,6 @@ function showError(message) {
     if (!errorEl) return;
     errorEl.textContent = '❌ ' + message;
     errorEl.style.display = 'block';
-    const successEl = document.getElementById('successMessage');
-    if (successEl) successEl.style.display = 'none';
     setTimeout(() => {
         if (errorEl.textContent.includes(message)) {
             errorEl.style.display = 'none';

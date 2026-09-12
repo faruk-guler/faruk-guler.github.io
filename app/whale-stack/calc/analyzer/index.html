@@ -26,6 +26,27 @@
 
     /* Result rows in analyzer use full display (not hidden by default) */
     .result { display: none; }
+
+    .clickable-copy {
+      cursor: pointer;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .clickable-copy:hover {
+      opacity: 0.85;
+    }
+    .copy-icon {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      transition: var(--transition);
+    }
+    .clickable-copy:hover .copy-icon {
+      opacity: 1;
+      transform: scale(1.15);
+    }
   </style>
 </head>
 

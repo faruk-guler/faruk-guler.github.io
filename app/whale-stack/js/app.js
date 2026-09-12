@@ -1,15 +1,10 @@
-// WhaleStack — Real-Time Market Data (Binance WS + CoinGecko fallback)
+// WhaleStack — Real-Time Market Data (Coinbase WS)
 
 let activeTool     = null;
-let priceInterval  = null;
 let labelInterval  = null;
-let isFetching     = false;
-let isRefreshing   = false;
-let lastFetchTime  = 0;
-let binanceWs      = null;   // WebSocket instance
+let liveWs         = null;   // WebSocket instance
 let wsReconnTimer  = null;   // reconnect timer
 let wsConnected    = false;  // connection state
-const FETCH_COOLDOWN_MS = 5000;
 
 // Fixed Core Feeds (Always fixed & permanent - cannot be removed)
 const FIXED_FEEDS = [
@@ -76,10 +71,25 @@ function getAllFeeds() {
     return [...fixed, ...sortedCustom];
 }
 
+let memPrices = null;
+let saveStorageTimer = null;
+
 function getCachedPrices() {
+    if (memPrices) return memPrices;
     try {
-        return JSON.parse(localStorage.getItem('whalestack_prices') || '{}');
-    } catch (e) { return {}; }
+        memPrices = JSON.parse(localStorage.getItem('whalestack_prices') || '{}');
+    } catch (e) { memPrices = {}; }
+    return memPrices;
+}
+
+function scheduleStorageSave() {
+    if (saveStorageTimer) return;
+    saveStorageTimer = setTimeout(() => {
+        saveStorageTimer = null;
+        if (memPrices) {
+            try { localStorage.setItem('whalestack_prices', JSON.stringify(memPrices)); } catch (e) {}
+        }
+    }, 2500);
 }
 
 // ─── Watchlist Render ─────────────────────────────────────────────────────────
@@ -213,87 +223,13 @@ function initDragAndDrop(container) {
     });
 }
 
-// ─── CoinGecko — Price Fetching ───────────────────────────────────────────────
-
-async function fetchCoinGeckoPrices(forceFlash = false) {
-    if (isFetching) return;
-
-    const allFeeds = getAllFeeds();
-    const ids = allFeeds.map(f => f.cgId).filter(Boolean).join(',');
-    // Early exit BEFORE setting isFetching to avoid lock
-    if (!ids) return;
-
-    isFetching = true;
-
-    try {
-        const res = await fetch(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`,
-            { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(10000) }
-        );
-        if (res.status === 429) {
-            if (forceFlash) showRateLimitNotice();
-            return;
-        }
-        if (!res.ok) return;
-
-        const data = await res.json();
-        const prices = getCachedPrices();
-
-        allFeeds.forEach(feed => {
-            const price = data[feed.cgId]?.usd;
-            if (price && price > 0) prices[feed.symbol] = price;
-        });
-
-        localStorage.setItem('whalestack_prices', JSON.stringify(prices));
-        lastFetchTime = Date.now();
-        updateLastUpdatedLabel();
-
-        // Live DOM update with flash animation
-        allFeeds.forEach(feed => {
-            const el = document.getElementById(`dropPrice_${feed.symbol}`);
-            if (!el) return;
-            const formatted = formatPrice(prices[feed.symbol] || 0);
-            const changed = el.textContent !== formatted;
-            el.textContent = formatted;
-
-            if ((changed || forceFlash) && prices[feed.symbol] > 0) {
-                el.classList.remove('price-updated');
-                // Trigger reflow for smooth re-animation
-                void el.offsetWidth;
-                el.classList.add('price-updated');
-                setTimeout(() => el.classList.remove('price-updated'), 1400);
-            }
-        });
-    } catch (e) {
-        // Network error or timeout — cached prices remain displayed
-        if (e.name !== 'AbortError' && e.name !== 'TimeoutError') {
-            console.warn('[WhaleStack] Price fetch failed:', e.message);
-        }
-    } finally {
-        isFetching = false;
-    }
-}
-
-function updateLastUpdatedLabel() {
-    const sourceTag = document.getElementById('marketSourceTag');
-    if (sourceTag) {
-        sourceTag.textContent = wsConnected ? 'Binance Live' : 'CoinGecko';
-    }
-}
-
-// ─── Binance WebSocket ───────────────────────────────────────────────────────────
-
-// Build miniTicker stream list from all tracked coins
-function getBinanceStreams() {
-    return getAllFeeds().map(f => `${f.symbol.toLowerCase()}usdt@miniTicker`);
-}
+// ─── Coinbase WebSocket — Price Fetching ───────────────────────────────────────
 
 function applyPriceUpdate(symbol, price, forceFlash = false) {
     if (!price || price <= 0) return;
     const prices = getCachedPrices();
     prices[symbol] = price;
-    try { localStorage.setItem('whalestack_prices', JSON.stringify(prices)); } catch (e) {}
-    lastFetchTime = Date.now();
+    scheduleStorageSave();
     updateLastUpdatedLabel();
 
     const el = document.getElementById(`dropPrice_${symbol}`);
@@ -309,86 +245,65 @@ function applyPriceUpdate(symbol, price, forceFlash = false) {
     }
 }
 
-function connectBinanceWS() {
-    // Close any existing connection
-    if (binanceWs) {
-        try { binanceWs.close(); } catch (e) {}
-        binanceWs = null;
+function updateLastUpdatedLabel() {
+    const sourceTag = document.getElementById('marketSourceTag');
+    if (sourceTag) {
+        sourceTag.textContent = wsConnected ? 'Live' : 'Offline';
+    }
+}
+
+function connectCoinbaseWS() {
+    if (liveWs) {
+        try { liveWs.close(); } catch (e) {}
+        liveWs = null;
     }
     clearTimeout(wsReconnTimer);
 
-    const streams = getBinanceStreams();
-    if (!streams.length) return;
+    const allFeeds = getAllFeeds();
+    if (!allFeeds.length) return;
 
-    const url = `wss://stream.binance.com:9443/stream?streams=${streams.join('/')}`;
+    const productIds = allFeeds.map(f => `${f.symbol.toUpperCase()}-USD`);
 
     try {
-        binanceWs = new WebSocket(url);
+        liveWs = new WebSocket('wss://ws-feed.exchange.coinbase.com');
 
-        binanceWs.onopen = () => {
+        liveWs.onopen = () => {
             wsConnected = true;
-            console.log('[WhaleStack] Binance WS connected — real-time mode');
+            console.log('[WhaleStack] Coinbase WS connected — real-time mode');
             updateLastUpdatedLabel();
+
+            liveWs.send(JSON.stringify({
+                type: 'subscribe',
+                product_ids: productIds,
+                channels: ['ticker']
+            }));
         };
 
-        binanceWs.onmessage = (event) => {
+        liveWs.onmessage = (event) => {
             try {
-                const msg  = JSON.parse(event.data);
-                const data = msg.data;
-                // miniTicker: data.s = 'BTCUSDT', data.c = close/current price
-                if (!data || !data.c || !data.s) return;
-                const symbol = data.s.replace(/USDT$/i, '');
-                const price  = parseFloat(data.c);
-                applyPriceUpdate(symbol, price);
+                const msg = JSON.parse(event.data);
+                if (msg.type === 'ticker' && msg.product_id && msg.price) {
+                    const price = parseFloat(msg.price);
+                    const symbol = msg.product_id.split('-')[0];
+                    if (symbol) applyPriceUpdate(symbol, price);
+                }
             } catch (e) {}
         };
 
-        binanceWs.onerror = () => {
-            // Errors handled in onclose
-        };
-
-        binanceWs.onclose = () => {
+        liveWs.onclose = () => {
             wsConnected = false;
             updateLastUpdatedLabel();
-            console.warn('[WhaleStack] Binance WS closed — reconnecting in 5s...');
-            wsReconnTimer = setTimeout(connectBinanceWS, 5000);
+            console.warn('[WhaleStack] Coinbase WS closed — reconnecting in 5s...');
+            wsReconnTimer = setTimeout(connectCoinbaseWS, 5000);
         };
+
+        liveWs.onerror = () => {};
     } catch (e) {
-        console.warn('[WhaleStack] WebSocket not supported, falling back to polling', e);
+        console.warn('[WhaleStack] WebSocket not supported or failed', e);
     }
 }
 
-function showRateLimitNotice() {
-    const btn = document.getElementById('marketRefreshBtn');
-    if (btn) {
-        const oldTitle = btn.title;
-        btn.title = 'Rate limit reached. Please wait ~30s.';
-        btn.style.color = '#ef4444';
-        setTimeout(() => {
-            btn.title = oldTitle;
-            btn.style.color = '';
-        }, 3000);
-    }
-}
 
-// User-triggered manual refresh (reconnects WS + force refreshes prices)
-window.refreshPrices = function () {
-    if (isFetching) return;
-    isRefreshing = true;
-    const btn = document.getElementById('marketRefreshBtn');
-    if (btn) btn.classList.add('spinning');
-
-    // Re-establish WebSocket connection immediately
-    connectBinanceWS();
-
-    fetchCoinGeckoPrices(true).finally(() => {
-        isRefreshing = false;
-        // Keep spinner visible at least 700ms for smooth UX feedback
-        setTimeout(() => {
-            if (btn) btn.classList.remove('spinning');
-        }, 700);
-    });
-};
 
 // ─── CoinGecko — Coin Search ──────────────────────────────────────────────────
 
@@ -477,6 +392,41 @@ window.handleCoinSearch = function (val) {
     }, 400);
 };
 
+async function fetchCoinGeckoPrice(symbol, cgId) {
+    if (!cgId) return;
+    try {
+        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(cgId)}&vs_currencies=usd`, {
+            headers: { 'Accept': 'application/json' },
+            signal: AbortSignal.timeout(6000)
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data[cgId] && typeof data[cgId].usd === 'number') {
+            applyPriceUpdate(symbol, data[cgId].usd, true);
+        }
+    } catch (e) {}
+}
+
+function fetchMissingPrices() {
+    const feeds = getAllFeeds();
+    const cached = getCachedPrices();
+    const missing = feeds.filter(f => (!cached[f.symbol] || cached[f.symbol] <= 0) && f.cgId);
+    if (!missing.length) return;
+
+    const ids = missing.map(m => m.cgId).join(',');
+    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(ids)}&vs_currencies=usd`, {
+        headers: { 'Accept': 'application/json' },
+        signal: AbortSignal.timeout(6000)
+    }).then(res => res.ok ? res.json() : null).then(data => {
+        if (!data) return;
+        missing.forEach(m => {
+            if (data[m.cgId] && typeof data[m.cgId].usd === 'number') {
+                applyPriceUpdate(m.symbol, data[m.cgId].usd);
+            }
+        });
+    }).catch(() => {});
+}
+
 window.selectCoin = function (cgId, symbol, name, thumb) {
     const custom = getCustomCoins();
 
@@ -493,10 +443,10 @@ window.selectCoin = function (cgId, symbol, name, thumb) {
     custom.push({ symbol, name, cgId, thumb: thumb || '' });
     saveCustomCoins(custom);
     renderWatchlistItems();
-    // Fetch immediately so the new coin shows price right away
-    fetchCoinGeckoPrices(true);
-    // Reconnect Binance WebSocket to stream newly added coin in real time
-    connectBinanceWS();
+    // Reconnect Coinbase WebSocket to stream newly added coin in real time
+    connectCoinbaseWS();
+    // Immediate price fetch via CoinGecko so coins not traded on Coinbase (e.g. BNB, TON, TRX) get price instantly
+    if (cgId) fetchCoinGeckoPrice(symbol, cgId);
     closeAddCoinModal();
 };
 
@@ -510,8 +460,8 @@ window.removeCustomCoin = function (symbol) {
         localStorage.setItem('whalestack_prices', JSON.stringify(prices));
     } catch (e) {}
     renderWatchlistItems();
-    // Reconnect Binance WebSocket with updated coin list
-    connectBinanceWS();
+    // Reconnect WebSocket with updated coin list
+    if (typeof connectCoinbaseWS === 'function') connectCoinbaseWS();
 };
 
 // ─── Modal Controls ───────────────────────────────────────────────────────────
@@ -661,7 +611,6 @@ function init() {
     setupTheme();
     handleRouting();
     renderWatchlistItems();
-    fetchCoinGeckoPrices();
 
     // Dynamic link counter
     const linkTiles    = document.querySelectorAll('.link-tile');
@@ -670,15 +619,11 @@ function init() {
         linksCountEl.textContent = linkTiles.length + ' Tools';
     }
 
-    // CoinGecko: initial fetch for correct prices + fallback for Binance-unlisted coins
-    fetchCoinGeckoPrices();
-    // Connect Binance WebSocket for real-time updates
-    connectBinanceWS();
+    // Connect Coinbase WebSocket for real-time updates
+    connectCoinbaseWS();
 
-    // CoinGecko fallback every 2 minutes (for coins not on Binance)
-    priceInterval = setInterval(() => {
-        if (document.visibilityState === 'visible') fetchCoinGeckoPrices();
-    }, 120000);
+    // Fallback: Fetch any missing prices (e.g. coins not traded on Coinbase)
+    fetchMissingPrices();
 
     // Update label every 10 seconds when WS is down
     labelInterval = setInterval(updateLastUpdatedLabel, 10000);
@@ -687,11 +632,31 @@ function init() {
         if (document.visibilityState === 'visible') {
             if (!wsConnected) {
                 // Reconnect WS
-                connectBinanceWS();
+                connectCoinbaseWS();
             }
-            // Also CoinGecko refresh if stale
-            const elapsed = Date.now() - lastFetchTime;
-            if (elapsed > 120000) fetchCoinGeckoPrices();
+            fetchMissingPrices();
+        }
+    });
+
+    // Enter key support in search input to select top result
+    const searchInput = document.getElementById('coinSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const dropdown = document.getElementById('coinSearchDropdown');
+                if (dropdown && !dropdown.classList.contains('hidden')) {
+                    const firstItem = dropdown.querySelector('.search-result-item');
+                    if (firstItem) firstItem.click();
+                }
+            }
+        });
+    }
+
+    // Flush in-memory price cache on tab close
+    window.addEventListener('beforeunload', () => {
+        if (memPrices) {
+            try { localStorage.setItem('whalestack_prices', JSON.stringify(memPrices)); } catch (e) {}
         }
     });
 

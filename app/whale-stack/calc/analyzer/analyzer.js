@@ -43,6 +43,30 @@ function fmt(n, dec = 2) {
   });
 }
 
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+window.copyResultText = function (text, iconId) {
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const icon = document.getElementById(iconId);
+    if (icon) {
+      icon.className = 'fa-solid fa-check copy-icon';
+      icon.style.color = '#2ea043';
+      setTimeout(() => {
+        icon.className = 'fa-regular fa-copy copy-icon';
+        icon.style.color = '';
+      }, 2000);
+    }
+  }).catch(() => {});
+};
+
 function calculate() {
   clearMessages();
 
@@ -69,7 +93,11 @@ function calculate() {
   const roiUsd = (profitUsd / investUsd) * 100;
   const xUsd = currentUsd / investUsd;
   const clsUsd = profitUsd >= 0 ? "ok" : "err";
-  const coin = (document.getElementById("coin").value || "").trim().toUpperCase();
+  const rawCoin = (document.getElementById("coin").value || "").trim().toUpperCase();
+  const safeCoin = escapeHtml(rawCoin);
+
+  const formattedProfitUsd = profitUsd >= 0 ? `+$${fmt(profitUsd)}` : `-$${fmt(Math.abs(profitUsd))}`;
+  const formattedRoiUsd = roiUsd >= 0 ? `+${fmt(roiUsd)}%` : `${fmt(roiUsd)}%`;
 
   const hasBuyRate = !isNaN(buyRate) && buyRate > 0;
   const hasCurrentRate = !isNaN(currentRate) && currentRate > 0;
@@ -87,6 +115,8 @@ function calculate() {
     const roiTry = (profitTry / investTry) * 100;
     const xTry = currentTry / investTry;
     const clsTry = profitTry >= 0 ? "ok" : "err";
+    const formattedProfitTry = profitTry >= 0 ? `+₺${fmt(profitTry)}` : `-₺${fmt(Math.abs(profitTry))}`;
+    const formattedRoiTry = roiTry >= 0 ? `+${fmt(roiTry)}%` : `${fmt(roiTry)}%`;
 
     tryHtml = `
       <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
@@ -95,7 +125,10 @@ function calculate() {
         <div class="result-row"><span class="result-label">Current Value (TRY)</span><span class="result-value">₺${fmt(currentTry)}</span></div>
         <div class="result-row">
           <span class="result-label">Net Profit / Loss (TRY)</span>
-          <span class="result-value ${clsTry}">${profitTry >= 0 ? '+' : ''}₺${fmt(profitTry)} (${fmt(roiTry)}%) → ${fmt(xTry, 3)}x</span>
+          <span class="result-value ${clsTry} clickable-copy" onclick="copyResultText('${formattedProfitTry}', 'copyTryIcon')" title="Click to copy Profit/Loss">
+            ${formattedProfitTry} (${formattedRoiTry}) → ${fmt(xTry, 3)}x
+            <i class="fa-regular fa-copy copy-icon" id="copyTryIcon"></i>
+          </span>
         </div>
       </div>
     `;
@@ -104,20 +137,19 @@ function calculate() {
   const resultDiv = document.getElementById("result");
   resultDiv.style.display = 'block';
   resultDiv.innerHTML = `
-    ${coin ? `<div class="result-row"><span class="result-label">Asset</span><span class="result-value" id="resCoin"></span></div>` : ""}
-    <div class="result-row"><span class="result-label">Purchased Quantity</span><span class="result-value">${fmt(amount, 4)} ${coin || 'units'}</span></div>
+    ${safeCoin ? `<div class="result-row"><span class="result-label">Asset</span><span class="result-value">${safeCoin}</span></div>` : ""}
+    <div class="result-row"><span class="result-label">Purchased Quantity</span><span class="result-value">${fmt(amount, 4)} ${safeCoin || 'units'}</span></div>
     <div class="result-row"><span class="result-label">Initial Investment (USD)</span><span class="result-value">$${fmt(investUsd)}</span></div>
     <div class="result-row"><span class="result-label">Current Value (USD)</span><span class="result-value">$${fmt(currentUsd)}</span></div>
     <div class="result-row">
       <span class="result-label">Net Profit / Loss (USD)</span>
-      <span class="result-value ${clsUsd}">${profitUsd >= 0 ? '+' : ''}$${fmt(profitUsd)} (${fmt(roiUsd)}%) → ${fmt(xUsd, 3)}x</span>
+      <span class="result-value ${clsUsd} clickable-copy" onclick="copyResultText('${formattedProfitUsd}', 'copyUsdIcon')" title="Click to copy Profit/Loss">
+        ${formattedProfitUsd} (${formattedRoiUsd}) → ${fmt(xUsd, 3)}x
+        <i class="fa-regular fa-copy copy-icon" id="copyUsdIcon"></i>
+      </span>
     </div>
     ${tryHtml}
   `;
-
-  if (coin) {
-    document.getElementById("resCoin").textContent = coin;
-  }
 
   resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
