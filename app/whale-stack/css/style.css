@@ -321,6 +321,14 @@ body.light-mode .watchlist-row:hover {
     margin-left: 0.5rem;
 }
 
+/* Price column: price stacked above 24h change badge */
+.watchlist-price-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
 .watchlist-coin-price {
     font-size: 0.95rem;
     font-weight: 700;
@@ -328,6 +336,46 @@ body.light-mode .watchlist-row:hover {
     font-variant-numeric: tabular-nums;
     color: var(--text-primary);
     transition: none; /* Handled by animation */
+}
+
+/* 24h change badge */
+.watchlist-change {
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.2px;
+    line-height: 1;
+    padding: 1px 5px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 46px;
+    text-align: right;
+}
+
+.change-positive {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+}
+
+.change-negative {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.change-neutral {
+    color: transparent;
+    background: transparent;
+    min-width: 0;
+}
+
+/* Price flash animation on update */
+@keyframes priceFlash {
+    0%   { color: var(--accent-color); transform: scale(1.06); }
+    100% { color: inherit; transform: scale(1); }
+}
+
+.price-updated {
+    animation: priceFlash 1.4s ease-out forwards;
 }
 
 .coin-delete-btn {

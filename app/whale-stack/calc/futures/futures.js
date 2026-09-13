@@ -59,6 +59,9 @@ function calculateFutures() {
   var rawMmr = document.getElementById('mmr').value;
   var mmrPercent = rawMmr === '' ? 0.4 : parseNum(rawMmr);
 
+  var rawFee = document.getElementById('feeRate')?.value;
+  var feePercent = rawFee === '' ? 0.04 : parseNum(rawFee);
+
   if (isNaN(investment) || isNaN(entryPrice) || isNaN(leverage) || investment <= 0 || entryPrice <= 0 || leverage <= 0) {
     showError("Please enter valid positive numbers for Investment, Entry Price, and Leverage!");
     document.getElementById('warningMessage').textContent = "";
@@ -81,18 +84,32 @@ function calculateFutures() {
   }
 
   var mmrRate = mmrPercent / 100;
+  var feeRate = feePercent / 100;
+
   if (mmrRate >= (1 / leverage)) {
     showError("Maintenance Margin Rate (" + mmrPercent + "%) is too high for " + leverage + "x leverage (max: " + ((1 / leverage) * 100).toFixed(2) + "%)!");
     return;
   }
 
-  var priceChangePercentage = Math.abs((1 / leverage - mmrRate) * 100);
+  // Adjusted formula for Isolated Margin including Entry & Exit trading fees:
+  // Liq Price (Long) = Entry * (1 - 1/Leverage + MMR + 2*FeeRate)
+  // Liq Price (Short) = Entry * (1 + 1/Leverage - MMR - 2*FeeRate)
+  // Note: 2*FeeRate approximates the open + close fee relative to position size.
+  
+  var marginFactor = (1 / leverage) - mmrRate - (2 * feeRate);
+
+  if (marginFactor <= 0) {
+    showError("Position gets liquidated immediately! Fees (" + (2*feePercent).toFixed(2) + "%) and MMR (" + mmrPercent + "%) consume your entire margin at " + leverage + "x leverage.");
+    return;
+  }
+
+  var priceChangePercentage = Math.abs(marginFactor * 100);
 
   var liquidationPrice;
   if (positionType === "short") {
-    liquidationPrice = entryPrice * (1 + 1 / leverage - mmrRate);
+    liquidationPrice = entryPrice * (1 + marginFactor);
   } else {
-    liquidationPrice = entryPrice * (1 - 1 / leverage + mmrRate);
+    liquidationPrice = entryPrice * (1 - marginFactor);
   }
 
   if (liquidationPrice < 0) {

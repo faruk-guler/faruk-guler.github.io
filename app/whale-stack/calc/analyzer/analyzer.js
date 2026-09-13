@@ -168,9 +168,8 @@ const clearBtn = document.getElementById("clearBtn");
 if (clearBtn) clearBtn.addEventListener("click", clearForm);
 
 document.querySelectorAll('input').forEach(input => {
-  input.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') calculate();
-  });
+  input.addEventListener('input', calculate);
+  input.addEventListener('change', calculate);
 });
 
 // Prevent accidental wheel scroll value increments

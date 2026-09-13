@@ -3,6 +3,51 @@ if (form) {
     form.addEventListener('submit', calculateProfit);
 }
 
+// ─── Session Storage Persistence ──────────────────────────────────────────────
+function saveSession() {
+    const data = {
+        coinName: document.getElementById('coinName')?.value || '',
+        buyPrice: document.getElementById('buyPrice')?.value || '',
+        investmentAmount: document.getElementById('investmentAmount')?.value || '',
+        coinQuantity: document.getElementById('coinQuantity')?.value || '',
+        sellPrice: document.getElementById('sellPrice')?.value || '',
+        enableDca: document.getElementById('enableDca')?.checked || false,
+        dcaPrice: document.getElementById('dcaPrice')?.value || '',
+        dcaAmount: document.getElementById('dcaAmount')?.value || ''
+    };
+    sessionStorage.setItem('whalestack_spot_inputs', JSON.stringify(data));
+}
+
+function loadSession() {
+    try {
+        const stored = sessionStorage.getItem('whalestack_spot_inputs');
+        if (stored) {
+            const data = JSON.parse(stored);
+            if (document.getElementById('coinName')) document.getElementById('coinName').value = data.coinName;
+            if (document.getElementById('buyPrice')) document.getElementById('buyPrice').value = data.buyPrice;
+            if (document.getElementById('investmentAmount')) document.getElementById('investmentAmount').value = data.investmentAmount;
+            if (document.getElementById('coinQuantity')) document.getElementById('coinQuantity').value = data.coinQuantity;
+            if (document.getElementById('sellPrice')) document.getElementById('sellPrice').value = data.sellPrice;
+            if (document.getElementById('enableDca')) {
+                document.getElementById('enableDca').checked = data.enableDca;
+                toggleDCA(false);
+            }
+            if (document.getElementById('dcaPrice')) document.getElementById('dcaPrice').value = data.dcaPrice;
+            if (document.getElementById('dcaAmount')) document.getElementById('dcaAmount').value = data.dcaAmount;
+        }
+    } catch (e) {}
+}
+
+document.addEventListener('DOMContentLoaded', loadSession);
+
+function toggleDCA(save = true) {
+    const isChecked = document.getElementById('enableDca').checked;
+    document.querySelectorAll('.dca-field').forEach(el => {
+        el.style.display = isChecked ? 'block' : 'none';
+    });
+    if (save) saveSession();
+}
+
 function parseNum(val) {
     if (val === null || val === undefined) return NaN;
     const str = String(val).trim().replace(',', '.');
@@ -89,13 +134,38 @@ function calculateProfit(event) {
         quantity = investmentAmount / buyPrice;
     }
 
-    const exitAmount = quantity * sellPrice;
-    const profitLoss = exitAmount - investmentAmount;
-    const profitLossPercentage = (profitLoss / investmentAmount) * 100;
-    const multiplier = (exitAmount / investmentAmount);
+    let avgBuyPrice = buyPrice;
+    let totalInvestment = investmentAmount;
+    let totalQuantity = quantity;
+
+    const isDcaEnabled = document.getElementById('enableDca')?.checked;
+    if (isDcaEnabled) {
+        const dcaPrice = parseNum(document.getElementById('dcaPrice').value);
+        const dcaAmount = parseNum(document.getElementById('dcaAmount').value);
+        
+        if (!isNaN(dcaPrice) && dcaPrice > 0 && !isNaN(dcaAmount) && dcaAmount > 0) {
+            const dcaQty = dcaAmount / dcaPrice;
+            totalInvestment += dcaAmount;
+            totalQuantity += dcaQty;
+            avgBuyPrice = totalInvestment / totalQuantity;
+        }
+    }
+
+    const exitAmount = totalQuantity * sellPrice;
+    const profitLoss = exitAmount - totalInvestment;
+    const profitLossPercentage = (profitLoss / totalInvestment) * 100;
+    const multiplier = (exitAmount / totalInvestment);
 
     document.getElementById('resultCoinName').textContent = coinName;
-    document.getElementById('resultQuantity').textContent = formatQuantity(quantity) + (coinName !== 'ASSET' ? ` ${coinName}` : '');
+    document.getElementById('resultQuantity').textContent = formatQuantity(totalQuantity) + (coinName !== 'ASSET' ? ` ${coinName}` : '');
+
+    const avgPriceCard = document.getElementById('avgPriceCard');
+    if (isDcaEnabled) {
+        avgPriceCard.style.display = 'flex';
+        document.getElementById('resultAvgPrice').textContent = '$' + formatPrice(avgBuyPrice);
+    } else {
+        avgPriceCard.style.display = 'none';
+    }
 
     const profitLossElement = document.getElementById('resultProfitLoss');
     profitLossElement.textContent = (profitLoss >= 0 ? '+' : '') + formatPrice(profitLoss) + ' USD';
@@ -109,7 +179,7 @@ function calculateProfit(event) {
     multiplierElement.textContent = multiplier.toFixed(2) + 'x';
     multiplierElement.className = 'result-value ' + (multiplier > 1 ? 'profit' : (multiplier < 1 ? 'loss' : 'neutral'));
 
-    document.getElementById('resultInvestmentAmount').textContent = formatPrice(investmentAmount);
+    document.getElementById('resultInvestmentAmount').textContent = formatPrice(totalInvestment);
     document.getElementById('resultExitAmount').textContent = formatPrice(exitAmount);
 
     const resultDiv = document.getElementById('result');
@@ -131,6 +201,15 @@ function clearForm() {
     document.getElementById('calcForm').reset();
     document.getElementById('result').style.display = 'none';
     document.getElementById('errorMessage').style.display = 'none';
+    
+    // Clear DCA state
+    const dcaCheck = document.getElementById('enableDca');
+    if (dcaCheck) {
+        dcaCheck.checked = false;
+        toggleDCA(false);
+    }
+    
+    saveSession();
     document.getElementById('buyPrice').focus();
 }
 
@@ -175,6 +254,11 @@ function clearForm() {
                 investEl.value = (qty * bp).toFixed(2);
             }
         }
+    });
+
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', saveSession);
+        input.addEventListener('change', saveSession);
     });
 })();
 

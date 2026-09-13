@@ -163,6 +163,10 @@ function swapAssets() {
         const temp = sourceEl.value;
         sourceEl.value = targetEl.value;
         targetEl.value = temp;
+
+        // Ensure select dropdowns visually update or plugins register the change
+        if (sourceEl.tagName === 'SELECT') sourceEl.dispatchEvent(new Event('change'));
+        if (targetEl.tagName === 'SELECT') targetEl.dispatchEvent(new Event('change'));
     });
 
     calculate(false);

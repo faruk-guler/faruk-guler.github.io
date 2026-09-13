@@ -105,7 +105,22 @@
           <label for="coinQuantity">Purchased Quantity <span class="muted">(auto-sync)</span></label>
           <input type="number" id="coinQuantity" name="coinQuantity" placeholder="e.g. 1.25" step="any" min="0">
         </div>
-        <div class="form-group" style="grid-column: 1 / -1;">
+        
+        <div class="form-group" style="grid-column: 1 / -1; display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="enableDca" onchange="toggleDCA()">
+          <label for="enableDca" style="margin-bottom: 0; cursor: pointer;">Enable Averaging Down (DCA)</label>
+        </div>
+
+        <div class="form-group dca-field" style="display: none;">
+          <label for="dcaPrice">DCA Buy Price (USD)</label>
+          <input type="number" id="dcaPrice" name="dcaPrice" placeholder="0.00" step="any" min="0">
+        </div>
+        <div class="form-group dca-field" style="display: none;">
+          <label for="dcaAmount">DCA Investment Amount (USD)</label>
+          <input type="number" id="dcaAmount" name="dcaAmount" placeholder="0.00" step="any" min="0">
+        </div>
+
+        <div class="form-group" style="grid-column: 1 / -1; border-top: 1px solid var(--border-color); padding-top: 15px;">
           <label for="sellPrice">Sell Price (USD)</label>
           <input type="number" id="sellPrice" name="sellPrice" placeholder="0.00" step="any" min="0" required>
         </div>
@@ -127,8 +142,12 @@
           <strong>Asset</strong>
           <div class="result-value" id="resultCoinName">-</div>
         </div>
+        <div class="result-card" id="avgPriceCard" style="display: none;">
+          <strong>Average Buy Price</strong>
+          <div class="result-value" id="resultAvgPrice">-</div>
+        </div>
         <div class="result-card">
-          <strong>Purchased Quantity</strong>
+          <strong>Total Quantity</strong>
           <div class="result-value" id="resultQuantity">-</div>
         </div>
         <div class="result-card clickable" onclick="copyProfitLoss()" title="Click to copy Profit/Loss">

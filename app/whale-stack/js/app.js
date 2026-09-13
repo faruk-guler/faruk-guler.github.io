@@ -1,21 +1,77 @@
-// WhaleStack — Real-Time Market Data (Coinbase WS)
+// WhaleStack — Real-Time Market Data (CoinGecko API)
 
-let activeTool     = null;
-let labelInterval  = null;
-let liveWs         = null;   // WebSocket instance
-let wsReconnTimer  = null;   // reconnect timer
-let wsConnected    = false;  // connection state
+let activeTool    = null;
+let labelInterval = null;
+let pollingTimer  = null; // periodic CoinGecko price refresh
 
-// Fixed Core Feeds (Always fixed & permanent - cannot be removed)
+// ─── Broadcast Channel (Leader Election) ───────────────
+const bc = new BroadcastChannel('whalestack_leader');
+let isLeader = true;
+let leaderPingTimer = null;
+let electionTimeout = null;
+
+function becomeLeader() {
+    isLeader = true;
+    if (leaderPingTimer) clearInterval(leaderPingTimer);
+    leaderPingTimer = setInterval(() => {
+        bc.postMessage({ type: 'HEARTBEAT' });
+    }, 2000);
+}
+
+function startElectionTimeout() {
+    if (electionTimeout) clearTimeout(electionTimeout);
+    electionTimeout = setTimeout(() => {
+        // No leader heartbeat received, become leader
+        becomeLeader();
+        fetchCoinGeckoPrices(); // Fetch immediately upon becoming leader
+    }, 3500);
+}
+
+bc.onmessage = (event) => {
+    if (event.data.type === 'HEARTBEAT') {
+        isLeader = false;
+        if (leaderPingTimer) clearInterval(leaderPingTimer);
+        startElectionTimeout();
+    } else if (event.data.type === 'PRICE_UPDATE') {
+        // Apply prices received from leader
+        const updates = event.data.payload;
+        updates.forEach(u => applyPriceUpdate(u.symbol, u.price, u.change24h));
+        updateLastUpdatedLabel(false);
+    }
+};
+
+// Initialize election
+startElectionTimeout();
+becomeLeader(); // Assume leader initially, will yield if another heartbeat arrives
+// ────────────────────────────────────────────────────────
+
+// Fixed Core Feeds (CoinGecko ID + thumb included)
 const FIXED_FEEDS = [
-    { symbol: 'BTC', name: 'Bitcoin',  cgId: 'bitcoin',  thumb: 'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png' },
-    { symbol: 'ETH', name: 'Ethereum', cgId: 'ethereum', thumb: 'https://assets.coingecko.com/coins/images/279/thumb/ethereum.png' }
+    {
+        symbol: 'BTC', name: 'Bitcoin',
+        coingeckoId: 'bitcoin',
+        thumb: 'https://coin-images.coingecko.com/coins/images/1/thumb/bitcoin.png'
+    },
+    {
+        symbol: 'ETH', name: 'Ethereum',
+        coingeckoId: 'ethereum',
+        thumb: 'https://coin-images.coingecko.com/coins/images/279/thumb/ethereum.png'
+    }
 ];
+
 
 // ─── Formatters ──────────────────────────────────────────────────────────────
 
 function formatPrice(num) {
     if (typeof num !== 'number' || isNaN(num) || num <= 0) return '—';
+    if (num < 0.0001) {
+        let str = num.toFixed(10).replace(/0+$/, '');
+        if (str.includes('.')) {
+            const [int, dec] = str.split('.');
+            return '$' + int + '.' + (dec.length > 8 ? dec.substring(0, 8) : dec);
+        }
+        return '$' + str;
+    }
     if (num < 0.01) return '$' + num.toFixed(6);
     return new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -72,6 +128,7 @@ function getAllFeeds() {
 }
 
 let memPrices = null;
+let memChanges = null; // 24h change % cache
 let saveStorageTimer = null;
 
 function getCachedPrices() {
@@ -82,12 +139,23 @@ function getCachedPrices() {
     return memPrices;
 }
 
+function getCachedChanges() {
+    if (memChanges) return memChanges;
+    try {
+        memChanges = JSON.parse(localStorage.getItem('whalestack_changes') || '{}');
+    } catch (e) { memChanges = {}; }
+    return memChanges;
+}
+
 function scheduleStorageSave() {
     if (saveStorageTimer) return;
     saveStorageTimer = setTimeout(() => {
         saveStorageTimer = null;
         if (memPrices) {
             try { localStorage.setItem('whalestack_prices', JSON.stringify(memPrices)); } catch (e) {}
+        }
+        if (memChanges) {
+            try { localStorage.setItem('whalestack_changes', JSON.stringify(memChanges)); } catch (e) {}
         }
     }, 2500);
 }
@@ -106,6 +174,15 @@ function renderWatchlistItems() {
     feeds.forEach(coin => {
         const isFixed      = !customSyms.has(coin.symbol);
         const priceDisplay = formatPrice(cachedPrices[coin.symbol] || 0);
+        const cachedChanges = getCachedChanges();
+        const change24h    = cachedChanges[coin.symbol];
+        const hasChange    = typeof change24h === 'number' && !isNaN(change24h);
+        const changeClass  = hasChange ? (change24h >= 0 ? 'change-positive' : 'change-negative') : 'change-neutral';
+        const changeText   = hasChange ? (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%' : '';
+        const changeBadge  = changeText
+            ? `<span class="watchlist-change ${changeClass}" id="dropChange_${coin.symbol}">${changeText}</span>`
+            : `<span class="watchlist-change change-neutral" id="dropChange_${coin.symbol}"></span>`;
+
         const logoHtml     = coin.thumb
             ? `<img src="${coin.thumb}" class="watchlist-coin-logo" alt="${coin.symbol}" onerror="this.style.display='none'">`
             : `<span class="watchlist-coin-logo-fallback"><i class="fa-solid fa-coins"></i></span>`;
@@ -135,7 +212,10 @@ function renderWatchlistItems() {
                     </div>
                 </div>
                 <div class="watchlist-coin-right">
-                    <span class="watchlist-coin-price" id="dropPrice_${coin.symbol}">${priceDisplay}</span>
+                    <div class="watchlist-price-col">
+                        <span class="watchlist-coin-price" id="dropPrice_${coin.symbol}">${priceDisplay}</span>
+                        ${changeBadge}
+                    </div>
                     ${deleteBtn}
                 </div>
             </div>`;
@@ -223,94 +303,63 @@ function initDragAndDrop(container) {
     });
 }
 
-// ─── Coinbase WebSocket — Price Fetching ───────────────────────────────────────
+// ─── CoinGecko — Price Fetch & Label ──────────────────────────────────────────
 
-function applyPriceUpdate(symbol, price, forceFlash = false) {
+function applyPriceUpdate(symbol, price, change24h, forceFlash = false) {
     if (!price || price <= 0) return;
     const prices = getCachedPrices();
     prices[symbol] = price;
+
+    if (typeof change24h === 'number' && !isNaN(change24h)) {
+        const changes = getCachedChanges();
+        changes[symbol] = change24h;
+    }
+
     scheduleStorageSave();
-    updateLastUpdatedLabel();
 
     const el = document.getElementById(`dropPrice_${symbol}`);
-    if (!el) return;
-    const formatted = formatPrice(price);
-    const changed   = el.textContent !== formatted;
-    el.textContent  = formatted;
-    if (changed || forceFlash) {
-        el.classList.remove('price-updated');
-        void el.offsetWidth;
-        el.classList.add('price-updated');
-        setTimeout(() => el.classList.remove('price-updated'), 1400);
+    if (el) {
+        const formatted = formatPrice(price);
+        const changed   = el.textContent !== formatted;
+        el.textContent  = formatted;
+        if (changed || forceFlash) {
+            el.classList.remove('price-updated');
+            void el.offsetWidth;
+            el.classList.add('price-updated');
+            setTimeout(() => el.classList.remove('price-updated'), 1400);
+        }
+    }
+
+    if (typeof change24h === 'number' && !isNaN(change24h)) {
+        const chEl = document.getElementById(`dropChange_${symbol}`);
+        if (chEl) {
+            const sign = change24h >= 0 ? '+' : '';
+            chEl.textContent = sign + change24h.toFixed(2) + '%';
+            chEl.className = 'watchlist-change ' + (change24h >= 0 ? 'change-positive' : 'change-negative');
+        }
     }
 }
 
-function updateLastUpdatedLabel() {
+function updateLastUpdatedLabel(isError = false) {
     const sourceTag = document.getElementById('marketSourceTag');
     if (sourceTag) {
-        sourceTag.textContent = wsConnected ? 'Live' : 'Offline';
+        if (isError) {
+            sourceTag.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> Error';
+        } else {
+            sourceTag.textContent = 'Live';
+        }
     }
 }
 
-function connectCoinbaseWS() {
-    if (liveWs) {
-        try { liveWs.close(); } catch (e) {}
-        liveWs = null;
-    }
-    clearTimeout(wsReconnTimer);
-
-    const allFeeds = getAllFeeds();
-    if (!allFeeds.length) return;
-
-    const productIds = allFeeds.map(f => `${f.symbol.toUpperCase()}-USD`);
-
-    try {
-        liveWs = new WebSocket('wss://ws-feed.exchange.coinbase.com');
-
-        liveWs.onopen = () => {
-            wsConnected = true;
-            console.log('[WhaleStack] Coinbase WS connected — real-time mode');
-            updateLastUpdatedLabel();
-
-            liveWs.send(JSON.stringify({
-                type: 'subscribe',
-                product_ids: productIds,
-                channels: ['ticker']
-            }));
-        };
-
-        liveWs.onmessage = (event) => {
-            try {
-                const msg = JSON.parse(event.data);
-                if (msg.type === 'ticker' && msg.product_id && msg.price) {
-                    const price = parseFloat(msg.price);
-                    const symbol = msg.product_id.split('-')[0];
-                    if (symbol) applyPriceUpdate(symbol, price);
-                }
-            } catch (e) {}
-        };
-
-        liveWs.onclose = () => {
-            wsConnected = false;
-            updateLastUpdatedLabel();
-            console.warn('[WhaleStack] Coinbase WS closed — reconnecting in 5s...');
-            wsReconnTimer = setTimeout(connectCoinbaseWS, 5000);
-        };
-
-        liveWs.onerror = () => {};
-    } catch (e) {
-        console.warn('[WhaleStack] WebSocket not supported or failed', e);
-    }
-}
-
-
-
-// ─── CoinGecko — Coin Search ──────────────────────────────────────────────────
+// ─── CoinGecko — Coin Search ───────────────────────────────────────────────────
 
 let searchTimer = null;
+let searchAbortController = null;
 
 window.handleCoinSearch = function (val) {
     clearTimeout(searchTimer);
+    if (searchAbortController) searchAbortController.abort();
+    
     const dropdown = document.getElementById('coinSearchDropdown');
     const query = (val || '').trim();
 
@@ -320,148 +369,170 @@ window.handleCoinSearch = function (val) {
         return;
     }
 
-    showFeedMsg('Searching...', 'info');
+    showFeedMsg('CoinGecko\'da aranıyor...', 'info');
 
     searchTimer = setTimeout(async () => {
-        // Guard: don't populate if modal was closed
         const modal = document.getElementById('addCoinModal');
         if (!modal || modal.classList.contains('hidden')) return;
 
+        const dropdownEl = document.getElementById('coinSearchDropdown');
+        if (!dropdownEl) return;
+
+        // Show loading spinner immediately
+        dropdownEl.innerHTML = `<div class="search-no-result"><i class="fa-solid fa-spinner fa-spin" style="margin-right:6px"></i>Yükleniyor...</div>`;
+        dropdownEl.classList.remove('hidden');
+
+        searchAbortController = new AbortController();
         try {
             const res = await fetch(
                 `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(query)}`,
-                { headers: { 'Accept': 'application/json' }, signal: AbortSignal.timeout(8000) }
+                { signal: searchAbortController.signal }
             );
-            if (!res.ok) { showFeedMsg('Search failed. Try again.', 'error'); return; }
-
+            if (!res.ok) throw new Error('CoinGecko search error ' + res.status);
             const data = await res.json();
-            const coins = (data.coins || []).slice(0, 8);
 
-            const dropdownEl = document.getElementById('coinSearchDropdown');
-            if (!dropdownEl) return;
+            const results = (data.coins || []).slice(0, 8);
 
-            // Guard again after await in case modal was closed
-            const modalEl = document.getElementById('addCoinModal');
-            if (!modalEl || modalEl.classList.contains('hidden')) return;
-
-            if (coins.length === 0) {
-                dropdownEl.innerHTML = `<div class="search-no-result">No coins found for "${query}".</div>`;
-                dropdownEl.classList.remove('hidden');
+            if (results.length === 0) {
+                dropdownEl.innerHTML = `<div class="search-no-result">"${query}" için coin bulunamadı.</div>`;
                 showFeedMsg('', '');
                 return;
             }
 
-            // Escape helper to prevent XSS in coin names
-            const esc = str => str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            const esc = str => String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-            dropdownEl.innerHTML = coins.map(c => {
-                const rank = c.market_cap_rank ? `<span class="search-result-rank">#${c.market_cap_rank}</span>` : '';
-                const thumbUrl = (c.thumb && !c.thumb.includes('missing')) ? c.thumb : '';
-                const thumbHtml = thumbUrl
-                    ? `<img src="${thumbUrl}" class="search-result-thumb" alt="" onerror="this.style.display='none'" loading="lazy">`
+            dropdownEl.innerHTML = results.map(c => {
+                const sym = (c.symbol || '').toUpperCase();
+                const thumbHtml = c.thumb
+                    ? `<img src="${esc(c.thumb)}" class="search-result-thumb" alt="${esc(sym)}" onerror="this.style.display='none'">`
                     : `<span class="search-result-thumb-placeholder"><i class="fa-solid fa-coins"></i></span>`;
+                const rankBadge = c.market_cap_rank
+                    ? `<span class="search-result-rank">#${c.market_cap_rank}</span>`
+                    : '';
                 return `
-                    <div class="search-result-item" data-id="${esc(c.id)}" data-symbol="${esc(c.symbol.toUpperCase())}" data-name="${encodeURIComponent(c.name)}" data-thumb="${encodeURIComponent(thumbUrl)}">
+                    <div class="search-result-item"
+                         data-symbol="${esc(sym)}"
+                         data-name="${encodeURIComponent(c.name || sym)}"
+                         data-cgid="${esc(c.id || '')}"
+                         data-thumb="${esc(c.thumb || '')}">
                         ${thumbHtml}
                         <div class="search-result-text">
-                            <span class="search-result-symbol">${esc(c.symbol.toUpperCase())}</span>
+                            <span class="search-result-symbol">${esc(sym)}</span>
                             <span class="search-result-name">${esc(c.name)}</span>
                         </div>
-                        ${rank}
+                        ${rankBadge}
                     </div>`;
             }).join('');
 
-            // Use single delegated handler (set once, replaced each render)
             dropdownEl.onclick = (e) => {
                 const item = e.target.closest('.search-result-item');
                 if (!item) return;
-                const cgId = item.getAttribute('data-id');
                 const symbol = item.getAttribute('data-symbol');
-                const name = decodeURIComponent(item.getAttribute('data-name') || '');
-                const thumb = decodeURIComponent(item.getAttribute('data-thumb') || '');
-                selectCoin(cgId, symbol, name, thumb);
+                const name   = decodeURIComponent(item.getAttribute('data-name') || '');
+                const cgid   = item.getAttribute('data-cgid');
+                const thumb  = item.getAttribute('data-thumb');
+                selectCoin(symbol, name, thumb, cgid);
             };
 
-            dropdownEl.classList.remove('hidden');
             showFeedMsg('', '');
         } catch (e) {
-            if (e.name !== 'AbortError' && e.name !== 'TimeoutError') {
-                showFeedMsg('Connection error. Please try again.', 'error');
-            }
+            if (e.name === 'AbortError') return; // Ignore aborted requests
+            dropdownEl.innerHTML = `<div class="search-no-result"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px"></i>Arama başarısız. Tekrar dene.</div>`;
+            showFeedMsg('', '');
         }
-    }, 400);
+    }, 350);
 };
 
-async function fetchCoinGeckoPrice(symbol, cgId) {
-    if (!cgId) return;
-    try {
-        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(cgId)}&vs_currencies=usd`, {
-            headers: { 'Accept': 'application/json' },
-            signal: AbortSignal.timeout(6000)
-        });
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data[cgId] && typeof data[cgId].usd === 'number') {
-            applyPriceUpdate(symbol, data[cgId].usd, true);
-        }
-    } catch (e) {}
-}
+// ─── CoinGecko — REST Quotes (5s polling) ─────────────────────────────────────
 
-function fetchMissingPrices() {
+async function fetchCoinGeckoPrices() {
+    if (!isLeader) return; // Only leader fetches data
+    
     const feeds = getAllFeeds();
-    const cached = getCachedPrices();
-    const missing = feeds.filter(f => (!cached[f.symbol] || cached[f.symbol] <= 0) && f.cgId);
-    if (!missing.length) return;
+    if (!feeds.length) return;
 
-    const ids = missing.map(m => m.cgId).join(',');
-    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(ids)}&vs_currencies=usd`, {
-        headers: { 'Accept': 'application/json' },
-        signal: AbortSignal.timeout(6000)
-    }).then(res => res.ok ? res.json() : null).then(data => {
-        if (!data) return;
-        missing.forEach(m => {
-            if (data[m.cgId] && typeof data[m.cgId].usd === 'number') {
-                applyPriceUpdate(m.symbol, data[m.cgId].usd);
+    // Collect all CoinGecko IDs (fallback: lowercase symbol as guess)
+    const ids = feeds
+        .map(f => f.coingeckoId || f.symbol.toLowerCase())
+        .filter(Boolean)
+        .join(',');
+
+    if (!ids) return;
+
+    try {
+        const res = await fetch(
+            `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`,
+            { signal: AbortSignal.timeout(8000) }
+        );
+        if (!res.ok) throw new Error('CoinGecko API ' + res.status);
+        const data = await res.json();
+
+        const updates = [];
+        feeds.forEach(f => {
+            const cgId = f.coingeckoId || f.symbol.toLowerCase();
+            const entry = data[cgId];
+            if (!entry) return;
+            const price    = entry.usd;
+            const change24h = entry.usd_24h_change; // Already in %, e.g. 2.74
+            if (price > 0) {
+                applyPriceUpdate(f.symbol, price, change24h);
+                updates.push({ symbol: f.symbol, price, change24h });
             }
         });
-    }).catch(() => {});
+
+        // Broadcast to other tabs
+        if (updates.length > 0) {
+            bc.postMessage({ type: 'PRICE_UPDATE', payload: updates });
+        }
+
+        updateLastUpdatedLabel(false);
+    } catch (e) {
+        console.warn('[WhaleStack] CoinGecko price fetch failed', e);
+        updateLastUpdatedLabel(true);
+    }
 }
 
-window.selectCoin = function (cgId, symbol, name, thumb) {
+window.selectCoin = function (symbol, name, thumb, coingeckoId) {
     const custom = getCustomCoins();
+    const cleanSymbol = (symbol || '').toUpperCase().trim();
+    const cleanName   = (name || cleanSymbol).trim();
 
-    // Check by both symbol AND cgId to handle coins sharing the same ticker
-    if (FIXED_FEEDS.some(f => f.symbol === symbol || f.cgId === cgId)) {
-        showFeedMsg(`${symbol} is already in your watchlist!`, 'error');
+    if (FIXED_FEEDS.some(f => f.symbol.toUpperCase() === cleanSymbol)) {
+        showFeedMsg(`${cleanSymbol} zaten listenizde!`, 'error');
         return;
     }
-    if (custom.some(c => c.symbol === symbol || c.cgId === cgId)) {
-        showFeedMsg(`${symbol} is already in your watchlist!`, 'error');
+    if (custom.some(c => c.symbol.toUpperCase() === cleanSymbol)) {
+        showFeedMsg(`${cleanSymbol} zaten listenizde!`, 'error');
         return;
     }
 
-    custom.push({ symbol, name, cgId, thumb: thumb || '' });
+    // Save with CoinGecko ID + thumb so polling works correctly
+    custom.push({
+        symbol: cleanSymbol,
+        name: cleanName,
+        thumb: thumb || '',
+        coingeckoId: coingeckoId || cleanSymbol.toLowerCase()
+    });
     saveCustomCoins(custom);
     renderWatchlistItems();
-    // Reconnect Coinbase WebSocket to stream newly added coin in real time
-    connectCoinbaseWS();
-    // Immediate price fetch via CoinGecko so coins not traded on Coinbase (e.g. BNB, TON, TRX) get price instantly
-    if (cgId) fetchCoinGeckoPrice(symbol, cgId);
+    fetchCoinGeckoPrices(); // Immediately refresh prices for new coin
     closeAddCoinModal();
 };
 
 window.removeCustomCoin = function (symbol) {
     const custom = getCustomCoins().filter(c => c.symbol !== symbol);
     saveCustomCoins(custom);
-    // Remove from price cache
     try {
         const prices = getCachedPrices();
         delete prices[symbol];
         localStorage.setItem('whalestack_prices', JSON.stringify(prices));
     } catch (e) {}
+    try {
+        const changes = getCachedChanges();
+        delete changes[symbol];
+        localStorage.setItem('whalestack_changes', JSON.stringify(changes));
+    } catch (e) {}
     renderWatchlistItems();
-    // Reconnect WebSocket with updated coin list
-    if (typeof connectCoinbaseWS === 'function') connectCoinbaseWS();
 };
 
 // ─── Modal Controls ───────────────────────────────────────────────────────────
@@ -470,7 +541,6 @@ window.openAddCoinModal = function () {
     const modal = document.getElementById('addCoinModal');
     if (!modal) return;
     modal.classList.remove('hidden');
-    // Reset state
     const input = document.getElementById('coinSearchInput');
     const dropdown = document.getElementById('coinSearchDropdown');
     const msg = document.getElementById('feedFormMsg');
@@ -619,22 +689,18 @@ function init() {
         linksCountEl.textContent = linkTiles.length + ' Tools';
     }
 
-    // Connect Coinbase WebSocket for real-time updates
-    connectCoinbaseWS();
+    // Initial fetch of all coin prices via CoinGecko
+    fetchCoinGeckoPrices();
 
-    // Fallback: Fetch any missing prices (e.g. coins not traded on Coinbase)
-    fetchMissingPrices();
-
-    // Update label every 10 seconds when WS is down
-    labelInterval = setInterval(updateLastUpdatedLabel, 10000);
+    // Poll every 5 seconds (CoinGecko free tier: up to ~30 req/min, 1 req/5s = 12 req/min ✔)
+    if (pollingTimer) clearInterval(pollingTimer);
+    pollingTimer = setInterval(() => {
+        if (isLeader) fetchCoinGeckoPrices();
+    }, 5000);
 
     document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            if (!wsConnected) {
-                // Reconnect WS
-                connectCoinbaseWS();
-            }
-            fetchMissingPrices();
+        if (document.visibilityState === 'visible' && isLeader) {
+            fetchCoinGeckoPrices();
         }
     });
 
@@ -653,10 +719,13 @@ function init() {
         });
     }
 
-    // Flush in-memory price cache on tab close
+    // Flush in-memory caches on tab close
     window.addEventListener('beforeunload', () => {
         if (memPrices) {
             try { localStorage.setItem('whalestack_prices', JSON.stringify(memPrices)); } catch (e) {}
+        }
+        if (memChanges) {
+            try { localStorage.setItem('whalestack_changes', JSON.stringify(memChanges)); } catch (e) {}
         }
     });
 

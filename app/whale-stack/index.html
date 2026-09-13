@@ -34,7 +34,7 @@
             <!-- Actions: Nav Buttons & Theme Toggle -->
             <div class="header-actions">
                 <a href="#tools" class="nav-btn active" data-page="tools" onclick="if(activeTool) closeTool()">
-                    <i class="fa-solid fa-toolbox"></i> Tools
+                    <i class="fa-solid fa-house"></i> Home
                 </a>
 
                 <a href="#links" class="nav-btn" data-page="links" onclick="if(activeTool) closeTool()">
@@ -337,14 +337,9 @@
                                 </div>
                                 <ul class="about-tool-list">
                                     <li>
-                                        <i class="fa-solid fa-circle-dot" style="color:#0052FF"></i>
-                                        <a href="https://www.coinbase.com" target="_blank" rel="noopener noreferrer">Coinbase WebSocket</a>
-                                        <span class="about-tag">Real-Time Prices</span>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-circle-dot" style="color:#8dc647"></i>
+                                        <i class="fa-solid fa-circle-dot" style="color:#2b70f5"></i>
                                         <a href="https://www.coingecko.com" target="_blank" rel="noopener noreferrer">CoinGecko API</a>
-                                        <span class="about-tag">Search &amp; Logos</span>
+                                        <span class="about-tag">Live Prices &amp; Search</span>
                                     </li>
                                     <li>
                                         <i class="fa-solid fa-circle-dot" style="color:#375bd2"></i>
@@ -433,7 +428,7 @@
                             type="text"
                             id="coinSearchInput"
                             class="coin-search-input"
-                            placeholder="Search by name or symbol... (e.g. SOL, Avalanche)"
+                            placeholder="Search by name or symbol... (e.g. SOL, NEXA, PEPE)"
                             oninput="handleCoinSearch(this.value)"
                             autocomplete="off"
                             spellcheck="false"
@@ -448,7 +443,7 @@
                 </div>
 
                 <!-- Hint -->
-                <p class="search-hint"><i class="fa-solid fa-circle-info"></i> Powered by CoinGecko — 15,000+ assets available.</p>
+                <p class="search-hint"><i class="fa-solid fa-circle-info"></i> Powered by CoinGecko API — Fast &amp; Reliable.</p>
             </div>
         </div>
     </div>
