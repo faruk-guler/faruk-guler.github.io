@@ -1,51 +1,59 @@
-// WhaleStack — Real-Time Market Data (CoinGecko API)
+﻿// WhaleStack — Real-Time Market Data (CoinGecko API)
 
 let activeTool    = null;
 let labelInterval = null;
-let pollingTimer  = null; // periodic CoinGecko price refresh
+let pollingTimer  = null;
 
-// ─── Broadcast Channel (Leader Election) ───────────────
+// ─── API Rate Limit & Backoff ──────────────────────────────────────────────────
+let fetchFailCount = 0;
+let lastFetchTime  = 0;
+const MIN_FETCH_INTERVAL = 5000;
+
+function getBackoffDelay() {
+    if (fetchFailCount === 0) return 0;
+    return Math.min(5000 * Math.pow(2, fetchFailCount - 1), 60000);
+}
+
+// ─── Broadcast Channel (Leader Election) ──────────────────────────────────────
 const bc = new BroadcastChannel('whalestack_leader');
-let isLeader = true;
+let isLeader = false;
 let leaderPingTimer = null;
 let electionTimeout = null;
+let leaderHeartbeatReceived = false;
 
 function becomeLeader() {
+    if (isLeader) return;
     isLeader = true;
     if (leaderPingTimer) clearInterval(leaderPingTimer);
     leaderPingTimer = setInterval(() => {
         bc.postMessage({ type: 'HEARTBEAT' });
     }, 2000);
+    fetchCoinGeckoPrices();
 }
 
-function startElectionTimeout() {
+function resetElectionTimeout() {
     if (electionTimeout) clearTimeout(electionTimeout);
     electionTimeout = setTimeout(() => {
-        // No leader heartbeat received, become leader
-        becomeLeader();
-        fetchCoinGeckoPrices(); // Fetch immediately upon becoming leader
+        if (!isLeader) becomeLeader();
     }, 3500);
 }
 
 bc.onmessage = (event) => {
     if (event.data.type === 'HEARTBEAT') {
+        leaderHeartbeatReceived = true;
         isLeader = false;
-        if (leaderPingTimer) clearInterval(leaderPingTimer);
-        startElectionTimeout();
+        if (leaderPingTimer) { clearInterval(leaderPingTimer); leaderPingTimer = null; }
+        resetElectionTimeout();
     } else if (event.data.type === 'PRICE_UPDATE') {
-        // Apply prices received from leader
         const updates = event.data.payload;
-        updates.forEach(u => applyPriceUpdate(u.symbol, u.price, u.change24h));
+        if (Array.isArray(updates)) {
+            updates.forEach(u => applyPriceUpdate(u.symbol, u.price, u.change24h));
+        }
         updateLastUpdatedLabel(false);
     }
 };
 
-// Initialize election
-startElectionTimeout();
-becomeLeader(); // Assume leader initially, will yield if another heartbeat arrives
-// ────────────────────────────────────────────────────────
-
-// Fixed Core Feeds (CoinGecko ID + thumb included)
+// ─── Fixed Core Feeds ──────────────────────────────────────────────────────────
 const FIXED_FEEDS = [
     {
         symbol: 'BTC', name: 'Bitcoin',
@@ -59,9 +67,7 @@ const FIXED_FEEDS = [
     }
 ];
 
-
-// ─── Formatters ──────────────────────────────────────────────────────────────
-
+// ─── Formatters ────────────────────────────────────────────────────────────────
 function formatPrice(num) {
     if (typeof num !== 'number' || isNaN(num) || num <= 0) return '—';
     if (num < 0.0001) {
@@ -81,8 +87,7 @@ function formatPrice(num) {
     }).format(num);
 }
 
-// ─── LocalStorage Helpers ─────────────────────────────────────────────────────
-
+// ─── LocalStorage Helpers ──────────────────────────────────────────────────────
 function getCustomCoins() {
     try {
         const stored = localStorage.getItem('whalestack_custom_coins');
@@ -94,8 +99,7 @@ function saveCustomCoins(coins) {
     try { localStorage.setItem('whalestack_custom_coins', JSON.stringify(coins)); } catch (e) {}
 }
 
-// ─── Coin Order ───────────────────────────────────────────────────────────────
-
+// ─── Coin Order ────────────────────────────────────────────────────────────────
 function getCoinOrder() {
     try {
         const stored = localStorage.getItem('whalestack_coin_order');
@@ -108,7 +112,6 @@ function saveCoinOrder(order) {
 }
 
 function getAllFeeds() {
-    // Fixed feeds always appear first, in original order
     const fixed  = [...FIXED_FEEDS];
     const custom = getCustomCoins();
     const order  = getCoinOrder();
@@ -123,12 +126,11 @@ function getAllFeeds() {
             return ai - bi;
         });
     }
-
     return [...fixed, ...sortedCustom];
 }
 
 let memPrices = null;
-let memChanges = null; // 24h change % cache
+let memChanges = null;
 let saveStorageTimer = null;
 
 function getCachedPrices() {
@@ -160,8 +162,16 @@ function scheduleStorageSave() {
     }, 2500);
 }
 
-// ─── Watchlist Render ─────────────────────────────────────────────────────────
+function flushCacheToStorage() {
+    if (memPrices) {
+        try { localStorage.setItem('whalestack_prices', JSON.stringify(memPrices)); } catch (e) {}
+    }
+    if (memChanges) {
+        try { localStorage.setItem('whalestack_changes', JSON.stringify(memChanges)); } catch (e) {}
+    }
+}
 
+// ─── Watchlist Render ──────────────────────────────────────────────────────────
 function renderWatchlistItems() {
     const container = document.getElementById('watchlistItems');
     if (!container) return;
@@ -169,13 +179,13 @@ function renderWatchlistItems() {
     const feeds        = getAllFeeds();
     const customSyms   = new Set(getCustomCoins().map(c => c.symbol));
     const cachedPrices = getCachedPrices();
+    const cachedChgs   = getCachedChanges();
     let html = '';
 
     feeds.forEach(coin => {
         const isFixed      = !customSyms.has(coin.symbol);
         const priceDisplay = formatPrice(cachedPrices[coin.symbol] || 0);
-        const cachedChanges = getCachedChanges();
-        const change24h    = cachedChanges[coin.symbol];
+        const change24h    = cachedChgs[coin.symbol];
         const hasChange    = typeof change24h === 'number' && !isNaN(change24h);
         const changeClass  = hasChange ? (change24h >= 0 ? 'change-positive' : 'change-negative') : 'change-neutral';
         const changeText   = hasChange ? (change24h >= 0 ? '+' : '') + change24h.toFixed(2) + '%' : '';
@@ -187,8 +197,6 @@ function renderWatchlistItems() {
             ? `<img src="${coin.thumb}" class="watchlist-coin-logo" alt="${coin.symbol}" onerror="this.style.display='none'">`
             : `<span class="watchlist-coin-logo-fallback"><i class="fa-solid fa-coins"></i></span>`;
 
-        // Fixed rows: spacer (same width as drag handle) — keeps logo alignment consistent
-        // Custom rows: draggable grip icon
         const handleHtml = isFixed
             ? `<span class="drag-handle drag-handle--fixed" aria-hidden="true"></span>`
             : `<span class="drag-handle" title="Drag to reorder"><i class="fa-solid fa-grip-vertical"></i></span>`;
@@ -198,7 +206,6 @@ function renderWatchlistItems() {
                 <i class="fa-solid fa-xmark"></i>
             </button>`;
 
-        // Fixed rows: not draggable. Custom rows: draggable
         html += `
             <div class="watchlist-row ${isFixed ? 'fixed-row' : 'custom-row draggable-row'}"
                  ${isFixed ? '' : 'draggable="true"'}
@@ -225,8 +232,7 @@ function renderWatchlistItems() {
     initDragAndDrop(container);
 }
 
-// ─── Drag & Drop Reorder ──────────────────────────────────────────────────────
-
+// ─── Drag & Drop Reorder ───────────────────────────────────────────────────────
 function initDragAndDrop(container) {
     let dragSrc = null;
     let placeholder = null;
@@ -249,7 +255,6 @@ function initDragAndDrop(container) {
             placeholder = createPlaceholder(row.offsetHeight);
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', row.dataset.symbol);
-            // Insert placeholder after a tick so row doesn't disappear instantly
             setTimeout(() => {
                 if (row.parentNode) row.parentNode.insertBefore(placeholder, row.nextSibling);
                 row.style.opacity = '0.35';
@@ -262,8 +267,6 @@ function initDragAndDrop(container) {
             if (placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
             placeholder = null;
             dragSrc = null;
-
-            // Persist new order
             const newOrder = getRows().map(r => r.dataset.symbol);
             saveCoinOrder(newOrder);
         });
@@ -272,7 +275,6 @@ function initDragAndDrop(container) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
             if (!dragSrc || !placeholder || row === dragSrc) return;
-
             const rect = row.getBoundingClientRect();
             const mid  = rect.top + rect.height / 2;
             if (e.clientY < mid) {
@@ -285,7 +287,6 @@ function initDragAndDrop(container) {
         row.addEventListener('drop', e => {
             e.preventDefault();
             if (!dragSrc || row === dragSrc) return;
-
             const rect = row.getBoundingClientRect();
             const mid  = rect.top + rect.height / 2;
             if (e.clientY < mid) {
@@ -296,15 +297,13 @@ function initDragAndDrop(container) {
         });
     });
 
-    // Also handle drop on the container itself (empty area below items)
     container.addEventListener('dragover', e => {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
     });
 }
 
-// ─── CoinGecko — Price Fetch & Label ──────────────────────────────────────────
-
+// ─── Price Update & Label ──────────────────────────────────────────────────────
 function applyPriceUpdate(symbol, price, change24h, forceFlash = false) {
     if (!price || price <= 0) return;
     const prices = getCachedPrices();
@@ -317,7 +316,7 @@ function applyPriceUpdate(symbol, price, change24h, forceFlash = false) {
 
     scheduleStorageSave();
 
-    const el = document.getElementById(`dropPrice_${symbol}`);
+    const el = document.getElementById('dropPrice_' + symbol);
     if (el) {
         const formatted = formatPrice(price);
         const changed   = el.textContent !== formatted;
@@ -331,7 +330,7 @@ function applyPriceUpdate(symbol, price, change24h, forceFlash = false) {
     }
 
     if (typeof change24h === 'number' && !isNaN(change24h)) {
-        const chEl = document.getElementById(`dropChange_${symbol}`);
+        const chEl = document.getElementById('dropChange_' + symbol);
         if (chEl) {
             const sign = change24h >= 0 ? '+' : '';
             chEl.textContent = sign + change24h.toFixed(2) + '%';
@@ -340,7 +339,7 @@ function applyPriceUpdate(symbol, price, change24h, forceFlash = false) {
     }
 }
 
-function updateLastUpdatedLabel(isError = false) {
+function updateLastUpdatedLabel(isError) {
     const sourceTag = document.getElementById('marketSourceTag');
     if (sourceTag) {
         if (isError) {
@@ -352,14 +351,16 @@ function updateLastUpdatedLabel(isError = false) {
 }
 
 // ─── CoinGecko — Coin Search ───────────────────────────────────────────────────
-
 let searchTimer = null;
 let searchAbortController = null;
 
 window.handleCoinSearch = function (val) {
     clearTimeout(searchTimer);
-    if (searchAbortController) searchAbortController.abort();
-    
+    if (searchAbortController) {
+        searchAbortController.abort();
+        searchAbortController = null;
+    }
+
     const dropdown = document.getElementById('coinSearchDropdown');
     const query = (val || '').trim();
 
@@ -369,7 +370,7 @@ window.handleCoinSearch = function (val) {
         return;
     }
 
-    showFeedMsg('CoinGecko\'da aranıyor...', 'info');
+    showFeedMsg("CoinGecko'da aranıyor...", 'info');
 
     searchTimer = setTimeout(async () => {
         const modal = document.getElementById('addCoinModal');
@@ -378,53 +379,51 @@ window.handleCoinSearch = function (val) {
         const dropdownEl = document.getElementById('coinSearchDropdown');
         if (!dropdownEl) return;
 
-        // Show loading spinner immediately
-        dropdownEl.innerHTML = `<div class="search-no-result"><i class="fa-solid fa-spinner fa-spin" style="margin-right:6px"></i>Yükleniyor...</div>`;
+        dropdownEl.innerHTML = '<div class="search-no-result"><i class="fa-solid fa-spinner fa-spin" style="margin-right:6px"></i>Yukleniyor...</div>';
         dropdownEl.classList.remove('hidden');
 
         searchAbortController = new AbortController();
         try {
             const res = await fetch(
-                `https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(query)}`,
+                'https://api.coingecko.com/api/v3/search?query=' + encodeURIComponent(query),
                 { signal: searchAbortController.signal }
             );
-            if (!res.ok) throw new Error('CoinGecko search error ' + res.status);
-            const data = await res.json();
 
-            const results = (data.coins || []).slice(0, 8);
-
-            if (results.length === 0) {
-                dropdownEl.innerHTML = `<div class="search-no-result">"${query}" için coin bulunamadı.</div>`;
+            if (res.status === 429) {
+                dropdownEl.innerHTML = '<div class="search-no-result"><i class="fa-solid fa-clock" style="margin-right:6px"></i>API rate limiti asildi. Lutfen bekleyin...</div>';
                 showFeedMsg('', '');
                 return;
             }
 
-            const esc = str => String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            if (!res.ok) throw new Error('CoinGecko search error ' + res.status);
+            const data = await res.json();
+            const results = (data.coins || []).slice(0, 8);
 
-            dropdownEl.innerHTML = results.map(c => {
+            if (results.length === 0) {
+                dropdownEl.innerHTML = '<div class="search-no-result">"' + query + '" icin coin bulunamadi.</div>';
+                showFeedMsg('', '');
+                return;
+            }
+
+            function esc(str) {
+                return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+            }
+
+            dropdownEl.innerHTML = results.map(function(c) {
                 const sym = (c.symbol || '').toUpperCase();
                 const thumbHtml = c.thumb
-                    ? `<img src="${esc(c.thumb)}" class="search-result-thumb" alt="${esc(sym)}" onerror="this.style.display='none'">`
-                    : `<span class="search-result-thumb-placeholder"><i class="fa-solid fa-coins"></i></span>`;
+                    ? '<img src="' + esc(c.thumb) + '" class="search-result-thumb" alt="' + esc(sym) + '" onerror="this.style.display=\'none\'">'
+                    : '<span class="search-result-thumb-placeholder"><i class="fa-solid fa-coins"></i></span>';
                 const rankBadge = c.market_cap_rank
-                    ? `<span class="search-result-rank">#${c.market_cap_rank}</span>`
+                    ? '<span class="search-result-rank">#' + c.market_cap_rank + '</span>'
                     : '';
-                return `
-                    <div class="search-result-item"
-                         data-symbol="${esc(sym)}"
-                         data-name="${encodeURIComponent(c.name || sym)}"
-                         data-cgid="${esc(c.id || '')}"
-                         data-thumb="${esc(c.thumb || '')}">
-                        ${thumbHtml}
-                        <div class="search-result-text">
-                            <span class="search-result-symbol">${esc(sym)}</span>
-                            <span class="search-result-name">${esc(c.name)}</span>
-                        </div>
-                        ${rankBadge}
-                    </div>`;
+                return '<div class="search-result-item" data-symbol="' + esc(sym) + '" data-name="' + encodeURIComponent(c.name || sym) + '" data-cgid="' + esc(c.id || '') + '" data-thumb="' + esc(c.thumb || '') + '">' +
+                    thumbHtml +
+                    '<div class="search-result-text"><span class="search-result-symbol">' + esc(sym) + '</span><span class="search-result-name">' + esc(c.name) + '</span></div>' +
+                    rankBadge + '</div>';
             }).join('');
 
-            dropdownEl.onclick = (e) => {
+            dropdownEl.onclick = function(e) {
                 const item = e.target.closest('.search-result-item');
                 if (!item) return;
                 const symbol = item.getAttribute('data-symbol');
@@ -436,59 +435,88 @@ window.handleCoinSearch = function (val) {
 
             showFeedMsg('', '');
         } catch (e) {
-            if (e.name === 'AbortError') return; // Ignore aborted requests
-            dropdownEl.innerHTML = `<div class="search-no-result"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px"></i>Arama başarısız. Tekrar dene.</div>`;
+            if (e.name === 'AbortError') return;
+            console.warn('[WhaleStack] Coin search failed:', e);
+            dropdownEl.innerHTML = '<div class="search-no-result"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px"></i>Arama basarisiz. Tekrar dene.</div>';
             showFeedMsg('', '');
         }
-    }, 350);
+    }, 400);
 };
 
-// ─── CoinGecko — REST Quotes (5s polling) ─────────────────────────────────────
+// ─── CoinGecko — Price Fetch ───────────────────────────────────────────────────
+let isFetching = false;
 
 async function fetchCoinGeckoPrices() {
-    if (!isLeader) return; // Only leader fetches data
-    
+    if (!isLeader) return;
+    if (isFetching) return;
+
+    const now = Date.now();
+    if (now - lastFetchTime < MIN_FETCH_INTERVAL) return;
+
     const feeds = getAllFeeds();
     if (!feeds.length) return;
 
-    // Collect all CoinGecko IDs (fallback: lowercase symbol as guess)
     const ids = feeds
-        .map(f => f.coingeckoId || f.symbol.toLowerCase())
+        .map(function(f) { return f.coingeckoId || f.symbol.toLowerCase(); })
         .filter(Boolean)
         .join(',');
 
     if (!ids) return;
 
+    isFetching = true;
+    lastFetchTime = Date.now();
+
     try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(function() { controller.abort(); }, 10000);
+
         const res = await fetch(
-            `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`,
-            { signal: AbortSignal.timeout(8000) }
+            'https://api.coingecko.com/api/v3/simple/price?ids=' + ids + '&vs_currencies=usd&include_24hr_change=true',
+            { signal: controller.signal }
         );
+        clearTimeout(timeoutId);
+
+        if (res.status === 429) {
+            fetchFailCount = Math.min(fetchFailCount + 1, 5);
+            console.warn('[WhaleStack] CoinGecko rate limited (429). Backoff:', getBackoffDelay(), 'ms');
+            updateLastUpdatedLabel(true);
+            isFetching = false;
+            return;
+        }
+
         if (!res.ok) throw new Error('CoinGecko API ' + res.status);
         const data = await res.json();
 
+        fetchFailCount = 0;
+
         const updates = [];
-        feeds.forEach(f => {
+        feeds.forEach(function(f) {
             const cgId = f.coingeckoId || f.symbol.toLowerCase();
             const entry = data[cgId];
             if (!entry) return;
-            const price    = entry.usd;
-            const change24h = entry.usd_24h_change; // Already in %, e.g. 2.74
+            const price     = entry.usd;
+            const change24h = entry.usd_24h_change;
             if (price > 0) {
                 applyPriceUpdate(f.symbol, price, change24h);
-                updates.push({ symbol: f.symbol, price, change24h });
+                updates.push({ symbol: f.symbol, price: price, change24h: change24h });
             }
         });
 
-        // Broadcast to other tabs
         if (updates.length > 0) {
             bc.postMessage({ type: 'PRICE_UPDATE', payload: updates });
         }
 
         updateLastUpdatedLabel(false);
     } catch (e) {
-        console.warn('[WhaleStack] CoinGecko price fetch failed', e);
+        if (e.name === 'AbortError') {
+            console.warn('[WhaleStack] CoinGecko fetch timed out');
+        } else {
+            console.warn('[WhaleStack] CoinGecko price fetch failed', e);
+        }
+        fetchFailCount = Math.min(fetchFailCount + 1, 5);
         updateLastUpdatedLabel(true);
+    } finally {
+        isFetching = false;
     }
 }
 
@@ -497,16 +525,20 @@ window.selectCoin = function (symbol, name, thumb, coingeckoId) {
     const cleanSymbol = (symbol || '').toUpperCase().trim();
     const cleanName   = (name || cleanSymbol).trim();
 
-    if (FIXED_FEEDS.some(f => f.symbol.toUpperCase() === cleanSymbol)) {
-        showFeedMsg(`${cleanSymbol} zaten listenizde!`, 'error');
-        return;
-    }
-    if (custom.some(c => c.symbol.toUpperCase() === cleanSymbol)) {
-        showFeedMsg(`${cleanSymbol} zaten listenizde!`, 'error');
+    if (!cleanSymbol) {
+        showFeedMsg('Gecersiz coin sembolu!', 'error');
         return;
     }
 
-    // Save with CoinGecko ID + thumb so polling works correctly
+    if (FIXED_FEEDS.some(function(f) { return f.symbol.toUpperCase() === cleanSymbol; })) {
+        showFeedMsg(cleanSymbol + ' zaten listenizde!', 'error');
+        return;
+    }
+    if (custom.some(function(c) { return c.symbol.toUpperCase() === cleanSymbol; })) {
+        showFeedMsg(cleanSymbol + ' zaten listenizde!', 'error');
+        return;
+    }
+
     custom.push({
         symbol: cleanSymbol,
         name: cleanName,
@@ -515,76 +547,78 @@ window.selectCoin = function (symbol, name, thumb, coingeckoId) {
     });
     saveCustomCoins(custom);
     renderWatchlistItems();
-    fetchCoinGeckoPrices(); // Immediately refresh prices for new coin
+    lastFetchTime = 0;
+    fetchCoinGeckoPrices();
     closeAddCoinModal();
 };
 
 window.removeCustomCoin = function (symbol) {
-    const custom = getCustomCoins().filter(c => c.symbol !== symbol);
+    const custom = getCustomCoins().filter(function(c) { return c.symbol !== symbol; });
     saveCustomCoins(custom);
-    try {
-        const prices = getCachedPrices();
-        delete prices[symbol];
-        localStorage.setItem('whalestack_prices', JSON.stringify(prices));
-    } catch (e) {}
-    try {
-        const changes = getCachedChanges();
-        delete changes[symbol];
-        localStorage.setItem('whalestack_changes', JSON.stringify(changes));
-    } catch (e) {}
+
+    if (memPrices && memPrices[symbol] !== undefined) {
+        delete memPrices[symbol];
+    }
+    if (memChanges && memChanges[symbol] !== undefined) {
+        delete memChanges[symbol];
+    }
+
+    flushCacheToStorage();
     renderWatchlistItems();
 };
 
-// ─── Modal Controls ───────────────────────────────────────────────────────────
-
+// ─── Modal Controls ────────────────────────────────────────────────────────────
 window.openAddCoinModal = function () {
     const modal = document.getElementById('addCoinModal');
     if (!modal) return;
     modal.classList.remove('hidden');
-    const input = document.getElementById('coinSearchInput');
+    const input    = document.getElementById('coinSearchInput');
     const dropdown = document.getElementById('coinSearchDropdown');
-    const msg = document.getElementById('feedFormMsg');
-    if (input) { input.value = ''; setTimeout(() => input.focus(), 150); }
+    const msg      = document.getElementById('feedFormMsg');
+    if (input)    { input.value = ''; setTimeout(function() { input.focus(); }, 150); }
     if (dropdown) dropdown.classList.add('hidden');
-    if (msg) msg.textContent = '';
+    if (msg)      msg.textContent = '';
 };
 
 window.closeAddCoinModal = function () {
     const modal = document.getElementById('addCoinModal');
     if (modal) modal.classList.add('hidden');
-    // Hide dropdown
     const dropdown = document.getElementById('coinSearchDropdown');
     if (dropdown) dropdown.classList.add('hidden');
     clearTimeout(searchTimer);
+    if (searchAbortController) {
+        searchAbortController.abort();
+        searchAbortController = null;
+    }
+    showFeedMsg('', '');
 };
 
 function showFeedMsg(msg, type) {
     const el = document.getElementById('feedFormMsg');
     if (!el) return;
     el.textContent = msg;
-    el.className = `feed-form-msg ${type || ''}`.trim();
+    el.className = ('feed-form-msg ' + (type || '')).trim();
     if (type && type !== 'info' && msg) {
-        setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 4000);
+        setTimeout(function() { if (el.textContent === msg) el.textContent = ''; }, 4000);
     }
 }
 
-// ─── Inline Tool Viewer ───────────────────────────────────────────────────────
-
+// ─── Inline Tool Viewer ────────────────────────────────────────────────────────
 window.openTool = function (url, title) {
-    const grid   = document.getElementById('toolsGrid');
-    const viewer = document.getElementById('toolViewer');
-    const iframe = document.getElementById('toolIframe');
+    const grid    = document.getElementById('toolsGrid');
+    const viewer  = document.getElementById('toolViewer');
+    const iframe  = document.getElementById('toolIframe');
     const titleEl = document.getElementById('toolViewerTitle');
     if (!grid || !viewer || !iframe) return;
 
     iframe.src = url;
-    iframe.onload = () => {
+    iframe.onload = function() {
         const isLight = document.body.classList.contains('light-mode');
         try { iframe.contentWindow.postMessage({ type: 'THEME_CHANGE', theme: isLight ? 'light' : 'dark' }, '*'); } catch (e) {}
     };
 
     if (titleEl) titleEl.textContent = title || 'Financial Tool';
-    document.title = `${title || 'Tool'} — WhaleStack`;
+    document.title = (title || 'Tool') + ' — WhaleStack';
     grid.classList.add('hidden');
     viewer.classList.remove('hidden');
     viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -604,28 +638,26 @@ window.closeTool = function () {
     activeTool = null;
 };
 
-// ─── SPA Routing ──────────────────────────────────────────────────────────────
-
+// ─── SPA Routing ───────────────────────────────────────────────────────────────
 function handleRouting() {
     const hash = window.location.hash || '#tools';
     let pageId = 'tools';
     if (hash === '#about') pageId = 'about';
     else if (hash === '#links') pageId = 'links';
 
-    document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.page-section').forEach(function(el) { el.classList.remove('active'); });
+    document.querySelectorAll('.nav-btn').forEach(function(el) { el.classList.remove('active'); });
 
     const targetPage = document.getElementById(pageId);
     if (targetPage) targetPage.classList.add('active');
 
-    const targetLink = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
+    const targetLink = document.querySelector('.nav-btn[data-page="' + pageId + '"]');
     if (targetLink) targetLink.classList.add('active');
 
     if (pageId !== 'tools') closeTool();
 }
 
-// ─── Theme ────────────────────────────────────────────────────────────────────
-
+// ─── Theme ─────────────────────────────────────────────────────────────────────
 function setupTheme() {
     const toggle = document.getElementById('themeToggle');
     const saved  = localStorage.getItem('whalestack-theme');
@@ -636,7 +668,7 @@ function setupTheme() {
     }
 
     if (toggle) {
-        toggle.addEventListener('change', () => {
+        toggle.addEventListener('change', function() {
             const isLight = toggle.checked;
             document.body.classList.toggle('light-mode', isLight);
             localStorage.setItem('whalestack-theme', isLight ? 'light' : 'dark');
@@ -649,16 +681,15 @@ function setupTheme() {
     }
 }
 
-// ─── Links Search ─────────────────────────────────────────────────────────────
-
+// ─── Links Search ──────────────────────────────────────────────────────────────
 window.filterMinimalLinks = function (query) {
-    const q = (query || '').toLowerCase().trim();
+    const q        = (query || '').toLowerCase().trim();
     const tiles    = document.querySelectorAll('.link-tile');
     const clearBtn = document.getElementById('linksClearBtn');
     if (clearBtn) clearBtn.classList.toggle('hidden', q.length === 0);
 
     let visibleCount = 0;
-    tiles.forEach(tile => {
+    tiles.forEach(function(tile) {
         const keywords = (tile.getAttribute('data-keywords') || '').toLowerCase();
         const text     = tile.textContent.toLowerCase();
         const match    = !q || keywords.includes(q) || text.includes(q);
@@ -675,39 +706,51 @@ window.clearMinimalLinksSearch = function () {
     if (input) { input.value = ''; window.filterMinimalLinks(''); input.focus(); }
 };
 
-// ─── App Init ─────────────────────────────────────────────────────────────────
-
+// ─── App Init ──────────────────────────────────────────────────────────────────
 function init() {
     setupTheme();
     handleRouting();
     renderWatchlistItems();
 
-    // Dynamic link counter
     const linkTiles    = document.querySelectorAll('.link-tile');
     const linksCountEl = document.getElementById('linksCount');
     if (linksCountEl && linkTiles.length > 0) {
         linksCountEl.textContent = linkTiles.length + ' Tools';
     }
 
-    // Initial fetch of all coin prices via CoinGecko
-    fetchCoinGeckoPrices();
+    // Leader election: wait 500ms to see if another tab heartbeats first
+    resetElectionTimeout();
+    setTimeout(function() {
+        if (!leaderHeartbeatReceived && !isLeader) {
+            becomeLeader();
+        }
+    }, 500);
 
-    // Poll every 5 seconds (CoinGecko free tier: up to ~30 req/min, 1 req/5s = 12 req/min ✔)
+    // Poll every 8s (safe for CoinGecko free tier)
     if (pollingTimer) clearInterval(pollingTimer);
-    pollingTimer = setInterval(() => {
-        if (isLeader) fetchCoinGeckoPrices();
-    }, 5000);
+    pollingTimer = setInterval(function() {
+        if (isLeader) {
+            const backoff = getBackoffDelay();
+            if (backoff > 0) {
+                if (Date.now() - lastFetchTime >= backoff) {
+                    fetchCoinGeckoPrices();
+                }
+            } else {
+                fetchCoinGeckoPrices();
+            }
+        }
+    }, 8000);
 
-    document.addEventListener('visibilitychange', () => {
+    document.addEventListener('visibilitychange', function() {
         if (document.visibilityState === 'visible' && isLeader) {
+            lastFetchTime = 0;
             fetchCoinGeckoPrices();
         }
     });
 
-    // Enter key support in search input to select top result
     const searchInput = document.getElementById('coinSearchInput');
     if (searchInput) {
-        searchInput.addEventListener('keydown', (e) => {
+        searchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 const dropdown = document.getElementById('coinSearchDropdown');
@@ -719,27 +762,25 @@ function init() {
         });
     }
 
-    // Flush in-memory caches on tab close
-    window.addEventListener('beforeunload', () => {
-        if (memPrices) {
-            try { localStorage.setItem('whalestack_prices', JSON.stringify(memPrices)); } catch (e) {}
-        }
-        if (memChanges) {
-            try { localStorage.setItem('whalestack_changes', JSON.stringify(memChanges)); } catch (e) {}
-        }
+    window.addEventListener('beforeunload', function() {
+        flushCacheToStorage();
+        if (isLeader && leaderPingTimer) clearInterval(leaderPingTimer);
     });
 
-    // Navigation & shortcuts
     window.addEventListener('hashchange', handleRouting);
-    window.addEventListener('keydown', e => {
+
+    window.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            if (activeTool) closeTool();
-            closeAddCoinModal();
+            const modal = document.getElementById('addCoinModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                closeAddCoinModal();
+            } else if (activeTool) {
+                closeTool();
+            }
         }
     });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', e => {
+    document.addEventListener('click', function(e) {
         const dropdown = document.getElementById('coinSearchDropdown');
         const input    = document.getElementById('coinSearchInput');
         if (dropdown && input && !dropdown.contains(e.target) && e.target !== input) {
@@ -747,8 +788,7 @@ function init() {
         }
     });
 
-    // Listen for close tool message from iframes
-    window.addEventListener('message', e => {
+    window.addEventListener('message', function(e) {
         if (e.data && e.data.type === 'CLOSE_TOOL') {
             closeTool();
         }

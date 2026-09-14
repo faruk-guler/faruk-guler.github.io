@@ -167,9 +167,27 @@ if (calcBtn) calcBtn.addEventListener("click", calculate);
 const clearBtn = document.getElementById("clearBtn");
 if (clearBtn) clearBtn.addEventListener("click", clearForm);
 
-document.querySelectorAll('input').forEach(input => {
-  input.addEventListener('input', calculate);
-  input.addEventListener('change', calculate);
+// Live auto-calculate: only runs silently when all 3 required fields are valid
+function tryAutoCalculate() {
+    const buyPrice     = parseNum(document.getElementById('buyPrice').value);
+    const currentPrice = parseNum(document.getElementById('currentPrice').value);
+    const amount       = parseNum(document.getElementById('amount').value);
+    // Only auto-calc if all required fields are filled with valid positive values
+    if (!isNaN(buyPrice) && buyPrice > 0 &&
+        !isNaN(currentPrice) && currentPrice > 0 &&
+        !isNaN(amount) && amount > 0) {
+        calculate();
+    } else {
+        // Hide result but don't show errors while user is still filling in fields
+        const resultDiv = document.getElementById('result');
+        if (resultDiv) resultDiv.style.display = 'none';
+        clearMessages();
+    }
+}
+
+document.querySelectorAll('input').forEach(function(input) {
+    input.addEventListener('input', tryAutoCalculate);
+    input.addEventListener('change', tryAutoCalculate);
 });
 
 // Prevent accidental wheel scroll value increments

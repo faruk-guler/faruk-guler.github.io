@@ -151,6 +151,9 @@ function clearForm() {
   document.getElementById('result').style.display = 'none';
   document.getElementById('errorMessage').style.display = 'none';
   document.getElementById('successMessage').style.display = 'none';
+  document.getElementById('errorMessage').textContent = '';
+  document.getElementById('successMessage').textContent = '';
+  document.getElementById('warningMessage').textContent = '';
   const assetRow = document.getElementById('resultAssetRow');
   if (assetRow) assetRow.style.display = 'none';
   document.getElementById('investmentAmount').focus();

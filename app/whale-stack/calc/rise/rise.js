@@ -142,13 +142,18 @@ function clearForm() {
     document.getElementById('tName').value = '';
     document.getElementById('tPrice').value = '';
     document.getElementById('tSupplyInput').value = '';
+    // Reset unit selects to default (Million = 1000000)
+    var sUnitEl = document.getElementById('sUnit');
+    var tUnitEl = document.getElementById('tUnit');
+    if (sUnitEl) sUnitEl.value = '1000000';
+    if (tUnitEl) tUnitEl.value = '1000000';
     document.getElementById('resultArea').style.display = 'none';
     document.getElementById('sMC').innerText = 'Market Cap: $0';
     document.getElementById('tMC').innerText = 'Target Market Cap: $0';
     const resXEl = document.getElementById('resX');
     const resPercentEl = document.getElementById('resPercent');
-    if (resXEl) resXEl.style.color = '';
-    if (resPercentEl) resPercentEl.style.color = '';
+    if (resXEl) { resXEl.style.color = ''; resXEl.innerText = '---'; }
+    if (resPercentEl) { resPercentEl.style.color = ''; resPercentEl.innerText = '---'; }
     hideError();
     document.getElementById('sName').focus();
 }
