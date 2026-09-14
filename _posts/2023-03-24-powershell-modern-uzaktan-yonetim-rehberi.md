@@ -2,7 +2,7 @@
 layout: post
 title: "PowerShell ile Modern Uzaktan Yönetim: Protokoller, Portlar ve Pratik Komut Rehberi"
 date: 2023-03-24 00:16
-author: faruk-guler
+by: faruk-guler
 comments: true
 categories: [PowerShell, Sistem Yönetimi]
 ---
