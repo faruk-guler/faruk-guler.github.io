@@ -385,3 +385,5 @@ systemctl enable --now hypervkvpd hypervvssd
 İster açık kaynaklı **Proxmox VE**, ister kurumsal **Microsoft Hyper-V / Azure Stack** olsun; VMware dışına çıkıldığında karşılaşılan açılış hatalarının temel sebebi diskin bozulması değil, **Linux çekirdeğinin `host-only` sürücü politikasıdır**.
 
 Göç öncesinde `initramfs` içerisine hem `virtio` hem de `hv_storvsc` modüllerini ekleyerek ortamlar arası geçişi tek komutla pürüzsüz hale getirebilir; kriz anlarında ise donanım emülasyonu hileleriyle (LSI/IDE) sistemi kurtarma medyasına dahi ihtiyaç duymadan ayağa kaldırabilirsiniz.
+
+Saygilarimla Faruk GULER / Sysadmin
