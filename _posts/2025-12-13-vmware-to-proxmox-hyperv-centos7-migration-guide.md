@@ -1,7 +1,7 @@
 ---
 layout: post
 title: CentOS 7: Warning: /dev/mapper/centos-root does not exist ve dracut emergency mode Boot Hatası Çözümü
-date: 2026-01-13 22:19
+date: 2025-12-13 22:19
 by: faruk-guler
 comments: true
 categories: [Linux / Unix]
