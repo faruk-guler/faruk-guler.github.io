@@ -1,6 +1,6 @@
 ---
 layout: post
-title: CentOS 7: Warning: /dev/mapper/centos-root does not exist ve dracut emergency mode Boot Hatası Çözümü (VMware -> Proxmox VE & Hyper-V
+title: CentOS 7: Warning: /dev/mapper/centos-root does not exist ve dracut emergency mode Boot Hatası Çözümü
 date: 2026-01-13 22:19
 by: faruk-guler
 comments: true
