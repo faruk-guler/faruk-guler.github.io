@@ -360,7 +360,7 @@ Invoke-Command -HostName "192.168.1.100" -UserName "sysadmin" -KeyFilePath "~/.s
 $cred = Get-Credential
 
 Invoke-Command -ComputerName "MUHASEBE-03" -Credential $cred -ScriptBlock {
-    $env:COMPUTERNAME
+    ipconfig
 }
 ```
 
