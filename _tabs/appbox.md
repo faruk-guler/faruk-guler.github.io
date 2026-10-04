@@ -14,7 +14,7 @@ order: 2
 | [QR Code Generator](/app/qr-generator/){:target="_blank"} | [Network Simulator Tool](/app/network-simulator/){:target="_blank"} | |
 | [What Is My IP Address](/app/my-ip/){:target="_blank"} | [Domain TLD Bulk Lookup](/app/tld-lookup/){:target="_blank"} | |
 | [Reverse IP Lookup](/app/reverse-ip/){:target="_blank"} | [Cronjob Planner](/app/cronjob-planner/){:target="_blank"} | |
-| [NetSpeed Test](/app/speed-test/){:target="_blank"} | [Tiny Markdown Editor](/app/tiny-markdown-editor/){:target="_blank"} | |
+| [NetSpeed Test](/app/speed-test/){:target="_blank"} | [Kitty Markdown Editor](/app/kitty-markdown-editor/){:target="_blank"} | |
 | [Subdomain Finder](/app/subdomain-finder/){:target="_blank"} | [Domain IP Analyzer](/app/domain-ip-analyzer/){:target="_blank"} | |
 | [Neutron Powerful Automation](https://github.com/faruk-guler/Neutron/){:target="_blank"} | [OpenDraw WebUI](/app/open-draw/){:target="_blank"} | |
 | [WHOIS Domain Lookup](/app/whois-lookup/){:target="_blank"} | [Morse Code Converter](/app/morse/){:target="_blank"} | |
