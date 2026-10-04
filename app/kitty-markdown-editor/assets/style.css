@@ -1,0 +1,233 @@
+/* Kitty Markdown Editor - arayüz stilleri (derleme adımı yok, doğrudan kullanılır) */
+
+:root {
+  --split: 50%;
+  --bar-bg: #f6f8fa;
+  --bar-border: #d0d7de;
+  --bar-text: #1f2328;
+  --accent: #f59e0b;
+  --editor-bg: #ffffff;
+  --editor-text: #1f2328;
+  --muted-text: #59636e;
+  --link-text: #0969da;
+}
+
+html[data-theme="dark"] {
+  --bar-bg: #21262d;
+  --bar-border: #3d444d;
+  --bar-text: #e6edf3;
+  --editor-bg: #0d1117;
+  --editor-text: #e6edf3;
+  --muted-text: #9198a1;
+  --link-text: #4493f8;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  color: var(--bar-text);
+  background: var(--editor-bg);
+}
+
+/* ----- Üst bar ----- */
+
+header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 12px;
+  background: var(--bar-bg);
+  border-bottom: 1px solid var(--bar-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.brand img { width: 24px; height: 24px; }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  font: inherit;
+  padding: 5px 11px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--bar-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.actions button:hover { border-color: var(--accent); }
+
+.actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.about {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted-text);
+  white-space: nowrap;
+}
+
+.about a {
+  color: var(--link-text);
+  text-decoration: none;
+}
+
+.about a:hover,
+.about a:focus-visible {
+  text-decoration: underline;
+}
+
+.about-links span {
+  padding: 0 4px;
+}
+
+.about-name {
+  font-weight: 600;
+}
+
+/* Dar pencerlerde marka zaten solda yazılı; tekrarı gizlenir */
+@media (max-width: 900px) {
+  .about-name {
+    display: none;
+  }
+}
+
+/* ----- Paneller ----- */
+
+main {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+}
+
+.pane {
+  overflow: auto;
+  min-width: 0;
+}
+
+#editor-pane {
+  flex: 0 0 var(--split);
+  overflow: hidden;
+}
+
+#preview-pane {
+  flex: 1 1 auto;
+  padding: 24px 32px;
+  background: var(--editor-bg);
+}
+
+#preview-pane > .markdown-body { max-width: 980px; }
+
+#editor {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  border: 0;
+  resize: none;
+  font-family: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--editor-text);
+  background: var(--editor-bg);
+  tab-size: 4;
+}
+
+#editor:focus { outline: none; }
+
+#divider {
+  flex: 0 0 6px;
+  cursor: col-resize;
+  background: var(--bar-border);
+  touch-action: none;
+}
+
+#divider:hover, #divider:focus-visible { background: var(--accent); outline: none; }
+
+/* ----- Alt bilgi ----- */
+
+footer {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 18px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--bar-text);
+  background: var(--bar-bg);
+  border-top: 1px solid var(--bar-border);
+}
+
+footer span:last-child { margin-left: auto; }
+
+/* ----- Baskı / PDF ----- */
+
+@media print {
+  header, #editor-pane, #divider, footer { display: none !important; }
+
+  html, body { height: auto; background: #fff; }
+
+  main { display: block; }
+
+  #preview-pane {
+    flex: none;
+    overflow: visible;
+    padding: 0;
+    background: #fff;
+  }
+
+  #preview-pane > .markdown-body {
+    max-width: none;
+    color: #1f2328;
+  }
+
+  /* Koyu tema açıkken de mürekkep dostu çıktı */
+  .markdown-body,
+  .markdown-body * {
+    color: #1f2328 !important;
+  }
+
+  .markdown-body pre,
+  .markdown-body code,
+  .markdown-body table tr {
+    background: #f6f8fa !important;
+  }
+
+  .markdown-body pre, .markdown-body blockquote { break-inside: avoid; }
+
+  @page { margin: 15mm; }
+}

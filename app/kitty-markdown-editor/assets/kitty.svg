@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kitty Markdown Editor">
+  <!-- kulaklar -->
+  <path fill="#f59e0b" d="M13 26 8 5l20 11z"/>
+  <path fill="#f59e0b" d="M51 26 56 5 36 16z"/>
+  <path fill="#fef3c7" d="M15 22 12 10l9 5z"/>
+  <path fill="#fef3c7" d="M49 22 52 10l-9 5z"/>
+  <!-- kafa -->
+  <rect x="6" y="16" width="52" height="42" rx="19" fill="#f59e0b"/>
+  <!-- gozler -->
+  <circle cx="23" cy="34" r="4" fill="#1f2937"/>
+  <circle cx="41" cy="34" r="4" fill="#1f2937"/>
+  <!-- burun + agiz -->
+  <path fill="#1f2937" d="M32 41l-3.2 2.6h6.4z"/>
+  <path d="M32 44v3M32 47q-4 4-8 0M32 47q4 4 8 0" fill="none" stroke="#1f2937" stroke-width="2" stroke-linecap="round"/>
+  <!-- biciklar -->
+  <path d="M6 38h8M7 44h7M58 38h-8M57 44h-7" fill="none" stroke="#1f2937" stroke-width="2" stroke-linecap="round"/>
+</svg>

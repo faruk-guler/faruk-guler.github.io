@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Internet erişimi gerektirmeyen, tamamen yerel Markdown düzenleyici ve canlı önizleme aracı.">
+    <title>Kitty Markdown Editor</title>
+
+    <script>
+      // Tema, sayfa boyanmadan önce uygulanır (açılışta beyaz parlama olmaz).
+      try {
+        document.documentElement.setAttribute(
+          'data-theme',
+          localStorage.getItem('kitty-markdown.theme') === 'dark' ? 'dark' : 'light'
+        );
+      } catch (error) {
+        // localStorage kapalıysa varsayılan tema kullanılır
+      }
+    </script>
+    <link rel="stylesheet" href="assets/style.css">
+    <link id="css-light" rel="stylesheet" href="assets/github-markdown-light.css">
+    <link id="css-dark" rel="stylesheet" href="assets/github-markdown-dark_dimmed.css" media="not all">
+    <link rel="icon" href="assets/kitty.svg" type="image/svg+xml">
+  </head>
+
+  <body>
+    <header>
+      <div class="brand">
+        <img src="assets/kitty.svg" alt="">
+        <span>Kitty Markdown Editor</span>
+      </div>
+
+      <div class="actions">
+        <button id="btn-open" type="button" title="Markdown dosyası aç (Ctrl+O)">Aç</button>
+        <input id="file-input" type="file" accept=".md,.markdown,.txt,text/markdown" hidden>
+        <button id="btn-save" type="button" title="Markdown olarak indir (Ctrl+S)">Kaydet</button>
+        <button id="btn-copy" type="button">Kopyala</button>
+        <button id="btn-pdf" type="button" title="Tarayıcının yazdırma penceresinden PDF olarak kaydedin">PDF</button>
+        <button id="btn-reset" type="button">Sıfırla</button>
+        <button id="btn-theme" type="button">Koyu tema</button>
+        <label class="check">
+          <input id="sync-scroll" type="checkbox">
+          Senkron kaydırma
+        </label>
+      </div>
+
+      <div class="about">
+        <div class="about-links">
+          <a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer">github.com/faruk-guler</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">www.farukguler.com</a>
+        </div>
+        <div class="about-name">Kitty Markdown Editor</div>
+      </div>
+    </header>
+
+    <main id="panes">
+      <section id="editor-pane" class="pane">
+        <textarea id="editor" spellcheck="false" aria-label="Markdown editörü"></textarea>
+      </section>
+
+      <div id="divider" role="separator" aria-orientation="vertical" aria-label="Panel genişliği"
+           aria-valuemin="15" aria-valuenow="50" aria-valuemax="85" tabindex="0"></div>
+
+      <section id="preview-pane" class="pane">
+        <article id="output" class="markdown-body"></article>
+      </section>
+    </main>
+
+    <footer>
+      <span id="stat-words">Kelime: 0</span>
+      <span id="stat-chars">Karakter: 0</span>
+      <span id="stat-lines">Satır: 0</span>
+      <span id="stat-status">Hazır</span>
+    </footer>
+
+    <script type="text/markdown" id="sample-doc">
+# Kitty Markdown Editor
+
+Tamamen **yerel** bir Markdown editörü: sunucu, kurulum ve internet erişimi yok.
+Bu dosyayı çift tıklayarak açın, yazdıkça sağ tarafta anında görünür.
+
+## Temel sözdizimi
+
+Bağlantı: [Kitty'nin kendi ikonu](assets/kitty.svg)
+
+KALIN ve *italik* metin, `satır içi kod`.
+
+### Liste
+
+- Bültili liste
+- Alt öğe için iki boşluk
+  1. Numaralı liste de olur
+
+### Tablo
+
+| Özellik | Durum |
+| --- | :---: |
+| Çevrimdışı kullanım | var |
+| Koyu tema | var |
+| Otomatik kayıt | var |
+
+### Kod bloğu
+
+```python
+def selam(isim):
+    return f"Merhaba {isim}!"
+```
+
+### Alıntı
+
+> Markdown, düz metinle yazılan bir işaretleme dilidir.
+
+## Kaydetme
+
+- **Kaydet** (Ctrl+S) içeriği `.md` dosyası olarak indirir.
+- **PDF** yazdırma penceresini açar; "Hedef: PDF olarak kaydet" seçin.
+- Bir `.md` dosyasını pencereye sürükleyerek de açabilirsiniz.
+- Yazdıklarınız tarayıcının yerel deposunda saklanır, sekme kapansa bile kaybolmaz.
+    </script>
+
+    <script src="assets/marked.min.js"></script>
+    <script src="assets/purify.min.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
