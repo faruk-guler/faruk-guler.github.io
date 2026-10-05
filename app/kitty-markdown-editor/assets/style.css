@@ -1,7 +1,8 @@
-/* Kitty Markdown Editor - arayüz stilleri (derleme adımı yok, doğrudan kullanılır) */
+/* Kitty Markdown Editor - interface styles (no build step, used directly) */
 
 :root {
   --split: 50%;
+  --font-scale: 1;
   --bar-bg: #f6f8fa;
   --bar-border: #d0d7de;
   --bar-text: #1f2328;
@@ -24,6 +25,8 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 html, body {
   height: 100%;
   margin: 0;
@@ -37,7 +40,7 @@ body {
   background: var(--editor-bg);
 }
 
-/* ----- Üst bar ----- */
+/* ----- Top bar ----- */
 
 header {
   flex: 0 0 auto;
@@ -52,12 +55,26 @@ header {
 .brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-weight: 600;
   white-space: nowrap;
 }
 
-.brand img { width: 24px; height: 24px; }
+.brand img {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.brand .version {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 3px 8px;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+}
 
 .actions {
   display: flex;
@@ -66,7 +83,8 @@ header {
   flex-wrap: wrap;
 }
 
-.actions button {
+.actions button,
+.about button {
   font: inherit;
   padding: 5px 11px;
   color: inherit;
@@ -76,9 +94,11 @@ header {
   cursor: pointer;
 }
 
-.actions button:hover { border-color: var(--accent); }
+.actions button:hover,
+.about button:hover { border-color: var(--accent); }
 
-.actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.actions button:focus-visible,
+.about button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 .check {
   display: flex;
@@ -90,44 +110,96 @@ header {
   user-select: none;
 }
 
+/* ----- About / full-screen buttons and the About popover ----- */
+
 .about {
+  position: relative;
   margin-left: auto;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1px;
-  font-size: 12px;
-  line-height: 1.35;
+  align-items: center;
+  gap: 6px;
+}
+
+.about-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10;
+  width: 300px;
+  max-width: calc(100vw - 24px);
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bar-text);
+  background: var(--bar-bg);
+  border: 1px solid var(--bar-border);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.about-panel p {
+  margin: 6px 0;
   color: var(--muted-text);
-  white-space: nowrap;
-}
-
-.about a {
-  color: var(--link-text);
-  text-decoration: none;
-}
-
-.about a:hover,
-.about a:focus-visible {
-  text-decoration: underline;
-}
-
-.about-links span {
-  padding: 0 4px;
 }
 
 .about-name {
   font-weight: 600;
 }
 
-/* Dar pencerlerde marka zaten solda yazılı; tekrarı gizlenir */
-@media (max-width: 900px) {
-  .about-name {
-    display: none;
+.about-version {
+  margin-left: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.about-panel a {
+  color: var(--link-text);
+  text-decoration: none;
+}
+
+.about-panel a:hover,
+.about-panel a:focus-visible {
+  text-decoration: underline;
+}
+
+.about-links span {
+  padding: 0 4px;
+  color: var(--muted-text);
+}
+
+/* On narrow windows the top bar should not eat vertical space: gaps and
+   paddings shrink first; action buttons may still wrap. */
+@media (max-width: 760px) {
+  header {
+    gap: 10px;
+    padding: 6px 8px;
   }
 }
 
-/* ----- Paneller ----- */
+@media (max-width: 560px) {
+  .brand span {
+    display: none;
+  }
+
+  .brand img { width: 32px; height: 32px; }
+
+  .actions {
+    gap: 4px;
+  }
+
+  .actions button {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  .check {
+    margin-left: 4px;
+    font-size: 12px;
+  }
+}
+
+/* ----- Panes ----- */
 
 main {
   flex: 1 1 auto;
@@ -151,7 +223,18 @@ main {
   background: var(--editor-bg);
 }
 
-#preview-pane > .markdown-body { max-width: 980px; }
+#preview-pane > .markdown-body {
+  max-width: 980px;
+  background: transparent;
+  font-size: calc(16px * var(--font-scale));
+}
+
+/* Fixed-px code sizes in github-markdown-css do not scale with em, so they
+   are recalculated from the same factor here. */
+#preview-pane .markdown-body pre,
+#preview-pane .markdown-body code {
+  font-size: calc(12px * var(--font-scale));
+}
 
 #editor {
   display: block;
@@ -161,7 +244,7 @@ main {
   border: 0;
   resize: none;
   font-family: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, monospace;
-  font-size: 14px;
+  font-size: calc(14px * var(--font-scale));
   line-height: 1.6;
   color: var(--editor-text);
   background: var(--editor-bg);
@@ -179,7 +262,25 @@ main {
 
 #divider:hover, #divider:focus-visible { background: var(--accent); outline: none; }
 
-/* ----- Alt bilgi ----- */
+/* ----- Full-screen preview (toggled by app.js; Ctrl+F) ----- */
+
+/* Fallback layout for browsers without (or denying) the Fullscreen API. */
+body.fullscreen-preview #editor-pane,
+body.fullscreen-preview #divider { display: none; }
+
+body.fullscreen-preview #preview-pane { flex: 1 1 auto; }
+
+/* Native full screen: the preview pane itself is the fullscreen element. */
+#preview-pane:fullscreen {
+  padding: 32px 48px;
+}
+
+#preview-pane:fullscreen > .markdown-body {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* ----- Status bar ----- */
 
 footer {
   flex: 0 0 auto;
@@ -194,7 +295,7 @@ footer {
 
 footer span:last-child { margin-left: auto; }
 
-/* ----- Baskı / PDF ----- */
+/* ----- Print / PDF ----- */
 
 @media print {
   header, #editor-pane, #divider, footer { display: none !important; }
@@ -215,10 +316,15 @@ footer span:last-child { margin-left: auto; }
     color: #1f2328;
   }
 
-  /* Koyu tema açıkken de mürekkep dostu çıktı */
+  /* Ink-friendly output even when the dark theme is active */
   .markdown-body,
   .markdown-body * {
     color: #1f2328 !important;
+  }
+
+  /* The dark theme preview background must not leak into printing */
+  .markdown-body {
+    background: #fff !important;
   }
 
   .markdown-body pre,

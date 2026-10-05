@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="light">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Internet erişimi gerektirmeyen, tamamen yerel Markdown düzenleyici ve canlı önizleme aracı.">
-    <title>Kitty Markdown Editor</title>
+    <meta name="description" content="A fully local Markdown editor with live preview that requires no internet access.">
+    <title>Kitty Markdown Editor v1.1</title>
 
     <script>
-      // Tema, sayfa boyanmadan önce uygulanır (açılışta beyaz parlama olmaz).
+      // The theme is applied before the page paints (no white flash on startup).
       try {
         document.documentElement.setAttribute(
           'data-theme',
           localStorage.getItem('kitty-markdown.theme') === 'dark' ? 'dark' : 'light'
         );
       } catch (error) {
-        // localStorage kapalıysa varsayılan tema kullanılır
+        // If localStorage is disabled, the default theme is used
       }
     </script>
     <link rel="stylesheet" href="assets/style.css">
@@ -26,40 +26,46 @@
   <body>
     <header>
       <div class="brand">
-        <img src="assets/kitty.svg" alt="">
+        <img src="assets/kitty.svg" alt="Kitty Markdown Editor logo">
         <span>Kitty Markdown Editor</span>
+        <span class="version" id="brand-version">v1.1</span>
       </div>
 
       <div class="actions">
-        <button id="btn-open" type="button" title="Markdown dosyası aç (Ctrl+O)">Aç</button>
+        <button id="btn-open" type="button" title="Open a Markdown file (Ctrl+O)">Open</button>
         <input id="file-input" type="file" accept=".md,.markdown,.txt,text/markdown" hidden>
-        <button id="btn-save" type="button" title="Markdown olarak indir (Ctrl+S)">Kaydet</button>
-        <button id="btn-copy" type="button">Kopyala</button>
-        <button id="btn-pdf" type="button" title="Tarayıcının yazdırma penceresinden PDF olarak kaydedin">PDF</button>
-        <button id="btn-reset" type="button">Sıfırla</button>
-        <button id="btn-theme" type="button">Koyu tema</button>
+        <button id="btn-save" type="button" title="Download as Markdown (Ctrl+S)">Save</button>
+        <button id="btn-copy" type="button">Copy</button>
+        <button id="btn-pdf" type="button" title="Save as PDF via the browser's print dialog">Export PDF</button>
+        <button id="btn-reset" type="button">Reset</button>
+        <button id="btn-fullscreen" type="button" aria-pressed="false" title="Full-screen preview (Ctrl+F)">Full screen</button>
         <label class="check">
           <input id="sync-scroll" type="checkbox">
-          Senkron kaydırma
+          Sync scroll
         </label>
       </div>
 
       <div class="about">
-        <div class="about-links">
-          <a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer">github.com/faruk-guler</a>
-          <span aria-hidden="true">·</span>
-          <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">www.farukguler.com</a>
+        <button id="btn-theme" type="button">Dark theme</button>
+        <button id="btn-about" type="button" aria-expanded="false" aria-controls="about-panel">About</button>
+        <div id="about-panel" class="about-panel" role="dialog" aria-label="About Kitty Markdown Editor" hidden>
+          <div class="about-name">Kitty Markdown Editor <span class="about-version" id="about-version">v1.1</span></div>
+          <p>A fully local Markdown editor with live preview: no server, no setup, no internet access, no data collection, open source :)</p>
+          <div class="about-links">
+            <a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer">github.com/faruk-guler</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">www.farukguler.com</a>
+          </div>
         </div>
-        <div class="about-name">Kitty Markdown Editor</div>
       </div>
     </header>
 
     <main id="panes">
       <section id="editor-pane" class="pane">
-        <textarea id="editor" spellcheck="false" aria-label="Markdown editörü"></textarea>
+        <textarea id="editor" spellcheck="false" aria-label="Markdown editor"></textarea>
       </section>
 
-      <div id="divider" role="separator" aria-orientation="vertical" aria-label="Panel genişliği"
+      <div id="divider" role="separator" aria-orientation="vertical" aria-label="Panel width"
            aria-valuemin="15" aria-valuenow="50" aria-valuemax="85" tabindex="0"></div>
 
       <section id="preview-pane" class="pane">
@@ -68,57 +74,29 @@
     </main>
 
     <footer>
-      <span id="stat-words">Kelime: 0</span>
-      <span id="stat-chars">Karakter: 0</span>
-      <span id="stat-lines">Satır: 0</span>
-      <span id="stat-status">Hazır</span>
+      <span id="stat-words">Words: 0</span>
+      <span id="stat-chars">Characters: 0</span>
+      <span id="stat-lines">Lines: 0</span>
+      <span id="stat-status" role="status" aria-live="polite">Ready</span>
     </footer>
 
     <script type="text/markdown" id="sample-doc">
-# Kitty Markdown Editor
+# Kitty Markdown Editor Test Page
 
-Tamamen **yerel** bir Markdown editörü: sunucu, kurulum ve internet erişimi yok.
-Bu dosyayı çift tıklayarak açın, yazdıkça sağ tarafta anında görünür.
+A fully local Markdown editor with live preview: no server, no setup, no internet access, no data collection, open source :)
 
-## Temel sözdizimi
+### Open this file with a double click; whatever you type appears on the right instantly.
 
-Bağlantı: [Kitty'nin kendi ikonu](assets/kitty.svg)
+## Basic syntax
+Test 1234...
 
-KALIN ve *italik* metin, `satır içi kod`.
+## Shortcuts
 
-### Liste
-
-- Bültili liste
-- Alt öğe için iki boşluk
-  1. Numaralı liste de olur
-
-### Tablo
-
-| Özellik | Durum |
-| --- | :---: |
-| Çevrimdışı kullanım | var |
-| Koyu tema | var |
-| Otomatik kayıt | var |
-
-### Kod bloğu
-
-```python
-def selam(isim):
-    return f"Merhaba {isim}!"
-```
-
-### Alıntı
-
-> Markdown, düz metinle yazılan bir işaretleme dilidir.
-
-## Kaydetme
-
-- **Kaydet** (Ctrl+S) içeriği `.md` dosyası olarak indirir.
-- **PDF** yazdırma penceresini açar; "Hedef: PDF olarak kaydet" seçin.
-- Bir `.md` dosyasını pencereye sürükleyerek de açabilirsiniz.
-- Yazdıklarınız tarayıcının yerel deposunda saklanır, sekme kapansa bile kaybolmaz.
+- **Ctrl+O** open a file · **Ctrl+S** save · **Ctrl+P** print / PDF.
+- **Ctrl+F** toggle full-screen preview of the rendered document.
+- **Ctrl+=** bigger text · **Ctrl+-** smaller · **Ctrl+0** reset to 100%.
+- **Tab** / **Shift+Tab** indent and outdent.
     </script>
-
     <script src="assets/marked.min.js"></script>
     <script src="assets/purify.min.js"></script>
     <script src="assets/app.js"></script>
