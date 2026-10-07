@@ -199,22 +199,19 @@ Kurum içinde Active Directory, yerel dosya sunucuları (NAS) veya iç web uygul
 Kendi Windows bilgisayarınızda veya bir sunucuda hangi protokollerin manuel olarak açılıp kapatıldığını net bir hiyerarşiyle görmek için şu komutu çalıştırabilirsiniz:
 
 ```powershell
-$base = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols"
+$base="HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols"
 
-$sonuc = foreach ($p in "SSL 2.0","SSL 3.0","TLS 1.0","TLS 1.1","TLS 1.2","TLS 1.3") {
-    foreach ($role in "Server","Client") {
-        $v = Get-ItemProperty "$base\$p\$role" -ErrorAction SilentlyContinue
+gci $base | % {
+    $p=$_.PSChildName
+    "Server","Client" | % {
+        $v=gp "$base\$p\$_" -EA 0
         [pscustomobject]@{
-            Protokol = $p
-            Rol      = $role
-            Durum    = if ($null -eq $v -or $null -eq $v.Enabled) { "Varsayılan" }
-                       elseif ($v.Enabled -eq 0) { "KAPALI" }
-                       else { "AÇIK" }
+            Protokol=$p
+            Rol=$_
+            Durum=if($null-eq$v.Enabled){"Varsayılan"}elseif($v.Enabled-eq0){"KAPALI"}else{"AÇIK"}
         }
     }
-}
-
-$sonuc | Format-Table -AutoSize
+} | ft -AutoSize
 ```
 
 > [!NOTE]
