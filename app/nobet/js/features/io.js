@@ -7,6 +7,7 @@
 
 const io = {
     DEFAULT_UNIT: '.......... Birimi Nöbet Çizelgesi',
+    hasBoldFace: false,
 
     init() {
         document.getElementById('btnTemplate').addEventListener('click', () => this.downloadTemplate());
@@ -20,7 +21,7 @@ const io = {
     // ---------- Helpers ----------
     xlsxReady() {
         if (!window.XLSX) {
-            ui.toast('Excel modülü yüklü değil (vendor/xlsx).', 'error');
+            ui.toast('Excel kütüphanesi yüklü değil: vendor/xlsx.full.min.js eksik.', 'error');
             return false;
         }
         return true;
@@ -61,6 +62,36 @@ const io = {
             'ö': 'o', 'Ö': 'O', 'ş': 's', 'Ş': 'S', 'ü': 'u', 'Ü': 'U'
         };
         return String(text || '').replace(/[çÇğĞıİöÖşŞüÜ]/g, ch => map[ch]);
+    },
+
+    /**
+     * vendor/roboto.js (tools/make-pdf-font.js üretimi) window.PDF_FONTS'i doldurur.
+     * O dosya yoksa belge yerleşik Helvetica + ASCII katlamasiyla üretilir - yani
+     * "Şehir" yine "Sehir" olur; uygulama yine de çökmez.
+     */
+    pdfFonts() {
+        return window.PDF_FONTS && window.PDF_FONTS.regular ? window.PDF_FONTS : null;
+    },
+
+    /** Yazı tipini belgeye kaydeder; Unicode kullanılabilüyorsa true döner. */
+    registerFont(doc) {
+        const fonts = this.pdfFonts();
+        // Her çağrıda sıfırlanır: font yoksa önceki belgeden kalma "bold var" bilgisi
+        // yanlış yüz seçimine yol açardı.
+        this.hasBoldFace = false;
+        if (!fonts) return false;
+
+        doc.addFileToVFS('Roboto-Regular.ttf', fonts.regular);
+        doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal');
+
+        // Kaba yüz ancak Roboto-Bold.ttf eklenirse vardır; yoksa başlıklar normal ağırlıkta
+        // çizilir (tablo başlığı zaten dolu mavi zemin + beyaz yazıyla ayrışıyor).
+        this.hasBoldFace = !!fonts.bold;
+        if (this.hasBoldFace) {
+            doc.addFileToVFS('Roboto-Bold.ttf', fonts.bold);
+            doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold');
+        }
+        return true;
     },
 
     // ---------- Sheet + column recognition ----------
@@ -324,12 +355,22 @@ const io = {
     exportPdf() {
         const jsPDFLibrary = window.jspdf && window.jspdf.jsPDF;
         if (!jsPDFLibrary) {
-            ui.toast('PDF modülü yüklü değil (vendor/jspdf).', 'error');
+            ui.toast('PDF kütüphanesi yüklü değil: vendor/jspdf.umd.min.js eksik.', 'error');
             return;
         }
         if (!this.rosterReady()) return;
 
-        const doc = new jsPDFLibrary();
+        // putOnlyUsedFonts: kullanılmayan yerleşik yazıların (14 standart font) belgeye
+        // yazılmasını engeller - gömülü Roboto varken belge gereksiz büyümesin.
+        const doc = new jsPDFLibrary({ putOnlyUsedFonts: true });
+
+        // Font varsa Türkçe olduğu gibi yazılır; yoksa glifi olmayan harfler "?" olacağı
+        // için ASCII katlamasına düşülür.
+        const unicode = this.registerFont(doc);
+        const family = unicode ? 'Roboto' : 'helvetica';
+        const boldFace = unicode && !this.hasBoldFace ? 'normal' : 'bold';
+        const txt = (value) => (unicode ? String(value) : this.toAscii(value));
+
         const head = this.documentHead();
         const columns = Math.max(1, state.settings.perDay);
         const pageWidth = doc.internal.pageSize.getWidth();
@@ -353,7 +394,7 @@ const io = {
             ...Array.from({ length: columns }, (_, i) => `Nöbetçi ${i + 1}`)];
         if (showExcused) headerCells.push('Mazeretli');
 
-        const wrap = (text, index) => doc.splitTextToSize(this.toAscii(text || '—'), widths[index] - pad * 2);
+        const wrap = (text, index) => doc.splitTextToSize(txt(text || '—'), widths[index] - pad * 2);
         const heightOf = (lines) => Math.max(...lines.map(l => l.length)) * lineHeight + pad * 2;
 
         const buildRow = (cells, style) => {
@@ -368,14 +409,14 @@ const io = {
                 doc.setFillColor(30, 64, 175);
                 doc.rect(margin, y, usable, row.height, 'F');
                 doc.setTextColor(255, 255, 255);
-                doc.setFont('helvetica', 'bold');
+                doc.setFont(family, boldFace);
             } else {
                 if (row.style === 'zebra') {
                     doc.setFillColor(241, 245, 249);
                     doc.rect(margin, y, usable, row.height, 'F');
                 }
                 doc.setTextColor(23, 33, 46);
-                doc.setFont('helvetica', 'normal');
+                doc.setFont(family, 'normal');
             }
 
             doc.setFontSize(8);
@@ -401,9 +442,9 @@ const io = {
 
         // Künye başlığı: 13 puntodan başlayıp sığana kadar küçülür; taban puntoya
         // dayanırsa satırlara bölünür - kurum adı hiçbir zaman kesilmez.
-        const title = this.toAscii(head.unit);
+        const title = txt(head.unit);
         let titleSize = 13;
-        doc.setFont('helvetica', 'bold');
+        doc.setFont(family, boldFace);        // ölçüm, çizilecek yazı tipiyle yapılmalı
         for (; titleSize > 7; titleSize -= 0.5) {
             doc.setFontSize(titleSize);
             if (doc.getTextWidth(title) <= usable) break;
@@ -456,27 +497,26 @@ const io = {
         doc.line(margin, lineY, margin + column, lineY);
         doc.line(rightEdge - column, lineY, rightEdge, lineY);
 
-        doc.setFont('helvetica', 'normal');
+        doc.setFont(family, 'normal');
         doc.setFontSize(9);
         doc.setTextColor(60, 66, 76);
-        // Etiketler ASCII'ye indirgenir: jsPDF'in yerel yazılarında "ı" glifi yok.
-        doc.text(this.toAscii('Hazırlayan'), margin + column / 2, lineY + 4, { align: 'center' });
-        doc.text(this.toAscii('Onaylayan'), rightEdge - column / 2, lineY + 4, { align: 'center' });
+        doc.text(txt('Hazırlayan'), margin + column / 2, lineY + 4, { align: 'center' });
+        doc.text(txt('Onaylayan'), rightEdge - column / 2, lineY + 4, { align: 'center' });
 
         const total = doc.internal.getNumberOfPages();
         for (let page = 1; page <= total; page++) {
             doc.setPage(page);
             doc.setTextColor(23, 33, 46);
-            doc.setFont('helvetica', 'bold');
+            doc.setFont(family, boldFace);
             doc.setFontSize(titleSize);
             doc.text(titleLines, margin, 14);
-            doc.setFont('helvetica', 'normal');
+            doc.setFont(family, 'normal');
             doc.setFontSize(9);
-            doc.text(this.toAscii(`Dönem: ${head.period}`), margin, periodY);
-            doc.text(this.toAscii(`Belge No: ${head.docNo}`), margin, docNoY);
+            doc.text(txt(`Dönem: ${head.period}`), margin, periodY);
+            doc.text(txt(`Belge No: ${head.docNo}`), margin, docNoY);
             doc.setFontSize(8);
             doc.setTextColor(110, 120, 135);
-            doc.text(this.toAscii(`Sayfa ${page}/${total}`), pageWidth - margin, pageHeight - 8, { align: 'right' });
+            doc.text(txt(`Sayfa ${page}/${total}`), pageWidth - margin, pageHeight - 8, { align: 'right' });
         }
 
         this.showPdf(doc, `jupiter_nobet_listesi_${dates.today()}.pdf`);

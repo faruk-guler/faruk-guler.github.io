@@ -436,7 +436,8 @@
                     Belge numarası ve imza çizgileri yalnız çıktılarda yer alır.</dd>
 
                 <dt>Kütüphaneler</dt>
-                <dd>SheetJS (Excel) ve jsPDF (PDF) - uygulamanın içinde yerel olarak bulunur.</dd>
+                <dd>SheetJS (Excel), jsPDF (PDF) ve Roboto (PDF künye yazısı, Apache 2.0) -
+                    uygulamanın içinde yerel olarak bulunur.</dd>
             </dl>
 
             <h4 class="eyebrow" style="margin-top:16px">Kısayollar</h4>
@@ -479,6 +480,9 @@
 <!-- Ticari kütüphaneler yerelden yüklenir: internet bağlantısı gerekmez. -->
 <script src="vendor/xlsx.full.min.js"></script>
 <script src="vendor/jspdf.umd.min.js"></script>
+<!-- PDF künye yazısı (Roboto, Apache 2.0). Bu dosya yoksa PDF ASCII'ye düşer: -->
+<!-- node tools/make-pdf-font.js ile üretilir, dağıtıma eklenmelidir. -->
+<script src="vendor/roboto.js"></script>
 
 <script src="js/core/dates.js"></script>
 <script src="js/core/ui.js"></script>

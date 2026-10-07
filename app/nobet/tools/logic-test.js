@@ -373,6 +373,29 @@ check('missing roster names become empty strings',
     repaired.days[0].assigned[0].name === '' && repaired.days[0].excused[0].name === '',
     JSON.stringify(repaired.days[0]));
 
+// ---------- PDF font switch (vendor/roboto.js) ----------
+const fontCalls = [];
+const stubDoc = {
+    addFileToVFS: (name) => fontCalls.push('vfs:' + name),
+    addFont: (file, name, style) => fontCalls.push(`font:${name}:${style}`)
+};
+
+check('PDF falls back to ASCII when no font file is present',
+    io.registerFont(stubDoc) === false && fontCalls.length === 0, fontCalls.join(','));
+
+sandbox.window.PDF_FONTS = { regular: 'Zm9v' };
+check('Roboto is registered when vendor/roboto.js exists',
+    io.registerFont(stubDoc) === true && fontCalls.join(',') === 'vfs:Roboto-Regular.ttf,font:Roboto:normal', fontCalls.join(','));
+
+fontCalls.length = 0;
+sandbox.window.PDF_FONTS = { regular: 'Zm9v', bold: 'YmFy' };
+io.registerFont(stubDoc);
+check('bold face is used only when Roboto-Bold.ttf exists',
+    fontCalls.join(',') === 'vfs:Roboto-Regular.ttf,font:Roboto:normal,vfs:Roboto-Bold.ttf,font:Roboto:bold', fontCalls.join(','));
+delete sandbox.window.PDF_FONTS;
+io.registerFont(stubDoc);
+check('fallback state is restored', io.hasBoldFace === false);
+
 console.log(failures === 0 ? '\nALL LOGIC TESTS PASSED' : `\n${failures} FAILURE(S)`);
 process.exit(failures ? 1 : 0);
 
