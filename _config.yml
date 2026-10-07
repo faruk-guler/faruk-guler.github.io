@@ -222,7 +222,6 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
-  - app/nobet/vendor
 
 jekyll-archives:
   enabled: [categories, tags]
