@@ -199,18 +199,22 @@ Kurum içinde Active Directory, yerel dosya sunucuları (NAS) veya iç web uygul
 Kendi Windows bilgisayarınızda veya bir sunucuda hangi protokollerin manuel olarak açılıp kapatıldığını net bir hiyerarşiyle görmek için şu komutu çalıştırabilirsiniz:
 
 ```powershell
-# SCHANNEL Protokol Durumunu Sorgulama (Yönetici PowerShell)
-$protocolsKey = 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols'
+$base = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols"
 
-if (Test-Path $protocolsKey) {
-    Get-ChildItem $protocolsKey -Recurse | 
-      Select-Object @{N='Yol';E={$_.Name -replace '.*\\Protocols\\',''}}, 
-                    @{N='Enabled';E={$_.GetValue('Enabled')}}, 
-                    @{N='DisabledByDefault';E={$_.GetValue('DisabledByDefault')}} | 
-      Format-Table -AutoSize
-} else {
-    Write-Host "SCHANNEL\Protocols anahtarı henüz oluşturulmamış. Sistem tamamen 'İşletim Sistemi Varsayılanları' (OS Default) ile çalışıyor." -ForegroundColor Cyan
+$sonuc = foreach ($p in "SSL 2.0","SSL 3.0","TLS 1.0","TLS 1.1","TLS 1.2","TLS 1.3") {
+    foreach ($role in "Server","Client") {
+        $v = Get-ItemProperty "$base\$p\$role" -ErrorAction SilentlyContinue
+        [pscustomobject]@{
+            Protokol = $p
+            Rol      = $role
+            Durum    = if ($null -eq $v -or $null -eq $v.Enabled) { "Varsayılan" }
+                       elseif ($v.Enabled -eq 0) { "KAPALI" }
+                       else { "AÇIK" }
+        }
+    }
 }
+
+$sonuc | Format-Table -AutoSize
 ```
 
 > [!NOTE]
