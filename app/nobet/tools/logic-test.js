@@ -78,6 +78,7 @@ const storage = pick('storage');
 const state = pick('state');
 const scheduler = pick('scheduler');
 const io = pick('io');
+const ui = pick('ui');
 
 // ---------- dates ----------
 check('normalize DD.MM.YYYY', dates.normalize('05.10.2026') === '2026-10-05', dates.normalize('05.10.2026'));
@@ -312,6 +313,11 @@ check('advice quotes real field names', quotedNames.length > 0 && quotedNames.ev
     const name = quoted.slice(1, -1);
     return page.includes(`<span>${name}</span>`);
 }), quotedNames.join(' | '));
+
+// ---------- Turkish number formatting ----------
+check('measure uses the Turkish decimal comma',
+    ui.measure(6.24) === '6,2' && ui.measure(10) === '10' && ui.measure(12.04) === '12' && ui.measure('x') === '—',
+    `${ui.measure(6.24)}|${ui.measure(10)}|${ui.measure(12.04)}|${ui.measure('x')}`);
 
 // ---------- delivery audit regressions ----------
 // 1) a period longer than one year must be refused before the solver runs

@@ -27,11 +27,13 @@ const ui = {
         return template.content.firstElementChild;
     },
 
-    /** Ondalık: tam sayıya eşitse "10", değilse "10.5" — belgede ".0" gösterilmez. */
+    /** Ondalık: tam sayıya eşitse "10", değilse "10,5" — belgede ",0" gösterilmez. */
     measure(value, digits = 1) {
         const number = Number(value);
         if (!Number.isFinite(number)) return '—';
-        return number.toFixed(digits).replace(/\.0+$/, '');
+        // Türkçe metinde ondalık ayıracı virgüldür; özet kutusu, uyarılar ve yük analizi
+        // aynı biçimi kullanmalı ("6.2" ikili görünüm veriyordu).
+        return number.toFixed(digits).replace(/\.0+$/, '').replace('.', ',');
     },
 
     // ---------- Gün / gece teması ----------
