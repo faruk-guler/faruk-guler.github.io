@@ -257,7 +257,10 @@ const io = {
             if (!dates.isIso(date)) return;
             if (person.excuses.some(e => e.date === date)) return;
 
-            person.excuses.push({ date, note: String(this.findColumn(row, ['aciklama', 'not', 'sebep', 'note']) || '').trim() });
+            const note = String(this.findColumn(row, ['aciklama', 'not', 'sebep', 'note']) || '').trim();
+            // Gerekçe de diğer tüm giriş yollarıyla aynı sınıra kırpılır: aksi halde
+            // uzun bir Excel hücresi bu oturumda PDF/Excel çıktısına oldugu gibi sizar.
+            person.excuses.push({ date, note: note.slice(0, storage.LIMITS.note) });
             person.excuses.sort((a, b) => a.date.localeCompare(b.date));
             added++;
         });

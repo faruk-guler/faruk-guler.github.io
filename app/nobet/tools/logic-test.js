@@ -396,6 +396,40 @@ delete sandbox.window.PDF_FONTS;
 io.registerFont(stubDoc);
 check('fallback state is restored', io.hasBoldFace === false);
 
+// ---------- regression: library check disables each feature independently ----------
+// Excel kütüphanesi eksik, PDF kütüphanesi VAR: PDF düğmesi kapanmamalı.
+const buttons = {};
+['btnTemplate', 'btnImport', 'btnExportStaff', 'btnExcel', 'btnPdf']
+    .forEach((id) => { buttons[id] = { id, disabled: false, title: '' }; });
+const realGetById = sandbox.document.getElementById;
+sandbox.document.getElementById = (id) => buttons[id] || null;
+sandbox.window.XLSX = undefined;
+sandbox.window.jspdf = { jsPDF: function () {} };
+const app = pick('app');
+app.checkLibraries();
+check('missing Excel library disables Excel buttons',
+    buttons.btnTemplate.disabled && buttons.btnImport.disabled
+        && buttons.btnExportStaff.disabled && buttons.btnExcel.disabled);
+check('missing Excel library keeps PDF button enabled', buttons.btnPdf.disabled === false);
+
+// PDF kütüphanesi eksik, Excel VAR: yalnız PDF kapanır.
+Object.values(buttons).forEach((b) => { b.disabled = false; });
+sandbox.window.XLSX = {}; delete sandbox.window.jspdf;
+app.checkLibraries();
+check('missing PDF library disables only the PDF button',
+    buttons.btnPdf.disabled && !buttons.btnExcel.disabled && !buttons.btnTemplate.disabled);
+sandbox.document.getElementById = realGetById;
+
+// ---------- regression: imported excuse note respects LIMITS.note ----------
+state.personnel = [storage.normalizePerson({ id: 'imp1', name: 'Imp Kisi' })];
+io.importExcuseRows([{
+    'Personel ID': 'imp1', 'Ad Soyad': 'Imp Kisi',
+    'Tarih': '2026-10-05', 'Açıklama': 'N'.repeat(120)
+}]);
+const imported = state.personById('imp1').excuses[0];
+check('imported excuse note is clamped to LIMITS.note',
+    imported.note.length === storage.LIMITS.note, `${imported.note.length}/${storage.LIMITS.note}`);
+
 console.log(failures === 0 ? '\nALL LOGIC TESTS PASSED' : `\n${failures} FAILURE(S)`);
 process.exit(failures ? 1 : 0);
 
