@@ -1,0 +1,104 @@
+/* ==========================================================================
+   print.css - A4 döküm: ekran süsleri gider, belge kalır.
+   ========================================================================== */
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 14mm 12mm;
+    }
+
+    :root {
+        /* light-dark() değerleri gündüz tarafında kilitlenir: kâğıt her zaman açık basılır. */
+        color-scheme: light;
+
+        --desk: #fff;
+        --paper: #fff;
+        --tint: #fff;
+        --paper-edge: #fff;
+        --weekend: #f0f0f0;
+        --navy-soft: #fff;
+        --ok-soft: #fff;
+        --warn-soft: #fff;
+        --seal-soft: #fff;
+    }
+
+    html, body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 10.5pt;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Hafta sonu taraması ve özet kutusu çizgileri tarayıcının "arka plan" ayarına bakılmaz. */
+    html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Yol haritası paneli yalnız ekran içindir: kağıtta sayfalar tam genişlik alır. */
+    .workbench { display: block; }
+
+    .sheet {
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        border-top: 3px double #000;
+    }
+
+    /* ==========================================================================
+       Yazdırılan şey BELGE olmalı, arayüz değil: bu uygulama HTML olduğu için
+       olduğu gibi yazdırılırsa formlar ve personel listesi kâğıda taşardı.
+       Kâğıda geçenler: antet + künye, konu satırı, nöbet çizelgesi, imza, altlık.
+       ========================================================================== */
+    #sec-staff,
+    .section-title,
+    #sec-period .fields,
+    #sec-period .switch,
+    #sec-period .notes { display: none !important; }
+
+    /* Gizlenen sayfalar kâğıtta boşluk bırakmasın: üç sayfa kırması kaldırılır,
+       çizelge antetin hemen altında aynı kâğıtta başlar. */
+    .sheet + .sheet { break-before: auto; }
+    #sec-period { padding-bottom: 0; }
+    #sec-roster { border-top: 0; padding-top: 0; }
+
+    /* Ekran uyarıları kağıda girmez: döküm ya güncel çizelgedir ya hiç basılmamalıdır. */
+    #rosterStale,
+    #rosterError { display: none !important; }
+
+    /* Ekran araçları yazdırmaya girmez */
+    .toasts,
+    .modal,
+    .btn,
+    .cell-actions,
+    .rail,
+    .no-print { display: none !important; }
+
+    .table thead { display: table-header-group; }
+    .table tr { break-inside: avoid; }
+
+    /* Kâğıt üzerinde kaydırma kabı olmaz: tablonun tamamı basılır. */
+    .table-scroll { overflow: visible; }
+    /* Uzun çizelge sayfaya yayılsın; tablolar .table-scroll içinde olduğu için seçici oradan okunur. */
+    .sheet .table { break-inside: auto; }
+    .table tbody tr:nth-child(even) td { background: #fff; }
+    .table tbody tr:hover td { background: #fff; }
+    .table tbody tr.is-weekend td { background: #f0f0f0 !important; }
+
+    .chip { border-bottom: 0; }
+
+    .section-title { border-bottom-color: #000; }
+    .notes .note { border: 1px solid #999; background: #fff; color: #000; }
+    .placeholder { border-color: #999; }
+
+    .sign { margin-top: 14mm; }
+    .sign .line { border-bottom-color: #000; }
+
+    .docfoot { border-top: 1px solid #999; color: #444; }
+    /* Durum satırı uygulamanın kendi günlüğüdür ("... geri yüklendi · 19:03"); belgeye girmez. */
+    .docfoot .status { display: none; }
+
+    section { break-inside: auto; }
+}

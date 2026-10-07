@@ -1,0 +1,509 @@
+/* ==========================================================================
+   document.css - sayfalar: antet, numaralı bölümler, form alanları,
+   aşama şeridi, eylem şeridi, imza bloğu ve belge altlığı.
+   Her aşama KENDİ SAYFASIDIR; sayfalar arasında masa boşluğu kalır.
+   ========================================================================== */
+
+/* Sayfalar ekranı boydan boya doldurur; yanda yalnızca body'nin ince masa payı kalır. */
+.sheet {
+    margin: 0 0 var(--page-gap);
+    background: var(--paper);
+    padding: 34px 46px 26px;
+    box-shadow: 0 30px 70px -28px rgba(0, 0, 0, .55), 0 2px 0 rgba(0, 0, 0, .12);
+    border-top: 4px double var(--navy);
+    /* Yol haritası solda olduğu için üstte boşluk gerekmez; dar ekranda şerit üste iner. */
+    scroll-margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+    .sheet { padding: 22px 16px 18px; }
+}
+
+/* ---------- Antet ---------- */
+.letterhead {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;      /* dar ekranlarda araçlar alta insin, taşmasın */
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+}
+
+.crest {
+    flex: 0 0 auto;
+    width: 54px;
+    height: 54px;
+    border: 2px solid var(--navy);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--navy);
+    font-size: 21px;
+    font-weight: 700;
+    background: radial-gradient(circle at 34% 28%, var(--crest-a), var(--crest-b));
+}
+
+/* Logo tek renkli SVG: olduğu gibi çizilir; gecede tek renk siluete döner
+   (sayfanın tamamını tersine çevirme kullanılmaz, yalnızca bu küçük görsel). */
+.crest__mark {
+    width: 30px;
+    height: 30px;
+    display: block;
+}
+
+@media screen {
+    :root[data-theme="night"] .crest__mark { filter: brightness(0) invert(1); }
+}
+
+/* Marka yazımı: yalnızca "J" büyük - Türkçe üstharf "İ" üretmesin diye çevrilmez. */
+.letterhead h1 {
+    font-size: 1.45rem;
+    letter-spacing: .02em;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.letterhead .sub { font-size: var(--fs-sm); color: var(--navy); margin-top: 2px; }
+
+/* Antetin sağındaki araçlar: Hakkında + tema anahtarı. */
+.letterhead-tools {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: auto;
+    align-self: center;
+}
+
+/* ---------- Tema anahtarı (güneş / kaydırma / ay) ---------- */
+.theme-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 2px;
+    color: var(--muted);
+}
+
+.theme-switch__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    color: var(--muted);
+    transition: color .2s ease;
+}
+
+/* Hangi tema etkinse onun simgesi vurgu rengine döner. */
+:root:not([data-theme="night"]) .theme-switch__icon--sun { color: var(--navy); }
+:root[data-theme="night"] .theme-switch__icon--moon { color: var(--navy); }
+
+.theme-switch__track {
+    position: relative;
+    width: 52px;
+    height: 26px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--tint);
+    box-shadow: inset 0 2px 5px var(--shadow-inset), inset 0 -1px 0 var(--shadow-lift);
+}
+
+.theme-switch__knob {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 1px 3px var(--shadow-knob), inset 0 0 0 1px var(--rule);
+    transition: transform .22s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* Durum tek yerden okunur: aria-checked hem erişilebilir durumu hem düğmeyi sürer. */
+.theme-switch[aria-checked="true"] .theme-switch__knob { transform: translateX(26px); }
+.theme-switch:hover .theme-switch__track { border-color: var(--navy); }
+
+.docmeta {
+    margin-left: auto;
+    text-align: right;
+    font-size: var(--fs-xs);
+    color: var(--ink-2);
+    line-height: 1.6;
+}
+
+.docmeta b {
+    display: block;
+    font-size: var(--fs-md);
+    color: var(--seal);
+    letter-spacing: .06em;
+}
+
+/* ---------- Konu satırı ---------- */
+.docline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 26px;
+    padding: 10px 0 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px dashed var(--rule);
+    font-size: var(--fs-sm);
+    color: var(--ink-2);
+}
+
+.docline i { font-style: normal; color: var(--ink); font-weight: 600; }
+
+/* ---------- Çalışma masası: solda yol haritası, sağda sayfalar ---------- */
+.workbench {
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    gap: 0 18px;
+    align-items: start;
+}
+
+.rail {
+    position: sticky;
+    top: 20px;
+    padding: 14px;
+    border: 1px solid var(--rule);
+    background: var(--paper-edge);
+    /* Kısa ekranlarda panelin altı (düğme ve kapanış) erişilmez kalmasın: panel kendi içinde kayar. */
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
+}
+
+.rail__title {
+    padding-bottom: 7px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+    font-size: var(--fs-xs);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.rail__note { margin-top: 14px; font-size: var(--fs-xs); color: var(--muted); }
+
+/* Ana eylem panelde: sayfalar boyunca ulaşılabilir kalır.
+   `.btn.rail__generate` — .btn'tan sonra gelse de iki sınıfla onu yener. */
+.btn.rail__generate {
+    width: 100%;
+    margin-top: 18px;
+    padding: 9px 12px;
+}
+
+/* Dikey yol haritası: dairelerin ortasından geçen tek bir hat. */
+.steps {
+    position: relative;
+    display: grid;
+    gap: 20px;
+}
+
+.steps::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 14px;
+    bottom: 14px;
+    width: 1px;
+    background: var(--rule);
+}
+
+.step {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    /* Yatay dolgu yok: tarayıcının varsayılan düğme dolgusu (6px) daire eksenini hattan kaydırıyordu. */
+    padding: 2px 0;
+    text-align: left;
+    color: var(--muted);
+}
+
+.step__no {
+    position: relative;
+    z-index: 1;                  /* hat dairenin içinden geçmesin */
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: var(--paper-edge);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+}
+
+.step__text { font-size: var(--fs-sm); line-height: 1.2; }
+.step__text small { display: block; font-size: var(--fs-xs); color: var(--muted); }
+
+/* Yatay bağlantı çizgisi yalnız dar ekrandaki şerit düzeninde kullanılır. */
+.step__line { display: none; }
+
+/* Üç durum: tamamlandı dolu oklar, sıradaki halkası vurgulu */
+.step[data-state="done"] { color: var(--ok); }
+.step[data-state="done"] .step__text { color: var(--ink); }
+.step[data-state="done"] .step__no { background: var(--ok); border-color: var(--ok); color: var(--on-accent); }
+
+.step[data-state="current"] { color: var(--navy); }
+.step[data-state="current"] .step__text { color: var(--navy); font-weight: 700; }
+.step[data-state="current"] .step__no { border-width: 2px; box-shadow: 0 0 0 3px var(--navy-soft); }
+
+/* Dar ekran: yol haritası üstte yatay bir şeride dönüşür. */
+@media (max-width: 980px) {
+    .workbench { display: block; }
+
+    .rail {
+        position: sticky;
+        top: 10px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: var(--page-gap);
+        padding: 9px 12px;
+        /* Üstte şerit hâlinde akarken içerik kırpılmasın. */
+        max-height: none;
+        overflow: visible;
+    }
+
+    .steps {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;      /* çok dar ekranlarda adımlar sarar, sayfa taşmasın */
+    }
+
+    .btn.rail__generate {
+        width: auto;
+        margin: 0 0 0 auto;
+        padding: 6px 12px;
+    }
+
+    .rail__title,
+    .rail__note { display: none; }
+
+    .steps::before { display: none; }
+    .step { align-items: center; min-width: 0; }
+    .step__text { min-width: 0; }
+    .step__text small { display: none; }
+
+    .step__line {
+        display: block;
+        flex: 1 1 auto;
+        min-width: 12px;
+        height: 1px;
+        background: var(--rule);
+    }
+
+    /* Pay sabit sayı değil: şerit kaç satıra inerse ölçülen yüksekliğine göre
+       ayarlanır (--rail-clear'i app.js günceller; 56px JS'siz yedeğidir). */
+    .sheet { scroll-margin-top: calc(var(--rail-clear, 56px) + 24px); }
+}
+
+/* ---------- Bölümler: her aşama kendi sayfasında ---------- */
+.sheet > .section-title { margin-top: 0; }
+
+.section-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+}
+
+.section-title::before { counter-increment: sec; content: counter(sec) ". "; }
+
+/* Sayfa bölümleri ayrı kâğıtlar olduğu için sayaç belgede bir kere sıfırlanır. */
+body { counter-reset: sec; }
+
+/* Ekran araç satırı: bölüm başlığının altında, belgeye girmez. */
+.tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: -4px 0 12px;
+}
+
+/* ---------- Form alanları (doldurulmuş resmi form hissi) ---------- */
+.fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+    gap: 14px 24px;
+}
+
+.field { display: flex; flex-direction: column; gap: 3px; }
+
+.field label {
+    font-size: var(--fs-xs);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-2);
+}
+
+.field .input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--ink);
+    background: transparent;
+    padding: 2px 2px 4px;
+    font-size: var(--fs-md);
+    text-align: inherit;
+}
+
+.field .input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--navy);
+    background: var(--tint);
+}
+
+.field .input.wide { text-align: left; }
+.field .hint { font-size: var(--fs-xs); color: var(--muted); }
+.field .input::placeholder { color: var(--faint); }
+
+.input--invalid {
+    border-bottom-color: var(--seal);
+    background: var(--seal-soft);
+}
+
+/* Tek onay kutusu: işaretliyse kural etkin, değilse devre dışı. */
+.switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 14px;
+    padding: 8px 12px;
+    border: 1px solid var(--rule);
+    background: var(--paper-edge);
+}
+
+.switch .label { font-size: var(--fs-sm); flex: 1 1 auto; }
+.switch .label small { display: block; font-size: var(--fs-xs); color: var(--muted); }
+
+.switch label.box {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--fs-sm);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.switch input[type="checkbox"] {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.switch input[type="checkbox"]:checked::after {
+    content: "\2713";
+    font-size: 13px;
+    line-height: 1;
+    color: var(--navy);
+    font-weight: 700;
+}
+
+/* ---------- Değerlendirme notları ---------- */
+.notes { display: grid; gap: 6px; margin-top: 16px; }
+
+.note {
+    display: flex;
+    gap: 9px;
+    align-items: baseline;
+    font-size: var(--fs-sm);
+    padding: 7px 11px;
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--navy);
+    background: var(--tint);
+}
+
+.note::before { content: "\25AB"; color: var(--navy); font-size: 10px; }
+.note[data-tone="warn"] { border-left-color: var(--warn); background: var(--warn-soft); color: var(--warn); }
+.note[data-tone="warn"]::before { content: "\25B2"; color: var(--warn); }
+.note[data-tone="danger"] { border-left-color: var(--seal); background: var(--seal-soft); color: var(--seal); }
+.note[data-tone="danger"]::before { content: "\2716"; font-size: 9px; color: var(--seal); }
+.note[data-tone="ok"] { border-left-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+.note[data-tone="ok"]::before { content: "\2713"; font-size: 11px; color: var(--ok); }
+
+/* ---------- Butonlar ---------- */
+.btn {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    letter-spacing: .04em;
+    padding: 7px 13px;
+    border: 1px solid var(--navy);
+    background: var(--navy);
+    color: var(--on-accent);
+    text-transform: uppercase;
+}
+
+.btn:hover:not(:disabled) { background: var(--navy-strong); border-color: var(--navy-strong); }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: .45; border-color: var(--rule); background: var(--rule); color: var(--ink-2); }
+
+.btn.sec { background: transparent; color: var(--navy); }
+.btn.sec:hover:not(:disabled) { background: var(--navy-soft); }
+
+.btn.sm { padding: 4px 9px; font-size: .8rem; }
+
+.btn.danger { border-color: var(--seal); color: var(--seal); background: transparent; }
+.btn.danger:hover:not(:disabled) { background: var(--seal-soft); }
+
+/* ---------- Belge altlığı ---------- */
+.docfoot {
+    margin-top: 14px;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    font-size: var(--fs-xs);
+    color: var(--muted);
+}
+
+.docfoot .status { color: var(--ink-2); font-weight: 600; }
+.docfoot .status[data-tone="ok"] { color: var(--ok); }
+.docfoot .status[data-tone="warn"] { color: var(--warn); }
+.docfoot .status[data-tone="error"] { color: var(--seal); }
+.docfoot .right { margin-left: auto; }
+
+/* ---------- İmza bloğu ---------- */
+.sign {
+    display: flex;
+    justify-content: flex-end;
+    gap: 40px;
+    margin-top: 34px;
+    text-align: center;
+    font-size: var(--fs-sm);
+}
+
+.sign > div { width: 200px; }
+
+.sign .line { height: 42px; margin-bottom: 5px; border-bottom: 1px solid var(--ink); }
+.sign small { display: block; font-size: var(--fs-xs); color: var(--muted); }
+
+/* Belge künyesi ve imza bloğu ana ekranda değil, yalnız dökümde görünür.
+   Bu blok taban kuralların ALTINDA kalmalı: aynı özgüllükte son yazılan kural kazanır.
+   `.sheet .sign` bilinçli olarak kapsamlı yazıldı: `.sign` sınıfı belge imza bloğuna özgüdür;
+   sayfa dışında aynı ada sahip bir öğe (ör. paneldeki atıf satırı) bundan etkilenmesin. */
+@media screen {
+    .docmeta,
+    .sheet .sign { display: none; }
+
+    /* Kural özeti yalnız dökümde gerekir: ekranda aynı bilgi 1. sayfada duruyor. */
+    .docfoot #printFoot { display: none; }
+}
