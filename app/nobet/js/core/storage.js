@@ -115,7 +115,7 @@ const storage = {
         cleanExcuses.sort((a, b) => a.date.localeCompare(b.date));
 
         return {
-            id: typeof raw.id === 'string' && raw.id.trim().length > 0 && raw.id.length <= 15 ? raw.id.trim() : this.newId(),
+            id: typeof raw.id === 'string' && raw.id.length <= 15 ? raw.id : this.newId(),
             name,
             shifts: this.count(raw.shifts ?? raw.nobetSayisi),
             weekends: this.count(raw.weekends ?? raw.haftaSonuNobetSayisi),

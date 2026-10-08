@@ -75,18 +75,6 @@
 .name-edit:hover { border-bottom-color: var(--rule-strong); }
 .name-edit:focus { border-bottom: 1px solid var(--navy); background: var(--tint); }
 
-.shift-edit {
-    display: inline-block;
-    min-width: 28px;
-    border-bottom: 1px dotted transparent;
-    outline: none;
-    text-align: center;
-    cursor: text;
-}
-
-.shift-edit:hover { border-bottom-color: var(--rule-strong); }
-.shift-edit:focus { border-bottom: 1px solid var(--navy); background: var(--tint); }
-
 .exc { color: var(--seal); font-size: var(--fs-xs); }
 .dash { color: var(--muted); }
 
@@ -238,13 +226,13 @@
     color: var(--ink-2);
 }
 
-/* İthaf ve imza bloğu: en üstte, alt çizgiyle ayrılır. */
+/* Kapanış bloğu: dört satır da aynı düzen - italik, küçük punto veya soluk renk yok. */
 .dedication {
     display: grid;
     gap: 6px;
-    margin-bottom: 16px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--rule);
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
     font-size: var(--fs-sm);
 }
 

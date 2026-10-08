@@ -24,7 +24,7 @@ const dates = {
         return this.toIso(new Date());
     },
 
-    /** Date / "YYYY-MM-DD" / "DD.MM.YYYY" / "DD/MM/YYYY" / "DD-MM-YYYY" -> "YYYY-MM-DD" (okunamayan: boş) */
+    /** Date / "YYYY-MM-DD" / "DD.MM.YYYY" / "DD/MM/YYYY" -> "YYYY-MM-DD" (okunamayan: boş) */
     normalize(value) {
         if (value instanceof Date) {
             if (Number.isNaN(value.getTime())) return '';
@@ -38,24 +38,14 @@ const dates = {
         const text = String(value ?? '').trim();
         if (!text) return '';
 
-        // YYYY-MM-DD / YYYY.MM.DD / YYYY/MM/DD (tek veya çift haneli ay/gün)
-        const iso = text.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
-        if (iso) {
-            const m = parseInt(iso[2], 10);
-            const d = parseInt(iso[3], 10);
-            if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
-                return `${iso[1]}-${this.pad2(m)}-${this.pad2(d)}`;
-            }
-        }
+        // Tek haneli ay/gün de gelebilir (Excel "2026-1-5"): önde sıfır ile normalize edilir,
+        // aksi halde isIso() false döner ve kayıt sessizce düşerdi.
+        const iso = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+        if (iso) return `${iso[1]}-${this.pad2(iso[2])}-${this.pad2(iso[3])}`;
 
-        // DD.MM.YYYY / DD/MM/YYYY / DD-MM-YYYY
-        const parts = text.replace(/[-/]/g, '.').split('.');
+        const parts = text.replace(/\//g, '.').split('.');
         if (parts.length === 3 && /^\d{1,2}$/.test(parts[0]) && /^\d{1,2}$/.test(parts[1]) && /^\d{4}$/.test(parts[2])) {
-            const d = parseInt(parts[0], 10);
-            const m = parseInt(parts[1], 10);
-            if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
-                return `${parts[2]}-${this.pad2(m)}-${this.pad2(d)}`;
-            }
+            return `${parts[2]}-${this.pad2(parts[1])}-${this.pad2(parts[0])}`;
         }
         return '';
     },

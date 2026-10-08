@@ -341,8 +341,7 @@ body { counter-reset: sec; }
 
 .field { display: flex; flex-direction: column; gap: 3px; }
 
-.field label,
-.field > span:first-child {
+.field label {
     font-size: var(--fs-xs);
     letter-spacing: .1em;
     text-transform: uppercase;

@@ -29,35 +29,23 @@ const personnelPanel = {
             if (trigger.dataset.act === 'remove') this.remove(id);
         });
 
-        // Satır içi isim ve devir düzeltmesi: yalnızca düzenlenebilir hücre kaydeder, düğmeler değil.
+        // Satır içi isim düzeltmesi: yalnızca düzenlenebilir hücre kaydeder, düğmeler değil.
         // Kayıt bir sonraya bırakılır: focusout sırasında yeni hücre henüz odaklanmamıştır;
         // tabloyu hemen yeniden kurmak o hücreyi yok edip odağı gövdeye düşürürdü.
         this.list.addEventListener('focusout', (event) => {
-            const renameCell = event.target.closest('[data-rename]');
-            if (renameCell) {
-                const id = renameCell.dataset.rename;
-                const draft = renameCell.textContent;
+            const cell = event.target.closest('[data-rename]');
+            if (!cell) return;
 
-                setTimeout(() => {
-                    this.rename(id, draft);
-                    if (this.pendingRender) {
-                        this.pendingRender = false;
-                        this.render();
-                    }
-                }, 0);
-                return;
-            }
+            const id = cell.dataset.rename;
+            const draft = cell.textContent;
 
-            const shiftCell = event.target.closest('[data-shifts]');
-            if (shiftCell) {
-                const id = shiftCell.dataset.shifts;
-                const draft = parseInt(shiftCell.textContent.trim(), 10);
-                state.setPersonShifts(id, Number.isNaN(draft) ? 0 : draft);
+            setTimeout(() => {
+                this.rename(id, draft);
                 if (this.pendingRender) {
                     this.pendingRender = false;
                     this.render();
                 }
-            }
+            }, 0);
         });
 
         // Enter satır atlamasın: hücreden çıkmak kaydetmek demektir. Düğmeli kısayollar
@@ -65,7 +53,7 @@ const personnelPanel = {
         this.list.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' || event.ctrlKey || event.metaKey || event.altKey) return;
 
-            const cell = event.target.closest('[data-rename], [data-shifts]');
+            const cell = event.target.closest('[data-rename]');
             if (cell) {
                 event.preventDefault();
                 cell.blur();
@@ -74,12 +62,11 @@ const personnelPanel = {
 
         // Yapıştırılan metin zengin biçimli gelebilir (kalın, renkli): hücre düz metin almalı.
         this.list.addEventListener('paste', (event) => {
-            const cell = event.target.closest('[data-rename], [data-shifts]');
-            if (!cell) return;
+            if (!event.target.closest('[data-rename]')) return;
 
             event.preventDefault();
             const text = event.clipboardData.getData('text/plain').replace(/\s+/g, ' ');
-            if (!document.execCommand('insertText', false, text)) cell.textContent = text;
+            if (!document.execCommand('insertText', false, text)) event.target.textContent = text;
         });
 
         state.on('personnel', () => this.render());
@@ -114,7 +101,7 @@ const personnelPanel = {
             <tr>
                 <td class="cell-idx t-num"></td>
                 <td><span class="name-edit" contenteditable="true" spellcheck="false" data-rename></span></td>
-                <td class="cell-num t-num cell-carried"><span class="shift-edit" contenteditable="true" spellcheck="false" data-shifts title="Devir nöbet sayısını düzenlemek için tıklayın"></span></td>
+                <td class="cell-num t-num cell-carried"></td>
                 <td class="cell-num t-num cell-total"></td>
                 <td class="cell-num t-num cell-weekend"></td>
                 <td class="cell-excuse"></td>
@@ -128,13 +115,10 @@ const personnelPanel = {
         nameCell.dataset.rename = person.id;
         nameCell.textContent = person.name;
 
-        const shiftCell = row.querySelector('[data-shifts]');
-        shiftCell.dataset.shifts = person.id;
-        shiftCell.textContent = person.shifts;
-
         const total = load ? load.total : person.shifts;
         const weekend = load ? load.weekend : person.weekends;
 
+        row.querySelector('.cell-carried').textContent = person.shifts || '—';
         row.querySelector('.cell-total').textContent = total;
         row.querySelector('.cell-weekend').textContent = weekend;
 
@@ -174,10 +158,6 @@ const personnelPanel = {
     // ---------- Kişi ekleme ----------
     openModal() {
         document.getElementById('personName').value = '';
-        const shiftsInput = document.getElementById('personShifts');
-        if (shiftsInput) shiftsInput.value = '';
-        const weekendsInput = document.getElementById('personWeekends');
-        if (weekendsInput) weekendsInput.value = '';
         this.showError(null);
         ui.openModal('personModal');
     },
@@ -200,12 +180,7 @@ const personnelPanel = {
             return;
         }
 
-        const shiftsEl = document.getElementById('personShifts');
-        const weekendsEl = document.getElementById('personWeekends');
-        const shifts = shiftsEl ? parseInt(shiftsEl.value, 10) || 0 : 0;
-        const weekends = weekendsEl ? parseInt(weekendsEl.value, 10) || 0 : 0;
-
-        state.addPerson(name, shifts, weekends);
+        state.addPerson(name);
         ui.closeModal('personModal');
         // Kişi sayısı tablo başlığında ve konu satırında zaten okunuyor; fiş yeter.
         ui.toast(`${name} listeye eklendi.`, 'ok');

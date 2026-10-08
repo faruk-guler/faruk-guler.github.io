@@ -50,7 +50,7 @@ const io = {
 
         return {
             unit: state.settings.unit || this.DEFAULT_UNIT,
-            period: first && last ? `${dates.toDisplay(first.date)} - ${dates.toDisplay(last.date)}` : '—',
+            period: `${dates.toDisplay(first.date)} - ${dates.toDisplay(last.date)}`,
             docNo: state.documentNo()
         };
     },
@@ -103,7 +103,7 @@ const io = {
             if (found) return found;
         }
         if (exclude) return names.find(name => !exclude.test(name));
-        return null;
+        return names[0];
     },
 
     /**
@@ -209,11 +209,11 @@ const io = {
     },
 
     importWorkbook(book) {
-        const staffSheet = this.findSheet(book, [/personel/i, /calisan/i], /mazeret/i) || (book.SheetNames || [])[0];
+        const staffSheet = this.findSheet(book, [/personel/i, /calisan/i], /mazeret/i);
         const excuseSheet = this.findSheet(book, [/mazeret/i]);
 
-        const added = staffSheet ? this.importStaffRows(XLSX.utils.sheet_to_json(book.Sheets[staffSheet] || {})) : 0;
-        const excuses = excuseSheet ? this.importExcuseRows(XLSX.utils.sheet_to_json(book.Sheets[excuseSheet] || {})) : 0;
+        const added = this.importStaffRows(XLSX.utils.sheet_to_json(book.Sheets[staffSheet] || {}));
+        const excuses = this.importExcuseRows(XLSX.utils.sheet_to_json(book.Sheets[excuseSheet] || {}));
 
         if (!added && !excuses) {
             ui.toast('Yeni veri bulunamadı (aynı isimler atlandı).', 'warn');
@@ -237,7 +237,7 @@ const io = {
             name: clean(this.findColumn(row, ['adsoyad', 'isim', 'ad', 'name'])),
             shifts: this.toNumber(this.findColumn(row, ['nobetsayisi', 'nobet', 'shift', 'duty'])),
             weekends: this.toNumber(this.findColumn(row, ['haftasonu', 'weekend', 'sonu']))
-        })).filter(r => r.name);
+        }));
 
         return state.importPersons(prepared);
     },
@@ -257,10 +257,10 @@ const io = {
             if (!dates.isIso(date)) return;
             if (person.excuses.some(e => e.date === date)) return;
 
-            person.excuses.push({
-                date,
-                note: String(this.findColumn(row, ['aciklama', 'not', 'sebep', 'note']) || '').trim().slice(0, storage.LIMITS.note)
-            });
+            const note = String(this.findColumn(row, ['aciklama', 'not', 'sebep', 'note']) || '').trim();
+            // Gerekçe de diğer tüm giriş yollarıyla aynı sınıra kırpılır: aksi halde
+            // uzun bir Excel hücresi bu oturumda PDF/Excel çıktısına oldugu gibi sizar.
+            person.excuses.push({ date, note: note.slice(0, storage.LIMITS.note) });
             person.excuses.sort((a, b) => a.date.localeCompare(b.date));
             added++;
         });
@@ -288,10 +288,9 @@ const io = {
                 'Gün': dates.weekdayLong(day.date)
             };
 
-            for (let i = 0; i < columns; i++) {
-                const person = day.assigned[i];
-                record[`Nöbetçi ${i + 1}`] = person ? person.name : '';
-            }
+            day.assigned.forEach((person, index) => {
+                record[`Nöbetçi ${index + 1}`] = person ? person.name : '';
+            });
 
             // Gerekçe kişisel olabiliyor: görünürlük kapalıysa sütun hiç açılmaz.
             if (showExcused) record['Mazeretli'] = state.excusedLabel(day);
@@ -340,19 +339,13 @@ const io = {
             const person = state.personById(item.id);
             const carried = person ? person.shifts : 0;
 
-            const inPeriod = person
-                ? (state.settings.start && state.settings.end
-                    ? person.excuses.filter(e => e.date >= state.settings.start && e.date <= state.settings.end).length
-                    : person.excuses.length)
-                : 0;
-
             return {
                 'Personel': item.name,
                 'Devir': carried,
                 'Bu dönem': item.total - carried,
                 'Toplam': item.total,
                 'Hafta sonu': item.weekend,
-                'Mazeret günü': inPeriod
+                'Mazeret günü': person ? person.excuses.length : 0
             };
         });
     },
@@ -370,19 +363,9 @@ const io = {
         }
         if (!this.rosterReady()) return;
 
-        const columns = Math.max(1, state.settings.perDay);
-        const showExcused = state.showsExcused();
-
-        // 4 veya daha fazla nöbetçi varsa ya da mazeretle birlikte sayfa dar geliyorsa
-        // tablo taşmasın diye yatay (landscape) A4 kullanılır.
-        const isLandscape = columns >= 4 || (showExcused && columns >= 3);
-
         // putOnlyUsedFonts: kullanılmayan yerleşik yazıların (14 standart font) belgeye
         // yazılmasını engeller - gömülü Roboto varken belge gereksiz büyümesin.
-        const doc = new jsPDFLibrary({
-            orientation: isLandscape ? 'landscape' : 'portrait',
-            putOnlyUsedFonts: true
-        });
+        const doc = new jsPDFLibrary({ putOnlyUsedFonts: true });
 
         // Font varsa Türkçe olduğu gibi yazılır; yoksa glifi olmayan harfler "?" olacağı
         // için ASCII katlamasına düşülür.
@@ -392,6 +375,7 @@ const io = {
         const txt = (value) => (unicode ? String(value) : this.toAscii(value));
 
         const head = this.documentHead();
+        const columns = Math.max(1, state.settings.perDay);
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
         const margin = 12;
@@ -402,10 +386,10 @@ const io = {
 
         const dateWidth = 20;
         const dayWidth = 18;
+        const showExcused = state.showsExcused();
         // Mazeret sütunu gizliyse genişlik de kalkar: nöbetçi sütunları boşta kalan yeri alır.
-        const noteWidth = showExcused ? Math.max(24, Math.min(60, usable * 0.24)) : 0;
-        const remainingForDuty = Math.max(16 * columns, usable - dateWidth - dayWidth - noteWidth);
-        const dutyWidth = remainingForDuty / columns;
+        const noteWidth = showExcused ? Math.max(24, Math.min(48, usable * 0.26)) : 0;
+        const dutyWidth = Math.max(16, (usable - dateWidth - dayWidth - noteWidth) / columns);
         const widths = [dateWidth, dayWidth, ...Array.from({ length: columns }, () => dutyWidth)];
         if (showExcused) widths.push(noteWidth);
 
@@ -504,6 +488,7 @@ const io = {
         if (y + 30 > bottomLimit) {
             doc.addPage();
             y = tableTop;
+            paintRow(headerRow);
         }
 
         const lineY = y + 16;

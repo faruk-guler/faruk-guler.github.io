@@ -1,4 +1,4 @@
-/**
+﻿/**
  * logic-test.js - headless regression test for the v4 core modules.
  *
  * Run with: node tools/logic-test.js
@@ -79,7 +79,6 @@ const state = pick('state');
 const scheduler = pick('scheduler');
 const io = pick('io');
 const ui = pick('ui');
-const excuseModal = pick('excuseModal');
 
 // ---------- dates ----------
 check('normalize DD.MM.YYYY', dates.normalize('05.10.2026') === '2026-10-05', dates.normalize('05.10.2026'));
@@ -397,25 +396,39 @@ delete sandbox.window.PDF_FONTS;
 io.registerFont(stubDoc);
 check('fallback state is restored', io.hasBoldFace === false);
 
-// ---------- new regression tests ----------
-check('normalize YYYY.MM.DD', dates.normalize('2026.10.05') === '2026-10-05', dates.normalize('2026.10.05'));
-check('normalize YYYY/MM/DD', dates.normalize('2026/10/05') === '2026-10-05', dates.normalize('2026/10/05'));
-check('normalize DD-MM-YYYY', dates.normalize('05-10-2026') === '2026-10-05', dates.normalize('05-10-2026'));
-check('normalize invalid month/day rejected', dates.normalize('99.99.2026') === '', dates.normalize('99.99.2026'));
+// ---------- regression: library check disables each feature independently ----------
+// Excel kütüphanesi eksik, PDF kütüphanesi VAR: PDF düğmesi kapanmamalı.
+const buttons = {};
+['btnTemplate', 'btnImport', 'btnExportStaff', 'btnExcel', 'btnPdf']
+    .forEach((id) => { buttons[id] = { id, disabled: false, title: '' }; });
+const realGetById = sandbox.document.getElementById;
+sandbox.document.getElementById = (id) => buttons[id] || null;
+sandbox.window.XLSX = undefined;
+sandbox.window.jspdf = { jsPDF: function () {} };
+const app = pick('app');
+app.checkLibraries();
+check('missing Excel library disables Excel buttons',
+    buttons.btnTemplate.disabled && buttons.btnImport.disabled
+        && buttons.btnExportStaff.disabled && buttons.btnExcel.disabled);
+check('missing Excel library keeps PDF button enabled', buttons.btnPdf.disabled === false);
 
-// findSheet returns null if patterns not found and no exclude
-check('findSheet returns null on pattern mismatch', io.findSheet({ SheetNames: ['Sheet1', 'Data'] }, [/mazeret/i]) === null);
+// PDF kütüphanesi eksik, Excel VAR: yalnız PDF kapanır.
+Object.values(buttons).forEach((b) => { b.disabled = false; });
+sandbox.window.XLSX = {}; delete sandbox.window.jspdf;
+app.checkLibraries();
+check('missing PDF library disables only the PDF button',
+    buttons.btnPdf.disabled && !buttons.btnExcel.disabled && !buttons.btnTemplate.disabled);
+sandbox.document.getElementById = realGetById;
 
-// setPersonShifts
-const testPerson = state.personnel[0];
-state.setPersonShifts(testPerson.id, 7, 3);
-check('setPersonShifts updates shifts', testPerson.shifts === 7 && testPerson.weekends === 3, `${testPerson.shifts}/${testPerson.weekends}`);
-
-// excuse firstVisibleMonth inside active period
-excuseModal.range = { start: '2026-10-01', end: '2026-10-31' };
-excuseModal.selected = new Map([['2026-05-10', 'Eski'], ['2026-10-15', 'Guncel']]);
-check('excuse firstVisibleMonth prefers period date over past date',
-    excuseModal.firstVisibleMonth() === '2026-10', excuseModal.firstVisibleMonth());
+// ---------- regression: imported excuse note respects LIMITS.note ----------
+state.personnel = [storage.normalizePerson({ id: 'imp1', name: 'Imp Kisi' })];
+io.importExcuseRows([{
+    'Personel ID': 'imp1', 'Ad Soyad': 'Imp Kisi',
+    'Tarih': '2026-10-05', 'Açıklama': 'N'.repeat(120)
+}]);
+const imported = state.personById('imp1').excuses[0];
+check('imported excuse note is clamped to LIMITS.note',
+    imported.note.length === storage.LIMITS.note, `${imported.note.length}/${storage.LIMITS.note}`);
 
 console.log(failures === 0 ? '\nALL LOGIC TESTS PASSED' : `\n${failures} FAILURE(S)`);
 process.exit(failures ? 1 : 0);

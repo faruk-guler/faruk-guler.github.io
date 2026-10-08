@@ -34,11 +34,6 @@ const schedulePanel = {
         // Çözücü saniyelerce sürebilir: üst üste gelen tıklama ikinci bir hesap kuyruğu açar.
         if (this.busy) return;
 
-        // Odaktaki form alanını işle (Ctrl+Enter gibi kısayollarda yazılan değerin kaybolmaması için)
-        if (document.activeElement && typeof document.activeElement.blur === 'function') {
-            document.activeElement.blur();
-        }
-
         const error = state.validate();
         if (error) {
             ui.toast(error, 'error');
@@ -278,10 +273,9 @@ const schedulePanel = {
         }
 
         const limit = state.settings.maxTotal;
-        const scheduledCount = state.schedule.reduce((sum, d) =>
-            sum + d.assigned.filter(a => a && a.id === id).length, 0);
-        if (limit > 0 && scheduledCount + 1 > limit) {
-            return this.setSwapState('block', `${person.name}: bu dönemde ${scheduledCount + 1} görev, üst sınır (${limit}) aşılıyor.`);
+        const total = (state.rank().find(item => item.id === id) || { total: 0 }).total;
+        if (limit > 0 && total + 1 > limit) {
+            return this.setSwapState('block', `${person.name}: ${total + 1} görev, üst sınır (${limit}) aşılıyor.`);
         }
 
         const violation = this.simulatedViolation(day, person);
@@ -304,13 +298,11 @@ const schedulePanel = {
         const slot = this.swap.slot;
         const previous = day.assigned[slot];
 
-        try {
-            day.assigned[slot] = { id: person.id, name: person.name };
-            const violation = this.ruleViolation(person.id);
-            return violation ? `${person.name} için kural ihlali: ${violation}.` : null;
-        } finally {
-            day.assigned[slot] = previous;
-        }
+        day.assigned[slot] = { id: person.id, name: person.name };
+        const violation = this.ruleViolation(person.id);
+        day.assigned[slot] = previous;
+
+        return violation ? `${person.name} için kural ihlali: ${violation}.` : null;
     },
 
     /** Kişinin çizelgedeki görev dizisi: peş peşe sınırı ve dinlenme günleri. */

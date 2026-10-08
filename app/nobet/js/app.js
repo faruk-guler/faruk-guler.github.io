@@ -34,21 +34,28 @@ const app = {
      * açılışta söyle ve düğmeleri kapat.
      */
     checkLibraries() {
-        const missing = [];
+        const missing = {
+            excel: !window.XLSX,
+            pdf: !(window.jspdf && window.jspdf.jsPDF)
+        };
+        if (!missing.excel && !missing.pdf) return;
 
-        if (!window.XLSX) missing.push('lib/xlsx.full.min.js');
-        if (!(window.jspdf && window.jspdf.jsPDF)) missing.push('lib/jspdf.umd.min.js');
-        if (!missing.length) return;
+        // Her kütüphane AYNI belgeden gelir ama bağımsız çalışır: Excel yoksa PDF
+        // yine kullanılabilir, bu yüzden yalnız ilgili düğmeler kapatılır.
+        const names = [];
+        if (missing.excel) names.push('lib/xlsx.full.min.js');
+        if (missing.pdf) names.push('lib/jspdf.umd.min.js');
 
-        const excelButtons = ['btnTemplate', 'btnImport', 'btnExportStaff', 'btnExcel'];
-        const pdfButtons = ['btnPdf'];
-        const needsExcel = missing.some(file => file.includes('xlsx'));
+        if (missing.excel) {
+            this.disableButtons(['btnTemplate', 'btnImport', 'btnExportStaff', 'btnExcel'],
+                'Excel kütüphanesi yüklenemedi');
+        }
+        if (missing.pdf) {
+            this.disableButtons(['btnPdf'], 'PDF kütüphanesi yüklenemedi');
+        }
 
-        this.disableButtons(needsExcel ? excelButtons.concat(pdfButtons) : pdfButtons,
-            'Döküm kütüphanesi yüklenemedi');
-
-        ui.status(`Eksik kütüphane: ${missing.join(' + ')} — içe/dışa aktarma çalışmaz.`, 'error');
-        ui.toast(`Kütüphaneler yüklenemedi: ${missing.join(', ')}`, 'error');
+        ui.status(`Eksik kütüphane: ${names.join(' + ')} — ilgili içe/dışa aktarma çalışmaz.`, 'error');
+        ui.toast(`Kütüphaneler yüklenemedi: ${names.join(', ')}`, 'error');
     },
 
     disableButtons(ids, reason) {
@@ -69,12 +76,8 @@ const app = {
 
     bindShortcuts() {
         document.addEventListener('keydown', (event) => {
-            // Açık bir pencere varken (veri girişi veya onay sürerken) küresel kısayollar çalışmasın
-            const modalOpen = document.querySelector('.modal:not([hidden])');
-
             // Ctrl+Enter nereden bakılırsa bakılsın çizelgeyi üretir.
             if (event.ctrlKey && event.key === 'Enter') {
-                if (modalOpen) return;
                 event.preventDefault();
                 schedulePanel.generate();
                 return;
@@ -84,7 +87,6 @@ const app = {
             // tarayıcının yazdırma penceresi arayüzü de kâğıda taşıyabiliyor. Güncel
             // çizelge varsa A4 PDF sekmesi açılır; yoksa yine belge düzeni yazdırılır.
             if ((event.ctrlKey || event.metaKey) && (event.key === 'p' || event.key === 'P')) {
-                if (modalOpen) return;
                 event.preventDefault();
                 if (state.scheduleIsFresh()) io.exportPdf();
                 else window.print();

@@ -80,12 +80,10 @@ const excuseModal = {
         document.getElementById('excuseRangeNote').value = '';
     },
 
-    /** Dönem içindeki ilk kayıtlı mazeretin ayı gösterilir, yoksa dönemin ilk ayı. */
+    /** İlk kayıtlı mazeretin ayı gösterilir, yoksa dönemin ilk ayı. */
     firstVisibleMonth() {
-        const periodDays = [...this.selected.keys()]
-            .filter(d => d >= this.range.start && d <= this.range.end)
-            .sort();
-        return (periodDays[0] || this.range.start).slice(0, 7);
+        const days = [...this.selected.keys()].sort();
+        return (days[0] || this.range.start).slice(0, 7);
     },
 
     save() {
@@ -111,16 +109,10 @@ const excuseModal = {
     shiftMonth(step) {
         const [year, month] = this.month.split('-').map(Number);
         const next = new Date(year, month - 1 + step, 1);
-        let iso = dates.toIso(next).slice(0, 7);
-
-        const startMonth = this.range.start.slice(0, 7);
-        const endMonth = this.range.end.slice(0, 7);
-
-        if (this.month < startMonth && step > 0) iso = startMonth;
-        else if (this.month > endMonth && step < 0) iso = endMonth;
+        const iso = dates.toIso(next).slice(0, 7);
 
         // Planlanan dönem dışında gezinme: seçilebilir günü olmayan ayı göstermenin anlamı yok.
-        if (iso < startMonth || iso > endMonth) return;
+        if (iso < this.range.start.slice(0, 7) || iso > this.range.end.slice(0, 7)) return;
 
         this.month = iso;
         this.render();
@@ -228,10 +220,7 @@ const excuseModal = {
         const total = state.personnel.length;
         const notes = [];
 
-        [...this.selected.keys()]
-            .filter(day => day >= this.range.start && day <= this.range.end)
-            .sort()
-            .forEach((day) => {
+        [...this.selected.keys()].sort().forEach((day) => {
             // Bu kişinin seçimi kaydedilmemiş olabilir; kayıtlı hâli değil çalışma kopyası sayılır.
             const excused = state.personnel.filter(p =>
                 p.id === this.personId ? this.selected.has(day) : state.isExcused(p, day));

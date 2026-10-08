@@ -235,21 +235,7 @@ const state = {
         // Newest first: matches how people expect a freshly added row to appear.
         this.personnel.unshift(person);
         this.savePersonnel();
-        this.touchScheduleValidity();
         return person;
-    },
-
-    setPersonShifts(id, shifts, weekends) {
-        const person = this.personById(id);
-        if (!person) return false;
-
-        person.shifts = storage.count(shifts);
-        if (weekends !== undefined && weekends !== null) {
-            person.weekends = storage.count(weekends);
-        }
-
-        this.savePersonnel();
-        return true;
     },
 
     renamePerson(id, rawName) {
