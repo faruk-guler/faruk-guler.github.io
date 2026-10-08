@@ -288,6 +288,19 @@
                 <span>Ad Soyad</span>
                 <input class="input wide" type="text" id="personName" maxlength="60" placeholder="Örn. Ayşe Yılmaz" autocomplete="off" data-autofocus>
             </label>
+            <label class="field" style="margin-top:10px">
+                <span>Önceki Dönem Devri (İsteğe bağlı)</span>
+                <div style="display:flex;gap:12px">
+                    <label style="flex:1">
+                        <small class="muted" style="display:block;font-size:var(--fs-xs)">Toplam Nöbet</small>
+                        <input class="input" type="number" id="personShifts" min="0" max="999" placeholder="0">
+                    </label>
+                    <label style="flex:1">
+                        <small class="muted" style="display:block;font-size:var(--fs-xs)">Hafta Sonu</small>
+                        <input class="input" type="number" id="personWeekends" min="0" max="999" placeholder="0">
+                    </label>
+                </div>
+            </label>
             <p class="exc" id="personError" hidden></p>
         </div>
         <footer class="modal__foot">
@@ -407,6 +420,18 @@
             <button class="btn sec" type="button" data-close="aboutModal">Kapat</button>
         </header>
         <div class="modal__body">
+            <!-- İthaf, iletişim ve imza satırı -->
+            <div class="dedication">
+                <p>Sağlık çalışanları ve güvenlik güçlerine ithaf edilmiştir.</p>
+                <p>İstekler, hatalar ve önerileriniz için mail adresim:
+                    <a href="mailto:fguler962@gmail.com">fguler962@gmail.com</a></p>
+                <p>Yaşamak bir ağaç gibi tek ve hür ve bir orman gibi kardeşçesine ❤️😊</p>
+                <p>2026 ·
+                    <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">farukguler.com</a> ·
+                    <a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer">github.com/faruk-guler</a>
+                </p>
+            </div>
+
             <p style="font-size:var(--fs-sm)">
                 Mazeret, dinlenme ve peş peşe çalışma kurallarını <b>aynı anda</b> sağlayan bir nöbet çizelgesi
                 hazırlayıcısı. Üç aşamada çalışır: dönem ve esaslar → personel ve mazeretler → çizelge.
@@ -444,18 +469,6 @@
             <p class="muted" style="font-size:var(--fs-sm)">
                 <b>Ctrl+Enter</b> listeyi oluştur · <b>Esc</b> pencereyi kapat.
             </p>
-
-            <!-- Kapanış: ithaf, iletişim ve imza satırı. Bağlantılar yalnız burada durur. -->
-            <div class="dedication">
-                <p>Sağlık çalışanları ve güvenlik güçlerine ithaf edilmiştir.</p>
-                <p>İstekler, hatalar ve önerileriniz için mail adresim:
-                    <a href="mailto:fguler962@gmail.com">fguler962@gmail.com</a></p>
-                <p>Yaşamak bir ağaç gibi tek ve hür ve bir orman gibi kardeşçesine ❤️😊</p>
-                <p>2026 ·
-                    <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">farukguler.com</a> ·
-                    <a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer">github.com/faruk-guler</a>
-                </p>
-            </div>
         </div>
     </div>
 </div>
