@@ -1,0 +1,457 @@
+/* ==========================================================================
+   components.css - tablo, etiket, pencere, bildirim, takvim, analiz listesi
+   Hepsi ayni kağıt dili: ince mürekkep çizgisi, serif, koseli olmayan kutular.
+   ========================================================================== */
+
+/* ---------- Tablolar ---------- */
+/* Dar ekranlarda tablo küçülemez; sayfayı kaydırmak yerine tablo kendi içinde kayar. */
+.table-scroll { overflow-x: auto; }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+}
+
+.table caption {
+    caption-side: top;
+    text-align: left;
+    font-size: var(--fs-xs);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 6px;
+}
+
+.table th,
+.table td {
+    border: 1px solid var(--ink);
+    padding: 5px 8px;
+    vertical-align: middle;
+}
+
+.table thead th {
+    background: var(--tint);
+    font-size: var(--fs-xs);
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.table tbody tr:nth-child(even) td { background: var(--stripe); }
+.table tbody tr:hover td { background: var(--navy-soft); }
+.table tbody tr.is-weekend td { background: var(--weekend); font-style: normal; }
+.table tbody tr.is-weekend:hover td { background: var(--weekend-2); }
+
+.table .cell-num {
+    width: 56px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.table .cell-idx {
+    width: 30px;
+    text-align: center;
+    color: var(--muted);
+    font-size: var(--fs-xs);
+}
+
+.table .cell-date { width: 112px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.table .cell-day { width: 96px; color: var(--ink-2); }
+/* Mazeret sütunu: görünürlük kapalıyken JS başlığı ve hücreleri `hidden` yapar. */
+.table .cell-excused-head { width: 34%; }
+.table .cell-actions { width: 84px; text-align: center; white-space: nowrap; }
+.table .cell-actions .btn { margin: 0 1px; }
+
+.name-edit {
+    display: inline-block;
+    min-width: 90px;
+    font-weight: 700;
+    border-bottom: 1px dotted transparent;
+    outline: none;
+}
+
+.name-edit:hover { border-bottom-color: var(--rule-strong); }
+.name-edit:focus { border-bottom: 1px solid var(--navy); background: var(--tint); }
+
+.shift-edit {
+    display: inline-block;
+    min-width: 28px;
+    border-bottom: 1px dotted transparent;
+    outline: none;
+    text-align: center;
+    cursor: text;
+}
+
+.shift-edit:hover { border-bottom-color: var(--rule-strong); }
+.shift-edit:focus { border-bottom: 1px solid var(--navy); background: var(--tint); }
+
+.exc { color: var(--seal); font-size: var(--fs-xs); }
+.dash { color: var(--muted); }
+
+/* Kişi etiketi (nöbetçi hücresinde): kesik çizgi "düzenlenebilir"yi anlatır. */
+.chip {
+    display: inline-flex;
+    align-items: baseline;
+    font-size: var(--fs-sm);
+    border-bottom: 1px dashed var(--rule);
+    cursor: pointer;
+    padding: 0 1px;
+}
+
+.chip:hover { border-bottom: 1px solid var(--navy); color: var(--navy); }
+.chip.empty { color: var(--seal); font-style: italic; border-bottom-style: dotted; }
+
+/* Rozetler */
+.pill {
+    display: inline-block;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: 1px 7px;
+    border: 1px solid var(--rule);
+    background: var(--tint);
+    white-space: nowrap;
+}
+
+.pill.exc { border-color: var(--seal); background: var(--seal-soft); color: var(--seal); }
+.pill.ok { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+.pill.warn { border-color: var(--warn); background: var(--warn-soft); color: var(--warn); }
+
+/* ---------- Belge özeti (4 kutu) ---------- */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    margin-top: 16px;
+}
+
+.summary div { background: var(--paper); padding: 7px 10px; text-align: center; }
+.summary b { display: block; font-size: 1.34rem; font-variant-numeric: tabular-nums; }
+.summary span { font-size: var(--fs-xs); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+
+@media (max-width: 720px) {
+    .summary { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- Boş durum / hata ---------- */
+.placeholder {
+    padding: 22px 18px;
+    border: 1px dashed var(--rule);
+    background: var(--paper-edge);
+    text-align: center;
+    font-size: var(--fs-sm);
+    color: var(--ink-2);
+}
+
+.placeholder b { display: block; font-size: var(--fs-md); color: var(--ink); margin-bottom: 3px; }
+
+/* ---------- Pencere (modal) ---------- */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(20, 24, 30, .55);
+    animation: fade .14s ease-out;
+}
+
+.modal[hidden] { display: none; }
+
+.modal__box {
+    width: min(100%, 520px);
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    border-top: 4px double var(--navy);
+    box-shadow: 0 26px 60px -20px rgba(0, 0, 0, .6);
+    display: flex;
+    flex-direction: column;
+    animation: rise .16s ease-out;
+}
+
+.modal__box--wide { width: min(100%, 940px); }
+
+.modal__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--ink);
+    background: var(--tint);
+}
+
+.modal__title {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.modal__title small {
+    display: block;
+    font-size: var(--fs-xs);
+    letter-spacing: .02em;
+    text-transform: none;
+    font-weight: 400;
+    color: var(--ink-2);
+}
+
+.modal__head .btn.sec { margin-left: auto; }
+.modal__body { padding: 16px; overflow: auto; max-height: 70vh; }
+.modal__foot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border-top: 1px solid var(--rule);
+    background: var(--paper-edge);
+}
+
+.modal__foot .spacer { margin-left: auto; }
+
+/* Hakkında penceresi: etiket/değer künyesi, incecik satır çizgileriyle.
+   Etiket sütunu max-content: "Kütüphaneler" gibi uzun başlıklar değere taşmasın. */
+.about-facts {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0 14px;
+    margin-top: 14px;
+    font-size: var(--fs-sm);
+}
+
+.about-facts dt,
+.about-facts dd {
+    border-top: 1px solid var(--rule);
+    padding: 6px 0;
+}
+
+.about-facts dt {
+    font-size: var(--fs-xs);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-2);
+}
+
+/* İthaf ve imza bloğu: en üstte, alt çizgiyle ayrılır. */
+.dedication {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+    font-size: var(--fs-sm);
+}
+
+@keyframes fade { from { opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---------- Bildirimler (üst sağ, kağıt fişi) ---------- */
+.toasts {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: min(360px, calc(100vw - 28px));
+    /* Kısa ekranlarda liste taşmasın: en alttaki (en eski) fiş kesilir. */
+    max-height: calc(100dvh - 28px);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    padding: 8px 11px;
+    border: 1px solid var(--ink);
+    border-left: 4px solid var(--navy);
+    background: var(--paper);
+    box-shadow: 0 12px 26px -14px rgba(0, 0, 0, .55);
+    font-size: var(--fs-sm);
+    /* Fiş tıklamayı geçirdi: üstüne bindiği düğmeyi (antetteki Hakkında / tema) yemesin. */
+    pointer-events: none;
+    animation: slidein .16s ease-out;
+}
+
+.toast::before { content: "\25AA"; color: var(--navy); }
+.toast[data-tone="ok"] { border-left-color: var(--ok); }
+.toast[data-tone="ok"]::before { content: "\2713"; color: var(--ok); }
+.toast[data-tone="warn"] { border-left-color: var(--warn); }
+.toast[data-tone="warn"]::before { content: "\25B2"; color: var(--warn); }
+.toast[data-tone="error"] { border-left-color: var(--seal); }
+.toast[data-tone="error"]::before { content: "\2716"; color: var(--seal); font-size: 10px; }
+.toast.is-out { opacity: 0; transform: translateX(12px); transition: opacity .18s, transform .18s; }
+
+@keyframes slidein { from { opacity: 0; transform: translateX(14px); } }
+
+/* ---------- Mazeret takvimi ---------- */
+.calendar { display: grid; gap: 10px; }
+
+.calendar__nav { display: flex; align-items: center; gap: 8px; }
+
+.calendar__month {
+    flex: 1;
+    text-align: center;
+    font-size: var(--fs-md);
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.calendar__dows,
+.calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--ink);
+}
+
+.calendar__dows { background: var(--ink); }
+
+.calendar__dows span {
+    background: var(--tint);
+    text-align: center;
+    padding: 4px 0;
+    font-size: var(--fs-xs);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-2);
+}
+
+.calendar__dows span.we { color: var(--seal); background: var(--weekend); }
+
+.cal-day {
+    min-height: 40px;
+    background: var(--paper);
+    display: grid;
+    place-items: center;
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+}
+
+.cal-day:hover { background: var(--navy-soft); }
+.cal-day--weekend { background: var(--weekend); }
+.cal-day--weekend:hover { background: var(--weekend-2); }
+.cal-day--blank { background: var(--paper-edge); cursor: default; }
+.cal-day--out { color: var(--faint); cursor: not-allowed; background: var(--paper-edge); }
+.cal-day--out:hover { background: var(--paper-edge); }
+
+/* Seçili gün iki sınıfla yazılır: aksi halde yukarıdaki :hover kuralı taramayı boyar. */
+.cal-day.cal-day--selected {
+    background: repeating-linear-gradient(45deg, var(--hatch-a) 0 4px, var(--hatch-b) 4px 8px);
+    color: var(--seal);
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px var(--seal);
+}
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: var(--fs-xs); color: var(--ink-2); }
+.legend em { font-style: normal; }
+
+/* İki sütunlu modal düzeni: takvim + seçilenler */
+.split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+@media (max-width: 860px) {
+    .split { grid-template-columns: 1fr; }
+}
+
+.excuse-list { display: grid; gap: 5px; max-height: 320px; overflow: auto; }
+
+.excuse-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 8px;
+    align-items: center;
+    padding: 5px 7px;
+    border: 1px solid var(--rule);
+    background: var(--tint);
+    font-size: var(--fs-sm);
+}
+
+.excuse-row__date { font-weight: 700; white-space: nowrap; }
+.excuse-row input {
+    grid-column: 1 / -1;
+    width: 100%;
+    border: 1px solid var(--rule);
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper);
+    padding: 3px 5px;
+    font-size: var(--fs-xs);
+}
+
+/* Nöbetçi hücreleri: isimler belge akışında, altı çizgili ve tıklanabilir. */
+.cell-duty { line-height: 1.9; }
+.cell-excused { line-height: 1.8; }
+
+/* Çizelge tablosu üstündeki özet/not bloklarından sonra nefes alır. */
+#sec-roster .table-scroll { margin-top: 14px; }
+
+/* ---------- Mazeret aralığı ---------- */
+.range {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 10px 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+}
+
+.range .btn { align-self: end; justify-self: start; }
+
+/* ---------- Yük analizi listesi ---------- */
+.rank { display: grid; gap: 1px; background: var(--ink); border: 1px solid var(--ink); }
+
+.rank__row {
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) 68px 68px 120px;
+    gap: 12px;
+    align-items: center;
+    padding: 5px 9px;
+    background: var(--paper);
+    font-size: var(--fs-sm);
+}
+
+.rank__row:nth-child(even) { background: var(--stripe); }
+
+.rank__head {
+    background: var(--tint);
+    font-size: var(--fs-xs);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ink-2);
+}
+
+.rank__head span:not(:first-child) { text-align: right; }
+.rank__name { font-weight: 700; }
+.rank__num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.rank__bar {
+    height: 9px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+}
+
+.rank__bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--w, 0%);
+    background: repeating-linear-gradient(45deg, var(--navy) 0 3px, var(--paper) 3px 6px);
+}

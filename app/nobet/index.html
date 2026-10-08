@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tarayıcı yerel arayüzü (kaydırma çubuğu, form denetimleri) temaya göre çizilsin. -->
+    <meta name="color-scheme" content="light dark">
+    <title>Jupiter v4 — Nöbet Çizelgesi</title>
+    <meta name="description" content="Jupiter v4: mazeret, dinlenme ve peş peşe çalışma kurallarını otomatik uygulayan nöbet çizelgesi hazırlama aracı.">
+    <link rel="icon" type="image/svg+xml" href="assets/nobet-logo.svg">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/document.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/print.css">
+
+    <script>
+        // Tema ilk boyamadan önce uygulanır; aksi halde sayfa bir an yanlış renkte görünür.
+        // Anahtar, storage.js içindeki KEYS.theme ile aynı kalmalı.
+        (function () {
+            var theme;
+            try {
+                theme = localStorage.getItem('nobet4_theme');
+            } catch (error) {
+                theme = null;   // gizli modda localStorage erişilemeyebilir
+            }
+            if (theme !== 'night' && theme !== 'day') {
+                theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+            }
+            document.documentElement.dataset.theme = theme;
+        })();
+    </script>
+</head>
+
+<body>
+
+<div class="workbench">
+
+<!-- ==================== SOL PANEL: üç aşamanın adım haritası ==================== -->
+<aside class="rail no-print">
+    <p class="rail__title">Adım haritası</p>
+    <nav class="steps" aria-label="Çalışma adımları">
+        <button class="step" type="button" data-target="sec-period">
+            <span class="step__no">1</span>
+            <span class="step__text">Dönem ve esaslar<small>başlangıç, bitiş, kurallar</small></span>
+        </button>
+        <span class="step__line" aria-hidden="true"></span>
+        <button class="step" type="button" data-target="sec-staff">
+            <span class="step__no">2</span>
+            <span class="step__text">Personel ve mazeretler<small>ekip listesi, izin günleri</small></span>
+        </button>
+        <span class="step__line" aria-hidden="true"></span>
+        <button class="step" type="button" data-target="sec-roster">
+            <span class="step__no">3</span>
+            <span class="step__text">Nöbet çizelgesi<small>dağıtım, kontrol, döküm</small></span>
+        </button>
+    </nav>
+
+    <!-- Ana eylem panelde: hangi aşamada olursan ol ulaşılabilir kalır. -->
+    <button class="btn rail__generate no-print" type="button" id="btnGenerate" title="Kısayol: Ctrl+Enter">Listeyi oluştur</button>
+    <p class="rail__note">Bir adıma tıklayarak o sayfaya gidebilirsin.</p>
+</aside>
+
+<main class="pages">
+
+<!-- ======================= SAYFA 1 — antet, künye ve dönem ======================= -->
+<section class="sheet" id="sec-period">
+
+    <!-- ============================ ANTET ============================ -->
+    <header class="letterhead">
+        <span class="crest"><img class="crest__mark" src="assets/nobet-logo.svg" alt="" width="30" height="30"></span>
+        <div>
+            <h1>Jupiter</h1>
+            <div class="sub">Nöbet Çizelgesi Hazırlama Programı · v4</div>
+        </div>
+        <div class="letterhead-tools no-print">
+            <button class="btn sm sec" type="button" id="btnAbout">Hakkında</button>
+            <!-- Tema anahtarı: güneş / ay. Rol switch; durumu aria-checked söyler. -->
+            <button class="theme-switch" type="button" id="themeToggle" role="switch" aria-checked="false"
+                    aria-label="Gece temasına geç" title="Gündüz / gece teması">
+                <svg class="theme-switch__icon theme-switch__icon--sun" viewBox="0 0 24 24" aria-hidden="true"
+                     fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="4.1"/>
+                    <path d="M12 2.6v2.1M12 19.3v2.1M4.4 4.4l1.5 1.5M18.1 18.1l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.4 19.6l1.5-1.5M18.1 5.9l1.5-1.5"/>
+                </svg>
+                <span class="theme-switch__track"><span class="theme-switch__knob"></span></span>
+                <svg class="theme-switch__icon theme-switch__icon--moon" viewBox="0 0 24 24" aria-hidden="true"
+                     fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.5 13.6A8.6 8.6 0 1 1 10.4 3.5a6.9 6.9 0 0 0 10.1 10.1z"/>
+                    <path class="theme-switch__sparkle" stroke="none" fill="currentColor"
+                          d="M18.3 2.4l.75 1.75 1.75.75-1.75.75-.75 1.75-.75-1.75-1.75-.75 1.75-.75z"/>
+                </svg>
+            </button>
+        </div>
+        <!-- Belge künyesi: ana ekranda gösterilmez, yazdırma ve dışa aktarımlarda yer alır. -->
+        <div class="docmeta">
+            <b id="unitName">Birim belirtilmedi</b>
+            <span id="periodLabel">—</span><br>
+            Belge No: <span id="docNo">—</span>
+        </div>
+    </header>
+
+    <div class="docline">
+        <span>Konu: <i>dönem içi nöbet dağıtımı</i></span>
+        <span>Kapsam: <i><span id="mStaff">0</span> personel · günde <span id="perDayLabel">1</span> nöbetçi</i></span>
+        <span>Hazırlama: <i id="preparedDate">—</i></span>
+    </div>
+
+    <!-- ==================== 1. AŞAMA: dönem ve esaslar ==================== -->
+    <h2 class="section-title">Dönem ve dağıtım esasları</h2>
+
+        <div class="fields">
+            <label class="field">
+                <span>Maks. Toplam Nöbet</span>
+                <input class="input" type="number" id="maxTotal" min="0" max="365" step="1">
+                <span class="hint">0 = sınırsız</span>
+            </label>
+            <label class="field">
+                <span>Başlangıç Tarihi</span>
+                <input class="input" type="date" id="startDate">
+            </label>
+            <label class="field">
+                <span>Bitiş Tarihi</span>
+                <input class="input" type="date" id="endDate">
+            </label>
+            <label class="field">
+                <span>Vardiya Başına Kişi</span>
+                <input class="input" type="number" id="perDay" min="1" max="10" step="1">
+            </label>
+            <label class="field">
+                <span>Maks. Peş Peşe Gün</span>
+                <input class="input" type="number" id="maxConsecutive" min="1" max="30" step="1">
+            </label>
+            <label class="field">
+                <span>Min. Dinlenme (Gün)</span>
+                <input class="input" type="number" id="minRestDays" min="0" max="30" step="1">
+            </label>
+            <label class="field">
+                <span>Liste Başlığı (Resmi İsim)</span>
+                <input class="input wide" type="text" id="unit" maxlength="100" placeholder="Örn. Acil Servis Nöbet Çizelgesi">
+            </label>
+        </div>
+
+        <div class="switch">
+            <span class="label">
+                Hafta sonu nöbetleri ayrı dengelensin
+                <small>Kapalıysa yalnızca toplam nöbet sayısı dengelenir.</small>
+            </span>
+            <label class="box">
+                <input type="checkbox" id="splitWeekends">
+                <span>Evet</span>
+            </label>
+        </div>
+
+        <div class="notes" id="ruleSummary" aria-live="polite"></div>
+</section>
+
+<!-- ==================== SAYFA 2 — personel ve mazeretler ==================== -->
+<section class="sheet" id="sec-staff">
+        <h2 class="section-title">Personel beyanı ve mazeretleri</h2>
+
+        <div class="tools no-print">
+            <button class="btn sm" type="button" id="btnAddPerson">Kişi ekle</button>
+            <button class="btn sm sec" type="button" id="btnTemplate">Şablon</button>
+            <button class="btn sm sec" type="button" id="btnImport">İçe aktar</button>
+            <button class="btn sm sec" type="button" id="btnExportStaff">Dışa aktar</button>
+            <button class="btn sm danger" type="button" id="btnClearAll">Tümünü sil</button>
+        </div>
+
+        <div class="table-scroll">
+        <table class="table" id="personnelTable">
+            <caption>Listede <span id="personnelCount">0</span> kişi · ismi düzenlemek için hücreye tıklayın</caption>
+            <thead>
+                <tr>
+                    <th class="cell-idx" scope="col">No</th>
+                    <th scope="col">Ad Soyad</th>
+                    <th class="cell-num" scope="col">Devir</th>
+                    <th class="cell-num" scope="col">Nöbet</th>
+                    <th class="cell-num" scope="col">Hafta sonu</th>
+                    <th scope="col">Mazeret günleri</th>
+                    <th class="cell-actions no-print" scope="col">İşlem</th>
+                </tr>
+            </thead>
+            <tbody id="personnelList"></tbody>
+        </table>
+        </div>
+
+        <div class="placeholder" id="personnelEmpty" hidden>
+            <b>Personel listesi boş</b>
+            Yukarıdaki “Kişi ekle” ile tek tek ya da “Şablon”u doldurup “İçe aktar” ile toplu ekleyin.
+        </div>
+
+        <!-- Bazı mazeretler kişiseldir (hastalık vb.): çizelgeye ve döküme girip girmeyeceğine
+             burada karar verilir. Dağıtımı değiştirmediği için listeyi bayatlatmaz. -->
+        <div class="switch">
+            <span class="label">
+                Mazeret ve beyanlar nöbet çizelgesinde görünsün
+                <small>Kapalıysa çizelgede, PDF ve Excel dökümünde mazeret sütunu hiç yer almaz.
+                    Gerekçeler kişisel olabildiği için varsayılan olarak kapalıdır.</small>
+            </span>
+            <label class="box">
+                <input type="checkbox" id="showExcused">
+                <span>Evet</span>
+            </label>
+        </div>
+</section>
+
+<!-- ==================== SAYFA 3 — nöbet çizelgesi ==================== -->
+<section class="sheet" id="sec-roster">
+        <h2 class="section-title">Nöbet çizelgesi</h2>
+
+        <div class="tools no-print">
+            <button class="btn sm" type="button" id="btnRanking">Yük analizi</button>
+            <button class="btn sm sec" type="button" id="btnExcel">Excel</button>
+            <button class="btn sm sec" type="button" id="btnPdf" title="Çizelgeyi tarayıcıda yeni sekmede açar">PDF</button>
+            <button class="btn sm sec" type="button" id="btnShuffle" title="Aynı kurallar korunur, dağılım yeniden karıştırılır">Karıştır 🔀</button>
+        </div>
+
+        <div class="summary">
+            <div><b id="mDays">0</b><span>Gün</span></div>
+            <div><b id="mTotal">0</b><span>Toplam nöbet</span></div>
+            <div><b id="mPerPerson">—</b><span>Kişi başı</span></div>
+            <div><b id="mWeekend">0</b><span>Hafta sonu</span></div>
+        </div>
+
+        <div class="placeholder" id="rosterEmpty">
+            <b>Çizelge henüz hazırlanmadı</b>
+            Kuralları ve personeli tamamladıktan sonra sol paneldeki <b>“Listeyi oluştur”</b> düğmesine basın.
+        </div>
+
+        <div class="note" data-tone="warn" id="rosterStale" hidden>
+            <span>Kural ya da personel listesi değişti: aşağıdaki çizelge artık geçerli değil, yeniden oluşturulmadan yazdırılmaz.</span>
+        </div>
+
+        <div class="note" data-tone="danger" id="rosterError" hidden>
+            <span><strong id="rosterErrorTitle"></strong> <span id="rosterErrorDetail" style="display:block;white-space:pre-line"></span></span>
+        </div>
+
+        <div class="table-scroll">
+        <table class="table" id="rosterTable" hidden>
+            <caption><span id="rosterCount">0</span> gün · <span id="rosterExcuseNote">mazeretli günler satırın sonunda belirtilir</span></caption>
+            <thead>
+                <tr>
+                    <th class="cell-date" scope="col">Tarih</th>
+                    <th class="cell-day" scope="col">Gün</th>
+                    <th id="dutyHeader" scope="col">Nöbetçi</th>
+                    <th class="cell-excused-head" id="excusedHeader" scope="col">Mazeretli</th>
+                </tr>
+            </thead>
+            <tbody id="rosterBody"></tbody>
+        </table>
+        </div>
+
+        <!-- İmza bloğu: ana ekranda değil, yalnız dökümde görünür; unvan yerine genel etiket. -->
+        <div class="sign">
+            <div>
+                <span class="line"></span>
+                Hazırlayan
+                <small>ad · sicil · imza</small>
+            </div>
+            <div>
+                <span class="line"></span>
+                Onaylayan
+                <small>ad · sicil · imza</small>
+            </div>
+        </div>
+    <!-- Belge altlığı: son sayfanın altında -->
+    <footer class="docfoot">
+        <span class="status" id="statusLine">Hazır.</span>
+        <span id="printFoot"></span>
+        <span class="right">Jupiter · sürüm <span id="brandVersion">v4</span></span>
+    </footer>
+</section>
+
+</main>
+</div>
+
+<!-- ========================= KİŞİ EKLEME ========================= -->
+<div class="modal" id="personModal" role="dialog" aria-modal="true" aria-labelledby="personModalTitle" hidden>
+    <div class="modal__box">
+        <header class="modal__head">
+            <h3 class="modal__title" id="personModalTitle">Personel ekle<small>Soyad ve adını birlikte yazın</small></h3>
+            <button class="btn sec" type="button" data-close="personModal">Kapat</button>
+        </header>
+        <div class="modal__body">
+            <label class="field">
+                <span>Ad Soyad</span>
+                <input class="input wide" type="text" id="personName" maxlength="60" placeholder="Örn. Ayşe Yılmaz" autocomplete="off" data-autofocus>
+            </label>
+            <label class="field" style="margin-top:10px">
+                <span>Önceki Dönem Devri (İsteğe bağlı)</span>
+                <div style="display:flex;gap:12px">
+                    <label style="flex:1">
+                        <small class="muted" style="display:block;font-size:var(--fs-xs)">Toplam Nöbet</small>
+                        <input class="input" type="number" id="personShifts" min="0" max="999" placeholder="0">
+                    </label>
+                    <label style="flex:1">
+                        <small class="muted" style="display:block;font-size:var(--fs-xs)">Hafta Sonu</small>
+                        <input class="input" type="number" id="personWeekends" min="0" max="999" placeholder="0">
+                    </label>
+                </div>
+            </label>
+            <p class="exc" id="personError" hidden></p>
+        </div>
+        <footer class="modal__foot">
+            <button class="btn sec" type="button" data-close="personModal">Vazgeç</button>
+            <button class="btn" type="button" id="btnSavePerson">Kaydet</button>
+        </footer>
+    </div>
+</div>
+
+<!-- ======================= MAZERET TAKVİMİ ======================= -->
+<div class="modal" id="excuseModal" role="dialog" aria-modal="true" aria-labelledby="excuseTitle" hidden>
+    <div class="modal__box modal__box--wide">
+        <header class="modal__head">
+            <h3 class="modal__title" id="excuseTitle">
+                Mazeret günleri
+                <small id="excusePerson"></small>
+            </h3>
+            <button class="btn sec" type="button" data-close="excuseModal">Kapat</button>
+        </header>
+
+        <div class="modal__body">
+            <div class="split">
+                <section>
+                    <div class="calendar">
+                        <div class="calendar__nav">
+                            <button class="btn sm sec" type="button" id="btnPrevMonth" aria-label="Önceki ay">‹</button>
+                            <div class="calendar__month" id="calendarMonth"></div>
+                            <button class="btn sm sec" type="button" id="btnNextMonth" aria-label="Sonraki ay">›</button>
+                        </div>
+                        <div class="calendar__dows">
+                            <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span class="we">Cmt</span><span class="we">Paz</span>
+                        </div>
+                        <div class="calendar__grid" id="calendarGrid"></div>
+                        <div class="legend">
+                            <span><em>□</em> çalışabilir</span>
+                            <span><em>▨</em> seçilen mazeret</span>
+                            <span><em>·</em> dönem dışı</span>
+                        </div>
+
+                        <!-- Aralık ekleme: bitişik günler (yıllık izin vb.) tek tek tıklanmaz. -->
+                        <div class="range">
+                            <label class="field">
+                                <span>Aralık başlangıcı</span>
+                                <input class="input" type="date" id="excuseRangeStart">
+                            </label>
+                            <label class="field">
+                                <span>Aralık bitişi</span>
+                                <input class="input" type="date" id="excuseRangeEnd">
+                            </label>
+                            <label class="field">
+                                <span>Açıklama</span>
+                                <input class="input wide" type="text" id="excuseRangeNote" maxlength="40" placeholder="Örn. Yıllık izin">
+                            </label>
+                            <button class="btn sm sec" type="button" id="btnExcuseRange">Aralık ekle</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h4 class="eyebrow">Seçilen günler (<span id="excuseCount">0</span>)</h4>
+                    <div class="excuse-list" id="excuseList"></div>
+                    <div class="notes" id="excuseWarnings" hidden></div>
+                </section>
+            </div>
+        </div>
+
+        <footer class="modal__foot">
+            <button class="btn sec danger" type="button" id="btnExcuseClear">Temizle</button>
+            <span class="spacer"></span>
+            <button class="btn" type="button" id="btnExcuseSave">Kaydet</button>
+        </footer>
+    </div>
+</div>
+
+<!-- ====================== NÖBETÇİ DEĞİŞTİRME ====================== -->
+<div class="modal" id="swapModal" role="dialog" aria-modal="true" aria-labelledby="swapTitle" hidden>
+    <div class="modal__box">
+        <header class="modal__head">
+            <h3 class="modal__title" id="swapTitle">Nöbetçiyi değiştir</h3>
+            <button class="btn sec" type="button" data-close="swapModal">Kapat</button>
+        </header>
+        <div class="modal__body">
+            <p class="muted" id="swapInfo"></p>
+            <label class="field" style="margin-top:12px">
+                <span>Aday</span>
+                <select class="input wide" id="swapSelect" data-autofocus></select>
+            </label>
+            <div class="notes" style="margin-top:12px">
+                <div class="note" data-tone="warn" id="swapWarning" hidden><span></span></div>
+            </div>
+        </div>
+        <footer class="modal__foot">
+            <button class="btn sec" type="button" data-close="swapModal">Vazgeç</button>
+            <button class="btn" type="button" id="btnSwapApply">Değiştir</button>
+        </footer>
+    </div>
+</div>
+
+<!-- ========================= YÜK ANALİZİ ========================= -->
+<div class="modal" id="rankModal" role="dialog" aria-modal="true" aria-labelledby="rankTitle" hidden>
+    <div class="modal__box modal__box--wide">
+        <header class="modal__head">
+            <h3 class="modal__title" id="rankTitle">Yük dağılımı<small id="rankBalance"></small></h3>
+            <button class="btn sec" type="button" data-close="rankModal">Kapat</button>
+        </header>
+        <div class="modal__body">
+            <div class="rank" id="rankList"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================ HAKKINDA ============================ -->
+<div class="modal" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
+    <div class="modal__box">
+        <header class="modal__head">
+            <h3 class="modal__title" id="aboutTitle">Hakkında<small>Nöbet çizelgesi hazırlayıcısı</small></h3>
+            <button class="btn sec" type="button" data-close="aboutModal">Kapat</button>
+        </header>
+        <div class="modal__body">
+            <!-- İthaf, iletişim ve imza satırı -->
+            <div class="dedication">
+                <p>Sağlık çalışanları ve güvenlik güçlerine ithaf edilmiştir.</p>
+                <p>İstekler, hatalar ve önerileriniz için mail adresim:
+                    <a href="mailto:fguler962@gmail.com">fguler962@gmail.com</a></p>
+                <p>Yaşamak bir ağaç gibi tek ve hür ve bir orman gibi kardeşçesine ❤️😊</p>
+                <p>2026 ·
+                    <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">farukguler.com</a> ·
+                    <a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer">github.com/faruk-guler</a>
+                </p>
+            </div>
+
+            <p style="font-size:var(--fs-sm)">
+                Mazeret, dinlenme ve peş peşe çalışma kurallarını <b>aynı anda</b> sağlayan bir nöbet çizelgesi
+                hazırlayıcısı. Üç aşamada çalışır: dönem ve esaslar → personel ve mazeretler → çizelge.
+            </p>
+
+            <dl class="about-facts">
+                <dt>Sürüm</dt>
+                <dd id="aboutBuild">Jupiter v4</dd>
+
+                <dt>Çalışma</dt>
+                <dd>Tarayıcıda; kurulum ve internet bağlantısı gerektirmez.</dd>
+
+                <dt>Dağıtım</dt>
+                <dd>Geri izlemeli çözücü: her gün için mazeret, peş peşe ve dinlenme kurallarını denetler,
+                    görev sayılarını (isteğe bağlı hafta sonlarını ayrı) dengeler.</dd>
+
+                <dt>Veriler</dt>
+                <dd>Yalnızca bu bilgisayarda saklanır; kişiler, kurallar, mazeretler ve son çizelge her
+                    değişiklikte otomatik yazılır. Sunucuya hiçbir veri gitmez.</dd>
+
+                <dt>Mazeret gizliliği</dt>
+                <dd>Mazeret sütunu varsayılan olarak kapalıdır; 2. sayfadaki anahtarla açılır.
+                    Gerekçeler kişisel olabilir; görünürlük dağıtımı etkilemez.</dd>
+
+                <dt>Çıktılar</dt>
+                <dd>PDF (yeni sekmede açılır, A4) ve Excel (.xlsx: çizelge + kişi özeti).
+                    Belge numarası ve imza çizgileri yalnız çıktılarda yer alır.</dd>
+
+                <dt>Kütüphaneler</dt>
+                <dd>SheetJS (Excel), jsPDF (PDF) ve Roboto (PDF künye yazısı, Apache 2.0) -
+                    uygulamanın içinde yerel olarak bulunur.</dd>
+            </dl>
+
+            <h4 class="eyebrow" style="margin-top:16px">Kısayollar</h4>
+            <p class="muted" style="font-size:var(--fs-sm)">
+                <b>Ctrl+Enter</b> listeyi oluştur · <b>Esc</b> pencereyi kapat.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- =========================== ONAY =========================== -->
+<div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" hidden>
+    <div class="modal__box" style="width:min(100%,420px)">
+        <header class="modal__head">
+            <h3 class="modal__title" id="confirmTitle">Onay</h3>
+        </header>
+        <div class="modal__body"><p id="confirmMessage"></p></div>
+        <footer class="modal__foot">
+            <span class="spacer"></span>
+            <button class="btn sec" type="button" id="confirmCancel">Vazgeç</button>
+            <button class="btn" type="button" id="confirmOk">Tamam</button>
+        </footer>
+    </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<!-- Ticari kütüphaneler yerelden yüklenir: internet bağlantısı gerekmez. -->
+<script src="lib/xlsx.full.min.js"></script>
+<script src="lib/jspdf.umd.min.js"></script>
+<!-- PDF künye yazısı (Roboto, Apache 2.0). Bu dosya yoksa PDF ASCII'ye düşer: -->
+<!-- node tools/make-pdf-font.js ile üretilir, dağıtıma eklenmelidir. -->
+<script src="lib/roboto.js"></script>
+
+<script src="js/core/dates.js"></script>
+<script src="js/core/ui.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/core/scheduler.js"></script>
+
+<script src="js/features/settings.js"></script>
+<script src="js/features/personnel.js"></script>
+<script src="js/features/excuses.js"></script>
+<script src="js/features/schedule.js"></script>
+<script src="js/features/io.js"></script>
+
+<script src="js/app.js"></script>
+</body>
+
+</html>
