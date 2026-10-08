@@ -236,6 +236,14 @@
     font-size: var(--fs-sm);
 }
 
+/* İthaf bloğu Hakkında içeriğinin en üstünde: üst ayraç çizgisi/boşluğu ilk öğede kalmasın. */
+.modal__body > .dedication:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    margin-bottom: 16px;
+}
+
 @keyframes fade { from { opacity: 0; } }
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
 

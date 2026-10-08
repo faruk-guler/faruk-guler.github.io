@@ -213,6 +213,12 @@ const schedulePanel = {
 
     // ---------- Elle nöbetçi değiştirme ----------
     openSwap(date, slot) {
+        // Bayat çizelge artık güncel kuralın çıktısı değildir: elle değişiklik yanıltıcı olur.
+        if (!state.scheduleIsFresh()) {
+            ui.toast('Çizelge güncel değil — önce “Listeyi oluştur” ile yeniden üretin.', 'warn');
+            return;
+        }
+
         const day = state.schedule.find(item => item.date === date);
         const current = day && day.assigned[slot];
         if (!day) return;

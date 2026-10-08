@@ -8,6 +8,8 @@
 const io = {
     DEFAULT_UNIT: '.......... Birimi Nöbet Çizelgesi',
     hasBoldFace: false,
+    // Son PDF sekmesinin blob URL'i: yeni üretimde önceki serbest bırakılır (birikmesin).
+    lastPdfUrl: null,
 
     init() {
         document.getElementById('btnTemplate').addEventListener('click', () => this.downloadTemplate());
@@ -527,22 +529,32 @@ const io = {
 
     /** PDF'yi indirmek yerine tarayıcının kendi görüntüleyicisinde yeni sekmede açar. */
     showPdf(doc, fileName) {
+        // Onceki PDF sekmesinin blob'u birikmesin: yeni sekme açılmadan önce serbest bırak.
+        if (this.lastPdfUrl) {
+            URL.revokeObjectURL(this.lastPdfUrl);
+            this.lastPdfUrl = null;
+        }
+
+        const url = doc.output('bloburl');
         let tab = null;
 
         try {
             // Tıklama zinciri içinde çağrılıyor; aksi halde tarayıcı açılır pencereyi engeller.
-            tab = window.open(doc.output('bloburl'), '_blank');
+            tab = window.open(url, '_blank');
         } catch (error) {
             console.error('PDF sekmesi açılamadı:', error);
         }
 
         if (tab) {
+            // Sekme belgeyi aldı; bu URL sonraki üretimde geri bırakılacak.
+            this.lastPdfUrl = url;
             ui.toast('PDF yeni sekmede açıldı.', 'ok');
             ui.status('PDF görüntüleyicide açıldı.', 'ok');
             return;
         }
 
-        // Sekme engellendiyse çıktı kaybolmasın: dosyaya indir.
+        // Sekme engellendiyse blob'a ihtiyaç kalmadı: hemen geri bırak, çıktı dosyaya insin.
+        URL.revokeObjectURL(url);
         doc.save(fileName);
         ui.toast('Yeni sekme açılamadı; PDF dosya olarak indirildi.', 'warn');
         ui.status('PDF indirildi (tarayıcı sekme açmayı engelledi).', 'warn');

@@ -153,7 +153,8 @@ const state = {
 
         const [year, month] = s.start.split('-');
         const stats = this.stats();
-        const days = String(stats.dayCount).padStart(2, '0');
+        // Gün 366'ya kadar çıkabildiği için alan 3 haneye sabitlenir: NOP-...-016G / 366G hizalı kalır.
+        const days = String(stats.dayCount).padStart(3, '0');
         const staff = String(stats.staffCount).padStart(2, '0');
 
         return `NOP-${year}-${month}-${days}G${staff}P`;

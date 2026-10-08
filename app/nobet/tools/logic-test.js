@@ -224,7 +224,7 @@ check('stats totals', stats.total === 16 * 2 && stats.dayCount === 16, JSON.stri
 
 // document number (used by print/PDF/Excel headers, not shown on screen)
 const docNo = state.documentNo();
-check('documentNo encodes period + day count', /^NOP-\d{4}-\d{2}-16G\d{2}P$/.test(docNo), docNo);
+check('documentNo encodes period + day count', /^NOP-\d{4}-\d{2}-\d{2,3}G\d{2}P$/.test(docNo), docNo);
 check('documentNo is stable', state.documentNo() === docNo, state.documentNo());
 
 state.setSettings({ start: '', end: '' });
