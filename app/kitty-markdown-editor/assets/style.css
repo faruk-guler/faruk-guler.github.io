@@ -213,6 +213,7 @@ main {
 }
 
 #editor-pane {
+  position: relative;
   flex: 0 0 var(--split);
   overflow: hidden;
 }
@@ -280,6 +281,92 @@ body.fullscreen-preview #preview-pane { flex: 1 1 auto; }
   margin: 0 auto;
 }
 
+/* ----- Find bar (Ctrl+F; floats over the editor pane) ----- */
+
+.find-bar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: calc(100% - 16px);
+  padding: 5px 6px;
+  background: var(--bar-bg);
+  border: 1px solid var(--bar-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.find-bar input[type="search"] {
+  font: inherit;
+  font-size: 13px;
+  width: 140px;
+  min-width: 60px;
+  padding: 4px 8px;
+  color: var(--bar-text);
+  background: var(--editor-bg);
+  border: 1px solid var(--bar-border);
+  border-radius: 6px;
+}
+
+.find-bar input[type="search"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.find-count {
+  font-size: 12px;
+  color: var(--muted-text);
+  min-width: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.find-bar.find-none .find-count { color: #d1242f; }
+
+.find-btn {
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px 7px;
+  color: var(--bar-text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.find-btn:hover { border-color: var(--bar-border); }
+.find-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.find-btn.active { color: var(--accent); border-color: var(--accent); }
+
+/* Matches echoed in the live preview (a textarea cannot style ranges). */
+.markdown-body mark.find-hit {
+  color: inherit;
+  background: #ffe9a8;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+html[data-theme="dark"] .markdown-body mark.find-hit { background: #7a5b12; }
+
+/* Offscreen twin of the textarea; laid out identically, used only to measure
+   a character's pixel offset for scrolling (see scrollEditorTo in app.js). */
+.find-mirror {
+  position: absolute;
+  top: 0;
+  left: -99999px;
+  visibility: hidden;
+  pointer-events: none;
+  padding: 16px;
+  border: 0;
+  font-family: ui-monospace, SFMono-Regular, "Cascadia Mono", Consolas, monospace;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  tab-size: 4;
+}
+
 /* ----- Status bar ----- */
 
 footer {
@@ -334,6 +421,9 @@ footer span:last-child { margin-left: auto; }
   }
 
   .markdown-body pre, .markdown-body blockquote { break-inside: avoid; }
+
+  /* Find highlights are a screen aid only; keep the printed page clean. */
+  .markdown-body mark.find-hit { background: transparent; padding: 0; }
 
   @page { margin: 15mm; }
 }

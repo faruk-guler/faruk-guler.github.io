@@ -22,6 +22,9 @@
     var FONT_MIN = 60;
     var FONT_MAX = 200;
     var FONT_STEP = 10;
+    // Guard against pathological documents: a tiny query (e.g. "e") can match
+    // hundreds of thousands of times, which would stall counting/highlighting.
+    var FIND_MAX = 5000;
 
     var dom = {};
     var fileName = '';
@@ -30,6 +33,16 @@
     var renderTimer = 0;
     var saveTimer = 0;
     var flashTimer = 0;
+
+    // Find-in-document state (Ctrl+F). Navigation is driven by matches in the
+    // editor source; the live preview mirrors them visually with <mark>.
+    var find = {
+        open: false,
+        caseSensitive: false,
+        query: '',
+        matches: [],
+        current: -1
+    };
 
     /* ---------- Helpers ---------- */
 
@@ -90,6 +103,11 @@
         var source = dom.editor.value;
         dom.output.innerHTML = DOMPurify.sanitize(marked.parse(source));
         updateCounts(source);
+        // The preview DOM was just rebuilt, so any previous <mark> highlights
+        // are gone; repaint them from the current query to stay in sync.
+        if (find.open) {
+            refreshFindHighlights();
+        }
     }
 
     function scheduleRender() {
@@ -277,6 +295,11 @@
     }
 
     function toggleFullscreen() {
+        // The find bar floats inside the editor pane, which full screen hides;
+        // close it so no stale overlay is left behind.
+        if (find.open) {
+            closeFind(false);
+        }
         if (document.fullscreenElement) {
             document.exitFullscreen();
         } else if (document.body.classList.contains('fullscreen-preview')) {
@@ -297,6 +320,257 @@
         } else {
             fullscreenUI(true);
         }
+    }
+
+    /* ---------- Find in document ---------- */
+
+    // Matches are found in the editor source (the authoritative text you type
+    // to locate). The current one is revealed with a textarea selection; every
+    // hit is echoed in the preview through <mark> so it stays visible while the
+    // find box keeps the keyboard focus (a textarea cannot style arbitrary
+    // ranges itself).
+    function computeMatches(text, query, caseSensitive) {
+        var hits = [];
+        if (!query) {
+            return hits;
+        }
+        var haystack = caseSensitive ? text : text.toLowerCase();
+        var needle = caseSensitive ? query : query.toLowerCase();
+        var at = haystack.indexOf(needle);
+        while (at !== -1) {
+            hits.push(at);
+            if (hits.length >= FIND_MAX) {
+                break;
+            }
+            at = haystack.indexOf(needle, at + needle.length);
+        }
+        return hits;
+    }
+
+    // Index of the first match at or after "from"; wraps to the first match.
+    function nearestMatch(matches, from) {
+        for (var i = 0; i < matches.length; i++) {
+            if (matches[i] >= from) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    function updateFindCount() {
+        if (!find.query) {
+            dom.findCount.textContent = '';
+            dom.findBar.classList.remove('find-none');
+            return;
+        }
+        if (find.matches.length) {
+            var shown = find.current >= 0 ? find.current + 1 : find.matches.length;
+            dom.findCount.textContent = shown + ' / ' + find.matches.length;
+            dom.findBar.classList.remove('find-none');
+        } else {
+            dom.findCount.textContent = '0';
+            dom.findBar.classList.add('find-none');
+        }
+    }
+
+    // Re-scan the source (it may have changed), keep the current selection in
+    // range and repaint the preview marks. Does not move the caret.
+    function refreshFindHighlights() {
+        find.query = dom.findInput.value;
+        find.matches = computeMatches(dom.editor.value, find.query, find.caseSensitive);
+        if (!find.matches.length) {
+            find.current = -1;
+        } else if (find.current >= find.matches.length) {
+            find.current = find.matches.length - 1;
+        }
+        highlightPreview(find.query);
+        updateFindCount();
+    }
+
+    // Re-scan, choose the current match (the first at/after "pickFrom"), select
+    // it in the editor and repaint the preview. Used when the query or the
+    // match-case flag changes.
+    function runFind(pickFrom) {
+        find.query = dom.findInput.value;
+        find.matches = computeMatches(dom.editor.value, find.query, find.caseSensitive);
+        find.current = find.matches.length ? nearestMatch(find.matches, pickFrom) : -1;
+        applyCurrent(false);
+        highlightPreview(find.query);
+    }
+
+    function applyCurrent(reveal) {
+        if (!find.matches.length) {
+            updateFindCount();
+            return;
+        }
+        var start = find.matches[find.current];
+        dom.editor.setSelectionRange(start, start + find.query.length);
+        scrollEditorTo(start);
+        updateFindCount();
+        if (reveal) {
+            dom.editor.focus();
+        }
+    }
+
+    function stepFind(delta) {
+        if (!find.matches.length) {
+            return;
+        }
+        var n = find.matches.length;
+        find.current = (find.current + delta + n) % n;
+        applyCurrent(false);
+    }
+
+    // A textarea does not expose a per-character scroll API, and its built-in
+    // word wrap makes line-height math unreliable. Mirror the text in an
+    // offscreen element with identical metrics and read the match's offsetTop.
+    function scrollEditorTo(index) {
+        var ta = dom.editor;
+        var mirror = dom.mirror;
+        if (!mirror || !ta) {
+            return;
+        }
+        mirror.style.width = ta.clientWidth + 'px';
+        mirror.textContent = ta.value.slice(0, index);
+        var marker = document.createElement('span');
+        marker.textContent = '\u200b';
+        mirror.appendChild(marker);
+        var top = marker.offsetTop;
+        var max = Math.max(0, ta.scrollHeight - ta.clientHeight);
+        ta.scrollTop = Math.max(0, Math.min(top - ta.clientHeight / 3, max));
+    }
+
+    function clearMarks() {
+        var marks = dom.output.querySelectorAll('mark.find-hit');
+        for (var i = 0; i < marks.length; i++) {
+            var mark = marks[i];
+            mark.parentNode.replaceChild(document.createTextNode(mark.textContent), mark);
+        }
+        dom.output.normalize();
+    }
+
+    function highlightPreview(query) {
+        clearMarks();
+        if (!query) {
+            return;
+        }
+        var needle = find.caseSensitive ? query : query.toLowerCase();
+        var walker = document.createTreeWalker(dom.output, NodeFilter.SHOW_TEXT);
+        var nodes = [];
+        var node;
+        while ((node = walker.nextNode())) {
+            nodes.push(node);
+        }
+        var budget = FIND_MAX;
+        for (var k = 0; k < nodes.length && budget > 0; k++) {
+            var textNode = nodes[k];
+            var raw = textNode.nodeValue;
+            var hay = find.caseSensitive ? raw : raw.toLowerCase();
+            if (hay.indexOf(needle) === -1) {
+                continue;
+            }
+            var frag = document.createDocumentFragment();
+            var pos = 0;
+            var at = hay.indexOf(needle);
+            while (at !== -1 && budget > 0) {
+                if (at > pos) {
+                    frag.appendChild(document.createTextNode(raw.slice(pos, at)));
+                }
+                var el = document.createElement('mark');
+                el.className = 'find-hit';
+                el.textContent = raw.slice(at, at + needle.length);
+                frag.appendChild(el);
+                budget--;
+                pos = at + needle.length;
+                at = hay.indexOf(needle, pos);
+            }
+            if (pos < raw.length) {
+                frag.appendChild(document.createTextNode(raw.slice(pos)));
+            }
+            textNode.parentNode.replaceChild(frag, textNode);
+        }
+    }
+
+    function openFind() {
+        var selected = dom.editor.value.slice(dom.editor.selectionStart, dom.editor.selectionEnd);
+        if (selected && selected.indexOf('\n') === -1) {
+            dom.findInput.value = selected;
+        }
+        dom.findBar.hidden = false;
+        find.open = true;
+        dom.findBtn.setAttribute('aria-pressed', 'true');
+        dom.findInput.focus();
+        dom.findInput.select();
+        runFind(dom.editor.selectionStart);
+    }
+
+    function closeFind(reveal) {
+        dom.findBar.hidden = true;
+        find.open = false;
+        dom.findBtn.setAttribute('aria-pressed', 'false');
+        clearMarks();
+        updateFindCount();
+        // On a real close, focus the editor so the current match's native
+        // selection highlight becomes visible and ready to edit.
+        if (reveal !== false && find.matches.length) {
+            applyCurrent(true);
+        }
+    }
+
+    function toggleFind() {
+        if (find.open) {
+            closeFind(true);
+        } else {
+            openFind();
+        }
+    }
+
+    function setupFind() {
+        dom.findBtn.addEventListener('click', toggleFind);
+        dom.findClose.addEventListener('click', function () {
+            closeFind(true);
+        });
+        dom.findPrev.addEventListener('click', function () {
+            stepFind(-1);
+        });
+        dom.findNext.addEventListener('click', function () {
+            stepFind(1);
+        });
+
+        dom.findCase.addEventListener('click', function () {
+            find.caseSensitive = !find.caseSensitive;
+            dom.findCase.setAttribute('aria-pressed', find.caseSensitive ? 'true' : 'false');
+            dom.findCase.classList.toggle('active', find.caseSensitive);
+            runFind(dom.editor.selectionStart);
+        });
+
+        dom.findInput.addEventListener('input', function () {
+            runFind(dom.editor.selectionStart);
+        });
+
+        dom.findInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                stepFind(event.shiftKey ? -1 : 1);
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                closeFind(true);
+            }
+        });
+
+        // F3 / Shift+F3 navigate while find is open, wherever the focus is; a
+        // stray Escape (outside the input) closes it.
+        document.addEventListener('keydown', function (event) {
+            if (!find.open) {
+                return;
+            }
+            if (event.key === 'F3') {
+                event.preventDefault();
+                stepFind(event.shiftKey ? -1 : 1);
+            } else if (event.key === 'Escape' && event.target !== dom.findInput) {
+                closeFind(true);
+            }
+        });
     }
 
     /* ---------- Font size ---------- */
@@ -556,7 +830,8 @@
 
         // Shortcuts should work regardless of editor focus: after a button
         // is clicked, Ctrl+S must not open the browser's save-page dialog.
-        // Ctrl+F steals the browser's find bar on purpose (full-screen preview).
+        // Ctrl+F (find) and Ctrl+Shift+F (full screen) intentionally steal the
+        // browser's own shortcuts.
         document.addEventListener('keydown', function (event) {
             var mod = event.ctrlKey || event.metaKey;
             if (!mod || event.altKey || typeof event.key !== 'string') {
@@ -570,9 +845,13 @@
             } else if (key === 'o' && !event.shiftKey) {
                 event.preventDefault();
                 dom.fileInput.click();
-            } else if (key === 'f' && !event.shiftKey) {
+            } else if (key === 'f') {
                 event.preventDefault();
-                toggleFullscreen();
+                if (event.shiftKey) {
+                    toggleFullscreen();
+                } else {
+                    toggleFind();
+                }
             } else if (key === '=' || key === '+') {
                 // Shift stays allowed: Ctrl+Shift+= is how "+" is usually typed.
                 event.preventDefault();
@@ -640,6 +919,7 @@
             editor: $('editor'),
             output: $('output'),
             preview: $('preview-pane'),
+            editorPane: $('editor-pane'),
             main: $('panes'),
             divider: $('divider'),
             cssLight: $('css-light'),
@@ -652,6 +932,14 @@
             reset: $('btn-reset'),
             theme: $('btn-theme'),
             fullscreen: $('btn-fullscreen'),
+            findBtn: $('btn-find'),
+            findBar: $('find-bar'),
+            findInput: $('find-input'),
+            findCount: $('find-count'),
+            findCase: $('find-case'),
+            findPrev: $('find-prev'),
+            findNext: $('find-next'),
+            findClose: $('find-close'),
             syncCheck: $('sync-scroll'),
             aboutBtn: $('btn-about'),
             aboutPanel: $('about-panel'),
@@ -677,6 +965,13 @@
 
         marked.setOptions({ gfm: true, breaks: false });
 
+        // Offscreen twin of the textarea, used only to measure a character's
+        // pixel offset for scrolling (see scrollEditorTo).
+        dom.mirror = document.createElement('div');
+        dom.mirror.className = 'find-mirror';
+        dom.mirror.setAttribute('aria-hidden', 'true');
+        dom.editorPane.appendChild(dom.mirror);
+
         // Show the version in the header badge and the About panel.
         if (dom.brandVersion) {
             dom.brandVersion.textContent = 'v' + APP_VERSION;
@@ -698,6 +993,7 @@
 
         setupEditor();
         setupActions();
+        setupFind();
         setupAbout();
         setupDivider();
         setupDragAndDrop();

@@ -38,7 +38,8 @@
         <button id="btn-copy" type="button">Copy</button>
         <button id="btn-pdf" type="button" title="Save as PDF via the browser's print dialog">Export PDF</button>
         <button id="btn-reset" type="button">Reset</button>
-        <button id="btn-fullscreen" type="button" aria-pressed="false" title="Full-screen preview (Ctrl+F)">Full screen</button>
+        <button id="btn-find" type="button" aria-pressed="false" title="Find in the document (Ctrl+F)">Find</button>
+        <button id="btn-fullscreen" type="button" aria-pressed="false" title="Full-screen preview (Ctrl+Shift+F)">Full screen</button>
         <label class="check">
           <input id="sync-scroll" type="checkbox">
           Sync scroll
@@ -63,6 +64,14 @@
     <main id="panes">
       <section id="editor-pane" class="pane">
         <textarea id="editor" spellcheck="false" aria-label="Markdown editor"></textarea>
+        <div id="find-bar" class="find-bar" role="search" aria-label="Find in the document" hidden>
+          <input id="find-input" type="search" placeholder="Find…" aria-label="Search text" autocomplete="off" spellcheck="false">
+          <span id="find-count" class="find-count" role="status" aria-live="polite"></span>
+          <button id="find-case" class="find-btn" type="button" title="Match case" aria-pressed="false">Aa</button>
+          <button id="find-prev" class="find-btn" type="button" title="Previous match (Shift+Enter / Shift+F3)">&#9664;</button>
+          <button id="find-next" class="find-btn" type="button" title="Next match (Enter / F3)">&#9660;</button>
+          <button id="find-close" class="find-btn" type="button" title="Close (Esc)">&#10005;</button>
+        </div>
       </section>
 
       <div id="divider" role="separator" aria-orientation="vertical" aria-label="Panel width"
@@ -93,7 +102,8 @@ Test 1234...
 ## Shortcuts
 
 - **Ctrl+O** open a file · **Ctrl+S** save · **Ctrl+P** print / PDF.
-- **Ctrl+F** toggle full-screen preview of the rendered document.
+- **Ctrl+F** find in the document · **Enter** / **F3** next · **Shift+F3** previous · **Esc** close.
+- **Ctrl+Shift+F** toggle full-screen preview.
 - **Ctrl+=** bigger text · **Ctrl+-** smaller · **Ctrl+0** reset to 100%.
 - **Tab** / **Shift+Tab** indent and outdent.
     </script>
