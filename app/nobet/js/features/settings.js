@@ -97,7 +97,7 @@ const settingsPanel = {
         this.set('docNo', state.documentNo());
         this.set('preparedDate', dates.toDisplay(dates.today()));
         this.set('perDayLabel', s.perDay);
-        this.set('brandVersion', APP_LABEL);
+        // Sürüm etiketi burada yazılmaz: antet ve Hakkında yeter.
     },
 
     renderMetrics(stats) {
@@ -122,9 +122,9 @@ const settingsPanel = {
             notes.push({ tone: 'warn', text: 'Geçerli bir başlangıç ve bitiş tarihi gösterin.' });
         }
 
-        if (!stats.staffCount) {
-            notes.push({ tone: 'warn', text: 'Personel listesi boş — 2. bölümdeki “Kişi ekle” düğmesiyle ekip tanımlayın.' });
-        } else if (stats.notEnoughStaff) {
+        // Boş listede ayrı bir not yok: 2. bölümün boş durum kutusu ne yapılacağını
+        // zaten tek yerde söylüyor; burada yinelemek kalabalık olurdu.
+        if (stats.notEnoughStaff) {
             notes.push({
                 tone: 'danger',
                 text: `Vardiya başına ${s.perDay} nöbetçi için personel sayısı yetersiz (${stats.staffCount} kişi).`

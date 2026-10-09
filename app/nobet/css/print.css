@@ -64,9 +64,20 @@
     #sec-period { padding-bottom: 0; }
     #sec-roster { border-top: 0; padding-top: 0; }
 
-    /* Ekran uyarıları kağıda girmez: döküm ya güncel çizelgedir ya hiç basılmamalıdır. */
-    #rosterStale,
+    /* Ekran uyarıları kağıda girmez: döküm ya güncel çizelgedir ya hiç basılmamalıdır.
+       Yalnız tarayıcı menüsünden yazdırırken Ctrl+P kısayolu işlemez; engel burada:
+       bayat (veya hiç olmayan) çizelgenin kendisi kağıda geçmez, ekranda zaten duran
+       uyarısı kağıda da geçer. (body[data-roster] işaretini schedule.js çizer.) */
     #rosterError { display: none !important; }
+
+    /* Yalnız tablo değil: rakam kutuları ve imza bloğu da çizelgeye aittir. Çizelge
+       yokken onları basmak, üstünde hiçbir liste olmayan imzalanabilir bir belge vermek olur. */
+    body[data-roster="stale"] #rosterTable,
+    body[data-roster="none"] #rosterTable,
+    body[data-roster="stale"] #sec-roster .summary,
+    body[data-roster="none"] #sec-roster .summary,
+    body[data-roster="stale"] #sec-roster .sign,
+    body[data-roster="none"] #sec-roster .sign { display: none !important; }
 
     /* Ekran araçları yazdırmaya girmez */
     .toasts,

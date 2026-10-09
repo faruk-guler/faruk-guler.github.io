@@ -101,8 +101,9 @@ const excuseModal = {
         this.dirty = false;
 
         ui.closeModal('excuseModal');
+        // Gün sayısı hem pencere başlığında hem tablo satırında kalıyordu;
+        // kaydetme anında tek bir fiş yeter.
         ui.toast(excuses.length ? `${excuses.length} mazeret kaydedildi.` : 'Mazeretler kaldırıldı.', 'ok');
-        ui.status(`${person.name}: ${excuses.length} mazeret günü`, excuses.length ? 'ok' : 'warn');
     },
 
     // ---------- Ay gezinme ----------
@@ -129,6 +130,10 @@ const excuseModal = {
         const grid = document.getElementById('calendarGrid');
         const [year, month] = this.month.split('-').map(Number);
 
+        // Izgara her seçimde baştan kuruluyor: odaklanan günün düğmesi silinince odak
+        // gövdeye düşer, klavye ile art arda gün seçilemezdi (Tab baştan sarardı).
+        const heldFocus = grid.contains(document.activeElement) ? document.activeElement.dataset.date : null;
+
         document.getElementById('calendarMonth').textContent =
             dates.formatLong(`${this.month}-01`, { month: 'long', year: 'numeric' });
         document.getElementById('btnPrevMonth').disabled = this.month <= this.range.start.slice(0, 7);
@@ -150,6 +155,7 @@ const excuseModal = {
             const cell = document.createElement('button');
             cell.type = 'button';
             cell.className = 'cal-day';
+            cell.dataset.date = iso;
             cell.textContent = day;
 
             const selectable = iso >= this.range.start && iso <= this.range.end;
@@ -170,6 +176,11 @@ const excuseModal = {
             }
 
             grid.append(cell);
+        }
+
+        if (heldFocus) {
+            const again = [...grid.children].find(cell => cell.dataset.date === heldFocus);
+            if (again && !again.disabled) again.focus();
         }
     },
 
@@ -287,7 +298,6 @@ const excuseModal = {
 
     reportRange(message, tone) {
         ui.toast(message, tone);
-        ui.status(message, tone);
     },
 
     toggle(day) {

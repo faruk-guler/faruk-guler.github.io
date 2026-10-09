@@ -7,7 +7,7 @@
  */
 
 const schedulePanel = {
-    swap: { date: '', slot: 0, currentId: null },
+    swap: { date: '', slot: 0 },
     staleShown: null,
     busy: false,
 
@@ -37,14 +37,13 @@ const schedulePanel = {
         const error = state.validate();
         if (error) {
             ui.toast(error, 'error');
-            ui.status(error, 'error');
             return;
         }
 
-        // Çözücü ana iş parçasını meşgul eder; önce fişin çizilmesini bekle.
+        // Çözücü ana iş parçasını meşgul eder: ilerleme tek kanaldan söylenir.
+        // Fiş 3,8 saniyede düşeceği için hesap süresince görünen durum satırı seçildi.
         this.setBusy(true);
         ui.status('Dağılım hesaplanıyor...', 'warn');
-        ui.toast('Dağılım hesaplanıyor...', 'info');
 
         setTimeout(() => {
             const result = scheduler.generate(state.personnel, state.settings);
@@ -75,8 +74,9 @@ const schedulePanel = {
     showError(result) {
         console.error('Çözücü:', result.detail);
         state.clearSchedule();
+        // Ayrintı kalıcı kutuda (rosterError) duruyor; altlık satırını ayni metinle
+        // doldurmak yerine dikkat çekmesi için fiş bırakılır.
         ui.toast(result.error, 'error');
-        ui.status(result.error, 'error');
 
         document.getElementById('rosterErrorTitle').textContent = result.error;
         document.getElementById('rosterErrorDetail').textContent = result.detail;
@@ -89,12 +89,20 @@ const schedulePanel = {
         const stale = hasList && !state.scheduleIsFresh();
         const table = document.getElementById('rosterTable');
 
+        // print.css bu işarete bakar: tarayıcı menüsünden yazdırmada Ctrl+P
+        // kısayolu devreye girmediği için engel burada, belge durumunun kendisinde.
+        document.body.dataset.roster = hasList ? (stale ? 'stale' : 'fresh') : 'none';
+
         document.getElementById('rosterError').hidden = true;
         document.getElementById('rosterEmpty').hidden = hasList;
         document.getElementById('rosterStale').hidden = !stale;
         table.hidden = !hasList;
 
-        if (stale !== this.staleShown) {
+        // Bayatlık duyurusu ancak bir liste VARSA yapılır: liste yokken "yine güncel"
+        // demek, olmayan bir çizelgeyi doğru ilan etmek olurdu.
+        if (!hasList) {
+            this.staleShown = null;
+        } else if (stale !== this.staleShown) {
             this.staleShown = stale;
             ui.status(stale
                 ? 'Çizelge bayat — kural veya personel değişti, yeniden oluşturun.'
@@ -112,17 +120,15 @@ const schedulePanel = {
 
         if (!hasList) {
             document.getElementById('rosterBody').replaceChildren();
-            document.getElementById('rosterCount').textContent = 0;
-            // Durum satırı artık var olmayan bir listeyi iddia etmemeli.
-            ui.status('Çizelge yok — bölüm 1 ve 2’yi tamamladıktan sonra “Listeyi oluştur”a basın.', 'info');
+            // Durum satırı artık var olmayan bir listeyi iddia etmemeli; ne yapılacağı
+            // yukarıdaki boş durum kutusunda yazılı, burada tekrarlanmaz.
+            ui.status('Çizelge yok.', 'info');
             return;
         }
 
         const fragment = document.createDocumentFragment();
         state.schedule.forEach(day => fragment.append(this.renderDay(day, perDay, showExcused)));
         document.getElementById('rosterBody').replaceChildren(fragment);
-
-        document.getElementById('rosterCount').textContent = state.schedule.length;
     },
 
     /**
@@ -203,12 +209,15 @@ const schedulePanel = {
         return chip;
     },
 
-    /** Belge altlığındaki kural özeti; antet birim/dönem bilgisini zaten taşır. */
+    /**
+     * Belge altlığındaki kural özeti. Personel sayısı ve gün başına nöbetçi zaten
+     * konu satırında ("Kapsam") yazılı; form yazdırmada gizlendiği için altlığa yalnız
+     * kağıtta başka yerde okunamayacak iki esas kalır.
+     */
     renderDocFooter() {
         const s = state.settings;
         document.getElementById('printFoot').textContent =
-            `${state.personnel.length} personel · günde ${s.perDay} nöbetçi · ` +
-            `dinlenme ${s.minRestDays} gün · peş peşe en fazla ${s.maxConsecutive} gün`;
+            `Dağıtım esası: dinlenme ${s.minRestDays} gün · peş peşe en fazla ${s.maxConsecutive} gün`;
     },
 
     // ---------- Elle nöbetçi değiştirme ----------
@@ -223,7 +232,7 @@ const schedulePanel = {
         const current = day && day.assigned[slot];
         if (!day) return;
 
-        this.swap = { date, slot, currentId: current ? current.id : null };
+        this.swap = { date, slot };
 
         document.getElementById('swapInfo').textContent = current
             ? `${dates.formatLong(date)} (${dates.weekdayLong(date)}) — ${current.name} yerine kim nöbetçi olsun?`
@@ -232,12 +241,17 @@ const schedulePanel = {
         const select = document.getElementById('swapSelect');
         select.replaceChildren(this.option('', '— Seçiniz —'));
 
-        // O gün mazeretli olan kişi aday listesine hiç girmez.
-        state.personnel
-            .filter(p => p.id !== this.swap.currentId && !state.isExcused(p, date))
-            .forEach(p => select.append(this.option(p.id, p.name)));
+        // O gün mazeretli olan ve zaten nöbetçi bulunan kişi aday listesine girmez:
+        // seçilse bile reddedilecek bir adayı göstermek boşuna kural ihlali çağrısıdır.
+        const onDuty = new Set(day.assigned.filter(Boolean).map(assigned => assigned.id));
+        const candidates = state.personnel.filter(p => !onDuty.has(p.id) && !state.isExcused(p, date));
+        candidates.forEach(p => select.append(this.option(p.id, p.name)));
 
-        this.setSwapState('idle');
+        if (!candidates.length) {
+            this.setSwapState('block', 'Bu güne atanabilecek başka personel yok: herkes ya nöbetçi ya da mazeretli.');
+        } else {
+            this.setSwapState('idle');
+        }
         ui.openModal('swapModal');
     },
 
@@ -279,7 +293,7 @@ const schedulePanel = {
         }
 
         const limit = state.settings.maxTotal;
-        const total = (state.rank().find(item => item.id === id) || { total: 0 }).total;
+        const total = this.dutiesThisPeriod(id);
         if (limit > 0 && total + 1 > limit) {
             return this.setSwapState('block', `${person.name}: ${total + 1} görev, üst sınır (${limit}) aşılıyor.`);
         }
@@ -297,6 +311,15 @@ const schedulePanel = {
         }
 
         this.setSwapState('ok');
+    },
+
+    /**
+     * Kişinin BU dönemdeki nöbet sayısı. Üst sınır çözücüde de dönem için sayılır
+     * (devir günleri dağıtımı etkilemez); elle değiştirmede aynı ölçü kullanılmalı.
+     */
+    dutiesThisPeriod(id) {
+        return state.schedule.reduce((total, day) =>
+            total + day.assigned.filter(assigned => assigned && assigned.id === id).length, 0);
     },
 
     /** Atamayı bir an için yapıp ihlali ölçer, sonra eski hâline döndürür. */
@@ -345,6 +368,5 @@ const schedulePanel = {
 
         ui.closeModal('swapModal');
         ui.toast(`${dates.formatShort(day.date)} günü ${person.name} olarak güncellendi.`, 'ok');
-        ui.status('Manuel değişiklik uygulandı.', 'ok');
     }
 };

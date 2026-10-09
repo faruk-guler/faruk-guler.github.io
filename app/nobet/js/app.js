@@ -5,9 +5,8 @@
  * çağırmaz; haberleşme state olayları üzerinden olur, böylece her bölüm bağımsız kalır.
  */
 
+/** Hakkında penceresindeki tam sürüm. Antetteki kısa etiket ("· v4") bilinçli olarak sabit metindir. */
 const APP_VERSION = 'v4.0';
-/** Antette ve çıktı adlarında kullanılan kısa sürüm etiketi. */
-const APP_LABEL = 'v4';
 
 const app = {
     init() {
@@ -54,8 +53,8 @@ const app = {
             this.disableButtons(['btnPdf'], 'PDF kütüphanesi yüklenemedi');
         }
 
-        ui.status(`Eksik kütüphane: ${names.join(' + ')} — ilgili içe/dışa aktarma çalışmaz.`, 'error');
-        ui.toast(`Kütüphaneler yüklenemedi: ${names.join(', ')}`, 'error');
+        // Tek kanaldan söyle: devre dışı bırakılan düğmeler sonucu zaten kendisi gösteriyor.
+        ui.toast(`Kütüphaneler yüklenemedi: ${names.join(', ')} — ilgili düğmeler devre dışı.`, 'error');
     },
 
     disableButtons(ids, reason) {
@@ -83,15 +82,26 @@ const app = {
                 return;
             }
 
-            // Ctrl+P ekranın değil belgenin yazdırması: bu uygulama HTML olduğu için
-            // tarayıcının yazdırma penceresi arayüzü de kâğıda taşıyabiliyor. Güncel
-            // çizelge varsa A4 PDF sekmesi açılır; yoksa yine belge düzeni yazdırılır.
+            // Ctrl+P ekranın değil belgenin yazdırması: tarayıcının yazdırma
+            // penceresi arayüzü de kâğıda taşıyabildiği için kısa yol ele alınır.
             if ((event.ctrlKey || event.metaKey) && (event.key === 'p' || event.key === 'P')) {
                 event.preventDefault();
-                if (state.scheduleIsFresh()) io.exportPdf();
-                else window.print();
+                this.printDocument();
             }
         });
+    },
+
+    /**
+     * Yazdırma da bir dökümdür: bayat çizelge kâğıda geçmemeli. Güncel liste varsa
+     * A4 PDF sekmesi açılır; PDF kütüphanesi yoksa belge düzeni yine yazdırılır.
+     * Tarayıcı menüsünden yazdırmada ise print.css bayat tabloyu gizler.
+     */
+    printDocument() {
+        if (!io.rosterReady()) return;
+
+        const pdfReady = window.jspdf && window.jspdf.jsPDF;
+        if (pdfReady) io.exportPdf();
+        else window.print();
     },
 
     // ---------- Aşama şeridi ----------
@@ -165,11 +175,11 @@ const app = {
         } else if (state.hasSchedule()) {
             // Liste silinmedi: kural geri alınırsa yine geçerli sayılır.
             ui.status('Kayıtlı çizelge bayat — kural veya personel değişmiş, yeniden oluşturun.', 'warn');
-        } else if (!state.personnel.length) {
-            ui.status('Başlamak için personel ekleyin.', 'warn');
-        } else {
+        } else if (state.personnel.length) {
             ui.status('Kurallar ve personel hazır.', 'info');
         }
+        // Personel de çizelge de yoksa bir şey söylenmez: 2. bölümün boş durum
+        // kutusu tek gerekli satır; altlıkta aynısını yinelemek gürültüydü.
     }
 };
 

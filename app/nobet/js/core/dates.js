@@ -47,6 +47,11 @@ const dates = {
         if (parts.length === 3 && /^\d{1,2}$/.test(parts[0]) && /^\d{1,2}$/.test(parts[1]) && /^\d{4}$/.test(parts[2])) {
             return `${parts[2]}-${this.pad2(parts[1])}-${this.pad2(parts[0])}`;
         }
+
+        // Excel'da biçimlenmemiş ("Genel") kalmış bir tarih hücresi sayı olarak döner:
+        // 45000 sessizce düşürülmek yerine güne çevrilir.
+        if (/^\d{5}(\.\d+)?$/.test(text)) return this.fromSerial(text);
+
         return '';
     },
 
@@ -54,9 +59,23 @@ const dates = {
         return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ''));
     },
 
-    /** "YYYY-MM-DD" -> "05.10.2026" */
+    /** "YYYY-MM-DD" -> "05.10.2026" (okunamayan deger oldugu gibi doner) */
     toDisplay(isoStr) {
         return String(isoStr || '').split('-').reverse().join('.');
+    },
+
+    /**
+     * Excel seri numarası (1900 takvimi): 1 = 01.01.1900, 25569 = 01.01.1970.
+     * Aralık 1990-2100 seri numaralarıyla sınırlıdır; böylece çıplak bir yıl
+     * ("2026") tarih sayılmaz ve sessizce yanlış güne dönüşmez.
+     */
+    fromSerial(value) {
+        const serial = Number(value);
+        if (!Number.isFinite(serial) || serial < 32874 || serial > 73415) return '';
+
+        // Saat dilimi kayması olmasın diye UTC parçaları okunur.
+        const day = new Date(Math.round((serial - 25569) * 86400000));
+        return `${day.getUTCFullYear()}-${this.pad2(day.getUTCMonth() + 1)}-${this.pad2(day.getUTCDate())}`;
     },
 
     /** "YYYY-MM-DD" -> "5 Ekim 2026" */

@@ -339,9 +339,17 @@ body { counter-reset: sec; }
     gap: 14px 24px;
 }
 
+/* Uzun metin alanları (liste başlığı gibi) parametre sütunlarına sıkışmasın:
+   kendi satırında tüm genişliği alır, etiket iki satıra bölünmez.
+   Izgaranın içinde kalır; print.css .fields'ı yazdırmada gizlediği için
+   dışına çıkmak alanı kâğıda taşırdı. */
+.field-wide { grid-column: 1 / -1; }
+
 .field { display: flex; flex-direction: column; gap: 3px; }
 
-.field label {
+/* Alan adı markup'ta <span>: <label> bizzat .field'ın kendisi. Seçici span'ı
+   görmeyince etiketler gövde puntoyla çiziliyordu (belge diliyle bağdaşmıyordu). */
+.field > span:first-child {
     font-size: var(--fs-xs);
     letter-spacing: .1em;
     text-transform: uppercase;
@@ -479,7 +487,6 @@ body { counter-reset: sec; }
 .docfoot .status[data-tone="ok"] { color: var(--ok); }
 .docfoot .status[data-tone="warn"] { color: var(--warn); }
 .docfoot .status[data-tone="error"] { color: var(--seal); }
-.docfoot .right { margin-left: auto; }
 
 /* ---------- İmza bloğu ---------- */
 .sign {

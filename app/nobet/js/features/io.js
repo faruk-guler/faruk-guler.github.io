@@ -37,8 +37,8 @@ const io = {
         }
 
         if (!state.scheduleIsFresh()) {
+            // Ayni bilgi 3. bölümdeki sarı uyarı satırında da duruyor: tek kanal yeter.
             ui.toast('Çizelge güncel değil — “Listeyi oluştur” ile yeniden üretin.', 'error');
-            ui.status('Döküm engellendi: çizelge bayat (kural/personel değişmiş).', 'error');
             return false;
         }
 
@@ -67,7 +67,7 @@ const io = {
     },
 
     /**
-     * lib/roboto.js (tools/make-pdf-font.js üretimi) window.PDF_FONTS'i doldurur.
+     * lib/roboto.js (base64 olarak gömülü Roboto yazısı) window.PDF_FONTS'i doldurur.
      * O dosya yoksa belge yerleşik Helvetica + ASCII katlamasiyla üretilir - yani
      * "Şehir" yine "Sehir" olur; uygulama yine de çökmez.
      */
@@ -94,6 +94,34 @@ const io = {
             doc.addFont('Roboto-Bold.ttf', 'Roboto', 'bold');
         }
         return true;
+    },
+
+    /**
+     * Tablo sütun genişlikleri (mm): toplam HER ZAMAN kullanılabilir alana eşittir.
+     * Sabit 16 mm taban, 7'den çok sütunda tabloyu A4'ün sağından taşırdı; o
+     * sütunlar ekranda var gibi görünür ama kâğıda basılmazdı.
+     */
+    columnWidths(usable, columns, showExcused) {
+        const tight = columns > 6;
+        let date = tight ? 17 : 20;
+        let day = tight ? 14 : 18;
+        let note = showExcused ? Math.min(48, Math.max(24, usable * 0.26)) : 0;
+        let duty = (usable - date - day - note) / columns;
+
+        if (duty < 13) {
+            // Çok sütunlu döküm: sabit sütunlar kısılır, pay nöbetçiye kalır.
+            date = 14;
+            day = 11;
+            note = showExcused ? Math.max(18, usable * 0.11) : 0;
+            duty = (usable - date - day - note) / columns;
+        }
+
+        const widths = [date, day, ...Array.from({ length: columns }, () => duty)];
+        if (showExcused) widths.push(note);
+
+        // Yuvarlama payı: emniyet supabı olarak oranla kırpılır.
+        const total = widths.reduce((sum, width) => sum + width, 0);
+        return total > usable ? widths.map(width => (width * usable) / total) : widths;
     },
 
     // ---------- Sheet + column recognition ----------
@@ -218,8 +246,7 @@ const io = {
         const excuses = this.importExcuseRows(XLSX.utils.sheet_to_json(book.Sheets[excuseSheet] || {}));
 
         if (!added && !excuses) {
-            ui.toast('Yeni veri bulunamadı (aynı isimler atlandı).', 'warn');
-            ui.status('İçe aktarma: yeni kayıt yok.', 'warn');
+            ui.toast('Yeni kayıt bulunamadı: “Ad Soyad” ve “Tarih” başlıklarını, sayfa adlarını kontrol edin.', 'warn');
             return;
         }
 
@@ -229,7 +256,6 @@ const io = {
 
         const summary = [added ? `${added} personel` : null, excuses ? `${excuses} mazeret` : null].filter(Boolean).join(', ');
         ui.toast(`İçe aktarma tamam: ${summary}.`, 'ok');
-        ui.status(`İçe aktarma tamam: ${summary}.`, 'ok');
     },
 
     importStaffRows(rows) {
@@ -328,7 +354,6 @@ const io = {
         XLSX.writeFile(book, `jupiter_nobet_listesi_${dates.today()}.xlsx`);
 
         ui.toast(`${rows.length} günlük liste Excel olarak aktarıldı (çizelge + özet).`, 'ok');
-        ui.status('Excel üretildi.', 'ok');
     },
 
     /**
@@ -386,14 +411,8 @@ const io = {
         const pad = 1.8;
         const bottomLimit = pageHeight - 14;
 
-        const dateWidth = 20;
-        const dayWidth = 18;
         const showExcused = state.showsExcused();
-        // Mazeret sütunu gizliyse genişlik de kalkar: nöbetçi sütunları boşta kalan yeri alır.
-        const noteWidth = showExcused ? Math.max(24, Math.min(48, usable * 0.26)) : 0;
-        const dutyWidth = Math.max(16, (usable - dateWidth - dayWidth - noteWidth) / columns);
-        const widths = [dateWidth, dayWidth, ...Array.from({ length: columns }, () => dutyWidth)];
-        if (showExcused) widths.push(noteWidth);
+        const widths = this.columnWidths(usable, columns, showExcused);
 
         const headerCells = ['Tarih', 'Gün',
             ...Array.from({ length: columns }, (_, i) => `Nöbetçi ${i + 1}`)];
@@ -487,10 +506,10 @@ const io = {
         });
 
         // İmza bloğu: ana ekranda gösterilmez, yalnız dökümde yer alır.
+        // Sayfa yenilenirken tablo başlığı tekrar çizilmez: bu sayfada satır yok.
         if (y + 30 > bottomLimit) {
             doc.addPage();
             y = tableTop;
-            paintRow(headerRow);
         }
 
         const lineY = y + 16;
@@ -549,7 +568,6 @@ const io = {
             // Sekme belgeyi aldı; bu URL sonraki üretimde geri bırakılacak.
             this.lastPdfUrl = url;
             ui.toast('PDF yeni sekmede açıldı.', 'ok');
-            ui.status('PDF görüntüleyicide açıldı.', 'ok');
             return;
         }
 
@@ -557,7 +575,6 @@ const io = {
         URL.revokeObjectURL(url);
         doc.save(fileName);
         ui.toast('Yeni sekme açılamadı; PDF dosya olarak indirildi.', 'warn');
-        ui.status('PDF indirildi (tarayıcı sekme açmayı engelledi).', 'warn');
     },
 
     // ---------- Yük analizi ----------
@@ -572,10 +589,14 @@ const io = {
         const max = rank.length ? rank[0].total : 0;
         const average = rank.length ? rank.reduce((sum, p) => sum + p.total, 0) / rank.length : 0;
 
-        document.getElementById('rankBalance').textContent = rank.length
+        // Analiz çizelgeyi bekleyen kişi yükünü gösterir; dökümlerin aksine bayat listeyle
+        // de açılabilir, o yüzden sayıların hangi listeye ait olduğu satırda yazılı kalsın.
+        const staleNote = state.scheduleIsFresh() ? '' : ' · çizelge bayat, bu sayılar güncel kuralın çıktısı değil';
+
+        document.getElementById('rankBalance').textContent = (rank.length
             ? `En çok ${max} · en az ${min} · ortalama ${ui.measure(average)} görev` +
               (max - min <= 1 ? ' · dağılım dengeli' : ` · fark ${max - min} görev`)
-            : 'Kişi yok';
+            : 'Kişi yok') + staleNote;
 
         const rows = [this.analysisHead()];
         rank.forEach(item => rows.push(this.analysisRow(item, max)));

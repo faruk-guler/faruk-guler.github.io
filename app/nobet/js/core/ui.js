@@ -47,7 +47,9 @@ const ui = {
         this.applyTheme(saved || (media && media.matches ? 'night' : 'day'));
 
         // Kullanıcı henüz kendi seçimine karar vermediyse sistemle birlikte hareket et.
-        if (!saved && media) {
+        // addEventListener eski Safari'de yok: başlangıçta hata fırlatmak uygulamayı
+        // tamamen düşürürdü, bu yüzden önce kontrol edilir.
+        if (!saved && media && typeof media.addEventListener === 'function') {
             media.addEventListener('change', (event) => {
                 if (!storage.loadTheme()) this.applyTheme(event.matches ? 'night' : 'day');
             });
@@ -126,6 +128,45 @@ const ui = {
     /** Kim açtıysa kapatınca odak ona döner (klavye için); iç içe pencerelerde yığın. */
     openers: [],
 
+    /**
+     * Tablolar yeniden çizildiğinde odaklanan satır/düğme yok olur (aynı içerikte
+     * yeni düğmeler gelir). Kapanışta odağın dönebileceği kararlı bir anahtar tutulur;
+     * anahtarlar satırdaki data-id / data-date ve düğmedeki data-act'ten okunur.
+     */
+    anchorOf(element) {
+        if (!element || !element.closest) return null;
+
+        const staffRow = element.closest('tr[data-id]');
+        if (staffRow && element.dataset.act) return `p:${staffRow.dataset.id}:${element.dataset.act}`;
+
+        const dutyRow = element.closest('tr[data-date]');
+        if (dutyRow && element.dataset.slot !== undefined) return `d:${dutyRow.dataset.date}:${element.dataset.slot}`;
+
+        if (element.dataset.date && element.classList.contains('cal-day')) return `c:${element.dataset.date}`;
+        return null;
+    },
+
+    /** Anahtarın bugün karşılık geldiği düğme; liste değiştiyse null. */
+    resolveAnchor(anchor) {
+        if (!anchor) return null;
+
+        const [kind, key, extra] = anchor.split(':');
+        const rows = (selector) => [...document.querySelectorAll(selector)];
+
+        if (kind === 'p') {
+            const row = rows('#personnelList tr').find(tr => tr.dataset.id === key);
+            return row ? row.querySelector(`[data-act="${extra}"]`) : null;
+        }
+        if (kind === 'd') {
+            const row = rows('#rosterBody tr').find(tr => tr.dataset.date === key);
+            return row ? row.querySelector(`[data-slot="${extra}"]`) : null;
+        }
+        if (kind === 'c') {
+            return rows('#calendarGrid .cal-day').find(cell => cell.dataset.date === key) || null;
+        }
+        return null;
+    },
+
     onClose(modalId, handler) {
         this.closeHooks.set(modalId, handler);
     },
@@ -134,7 +175,8 @@ const ui = {
         const modal = document.getElementById(modalId);
         if (!modal) return;
 
-        this.openers.push(document.activeElement);
+        const opener = document.activeElement;
+        this.openers.push({ element: opener, anchor: this.anchorOf(opener) });
         modal.hidden = false;
         // Pencere açıkken arka plan kaydırılamaz; scrollbar-gutter sayesinde genişlik kayması da olmaz.
         document.documentElement.classList.add('is-locked');
@@ -181,7 +223,11 @@ const ui = {
         modal.hidden = true;
 
         const opener = this.openers.pop();
-        if (opener && opener.isConnected && typeof opener.focus === 'function') opener.focus();
+        if (opener) {
+            // Tablo yeniden çizildiyse düğmenin kendisi gitmiştir: anahtar çözülür.
+            const target = (opener.element && opener.element.isConnected) ? opener.element : this.resolveAnchor(opener.anchor);
+            if (target && typeof target.focus === 'function') target.focus();
+        }
 
         // Son pencere de kapandıysa belge yine kaydırılabilir hâle gelir.
         if (!document.querySelector('.modal:not([hidden])')) {

@@ -41,7 +41,89 @@ const scheduler = {
             };
         }
 
-        const deadline = performance.now() + this.TIMEOUT_MS;
+        // Kaçınılmaz aritmetik: çözücüye girmeden söyle. Aksi halde 10 saniye
+        // boşuna aranır ve suçlu olarak yanlış kural (dinlenme) gösterilir.
+        const shortfall = this.capacityMessage(staff.length, days.length, rules.perDay, rules.maxTotal);
+        if (shortfall) return { ok: false, error: 'Üst sınır yetersiz.', detail: shortfall };
+
+        // Her çalışanın dönem içi müsaitliği: eşit yüklerde önce en az günü olan
+        // aday çağrılır, ayrıca bu kişinin kalan müsait gün sayısı aşağıda "zorunlu
+        // gün" hesabında kullanılır (freeFrom). Aksi halde tek uygun günü başkasına
+        // kaptıran kişi tüm dönem sıfırda kalabilir.
+        staff.forEach((worker) => {
+            const freeFrom = new Array(days.length + 1).fill(0);
+            for (let i = days.length - 1; i >= 0; i--) {
+                freeFrom[i] = freeFrom[i + 1] + (worker.excuses.has(days[i].date) ? 0 : 1);
+            }
+            worker.freeFrom = freeFrom;
+            worker.availability = freeFrom[0];
+        });
+
+        const started = performance.now();
+
+        // İlk bulunan çözüm değil, EN ADİL çözüm dönmeli: önce herkesin taban
+        // (floor) ile tavan (ceil) arasında kaldığı kusursuz denge denenir; tutmazsa
+        // bir tık toleranslı, o da tutmazsa kullanıcının kendi sınırıyla aranır.
+        // Son deneme her zaman çalıştığı için var olan bir çizelge "bulunamadı" olmaz.
+        const demand = days.length * rules.perDay;
+        const floor = Math.floor(demand / staff.length);
+        const ceil = Math.ceil(demand / staff.length);
+        const ceiling = rules.maxTotal > 0 ? rules.maxTotal : Infinity;
+
+        const trials = [];
+        const addTrial = (minTotal, maxTotal) => {
+            const same = trials.some(trial => trial.minTotal === minTotal && trial.maxTotal === maxTotal);
+            if (!same) trials.push({ minTotal, maxTotal });
+        };
+
+        // 1) kusursuz denge: herkes [floor, ceil]  2) tabani koru, tavani kullaniciya birak
+        // (mazeret yuzunden ceil'a siginayan olurken biri sıfırda kalmasın)  3) serbest arama.
+        if (floor > 0) {
+            if (ceil <= ceiling) addTrial(floor, ceil);
+            addTrial(floor, rules.maxTotal);
+        }
+        addTrial(0, rules.maxTotal);
+
+        // Sıkı denemeler bütçenin küçük bir dilimini alır; kalan süre son (en gevşek)
+        // denemeye saklanır - eskiden tek arama tüm bütçeyi kullanıyordu.
+        const share = Math.max(1, Math.floor((this.TIMEOUT_MS * 0.12) / Math.max(1, trials.length - 1)));
+        let last = null;
+
+        try {
+            for (let i = 0; i < trials.length; i++) {
+                const isLast = i === trials.length - 1;
+                const deadline = isLast && trials.length > 1 ? started + this.TIMEOUT_MS : performance.now() + share;
+                const attempt = this.search(days, staff, { ...rules, ...trials[i] }, deadline);
+
+                if (attempt.solution) return { ok: true, days: attempt.solution };
+                last = attempt;
+                if (isLast && attempt.timedOut) {
+                    return {
+                        ok: false,
+                        error: 'Dağılım yetiştirilemedi.',
+                        detail: `Aralık çok uzun veya kurallar çok sıkı (${this.TIMEOUT_MS / 1000} saniyeden fazla sürdü). ` +
+                            'Dinlenme gününü azaltmayı ya da toplam nöbet sınırını gevşetmeyi deneyin.'
+                    };
+                }
+            }
+        } catch (error) {
+            console.error('Çözücü hatası:', error);
+            return {
+                ok: false,
+                error: 'Planlama sırasında hata oluştu.',
+                detail: 'Kuralları gevşetip yeniden deneyin. Ayrıntı tarayıcı konsolunda.'
+            };
+        }
+
+        // Ayrintiyi en gevşek deneme verir: sıkı denemede her şey "limit"e takilir.
+        return { ok: false, error: 'Uygun dağılım bulunamadı.', detail: this.analyze(last.blockedDays, days) };
+    },
+
+    /**
+     * Tek arama geçişi. İş yükleri geri alındığı için staff aramalar arasında
+     * temiz kalır; deadline aşılınca timedOut ile ayrılır (UI donmasın).
+     */
+    search(days, staff, rules, deadline) {
         const blockedDays = new Map();   // day index -> why people could not serve
         let timedOut = false;
 
@@ -69,8 +151,29 @@ const scheduler = {
 
             this.sortByFairness(eligible, day, rules.splitWeekends);
 
-            const pool = eligible.slice(0, this.MAX_BRANCH_CANDIDATES);
-            for (const pick of this.getCombinations(pool, rules.perDay)) {
+            // Taban zorlaması: eksiği kalan müsait gün sayısına inen kişi BU gün
+            // alınmazsa hedefi hiç tutturamaz. Bu, "herkes eşit alabilirken biri
+            // sıfırda kalıyor" adaletsizliğini arama sırasında keser.
+            const urgent = rules.minTotal > 0
+                ? eligible.filter(worker => {
+                    const missing = rules.minTotal - worker.assigned;
+                    return missing > 0 && missing >= worker.freeFrom[dayIndex];
+                })
+                : [];
+
+            if (urgent.length > rules.perDay) {
+                if (!blockedDays.has(dayIndex)) {
+                    blockers.set('limit', urgent.length);
+                    blockedDays.set(dayIndex, blockers);
+                }
+                return null;
+            }
+
+            const open = eligible.filter(worker => !urgent.includes(worker));
+            const pool = open.slice(0, this.MAX_BRANCH_CANDIDATES);
+
+            for (const combo of this.getCombinations(pool, rules.perDay - urgent.length)) {
+                const pick = urgent.concat(combo);
                 const snapshots = pick.map(worker => this.snapshot(worker));
                 pick.forEach(worker => this.assign(worker, day));
 
@@ -83,33 +186,25 @@ const scheduler = {
             return null;
         };
 
-        let solution = null;
-        try {
-            solution = solve(0);
-        } catch (error) {
-            console.error('Çözücü hatası:', error);
-            return {
-                ok: false,
-                error: 'Planlama sırasında hata oluştu.',
-                detail: 'Kuralları gevşetip yeniden deneyin. Ayrıntı tarayıcı konsolunda.'
-            };
-        }
-
-        if (solution) return { ok: true, days: solution };
-
-        if (timedOut) {
-            return {
-                ok: false,
-                error: 'Dağılım yetiştirilemedi.',
-                detail: `Aralık çok uzun veya kurallar çok sıkı (${this.TIMEOUT_MS / 1000} saniyeden fazla sürdü). ` +
-                    'Dinlenme gününü azaltmayı ya da toplam nöbet sınırını gevşetmeyi deneyin.'
-            };
-        }
-
-        return { ok: false, error: 'Uygun dağılım bulunamadı.', detail: this.analyze(blockedDays, days) };
+        return { solution: solve(0), timedOut, blockedDays };
     },
 
     // ---------- Day & worker state ----------
+
+    /**
+     * Dağıtılacak nöbet sayısı, kişi başı üst sınırın verdiği kapasiteyi aşıyorsa
+     * açıklama metni; sığabiliyorsa null. Alan adı form etiketiyle aynı kalmalı.
+     */
+    capacityMessage(staffCount, dayCount, perDay, maxTotal) {
+        if (!(maxTotal > 0) || !(staffCount > 0)) return null;
+
+        const demand = dayCount * perDay;
+        const capacity = maxTotal * staffCount;
+        if (demand <= capacity) return null;
+
+        return `${demand} nöbet dağıtılacak; “Maks. Toplam Nöbet” ${maxTotal} olduğu için ` +
+            `en fazla ${capacity} nöbet verilebilir. Sınırı yükseltin ya da personel ekleyin.`;
+    },
 
     buildDays(startIso, endIso) {
         return dates.list(startIso, endIso).map((date, index) => ({
@@ -125,6 +220,8 @@ const scheduler = {
             id: person.id,
             name: person.name,
             excuses: new Map(person.excuses.map(e => [e.date, e.note])),
+            availability: 0,      // dönem içindeki çalışabilir gün sayısı (aşağıda doldurulur)
+            freeFrom: null,       // freeFrom[i] = i. günden dönem sonuna kadar müsait gün sayısı
             score: 0,
             weekdayCount: 0,
             weekendCount: 0,
@@ -155,6 +252,7 @@ const scheduler = {
     /**
      * Fairness order. Ties are broken by shuffling first, so people with equal load
      * have an equal chance instead of always following list order.
+     * Sıra: 1) yük 2) müsaitlik (en kısıtlı önce) 3) ağırlıklı puan.
      */
     sortByFairness(candidates, day, splitWeekends) {
         for (let i = candidates.length - 1; i > 0; i--) {
@@ -166,9 +264,9 @@ const scheduler = {
             ? (day.weekend ? worker.weekendCount : worker.weekdayCount)
             : worker.assigned);
 
-        // Once görev sayısı, sonra ağırlıklı puan karşılaştırılır: ikisini tek sayıya
+        // Once görev sayısı, sonra kısıtlılık, sonra ağırlıklı puan karşılaştırılır: ikisini tek sayıya
         // katlayıp toplamak uzun dönemde bozulur (puan 1000'i aşınca ağırlık anlamsızlaşır).
-        candidates.sort((a, b) => loadOf(a) - loadOf(b) || a.score - b.score);
+        candidates.sort((a, b) => loadOf(a) - loadOf(b) || a.availability - b.availability || a.score - b.score);
     },
 
     snapshot(worker) {

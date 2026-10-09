@@ -184,6 +184,10 @@ const state = {
             return `Vardiya başına ${s.perDay} kişi isteniyor ama listede ${this.personnel.length} personel var.`;
         }
 
+        // Çözücüyü 10 saniye meşgul edecek imkânsızlık yerine hemen söyle.
+        const shortfall = scheduler.capacityMessage(this.personnel.length, dayCount, s.perDay, s.maxTotal);
+        if (shortfall) return shortfall;
+
         return null;
     },
 
@@ -257,6 +261,23 @@ const state = {
 
         this.savePersonnel();
         this.persistSchedule();
+        return true;
+    },
+
+    /**
+     * Devir sayilari (onceki donemden gelen noubet ve hafta sonu sayilari) tablodan
+     * duzenlenebilir: yalnizca yuk analizini ve dokum ozetini etkilerler, dagitimi
+     * etkilemedikleri icin signature() icinde degillerdir - liste bayatlamaz.
+     */
+    setCarried(id, field, value) {
+        const person = this.personById(id);
+        if (!person || field !== 'shifts' && field !== 'weekends') return false;
+
+        const clean = storage.count(value);
+        if (person[field] === clean) return false;
+
+        person[field] = clean;
+        this.savePersonnel();
         return true;
     },
 

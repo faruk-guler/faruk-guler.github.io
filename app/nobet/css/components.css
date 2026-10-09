@@ -44,6 +44,14 @@
 .table tbody tr.is-weekend td { background: var(--weekend); font-style: normal; }
 .table tbody tr.is-weekend:hover td { background: var(--weekend-2); }
 
+/* Tablo alti aciklama satiri: ayar kutusunun icinde degil, anlattigi tablonun
+   altinda durur; bu yuzden kalip/kenarlik almaz, yalniz soluk bir not olur. */
+.table-note {
+    margin-top: 6px;
+    font-size: var(--fs-xs);
+    color: var(--muted);
+}
+
 .table .cell-num {
     width: 56px;
     text-align: center;
@@ -64,16 +72,26 @@
 .table .cell-actions { width: 84px; text-align: center; white-space: nowrap; }
 .table .cell-actions .btn { margin: 0 1px; }
 
-.name-edit {
+/* Düzenlenebilir hücre yüzeyleri: kesik çizgi "dokunabilir"yi anlatır.
+   Ad uzundur, devir hanesi sütun genişliğini taşımamalıdır. */
+.name-edit,
+.count-edit {
     display: inline-block;
-    min-width: 90px;
     font-weight: 700;
     border-bottom: 1px dotted transparent;
     outline: none;
 }
 
-.name-edit:hover { border-bottom-color: var(--rule-strong); }
-.name-edit:focus { border-bottom: 1px solid var(--navy); background: var(--tint); }
+.name-edit { min-width: 90px; }
+/* Sayı hanesi tüm hücreyi kaplar: boşluğa tıklamak da düzenlemeyi açsın
+   (aksi halde 16 px'lik rakamın üstünü hedeflemek gerekirdi). */
+.count-edit { display: block; padding: 0 2px; font-weight: 400; }
+
+.name-edit:hover,
+.count-edit:hover { border-bottom-color: var(--rule-strong); }
+
+.name-edit:focus,
+.count-edit:focus { border-bottom: 1px solid var(--navy); background: var(--tint); }
 
 .exc { color: var(--seal); font-size: var(--fs-xs); }
 .dash { color: var(--muted); }

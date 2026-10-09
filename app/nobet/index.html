@@ -136,7 +136,7 @@
                 <span>Min. Dinlenme (Gün)</span>
                 <input class="input" type="number" id="minRestDays" min="0" max="30" step="1">
             </label>
-            <label class="field">
+            <label class="field field-wide">
                 <span>Liste Başlığı (Resmi İsim)</span>
                 <input class="input wide" type="text" id="unit" maxlength="100" placeholder="Örn. Acil Servis Nöbet Çizelgesi">
             </label>
@@ -170,12 +170,13 @@
 
         <div class="table-scroll">
         <table class="table" id="personnelTable">
-            <caption>Listede <span id="personnelCount">0</span> kişi · ismi düzenlemek için hücreye tıklayın</caption>
+            <caption>Listede <span id="personnelCount">0</span> kişi · ad ve devir sayıları için hücreye tıklayın</caption>
             <thead>
                 <tr>
                     <th class="cell-idx" scope="col">No</th>
                     <th scope="col">Ad Soyad</th>
                     <th class="cell-num" scope="col">Devir</th>
+                    <th class="cell-num" scope="col">Devir H.S.</th>
                     <th class="cell-num" scope="col">Nöbet</th>
                     <th class="cell-num" scope="col">Hafta sonu</th>
                     <th scope="col">Mazeret günleri</th>
@@ -185,6 +186,13 @@
             <tbody id="personnelList"></tbody>
         </table>
         </div>
+
+        <!-- Aciklama tablonun kendisine ait: anahtar kutusunun yanina konursa o ayarin
+             parcasi gibi okunuyor. Liste bosken personnelPanel.render gizler. -->
+        <p class="table-note" id="devirNote" hidden>
+            Devir = önceki dönemden devreden toplam nöbet, Devir H.S. = bunların hafta sonuna
+            denk gelenleridir; ikisi de dağıtımı etkilemez.
+        </p>
 
         <div class="placeholder" id="personnelEmpty" hidden>
             <b>Personel listesi boş</b>
@@ -226,11 +234,13 @@
 
         <div class="placeholder" id="rosterEmpty">
             <b>Çizelge henüz hazırlanmadı</b>
-            Kuralları ve personeli tamamladıktan sonra sol paneldeki <b>“Listeyi oluştur”</b> düğmesine basın.
+            <span class="no-print">Kuralları ve personeli tamamladıktan sonra sol paneldeki
+                <b>“Listeyi oluştur”</b> düğmesine basın.</span>
         </div>
 
         <div class="note" data-tone="warn" id="rosterStale" hidden>
-            <span>Kural ya da personel listesi değişti: aşağıdaki çizelge artık geçerli değil, yeniden oluşturulmadan yazdırılmaz.</span>
+            <span>Kural ya da personel listesi değişti: çizelge artık geçerli değil. Yazdırmadan ve dökümden önce
+                “Listeyi oluştur” ile yeniden üretin.</span>
         </div>
 
         <div class="note" data-tone="danger" id="rosterError" hidden>
@@ -239,7 +249,7 @@
 
         <div class="table-scroll">
         <table class="table" id="rosterTable" hidden>
-            <caption><span id="rosterCount">0</span> gün · <span id="rosterExcuseNote">mazeretli günler satırın sonunda belirtilir</span></caption>
+            <caption><span id="rosterExcuseNote">mazeretli günler satırın sonunda belirtilir</span></caption>
             <thead>
                 <tr>
                     <th class="cell-date" scope="col">Tarih</th>
@@ -265,11 +275,11 @@
                 <small>ad · sicil · imza</small>
             </div>
         </div>
-    <!-- Belge altlığı: son sayfanın altında -->
+    <!-- Belge altlığı: son sayfanın altında. Sürüm numarası bilerek burada yok:
+         antet ve Hakkında penceresi zaten söylüyor, kağıtta üçüncü tekrar olurdu. -->
     <footer class="docfoot">
         <span class="status" id="statusLine">Hazır.</span>
         <span id="printFoot"></span>
-        <span class="right">Jupiter · sürüm <span id="brandVersion">v4</span></span>
     </footer>
 </section>
 
@@ -410,7 +420,8 @@
             <!-- İthaf / iletişim / imza satırı: artık Hakkında içeriğinin en üstünde. -->
             <div class="dedication">
                 <p>Sağlık çalışanları ve güvenlik güçlerine ithaf edilmiştir.</p>
-                <p>İstekler, hatalar ve önerileriniz için mail adresim: fguler962 @gmail.com</p>
+                <p>İstekler, hatalar ve önerileriniz için mail adresim:
+                    <a href="mailto:fguler962@gmail.com">fguler962@gmail.com</a></p>
                 <p>Yaşamak bir ağaç gibi tek ve hür ve bir orman gibi kardeşçesine ❤️😊</p>
                 <p>2026 ·
                     <a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">farukguler.com</a> ·
@@ -436,6 +447,10 @@
                 <dt>Mazeret gizliliği</dt>
                 <dd>Mazeret sütunu varsayılan olarak kapalıdır; 2. sayfadaki anahtarla açılır.
                     Gerekçeler kişisel olabilir; görünürlük dağıtımı etkilemez.</dd>
+
+                <dt>Devir</dt>
+                <dd>“Maks. Toplam Nöbet” sınırı yalnızca çizelgesi yapılan dönemi sayar; devir
+                    sayıları bu sınıra eklenmez.</dd>
 
                 <dt>Çıktılar</dt>
                 <dd>PDF (yeni sekmede açılır, A4) ve Excel (.xlsx: çizelge + kişi özeti).
@@ -474,8 +489,8 @@
 <!-- Ticari kütüphaneler yerelden yüklenir: internet bağlantısı gerekmez. -->
 <script src="lib/xlsx.full.min.js"></script>
 <script src="lib/jspdf.umd.min.js"></script>
-<!-- PDF künye yazısı (Roboto, Apache 2.0). Bu dosya yoksa PDF ASCII'ye düşer: -->
-<!-- node tools/make-pdf-font.js ile üretilir, dağıtıma eklenmelidir. -->
+<!-- PDF künye yazısı (Roboto, Apache 2.0 - bkz. assets/LICENSE-Roboto.txt), base64 olarak -->
+<!-- gömülüdür; bu dosya yoksa PDF Türkçe harfleri ASCII'ye katlar. -->
 <script src="lib/roboto.js"></script>
 
 <script src="js/core/dates.js"></script>
