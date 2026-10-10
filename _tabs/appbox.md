@@ -1,21 +1,20 @@
 ---
 layout: page
+title: Appbox
 icon: fa-solid fa-wrench
 order: 2
 ---
 
-|-|-|-|
-|-|-|-|
-| [WhaleStack](/app/whale-stack/){:target="_blank"} | [PKI Studio](/app/pki-studio/){:target="_blank"} | |
-| [Nöbet Hazırlama Programı](/app/nobet/){:target="_blank"} | [Base64 Encoder/Decoder](/app/base64/){:target="_blank"} | |
-| [Live Localhost](/app/live-localhost/){:target="_blank"} | [LPE-v1 Linux Permissions Expert](/app/permissions-expert/){:target="_blank"} | |
-| [Open Diff Checker](/app/open-diff-checker/){:target="_blank"} | [Advanced Text Editor](/app/text-editor/){:target="_blank"} | |
-| [Advanced Password Generator](/app/random-pass-generator/){:target="_blank"} | [Byte Converter](/app/converter/){:target="_blank"} | |
-| [QR Code Generator](/app/qr-generator/){:target="_blank"} | [Network Simulator Tool](/app/network-simulator/){:target="_blank"} | |
-| [What Is My IP Address](/app/my-ip/){:target="_blank"} | [Domain TLD Bulk Lookup](/app/tld-lookup/){:target="_blank"} | |
-| [Reverse IP Lookup](/app/reverse-ip/){:target="_blank"} | [Cronjob Planner](/app/cronjob-planner/){:target="_blank"} | |
-| [NetSpeed Test](/app/speed-test/){:target="_blank"} | [Kitty Markdown Editor](/app/kitty-markdown-editor/){:target="_blank"} | |
-| [Subdomain Finder](/app/subdomain-finder/){:target="_blank"} | [Domain IP Analyzer](/app/domain-ip-analyzer/){:target="_blank"} | |
-| [Neutron Powerful Automation](https://github.com/faruk-guler/Neutron/){:target="_blank"} | [OpenDraw WebUI](/app/open-draw/){:target="_blank"} | |
-| [WHOIS Domain Lookup](/app/whois-lookup/){:target="_blank"} | [Morse Code Converter](/app/morse/){:target="_blank"} | |
-| [Midnight Threat Intelligence](https://farukguler.com/midnight/){:target="_blank"} | [Microsoft Security Response Center (MSRC)](https://farukguler.com/winsecurity/){:target="_blank"}
+|---|---|
+| [WhaleStack](/app/whale-stack/) | [PKI Studio](/app/pki-studio/) |
+| [Nöbet Hazırlama Programı](/app/nobet/) | [Base64 Encoder/Decoder](/app/base64/) |
+| [Live Localhost](/app/live-localhost/) | [LPE-v1 Linux Permissions Expert](/app/permissions-expert/) |
+| [Open Diff Checker](/app/open-diff-checker/) | [Advanced Text Editor](/app/text-editor/) |
+| [Advanced Password Generator](/app/random-pass-generator/) | [Byte Converter](/app/converter/) |
+| [QR Code Generator](/app/qr-generator/) | [Network Simulator Tool](/app/network-simulator/) |
+| [What Is My IP Address](/app/my-ip/) | [Domain TLD Bulk Lookup](/app/tld-lookup/) |
+| [Reverse IP Lookup](/app/reverse-ip/) | [Cronjob Planner](/app/cronjob-planner/) |
+| [NetSpeed Test](/app/speed-test/) | [Kitty Markdown Editor](/app/kitty-markdown-editor/) |
+| [Subdomain Finder](/app/subdomain-finder/) | [Domain IP Analyzer](/app/domain-ip-analyzer/) |
+| [Neutron Powerful Automation](https://github.com/faruk-guler/Neutron/) | [OpenDraw WebUI](/app/open-draw/) |
+| [WHOIS Domain Lookup](/app/whois-lookup/) | [Morse Code Converter](/app/morse/) |
