@@ -16,5 +16,5 @@ order: 2
 | [Reverse IP Lookup](/app/reverse-ip/){:target="_blank"} | [Cronjob Planner](/app/cronjob-planner/){:target="_blank"} | |
 | [NetSpeed Test](/app/speed-test/){:target="_blank"} | [Kitty Markdown Editor](/app/kitty-markdown-editor/){:target="_blank"} | |
 | [Subdomain Finder](/app/subdomain-finder/){:target="_blank"} | [Domain IP Analyzer](/app/domain-ip-analyzer/){:target="_blank"} | |
-| [OpenDraw WebUI](/app/open-draw/){:target="_blank"} | | [Morse Code Converter](/app/morse/){:target="_blank"} | |
+| [OpenDraw WebUI](/app/open-draw/){:target="_blank"} | [Morse Code Converter](/app/morse/){:target="_blank"} | |
 | [WHOIS Domain Lookup](/app/whois-lookup/){:target="_blank"} | | |
