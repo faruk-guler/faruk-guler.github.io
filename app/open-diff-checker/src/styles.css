@@ -16,6 +16,7 @@
 }
 
 :root {
+  color-scheme: dark;
   --bg: #141414;
   --bg-panel: #1a1a1a;
   --bg-input: #121212;
@@ -41,6 +42,7 @@
 
 /* ── Light Theme ─────────────────────────────────────────── */
 [data-theme="light"] {
+  color-scheme: light;
   --bg: #f4f5f7;
   --bg-panel: #ffffff;
   --bg-input: #ffffff;
@@ -69,6 +71,7 @@ body {
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -104,9 +107,10 @@ body {
 .topbar {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 0 20px;
-  height: 52px;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 8px 20px;
+  min-height: 52px;
   background: var(--header-bg);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
@@ -117,27 +121,12 @@ body {
   align-items: center;
   gap: 7px;
   text-decoration: none;
-}
-
-.logo-icon {
-  width: 26px;
-  height: 26px;
-  background: var(--accent);
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
-  font-size: 15px;
-  color: #fff;
-  flex-shrink: 0;
+  min-width: 0;
 }
 
 .logo-icon-img {
   width: 26px;
   height: 26px;
-  border-radius: 6px;
-  object-fit: cover;
   flex-shrink: 0;
 }
 
@@ -151,25 +140,6 @@ body {
   display: flex;
   gap: 2px;
   height: 100%;
-}
-
-.nav-tab {
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-dim);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.12s, border-color 0.12s;
-  user-select: none;
-}
-
-.nav-tab.active,
-.nav-tab:hover {
-  color: var(--text);
-  border-bottom-color: var(--accent);
 }
 
 .topbar-right {
@@ -233,6 +203,7 @@ body.compact .editor-area {
 
 .editor-panel {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--border);
@@ -266,6 +237,7 @@ textarea {
   padding: 12px 14px;
   resize: none;
   outline: none;
+  tab-size: 4;
   transition: box-shadow 0.15s;
 }
 
@@ -382,18 +354,6 @@ textarea:focus {
   padding: 0 24px;
 }
 
-.stat-rem {
-  color: var(--removed-text);
-}
-
-.stat-add {
-  color: var(--added-text);
-}
-
-.stat-lines {
-  color: var(--text-dim);
-}
-
 /* ── Toolbar ─────────────────────────────────────────────── */
 .toolbar {
   display: flex;
@@ -468,6 +428,23 @@ textarea:focus {
   opacity: 0.85;
 }
 
+/* Armed state of the two-step Clear button */
+.toolbar-btn.danger.armed {
+  background: var(--removed-text);
+  color: #fff;
+  border-color: var(--removed-text);
+  opacity: 1;
+}
+
+#compareBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#compareBtn:disabled:hover {
+  background: var(--accent);
+}
+
 /* ── Search Input ────────────────────────────────────────── */
 .search-box {
   display: flex;
@@ -496,6 +473,7 @@ textarea:focus {
   color: var(--text);
   font-size: 12px;
   width: 140px;
+  min-width: 60px;
   font-family: inherit;
 }
 
@@ -504,7 +482,21 @@ textarea:focus {
   opacity: 0.7;
 }
 
-/* Stat badges — duplicate removed, see lines ~374-384 */
+/* Live count of the matching lines, red when the query finds nothing */
+.search-count {
+  min-width: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: right;
+  color: var(--added-text);
+  user-select: none;
+}
+
+.search-count.none {
+  color: var(--removed-text);
+}
+
+/* Stat badges are rendered inside .stats-bar */
 
 /* ── Diff output ─────────────────────────────────────────── */
 .diff-output {
@@ -521,6 +513,7 @@ textarea:focus {
   font-family: 'JetBrains Mono', 'SFMono-Regular', 'Consolas', 'Courier New', monospace;
   font-size: 12.5px;
   line-height: 1.6;
+  tab-size: 4;
 }
 
 .diff-table thead th {
@@ -548,7 +541,7 @@ textarea:focus {
 .diff-table tbody td {
   padding: 0 10px;
   white-space: pre-wrap;
-  word-break: break-all;
+  overflow-wrap: anywhere;
   vertical-align: top;
 }
 
@@ -614,11 +607,7 @@ textarea:focus {
   opacity: 0.6;
 }
 
-/* ── Context Folding & Search Matches ────────────────────── */
-.hidden-line {
-  display: none !important;
-}
-
+/* ── Context folding & Search Matches ────────────────────── */
 .folded-row {
   cursor: pointer;
   background: var(--toolbar-bg);
@@ -655,6 +644,15 @@ textarea:focus {
   background-color: rgba(255, 180, 0, 0.25) !important;
 }
 
+/* Match the keyboard cursor is currently on */
+.search-current td:not(.ln):not(.sign):not(.empty) {
+  background-color: rgba(255, 200, 0, 0.45) !important;
+}
+
+.search-current td.ln {
+  font-weight: 700;
+}
+
 /* ── Message boxes ───────────────────────────────────────── */
 .no-diff {
   padding: 14px 18px;
@@ -663,6 +661,18 @@ textarea:focus {
   color: #e3b341;
   background: #272115;
   border-left: 3px solid #e3b341;
+}
+
+.no-diff.info {
+  color: var(--text);
+  background: var(--bg-input);
+  border-left-color: var(--border-focus);
+}
+
+.no-diff.error {
+  color: var(--removed-text);
+  background: var(--removed-bg);
+  border-left-color: var(--removed-text);
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
@@ -690,11 +700,13 @@ body.compact .output-wrapper {
 body.compact .diff-output {
   flex: 1;
   min-height: 0;
-  /* calc() guaranteed height: viewport - topbar(52) - editor(210) - stats(40) - toolbar(40) - margins(38) */
-  max-height: calc(100vh - 380px);
-  overflow-y: auto !important;
-  overflow-x: auto;
+  overflow-y: auto;
   border-radius: 0 0 6px 6px; /* border radius overflowing from output-wrapper */
+}
+
+/* Messages shown while the editor still owns the whole screen */
+body:not(.compact) .diff-output {
+  max-height: 40vh;
 }
 
 /* ── Light theme no-diff override ────────────────────────── */
@@ -841,12 +853,6 @@ body.compact .diff-output {
   border-left: 3px solid var(--accent);
 }
 
-.author-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-}
-
 .author-links {
   display: flex;
   align-items: center;
@@ -904,11 +910,87 @@ mark.char-rem {
   color: #000;
 }
 
-/* ── Visible Whitespace Character ────────────────────────── */
-.space-char {
-  opacity: 0.5;
-  user-select: none;
-  font-family: monospace;
+/* ── Visible whitespace ──────────────────────────────────── */
+/* The real space/tab stays in the DOM for copy, paste and search, and the
+   marker is drawn with backgrounds/borders only: generated text would be read
+   aloud by screen readers as "dot" between every word. */
+.ws-space {
+  background-image: radial-gradient(circle at 50% 58%,
+    color-mix(in srgb, currentColor 45%, transparent) 0 0.7px, transparent 1.1px);
+  background-repeat: no-repeat;
+}
+
+.ws-tab {
+  position: relative;
+}
+
+.ws-tab::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 5px solid currentColor;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  opacity: 0.35;
+}
+
+/* Off-screen helper used by the clipboard fallback */
+.clipboard-helper {
+  position: fixed;
+  top: -1000px;
+  left: -1000px;
+  opacity: 0;
+}
+
+/* ── Toast ───────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translate(-50%, 12px);
+  max-width: min(80vw, 520px);
+  padding: 9px 14px;
+  background: var(--header-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;      /* never swallow clicks underneath */
+  transition: opacity 0.18s, transform 0.18s;
+  z-index: 1200;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast.ok {
+  border-color: var(--added-text);
+}
+
+.toast.warn {
+  border-color: var(--removed-text);
+  color: var(--removed-text);
+}
+
+/* ── Motion sensitivity ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .swap-btn:hover {
+    transform: none;
+  }
 }
 
 textarea.drag-over {

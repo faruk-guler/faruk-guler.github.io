@@ -4,35 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/jpeg" href="./src/images/drill-logo.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./src/images/icon-32.png">
   <link rel="stylesheet" href="./src/styles.css">
   <title>Open Diff Checker</title>
-  <script>
-    (function() {
-      let savedTheme = localStorage.getItem('dc-theme');
-      if (!savedTheme) {
-        savedTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-      }
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    })();
-  </script>
+  <script src="./src/theme.js"></script>
 </head>
 
 <body>
 
   <header class="topbar">
     <div class="topbar-logo">
-      <img src="./src/images/drill-logo.jpg" alt="Open Diff Checker Logo" class="logo-icon-img">
+      <img src="./src/images/icon-32.png" alt="" class="logo-icon-img">
       <span class="logo-text">Open Diff Checker</span>
     </div>
-    <nav class="topbar-nav">
+    <div class="topbar-nav">
       <button id="compareBtn" title="Go difference (Ctrl + Enter)">Go difference!</button>
-    </nav>
+    </div>
     <div class="topbar-right">
-      <label class="option-label">
+      <label class="option-label" title="Collapse unchanged lines and show a few lines of context around each change">
         <input type="checkbox" id="hideUnchanged"> Hide Unchanged Lines
       </label>
-      <label class="option-label">
+      <label class="option-label" title="Treat lines that differ only in whitespace as identical">
         <input type="checkbox" id="ignoreWhitespace"> Ignore Whitespace
       </label>
       <button class="icon-btn" id="themeToggle" title="Toggle light/dark mode" aria-label="Toggle Theme"></button>
@@ -50,7 +42,8 @@
   <main class="editor-area">
     <div class="editor-panel">
       <div class="panel-header">Original text</div>
-      <textarea id="oldText" spellcheck="false" placeholder="Paste original text here..."></textarea>
+      <textarea id="oldText" spellcheck="false" aria-label="Original text"
+        placeholder="Paste original text here... or drop a file"></textarea>
     </div>
     <button class="swap-btn" id="swapBtn" title="Swap panels" aria-label="Swap">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -63,11 +56,12 @@
     </button>
     <div class="editor-panel">
       <div class="panel-header">Changed text</div>
-      <textarea id="newText" spellcheck="false" placeholder="Paste changed text here..."></textarea>
+      <textarea id="newText" spellcheck="false" aria-label="Changed text"
+        placeholder="Paste changed text here... or drop a file"></textarea>
     </div>
   </main>
 
-  <div class="stats-bar hidden" id="statsBar">
+  <div class="stats-bar hidden" id="statsBar" role="status" aria-live="polite">
     <div class="stats-left" id="statsRemoved"></div>
     <div class="stats-center" id="statsLines"></div>
     <div class="stats-right" id="statsAdded"></div>
@@ -75,24 +69,26 @@
 
   <div class="output-wrapper hidden" id="outputWrapper">
     <div class="toolbar">
-      <div class="mode-group">
-        <button class="mode-btn active" data-mode="split">⧉ Split</button>
-        <button class="mode-btn" data-mode="unified">≡ Unified</button>
+      <div class="mode-group" role="group" aria-label="Diff view mode">
+        <button class="mode-btn active" data-mode="split" aria-pressed="true">⧉ Split</button>
+        <button class="mode-btn" data-mode="unified" aria-pressed="false">≡ Unified</button>
       </div>
       <div class="toolbar-spacer"></div>
 
       <div class="search-box">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+          stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="searchDiff" placeholder="Search in diff..." class="search-input">
+        <input type="text" id="searchDiff" placeholder="Search in diff..." class="search-input"
+          aria-label="Search in diff results" title="Search results (Ctrl + F). Enter jumps to the next match.">
+        <span class="search-count" id="searchCount"></span>
       </div>
 
-      <button class="toolbar-btn" id="copyBtn" title="Copy original text">⎘ Copy</button>
-      <button class="toolbar-btn" id="exportBtn" title="Export as .diff file">↑ Export</button>
-      <button class="toolbar-btn danger" id="clearBtn">✕ Clear</button>
+      <button class="toolbar-btn" id="copyBtn" title="Copy the original text to the clipboard">⎘ Copy</button>
+      <button class="toolbar-btn" id="exportBtn" title="Download the comparison as a unified .diff patch">↑ Export</button>
+      <button class="toolbar-btn danger" id="clearBtn" title="Clear both panels and the result">✕ Clear</button>
     </div>
     <div class="diff-output" id="diffOutput"></div>
   </div>
@@ -103,7 +99,7 @@
       <div class="modal-header">
         <div class="header-spacer"></div>
         <div class="modal-title-group">
-          <img src="./src/images/drill-logo.jpg" alt="Open Diff Checker Logo" class="modal-logo-img">
+          <img src="./src/images/icon-32.png" alt="" class="modal-logo-img">
           <h2 id="modalTitle">About Open Diff Checker</h2>
         </div>
         <button class="modal-close" id="modalClose" aria-label="Close Modal">✕</button>
@@ -115,8 +111,8 @@
           <div class="feature-item">
             <span class="feature-icon">🛡️</span>
             <div>
-              <strong>Privacy-First & Zero Data Storage</strong>
-              <p>All text and code comparisons are executed 100% locally in your browser. Your data is never sent to or stored on any remote server.</p>
+              <strong>Privacy-First &amp; No Data Collection</strong>
+              <p>Text and code comparisons are executed 100% locally in your browser. Your text is never sent to, stored on or logged by any remote server.</p>
             </div>
           </div>
           <div class="feature-item">
@@ -136,7 +132,7 @@
           </div>
         </div>
         <div class="modal-meta">
-          <span>Version 3.0</span>
+          <span id="appVersion">Version 3.1</span>
           <span>·</span>
           <span>100% Client-Side</span>
           <span>·</span>
@@ -145,6 +141,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Non-blocking status messages -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="./src/diff.min.js"></script>
   <script src="./src/index.js"></script>
