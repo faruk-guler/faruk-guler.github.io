@@ -13,9 +13,9 @@ order: 4
 
 IT dünyası, Hacking ve Güvenlik, Yapay Zeka, Blockchain Projeleri ve Kripto Paralar, Açıkkaynak teknolojiler ve Linux üzerine araştırma ve çalışmalar yapıp, farklı teknolojiler ve hizmetler alanında yazılar yazdığım **farukguler.com** bloğunun sahibiyim. Bu bloğu 2021 yılından beri aktif şekilde sürdürüyorum.
 
-🧊 Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum. Bu makaleyi okuduğunuzda, değerli bulduğum ve sizinle paylaştığım bu projeler çok değersiz hale gelmiş veya aşırı değer kazanmış olabilir...
+🧊 Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum.
 
-> **Uyarı:** Bu paylaşımlar; kişisel deneyimlere, derin araştırmalara ve özel verilerin işlenmesine dayanır. Kesinlikle yatırım tavsiyesi değildir. Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kendi araştırmanızı yapın ve profesyonel danışmanlık alın.
+> **Uyarı:** Bu paylaşımlar; kişisel deneyimlere, derin araştırmalara ve özel verilerin işlenmesine dayanır ve kesinlikle yatırım tavsiyesi içermez. Değerli olduğunu düşündüğüm ve sizinle paylaştığım bu projeler siz okurken çok değersiz hale gelmiş veya aşırı değer kazanmış olabilir. Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kendi araştırmanızı yapın ve profesyonel danışmanlık alın.
 {: .prompt-warning }
 
 ---
