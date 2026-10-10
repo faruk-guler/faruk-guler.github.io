@@ -5,7 +5,7 @@ icon: fa-solid fa-barcode
 order: 4
 ---
 
-🌙 Dün akşam bir kahve alıp kısa bir yürüyüşe çıktım ve kendim hakkında ne yazabilirim diye düşündüm. Buradaki yazılar kimi zaman gece yarısı bir terminal ekranı başında, kimi zaman bir fincan sıcak kahve eşliğinde doğuyor.Kendiniz hakkında konuşabileceğiniz pek çok şey vardır, Ancak bir arkadaşınızın veya meslektaşınızın hakkınızda iyi şeyler söylemesi... işte o paha biçilmez.
+🌙 Dün akşam bir kahve alıp kısa bir yürüyüşe çıktım ve kendim hakkında ne yazabilirim diye düşündüm. Buradaki yazılar kimi zaman gece yarısı bir terminal ekranı başında, kimi zaman bir fincan sıcak kahve eşliğinde doğuyor. Kendiniz hakkında konuşabileceğiniz pek çok şey vardır, Ancak bir arkadaşınızın veya meslektaşınızın hakkınızda iyi şeyler söylemesi... işte o paha biçilmez.
 
 ---
 
@@ -15,7 +15,7 @@ IT dünyası, Hacking ve Güvenlik, Yapay Zeka, Blockchain Projeleri ve Kripto P
 
 🧊 Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum. Bu makaleyi okuduğunuzda, değerli bulduğum ve sizinle paylaştığım bu projeler çok değersiz hale gelmiş veya aşırı değer kazanmış olabilir...
 
-> ❗ **Uyarı:** Bu paylaşımlar; kişisel deneyimlere, derin araştırmalara ve özel verilerin işlenmesine dayanır. Kesinlikle yatırım tavsiyesi değildir. Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kendi araştırmanızı yapın ve profesyonel danışmanlık alın.
+> **Uyarı:** Bu paylaşımlar; kişisel deneyimlere, derin araştırmalara ve özel verilerin işlenmesine dayanır. Kesinlikle yatırım tavsiyesi değildir. Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kendi araştırmanızı yapın ve profesyonel danışmanlık alın.
 {: .prompt-warning }
 
 ---
