@@ -1,0 +1,15 @@
+        /* Canvas Container */
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: var(--canvas-bg);
+        }
+
+        #canvas {
+            display: block;
+            cursor: crosshair;
+            background: var(--canvas-bg);
+            /* Without this, touch input is treated as page scrolling/zooming */
+            touch-action: none;
+        }

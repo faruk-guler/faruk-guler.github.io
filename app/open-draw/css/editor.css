@@ -1,0 +1,54 @@
+        /* Live text editing overlay, positioned over the canvas element being edited */
+        .text-input {
+            position: absolute;
+            /* An outline instead of a border: a border would inset the typed text by its own width,
+               so the label visibly jumped by 2px the moment it was committed to the canvas. */
+            outline: 2px dashed var(--btn-active-bg);
+            background: transparent;
+            font-size: 16px; /* Overridden per element by startTextEdit() */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.2; /* Must match TEXT_LINE_HEIGHT so the overlay and the drawing align */
+            border: none;
+            padding: 0;
+            margin: 0;
+            min-width: 20px;
+            overflow: hidden;
+            resize: none;
+            white-space: pre;
+            caret-color: var(--btn-active-bg);
+            text-align: left;
+            font-weight: normal;
+            font-style: normal;
+            text-decoration: none;
+            z-index: 5;
+        }
+
+        /* Non-blocking status messages (replaces alert() for export/import feedback) */
+        .toast-stack {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            pointer-events: none; /* Never steal clicks from the canvas underneath */
+            z-index: 1002;
+        }
+
+        .toast {
+            background: var(--toast-bg);
+            color: var(--toast-color);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            max-width: 90%;
+            box-shadow: 0 2px 8px var(--toolbar-shadow);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .toast.error {
+            background: var(--toast-error-bg);
+            color: #ffffff;
+        }

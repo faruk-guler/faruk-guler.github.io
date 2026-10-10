@@ -1,0 +1,40 @@
+[
+  {
+    "id": "6fab4749-e185-4ab0-a500-f7804aef0800",
+    "type": "rectangle",
+    "x": 50,
+    "y": 50,
+    "width": 150,
+    "height": 110,
+    "strokeColor": "#1f2937",
+    "fillColor": "#ffffff",
+    "strokeWidth": 2,
+    "roughness": 1
+  },
+  {
+    "id": "d916a282-9074-43de-abb9-a63f36fcd43f",
+    "type": "arrow",
+    "x": 220,
+    "y": 100,
+    "width": 110,
+    "height": 0,
+    "strokeColor": "#1f2937",
+    "fillColor": "#ffffff",
+    "strokeWidth": 2,
+    "roughness": 1
+  },
+  {
+    "id": "5a18a660-54d4-4e4c-bbdd-160a81b2020b",
+    "type": "text",
+    "x": 60,
+    "y": 200,
+    "width": 208.81640625,
+    "height": 28.799999999999997,
+    "strokeColor": "#1f2937",
+    "fillColor": "#ffffff",
+    "strokeWidth": 2,
+    "roughness": 1,
+    "text": "Dışa aktarma etiketi",
+    "fontSize": 24
+  }
+]

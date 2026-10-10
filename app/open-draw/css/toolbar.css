@@ -1,0 +1,220 @@
+        /* Toolbar Styles */
+        .toolbar {
+            background: var(--toolbar-bg);
+            border-bottom: 1px solid var(--toolbar-border);
+            /* Tighter than the original 12px/20px: the five groups plus the title need to fit one row
+               on a normal desktop window, otherwise the last group falls onto a second row. */
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 1px 3px var(--toolbar-shadow);
+            z-index: 1000;
+            /* nowrap: the title must never be pushed onto an extra row - the control groups wrap
+               inside .toolbar-groups on the left instead, so the bar stays a single row. */
+            flex-wrap: nowrap;
+        }
+
+        .app-title {
+            /* Right edge of the bar at every width: it cannot shrink or wrap, and the groups to its
+               left give way instead. */
+            flex-shrink: 0;
+            white-space: nowrap;
+            padding-left: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tool-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 8px;
+            border-right: 1px solid var(--toolbar-border);
+            /* A group is wider than its share of a narrow bar (the tool row has 11 buttons), so it
+               wraps its own buttons instead of overflowing into the title area. */
+            flex-wrap: wrap;
+        }
+
+        /* Every control group lives in this container and wraps among themselves on the left; the
+           last group keeps its border-right, which is the divider in front of the title. */
+        .toolbar-groups {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        /* Direct children of the bar (theme toggle, title) are part of the fixed right cluster. */
+        .toolbar > .tool-group {
+            flex-shrink: 0;
+        }
+
+        .tool-btn, .action-btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: var(--text-color);
+        }
+
+        .tool-btn:not(:disabled):hover, .action-btn:not(:disabled):hover {
+            background: var(--btn-hover-bg);
+            border-color: var(--btn-hover-border);
+        }
+
+        /* A control that does nothing right now must look like it: without this an inactive Undo
+           button or a fill picker that does not apply to the selection just feels broken. */
+        .tool-btn:disabled,
+        .action-btn:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        /* The type selectors below set cursor: pointer with the same specificity as a plain
+           input:disabled, so the disabled rules must name the type to actually win. */
+        input:disabled,
+        input[type="color"]:disabled,
+        input[type="range"]:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .tool-btn.active {
+            background: var(--btn-active-bg);
+            border-color: var(--btn-active-border);
+            color: var(--btn-active-color);
+        }
+
+        input[type="color"] {
+            width: 40px;
+            height: 32px;
+            border: 1px solid var(--btn-border);
+            border-radius: 6px;
+            cursor: pointer;
+            background: var(--btn-bg);
+        }
+
+        input[type="range"] {
+            width: 80px;
+        }
+
+        .export-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* .choice-btn is the same control in the confirmation dialogs; it deliberately does not
+           carry .export-btn, so a class-based handler can never mistake it for a format. */
+        .export-btn,
+        .choice-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid var(--export-btn-border);
+            border-radius: 5px;
+            background-color: var(--export-btn-bg);
+            color: var(--text-color);
+            transition: background-color 0.2s ease;
+        }
+
+        .export-btn:hover,
+        .choice-btn:hover {
+            background-color: var(--export-btn-hover-bg);
+        }
+
+        .export-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 14px;
+            font-size: 0.9em;
+        }
+
+        #clearBtn {
+            background-color: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        #clearBtn:hover {
+            background-color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .toolbar {
+                padding: 8px 12px;
+                gap: 8px;
+            }
+            
+            .tool-group {
+                gap: 4px;
+                padding: 0 8px;
+                margin: 2px 0;
+            }
+
+            .toolbar-groups {
+                gap: 8px;
+            }
+            
+            .tool-btn, .action-btn {
+                padding: 6px;
+            }
+
+            input[type="range"] {
+                width: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toolbar {
+                padding: 6px 8px;
+                gap: 4px;
+            }
+
+            .tool-group {
+                padding: 0 4px;
+                border-right: none;
+                margin: 2px 0;
+            }
+
+            .toolbar-groups {
+                gap: 4px;
+            }
+
+            /* Keep the title and its button inside the bar on very narrow screens */
+            .app-title {
+                font-size: 1em;
+                padding-left: 4px;
+            }
+
+            .tool-btn, .action-btn {
+                padding: 4px;
+            }
+
+            input[type="color"] {
+                width: 32px;
+                height: 28px;
+            }
+
+            input[type="range"] {
+                width: 50px;
+            }
+        }

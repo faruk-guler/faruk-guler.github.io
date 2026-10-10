@@ -1,0 +1,108 @@
+        :root {
+            color-scheme: light;
+            --bg-color: #f8f9fa;
+            --toolbar-bg: white;
+            --toolbar-border: #e1e5e9;
+            --toolbar-shadow: rgba(0, 0, 0, 0.1);
+            --text-color: #374151;
+            --btn-bg: transparent;
+            --btn-border: #e1e5e9;
+            --btn-hover-bg: #f3f4f6;
+            --btn-hover-border: #d1d5db;
+            --btn-active-bg: #3b82f6;
+            --btn-active-border: #3b82f6;
+            --btn-active-color: white;
+            --canvas-bg: white;
+            --modal-bg: #fefefe;
+            --modal-border: #888;
+            --modal-close-color: #aaa;
+            --export-btn-bg: #f0f0f0;
+            --export-btn-border: #ccc;
+            --export-btn-hover-bg: #e0e0e0;
+            --toast-bg: #1f2937;
+            --toast-color: #ffffff;
+            --toast-error-bg: #b91c1c;
+            --focus-ring: #3b82f6;
+        }
+
+        body.dark-mode {
+            color-scheme: dark;
+            --bg-color: #1a1a1a;
+            --toolbar-bg: #2c2c2c;
+            --toolbar-border: #3a3a3a;
+            --toolbar-shadow: rgba(0, 0, 0, 0.3);
+            --text-color: #e0e0e0;
+            --btn-bg: #3a3a3a;
+            --btn-border: #4a4a4a;
+            --btn-hover-bg: #4a4a4a;
+            --btn-hover-border: #5a5a5a;
+            --btn-active-bg: #3b82f6;
+            --btn-active-border: #3b82f6;
+            --btn-active-color: white;
+            --canvas-bg: #2c2c2c;
+            --modal-bg: #2c2c2c;
+            --modal-border: #4a4a4a;
+            --modal-close-color: #b0b0b0;
+            --export-btn-bg: #3a3a3a;
+            --export-btn-border: #4a4a4a;
+            --export-btn-hover-bg: #4a4a4a;
+            --toast-bg: #e5e7eb;
+            --toast-color: #111827;
+            --toast-error-bg: #dc2626;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-color);
+            overflow: hidden;
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus-visible {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        /* Keyboard focus indicator for all interactive controls */
+        .tool-btn:focus-visible,
+        .action-btn:focus-visible,
+        .export-btn:focus-visible,
+        .choice-btn:focus-visible,
+        .close-btn:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
