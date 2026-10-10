@@ -15,7 +15,7 @@ IT dünyası, Hacking ve Güvenlik, Yapay Zeka, Blockchain Projeleri ve Kripto P
 
 🧊 Ayrıca burada sizinle üzerinde çalıştığım ve potansiyel gördüğüm blockchain projelerden bazılarını paylaşıyorum.
 
-> **Uyarı:** Bu paylaşımlar; kişisel deneyimlere, derin araştırmalara ve özel verilerin işlenmesine dayanır ve kesinlikle yatırım tavsiyesi içermez. Değerli olduğunu düşündüğüm ve sizinle paylaştığım bu projeler siz okurken çok değersiz hale gelmiş veya aşırı değer kazanmış olabilir. Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kendi araştırmanızı yapın ve profesyonel danışmanlık alın.
+> **Uyarı:** Bu paylaşımlar; kişisel deneyimlere, derin araştırmalara, özel verilerin işlenmesine dayanır ve kesinlikle yatırım tavsiyesi içermez. Değerli olduğunu düşündüğüm ve sizinle paylaştığım bu projeler siz okurken çok değersiz hale gelmiş veya aşırı değer kazanmış olabilir. Kripto para piyasaları son derece volatildir. Yatırım kararlarınızı verirken lütfen kendi araştırmanızı yapın ve profesyonel danışmanlık alın.
 {: .prompt-warning }
 
 ---
