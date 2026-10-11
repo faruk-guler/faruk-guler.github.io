@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Uniswap (UNI) Nedir? Merkeziyetsiz Finansın (DeFi) Temel Taşı
+title: Uniswap (UNI) Nedir? Merkeziyetsiz Finansın Temel Taşı
 date: 2022-10-15 19:45
 last_modified_at: 2026-10-11 09:25
 by: faruk-guler
