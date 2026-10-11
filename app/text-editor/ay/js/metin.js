@@ -13,10 +13,13 @@ function gCookie(ad) {
 
  
 $(document).ready(function(){
-	DeasciifyHandler.init();
     $('#girilenMetin').focus();
 
-    if(gCookie('nightMode')==1) { nightMode(); }
+    // Pasting and undo/redo fire no keyup, so track the input event as well.
+    $('#girilenMetin').on('input', metinBilgisi);
+    metinBilgisi();
+
+    if(geceTercihiOku() == 1) { nightMode(); }
     $('#btn-nightmode').click(function(){
         nightMode();
     }); 
@@ -36,26 +39,69 @@ String.prototype.toUpperCaseTR = function() {
 	return ((this.replace(/ı/g,"I")).replace(/i/g,"İ")).toUpperCase();
 };
 
-function nightMode() {
-    if(document.body.classList.contains('nightMode')) {
-        document.body.classList.remove("nightMode");
-        document.cookie='nightMode=0';
-    }
-    else {
-        document.body.classList.add("nightMode");
-        document.cookie='nightMode=1';
-    }
+// Make a user typed string safe to feed into RegExp as a literal pattern.
+function regexEscape(s) {
+	return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-$("#btn_nightMode").click(function(){
-	
-});
+// Replace the whole text in one undoable step, then refresh the counters.
+// Direct `value = ...` writes wipe the browser's native undo history, so try
+// insertText first. Chrome re-lays out the box for every line break inserted
+// that way (~1.3 ms per line), so big documents fall back to a plain write.
+// insertText replaces the *selection*: if focus is held elsewhere (an open
+// Bootstrap modal re-claims it), the selection is not the full text and the
+// command would append instead of replace — so verify the selection first.
+function setMetin(yeni) {
+	var el = _('girilenMetin');
+	var satirSayisi = yeni === '' ? 0 : yeni.split('\n').length;
+	var ok = false;
+
+	if (yeni.length <= 20000 && satirSayisi <= 150) {
+		var secimTam = false;
+		try {
+			el.focus();
+			el.select();
+			secimTam = el.selectionStart === 0 && el.selectionEnd === el.value.length;
+		} catch (e) { secimTam = false; }
+
+		if (secimTam) {
+			try { ok = document.execCommand('insertText', false, yeni); } catch (e) { ok = false; }
+		}
+	}
+
+	if (!ok) { el.value = yeni; }
+	metinBilgisi();
+}
+
+function nightMode() {
+    var karanlik = document.body.classList.toggle('nightMode');
+    geceTercihiYaz(karanlik);
+    var dugme = _('btn-nightmode');
+    if (dugme) { dugme.setAttribute('aria-pressed', karanlik ? 'true' : 'false'); }
+}
+
+// Preferans iki yere yazilir: coerez sunuculu kullanımda, localStorage ise
+// dosyanın çift tiklamayla (file://) açıldığı durumda çalışır — orada
+// tarayıcı coerez kabul etmez ve tek kalıcı yol depolamadır.
+function geceTercihiYaz(acik) {
+    document.cookie = 'nightMode=' + (acik ? 1 : 0) + '; path=/; max-age=31536000';
+    try { window.localStorage.setItem('nightMode', acik ? '1' : '0'); } catch (e) { /* depolama kapali olabilir */ }
+}
+
+function geceTercihiOku() {
+    var c = gCookie('nightMode');
+    if (c && c !== 0) { return c; }
+    try {
+        var l = window.localStorage.getItem('nightMode');
+        if (l === '1' || l === '0') { return l; }
+    } catch (e) { /* depolama kapali olabilir */ }
+    return 0;
+}
 
 
 $("#btn_temizle").click(function()
 {
-	_('girilenMetin').value='';
-	metinBilgisi();
+	setMetin('');
 });
  
 $("#btn_tumunuSec").click(function()
@@ -64,22 +110,43 @@ $("#btn_tumunuSec").click(function()
 	_('girilenMetin').select();
 });
  
+// Noktadan once gelen sozcuk kisaltma ise bu nokta cumle bitimi sayilmaz.
+var KISALTMALAR = /^(dr|prof|do[cç]|doc|vs|vb|sf|mr|mrs|ms|st|jul|mad|haz|ing|no)$/i;
+
+// Cumle sayisi: nokta / unlem / soru ile biten parcalar sayilir. "Dr." gibi
+// kisaltmalar ve ondalikli sayilardaki (3.14) nokta cumle bitimi sayilmaz,
+// uzatma noktalari tek noktaya inilir, sonunda isareti olmayan parca da sayilir.
+function cumleSay(metin) {
+	var m = metin.replace(/\r/g, '').replace(/\.{2,}|\u2026/g, '.');
+	if (m.trim() === '') { return 0; }
+
+	var desen = /([.!?]+)(\s|$)/g;
+	var eslesme, toplam = 0, sonIsarettenSonrasi = 0;
+
+	while ((eslesme = desen.exec(m)) !== null) {
+		if (eslesme[1].charAt(0) === '.') {
+			var oncekiKelime = /(\S+)$/.exec(m.slice(0, eslesme.index));
+			var sozcuk = oncekiKelime ? oncekiKelime[1].replace(/[^A-Za-zÇçĞğİıÖöŞşÜü]/g, '') : '';
+			// Tek harfli bas harfler (A.), kisa kisaltmalar (Dr.) ve sayilar (3.14)
+			if (sozcuk.length <= 2 || KISALTMALAR.test(sozcuk)) { continue; }
+		}
+		toplam++;
+		sonIsarettenSonrasi = eslesme.index + eslesme[0].length;
+	}
+
+	if (m.slice(sonIsarettenSonrasi).trim() !== '') { toplam++; }
+	return toplam;
+}
+
 function metinBilgisi()
 {
-	var mb = _('girilenMetin').value.split("\n").length + ' satır  &nbsp; '
+	var hamMetin = _('girilenMetin').value;
+	var satirSayisi = hamMetin === '' ? 0 : hamMetin.replace(/\r/g, '').split("\n").length;
+	var mb = satirSayisi + ' satır  &nbsp; '
 
-	var metin = _('girilenMetin').value;
-	var cumlet = metin.replace(/\r/g,'').replace(/ \n/g,'\n') + '\n';
-	var cumlet1 = cumlet.split('. ').length -1;
-	var cumlet1b = cumlet.split('.\n').length -1;
-	var cumlet2 = cumlet.split('! ').length -1;
-	var cumlet2b = cumlet.split('!\n').length -1;
-	var cumlet3 = cumlet.split('? ').length -1;
-	var cumlet3b = cumlet.split('?\n').length -1;
-	var cumlesayisi = cumlet1 + cumlet1b + cumlet2 + cumlet2b + cumlet3 + cumlet3b;
-	mb+= cumlesayisi + ' cümle &nbsp; ';
+	mb+= cumleSay(hamMetin) + ' cümle &nbsp; ';
 
-	metin = _('girilenMetin').value + " ";
+	var metin = hamMetin + " ";
 	metin = metin.replace(/^[^a-z0-9ığüşöçİĞÜŞÖÇ]+/gi, "");
 	metin = metin.replace(/[^a-z0-9ığüşöçİĞÜŞÖÇ]+/gi, " ");
 	mb+= (metin.split(" ").length-1) + ' kelime  &nbsp; ';
@@ -92,19 +159,19 @@ function metinBilgisi()
 
 $("#btn_hepsiBuyuk").click(function()
 {
-	_('girilenMetin').value = ((_('girilenMetin').value.replace(/ı/g,"I")).replace(/i/g,"İ")).toUpperCaseTR();
+	setMetin(_('girilenMetin').value.toUpperCaseTR());
 });
  
 
 $("#btn_hepsiKucuk").click(function()
 {
-	_('girilenMetin').value = ((_('girilenMetin').value.replace(/I/g,"ı")).replace(/İ/g,"i")).toLowerCaseTR();
+	setMetin(_('girilenMetin').value.toLowerCaseTR());
 });
  
 $("#btn_kelimeBuyuk").click(function()
 {
-	_('girilenMetin').value =  (_('girilenMetin').value + '').replace(/^(.)|\s(.)/g, function ($1) {
-        return (($1.replace(/ı/g,"I")).replace(/i/g,"İ")).toUpperCaseTR();    });
+	setMetin((_('girilenMetin').value + '').replace(/^(.)|\s(.)/g, function ($1) {
+        return $1.toUpperCaseTR();    }));
 });
  
 $("#btn_cumleBuyuk").click(function() {
@@ -119,13 +186,13 @@ function cumleBuyukSu(k) {
 	var cumleler = _('girilenMetin').value.split(k);
 	var metin = '';
 
-	for(i=0; i < cumleler.length; i++)
+	for(var i=0; i < cumleler.length; i++)
 	{
 		metin = metin + ilkHarf(cumleler[i],0);
 		if(i < (cumleler.length - 1)) metin = metin + k;
 	}
 
-	_('girilenMetin').value = metin;
+	setMetin(metin);
 }
 
 function ilkHarf(m,s) {
@@ -147,6 +214,20 @@ function ilkHarf(m,s) {
  
 
 
+// Turkish-correct case-insensitive search pattern built from a literal text:
+// every character becomes a class holding its own lower/upper pair, so the
+// regex never needs the "i" flag (which gets i/İ and ı/I wrong).
+function trHarfDuyarsizDesen(metin) {
+	var desen = '';
+	for (var i = 0; i < metin.length; i++) {
+		var c = metin.charAt(i);
+		var kucuk = c.toLowerCaseTR();
+		var buyuk = c.toUpperCaseTR();
+		desen += (kucuk === buyuk) ? regexEscape(c) : '[' + regexEscape(kucuk) + regexEscape(buyuk) + ']';
+	}
+	return desen;
+}
+
 function bulDegistir()
 {
   	var bul = _('buldegistir_bunu').value;
@@ -154,31 +235,21 @@ function bulDegistir()
 
 	if (bul=='') { alert('Aranacak ifadeyi girmediniz!'); return false; }
 
-	var gm = _('girilenMetin').value;
+	// The replacement must be inserted verbatim: a "$&"/"$1" inside it is
+	// otherwise treated as a capture group reference by String.replace().
+	function koyFn() { return koy; }
 
-	if(_('buldegistir_bkhd').checked) 
-	{
-		//c
-		gm = gm.replace(new RegExp(bul, 'g'), koy);
+	var desen = _('buldegistir_bkhd').checked ? regexEscape(bul) : trHarfDuyarsizDesen(bul);
+
+	var gm;
+	try {
+		gm = _('girilenMetin').value.replace(new RegExp(desen, 'g'), koyFn);
+	} catch (e) {
+		alert('Aranacak ifade işlenemedi!');
+		return false;
 	}
-	else
-	{
-		//ci
-		bul = (bul.replace(/i/g,'(-<->-|-<<->>-)')).replace(/İ/g,'(-<->-|-<<->>-)');
-		bul = (bul.replace(/ı/g,'(-<-->-|-<<-->>-)')).replace(/I/g,'(-<-->-|-<<-->>-)');
 
-		gm = (gm.replace(/i/g,'-<->-')).replace(/İ/g,'-<<->>-');
-		gm = (gm.replace(/ı/g,'-<-->-')).replace(/I/g,'-<<-->>-');
-
-		gm = gm.replace(new RegExp(bul, 'gi'), koy);
-
-		gm = (gm.replace(/-<->-/g,'i')).replace(/-<<->>-/g,'İ');
-		gm = (gm.replace(/-<-->-/g,'ı')).replace(/-<<-->>-/g,'I');
-
-	}
-  
-	_('girilenMetin').value = gm;
-	metinBilgisi();
+	setMetin(gm);
 }
  
 
@@ -188,61 +259,72 @@ function bsMetinEkle()
 	var em = _('ekleMetin');
 	var satirlar = _('girilenMetin').value.split("\n");
 	var metin = '';
+	var basina = _('ekleNereye').value == 'basina';
 
-	if(_('ekleNereye').value == 'basina')
+	for(var i=0; i<satirlar.length; i++)
 	{
-		for(i=0; i<satirlar.length; i++)
-		{
-			e = em.value.replace("%S", i+1);
-			metin = metin + e + satirlar[i];
-			if(i < (satirlar.length - 1)) metin = metin + "\n";
-		}
-		_('girilenMetin').value = metin;
-	}
-	else
-	{
-		for(i=0; i<satirlar.length; i++)
-		{
-			e = em.value.replace("%S", i+1);
-			metin = metin + satirlar[i] + e;
-			if(i < (satirlar.length - 1)) metin = metin + "\n";
-		}
-		_('girilenMetin').value = metin;
+		// %S stands for the line number; every occurrence of it counts.
+		var e = em.value.replace(/%S/g, i+1);
+		metin = metin + (basina ? e + satirlar[i] : satirlar[i] + e);
+		if(i < (satirlar.length - 1)) metin = metin + "\n";
 	}
 
-	metinBilgisi();
+	setMetin(metin);
 }
 
 $("#btn_boslukSil").click(function(){
-	_("girilenMetin").value = _('girilenMetin').value.replace(/\s/g, '');
-	metinBilgisi();
+	setMetin(_('girilenMetin').value.replace(/\s/g, ''));
 });
 
 $("#btn_bsBoslukSil").click(function(){
-	_("girilenMetin").value = _('girilenMetin').value.replace(/^ +| +$/mg,'');
-	metinBilgisi();
+	setMetin(_('girilenMetin').value.replace(/^ +| +$/mg,''));
 });
 
 $("#btn_bsTabSil").click(function(){
-	_("girilenMetin").value = _('girilenMetin').value.replace(/^\t+| +$/mg,'');
-	metinBilgisi();
+	setMetin(_('girilenMetin').value.replace(/^\t+|\t+$/mg,''));
 });
 
 $("#btn_fazlaBoslukSil").click(function(){
-	_("girilenMetin").value = _('girilenMetin').value.replace(/ +/g,' ');
-	metinBilgisi();
+	setMetin(_('girilenMetin').value.replace(/[ \t]{2,}/g,' '));
+});
+
+$("#btn_bosSatirSil").click(function(){
+	// yalnizca bosluk/sek iceren satirlar da bos sayilir
+	var satirlar = _('girilenMetin').value.replace(/\r/g,'').split('\n').filter(function (s) {
+		return s.replace(/[ \t]/g, '') !== '';
+	});
+	setMetin(satirlar.join('\n'));
+});
+
+$("#btn_gorunmezSil").click(function(){
+	var m = _('girilenMetin').value;
+	// nbsp ve incecik boslukler normal bosluga doner; sifir-genislik, yon
+	// isaretleri, yumusak tire ve BOM silinir; satir/sek karakterleri korunur
+	m = m.replace(/[\u00A0\u2007\u202F]/g, ' ')
+			.replace(/[\u200B-\u200F\u202A-\u202E\u2060\uFEFF\u00AD]/g, '')
+			.replace(/[\u2028\u2029]/g, '\n')
+			.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
+	setMetin(m);
+});
+
+$("#btn_satirSonuNormalize").click(function(){
+	// insertText ile alana \r\n veya \r girebilir; tek duzen LF'e cevirilir
+	setMetin(_('girilenMetin').value.replace(/\r\n?/g, '\n'));
 });
 
 $(".btn_HtmlEtiketleriniSil").click(function(){
 	var metin = _("girilenMetin").value;
 	if($(this).attr('satirbasiKoru')==1)
 	{
-		metin = metin.replace(/(<(p[^>]*)>|<(\/p[^>]*)>)/gi,'\n')
-					.replace(/(<br>|<br\/>|<br \/>)/gi,'\n');
+		metin = metin.replace(/(<p[^>]*>|<\/p[^>]*>)/gi,'\n')
+					.replace(/<br\s*\/?>/gi,'\n');
 	}
-	
-	_("girilenMetin").value = metin.replace(/(<([^>]+)>)/mig ,'');
-	metinBilgisi();
+
+	// Removing only the tags would leak the code or text inside these elements.
+	metin = metin.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/gi,'')
+					.replace(/<!--[\s\S]*?-->/g,'');
+
+	setMetin(metin.replace(/(<([^>]+)>)/mig ,''));
 });
 
 $(".btn_tekrarlayanSatirlariSil").click(function(){
@@ -253,31 +335,20 @@ $(".btn_tekrarlayanSatirlariSil").click(function(){
 	var skey = '';
 	var cikti = new Array();
 	var sayac = 0;
-	
-	if($(this).attr('harfduyarli')==1)
-	{
-		for(var i=0; i<ss; i++){
-			skey = satirlar[i];
-			if(yenis[skey] == null) {
-				yenis[skey] = '';
-				cikti[sayac] = skey; 
-				sayac++;
-			}
-		}
-	} 
-	else 
-	{
-		for(var i=0; i<ss; i++){
-			skey = satirlar[i];
-			if(yenis[skey.toLowerCaseTR()] == null) {
-				yenis[skey.toLowerCaseTR()] = ''; 
-				cikti[sayac] = skey; 
-				sayac++;
-			}
+	var duyarli = $(this).attr('harfduyarli')==1;
+
+	for(var i=0; i<ss; i++){
+		skey = satirlar[i];
+		// The "k" prefix stops inherited Object keys (constructor, toString, valueOf...)
+		// from looking like a line that was already seen, which used to delete them.
+		skey = 'k' + (duyarli ? skey : skey.toLowerCaseTR());
+		if(yenis[skey] == null) {
+			yenis[skey] = '';
+			cikti[sayac] = satirlar[i];
+			sayac++;
 		}
 	}
-	_('girilenMetin').value = cikti.join('\n');
-	metinBilgisi();
+	setMetin(cikti.join('\n'));
 });
 
 
@@ -285,23 +356,82 @@ $(".btn_sirala").click(function(){
 
 	var metin = _('girilenMetin').value.replace(/\r/gi,'');
 	var tip = $(this).attr('tip');
+	var satirlar = metin.split('\n');
 
-	if(tip == 'alfabetik') _('girilenMetin').value = metin.split('\n').sort(localSirala).join('\n');
-	if(tip == 'uzunluk') _('girilenMetin').value = metin.split('\n').sort(uzunlukSirala).join('\n');
-	if(tip == 'ters') _('girilenMetin').value = metin.split('\n').reverse().join('\n');
-	if(tip == 'rastgele') _('girilenMetin').value = metin.split('\n').rastgele().join('\n');
+	if(tip == 'alfabetik') setMetin(satirlar.sort(localSirala).join('\n'));
+	if(tip == 'dogal') setMetin(satirlar.sort(dogalSirala).join('\n'));
+	if(tip == 'uzunluk') setMetin(satirlar.sort(uzunlukSirala).join('\n'));
+	if(tip == 'ters') setMetin(satirlar.reverse().join('\n'));
+	if(tip == 'rastgele') setMetin(satirlar.rastgele().join('\n'));
 
 });
 
+var trCollator = null; // shared: creating a collator per comparison is very slow
+var trDogalCollator = null;
+
 function localSirala(a,b)
 {
-    return a.localeCompare(b)
+    // Pin the collation to Turkish, so ordering does not depend on the
+    // browser language (ç, ğ, ı, i, ö, ş, ü have a fixed place in the alphabet).
+    if (!trCollator) { trCollator = new Intl.Collator('tr', { usage: 'sort', sensitivity: 'variant' }); }
+    return trCollator.compare(a, b);
+}
+
+function dogalSirala(a,b)
+{
+    // numeric:true reads digit runs as numbers, so "satır 2" comes before
+    // "satır 10" (plain alphabetical order puts 10 first).
+    if (!trDogalCollator) { trDogalCollator = new Intl.Collator('tr', { usage: 'sort', sensitivity: 'variant', numeric: true }); }
+    return trDogalCollator.compare(a, b);
+}
+
+// Delimiters offered in the "Kolona göre sırala" dialog.
+var KOLON_AYIRICILARI = {
+	'sek': /\t+/,
+	'virgul': /,/,
+	'noktali-virgul': /;/,
+	'iki-nokta': /:/,
+	'bosluk': / +/,
+	'ardisik-bosluk': / {2,}/
 };
+
+$("#btn_kolonSirala").click(function(){
+	var ayirici = KOLON_AYIRICILARI[_('kolonAyirici').value] || KOLON_AYIRICILARI['bosluk'];
+	var no = parseInt(_('kolonNo').value, 10);
+	if (!(no >= 1)) { no = 1; }
+	var azalan = _('kolonYon').value === 'azalan';
+
+	var satirlar = _('girilenMetin').value.replace(/\r/g,'').split('\n');
+
+	function hucre(satir) {
+		var parcalar = satir.split(ayirici);
+		var deger = parcalar[no - 1];
+		return (deger === undefined) ? null : deger.replace(/^[ \t]+|[ \t]+$/g, '');
+	}
+
+	// Sort indexes so lines without the requested column can be kept at the
+	// end, and equal cells keep their original order (Array.sort is stable).
+	var sira = satirlar.map(function (s, i) { return i; });
+	sira.sort(function (i, j) {
+		var a = hucre(satirlar[i]);
+		var b = hucre(satirlar[j]);
+		if (a === null && b === null) { return 0; }
+		if (a === null) { return 1; }
+		if (b === null) { return -1; }
+		var fark = dogalSirala(a, b);
+		return azalan ? -fark : fark;
+	});
+
+	// Close the dialog first: while it is open it re-claims focus, which would
+	// force setMetin() into its non-undoable fallback path.
+	$('#kolonModal').modal('hide');
+	setMetin(sira.map(function (i) { return satirlar[i]; }).join('\n'));
+});
 
 function uzunlukSirala(a,b)
 {
-	x = a.toString().length;
-	y = b.toString().length;
+	var x = a.length;
+	var y = b.length;
 	if(x < y) return -1;
 	if(x > y) return 1;
 	return 0;
@@ -327,16 +457,33 @@ Array.prototype.rastgele = function()
 
 /* diger */
 $("#btn_urlEncode").click(function(){
-	_('girilenMetin').value = encodeURIComponent(_('girilenMetin').value).replace(/'/g,"%27").replace(/"/g,"%22");	
+	setMetin(encodeURIComponent(_('girilenMetin').value).replace(/'/g,"%27").replace(/"/g,"%22"));
 });
 
 $("#btn_urlDecode").click(function(){
-	_('girilenMetin').value = decodeURIComponent(_('girilenMetin').value.replace(/\+/g,  " "));
+	var kodlanmis = _('girilenMetin').value.replace(/\+/g,  " ");
+	var coz;
+	try { coz = decodeURIComponent(kodlanmis); }
+	catch (e) { alert('Metin URL kodu olarak çözülemedi!'); return false; }
+	setMetin(coz);
 });
 
 
+var deasciifier = null; // reused: building the pattern tables is expensive
+
 $("#btn_turkceHarfliYap").click(function(){
-	DeasciifyHandler.deasciify(_('girilenMetin'),true);
+	var el = _('girilenMetin');
+	if (!deasciifier) { deasciifier = new Deasciifier(); }
+
+	var metin = el.value;
+	var yeni;
+	// Convert the selection only when the user made one, otherwise the whole text.
+	if (typeof el.selectionStart == 'number' && el.selectionStart != el.selectionEnd) {
+		yeni = deasciifier.deasciifyRange(metin, el.selectionStart, Math.min(el.selectionEnd, metin.length - 1));
+	} else {
+		yeni = deasciifier.deasciify(metin);
+	}
+	setMetin(yeni);
 });
 
 
@@ -345,24 +492,22 @@ var rep = ['A','a','A','a','A','a','A','a','A','a','A','a','A','a','A','a','A','
 
 $("#btn_ingilizHarfliYap").click(function(){
 	var seclen = sec.length;
-	var repwith = -1;
 	var text = _('girilenMetin').value.replace(/\r/g,'').split('\n');
 	var textout = new Array();
 	var linecnt = text.length;
-	var toremout = '';
-	var chcoat = '';
-	for(var x=0;x<linecnt;x++){
-	torem = text[x].split('');
-	toremout = new Array();
-	toremlen = torem.length;
-	for(var y=0;y<toremlen;y++){
-	    chcoat = torem[y].charCodeAt(0);
-    	if(chcoat > 124) {for(var z=0;z<seclen;z++){if(chcoat == sec[z]) {repwith = rep[z]; z = seclen;}}}
-	    if(repwith != -1) {toremout[y] = repwith; repwith = -1;} else toremout[y] = torem[y];
-    }
-	textout[x] = toremout.join('');}
-	textout = textout.join('\n');
-	_('girilenMetin').value = textout;
+	var torem, toremout, toremlen, chcoat, repwith, x, y, z;
+	for(x=0;x<linecnt;x++){
+		torem = text[x].split('');
+		toremout = new Array();
+		toremlen = torem.length;
+		for(y=0;y<toremlen;y++){
+			repwith = -1;
+			chcoat = torem[y].charCodeAt(0);
+			if(chcoat > 124) {for(z=0;z<seclen;z++){if(chcoat == sec[z]) {repwith = rep[z]; z = seclen;}}}
+			if(repwith != -1) {toremout[y] = repwith;} else {toremout[y] = torem[y];}
+		}
+		textout[x] = toremout.join('');}
+	setMetin(textout.join('\n'));
 
 });
 
