@@ -1,0 +1,195 @@
+/* ==========================================================================
+   base.css - tasarım belirteçleri, reset, tipografi
+   "Resmî evrak" konsepti: uygulamanın tamamı tek bir kâğıt belge.
+   Renklerin tek kaynağı burasıdır; başka hiçbir dosyada renk yazılmaz.
+
+   Tema modeli (light-dark + color-scheme):
+     - Her renk değişkeni iki değeri yan yana taşır: light-dark(gündüz, gece).
+     - Hangi değerin kullanılacağını `color-scheme` seçer; onu ya kullanıcının
+       seçimi ([data-theme="night"]) ya da -JS hiç yokken bile- sistem tercihi çevirir.
+     - light-dark() desteklenmiyorsa @supports bloğu devreye girmez ve gündüz
+       değerleri tek başına geçerli olur; uygulama yine doğru görünür.
+   ========================================================================== */
+
+:root {
+    /* Yerel denetimler (tarih seçici, onay kutusu, kaydırma çubuğu) temaya uysun. */
+    color-scheme: light;
+
+    /* Gündüz değerleri; light-dark() olmayan tarayıcıların yedeği de budur. */
+    --desk: #7f8a97;
+    --desk-2: #6f7986;
+    --paper: #fffefb;
+    --paper-edge: #f4f2ec;
+
+    --ink: #1a1d21;
+    --ink-2: #4b5563;
+    /* Koyu gri-mavi: hafta sonu tonlu hücrede (#f4f1e8) de AA sınırını (4.5:1) geçer. */
+    --muted: #5f6773;
+    --faint: #8d949c;
+
+    --navy: #1b3a6b;
+    --navy-strong: #16305a;
+    --navy-soft: #eef1f6;
+    --on-accent: #ffffff;
+    --seal: #a42b2b;
+    --seal-soft: #f7eaea;
+    --ok: #0a6b3d;
+    --ok-soft: #eaf5ee;
+    --warn: #8a4500;
+    --warn-soft: #fdf3e2;
+
+    --rule: #c9cdd4;
+    --rule-strong: #1a1d21;
+    --tint: #f7f9fc;
+    --stripe: #fafaf6;
+    --weekend: #f4f1e8;
+    --weekend-2: #efe9dc;
+    --hatch-a: #f7ddd0;
+    --hatch-b: #fffefb;
+    --crest-a: #ffffff;
+    --crest-b: #eef1f6;
+
+    /* Yumuşak gölgeler (tema anahtarının oyuğu ve düğmesi için). */
+    --shadow-inset: rgba(0, 0, 0, .18);
+    --shadow-knob: rgba(0, 0, 0, .30);
+    --shadow-lift: rgba(255, 255, 255, .55);
+}
+
+@supports (color: light-dark(#000000, #ffffff)) {
+    :root {
+        /* Gece: düz siyah değil koyu gri-mavi zemin; uzun okumada daha rahat. */
+        --desk: light-dark(#7f8a97, #1b212a);
+        --desk-2: light-dark(#6f7986, #141a21);
+        --paper: light-dark(#fffefb, #1a1f26);
+        --paper-edge: light-dark(#f4f2ec, #212832);
+
+        --ink: light-dark(#1a1d21, #e9ecf1);
+        --ink-2: light-dark(#4b5563, #b7c0cb);
+        --muted: light-dark(#5f6773, #97a2ae);
+        --faint: light-dark(#8d949c, #6f7b88);
+
+        --navy: light-dark(#1b3a6b, #8ab6ee);
+        --navy-strong: light-dark(#16305a, #a8c9f4);
+        --navy-soft: light-dark(#eef1f6, #22303f);
+        --on-accent: light-dark(#ffffff, #0e131a);
+        --seal: light-dark(#a42b2b, #ef9a97);
+        --seal-soft: light-dark(#f7eaea, #37262a);
+        --ok: light-dark(#0a6b3d, #7ecb9f);
+        --ok-soft: light-dark(#eaf5ee, #1e2e26);
+        --warn: light-dark(#8a4500, #e2ab72);
+        --warn-soft: light-dark(#fdf3e2, #32281c);
+
+        --rule: light-dark(#c9cdd4, #3a434f);
+        --rule-strong: light-dark(#1a1d21, #cfd6de);
+        --tint: light-dark(#f7f9fc, #222a34);
+        --stripe: light-dark(#fafaf6, #1f252d);
+        --weekend: light-dark(#f4f1e8, #262c26);
+        --weekend-2: light-dark(#efe9dc, #2f362f);
+        --hatch-a: light-dark(#f7ddd0, #4a2f33);
+        --hatch-b: light-dark(#fffefb, #1a1f26);
+        --crest-a: light-dark(#ffffff, #2b333d);
+        --crest-b: light-dark(#eef1f6, #171c23);
+
+        /* Gecesi gölge daha koyu, iç parlama yok denecek kadar az. */
+        --shadow-inset: light-dark(rgba(0, 0, 0, .18), rgba(0, 0, 0, .60));
+        --shadow-knob: light-dark(rgba(0, 0, 0, .30), rgba(0, 0, 0, .65));
+        --shadow-lift: light-dark(rgba(255, 255, 255, .55), rgba(255, 255, 255, .06));
+    }
+}
+
+/* Gecenin TEK anahtarı color-scheme'dir; yukarıdaki light-dark() değerleri onunla çevrilir.
+   Yalnız ekranda: döküm (yazdırma/PDF) her zaman gündüz mürekkebiyle basılır. */
+@media screen {
+    /* Kullanıcı henüz seçim yapmadıysa sistem tercihi yeterlidir - JavaScript kapalı olsa bile. */
+    @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="day"]) { color-scheme: dark; }
+    }
+
+    :root[data-theme="night"] { color-scheme: dark; }
+}
+
+:root {
+    /* Ölçüler ve tipografi temadan bağımsızdır. */
+    --gap: 22px;
+    /* Sayfalar (aşamalar) arasındaki masa boşluğu. */
+    --page-gap: 30px;
+    /* Soldaki yol haritası panelinin genişliği. */
+    --rail: 250px;
+    --fs-xs: .74rem;
+    --fs-sm: .84rem;
+    --fs-md: .95rem;
+    --fs-lg: 1.12rem;
+
+    --serif: Georgia, "Times New Roman", "Liberation Serif", serif;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    /* Pencere açılıp kapanırken genişlik değişmesin: yuva hep ayrılır. */
+    scrollbar-gutter: stable;
+}
+
+/* Modal açıkken belge kaydırılamaz (ui.js bu sınıfı koyar). */
+html.is-locked { overflow: hidden; }
+
+body {
+    margin: 0;
+    min-height: 100dvh;
+    padding: 26px 18px 48px;
+    background: linear-gradient(160deg, var(--desk), var(--desk-2));
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.5;
+    /* Tema değişimi yumuşak geçsin; hareket azaltma isteyen listede bu da sıfırlanır. */
+    transition: background-color .25s ease, color .25s ease;
+}
+
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; }
+button:disabled { cursor: not-allowed; }
+
+a { color: var(--navy); }
+a:hover { color: var(--navy-strong); }
+
+:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
+
+[hidden] { display: none !important; }
+
+/* ---------- Tipografi yardımcıları ---------- */
+.t-num { font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.strong { font-weight: 700; }
+
+.eyebrow {
+    font-size: var(--fs-xs);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+/* ---------- Kaydırma çubukları ---------- */
+* { scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border-radius: 6px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
