@@ -14,7 +14,7 @@ tags: [SSL, TLS, Kriptografi, Sıkılaştırma]
 
 ![SSL ve TLS Karşılaştırması](https://farukguler.com/assets/post_images/ss-tls.jpg?w=589 "SSL ve TLS Kriptografik Protokolleri")
 
-## OpenSSL ile TLS Sürüm Testi — Linux
+## 🧪 OpenSSL ile TLS Sürüm Testi — Linux
 
 Bu not; bir Linux makinesinde OpenSSL'in hangi SSL/TLS sürümleriyle iletişim kurabildiğini ve açık portların TLS kullanıp kullanmadığını test etmek içindir. Komutları yalnızca test yetkisine sahip olduğunuz sistemlerde çalıştırın.
 
@@ -226,7 +226,7 @@ rm -f /tmp/k.pem /tmp/c.pem
 
 ---
 
-## TLS Sürüm Testi — Windows
+## 🧪 TLS Sürüm Testi — Windows
 
 > Windows'ta TLS testi için **PowerShell** (yerleşik) ve isteğe bağlı olarak **openssl.exe** (Win64 port) kullanılır.
 
