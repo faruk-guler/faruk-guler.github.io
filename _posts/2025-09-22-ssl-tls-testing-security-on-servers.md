@@ -1,14 +1,12 @@
 ---
 layout: post
-title: "Serverler'de SSL/TLS Testleri ve Güvenliği -Linux"
+title: "📌 Serverler'de SSL/TLS Testleri ve Güvenliği -Linux"
 date: 2025-09-22 23:14
 by: faruk-guler
 comments: true
 categories: [Hacking - Security]
 tags: [SSL, TLS, Kriptografi, Sıkılaştırma]
 ---
-
-## 📌 Serverler'de SSL/TLS Testleri ve Güvenliği -Linux
 
 ![SSL ve TLS Karşılaştırması](https://farukguler.com/assets/post_images/ssl-tls.png?w=589 "SSL ve TLS Kriptografik Protokolleri")
 
