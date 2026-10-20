@@ -4,7 +4,7 @@ title: "SSL ve TLS Nedir? Mimari, Güvenlik Analizi ve Sıkılaştırma Rehberi"
 date: 2024-02-19 22:43
 by: faruk-guler
 comments: true
-categories: [Hacking - Güvenlik]
+categories: [Hacking - Security]
 tags: [SSL, TLS, Kriptografi, Sıkılaştırma]
 ---
 

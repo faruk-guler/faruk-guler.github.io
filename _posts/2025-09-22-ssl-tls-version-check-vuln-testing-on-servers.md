@@ -4,7 +4,7 @@ title: "SSL/TLS Versiyon ve Zafiyet Testleri — Linux & Windows"
 date: 2025-09-22 23:11
 by: faruk-guler
 comments: true
-categories: [Hacking - Güvenlik]
+categories: [Hacking - Security]
 tags: [SSL, TLS, Kriptografi, Sıkılaştırma]
 ---
 
