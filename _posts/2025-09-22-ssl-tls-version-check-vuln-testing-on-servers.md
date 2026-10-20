@@ -109,10 +109,10 @@ chmod +x testssl.sh
 
 ---
 
-### `./testssl.sh -p 10.5.12.130:443` — Protokol Testi
+### Protokol Testi
 
 ```bash
-./testssl.sh -p 10.5.12.130:443
+./testssl.sh -p localhost:4433
 ```
 
 **Ne yapar?**
@@ -143,10 +143,11 @@ chmod +x testssl.sh
 
 ---
 
-### `./testssl.sh -E 10.5.12.130:443` — Şifre Takımı (Cipher Suite) Analizi
+### Şifre Takımı (Cipher Suite) Analizi
 
 ```bash
-./testssl.sh -E 10.5.12.130:443
+./testssl.sh -e localhost:4433
+./testssl.sh -e 10.5.12.130:443
 ```
 
 **Ne yapar?**
