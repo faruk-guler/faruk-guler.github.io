@@ -10,6 +10,8 @@ tags: [SSL, TLS, Kriptografi, Sıkılaştırma]
 
 ## 📌 Serverler'de SSL/TLS Testleri ve Güvenliği -Linux
 
+![SSL ve TLS Karşılaştırması](https://farukguler.com/assets/post_images/ssl-tls.png?w=589 "SSL ve TLS Kriptografik Protokolleri")
+
 Günümüz ağ ve sunucu güvenliğinde verinin iletim hattında (in-transit) şifrelenmesi en temel gereksinimlerden biridir. Ancak yalnızca "şifreleme kullanıyor olmak" tek başına yeterli değildir; arka planda hangi **protokol sürümünün** (SSLv2, SSLv3, TLS 1.0, 1.1, 1.2, 1.3) ve hangi **şifre takımlarının (cipher suites)** devrede olduğu kritik bir güvenlik parametresidir.
 
 Eski protokoller (SSLv3, TLS 1.0 ve TLS 1.1) POODLE, BEAST ve SWEET32 gibi köklü kriptografik zafiyetlere davetiye çıkarırken; modern güvenlik standartları (PCI-DSS, NIST, ISO 27001) sistemlerde yalnızca **TLS 1.2 ve TLS 1.3** kullanımına izin vermektedir.
@@ -20,8 +22,6 @@ Bu rehberde;
 * **testssl.sh ile Kapsamlı Analiz:** Hem yerel sistemlerin hem de uzaktaki sunucuların (Linux veya Windows servisleri; IIS, RDP, LDAPS vb.) TLS yapılandırmalarını ve güvenlik açıklarını derinlemesine denetlemeyi adım adım inceleyeceğiz.
 
 ---
-
-![SSL ve TLS Karşılaştırması](https://farukguler.com/assets/post_images/ssl-tls.png?w=589 "SSL ve TLS Kriptografik Protokolleri")
 
 ## 🧪 1. Aşama: Yerel TLS Sürüm Testi (OpenSSL)
 
