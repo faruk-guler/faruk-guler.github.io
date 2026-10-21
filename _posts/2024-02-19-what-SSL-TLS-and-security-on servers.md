@@ -537,4 +537,4 @@ Sunucular yeniden başlatıldıktan sonra Qualys SSL Labs üzerinde A+ skoru al�
 3. **Şifreleyiciler:** 3DES, RC4 ve MD5 kesinlikle elenmiş olmalı; İleri Gizlilik (ECDHE) desteklenmelidir.
 4. **HSTS:** `max-age` değeri en az 6 ay (önerilen: 1 yıl = `31536000`) olan `Strict-Transport-Security` başlığı dönmelidir (HSTS olmadan alınabilecek en yüksek not **A** ile sınırlıdır).
 
-### Written by theguler with love in Turkey 💖
+#### Written by faruk-guler with love in Turkey 💖
