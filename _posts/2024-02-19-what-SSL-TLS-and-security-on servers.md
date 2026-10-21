@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SSL/TLS Nedir ve Aunucularda Güvenlik - What is SSL/TLS and Security on Servers"
+title: "SSL/TLS Nedir ve Sunucularda Güvenlik - What is SSL/TLS and Security on Servers"
 date: 2024-02-19 20:23
 by: faruk-guler
 comments: true
