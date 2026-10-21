@@ -536,3 +536,5 @@ Sunucular yeniden başlatıldıktan sonra Qualys SSL Labs üzerinde A+ skoru al�
 2. **Protokoller:** SSL 2.0, 3.0, TLS 1.0 ve 1.1 tamamen kapalı; TLS 1.2 ve TLS 1.3 açık olmalıdır.
 3. **Şifreleyiciler:** 3DES, RC4 ve MD5 kesinlikle elenmiş olmalı; İleri Gizlilik (ECDHE) desteklenmelidir.
 4. **HSTS:** `max-age` değeri en az 6 ay (önerilen: 1 yıl = `31536000`) olan `Strict-Transport-Security` başlığı dönmelidir (HSTS olmadan alınabilecek en yüksek not **A** ile sınırlıdır).
+
+### Written by theguler with love in Turkey 💖
