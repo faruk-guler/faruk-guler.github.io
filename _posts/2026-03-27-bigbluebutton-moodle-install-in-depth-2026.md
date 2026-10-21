@@ -21,13 +21,13 @@ Bu depo, **Moodle** (LMS) ve **BigBlueButton** (Video Konferans) platformların�
 
 Üniversite bilgi işlem daire başkanlıkları ve kurumsal eğitim departmanları için sınav haftaları, binlerce eşzamanlı kullanıcı ve "1007 WebRTC" hataları bir kabusa dönüşebilir. 2026 standartlarında, bu karmaşayı yönetmek artık bir seçenek değil, zorunluluktur.
 
-Bu ihtiyaca yönelik geliştirdiğim **[moodle-bbb-stack](https://github.com/faruk-guler/LMS-Stack)** reposu, sadece bir kurulum betiği değil; kurumsal seviyede bir **BT Altyapı ve Mimari Rehberi**'dir.
+Bu ihtiyaca yönelik geliştirdiğim **[LMS-Stack](https://github.com/faruk-guler/LMS-Stack)** reposu, sadece bir kurulum betiği değil; kurumsal seviyede bir **BT Altyapı ve Mimari Rehberi**'dir.
 
 ---
 
 ## 🎓 BigBlueButton & Moodle — Kurumsal BT Altyapı ve Mimari
 
-Piyasada çok sayıda genel geçer doküman olsa da, **moodle-bbb-stack** doğrudan akademik ve kurumsal ihtiyaçların yarattığı darboğazlara (bottleneck) çözüm odaklıdır.
+Piyasada çok sayıda genel geçer doküman olsa da, **LMS-Stack** doğrudan akademik ve kurumsal ihtiyaçların yarattığı darboğazlara (bottleneck) çözüm odaklıdır.
 
 ### 🎯 BT Yöneticileri İçin Öne Çıkan Avantajlar:
 
