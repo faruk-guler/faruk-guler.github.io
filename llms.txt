@@ -20,5 +20,4 @@
 
 
 ## İçerik Erişimi
-- [Tam Arşiv (LLM-Full)](https://farukguler.com/llms-full.txt)
 - [RSS Beslemesi](https://farukguler.com/feed.xml)
