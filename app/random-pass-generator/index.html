@@ -1,274 +1,513 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Password Generator</title>
-    <style>
-        :root {
-            --primary: #4CAF50;
-            --background: #1e1e1e;
-            --container: #2d2d2d;
-            --text: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced Random Password Generator</title>
+<meta name="description" content="Şifreler tarayıcıda, yerel olarak üretilir. Sunucu yok, izleme yok, dış kaynak yok.">
+<style>
+    :root {
+        color-scheme: dark;
+        --bg: #191c20;
+        --panel: #22262b;
+        --kenar: #333940;
+        --yazi: #e8eaed;
+        --soluk: #9aa4ad;
+        --vurgu: #3fb07a;
+        --vurgu-koyu: #2c8f61;
+        --kirmizi: #d9534f;
+        --sari: #e0a63c;
+    }
 
-        body {
-            font-family: 'Segoe UI', system-ui;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--background);
-            color: var(--text);
-        }
+    * { box-sizing: border-box; }
 
-        .container {
-            width: min(90%, 500px);
-            padding: 2rem;
-            background: var(--container);
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        color: var(--yazi);
+        font: 15px/1.5 "Segoe UI", system-ui, sans-serif;
+    }
 
-        h2 {
-            margin: 0 0 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary);
-        }
+    main {
+        width: min(92%, 480px);
+        padding: 1.5rem;
+        background: var(--panel);
+        border: 1px solid var(--kenar);
+        border-radius: 10px;
+    }
 
-        .password-display {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
+    h1 {
+        margin: 0 0 1.25rem;
+        font-size: 1.15rem;
+        font-weight: 600;
+        letter-spacing: .01em;
+    }
 
-        #password {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255,255,255,0.1);
-            border: 2px solid #3a3a3a;
-            border-radius: 8px;
-            color: var(--primary);
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-        }
+    #sifre {
+        width: 100%;
+        padding: .7rem .8rem;
+        background: #131619;
+        border: 1px solid var(--kenar);
+        border-radius: 6px;
+        color: var(--vurgu);
+        font: 15px/1.4 Consolas, "Courier New", monospace;
+        letter-spacing: .04em;
+        margin-bottom: .5rem;
+    }
 
-        .controls {
-            display: grid;
-            gap: 1rem;
-        }
+    #sifre:focus-visible,
+    button:focus-visible,
+    input[type=checkbox]:focus-visible,
+    input[type=number]:focus-visible {
+        outline: 2px solid var(--vurgu);
+        outline-offset: 2px;
+    }
 
-        .options {
-            display: grid;
-            gap: 0.75rem;
-            margin: 1rem 0;
-        }
+    .guc {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        margin-bottom: 1.25rem;
+        color: var(--soluk);
+        font-size: .85rem;
+    }
 
-        .option-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .cubuk {
+        flex: 1;
+        height: 4px;
+        background: #131619;
+        border-radius: 2px;
+        overflow: hidden;
+    }
 
-        input[type="range"] {
-            width: 100%;
-            accent-color: var(--primary);
-            margin: 1rem 0;
-        }
+    #dolum {
+        height: 100%;
+        width: 0;
+        background: var(--kirmizi);
+        transition: width .25s ease, background-color .25s ease;
+    }
 
-        .button-group {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
+    fieldset {
+        margin: 0 0 1.25rem;
+        padding: 0;
+        border: none;
+    }
 
-        button {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
-        }
+    legend {
+        padding: 0;
+        margin-bottom: .5rem;
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--soluk);
+        text-transform: uppercase;
+        letter-spacing: .06em;
+    }
 
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
+    .secenekler {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .4rem .75rem;
+    }
 
-        .strength-indicator {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+    @media (max-width: 420px) {
+        .secenekler { grid-template-columns: 1fr; }
+    }
 
-        .strength-bar {
-            flex: 1;
-            height: 8px;
-            background: #333;
-            border-radius: 4px;
-            overflow: hidden;
-        }
+    .secenekler label {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        padding: .45rem .6rem;
+        background: #1b1e22;
+        border: 1px solid var(--kenar);
+        border-radius: 6px;
+        cursor: pointer;
+        user-select: none;
+    }
 
-        .strength-fill {
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease, background 0.3s;
-        }
+    .secenekler label:hover { border-color: #4a525a; }
 
-        .copy-feedback {
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-    </style>
+    .secenekler input { accent-color: var(--vurgu); margin: 0; }
+
+    .uzunluk {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .uzunluk label { font-size: .9rem; }
+
+    #uzunluk {
+        flex: 2;
+        accent-color: var(--vurgu);
+        min-width: 0;
+    }
+
+    #uzunlukDeger {
+        width: 4.5rem;
+        padding: .25rem .4rem;
+        background: #131619;
+        border: 1px solid var(--kenar);
+        border-radius: 4px;
+        color: var(--yazi);
+        font: inherit;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .uyari {
+        margin: -.5rem 0 1rem;
+        color: var(--kirmizi);
+        font-size: .85rem;
+    }
+
+    .uyari[hidden] { display: none; }
+
+    .dugmeler { display: flex; gap: .5rem; }
+
+    button {
+        flex: 1;
+        padding: .65rem 1rem;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        background: var(--vurgu);
+        color: #10190f;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    button:hover { background: var(--vurgu-koyu); }
+
+    button:disabled { opacity: .45; cursor: default; }
+
+    button:disabled:hover { background: var(--vurgu); }
+
+    #kopyala {
+        background: transparent;
+        color: var(--yazi);
+        border-color: var(--kenar);
+    }
+
+    #kopyala:hover { border-color: #4a525a; background: #1b1e22; }
+
+    #kopyala:disabled:hover { background: transparent; }
+
+    footer {
+        margin-top: 1.25rem;
+        color: var(--soluk);
+        font-size: .8rem;
+        text-align: center;
+    }
+
+    footer kbd {
+        padding: .1em .35em;
+        background: #131619;
+        border: 1px solid var(--kenar);
+        border-radius: 3px;
+        font: .75rem Consolas, monospace;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>🔐 Advanced Password Generator</h2>
-        
-        <div class="password-display">
-            <input type="text" id="password" readonly>
-            <div class="copy-feedback" id="copyFeedback">Copied!</div>
-        </div>
+<main>
+    <h1>Advanced Random Password Generator</h1>
 
-        <div class="controls">
-            <div class="options">
-                <label class="option-item">
-                    <input type="checkbox" id="uppercase" checked>
-                    Büyük Harfler (A-Z)
-                </label>
-                <label class="option-item">
-                    <input type="checkbox" id="lowercase" checked>
-                    Küçük Harfler (a-z)
-                </label>
-                <label class="option-item">
-                    <input type="checkbox" id="numbers" checked>
-                    Sayılar (0-9)
-                </label>
-                <label class="option-item">
-                    <input type="checkbox" id="symbols">
-                    Semboller (!@#$%^&*)
-                </label>
-            </div>
+    <input type="text" id="sifre" readonly aria-label="Üretilen şifre"
+           spellcheck="false" autocapitalize="off" autocomplete="off">
 
-            <div class="length-control">
-                <label>Şifre Uzunluğu: <span id="lengthValue">12</span></label>
-                <input type="range" id="length" min="3" max="100" value="12">
-            </div>
-
-            <div class="strength-indicator">
-                <div class="strength-bar">
-                    <div class="strength-fill" id="strengthFill"></div>
-                </div>
-                <span id="strengthText">Weak</span>
-            </div>
-
-            <div class="button-group">
-                <button onclick="generatePassword()">Generate</button>
-                <button onclick="copyPassword()">Kopyala</button>
-            </div>
-        </div>
+    <div class="guc">
+        <div class="cubuk"><div id="dolum"></div></div>
+        <span id="gucMetni" aria-live="polite">—</span>
     </div>
 
-    <script>
-        const characters = {
-            uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-            lowercase: 'abcdefghijklmnopqrstuvwxyz',
-            numbers: '0123456789',
-            symbols: '!@#$%^&*()_+-=[]{}|;:,.<>?'
+    <p class="uyari" id="uyari" hidden>En az bir karakter türü seçilmeli.</p>
+
+    <fieldset>
+        <legend>Karakter türleri</legend>
+        <div class="secenekler">
+            <label><input type="checkbox" id="buyuk" checked> Büyük harf (A–Z)</label>
+            <label><input type="checkbox" id="kucuk" checked> Küçük harf (a–z)</label>
+            <label><input type="checkbox" id="rakam" checked> Rakam (0–9)</label>
+            <label><input type="checkbox" id="sembol" checked> Sembol (!@#$%…)</label>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>İnce ayar</legend>
+        <div class="secenekler">
+            <label><input type="checkbox" id="benzer"> Karışan harfleri eleme (Il0O1)</label>
+            <label><input type="checkbox" id="tekrar"> Aynı karakter tekrar etmesin</label>
+        </div>
+    </fieldset>
+
+    <div class="uzunluk">
+        <label for="uzunluk">Uzunluk</label>
+        <input type="range" id="uzunluk" min="3" max="128" value="16">
+        <input type="number" id="uzunlukDeger" min="3" max="128" step="1" value="16"
+               aria-label="Şifre uzunluğu (3-128)">
+    </div>
+
+    <div class="dugmeler">
+        <button type="button" id="uret">Üret</button>
+        <button type="button" id="kopyala" aria-live="polite">Kopyala</button>
+    </div>
+
+    <footer>
+        Şifreler tarayıcınızda üretilir, hiçbir yere gönderilmez.<br>
+        <kbd>Ctrl</kbd>+<kbd>Y</kbd> yeni şifre &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>C</kbd> kopyala
+    </footer>
+</main>
+
+<script>
+(function () {
+    'use strict';
+
+    var TURLER = [
+        { el: 'buyuk',  dize: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
+        { el: 'kucuk',  dize: 'abcdefghijklmnopqrstuvwxyz' },
+        { el: 'rakam',  dize: '0123456789' },
+        { el: 'sembol', dize: '!@#$%^&*()-_=+[]{}|;:,.<>?' }
+    ];
+    var BENZER = 'Il1O0o|';
+
+    var sifreEl = document.getElementById('sifre');
+    var uzunlukEl = document.getElementById('uzunluk');
+    var uzunlukDeger = document.getElementById('uzunlukDeger');
+    var uyariEl = document.getElementById('uyari');
+    var dolumEl = document.getElementById('dolum');
+    var gucMetni = document.getElementById('gucMetni');
+    var kopyalaDugmesi = document.getElementById('kopyala');
+
+    function kare() {
+        var benzerEleme = document.getElementById('benzer').checked;
+        var dizi = [];
+        TURLER.forEach(function (t) {
+            if (document.getElementById(t.el).checked) {
+                var d = t.dize;
+                if (benzerEleme) {
+                    d = d.split('').filter(function (c) {
+                        return BENZER.indexOf(c) === -1;
+                    }).join('');
+                }
+                if (d.length) dizi.push(d);
+            }
+        });
+        return dizi;
+    }
+
+    // Mod bias'ını önlemek için crypto.randomInt; yoksa geri çevirmeli seçime düşer
+    var rastgeleTamsayi = (typeof crypto !== 'undefined' && crypto.randomInt)
+        ? function (n) { return crypto.randomInt(n); }
+        : function (n) {
+            var max = Math.floor(0x100000000 / n) * n;
+            var dizi = new Uint32Array(1);
+            var v;
+            do { crypto.getRandomValues(dizi); v = dizi[0]; } while (v >= max);
+            return v % n;
         };
 
-        function generatePassword() {
-            const length = parseInt(document.getElementById('length').value);
-            let charset = '';
-            
-            if (document.getElementById('uppercase').checked) {
-                charset += characters.uppercase;
-            }
-            if (document.getElementById('lowercase').checked) {
-                charset += characters.lowercase;
-            }
-            if (document.getElementById('numbers').checked) {
-                charset += characters.numbers;
-            }
-            if (document.getElementById('symbols').checked) {
-                charset += characters.symbols;
-            }
-            
-            if (!charset) {
-                alert('Lütfen en az bir karakter türü seçin!');
-                return;
-            }
+    function rastgele(dize) {
+        return dize[rastgeleTamsayi(dize.length)];
+    }
 
-            const passwordArray = new Uint32Array(length);
-            window.crypto.getRandomValues(passwordArray);
-            
-            let password = '';
-            for (let i = 0; i < length; i++) {
-                password += charset[passwordArray[i] % charset.length];
-            }
+    function sinirla(deger) {
+        var n = parseInt(deger, 10);
+        if (isNaN(n)) n = 16;
+        return Math.min(128, Math.max(3, n));
+    }
 
-            document.getElementById('password').value = password;
-            updateStrengthIndicator(password);
+    function uret() {
+        var dizi = kare();
+
+        if (!dizi.length) {
+            uyariEl.hidden = false;
+            sifreEl.value = '';
+            durumGuncelle();
+            goster(0);
+            return;
+        }
+        uyariEl.hidden = true;
+
+        var uzunluk = sinirla(uzunlukEl.value);
+        var havuz = dizi.join('');
+        var tekrarIstenmiyor = document.getElementById('tekrar').checked;
+        if (tekrarIstenmiyor && uzunluk > havuz.length) {
+            uzunluk = havuz.length; // tekrarsız seçim havuzdan fazlası olamaz
+        }
+        uzunlukDeger.value = uzunluk;
+
+        var karakterler = [];
+
+        if (tekrarIstenmiyor) {
+            // Tür kümeleri birbirinden ayrışıktır; her türden birer seçim çakışmayı kendiliğinden önler
+            var secimler = dizi.slice();
+            if (uzunluk < secimler.length) karistir(secimler);
+            secimler.slice(0, uzunluk).forEach(function (d) { karakterler.push(rastgele(d)); });
+            var yedek = havuz.split('').filter(function (c) {
+                return karakterler.indexOf(c) === -1;
+            });
+            karistir(yedek);
+            while (karakterler.length < uzunluk && yedek.length) {
+                karakterler.push(yedek.pop());
+            }
+        } else {
+            // Serbest seçim; mümkün olduğunca her türden en az bir karakter garanti edilir
+            var parcalar = new Array(uzunluk);
+            var yerler = [];
+            for (var i = 0; i < uzunluk; i++) yerler.push(i);
+            karistir(yerler);
+            // Uzunluk, tür sayısından küçükse hangi türlerin temsil edileceğini seçmek için sırayı karıştır
+            var temsiller = dizi.slice();
+            if (uzunluk < temsiller.length) karistir(temsiller);
+            temsiller.forEach(function (d) {
+                if (yerler.length) parcalar[yerler.pop()] = rastgele(d);
+            });
+            for (var j = 0; j < uzunluk; j++) {
+                if (!parcalar[j]) parcalar[j] = rastgele(havuz);
+            }
+            karakterler = parcalar;
         }
 
-        function updateStrengthIndicator(password) {
-            const entropy = calculateEntropy(password);
-            const strengthFill = document.getElementById('strengthFill');
-            const strengthText = document.getElementById('strengthText');
-            
-            let strength = 'Weak';
-            let color = '#ff4444';
-            
-            if (entropy > 100) {
-                strength = 'Strong';
-                color = '#4CAF50';
-            } else if (entropy > 60) {
-                strength = 'Good';
-                color = '#ffa500';
-            }
+        karistir(karakterler);
+        sifreEl.value = karakterler.join('');
+        durumGuncelle();
 
-            strengthFill.style.width = `${Math.min(entropy, 100)}%`;
-            strengthFill.style.background = color;
-            strengthText.textContent = strength;
-            strengthText.style.color = color;
+        // Güç: entropy = uzunluk * log2(havuz büyüklüğü)
+        var bits = Math.round(karakterler.length * Math.log2(havuz.length));
+        goster(bits);
+    }
+
+    // Fisher-Yates
+    function karistir(dizi) {
+        for (var i = dizi.length - 1; i > 0; i--) {
+            var p = rastgeleTamsayi(i + 1);
+            var t = dizi[i]; dizi[i] = dizi[p]; dizi[p] = t;
         }
+    }
 
-        function calculateEntropy(password) {
-            const charsetSize = new Set(password.split('')).size;
-            const length = password.length;
-            return Math.round(length * Math.log2(charsetSize));
+    function goster(bits) {
+        var oran, renk, etiket;
+        if (!bits) {
+            oran = 0; renk = 'var(--kirmizi)'; etiket = '';
+        } else if (bits < 50) {
+            oran = bits / 128; renk = 'var(--kirmizi)'; etiket = 'Zayıf';
+        } else if (bits < 80) {
+            oran = bits / 128; renk = 'var(--sari)'; etiket = 'Orta';
+        } else if (bits < 112) {
+            oran = bits / 128; renk = 'var(--vurgu)'; etiket = 'İyi';
+        } else {
+            oran = 1; renk = 'var(--vurgu)'; etiket = 'Güçlü';
         }
+        dolumEl.style.width = Math.min(oran, 1) * 100 + '%';
+        dolumEl.style.background = renk;
+        gucMetni.textContent = bits ? etiket + ' · ' + bits + ' bit' : '—';
+        gucMetni.style.color = bits ? renk : '';
+    }
 
-        function copyPassword() {
-            const passwordEl = document.getElementById('password');
-            const feedback = document.getElementById('copyFeedback');
-            
-            navigator.clipboard.writeText(passwordEl.value)
-                .then(() => {
-                    feedback.style.opacity = '1';
-                    setTimeout(() => feedback.style.opacity = '0', 1500);
-                })
-                .catch(err => console.error('Şifre kopyalanamadı:', err));
+    function kopyala() {
+        if (!sifreEl.value) return;
+        var dugme = kopyalaDugmesi;
+        function geriBildirim(mesaj) {
+            dugme.textContent = mesaj;
+            setTimeout(function () { dugme.textContent = 'Kopyala'; }, 1400);
         }
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(sifreEl.value)
+                .then(function () { geriBildirim('Kopyalandı'); })
+                .catch(function () { panoyaKopyala(geriBildirim); });
+        } else {
+            // file:// altında Clipboard API tanımlı değildir; eski yöntem
+            panoyaKopyala(geriBildirim);
+        }
+    }
 
-        document.getElementById('length').addEventListener('input', function() {
-            document.getElementById('lengthValue').textContent = this.value;
+    function panoyaKopyala(geriBildirim) {
+        sifreEl.select();
+        try {
+            document.execCommand('copy') ? geriBildirim('Kopyalandı') : geriBildirim('Kopyalanamadı');
+        } catch (e) {
+            geriBildirim('Kopyalanamadı');
+        }
+        window.getSelection().removeAllRanges();
+    }
+
+    // Kopyala düğmesi yalnızca üretilecek bir şey varsa etkin olsun
+    function durumGuncelle() {
+        kopyalaDugmesi.disabled = sifreEl.value === '';
+    }
+
+    // Ayarlar sayfa yenilense de kalsın
+    var DEPO = 'sifre-uretici/ayar';
+    function kaydet() {
+        var s = {};
+        TURLER.forEach(function (t) { s[t.el] = document.getElementById(t.el).checked; });
+        s.benzer = document.getElementById('benzer').checked;
+        s.tekrar = document.getElementById('tekrar').checked;
+        s.uzunluk = sinirla(uzunlukEl.value);
+        try { localStorage.setItem(DEPO, JSON.stringify(s)); } catch (e) { /* gizli mod */ }
+    }
+    function yukle() {
+        var s;
+        try { s = JSON.parse(localStorage.getItem(DEPO)); } catch (e) { s = null; }
+        if (!s) return;
+        TURLER.forEach(function (t) {
+            if (typeof s[t.el] === 'boolean') document.getElementById(t.el).checked = s[t.el];
         });
+        if (typeof s.benzer === 'boolean') document.getElementById('benzer').checked = s.benzer;
+        if (typeof s.tekrar === 'boolean') document.getElementById('tekrar').checked = s.tekrar;
+        if (typeof s.uzunluk !== 'undefined' && !isNaN(parseInt(s.uzunluk, 10))) {
+            var n = sinirla(s.uzunluk);
+            uzunlukEl.value = n;
+            uzunlukDeger.value = n;
+        }
+    }
 
-        // Sayfa yüklendiğinde otomatik şifre üretimi
-        generatePassword();
-    </script>
+    TURLER.forEach(function (t) {
+        document.getElementById(t.el).addEventListener('change', function () { kaydet(); uret(); });
+    });
+    document.getElementById('benzer').addEventListener('change', function () { kaydet(); uret(); });
+    document.getElementById('tekrar').addEventListener('change', function () { kaydet(); uret(); });
+    uzunlukEl.addEventListener('input', function () {
+        uzunlukDeger.value = uzunlukEl.value;
+    });
+    uzunlukEl.addEventListener('change', function () { kaydet(); uret(); });
+    // Sayı alanı klavyeden hızlı seçim için; geçersiz değer 3-128 arasına çekilir
+    uzunlukDeger.addEventListener('change', function () {
+        var n = sinirla(uzunlukDeger.value);
+        uzunlukDeger.value = n;
+        uzunlukEl.value = n;
+        kaydet();
+        uret();
+    });
+    document.getElementById('uret').addEventListener('click', uret);
+    document.getElementById('kopyala').addEventListener('click', kopyala);
+    sifreEl.addEventListener('focus', function () { sifreEl.select(); });
+
+    // Alanda seçim varsa Ctrl+C kullanıcının seçimini kopyalamalı, şifreyi değil
+    function secimVar() {
+        var odak = document.activeElement;
+        if (odak && typeof odak.selectionStart === 'number') {
+            return odak.selectionStart !== odak.selectionEnd;
+        }
+        return window.getSelection().toString() !== '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+        var key = e.key.toLowerCase();
+        if (key === 'y') { e.preventDefault(); uret(); }
+        else if (key === 'c' && !secimVar()) { e.preventDefault(); kopyala(); }
+    });
+
+    yukle();
+    uzunlukDeger.value = uzunlukEl.value;
+    uret();
+})();
+</script>
 </body>
 </html>
