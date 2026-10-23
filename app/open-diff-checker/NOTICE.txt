@@ -1,0 +1,19 @@
+Open Diff Checker
+Copyright 2026 Faruk Güler
+
+This product bundles third-party material:
+
+1. jsdiff v7.0.0 - BSD 3-Clause License
+   File:    src/diff.min.js
+   Notice:  Copyright (c) 2009-2015, Kevin Decker <kpdecker@gmail.com>
+   Source:  https://github.com/kpdecker/jsdiff
+   The complete license text is preserved in the header of that file.
+
+2. JetBrains Mono - SIL Open Font License, Version 1.1
+   File:    src/fonts/jetbrains-mono-latin.woff2 (latin subset web font)
+   License: src/fonts/OFL.txt
+   Notice:  Copyright 2020 The JetBrains Mono Project Authors
+   Source:  https://github.com/JetBrains/JetBrainsMono
+
+All other files in this repository are licensed under the Apache License 2.0,
+see the LICENSE file.
