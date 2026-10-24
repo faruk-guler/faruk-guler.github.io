@@ -4,7 +4,7 @@ title: İyodin (Potasyum İyodür) Nükleer Kaza Durumunda Neden Kullanılır?
 date: 2022-03-08 10:11
 by: faruk-guler
 comments: true
-categories: [Bilim, iyodin, Uranium]
+categories: [Important***]
 ---
 
 ![İyodin](https://farukguler.com/assets/post_images/iyodin.jpg)

@@ -4,7 +4,7 @@ title: "PowerShell ile Modern Uzaktan Yönetim: Protokoller, Portlar ve Pratik K
 date: 2023-03-24 00:16
 by: faruk-guler
 comments: true
-categories: [PowerShell, Sistem Yönetimi]
+categories: [PowerShell]
 ---
 
 <!-- markdownlint-disable MD033 -->
