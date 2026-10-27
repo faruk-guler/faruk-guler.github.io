@@ -1,256 +1,184 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="connect-src 'none'; img-src data: blob:; font-src 'none'; object-src 'none'; media-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
   <title>QR Code Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      flex-direction: column;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    .container {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      max-width: 360px;
-      width: 100%;
-    }
-    label {
-      display: block;
-      font-size: 0.8em;
-      color: #555;
-      margin-top: 8px;
-      text-align: left;
-    }
-    input[type="text"] {
-      width: calc(100% - 16px);
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-bottom: 5px;
-    }
-    input[type="color"] {
-      width: 60px;
-      height: 32px;
-      vertical-align: middle;
-      cursor: pointer;
-    }
-    input[type="file"] {
-      margin-top: 5px;
-      max-width: 100%;
-    }
-    .color-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 5px 5px 0 0;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    button:disabled {
-      background-color: #99c2ff;
-      cursor: not-allowed;
-    }
-    #qrcode {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      min-height: 20px;
-    }
-    #status {
-      margin-top: 10px;
-      font-size: 0.85em;
-      color: #c0392b;
-      min-height: 18px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="container">
+  <header class="app">
     <h1>QR Code Generator</h1>
+    <button id="themeBtn" class="theme-switch" role="switch" aria-checked="false" title="Light / dark theme" aria-label="Light / dark theme">
+      <svg class="ico sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></g></svg>
+      <svg class="ico moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <span class="knob" aria-hidden="true"></span>
+    </button>
+  </header>
 
-    <label for="text-input">Metin veya URL</label>
-    <input type="text" id="text-input" placeholder="Metin veya URL girin...">
+  <div class="layout">
+    <!-- ===== Settings ===== -->
+    <section class="panel" aria-label="Settings">
+      <fieldset>
+        <legend>Content type</legend>
+        <div class="chips" role="radiogroup" aria-label="Content type">
+          <input type="radio" name="ctype" id="ct-text" value="text" checked><label for="ct-text">Text / URL</label>
+          <input type="radio" name="ctype" id="ct-wifi" value="wifi"><label for="ct-wifi">Wi-Fi</label>
+          <input type="radio" name="ctype" id="ct-email" value="email"><label for="ct-email">Email</label>
+          <input type="radio" name="ctype" id="ct-sms" value="sms"><label for="ct-sms">SMS</label>
+          <input type="radio" name="ctype" id="ct-tel" value="tel"><label for="ct-tel">Phone</label>
+          <input type="radio" name="ctype" id="ct-geo" value="geo"><label for="ct-geo">Location</label>
+          <input type="radio" name="ctype" id="ct-vcard" value="vcard"><label for="ct-vcard">Contact (vCard)</label>
+        </div>
 
-    <div class="color-row">
+        <div class="type-fields" data-type="text">
+          <label for="f-text">Text or URL</label>
+          <textarea id="f-text" maxlength="2000" autocomplete="off" placeholder="Enter text or URL…"></textarea>
+        </div>
+
+        <div class="type-fields hide" data-type="wifi">
+          <label for="f-wifi-ssid">Network name (SSID)</label>
+          <input type="text" id="f-wifi-ssid" autocomplete="off">
+          <label for="f-wifi-pass">Password</label>
+          <input type="text" id="f-wifi-pass" autocomplete="off">
+          <div class="row">
+            <div>
+              <label for="f-wifi-enc">Encryption</label>
+              <select id="f-wifi-enc"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">None</option></select>
+            </div>
+            <div class="inline" style="flex:0 0 auto"><input type="checkbox" id="f-wifi-hidden"><label for="f-wifi-hidden" style="flex:0">Hidden network</label></div>
+          </div>
+        </div>
+
+        <div class="type-fields hide" data-type="email">
+          <label for="f-email-to">Recipient</label>
+          <input type="email" id="f-email-to" autocomplete="off" placeholder="name@example.com">
+          <label for="f-email-subject">Subject</label>
+          <input type="text" id="f-email-subject" autocomplete="off">
+          <label for="f-email-body">Message</label>
+          <textarea id="f-email-body"></textarea>
+        </div>
+
+        <div class="type-fields hide" data-type="sms">
+          <label for="f-sms-num">Number</label>
+          <input type="tel" id="f-sms-num" autocomplete="off" placeholder="+1…">
+          <label for="f-sms-msg">Message</label>
+          <textarea id="f-sms-msg"></textarea>
+        </div>
+
+        <div class="type-fields hide" data-type="tel">
+          <label for="f-tel-num">Phone number</label>
+          <input type="tel" id="f-tel-num" autocomplete="off" placeholder="+1…">
+        </div>
+
+        <div class="type-fields hide" data-type="geo">
+          <div class="row">
+            <div><label for="f-geo-lat">Latitude</label><input type="number" step="any" id="f-geo-lat"></div>
+            <div><label for="f-geo-lng">Longitude</label><input type="number" step="any" id="f-geo-lng"></div>
+          </div>
+        </div>
+
+        <div class="type-fields hide" data-type="vcard">
+          <div class="row">
+            <div><label for="f-vc-name">Full name</label><input type="text" id="f-vc-name" autocomplete="off"></div>
+            <div><label for="f-vc-org">Organization</label><input type="text" id="f-vc-org" autocomplete="off"></div>
+          </div>
+          <div class="row">
+            <div><label for="f-vc-tel">Phone</label><input type="tel" id="f-vc-tel" autocomplete="off"></div>
+            <div><label for="f-vc-email">Email</label><input type="email" id="f-vc-email" autocomplete="off"></div>
+          </div>
+          <label for="f-vc-url">Website</label>
+          <input type="text" id="f-vc-url" autocomplete="off" placeholder="https://…">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Appearance</legend>
+        <div class="row">
+          <div>
+            <label for="sel-style">Module style</label>
+            <select id="sel-style">
+              <option value="square">Square</option>
+              <option value="rounded">Rounded</option>
+              <option value="dots">Dots</option>
+            </select>
+          </div>
+          <div>
+            <label for="sel-ec">Error correction</label>
+            <select id="sel-ec">
+              <option value="L">L (%7)</option>
+              <option value="M">M (%15)</option>
+              <option value="Q">Q (%25)</option>
+              <option value="H" selected>H (%30)</option>
+            </select>
+          </div>
+        </div>
+        <div class="inline">
+          <label for="rng-size">Size: <span class="value" id="val-size">320</span> px</label>
+          <input type="range" id="rng-size" min="128" max="1024" step="8" value="320">
+        </div>
+        <div class="inline">
+          <label for="rng-margin">Margin: <span class="value" id="val-margin">2</span> modules</label>
+          <input type="range" id="rng-margin" min="0" max="8" step="1" value="2">
+        </div>
+        <div class="row" style="margin-top:8px">
+          <div>
+            <label for="col-dark">Code color</label>
+            <input type="color" id="col-dark" value="#000000">
+          </div>
+          <div>
+            <label for="col-light">Background</label>
+            <input type="color" id="col-light" value="#ffffff">
+          </div>
+        </div>
+        <div class="inline">
+          <input type="checkbox" id="chk-grad">
+          <label for="chk-grad" style="flex:1">Use gradient</label>
+          <input type="color" id="col-dark2" value="#007bff" aria-label="Gradient second color">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Logo and label</legend>
+        <label for="logo-input">Logo (optional, max 2&nbsp;MB)</label>
+        <input type="file" id="logo-input" accept="image/*">
+        <div class="inline">
+          <label for="rng-logo">Logo size: <span class="value" id="val-logo">20</span>%</label>
+          <input type="range" id="rng-logo" min="10" max="30" step="1" value="20">
+        </div>
+        <div class="inline">
+          <input type="checkbox" id="chk-logobox" checked>
+          <label for="chk-logobox" style="flex:1">White box behind logo</label>
+        </div>
+        <div class="hint">When adding a logo, set Error correction to H (30%).</div>
+        <label for="f-label">Caption text (optional)</label>
+        <input type="text" id="f-label" maxlength="60" autocomplete="off" placeholder="Text shown under the QR">
+      </fieldset>
+    </section>
+
+    <!-- ===== Preview ===== -->
+    <section class="panel preview" aria-label="Preview">
+      <div><canvas id="previewCanvas" width="320" height="320"></canvas></div>
+      <div id="status" role="alert" aria-live="polite"></div>
+      <label for="f-name">File name</label>
+      <input type="text" id="f-name" value="qr-code" autocomplete="off">
       <div>
-        <label for="color-dark">Kod rengi</label>
-        <input type="color" id="color-dark" value="#000000">
+        <button id="btnPng">Download PNG</button>
+        <button id="btnJpg">Download JPEG</button>
+        <button id="btnSvg">Download SVG</button>
+        <button id="btnCopy" class="ghost">Copy to clipboard</button>
       </div>
-      <div>
-        <label for="color-light">Arka plan</label>
-        <input type="color" id="color-light" value="#ffffff">
-      </div>
-    </div>
-
-    <label for="logo-input">Logo (opsiyonel)</label>
-    <input type="file" id="logo-input" accept="image/*">
-
-    <div>
-      <button id="genBtn" onclick="generateQRCode()">QR Kodu Oluştur</button>
-      <button id="downloadBtn" onclick="downloadQRCode()" disabled>QR Kodunu İndir</button>
-    </div>
-
-    <div id="status"></div>
-    <div id="qrcode"></div>
+      <div class="hint">Changes are previewed automatically. PNG/JPEG are generated at high resolution (<span class="value" id="val-size2">320</span> px).</div>
+    </section>
   </div>
 
-  <script src="qrcode.min.js"
-          onerror="document.getElementById('status').textContent='QR kütüphanesi yüklenemedi. İnternet bağlantınızı kontrol edip sayfayı yenileyin.'"></script>
-  <script>
-    let logoDrawInProgress = false;
-
-    function setStatus(msg, isError = true) {
-      const status = document.getElementById('status');
-      status.textContent = msg;
-      status.style.color = isError ? '#c0392b' : '#2e7d32';
-    }
-
-    function generateQRCode() {
-      const genBtn = document.getElementById('genBtn');
-      const downloadBtn = document.getElementById('downloadBtn');
-      const status = document.getElementById('status');
-      status.textContent = '';
-      downloadBtn.disabled = true;
-
-      if (typeof QRCode === 'undefined') {
-        setStatus('QR kütüphanesi henüz yüklenmedi. Lütfen birkaç saniye sonra tekrar deneyin.');
-        return;
-      }
-
-      const input = document.getElementById('text-input').value.trim();
-      const qrcodeDiv = document.getElementById('qrcode');
-      const colorDark = document.getElementById('color-dark').value;
-      const colorLight = document.getElementById('color-light').value;
-      const logoInput = document.getElementById('logo-input');
-
-      if (!input) {
-        setStatus('Lütfen metin veya URL girin!');
-        return;
-      }
-
-      if (colorDark.toLowerCase() === colorLight.toLowerCase()) {
-        setStatus('Kod rengi ve arka plan rengi aynı olamaz, QR okunamaz hale gelir!');
-        return;
-      }
-
-      while (qrcodeDiv.firstChild) qrcodeDiv.removeChild(qrcodeDiv.firstChild);
-
-      try {
-        new QRCode(qrcodeDiv, {
-          text: input,
-          width: 256,
-          height: 256,
-          colorDark: colorDark,
-          colorLight: colorLight,
-          correctLevel: QRCode.CorrectLevel.H // logo ile üst üste binmeye dayanıklı en yüksek hata düzeltme seviyesi
-        });
-      } catch (e) {
-        setStatus('QR kod oluşturulamadı: ' + e.message);
-        return;
-      }
-
-      if (logoInput.files && logoInput.files[0]) {
-        const file = logoInput.files[0];
-
-        if (!file.type.startsWith('image/')) {
-          setStatus('Logo için lütfen bir resim dosyası seçin.');
-          downloadBtn.disabled = false;
-          return;
-        }
-
-        logoDrawInProgress = true;
-        genBtn.disabled = true;
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const logo = new Image();
-          logo.onload = function () {
-            // qrcodejs bazen <img> bazen <canvas> üretir, canvas'ı bulmaya çalış
-            const canvas = qrcodeDiv.querySelector('canvas');
-            if (!canvas) {
-              setStatus('Logo eklenemedi (canvas bulunamadı), QR kod logosuz oluşturuldu.', false);
-              logoDrawInProgress = false;
-              genBtn.disabled = false;
-              downloadBtn.disabled = false;
-              return;
-            }
-            const ctx = canvas.getContext('2d');
-            const logoSize = canvas.width * 0.2;
-            const x = (canvas.width - logoSize) / 2;
-            const y = (canvas.height - logoSize) / 2;
-
-            // logonun arkasına küçük beyaz bir kutu koy, okunabilirliği artırır
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(x - 4, y - 4, logoSize + 8, logoSize + 8);
-            ctx.drawImage(logo, x, y, logoSize, logoSize);
-
-            logoDrawInProgress = false;
-            genBtn.disabled = false;
-            downloadBtn.disabled = false;
-            setStatus('QR kod logolu olarak oluşturuldu.', false);
-          };
-          logo.onerror = function () {
-            setStatus('Logo görseli yüklenemedi, QR kod logosuz oluşturuldu.', false);
-            logoDrawInProgress = false;
-            genBtn.disabled = false;
-            downloadBtn.disabled = false;
-          };
-          logo.src = e.target.result;
-        };
-        reader.onerror = function () {
-          setStatus('Logo dosyası okunamadı, QR kod logosuz oluşturuldu.', false);
-          logoDrawInProgress = false;
-          genBtn.disabled = false;
-          downloadBtn.disabled = false;
-        };
-        reader.readAsDataURL(file);
-      } else {
-        downloadBtn.disabled = false;
-        setStatus('QR kod oluşturuldu.', false);
-      }
-    }
-
-    function downloadQRCode() {
-      if (logoDrawInProgress) {
-        setStatus('Logo işleniyor, lütfen bir saniye bekleyin...');
-        return;
-      }
-      const canvas = document.querySelector('#qrcode canvas');
-      if (canvas) {
-        const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = 'qrcode.png';
-        link.click();
-      } else {
-        setStatus('Önce bir QR kodu oluşturun!');
-      }
-    }
-
-    document.getElementById('text-input').addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') generateQRCode();
-    });
-  </script>
+  <!-- Vendor library (offline) + modular app scripts, in dependency order -->
+  <script src="qrcode.min.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/payload.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/ui.js"></script>
 </body>
 </html>
