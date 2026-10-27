@@ -5,21 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="connect-src 'none'; img-src data: blob:; font-src 'none'; object-src 'none'; media-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
   <title>QR Code Generator</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
   <header class="app">
     <h1>QR Code Generator</h1>
-    <button id="themeBtn" class="theme-switch" role="switch" aria-checked="false" title="Light / dark theme" aria-label="Light / dark theme">
-      <svg class="ico sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></g></svg>
-      <svg class="ico moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-      <span class="knob" aria-hidden="true"></span>
-    </button>
+    <div class="header-actions">
+      <button id="aboutBtn" class="ghost" title="About this app" aria-label="About this app">About</button>
+      <button id="themeBtn" class="theme-switch" role="switch" aria-checked="false" title="Light / dark theme" aria-label="Light / dark theme">
+        <svg class="ico sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"/><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"/><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"/></g></svg>
+        <svg class="ico moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <span class="knob" aria-hidden="true"></span>
+      </button>
+    </div>
   </header>
 
   <div class="layout">
     <!-- ===== Settings ===== -->
-    <section class="panel" aria-label="Settings">
+    <section class="panel settings" aria-label="Settings">
       <fieldset>
         <legend>Content type</legend>
         <div class="chips" role="radiogroup" aria-label="Content type">
@@ -173,12 +176,30 @@
     </section>
   </div>
 
+  <!-- ===== About dialog ===== -->
+  <div id="aboutOverlay" class="overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+      <h2 id="aboutTitle">About</h2>
+      <p class="app-name">QR Code Generator</p>
+      <dl class="about-list">
+        <dt>Author</dt><dd>faruk-guler</dd>
+        <dt>Website</dt><dd><a href="https://www.farukguler.com" target="_blank" rel="noopener noreferrer">www.farukguler.com</a></dd>
+        <dt>GitHub</dt><dd><a href="https://github.com/faruk-guler" target="_blank" rel="noopener noreferrer">github.com/faruk-guler</a></dd>
+        <dt>License</dt><dd>Apache-2.0</dd>
+      </dl>
+      <p class="about-note">Runs fully offline — nothing you enter leaves this device.</p>
+      <p class="about-credit">QR generation: qrcodejs (MIT).</p>
+      <div class="modal-footer"><button id="aboutClose" class="ghost">Close</button></div>
+    </div>
+  </div>
+
   <!-- Vendor library (offline) + modular app scripts, in dependency order -->
   <script src="qrcode.min.js"></script>
-  <script src="js/core.js"></script>
-  <script src="js/payload.js"></script>
-  <script src="js/render.js"></script>
-  <script src="js/export.js"></script>
-  <script src="js/ui.js"></script>
+  <script src="js/core.js?v=3"></script>
+  <script src="js/payload.js?v=3"></script>
+  <script src="js/render.js?v=3"></script>
+  <script src="js/export.js?v=3"></script>
+  <script src="js/about.js?v=3"></script>
+  <script src="js/ui.js?v=3"></script>
 </body>
 </html>

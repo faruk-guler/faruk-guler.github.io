@@ -20,19 +20,14 @@ body {
   height: 100vh; display: flex; flex-direction: column; overflow: hidden;
 }
 header.app {
-  max-width: 960px; width: 100%; margin: 0 auto 10px; flex: 0 0 auto; display: flex;
+  max-width: 1500px; width: 100%; margin: 0 auto 10px; flex: 0 0 auto; display: flex;
   align-items: center; justify-content: space-between; gap: 12px;
 }
 header.app h1 { font-size: 1.3rem; margin: 0; }
 .layout {
-  max-width: 960px; width: 100%; margin: 0 auto; display: grid;
-  grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch;
+  max-width: 1500px; width: 100%; margin: 0 auto; display: grid;
+  grid-template-columns: 1.15fr 1fr; gap: 12px; align-items: stretch;
   flex: 1 1 auto; min-height: 0;
-}
-@media (max-width: 760px) {
-  body { height: auto; overflow: visible; display: block; }
-  .layout { grid-template-columns: 1fr; }
-  .panel { overflow: visible; }
 }
 .panel {
   background: var(--panel); border: 1px solid var(--border);
@@ -40,6 +35,10 @@ header.app h1 { font-size: 1.3rem; margin: 0; }
   min-height: 0; overflow-y: auto;
 }
 .preview { min-height: 0; }
+.settings {
+  display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; align-content: start;
+}
+.settings > fieldset:first-child { grid-column: 1 / -1; }
 fieldset {
   border: 1px solid var(--border); border-radius: 10px;
   margin: 0 0 10px; padding: 8px 10px 10px;
@@ -52,7 +51,7 @@ select, textarea {
   border-radius: 6px; margin-top: 3px; background: var(--field-bg); color: var(--text);
   font: inherit;
 }
-textarea { resize: vertical; min-height: 40px; }
+textarea { resize: vertical; min-height: 34px; }
 input[type="color"] { width: 44px; height: 28px; padding: 0; border: 1px solid var(--border); border-radius: 6px; background: var(--field-bg); cursor: pointer; }
 input[type="file"] { margin-top: 4px; max-width: 100%; font-size: .78rem; color: var(--muted); }
 input[type="range"] { width: 100%; margin-top: 6px; }
@@ -103,3 +102,27 @@ button.ghost:hover { background: var(--field-bg); }
 .hide { display: none !important; }
 .hint { font-size: .72rem; color: var(--muted); margin-top: 4px; }
 .type-fields.hide { display: none; }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+#aboutBtn { margin: 0; }
+.overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
+.overlay[hidden] { display: none; }
+.modal { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 20px; max-width: 420px; width: 100%; box-shadow: var(--shadow); }
+.modal h2 { margin: 0 0 2px; font-size: 1.15rem; }
+.app-name { margin: 0 0 14px; color: var(--muted); font-size: .9rem; }
+.about-list { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0 0 12px; }
+.about-list dt { color: var(--muted); font-size: .8rem; }
+.about-list dd { margin: 0; font-size: .9rem; }
+.about-list a { color: var(--accent); text-decoration: none; }
+.about-list a:hover { text-decoration: underline; }
+.about-note, .about-credit { font-size: .8rem; color: var(--muted); margin: 4px 0 0; }
+.modal-footer { margin-top: 16px; text-align: right; }
+.modal-footer button { margin: 0; }
+
+/* Responsive: must come AFTER base .panel/.settings rules so its overrides win */
+@media (max-width: 760px) {
+  body { height: auto; overflow: visible; display: block; }
+  .layout { grid-template-columns: 1fr; }
+  .settings { grid-template-columns: 1fr; }
+  .settings > fieldset:first-child { grid-column: auto; }
+  .panel { overflow: visible; }
+}

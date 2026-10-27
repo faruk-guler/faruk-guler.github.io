@@ -37,6 +37,10 @@ function bindAll() {
   $('btnSvg').addEventListener('click', exportSvg);
   $('btnCopy').addEventListener('click', copyPng);
   $('themeBtn').addEventListener('click', toggleTheme);
+  $('aboutBtn').addEventListener('click', openAbout);
+  $('aboutClose').addEventListener('click', closeAbout);
+  $('aboutOverlay').addEventListener('click', (e) => { if (e.target.id === 'aboutOverlay') closeAbout(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('aboutOverlay').hidden) closeAbout(); });
   $('f-text').addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); render(); }
   });
